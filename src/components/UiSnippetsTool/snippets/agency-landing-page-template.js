@@ -3,7 +3,7 @@
 const agencyLandingPageTemplate = {
   id: 'agency-landing-page-template',
   title: 'Creative Agency Website Template',
-  lastmod: '2026-10-28',
+  lastmod: '2026-10-30',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -14,7 +14,7 @@ const agencyLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvulbpdackda">
+    <section class="st st-navbar-floating" data-uid="smvutnmj7f09a">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -34,7 +34,7 @@ const agencyLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-centered-gradient-hero" data-uid="smvulbpda6dx8">
+    <section class="st st-centered-gradient-hero" data-uid="smvutnmj7rh08">
       <div class="cg-glow" aria-hidden="true"></div>
       <div class="cg st-wrap">
         <span class="st-eyebrow cg-eyebrow" data-anim="item">Brand, web &amp; product design</span>
@@ -48,7 +48,7 @@ const agencyLandingPageTemplate = {
         <div class="cg-media" data-anim="media"><img width="1200" height="820" src="https://webdevpuneet.com/images/section-templates/hero-dashboard.png" alt="Acme app dashboard"></div>
       </div>
     </section>
-    <section id="features" class="st st-features-bento" data-uid="smvulbpdayfk7">
+    <section id="features" class="st st-features-bento" data-uid="smvutnmj7vayq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -95,7 +95,7 @@ const agencyLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvulbpdadzv1">
+    <section id="results" class="st st-stats-counters" data-uid="smvutnmj70rld">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Results</p>
@@ -126,7 +126,7 @@ const agencyLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="customers" class="st st-case-study-showcase" data-uid="smvulbpda9c8e">
+    <section id="customers" class="st st-case-study-showcase" data-uid="smvutnmj7rxxd">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Selected work</p>
@@ -172,7 +172,7 @@ const agencyLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="showcase" class="st st-scroll-ring" data-uid="smvulbpda63p1">
+    <section id="showcase" class="st st-scroll-ring" data-uid="smvutnmj7qq3s">
       <div class="st-wrap rg-head">
         <p class="st-eyebrow" data-anim="item">More work</p>
         <h2 class="st-h2" data-anim="item" data-anim-text>A few more <span class="hl">projects we love</span></h2>
@@ -221,7 +221,7 @@ const agencyLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="team" class="st st-team-carousel" data-uid="smvulbpdakuju">
+    <section id="team" class="st st-team-carousel" data-uid="smvutnmj74ux9">
       <div class="st-wrap">
         <div class="tc2-top">
           <header class="st-head st-head--left tc2-head">
@@ -280,7 +280,7 @@ const agencyLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers-2" class="st st-testimonial-spotlight" data-uid="smvulbpda1whw">
+    <section id="customers-2" class="st st-testimonial-spotlight" data-uid="smvutnmj71mz6">
       <div class="st-wrap">
         <figure class="ts-card">
           <span class="ts-mark" aria-hidden="true">“</span>
@@ -299,7 +299,7 @@ const agencyLandingPageTemplate = {
         </figure>
       </div>
     </section>
-    <section id="blog" class="st st-blog-list" data-uid="smvulbpdaq45o">
+    <section id="blog" class="st st-blog-list" data-uid="smvutnmj724os">
       <div class="st-wrap">
         <div class="bl-top">
           <header class="st-head st-head--left bl-head">
@@ -348,7 +348,7 @@ const agencyLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvulbpdaw7na">
+    <section class="st st-floating-social-share" data-uid="smvutnmj71vic">
       <div class="ss" data-ss data-side="left" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="linkedin" data-share="https://www.linkedin.com/sharing/share-offsite/?url={url}" href="https://www.linkedin.com/sharing/share-offsite/" target="_blank" rel="noopener noreferrer" style="--c:#0A66C2" aria-label="Share on LinkedIn (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span class="ss-tip" aria-hidden="true">LinkedIn</span></a></li><li class="ss-item"><a class="ss-btn" data-net="x" data-share="https://x.com/intent/post?url={url}&amp;text={title}&amp;via={via}&amp;hashtags={tags}" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer" style="--c:#111111" aria-label="Share on X (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="ss-tip" aria-hidden="true">X</span></a></li><li class="ss-item"><a class="ss-btn" data-net="facebook" data-share="https://www.facebook.com/sharer/sharer.php?u={url}" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer" style="--c:#1877F2" aria-label="Share on Facebook (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="ss-tip" aria-hidden="true">Facebook</span></a></li><li class="ss-item"><a class="ss-btn" data-net="email" data-share="mailto:?subject={title}&amp;body={text}" href="mailto:" style="--c:#6B7280" aria-label="Share on Email"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.970 5.700a1.940 1.940 0 0 1-2.060 0L2 7"/></svg><span class="ss-tip" aria-hidden="true">Email</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -357,7 +357,7 @@ const agencyLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section id="contact" class="st st-footer-giant" data-uid="smvulbpdalglb">
+    <section id="contact" class="st st-footer-giant" data-uid="smvutnmj87nnd">
       <footer class="fgi">
         <div class="st-wrap">
           <div class="fgi-cta">
@@ -382,6 +382,26 @@ const agencyLandingPageTemplate = {
           </div>
         </div>
       </footer>
+    </section>
+    <section class="st st-back-to-top" data-uid="smvutnmj83rro">
+      <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
+        <div class="btt-demo" aria-hidden="true">
+          <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
+          <span class="btt-note">The button appears here once the page has scrolled</span>
+        </div><!--/btt-demo-->
+        <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </div>
+    </section>
+    <section class="st st-cursor-follower" data-uid="smvutnmj8r2dg">
+      <div class="cf" data-cf data-enabled="on" data-size="80" data-color="#ffffff" data-blend="difference" data-speed="0.18" data-border="0" data-border-style="solid" data-fill="on" data-grow="on" data-hide="off">
+        <div class="cf-stage" aria-hidden="true">
+          <p class="cf-word">Cur<b>sors</b></p>
+          <p class="cf-sub">Move your mouse over this box</p>
+          <div class="cf-art"></div>
+          <p class="cf-word cf-word--2">in <b>motion</b></p>
+        </div><!--/cf-stage-->
+        <span class="cf-dot" aria-hidden="true"></span>
+      </div>
     </section>`,
 
   css: `@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -733,6 +753,47 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .fgi-legal{list-style:none;display:flex;gap:20px}
 .fgi-legal a{color:var(--st-muted);text-decoration:none}
 .fgi-legal a:hover{color:var(--st-text)}
+/* Back to Top Button */
+.st-back-to-top{overflow:visible;container-type:normal;height:0;min-height:0;padding:0;background:transparent}
+.st-back-to-top:has(.btt.is-preview){height:auto;padding:clamp(20px,3vw,40px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 6%,var(--st-bg))}
+.btt{--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:.8s;--btt-bg:var(--st-brand);--btt-fg:var(--st-btn-text)}
+.btt-btn{position:fixed;bottom:var(--btt-off);z-index:2147482500;display:grid;place-items:center;width:var(--btt-size);height:var(--btt-size);padding:0;border:0;border-radius:var(--btt-radius);background:var(--btt-bg);color:var(--btt-fg);cursor:pointer;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,transform .3s ease,visibility 0s .3s,box-shadow .2s ease,background .2s ease}
+.btt[data-pos=right] .btt-btn{right:var(--btt-off)}
+.btt[data-pos=left] .btt-btn{left:var(--btt-off)}
+.btt[data-appear=slide] .btt-btn{transform:translateY(28px)}
+.btt[data-appear=zoom] .btt-btn{transform:scale(.5)}
+.btt[data-shadow=on] .btt-btn{box-shadow:0 12px 28px -8px rgba(15,23,42,.45)}
+.btt.is-visible .btt-btn{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .3s ease,transform .3s ease,visibility 0s,box-shadow .2s ease,background .2s ease}
+.btt.is-visible .btt-btn:hover{transform:translateY(-3px)}
+.btt.is-visible .btt-btn:active{transform:translateY(0) scale(.96)}
+.btt-btn:focus-visible{outline:3px solid color-mix(in srgb,var(--btt-bg) 55%,#fff);outline-offset:3px}
+.btt-svg{width:calc(var(--btt-size) * .46);height:calc(var(--btt-size) * .46)}
+@media (max-width:899px){.btt[data-mobile=off] .btt-btn{display:none}}
+.btt[data-enabled=off] .btt-btn{display:none}
+.btt-demo{display:none}
+.btt.is-preview .btt-demo{position:relative;display:flex;flex-direction:column;gap:14px;min-height:320px;padding:34px 30px;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-bg);box-shadow:0 20px 50px -24px color-mix(in srgb,var(--st-text) 40%,transparent)}
+.btt-bar{display:block;height:14px;width:100%;border-radius:7px;background:color-mix(in srgb,var(--st-text) 12%,transparent)}
+.btt-bar--lg{height:22px;width:62%;background:color-mix(in srgb,var(--st-text) 22%,transparent)}
+.btt-bar--md{width:84%}.btt-bar--sm{width:46%}
+.btt-note{margin-top:auto;font-size:13px;color:var(--st-muted)}
+.btt.is-preview .btt-btn{position:absolute;right:calc(var(--st-pad) + 18px);bottom:calc(clamp(20px,3vw,40px) + 18px);opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.btt.is-preview[data-pos=left] .btt-btn{right:auto;left:calc(var(--st-pad) + 18px)}
+@media (prefers-reduced-motion:reduce){.btt-btn{transition:none}}
+@media print{.btt{display:none}}
+/* Cursor Follower (Blend Mode Circle) */
+.st-cursor-follower{overflow:visible;container-type:normal;height:0;min-height:0;padding:0;background:transparent}
+.st-cursor-follower:has(.cf.is-preview){height:auto;padding:clamp(20px,3vw,40px) var(--st-pad);background:var(--st-bg)}
+.cf-stage{display:none}
+.cf.is-preview .cf-stage{position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;overflow:hidden;min-height:clamp(340px,40cqi,480px);border-radius:calc(var(--st-radius) * 1.2px);background:linear-gradient(135deg,#1f1b3a,#3b1d5a 55%,#0f2a4a);color:#f4f4f6;cursor:none}
+.cf-word{margin:0;font:900 clamp(56px,11cqi,128px)/.95 var(--st-font-heading);letter-spacing:-.04em;text-transform:lowercase;color:#f4f4f6}
+.cf-word b{font-weight:900;background:linear-gradient(90deg,#f472b6,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cf-word--2{color:rgba(244,244,246,.9)}
+.cf-sub{margin:0;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,244,246,.7)}
+.cf-art{width:min(280px,60%);height:70px;border-radius:999px;background:linear-gradient(90deg,#22d3ee,#f59e0b,#f472b6)}
+.cf-dot{position:absolute;left:0;top:0;z-index:5;display:none;box-sizing:border-box;border-radius:50%;pointer-events:none;will-change:transform}
+.cf.is-preview .cf-dot{display:block}
+@media (hover:none){.cf:not(.is-preview) .cf-dot{display:none}}
+@media print{.cf-dot{display:none}}
 `,
 
   js: `(function () {
@@ -1220,6 +1281,105 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   });
 })();
 (function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st [data-btt]').forEach(function (root) {
+    if (root.getAttribute('data-btt-ready')) return;
+    root.setAttribute('data-btt-ready', '1');
+    var btn = root.querySelector('.btt-btn');
+    var demo = root.querySelector('.btt-demo');
+    if (!btn || root.getAttribute('data-enabled') === 'off') { if (demo && !inline) demo.parentNode.removeChild(demo); return; }
+    if (!inline && demo) demo.parentNode.removeChild(demo);
+    if (inline) {
+      root.classList.add('is-preview', 'is-visible');
+      btn.addEventListener('click', function (e) { e.preventDefault(); });
+      return;
+    }
+    var dist = parseFloat(root.getAttribute('data-distance')) || 0;
+    var secs = parseFloat(root.getAttribute('data-speed'));
+    if (isNaN(secs)) secs = 0.8;
+    var ticking = false;
+    function check() { ticking = false; root.classList.toggle('is-visible', (window.pageYOffset || document.documentElement.scrollTop) > dist); }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+    var stopped = false;
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, function () { stopped = true; }, { passive: true }); });
+    btn.addEventListener('click', function () {
+      var from = window.pageYOffset || document.documentElement.scrollTop;
+      if (reduce || secs <= 0 || from < 2) { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); return; }
+      stopped = false;
+      var t0 = performance.now(), dur = secs * 1000;
+      (function step(t) {
+        var p = Math.min(1, (t - t0) / dur);
+        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        window.scrollTo({ top: from * (1 - e), left: 0, behavior: 'instant' });
+        if (p < 1 && !stopped) requestAnimationFrame(step);
+      })(t0);
+    });
+  });
+})();
+(function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var GROW = 'a,button,[role=button],input,select,textarea,label,summary,[data-cursor-grow]';
+  document.querySelectorAll('.st [data-cf]').forEach(function (root) {
+    if (root.getAttribute('data-cf-ready')) return;
+    root.setAttribute('data-cf-ready', '1');
+    var dot = root.querySelector('.cf-dot');
+    if (!dot) return;
+    var stage = root.querySelector('.cf-stage');
+    var preview = inline && stage;
+    if (root.getAttribute('data-enabled') === 'off' || (!preview && !fine)) { dot.parentNode.removeChild(dot); return; }
+    var num = function (name, d) { var v = parseFloat(root.getAttribute(name)); return isNaN(v) ? d : v; };
+    var size = num('data-size', 80), color = root.getAttribute('data-color') || '#ffffff';
+    var blend = root.getAttribute('data-blend') || 'difference', speed = reduce ? 1 : Math.min(1, Math.max(0.02, num('data-speed', 0.18)));
+    var fill = root.getAttribute('data-fill') !== 'off', grow = root.getAttribute('data-grow') !== 'off';
+    var bw = num('data-border', 0); if (!fill && bw < 2) bw = 2;
+    var s = dot.style;
+    s.width = s.height = size + 'px';
+    s.marginLeft = s.marginTop = (-size / 2) + 'px';
+    s.background = fill ? color : 'transparent';
+    s.mixBlendMode = blend;
+    s.border = bw ? bw + 'px ' + (root.getAttribute('data-border-style') || 'solid') + ' ' + color : '0';
+    s.opacity = '0';
+    s.transition = 'opacity .25s ease';
+    var host = null;
+    if (preview) { root.classList.add('is-preview'); stage.appendChild(dot); host = stage; }
+    else {
+      if (stage) stage.parentNode.removeChild(stage);
+      document.body.appendChild(dot);
+      s.position = 'fixed'; s.zIndex = '2147483000'; s.display = 'block';
+      if (root.getAttribute('data-hide') === 'on') {
+        var st = document.createElement('style');
+        st.setAttribute('data-cf-css', '');
+        st.textContent = 'html,html *{cursor:none!important}';
+        document.head.appendChild(st);
+      }
+    }
+    var tx = 0, ty = 0, x = 0, y = 0, sc = 1, tsc = 1, raf = 0, seen = false;
+    function frame() {
+      x += (tx - x) * speed; y += (ty - y) * speed; sc += (tsc - sc) * 0.2;
+      s.transform = 'translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0) scale(' + sc.toFixed(3) + ')';
+      raf = (Math.abs(tx - x) > 0.15 || Math.abs(ty - y) > 0.15 || Math.abs(tsc - sc) > 0.004) ? requestAnimationFrame(frame) : 0;
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(frame); }
+    function move(e) {
+      var px = e.clientX, py = e.clientY;
+      if (host) { var r = host.getBoundingClientRect(); px -= r.left; py -= r.top; }
+      tx = px; ty = py;
+      if (!seen) { seen = true; x = tx; y = ty; s.opacity = '1'; }
+      s.opacity = '1';
+      if (grow && !host) tsc = (e.target && e.target.closest && e.target.closest(GROW)) ? 1.6 : 1;
+      kick();
+    }
+    var area = host || document;
+    area.addEventListener('mousemove', move, { passive: true });
+    area.addEventListener('mouseleave', function () { s.opacity = '0'; });
+    if (!host) { document.documentElement.addEventListener('mouseleave', function () { s.opacity = '0'; }); document.addEventListener('mouseenter', function () { if (seen) s.opacity = '1'; }); }
+  });
+})();
+(function () {
   if (!window.gsap) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -1255,7 +1415,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   seo: {
     "title": "Creative Agency Website HTML Template — Free Snippet",
     "description": "A dark creative agency website in HTML, CSS and JS: glowing hero, bento services, counting stats, team carousel, case study and a giant wordmark footer.",
-    "subtitle": "Creative Agency Website template · 11 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Creative Agency Website template · 13 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "agency",
       "name": "Creative Agency Website",
@@ -1328,6 +1488,18 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "name": "Big Wordmark Footer",
         "url": "/website-section-templates/footer-giant/",
         "role": "a giant wordmark footer that ends on one line and one action: \"Let's talk\""
+      },
+      {
+        "id": "back-to-top",
+        "name": "Back to Top Button",
+        "url": "/website-section-templates/back-to-top/",
+        "role": "a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return"
+      },
+      {
+        "id": "cursor-follower",
+        "name": "Cursor Follower (Blend Mode Circle)",
+        "url": "/website-section-templates/cursor-follower/",
+        "role": "a circle that follows the cursor and inverts the page beneath it with a blend mode, adding a bold, playful touch"
       }
     ],
     "about": {
@@ -1335,12 +1507,14 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       "description": "Agency sites fail in one of two ways: they look like every other agency, or they say nothing a buyer can check. This layout sidesteps both by pairing confident visuals with evidence. The centred hero sets the tone, the bento grid explains the services without a wall of text, the animated counters turn \"we are experienced\" into numbers, and the case study shows one real piece of work end to end, which persuades a prospect more than a gallery of ten thumbnails.\n\nThe people matter too. A draggable team carousel puts faces to the studio, and the editorial journal shows how the team thinks, which is what a buyer is really hiring. The footer ends with a giant wordmark and a single line, \"Let's talk\", so the last thing a visitor sees is the action you want.\n\nReplace the sample studio with yours and keep the proportions: one hero, one case study, real numbers. It is the layout of the [Creative Agency Website template](/website-builder/templates/agency/); open it in the [Website Builder](/website-builder/) to add the Services, Work, About and Contact pages that share one navbar and theme, then export."
     },
     "features": [
-      "11 ready-made website sections assembled into one finished creative agency website page: Floating Pill Navbar, Centred Gradient Hero, Bento Grid Features, Animated Stats Counters, Case Study Showcase, 3D Scroll Carousel, Team Carousel, Testimonial Spotlight, Editorial Post List, Floating Social Share Bar, Big Wordmark Footer",
+      "13 ready-made website sections assembled into one finished creative agency website page: Floating Pill Navbar, Centred Gradient Hero, Bento Grid Features, Animated Stats Counters, Case Study Showcase, 3D Scroll Carousel, Team Carousel, Testimonial Spotlight, Editorial Post List, Floating Social Share Bar, Big Wordmark Footer, Back to Top Button, Cursor Follower (Blend Mode Circle)",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 9-page website in the builder, sharing one navbar, footer and theme",
+      "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
+      "A cursor follower circle that inverts the text and images under it with a blend mode",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
     "howToUse": {
@@ -1400,7 +1574,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 11 templates in the free Website Section Templates library: Floating Pill Navbar, Centred Gradient Hero, Bento Grid Features, Animated Stats Counters, Case Study Showcase, 3D Scroll Carousel, Team Carousel, Testimonial Spotlight, Editorial Post List, Floating Social Share Bar, Big Wordmark Footer. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 13 templates in the free Website Section Templates library: Floating Pill Navbar, Centred Gradient Hero, Bento Grid Features, Animated Stats Counters, Case Study Showcase, 3D Scroll Carousel, Team Carousel, Testimonial Spotlight, Editorial Post List, Floating Social Share Bar, Big Wordmark Footer, Back to Top Button, Cursor Follower (Blend Mode Circle). Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1409,7 +1583,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Creative Agency Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete creative agency website for “Northstar” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Floating Pill Navbar\n2. Centred Gradient Hero: “We design brands people remember”\n3. Bento Grid Features: “Everything you need to launch”\n4. Animated Stats Counters: “Work that moves the numbers”\n5. Case Study Showcase: “Work that moved the numbers”\n6. 3D Scroll Carousel: “A few more projects we love”\n7. Team Carousel: “Small team, big ideas”\n8. Testimonial Spotlight: “Aisha Bello”\n9. Editorial Post List: “Notes from the studio”\n10. Floating Social Share Bar\n11. Big Wordmark Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #818cf8, page background #0b1020, cards #161c33, text #f1f5f9, muted text #94a3b8. Corner radius 14px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable creative copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Northstar: Independent Brand, Web and Product Design Studio”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a creative business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Services (services.html)\n- Work (work.html)\n- About (about.html)\n- Contact (contact.html)\n- Journal (journal.html)\n- Article (article.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete creative agency website for “Northstar” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Floating Pill Navbar\n2. Centred Gradient Hero: “We design brands people remember”\n3. Bento Grid Features: “Everything you need to launch”\n4. Animated Stats Counters: “Work that moves the numbers”\n5. Case Study Showcase: “Work that moved the numbers”\n6. 3D Scroll Carousel: “A few more projects we love”\n7. Team Carousel: “Small team, big ideas”\n8. Testimonial Spotlight: “Aisha Bello”\n9. Editorial Post List: “Notes from the studio”\n10. Floating Social Share Bar\n11. Big Wordmark Footer\n12. Back to Top Button\n13. Cursor Follower (Blend Mode Circle)\n\nLook and feel:\n- Colours as CSS custom properties: brand #818cf8, page background #0b1020, cards #161c33, text #f1f5f9, muted text #94a3b8. Corner radius 14px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable creative copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Northstar: Independent Brand, Web and Product Design Studio”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a creative business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Services (services.html)\n- Work (work.html)\n- About (about.html)\n- Contact (contact.html)\n- Journal (journal.html)\n- Article (article.html)\n- Privacy (privacy.html)"
     }
   },
 };

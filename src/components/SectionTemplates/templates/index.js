@@ -40,6 +40,7 @@ import footerNewsletter from './footer-newsletter.js';
 import footerMinimal from './footer-minimal.js';
 import teamGrid from './team-grid.js';
 import teamCarousel from './team-carousel.js';
+import teamAccordion from './team-accordion.js';
 import teamHiring from './team-hiring.js';
 import contactSplitForm from './contact-split-form.js';
 import contactCards from './contact-cards.js';
@@ -70,6 +71,10 @@ import streamingLinks from './streaming-links.js';
 import socialShare from './social-share.js';
 import popupModal from './popup-modal.js';
 import accessibilityToolbar from './accessibility-toolbar.js';
+import scrollZoom from './scroll-zoom.js';
+import cursorFollower from './cursor-follower.js';
+import timelineHorizontal from './timeline-horizontal.js';
+import backToTop from './back-to-top.js';
 import blogPost from './blog-post.js';
 import blogGridPagination from './blog-grid-pagination.js';
 import loginForm from './login-form.js';
@@ -122,6 +127,7 @@ export const SECTION_TEMPLATES = [
   footerMinimal,
   teamGrid,
   teamCarousel,
+  teamAccordion,
   teamHiring,
   contactSplitForm,
   contactCards,
@@ -152,6 +158,10 @@ export const SECTION_TEMPLATES = [
   socialShare,
   popupModal,
   accessibilityToolbar,
+  scrollZoom,
+  cursorFollower,
+  timelineHorizontal,
+  backToTop,
   blogPost,
   blogGridPagination,
   loginForm,

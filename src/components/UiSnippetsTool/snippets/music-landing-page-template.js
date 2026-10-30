@@ -3,7 +3,7 @@
 const musicLandingPageTemplate = {
   id: 'music-landing-page-template',
   title: 'Music Artist & Band Website Template',
-  lastmod: '2026-10-28',
+  lastmod: '2026-10-30',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -14,7 +14,7 @@ const musicLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvulbpms08dx">
+    <section class="st st-navbar-floating" data-uid="smvutnmp16v9i">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -35,7 +35,7 @@ const musicLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-music-hero" data-uid="smvulbpmsp8tc">
+    <section class="st st-music-hero" data-uid="smvutnmp1s7qo">
       <div class="mh-bg" role="img" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-music.jpg')" aria-label="The singer at the microphone under cyan and pink stage lights"></div>
       <div class="mh-shade" aria-hidden="true"></div>
       <div class="mh st-wrap">
@@ -55,7 +55,7 @@ const musicLandingPageTemplate = {
       </div>
       <div class="mh-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     </section>
-    <section id="new-release" class="st st-release-spotlight" data-uid="smvulbpmswp62">
+    <section id="new-release" class="st st-release-spotlight" data-uid="smvutnmp1xz3r">
       <div class="st-wrap rs">
         <div class="rs-art" data-anim="media">
           <span class="rs-disc" aria-hidden="true"></span>
@@ -80,7 +80,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="listen" class="st st-audio-player" data-uid="smvulbpms5znd">
+    <section id="listen" class="st st-audio-player" data-uid="smvutnmp2q13o">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Listen</p>
@@ -144,7 +144,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="tour" class="st st-tour-dates" data-uid="smvulbpmsolf7">
+    <section id="tour" class="st st-tour-dates" data-uid="smvutnmp2bsuf">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">On tour</p>
@@ -195,7 +195,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="music" class="st st-discography" data-uid="smvulbpmsb5i5">
+    <section id="music" class="st st-discography" data-uid="smvutnmp22klq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Discography</p>
@@ -243,7 +243,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="videos" class="st st-video-section" data-uid="smvulbpmsegxg">
+    <section id="videos" class="st st-video-section" data-uid="smvutnmp2gt6o">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Live session</p>
@@ -273,7 +273,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvulbpms76kd">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvutnmp2064y">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -309,7 +309,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvulbpmsg8co">
+    <section id="customers" class="st st-testimonials-carousel" data-uid="smvutnmp2pxyk">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -350,7 +350,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="merch" class="st st-product-grid" data-uid="smvulbpmsfc4r">
+    <section id="merch" class="st st-product-grid" data-uid="smvutnmp20grd">
       <div class="st-wrap">
         <div class="pg-top">
           <header class="st-head st-head--left pg-head">
@@ -413,7 +413,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvulbpms0gy1">
+    <section id="contact" class="st st-booking-form" data-uid="smvutnmp20bha">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -471,7 +471,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvulbpmsod4f">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvutnmp2zluv">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -485,7 +485,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvulbpms2dly">
+    <section class="st st-footer-minimal" data-uid="smvutnmp24yqi">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -501,6 +501,26 @@ const musicLandingPageTemplate = {
         </div>
         <p class="fm-copy">© 2026 Velvet Static</p>
       </footer>
+    </section>
+    <section class="st st-back-to-top" data-uid="smvutnmp2atsf">
+      <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
+        <div class="btt-demo" aria-hidden="true">
+          <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
+          <span class="btt-note">The button appears here once the page has scrolled</span>
+        </div><!--/btt-demo-->
+        <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </div>
+    </section>
+    <section class="st st-cursor-follower" data-uid="smvutnmp25e44">
+      <div class="cf" data-cf data-enabled="on" data-size="80" data-color="#ffffff" data-blend="difference" data-speed="0.18" data-border="0" data-border-style="solid" data-fill="on" data-grow="on" data-hide="off">
+        <div class="cf-stage" aria-hidden="true">
+          <p class="cf-word">Cur<b>sors</b></p>
+          <p class="cf-sub">Move your mouse over this box</p>
+          <div class="cf-art"></div>
+          <p class="cf-word cf-word--2">in <b>motion</b></p>
+        </div><!--/cf-stage-->
+        <span class="cf-dot" aria-hidden="true"></span>
+      </div>
     </section>`,
 
   css: `@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -902,6 +922,47 @@ html.stg-open{overflow:hidden}
 .fm .st-social:hover{background:color-mix(in srgb,var(--st-brand) 12%,transparent);color:var(--st-brand)}
 .fm-copy{padding-top:20px;color:var(--st-muted);font-size:14px;text-align:center}
 @container st (max-width:760px){.fm-row{flex-direction:column;text-align:center}.fm-links{justify-content:center}.fm .st-socials{justify-content:center}}
+/* Back to Top Button */
+.st-back-to-top{overflow:visible;container-type:normal;height:0;min-height:0;padding:0;background:transparent}
+.st-back-to-top:has(.btt.is-preview){height:auto;padding:clamp(20px,3vw,40px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 6%,var(--st-bg))}
+.btt{--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:.8s;--btt-bg:var(--st-brand);--btt-fg:var(--st-btn-text)}
+.btt-btn{position:fixed;bottom:var(--btt-off);z-index:2147482500;display:grid;place-items:center;width:var(--btt-size);height:var(--btt-size);padding:0;border:0;border-radius:var(--btt-radius);background:var(--btt-bg);color:var(--btt-fg);cursor:pointer;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,transform .3s ease,visibility 0s .3s,box-shadow .2s ease,background .2s ease}
+.btt[data-pos=right] .btt-btn{right:var(--btt-off)}
+.btt[data-pos=left] .btt-btn{left:var(--btt-off)}
+.btt[data-appear=slide] .btt-btn{transform:translateY(28px)}
+.btt[data-appear=zoom] .btt-btn{transform:scale(.5)}
+.btt[data-shadow=on] .btt-btn{box-shadow:0 12px 28px -8px rgba(15,23,42,.45)}
+.btt.is-visible .btt-btn{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .3s ease,transform .3s ease,visibility 0s,box-shadow .2s ease,background .2s ease}
+.btt.is-visible .btt-btn:hover{transform:translateY(-3px)}
+.btt.is-visible .btt-btn:active{transform:translateY(0) scale(.96)}
+.btt-btn:focus-visible{outline:3px solid color-mix(in srgb,var(--btt-bg) 55%,#fff);outline-offset:3px}
+.btt-svg{width:calc(var(--btt-size) * .46);height:calc(var(--btt-size) * .46)}
+@media (max-width:899px){.btt[data-mobile=off] .btt-btn{display:none}}
+.btt[data-enabled=off] .btt-btn{display:none}
+.btt-demo{display:none}
+.btt.is-preview .btt-demo{position:relative;display:flex;flex-direction:column;gap:14px;min-height:320px;padding:34px 30px;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-bg);box-shadow:0 20px 50px -24px color-mix(in srgb,var(--st-text) 40%,transparent)}
+.btt-bar{display:block;height:14px;width:100%;border-radius:7px;background:color-mix(in srgb,var(--st-text) 12%,transparent)}
+.btt-bar--lg{height:22px;width:62%;background:color-mix(in srgb,var(--st-text) 22%,transparent)}
+.btt-bar--md{width:84%}.btt-bar--sm{width:46%}
+.btt-note{margin-top:auto;font-size:13px;color:var(--st-muted)}
+.btt.is-preview .btt-btn{position:absolute;right:calc(var(--st-pad) + 18px);bottom:calc(clamp(20px,3vw,40px) + 18px);opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.btt.is-preview[data-pos=left] .btt-btn{right:auto;left:calc(var(--st-pad) + 18px)}
+@media (prefers-reduced-motion:reduce){.btt-btn{transition:none}}
+@media print{.btt{display:none}}
+/* Cursor Follower (Blend Mode Circle) */
+.st-cursor-follower{overflow:visible;container-type:normal;height:0;min-height:0;padding:0;background:transparent}
+.st-cursor-follower:has(.cf.is-preview){height:auto;padding:clamp(20px,3vw,40px) var(--st-pad);background:var(--st-bg)}
+.cf-stage{display:none}
+.cf.is-preview .cf-stage{position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;overflow:hidden;min-height:clamp(340px,40cqi,480px);border-radius:calc(var(--st-radius) * 1.2px);background:linear-gradient(135deg,#1f1b3a,#3b1d5a 55%,#0f2a4a);color:#f4f4f6;cursor:none}
+.cf-word{margin:0;font:900 clamp(56px,11cqi,128px)/.95 var(--st-font-heading);letter-spacing:-.04em;text-transform:lowercase;color:#f4f4f6}
+.cf-word b{font-weight:900;background:linear-gradient(90deg,#f472b6,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cf-word--2{color:rgba(244,244,246,.9)}
+.cf-sub{margin:0;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,244,246,.7)}
+.cf-art{width:min(280px,60%);height:70px;border-radius:999px;background:linear-gradient(90deg,#22d3ee,#f59e0b,#f472b6)}
+.cf-dot{position:absolute;left:0;top:0;z-index:5;display:none;box-sizing:border-box;border-radius:50%;pointer-events:none;will-change:transform}
+.cf.is-preview .cf-dot{display:block}
+@media (hover:none){.cf:not(.is-preview) .cf-dot{display:none}}
+@media print{.cf-dot{display:none}}
 `,
 
   js: `(function () {
@@ -1377,6 +1438,105 @@ html.stg-open{overflow:hidden}
   document.querySelectorAll('.st [data-booking-date]').forEach(function (input) { input.min = today; });
 })();
 (function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st [data-btt]').forEach(function (root) {
+    if (root.getAttribute('data-btt-ready')) return;
+    root.setAttribute('data-btt-ready', '1');
+    var btn = root.querySelector('.btt-btn');
+    var demo = root.querySelector('.btt-demo');
+    if (!btn || root.getAttribute('data-enabled') === 'off') { if (demo && !inline) demo.parentNode.removeChild(demo); return; }
+    if (!inline && demo) demo.parentNode.removeChild(demo);
+    if (inline) {
+      root.classList.add('is-preview', 'is-visible');
+      btn.addEventListener('click', function (e) { e.preventDefault(); });
+      return;
+    }
+    var dist = parseFloat(root.getAttribute('data-distance')) || 0;
+    var secs = parseFloat(root.getAttribute('data-speed'));
+    if (isNaN(secs)) secs = 0.8;
+    var ticking = false;
+    function check() { ticking = false; root.classList.toggle('is-visible', (window.pageYOffset || document.documentElement.scrollTop) > dist); }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+    var stopped = false;
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, function () { stopped = true; }, { passive: true }); });
+    btn.addEventListener('click', function () {
+      var from = window.pageYOffset || document.documentElement.scrollTop;
+      if (reduce || secs <= 0 || from < 2) { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); return; }
+      stopped = false;
+      var t0 = performance.now(), dur = secs * 1000;
+      (function step(t) {
+        var p = Math.min(1, (t - t0) / dur);
+        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        window.scrollTo({ top: from * (1 - e), left: 0, behavior: 'instant' });
+        if (p < 1 && !stopped) requestAnimationFrame(step);
+      })(t0);
+    });
+  });
+})();
+(function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var GROW = 'a,button,[role=button],input,select,textarea,label,summary,[data-cursor-grow]';
+  document.querySelectorAll('.st [data-cf]').forEach(function (root) {
+    if (root.getAttribute('data-cf-ready')) return;
+    root.setAttribute('data-cf-ready', '1');
+    var dot = root.querySelector('.cf-dot');
+    if (!dot) return;
+    var stage = root.querySelector('.cf-stage');
+    var preview = inline && stage;
+    if (root.getAttribute('data-enabled') === 'off' || (!preview && !fine)) { dot.parentNode.removeChild(dot); return; }
+    var num = function (name, d) { var v = parseFloat(root.getAttribute(name)); return isNaN(v) ? d : v; };
+    var size = num('data-size', 80), color = root.getAttribute('data-color') || '#ffffff';
+    var blend = root.getAttribute('data-blend') || 'difference', speed = reduce ? 1 : Math.min(1, Math.max(0.02, num('data-speed', 0.18)));
+    var fill = root.getAttribute('data-fill') !== 'off', grow = root.getAttribute('data-grow') !== 'off';
+    var bw = num('data-border', 0); if (!fill && bw < 2) bw = 2;
+    var s = dot.style;
+    s.width = s.height = size + 'px';
+    s.marginLeft = s.marginTop = (-size / 2) + 'px';
+    s.background = fill ? color : 'transparent';
+    s.mixBlendMode = blend;
+    s.border = bw ? bw + 'px ' + (root.getAttribute('data-border-style') || 'solid') + ' ' + color : '0';
+    s.opacity = '0';
+    s.transition = 'opacity .25s ease';
+    var host = null;
+    if (preview) { root.classList.add('is-preview'); stage.appendChild(dot); host = stage; }
+    else {
+      if (stage) stage.parentNode.removeChild(stage);
+      document.body.appendChild(dot);
+      s.position = 'fixed'; s.zIndex = '2147483000'; s.display = 'block';
+      if (root.getAttribute('data-hide') === 'on') {
+        var st = document.createElement('style');
+        st.setAttribute('data-cf-css', '');
+        st.textContent = 'html,html *{cursor:none!important}';
+        document.head.appendChild(st);
+      }
+    }
+    var tx = 0, ty = 0, x = 0, y = 0, sc = 1, tsc = 1, raf = 0, seen = false;
+    function frame() {
+      x += (tx - x) * speed; y += (ty - y) * speed; sc += (tsc - sc) * 0.2;
+      s.transform = 'translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0) scale(' + sc.toFixed(3) + ')';
+      raf = (Math.abs(tx - x) > 0.15 || Math.abs(ty - y) > 0.15 || Math.abs(tsc - sc) > 0.004) ? requestAnimationFrame(frame) : 0;
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(frame); }
+    function move(e) {
+      var px = e.clientX, py = e.clientY;
+      if (host) { var r = host.getBoundingClientRect(); px -= r.left; py -= r.top; }
+      tx = px; ty = py;
+      if (!seen) { seen = true; x = tx; y = ty; s.opacity = '1'; }
+      s.opacity = '1';
+      if (grow && !host) tsc = (e.target && e.target.closest && e.target.closest(GROW)) ? 1.6 : 1;
+      kick();
+    }
+    var area = host || document;
+    area.addEventListener('mousemove', move, { passive: true });
+    area.addEventListener('mouseleave', function () { s.opacity = '0'; });
+    if (!host) { document.documentElement.addEventListener('mouseleave', function () { s.opacity = '0'; }); document.addEventListener('mouseenter', function () { if (seen) s.opacity = '1'; }); }
+  });
+})();
+(function () {
   if (!window.gsap) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -1412,7 +1572,7 @@ html.stg-open{overflow:hidden}
   seo: {
     "title": "Band Website HTML Template — Free Music Artist Page",
     "description": "A complete band website in plain HTML, CSS and JS: stage hero, release countdown, audio player, tour dates, discography and merch. Edit it live, then export it.",
-    "subtitle": "Music Artist & Band Website template · 13 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Music Artist & Band Website template · 15 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "music",
       "name": "Music Artist & Band Website",
@@ -1497,6 +1657,18 @@ html.stg-open{overflow:hidden}
         "name": "Minimal Footer",
         "url": "/website-section-templates/footer-minimal/",
         "role": "a minimal footer with links to every section and the social profiles"
+      },
+      {
+        "id": "back-to-top",
+        "name": "Back to Top Button",
+        "url": "/website-section-templates/back-to-top/",
+        "role": "a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return"
+      },
+      {
+        "id": "cursor-follower",
+        "name": "Cursor Follower (Blend Mode Circle)",
+        "url": "/website-section-templates/cursor-follower/",
+        "role": "a circle that follows the cursor and inverts the page beneath it with a blend mode, adding a bold, playful touch"
       }
     ],
     "about": {
@@ -1504,12 +1676,14 @@ html.stg-open{overflow:hidden}
       "description": "A band website has three jobs: get people to press play, get them to a show and get them on your list. This page is ordered around those jobs. The stage hero names the band and offers the music and the tour in two buttons, the [New Release Spotlight](/website-section-templates/release-spotlight/) counts down to the album, and the [Audio Player](/website-section-templates/audio-player/) lets a visitor hear the new songs without leaving the page, because a song heard is worth ten described.\n\nTour dates come next because that is the second thing a fan looks for, and they are a list with a clear status (Tickets, Few left, Sold out) rather than a poster image, so search engines can read them. The [Discography Grid](/website-section-templates/discography/) follows for the visitor who wants the back catalogue, then a live video and a photo gallery for atmosphere, press quotes for proof, merch for the fans who want something physical, and a booking and press form for promoters and journalists. A newsletter closes the page so the people who do not buy today can still hear about the next release.\n\nTo make it yours, keep the order and replace the content: use a stage photo with space on the left for the hero, write the release date and time into the countdown, paste links to your own MP3 previews into the player and add the date of every show so the tour list can describe itself to search engines. This is the same page as the [Music Artist & Band website template](/website-builder/templates/music/), which also opens as a six-page site with Music, Tour, Videos, Merch, About and Contact pages."
     },
     "features": [
-      "13 ready-made website sections assembled into one finished music artist & band website page: Floating Pill Navbar, Music Artist Hero, New Release Spotlight, Audio Player & Track List, Tour Dates & Tickets, Discography Grid, Video Section with Poster, Filterable Image Gallery, Testimonial Carousel, Product Grid, Booking Request Form, Newsletter Signup CTA, Minimal Footer",
+      "15 ready-made website sections assembled into one finished music artist & band website page: Floating Pill Navbar, Music Artist Hero, New Release Spotlight, Audio Player & Track List, Tour Dates & Tickets, Discography Grid, Video Section with Poster, Filterable Image Gallery, Testimonial Carousel, Product Grid, Booking Request Form, Newsletter Signup CTA, Minimal Footer, Back to Top Button, Cursor Follower (Blend Mode Circle)",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 9-page website in the builder, sharing one navbar, footer and theme",
+      "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
+      "A cursor follower circle that inverts the text and images under it with a blend mode",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
     "howToUse": {
@@ -1569,7 +1743,7 @@ html.stg-open{overflow:hidden}
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 13 templates in the free Website Section Templates library: Floating Pill Navbar, Music Artist Hero, New Release Spotlight, Audio Player & Track List, Tour Dates & Tickets, Discography Grid, Video Section with Poster, Filterable Image Gallery, Testimonial Carousel, Product Grid, Booking Request Form, Newsletter Signup CTA, Minimal Footer. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 15 templates in the free Website Section Templates library: Floating Pill Navbar, Music Artist Hero, New Release Spotlight, Audio Player & Track List, Tour Dates & Tickets, Discography Grid, Video Section with Poster, Filterable Image Gallery, Testimonial Carousel, Product Grid, Booking Request Form, Newsletter Signup CTA, Minimal Footer, Back to Top Button, Cursor Follower (Blend Mode Circle). Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1578,7 +1752,7 @@ html.stg-open{overflow:hidden}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Music Artist & Band Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete music artist & band website for “Velvet Static” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Floating Pill Navbar\n2. Music Artist Hero: “Velvet Static”\n3. New Release Spotlight: “Static Hearts”\n4. Audio Player & Track List: “Press play on the new songs”\n5. Tour Dates & Tickets: “See us live”\n6. Discography Grid: “Albums, EPs and singles”\n7. Video Section with Poster: “Lights Out in Lisbon, live in the church”\n8. Filterable Image Gallery: “On stage and in the studio”\n9. Testimonial Carousel: “What they are saying”\n10. Product Grid: “Take the music home”\n11. Booking Request Form: “Bookings, press and licensing”\n12. Newsletter Signup CTA: “Be first to hear what is next”\n13. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #22d3ee, page background #07090f, cards #111522, text #f4f7fb, muted text #a3adc2. Corner radius 14px, content width 1200px.\n- Headings in Space Grotesk, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable music copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Velvet Static: Dream-Pop Band From Lisbon. New Album, Tour”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a music business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Music (music.html)\n- Tour (tour.html)\n- Videos (videos.html)\n- Merch (merch.html)\n- About (about.html)\n- Contact (contact.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete music artist & band website for “Velvet Static” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Floating Pill Navbar\n2. Music Artist Hero: “Velvet Static”\n3. New Release Spotlight: “Static Hearts”\n4. Audio Player & Track List: “Press play on the new songs”\n5. Tour Dates & Tickets: “See us live”\n6. Discography Grid: “Albums, EPs and singles”\n7. Video Section with Poster: “Lights Out in Lisbon, live in the church”\n8. Filterable Image Gallery: “On stage and in the studio”\n9. Testimonial Carousel: “What they are saying”\n10. Product Grid: “Take the music home”\n11. Booking Request Form: “Bookings, press and licensing”\n12. Newsletter Signup CTA: “Be first to hear what is next”\n13. Minimal Footer\n14. Back to Top Button\n15. Cursor Follower (Blend Mode Circle)\n\nLook and feel:\n- Colours as CSS custom properties: brand #22d3ee, page background #07090f, cards #111522, text #f4f7fb, muted text #a3adc2. Corner radius 14px, content width 1200px.\n- Headings in Space Grotesk, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable music copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Velvet Static: Dream-Pop Band From Lisbon. New Album, Tour”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a music business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Music (music.html)\n- Tour (tour.html)\n- Videos (videos.html)\n- Merch (merch.html)\n- About (about.html)\n- Contact (contact.html)\n- Privacy (privacy.html)"
     }
   },
 };

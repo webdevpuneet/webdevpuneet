@@ -615,6 +615,44 @@
   });
 })();
 (function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st [data-btt]').forEach(function (root) {
+    if (root.getAttribute('data-btt-ready')) return;
+    root.setAttribute('data-btt-ready', '1');
+    var btn = root.querySelector('.btt-btn');
+    var demo = root.querySelector('.btt-demo');
+    if (!btn || root.getAttribute('data-enabled') === 'off') { if (demo && !inline) demo.parentNode.removeChild(demo); return; }
+    if (!inline && demo) demo.parentNode.removeChild(demo);
+    if (inline) {
+      root.classList.add('is-preview', 'is-visible');
+      btn.addEventListener('click', function (e) { e.preventDefault(); });
+      return;
+    }
+    var dist = parseFloat(root.getAttribute('data-distance')) || 0;
+    var secs = parseFloat(root.getAttribute('data-speed'));
+    if (isNaN(secs)) secs = 0.8;
+    var ticking = false;
+    function check() { ticking = false; root.classList.toggle('is-visible', (window.pageYOffset || document.documentElement.scrollTop) > dist); }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+    var stopped = false;
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, function () { stopped = true; }, { passive: true }); });
+    btn.addEventListener('click', function () {
+      var from = window.pageYOffset || document.documentElement.scrollTop;
+      if (reduce || secs <= 0 || from < 2) { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); return; }
+      stopped = false;
+      var t0 = performance.now(), dur = secs * 1000;
+      (function step(t) {
+        var p = Math.min(1, (t - t0) / dur);
+        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        window.scrollTo({ top: from * (1 - e), left: 0, behavior: 'instant' });
+        if (p < 1 && !stopped) requestAnimationFrame(step);
+      })(t0);
+    });
+  });
+})();
+(function () {
   if (!window.gsap) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);

@@ -8,6 +8,7 @@
    Each section is [id, state] exactly like the template's own `sections`. */
 import { IMG } from './meta.js';
 import { STARTER_MORE_EXTRAS } from './starters-more.js';
+import { STARTER_WIDGET_EXTRAS } from './starters-widgets.js';
 
 const gallery = (fields, images) => ['gallery-grid', { fields, lists: { images } }];
 const ring = (fields, cards) => ['scroll-ring', { fields, lists: { cards } }];
@@ -207,6 +208,8 @@ export const STARTER_EXTRAS = {
 /** The templates with the extra sections placed in (sections not found fall back to just before the footer) */
 // Popups and share bars (starters-more.js) come after the sections added above
 for (const [id, more] of Object.entries(STARTER_MORE_EXTRAS)) STARTER_EXTRAS[id] = [...(STARTER_EXTRAS[id] || []), ...more];
+// Widgets and sections added on 2026-10-30 (back to top, accessibility toolbar, cursor follower, timeline, scroll zoom, team accordion)
+for (const [id, more] of Object.entries(STARTER_WIDGET_EXTRAS)) STARTER_EXTRAS[id] = [...(STARTER_EXTRAS[id] || []), ...more];
 
 export function applyExtras(list) {
   return list.map(t => {
@@ -214,14 +217,18 @@ export function applyExtras(list) {
     if (!extras) return t;
     const sections = [...t.sections];
     for (const e of extras) {
+      // section can be a function of the section it replaces (to carry over its content)
+      const make = old => (typeof e.section === 'function' ? e.section(old, t) : e.section);
       if (e.replace) {
         const i = sections.findIndex(s => s[0] === e.replace);
-        if (i >= 0) { sections[i] = e.section; continue; }
+        if (i >= 0) { sections[i] = make(sections[i]); continue; }
       }
+      // atEnd: after the footer, which makes it a site-wide widget (see FOOTER_LIKE in site.js)
+      if (e.atEnd) { sections.push(make()); continue; }
       const key = e.after || e.before;
       let i = sections.findIndex(s => s[0] === key);
       if (i < 0) i = sections.length - 2;
-      sections.splice(e.before ? Math.max(i, 0) : i + 1, 0, e.section);
+      sections.splice(e.before ? Math.max(i, 0) : i + 1, 0, make());
     }
     return { ...t, sections };
   });

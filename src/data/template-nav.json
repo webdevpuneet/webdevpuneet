@@ -332,7 +332,7 @@
   ]
  },
  "section": {
-  "total": 73,
+  "total": 78,
   "categories": [
    {
     "id": "hero",
@@ -527,6 +527,10 @@
       "name": "Team Carousel"
      },
      {
+      "id": "team-accordion",
+      "name": "Interactive Team Accordion"
+     },
+     {
       "id": "team-hiring",
       "name": "Team With Hiring CTA"
      }
@@ -625,6 +629,10 @@
      {
       "id": "scroll-ring",
       "name": "3D Scroll Carousel"
+     },
+     {
+      "id": "scroll-zoom",
+      "name": "Scroll Zoom Images (Ken Burns)"
      }
     ]
    },
@@ -711,6 +719,30 @@
      {
       "id": "accessibility-toolbar",
       "name": "Accessibility Toolbar Widget"
+     }
+    ]
+   },
+   {
+    "id": "effects",
+    "label": "Cursor & page effects",
+    "items": [
+     {
+      "id": "cursor-follower",
+      "name": "Cursor Follower (Blend Mode Circle)"
+     },
+     {
+      "id": "back-to-top",
+      "name": "Back to Top Button"
+     }
+    ]
+   },
+   {
+    "id": "timeline",
+    "label": "Timelines",
+    "items": [
+     {
+      "id": "timeline-horizontal",
+      "name": "Horizontal Timeline"
      }
     ]
    },

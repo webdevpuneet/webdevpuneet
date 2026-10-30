@@ -3,7 +3,7 @@
 const onlineCourseLandingPageTemplate = {
   id: 'online-course-landing-page-template',
   title: 'Online Course Website Template',
-  lastmod: '2026-10-28',
+  lastmod: '2026-10-30',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -12,7 +12,7 @@ const onlineCourseLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvulbpgqv79f">
+    <section class="st st-navbar-simple" data-uid="smvutnmly3vl0">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /><path d="M22 10v6" /><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg></span><span>Design Academy</span></span>
@@ -33,7 +33,7 @@ const onlineCourseLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvulbpgqb9d9">
+    <section class="st st-saas-split-hero" data-uid="smvutnmlyd9gd">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="#pricing"><span>New cohort starts 4 November</span></a>
@@ -50,7 +50,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvulbpgqvc7i">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvutnmly72a1">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">What you’ll learn</p>
@@ -91,7 +91,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvulbpgqmx9u">
+    <section id="gallery" class="st st-video-section" data-uid="smvutnmly1jp7">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Course preview</p>
@@ -121,7 +121,7 @@ const onlineCourseLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="features-2" class="st st-features-alternating" data-uid="smvulbpgqoxi9">
+    <section id="features-2" class="st st-features-alternating" data-uid="smvutnmlys02w">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Curriculum</p>
@@ -159,7 +159,72 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonial-spotlight" data-uid="smvulbpgqwoua">
+    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvutnmly6ffe">
+      <div class="st-wrap">
+        <header class="st-head">
+          <p class="st-eyebrow" data-anim="item">The syllabus</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Your 8-week <span class="hl">learning path</span></h2>
+          <p class="st-lead" data-anim="item">Keep scrolling to follow the course from your first layout to a finished portfolio project.</p>
+        </header>
+        <div class="tlh" data-tlh data-layout="alternate" data-marker="icon" data-start="1" data-mode="pin">
+          <button type="button" class="tlh-nav tlh-prev" data-tlh-prev disabled aria-label="Show earlier events"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+          <div class="tlh-track" data-tlh-track role="region" tabindex="0" aria-label="Company timeline">
+            <ol class="tlh-list">
+              <li class="tlh-item" data-anim="item">
+                <div class="tlh-card">
+                  <p class="tlh-date">Week 1</p>
+                  <h3 class="tlh-title">Visual design basics</h3>
+                  <p class="tlh-text">Colour, type, spacing and hierarchy, practised on real screens from day one.</p>
+                </div>
+                <button type="button" class="tlh-dot" data-tlh-dot aria-label="Visual design basics"><span class="tlh-num" aria-hidden="true"></span><span class="tlh-ico st-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" /></svg></span></button>
+              </li>
+              <li class="tlh-item" data-anim="item">
+                <div class="tlh-card">
+                  <p class="tlh-date">Week 2</p>
+                  <h3 class="tlh-title">Figma mastery</h3>
+                  <p class="tlh-text">Components, auto layout and variants, so your files stay tidy and fast.</p>
+                </div>
+                <button type="button" class="tlh-dot" data-tlh-dot aria-label="Figma mastery"><span class="tlh-num" aria-hidden="true"></span><span class="tlh-ico st-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z" /><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18" /><path d="m2.3 2.3 7.286 7.286" /><circle cx="11" cy="11" r="2" /></svg></span></button>
+              </li>
+              <li class="tlh-item" data-anim="item">
+                <div class="tlh-card">
+                  <p class="tlh-date">Weeks 3 and 4</p>
+                  <h3 class="tlh-title">UI patterns</h3>
+                  <p class="tlh-text">Navigation, forms, cards and dashboards that work for real users.</p>
+                </div>
+                <button type="button" class="tlh-dot" data-tlh-dot aria-label="UI patterns"><span class="tlh-num" aria-hidden="true"></span><span class="tlh-ico st-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1" /><rect width="7" height="5" x="14" y="3" rx="1" /><rect width="7" height="9" x="14" y="12" rx="1" /><rect width="7" height="5" x="3" y="16" rx="1" /></svg></span></button>
+              </li>
+              <li class="tlh-item" data-anim="item">
+                <div class="tlh-card">
+                  <p class="tlh-date">Week 5</p>
+                  <h3 class="tlh-title">Responsive design</h3>
+                  <p class="tlh-text">Designs that hold up from the smallest phone to a wide desktop.</p>
+                </div>
+                <button type="button" class="tlh-dot" data-tlh-dot aria-label="Responsive design"><span class="tlh-num" aria-hidden="true"></span><span class="tlh-ico st-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg></span></button>
+              </li>
+              <li class="tlh-item" data-anim="item">
+                <div class="tlh-card">
+                  <p class="tlh-date">Week 6</p>
+                  <h3 class="tlh-title">User research</h3>
+                  <p class="tlh-text">Interviews and quick tests that turn opinions into decisions.</p>
+                </div>
+                <button type="button" class="tlh-dot" data-tlh-dot aria-label="User research"><span class="tlh-num" aria-hidden="true"></span><span class="tlh-ico st-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg></span></button>
+              </li>
+              <li class="tlh-item" data-anim="item">
+                <div class="tlh-card">
+                  <p class="tlh-date">Weeks 7 and 8</p>
+                  <h3 class="tlh-title">Portfolio and job prep</h3>
+                  <p class="tlh-text">Finish a case study, polish your portfolio and practise the interview.</p>
+                </div>
+                <button type="button" class="tlh-dot" data-tlh-dot aria-label="Portfolio and job prep"><span class="tlh-num" aria-hidden="true"></span><span class="tlh-ico st-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /><rect width="20" height="14" x="2" y="6" rx="2" /></svg></span></button>
+              </li>
+            </ol>
+          </div>
+          <button type="button" class="tlh-nav tlh-next" data-tlh-next aria-label="Show later events"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+        </div>
+      </div>
+    </section>
+    <section id="customers" class="st st-testimonial-spotlight" data-uid="smvutnmly6bn9">
       <div class="st-wrap">
         <figure class="ts-card">
           <span class="ts-mark" aria-hidden="true">“</span>
@@ -178,7 +243,7 @@ const onlineCourseLandingPageTemplate = {
         </figure>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvulbpgqbd7w">
+    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvutnmlyku79">
       <div class="st-wrap ps">
         <div class="ps-copy">
           <header class="st-head st-head--left ps-head">
@@ -207,7 +272,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvulbpgr4h39">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvutnmly4gta">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -235,7 +300,7 @@ const onlineCourseLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvulbpgrdy4i">
+    <section class="st st-popup-modal" data-uid="smvutnmlya0lz">
       <div class="pu" data-pu data-trigger="scroll" data-delay="8" data-scroll="50" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="1kxmbuq">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -256,7 +321,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvulbpgr6er6">
+    <section class="st st-footer-minimal" data-uid="smvutnmly35fg">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -271,6 +336,15 @@ const onlineCourseLandingPageTemplate = {
         </div>
         <p class="fm-copy">© 2026 Design Academy</p>
       </footer>
+    </section>
+    <section class="st st-back-to-top" data-uid="smvutnmly7avn">
+      <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
+        <div class="btt-demo" aria-hidden="true">
+          <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
+          <span class="btt-note">The button appears here once the page has scrolled</span>
+        </div><!--/btt-demo-->
+        <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </div>
     </section>`,
 
   css: `@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -409,6 +483,56 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .fa-media{padding:clamp(14px,2cqi,28px);border-radius:calc(var(--st-radius) * 1.5px);background:var(--st-surface)}
 .fa-media img{width:100%;border-radius:calc(var(--st-radius) * .9px);box-shadow:0 24px 60px -30px color-mix(in srgb,var(--st-text) 45%,transparent)}
 @container st (max-width:860px){.fa-row{grid-template-columns:1fr}.fa-row .fa-media,.fa-row:nth-child(even) .fa-media{order:-1}}
+/* Horizontal Timeline */
+.st-timeline-horizontal{padding:clamp(64px,8cqi,112px) 0}
+.tlh{position:relative;display:flex;align-items:center;gap:8px}
+.tlh-track{flex:1;min-width:0;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;outline:none;border-radius:calc(var(--st-radius) * 1px)}
+.tlh-track::-webkit-scrollbar{display:none}
+.tlh-track.is-dragging{cursor:grabbing;scroll-snap-type:none;user-select:none}
+.tlh-track:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--st-brand) 55%,transparent)}
+.tlh-list{--tl-card-h:158px;--tl-item-w:240px;position:relative;display:flex;width:max-content;min-width:100%;margin:0;padding:0;list-style:none;counter-reset:tl}
+.tlh-list::before{content:"";position:absolute;left:0;right:0;top:calc(var(--tl-card-h) + 22px);height:4px;margin-top:-2px;border-radius:2px;background:color-mix(in srgb,var(--st-text) 14%,transparent)}
+.tlh-list::after{content:"";position:absolute;left:0;top:calc(var(--tl-card-h) + 22px);height:4px;margin-top:-2px;border-radius:2px;width:var(--tl-fill,0px);background:linear-gradient(90deg,color-mix(in srgb,var(--st-brand) 55%,transparent),var(--st-brand));transition:width .7s cubic-bezier(.4,0,.2,1)}
+.tlh-item{counter-increment:tl;position:relative;display:flex;flex:1 0 var(--tl-item-w);flex-direction:column;align-items:center;justify-content:flex-start;min-width:var(--tl-item-w);height:calc(var(--tl-card-h) * 2 + 44px);scroll-snap-align:center}
+.tlh-dot{position:absolute;top:calc(var(--tl-card-h) + 22px);left:50%;z-index:2;display:grid;place-items:center;width:44px;height:44px;margin:-22px 0 0 -22px;padding:0;border:3px solid var(--st-bg);border-radius:50%;background:var(--st-surface);color:var(--st-brand);font:800 15px/1 var(--st-font-heading);box-shadow:0 0 0 2px color-mix(in srgb,var(--st-brand) 45%,transparent);cursor:pointer;transition:background .3s ease,color .3s ease,transform .3s ease,box-shadow .3s ease}
+.tlh-dot:hover{transform:scale(1.1)}
+.tlh-dot:focus-visible{outline:3px solid var(--st-brand);outline-offset:3px}
+.tlh-num::before{content:counter(tl)}
+.tlh-ico{display:none;width:20px;height:20px}
+.tlh-ico svg{width:20px;height:20px}
+.tlh[data-marker=icon] .tlh-num{display:none}
+.tlh[data-marker=icon] .tlh-ico{display:inline-grid}
+.tlh-item.is-active .tlh-dot{background:var(--st-brand);color:var(--st-btn-text);transform:scale(1.18);box-shadow:0 0 0 5px color-mix(in srgb,var(--st-brand) 24%,transparent)}
+.tlh-card{box-sizing:border-box;position:absolute;left:8px;right:8px;bottom:0;display:flex;flex-direction:column;justify-content:flex-start;gap:4px;height:var(--tl-card-h);padding:14px 16px;border-radius:calc(var(--st-radius) * .8px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 8%,transparent);transition:transform .4s ease,box-shadow .4s ease,border-color .4s ease}
+.tlh-card::after{content:"";position:absolute;left:50%;top:-7px;width:12px;height:12px;margin-left:-6px;background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 8%,transparent);border-bottom:0;border-right:0;transform:rotate(45deg);transition:border-color .4s ease}
+@container st (min-width:641px){
+.tlh[data-layout=alternate] .tlh-item:nth-child(odd) .tlh-card,.tlh[data-layout=above] .tlh-card{top:0;bottom:auto}
+.tlh[data-layout=alternate] .tlh-item:nth-child(odd) .tlh-card::after,.tlh[data-layout=above] .tlh-card::after{top:auto;bottom:-7px;border:1px solid color-mix(in srgb,var(--st-text) 8%,transparent);border-top:0;border-left:0}
+.tlh[data-layout=alternate] .tlh-item.is-active:nth-child(odd) .tlh-card::after,.tlh[data-layout=above] .tlh-item.is-active .tlh-card::after{border-color:color-mix(in srgb,var(--st-brand) 50%,transparent)}
+}
+.tlh-item.is-active .tlh-card::after{border-color:color-mix(in srgb,var(--st-brand) 50%,transparent)}
+.tlh-item.is-active .tlh-card{transform:translateY(0);border-color:color-mix(in srgb,var(--st-brand) 50%,transparent);box-shadow:0 18px 40px -18px color-mix(in srgb,var(--st-brand) 55%,transparent)}
+.tlh-date{color:var(--st-brand);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.tlh-title{font-size:17px;letter-spacing:-.01em}
+.tlh-text{color:var(--st-muted);font-size:14px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.tlh-text:empty{display:none}
+.tlh-nav{flex:none;display:grid;place-items:center;width:42px;height:42px;padding:0;border:1px solid color-mix(in srgb,var(--st-text) 14%,transparent);border-radius:50%;background:var(--st-bg);color:var(--st-text);cursor:pointer;box-shadow:0 6px 16px -8px color-mix(in srgb,var(--st-text) 40%,transparent);transition:background .2s ease,color .2s ease,opacity .2s ease}
+.tlh-nav:hover:not(:disabled){background:var(--st-brand);color:var(--st-btn-text);border-color:var(--st-brand)}
+.tlh-nav:focus-visible{outline:3px solid var(--st-brand);outline-offset:2px}
+.tlh-nav:disabled{opacity:.35;cursor:default}
+.is-tl-pinned .tlh-track{overflow:hidden;cursor:default}
+.is-tl-pinned .tlh-nav{display:none}
+.is-tl-pinned .tlh-list{will-change:transform}
+.is-tl-pinned .tlh-list::after{transition:none}
+.tlh.is-fit .tlh-nav{display:none}
+@container st (max-width:640px){
+.tlh-list{--tl-item-w:230px;--tl-card-h:172px}
+.tlh-list::before,.tlh-list::after{top:22px}
+.tlh-item{height:calc(var(--tl-card-h) + 44px)}
+.tlh-dot{top:22px}
+.tlh-nav{width:36px;height:36px}
+}
+@media (prefers-reduced-motion:reduce){.tlh-list::after,.tlh-dot,.tlh-card{transition:none}}
 /* Testimonial Spotlight */
 .st-testimonial-spotlight{padding:clamp(64px,8cqi,112px) 0}
 .ts-card{position:relative;max-width:980px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:28px;padding:clamp(36px,6cqi,72px) clamp(22px,6cqi,80px);text-align:center;border-radius:calc(var(--st-radius) * 1.4px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 6%,transparent);box-shadow:0 40px 90px -50px color-mix(in srgb,var(--st-brand) 50%,transparent)}
@@ -595,6 +719,33 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .fm .st-social:hover{background:color-mix(in srgb,var(--st-brand) 12%,transparent);color:var(--st-brand)}
 .fm-copy{padding-top:20px;color:var(--st-muted);font-size:14px;text-align:center}
 @container st (max-width:760px){.fm-row{flex-direction:column;text-align:center}.fm-links{justify-content:center}.fm .st-socials{justify-content:center}}
+/* Back to Top Button */
+.st-back-to-top{overflow:visible;container-type:normal;height:0;min-height:0;padding:0;background:transparent}
+.st-back-to-top:has(.btt.is-preview){height:auto;padding:clamp(20px,3vw,40px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 6%,var(--st-bg))}
+.btt{--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:.8s;--btt-bg:var(--st-brand);--btt-fg:var(--st-btn-text)}
+.btt-btn{position:fixed;bottom:var(--btt-off);z-index:2147482500;display:grid;place-items:center;width:var(--btt-size);height:var(--btt-size);padding:0;border:0;border-radius:var(--btt-radius);background:var(--btt-bg);color:var(--btt-fg);cursor:pointer;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,transform .3s ease,visibility 0s .3s,box-shadow .2s ease,background .2s ease}
+.btt[data-pos=right] .btt-btn{right:var(--btt-off)}
+.btt[data-pos=left] .btt-btn{left:var(--btt-off)}
+.btt[data-appear=slide] .btt-btn{transform:translateY(28px)}
+.btt[data-appear=zoom] .btt-btn{transform:scale(.5)}
+.btt[data-shadow=on] .btt-btn{box-shadow:0 12px 28px -8px rgba(15,23,42,.45)}
+.btt.is-visible .btt-btn{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .3s ease,transform .3s ease,visibility 0s,box-shadow .2s ease,background .2s ease}
+.btt.is-visible .btt-btn:hover{transform:translateY(-3px)}
+.btt.is-visible .btt-btn:active{transform:translateY(0) scale(.96)}
+.btt-btn:focus-visible{outline:3px solid color-mix(in srgb,var(--btt-bg) 55%,#fff);outline-offset:3px}
+.btt-svg{width:calc(var(--btt-size) * .46);height:calc(var(--btt-size) * .46)}
+@media (max-width:899px){.btt[data-mobile=off] .btt-btn{display:none}}
+.btt[data-enabled=off] .btt-btn{display:none}
+.btt-demo{display:none}
+.btt.is-preview .btt-demo{position:relative;display:flex;flex-direction:column;gap:14px;min-height:320px;padding:34px 30px;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-bg);box-shadow:0 20px 50px -24px color-mix(in srgb,var(--st-text) 40%,transparent)}
+.btt-bar{display:block;height:14px;width:100%;border-radius:7px;background:color-mix(in srgb,var(--st-text) 12%,transparent)}
+.btt-bar--lg{height:22px;width:62%;background:color-mix(in srgb,var(--st-text) 22%,transparent)}
+.btt-bar--md{width:84%}.btt-bar--sm{width:46%}
+.btt-note{margin-top:auto;font-size:13px;color:var(--st-muted)}
+.btt.is-preview .btt-btn{position:absolute;right:calc(var(--st-pad) + 18px);bottom:calc(clamp(20px,3vw,40px) + 18px);opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.btt.is-preview[data-pos=left] .btt-btn{right:auto;left:calc(var(--st-pad) + 18px)}
+@media (prefers-reduced-motion:reduce){.btt-btn{transition:none}}
+@media print{.btt{display:none}}
 `,
 
   js: `(function () {
@@ -717,6 +868,132 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       if (el.focus) el.focus();
     }
     btn.addEventListener('click', start);
+  });
+})();
+(function () {
+  var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canPin = !!(G && window.ScrollTrigger && !reduce && !(window.ST_STILL && !window.ST_SCROLL_FX));
+  if (canPin) G.registerPlugin(ScrollTrigger);
+  document.querySelectorAll('.st [data-tlh]').forEach(function (root) {
+    if (root.getAttribute('data-tlh-ready')) return;
+    root.setAttribute('data-tlh-ready', '1');
+    var track = root.querySelector('[data-tlh-track]');
+    var list = root.querySelector('.tlh-list');
+    var prev = root.querySelector('[data-tlh-prev]'), next = root.querySelector('[data-tlh-next]');
+    if (!track || !list) return;
+    var sec = root.closest('.st');
+    var items = Array.prototype.slice.call(list.children).filter(function (c) { return c.classList.contains('tlh-item'); });
+    var active = -1, pinned = false, smooth = reduce ? 'auto' : 'smooth';
+    var mid = function (it) { return it.offsetLeft + it.offsetWidth / 2; };
+    function mark(i) {
+      active = i;
+      items.forEach(function (it, k) {
+        it.classList.toggle('is-active', k === i);
+        var d = it.querySelector('[data-tlh-dot]');
+        if (d) { if (k === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); }
+      });
+    }
+    function centre(i, behavior) {
+      var it = items[i]; if (!it) return;
+      track.scrollTo({ left: Math.max(0, mid(it) - track.clientWidth / 2), behavior: behavior || smooth });
+    }
+    function setActive(i, scroll) {
+      if (!items[i]) return;
+      mark(i);
+      list.style.setProperty('--tl-fill', mid(items[i]) + 'px');
+      if (scroll) centre(i);
+    }
+    function update() {
+      if (pinned) return;
+      var max = track.scrollWidth - track.clientWidth;
+      if (prev) prev.disabled = track.scrollLeft <= 2;
+      if (next) next.disabled = track.scrollLeft >= max - 2;
+      root.classList.toggle('is-fit', max <= 2);
+      if (active > -1) list.style.setProperty('--tl-fill', mid(items[active]) + 'px');
+    }
+    var ticking = false;
+    track.addEventListener('scroll', function () { if (ticking) return; ticking = true; requestAnimationFrame(function () { ticking = false; update(); }); }, { passive: true });
+    if (window.ResizeObserver) new ResizeObserver(update).observe(track); else window.addEventListener('resize', update);
+    var step = function () { var w = items[0] ? items[0].offsetWidth : 240; return Math.max(w, Math.floor(track.clientWidth * 0.8 / w) * w); };
+    if (prev) prev.addEventListener('click', function () { track.scrollBy({ left: -step(), behavior: smooth }); });
+    if (next) next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: smooth }); });
+    var trigger = null;
+    items.forEach(function (it, k) {
+      var d = it.querySelector('[data-tlh-dot]');
+      if (!d) return;
+      d.addEventListener('click', function () {
+        if (root.getAttribute('data-moved')) return;
+        if (pinned && trigger) {
+          var p = items.length > 1 ? k / (items.length - 1) : 0;
+          window.scrollTo({ top: trigger.start + p * (trigger.end - trigger.start), behavior: smooth });
+        } else setActive(k, true);
+      });
+    });
+    track.addEventListener('keydown', function (e) {
+      if (pinned) return;
+      var w = items[0] ? items[0].offsetWidth : 240;
+      if (e.key === 'ArrowRight') { e.preventDefault(); track.scrollBy({ left: w, behavior: smooth }); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); track.scrollBy({ left: -w, behavior: smooth }); }
+      else if (e.key === 'Home') { e.preventDefault(); track.scrollTo({ left: 0, behavior: smooth }); }
+      else if (e.key === 'End') { e.preventDefault(); track.scrollTo({ left: track.scrollWidth, behavior: smooth }); }
+    });
+    var down = false, sx = 0, sl = 0, moved = 0;
+    track.addEventListener('pointerdown', function (e) {
+      if (pinned || e.pointerType !== 'mouse' || e.button !== 0) return;
+      down = true; moved = 0; sx = e.clientX; sl = track.scrollLeft; root.removeAttribute('data-moved');
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - sx; moved = Math.max(moved, Math.abs(dx));
+      if (moved > 5) { track.classList.add('is-dragging'); track.scrollLeft = sl - dx; }
+    });
+    window.addEventListener('pointerup', function () {
+      if (!down) return;
+      down = false; track.classList.remove('is-dragging');
+      if (moved > 5) { root.setAttribute('data-moved', '1'); setTimeout(function () { root.removeAttribute('data-moved'); }, 0); }
+    });
+    var start = parseInt(root.getAttribute('data-start'), 10);
+    setActive(isNaN(start) ? 0 : Math.min(items.length - 1, Math.max(0, start - 1)), false);
+    update();
+
+    if (canPin && root.getAttribute('data-mode') !== 'free' && sec) {
+      G.matchMedia().add('(min-width: 768px)', function () {
+        var dist = function () { return Math.max(0, list.scrollWidth - track.clientWidth); };
+        if (dist() < 24) return;
+        // A sticky header stays on screen, so the section pins just below it instead of under it
+        var head = function () { var h = 0; document.querySelectorAll('.st').forEach(function (n) { if (n !== sec && n.querySelector('[data-sticky-flag]')) h = Math.max(h, n.offsetHeight); }); return h; };
+        pinned = true;
+        sec.classList.add('is-tl-pinned');
+        track.scrollLeft = 0;
+        var first = function () { return mid(items[0]); }, last = function () { return mid(items[items.length - 1]); };
+        var tw = G.timeline({
+          scrollTrigger: {
+            trigger: sec, start: function () { return 'top ' + head(); }, end: function () { return '+=' + Math.round(Math.max(dist() * 1.1, items.length * 170)); },
+            pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true,
+            onUpdate: function (self) {
+              trigger = self;
+              var p = Math.min(1, self.progress / 0.91);
+              var f = first() + (last() - first()) * p;
+              list.style.setProperty('--tl-fill', f + 'px');
+              var idx = 0;
+              for (var k = 0; k < items.length; k++) { if (mid(items[k]) <= f + 2) idx = k; }
+              if (idx !== active) mark(idx);
+            }
+          }
+        });
+        // The row travels for 91% of the scroll, then rests on the last event for the last 9%
+        tw.to(list, { x: function () { return -dist(); }, ease: 'none', duration: 0.91 }).to({}, { duration: 0.09 });
+        trigger = tw.scrollTrigger;
+        return function () {
+          pinned = false; trigger = null;
+          tw.scrollTrigger.kill(); tw.kill();
+          G.set(list, { clearProps: 'transform' });
+          sec.classList.remove('is-tl-pinned');
+          setActive(active > -1 ? active : 0, false);
+          update();
+        };
+      });
+    }
   });
 })();
 (function () {
@@ -934,6 +1211,44 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   });
 })();
 (function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st [data-btt]').forEach(function (root) {
+    if (root.getAttribute('data-btt-ready')) return;
+    root.setAttribute('data-btt-ready', '1');
+    var btn = root.querySelector('.btt-btn');
+    var demo = root.querySelector('.btt-demo');
+    if (!btn || root.getAttribute('data-enabled') === 'off') { if (demo && !inline) demo.parentNode.removeChild(demo); return; }
+    if (!inline && demo) demo.parentNode.removeChild(demo);
+    if (inline) {
+      root.classList.add('is-preview', 'is-visible');
+      btn.addEventListener('click', function (e) { e.preventDefault(); });
+      return;
+    }
+    var dist = parseFloat(root.getAttribute('data-distance')) || 0;
+    var secs = parseFloat(root.getAttribute('data-speed'));
+    if (isNaN(secs)) secs = 0.8;
+    var ticking = false;
+    function check() { ticking = false; root.classList.toggle('is-visible', (window.pageYOffset || document.documentElement.scrollTop) > dist); }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+    var stopped = false;
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, function () { stopped = true; }, { passive: true }); });
+    btn.addEventListener('click', function () {
+      var from = window.pageYOffset || document.documentElement.scrollTop;
+      if (reduce || secs <= 0 || from < 2) { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); return; }
+      stopped = false;
+      var t0 = performance.now(), dur = secs * 1000;
+      (function step(t) {
+        var p = Math.min(1, (t - t0) / dur);
+        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        window.scrollTo({ top: from * (1 - e), left: 0, behavior: 'instant' });
+        if (p < 1 && !stopped) requestAnimationFrame(step);
+      })(t0);
+    });
+  });
+})();
+(function () {
   if (!window.gsap) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -969,7 +1284,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   seo: {
     "title": "Online Course Sales Page HTML Template — Free Snippet",
     "description": "An online course sales page in HTML, CSS and JS: lesson-preview hero, outcomes, curriculum, instructor story, student results, single price and FAQ. Edit live.",
-    "subtitle": "Online Course Website template · 10 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Online Course Website template · 12 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "online-course",
       "name": "Online Course Website",
@@ -1008,6 +1323,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "role": "the curriculum, module by module, so a buyer can see how it is built and what it covers"
       },
       {
+        "id": "timeline-horizontal",
+        "name": "Horizontal Timeline",
+        "url": "/website-section-templates/timeline-horizontal/",
+        "role": "a pinned horizontal syllabus that walks through the eight weeks of the course"
+      },
+      {
         "id": "testimonial-spotlight",
         "name": "Testimonial Spotlight",
         "url": "/website-section-templates/testimonial-spotlight/",
@@ -1036,6 +1357,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "name": "Minimal Footer",
         "url": "/website-section-templates/footer-minimal/",
         "role": "a minimal footer with terms, refund policy and support contact"
+      },
+      {
+        "id": "back-to-top",
+        "name": "Back to Top Button",
+        "url": "/website-section-templates/back-to-top/",
+        "role": "a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return"
       }
     ],
     "about": {
@@ -1043,12 +1370,14 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       "description": "Buying a course is a bet on a stranger, so a good sales page reduces risk at every step. This layout does it in order. The hero makes a specific promise and shows a lesson preview so people can sample the teaching, the icon grid lists what students will be able to do afterwards (outcomes, not topics), and alternating feature rows walk through the curriculum module by module so a buyer can see how it is built.\n\nA video section lets the instructor speak directly, a spotlight testimonial shows a result from a real student, and a single plan price keeps the decision simple, with the money-back guarantee next to the button where doubt peaks. The FAQ ends the objections: how long, what level, what if I get stuck.\n\nKeep the single-price layout unless you really have tiers. It is the layout of the [Online Course Website template](/website-builder/templates/online-course/); open it in the [Website Builder](/website-builder/) to edit the curriculum, price and copy and export."
     },
     "features": [
-      "10 ready-made website sections assembled into one finished online course website page: Simple Sticky Navbar, SaaS Split Hero, Icon Grid Features, Video Section with Poster, Alternating Feature Rows, Testimonial Spotlight, Single Plan Pricing, FAQ Accordion, Popup & Promo Modal, Minimal Footer",
+      "12 ready-made website sections assembled into one finished online course website page: Simple Sticky Navbar, SaaS Split Hero, Icon Grid Features, Video Section with Poster, Alternating Feature Rows, Horizontal Timeline, Testimonial Spotlight, Single Plan Pricing, FAQ Accordion, Popup & Promo Modal, Minimal Footer, Back to Top Button",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 9-page website in the builder, sharing one navbar, footer and theme",
+      "A pinned horizontal timeline (GSAP ScrollTrigger) that slides along as you scroll, with a growing progress line",
+      "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
     "howToUse": {
@@ -1108,7 +1437,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 10 templates in the free Website Section Templates library: Simple Sticky Navbar, SaaS Split Hero, Icon Grid Features, Video Section with Poster, Alternating Feature Rows, Testimonial Spotlight, Single Plan Pricing, FAQ Accordion, Popup & Promo Modal, Minimal Footer. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 12 templates in the free Website Section Templates library: Simple Sticky Navbar, SaaS Split Hero, Icon Grid Features, Video Section with Poster, Alternating Feature Rows, Horizontal Timeline, Testimonial Spotlight, Single Plan Pricing, FAQ Accordion, Popup & Promo Modal, Minimal Footer, Back to Top Button. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1117,7 +1446,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Online Course Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete online course website for “Design Academy” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. SaaS Split Hero: “Learn UI design in 8 weeks”\n3. Icon Grid Features: “Skills you’ll actually use”\n4. Video Section with Poster: “Watch the first lesson”\n5. Alternating Feature Rows: “Eight weeks, step by step”\n6. Testimonial Spotlight: “Priya Raman”\n7. Single Plan Pricing: “One price, everything included”\n8. FAQ Accordion: “Questions about the course”\n9. Popup & Promo Modal\n10. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #f97316, page background #fffcf8, cards #fff1e6, text #1c1917, muted text #57534e. Corner radius 14px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable education copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Online Course Landing Page Template — Free HTML Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a education business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Pricing (pricing.html)\n- FAQ (faq.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Journal (blog.html)\n- Article (article.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete online course website for “Design Academy” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. SaaS Split Hero: “Learn UI design in 8 weeks”\n3. Icon Grid Features: “Skills you’ll actually use”\n4. Video Section with Poster: “Watch the first lesson”\n5. Alternating Feature Rows: “Eight weeks, step by step”\n6. Horizontal Timeline: “Your 8-week learning path”\n7. Testimonial Spotlight: “Priya Raman”\n8. Single Plan Pricing: “One price, everything included”\n9. FAQ Accordion: “Questions about the course”\n10. Popup & Promo Modal\n11. Minimal Footer\n12. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #f97316, page background #fffcf8, cards #fff1e6, text #1c1917, muted text #57534e. Corner radius 14px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable education copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Online Course Landing Page Template — Free HTML Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a education business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Pricing (pricing.html)\n- FAQ (faq.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Journal (blog.html)\n- Article (article.html)\n- Privacy (privacy.html)"
     }
   },
 };

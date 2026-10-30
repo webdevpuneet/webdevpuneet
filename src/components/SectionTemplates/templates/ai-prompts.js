@@ -18,7 +18,7 @@ const headingOf = (tplId, state) => {
   }
   return '';
 };
-const BARE = new Set(['navbar', 'footer', 'popup', 'social', 'accessibility']); // listed by name only
+const BARE = new Set(['navbar', 'footer', 'popup', 'social', 'accessibility', 'effects']); // listed by name only
 
 /** { paragraph, prompt } for a website template (`t` from WEBSITE_TEMPLATES) */
 export function websiteAiPrompt(t, { theme: given, fontNames, pages }) {

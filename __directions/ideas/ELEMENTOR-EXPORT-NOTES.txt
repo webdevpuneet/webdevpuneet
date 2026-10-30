@@ -1,3 +1,12 @@
+ELEMENTOR EXPORT: DROPPED (decision 2026-10-30). Kept only as reference.
+DECISION: Puneet decided NOT to build an Elementor export. Website templates and sections stay HTML-only exports
+(HTML, ZIP, React, Vue, plus the existing options). Do not start Elementor work again unless Puneet asks.
+What was left behind: the WordPress test site (https://webdevpuneet.com/wp/) with draft page id 10 "Centred Gradient Hero (test)",
+the "word-press-elementor" MCP server in C:Userspunee.claude.json (remove it with /mcp -> Remove, and revoke the WP
+application password if the MCP is no longer needed), and the notes below.
+Still useful from this work: screenshot-to-page idea, the two-group analysis of scripted vs static sections, and the
+liveExample pattern for section templates.
+
 ELEMENTOR EXPORT: NOTES, FINDINGS AND IDEAS (a cache to start from)
 Started 2026-10-30. Keep adding to this file whenever something new is learned. Newest findings go in the log at the bottom.
 

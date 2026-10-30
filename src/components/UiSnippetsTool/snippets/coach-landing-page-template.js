@@ -3,7 +3,7 @@
 const coachLandingPageTemplate = {
   id: 'coach-landing-page-template',
   title: 'Coach & Consultant Website Template',
-  lastmod: '2026-10-28',
+  lastmod: '2026-10-30',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -15,7 +15,7 @@ const coachLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvulbph3wbwy">
+    <section class="st st-navbar-floating" data-uid="smvutnmm56lyj">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -35,7 +35,7 @@ const coachLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-portfolio-hero" data-uid="smvulbph3mkjo">
+    <section class="st st-portfolio-hero" data-uid="smvutnmm5ou1g">
       <div class="pf st-wrap">
         <div class="pf-copy">
           <span class="pf-status" data-anim="item"><i aria-hidden="true"></i><span>Taking new clients for January</span></span>
@@ -58,7 +58,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvulbph3yk11">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvutnmm5ri8a">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How I help</p>
@@ -84,7 +84,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvulbph31p6a">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvutnmm5zyla">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Programmes</p>
@@ -127,7 +127,7 @@ const coachLandingPageTemplate = {
         <p class="p3-note" data-anim="item">Payment plans available for all programmes.</p>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvulbph3ms6l">
+    <section id="customers" class="st st-testimonials-carousel" data-uid="smvutnmm5jccv">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -184,7 +184,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvulbph3f16c">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvutnmm5pjka">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -198,7 +198,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvulbph3qwbr">
+    <section id="contact" class="st st-booking-form" data-uid="smvutnmm5ny5v">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -256,7 +256,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvulbph3kkoh">
+    <section class="st st-footer-minimal" data-uid="smvutnmm57z6p">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -794,6 +794,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 7-page website in the builder, sharing one navbar, footer and theme",
+      "Every text, image, colour and link is editable in the Website Builder before you export",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
     "howToUse": {

@@ -3,7 +3,7 @@
 const appLandingPageTemplate = {
   id: 'app-landing-page-template',
   title: 'Mobile App Landing Page Template',
-  lastmod: '2026-10-28',
+  lastmod: '2026-10-30',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -11,7 +11,7 @@ const appLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvulbpct6k79">
+    <section class="st st-navbar-simple" data-uid="smvutnmiqxaaf">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg></span><span>Pocketly</span></span>
@@ -32,7 +32,7 @@ const appLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-app-product-hero" data-uid="smvulbpcthrm0">
+    <section class="st st-app-product-hero" data-uid="smvutnmiq15d9">
       <div class="ap st-wrap">
         <div class="ap-copy">
           <span class="st-eyebrow" data-anim="item">iPhone &amp; Android</span>
@@ -52,7 +52,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-split-image" data-uid="smvulbpctjs9y">
+    <section id="features" class="st st-features-split-image" data-uid="smvutnmiqajpk">
       <div class="st-wrap fs">
         <div class="fs-copy">
           <header class="st-head st-head--left fs-head">
@@ -81,7 +81,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="showcase" class="st st-scroll-ring" data-uid="smvulbpctfwa5">
+    <section id="showcase" class="st st-scroll-ring" data-uid="smvutnmiqsd4k">
       <div class="st-wrap rg-head">
         <p class="st-eyebrow" data-anim="item">Inside the app</p>
         <h2 class="st-h2" data-anim="item" data-anim-text>Swipe through <span class="hl">every screen</span></h2>
@@ -130,7 +130,7 @@ const appLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvulbpctwzjb">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvutnmiq9akj">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it works</p>
@@ -160,7 +160,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-marquee" data-uid="smvulbpctn37j">
+    <section id="customers" class="st st-testimonials-marquee" data-uid="smvutnmiq293i">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -243,7 +243,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-split-image" data-uid="smvulbpcu43zc">
+    <section id="get-started" class="st st-cta-split-image" data-uid="smvutnmiqlik2">
       <div class="st-wrap">
         <div class="cs">
           <div class="cs-copy">
@@ -259,7 +259,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-split" data-uid="smvulbpcu79h5">
+    <section id="faq" class="st st-faq-split" data-uid="smvutnmiq6k1v">
       <div class="st-wrap fs2">
         <div class="fs2-side">
           <header class="st-head st-head--left fs2-head">
@@ -302,7 +302,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvulbpcu4niz">
+    <section class="st st-footer-minimal" data-uid="smvutnmiqzojw">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -317,6 +317,15 @@ const appLandingPageTemplate = {
         </div>
         <p class="fm-copy">© 2026 Pocketly Ltd.</p>
       </footer>
+    </section>
+    <section class="st st-back-to-top" data-uid="smvutnmiqqlve">
+      <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
+        <div class="btt-demo" aria-hidden="true">
+          <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
+          <span class="btt-note">The button appears here once the page has scrolled</span>
+        </div><!--/btt-demo-->
+        <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </div>
     </section>`,
 
   css: `@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -563,6 +572,33 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .fm .st-social:hover{background:color-mix(in srgb,var(--st-brand) 12%,transparent);color:var(--st-brand)}
 .fm-copy{padding-top:20px;color:var(--st-muted);font-size:14px;text-align:center}
 @container st (max-width:760px){.fm-row{flex-direction:column;text-align:center}.fm-links{justify-content:center}.fm .st-socials{justify-content:center}}
+/* Back to Top Button */
+.st-back-to-top{overflow:visible;container-type:normal;height:0;min-height:0;padding:0;background:transparent}
+.st-back-to-top:has(.btt.is-preview){height:auto;padding:clamp(20px,3vw,40px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 6%,var(--st-bg))}
+.btt{--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:.8s;--btt-bg:var(--st-brand);--btt-fg:var(--st-btn-text)}
+.btt-btn{position:fixed;bottom:var(--btt-off);z-index:2147482500;display:grid;place-items:center;width:var(--btt-size);height:var(--btt-size);padding:0;border:0;border-radius:var(--btt-radius);background:var(--btt-bg);color:var(--btt-fg);cursor:pointer;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,transform .3s ease,visibility 0s .3s,box-shadow .2s ease,background .2s ease}
+.btt[data-pos=right] .btt-btn{right:var(--btt-off)}
+.btt[data-pos=left] .btt-btn{left:var(--btt-off)}
+.btt[data-appear=slide] .btt-btn{transform:translateY(28px)}
+.btt[data-appear=zoom] .btt-btn{transform:scale(.5)}
+.btt[data-shadow=on] .btt-btn{box-shadow:0 12px 28px -8px rgba(15,23,42,.45)}
+.btt.is-visible .btt-btn{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .3s ease,transform .3s ease,visibility 0s,box-shadow .2s ease,background .2s ease}
+.btt.is-visible .btt-btn:hover{transform:translateY(-3px)}
+.btt.is-visible .btt-btn:active{transform:translateY(0) scale(.96)}
+.btt-btn:focus-visible{outline:3px solid color-mix(in srgb,var(--btt-bg) 55%,#fff);outline-offset:3px}
+.btt-svg{width:calc(var(--btt-size) * .46);height:calc(var(--btt-size) * .46)}
+@media (max-width:899px){.btt[data-mobile=off] .btt-btn{display:none}}
+.btt[data-enabled=off] .btt-btn{display:none}
+.btt-demo{display:none}
+.btt.is-preview .btt-demo{position:relative;display:flex;flex-direction:column;gap:14px;min-height:320px;padding:34px 30px;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-bg);box-shadow:0 20px 50px -24px color-mix(in srgb,var(--st-text) 40%,transparent)}
+.btt-bar{display:block;height:14px;width:100%;border-radius:7px;background:color-mix(in srgb,var(--st-text) 12%,transparent)}
+.btt-bar--lg{height:22px;width:62%;background:color-mix(in srgb,var(--st-text) 22%,transparent)}
+.btt-bar--md{width:84%}.btt-bar--sm{width:46%}
+.btt-note{margin-top:auto;font-size:13px;color:var(--st-muted)}
+.btt.is-preview .btt-btn{position:absolute;right:calc(var(--st-pad) + 18px);bottom:calc(clamp(20px,3vw,40px) + 18px);opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.btt.is-preview[data-pos=left] .btt-btn{right:auto;left:calc(var(--st-pad) + 18px)}
+@media (prefers-reduced-motion:reduce){.btt-btn{transition:none}}
+@media print{.btt{display:none}}
 `,
 
   js: `(function () {
@@ -931,6 +967,44 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   });
 })();
 (function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st [data-btt]').forEach(function (root) {
+    if (root.getAttribute('data-btt-ready')) return;
+    root.setAttribute('data-btt-ready', '1');
+    var btn = root.querySelector('.btt-btn');
+    var demo = root.querySelector('.btt-demo');
+    if (!btn || root.getAttribute('data-enabled') === 'off') { if (demo && !inline) demo.parentNode.removeChild(demo); return; }
+    if (!inline && demo) demo.parentNode.removeChild(demo);
+    if (inline) {
+      root.classList.add('is-preview', 'is-visible');
+      btn.addEventListener('click', function (e) { e.preventDefault(); });
+      return;
+    }
+    var dist = parseFloat(root.getAttribute('data-distance')) || 0;
+    var secs = parseFloat(root.getAttribute('data-speed'));
+    if (isNaN(secs)) secs = 0.8;
+    var ticking = false;
+    function check() { ticking = false; root.classList.toggle('is-visible', (window.pageYOffset || document.documentElement.scrollTop) > dist); }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+    var stopped = false;
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, function () { stopped = true; }, { passive: true }); });
+    btn.addEventListener('click', function () {
+      var from = window.pageYOffset || document.documentElement.scrollTop;
+      if (reduce || secs <= 0 || from < 2) { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); return; }
+      stopped = false;
+      var t0 = performance.now(), dur = secs * 1000;
+      (function step(t) {
+        var p = Math.min(1, (t - t0) / dur);
+        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        window.scrollTo({ top: from * (1 - e), left: 0, behavior: 'instant' });
+        if (p < 1 && !stopped) requestAnimationFrame(step);
+      })(t0);
+    });
+  });
+})();
+(function () {
   if (!window.gsap) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -966,7 +1040,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   seo: {
     "title": "Mobile App Landing Page HTML Template — Free Snippet",
     "description": "A dark mobile app landing page in HTML, CSS and JS: phone-mockup hero, store buttons, how-it-works steps, review marquee and a download CTA. Edit it live.",
-    "subtitle": "Mobile App Landing Page template · 9 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Mobile App Landing Page template · 10 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "app",
       "name": "Mobile App Landing Page",
@@ -1027,6 +1101,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "name": "Minimal Footer",
         "url": "/website-section-templates/footer-minimal/",
         "role": "a quiet footer with the legal links the app stores require you to have"
+      },
+      {
+        "id": "back-to-top",
+        "name": "Back to Top Button",
+        "url": "/website-section-templates/back-to-top/",
+        "role": "a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return"
       }
     ],
     "about": {
@@ -1034,12 +1114,13 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       "description": "An app page has a different job from a SaaS page: it has to move a visitor, usually on a phone, from curiosity to the App Store or Google Play in a few scrolls. That is why this layout is short. The hero puts the phone mockup and both store buttons above the fold, the features sit beside a real screenshot, three numbered steps remove the fear that the app is hard to start, and the reviews scroll past in a marquee so social proof is moving rather than something to read.\n\nThe dark theme is a deliberate choice for apps: screenshots of a dark UI blend into the page, which makes the product look like part of the site instead of a picture pasted on it. If your app is light, switch the theme in the builder and the whole page, including the glow behind the mockup, follows from one set of colour variables.\n\nSwap in your own screenshots and store links and the page is done. It is the code behind the [Mobile App Landing Page template](/website-builder/templates/app/), so you can also open it in the [Website Builder](/website-builder/), restyle it with the theme panel and export clean HTML."
     },
     "features": [
-      "9 ready-made website sections assembled into one finished mobile app landing page page: Simple Sticky Navbar, App Product Hero, Split Features With Image, 3D Scroll Carousel, How It Works Steps, Testimonial Marquee, Split CTA With Image, Split FAQ With Contact Card, Minimal Footer",
+      "10 ready-made website sections assembled into one finished mobile app landing page page: Simple Sticky Navbar, App Product Hero, Split Features With Image, 3D Scroll Carousel, How It Works Steps, Testimonial Marquee, Split CTA With Image, Split FAQ With Contact Card, Minimal Footer, Back to Top Button",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 6-page website in the builder, sharing one navbar, footer and theme",
+      "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
     "howToUse": {
@@ -1099,7 +1180,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 9 templates in the free Website Section Templates library: Simple Sticky Navbar, App Product Hero, Split Features With Image, 3D Scroll Carousel, How It Works Steps, Testimonial Marquee, Split CTA With Image, Split FAQ With Contact Card, Minimal Footer. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 10 templates in the free Website Section Templates library: Simple Sticky Navbar, App Product Hero, Split Features With Image, 3D Scroll Carousel, How It Works Steps, Testimonial Marquee, Split CTA With Image, Split FAQ With Contact Card, Minimal Footer, Back to Top Button. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1108,7 +1189,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Mobile App Landing Page template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete mobile app website for “Pocketly” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. App Product Hero: “Your money, finally organised”\n3. Split Features With Image: “See where your money really goes”\n4. 3D Scroll Carousel: “Swipe through every screen”\n5. How It Works Steps: “Set up in two minutes”\n6. Testimonial Marquee: “People are talking”\n7. Split CTA With Image: “Your budget, in your pocket”\n8. Split FAQ With Contact Card: “Frequently asked questions”\n9. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #38bdf8, page background #04131f, cards #0c2234, text #e0f2fe, muted text #93b4c9. Corner radius 14px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable software copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Mobile App Landing Page Template — Free HTML Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a software business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- FAQ (faq.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete mobile app website for “Pocketly” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. App Product Hero: “Your money, finally organised”\n3. Split Features With Image: “See where your money really goes”\n4. 3D Scroll Carousel: “Swipe through every screen”\n5. How It Works Steps: “Set up in two minutes”\n6. Testimonial Marquee: “People are talking”\n7. Split CTA With Image: “Your budget, in your pocket”\n8. Split FAQ With Contact Card: “Frequently asked questions”\n9. Minimal Footer\n10. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #38bdf8, page background #04131f, cards #0c2234, text #e0f2fe, muted text #93b4c9. Corner radius 14px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable software copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Mobile App Landing Page Template — Free HTML Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a software business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- FAQ (faq.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Privacy (privacy.html)"
     }
   },
 };

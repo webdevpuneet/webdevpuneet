@@ -77,6 +77,132 @@
   });
 })();
 (function () {
+  var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canPin = !!(G && window.ScrollTrigger && !reduce && !(window.ST_STILL && !window.ST_SCROLL_FX));
+  if (canPin) G.registerPlugin(ScrollTrigger);
+  document.querySelectorAll('.st [data-tlh]').forEach(function (root) {
+    if (root.getAttribute('data-tlh-ready')) return;
+    root.setAttribute('data-tlh-ready', '1');
+    var track = root.querySelector('[data-tlh-track]');
+    var list = root.querySelector('.tlh-list');
+    var prev = root.querySelector('[data-tlh-prev]'), next = root.querySelector('[data-tlh-next]');
+    if (!track || !list) return;
+    var sec = root.closest('.st');
+    var items = Array.prototype.slice.call(list.children).filter(function (c) { return c.classList.contains('tlh-item'); });
+    var active = -1, pinned = false, smooth = reduce ? 'auto' : 'smooth';
+    var mid = function (it) { return it.offsetLeft + it.offsetWidth / 2; };
+    function mark(i) {
+      active = i;
+      items.forEach(function (it, k) {
+        it.classList.toggle('is-active', k === i);
+        var d = it.querySelector('[data-tlh-dot]');
+        if (d) { if (k === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); }
+      });
+    }
+    function centre(i, behavior) {
+      var it = items[i]; if (!it) return;
+      track.scrollTo({ left: Math.max(0, mid(it) - track.clientWidth / 2), behavior: behavior || smooth });
+    }
+    function setActive(i, scroll) {
+      if (!items[i]) return;
+      mark(i);
+      list.style.setProperty('--tl-fill', mid(items[i]) + 'px');
+      if (scroll) centre(i);
+    }
+    function update() {
+      if (pinned) return;
+      var max = track.scrollWidth - track.clientWidth;
+      if (prev) prev.disabled = track.scrollLeft <= 2;
+      if (next) next.disabled = track.scrollLeft >= max - 2;
+      root.classList.toggle('is-fit', max <= 2);
+      if (active > -1) list.style.setProperty('--tl-fill', mid(items[active]) + 'px');
+    }
+    var ticking = false;
+    track.addEventListener('scroll', function () { if (ticking) return; ticking = true; requestAnimationFrame(function () { ticking = false; update(); }); }, { passive: true });
+    if (window.ResizeObserver) new ResizeObserver(update).observe(track); else window.addEventListener('resize', update);
+    var step = function () { var w = items[0] ? items[0].offsetWidth : 240; return Math.max(w, Math.floor(track.clientWidth * 0.8 / w) * w); };
+    if (prev) prev.addEventListener('click', function () { track.scrollBy({ left: -step(), behavior: smooth }); });
+    if (next) next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: smooth }); });
+    var trigger = null;
+    items.forEach(function (it, k) {
+      var d = it.querySelector('[data-tlh-dot]');
+      if (!d) return;
+      d.addEventListener('click', function () {
+        if (root.getAttribute('data-moved')) return;
+        if (pinned && trigger) {
+          var p = items.length > 1 ? k / (items.length - 1) : 0;
+          window.scrollTo({ top: trigger.start + p * (trigger.end - trigger.start), behavior: smooth });
+        } else setActive(k, true);
+      });
+    });
+    track.addEventListener('keydown', function (e) {
+      if (pinned) return;
+      var w = items[0] ? items[0].offsetWidth : 240;
+      if (e.key === 'ArrowRight') { e.preventDefault(); track.scrollBy({ left: w, behavior: smooth }); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); track.scrollBy({ left: -w, behavior: smooth }); }
+      else if (e.key === 'Home') { e.preventDefault(); track.scrollTo({ left: 0, behavior: smooth }); }
+      else if (e.key === 'End') { e.preventDefault(); track.scrollTo({ left: track.scrollWidth, behavior: smooth }); }
+    });
+    var down = false, sx = 0, sl = 0, moved = 0;
+    track.addEventListener('pointerdown', function (e) {
+      if (pinned || e.pointerType !== 'mouse' || e.button !== 0) return;
+      down = true; moved = 0; sx = e.clientX; sl = track.scrollLeft; root.removeAttribute('data-moved');
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - sx; moved = Math.max(moved, Math.abs(dx));
+      if (moved > 5) { track.classList.add('is-dragging'); track.scrollLeft = sl - dx; }
+    });
+    window.addEventListener('pointerup', function () {
+      if (!down) return;
+      down = false; track.classList.remove('is-dragging');
+      if (moved > 5) { root.setAttribute('data-moved', '1'); setTimeout(function () { root.removeAttribute('data-moved'); }, 0); }
+    });
+    var start = parseInt(root.getAttribute('data-start'), 10);
+    setActive(isNaN(start) ? 0 : Math.min(items.length - 1, Math.max(0, start - 1)), false);
+    update();
+
+    if (canPin && root.getAttribute('data-mode') !== 'free' && sec) {
+      G.matchMedia().add('(min-width: 768px)', function () {
+        var dist = function () { return Math.max(0, list.scrollWidth - track.clientWidth); };
+        if (dist() < 24) return;
+        // A sticky header stays on screen, so the section pins just below it instead of under it
+        var head = function () { var h = 0; document.querySelectorAll('.st').forEach(function (n) { if (n !== sec && n.querySelector('[data-sticky-flag]')) h = Math.max(h, n.offsetHeight); }); return h; };
+        pinned = true;
+        sec.classList.add('is-tl-pinned');
+        track.scrollLeft = 0;
+        var first = function () { return mid(items[0]); }, last = function () { return mid(items[items.length - 1]); };
+        var tw = G.timeline({
+          scrollTrigger: {
+            trigger: sec, start: function () { return 'top ' + head(); }, end: function () { return '+=' + Math.round(Math.max(dist() * 1.1, items.length * 170)); },
+            pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true,
+            onUpdate: function (self) {
+              trigger = self;
+              var p = Math.min(1, self.progress / 0.91);
+              var f = first() + (last() - first()) * p;
+              list.style.setProperty('--tl-fill', f + 'px');
+              var idx = 0;
+              for (var k = 0; k < items.length; k++) { if (mid(items[k]) <= f + 2) idx = k; }
+              if (idx !== active) mark(idx);
+            }
+          }
+        });
+        // The row travels for 91% of the scroll, then rests on the last event for the last 9%
+        tw.to(list, { x: function () { return -dist(); }, ease: 'none', duration: 0.91 }).to({}, { duration: 0.09 });
+        trigger = tw.scrollTrigger;
+        return function () {
+          pinned = false; trigger = null;
+          tw.scrollTrigger.kill(); tw.kill();
+          G.set(list, { clearProps: 'transform' });
+          sec.classList.remove('is-tl-pinned');
+          setActive(active > -1 ? active : 0, false);
+          update();
+        };
+      });
+    }
+  });
+})();
+(function () {
   if (!window.gsap) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);

@@ -13,6 +13,7 @@ import { siteFromStarter, siteFiles, starterPageList } from '../src/components/S
 import { sectionTemplateById, THEME_PRESETS } from '../src/components/SectionTemplates/templates/index.js';
 import { websiteAiPrompt } from '../src/components/SectionTemplates/templates/ai-prompts.js';
 import { resolveFont } from '../src/lib/fonts.js';
+import { STARTER_WIDGET_EXTRAS, WIDGET_ROLES } from '../src/components/SectionTemplates/templates/starters-widgets.js';
 import { BATCH_1 } from './landing-page-content/batch-1.mjs';
 import { BATCH_2 } from './landing-page-content/batch-2.mjs';
 import { BATCH_3 } from './landing-page-content/batch-3.mjs';
@@ -22,10 +23,38 @@ const CONTENT = { ...BATCH_1, ...BATCH_2, ...BATCH_3, ...BATCH_4 };
 const SNIP_DIR = path.resolve('src/components/UiSnippetsTool/snippets');
 const REGISTRY = path.resolve('src/components/UiSnippetsTool/snippets.js');
 const CHECK = process.argv.includes('--check');
-const TODAY = '2026-10-28';
+const TODAY = '2026-10-30';
 const suffix = '-landing-page-template';
 const esc = s => s.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
 const camel = id => id.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
+
+/* The roles in the content files describe the sections each template had before 2026-10-30. Sections added later (or swapped
+   in for another) get their wording from WIDGET_ROLES, so the content files stay one phrase per ORIGINAL section. */
+function buildRoles(t, base) {
+  const extras = STARTER_WIDGET_EXTRAS[t.id] || [];
+  const idOf = e => (typeof e.section === 'function' ? e.section()[0] : e.section[0]);
+  const added = new Set(extras.filter(e => !e.replace).map(idOf));
+  const swapped = new Set(extras.filter(e => e.replace).map(idOf));
+  let bi = 0;
+  const roles = t.sections.map(([sid]) => {
+    const own = WIDGET_ROLES[t.id + ':' + sid] || WIDGET_ROLES[sid];
+    if (added.has(sid)) return own;
+    if (swapped.has(sid)) { bi++; return own; }
+    return base[bi++];
+  });
+  return { roles, ok: bi === base.length && roles.every(Boolean) };
+}
+
+/* One feature bullet for each kind of widget or section added on 2026-10-30 */
+const ADDED_FEATURES = {
+  'back-to-top': 'A floating back to top button that appears as visitors scroll, on every page of the multi-page version',
+  'accessibility-toolbar': 'A floating accessibility toolbar with bigger text, contrast, grayscale, hide images and pause animations',
+  'cursor-follower': 'A cursor follower circle that inverts the text and images under it with a blend mode',
+  'timeline-horizontal': 'A pinned horizontal timeline (GSAP ScrollTrigger) that slides along as you scroll, with a growing progress line',
+  'scroll-zoom': 'A Ken Burns scroll zoom on the hero and featured photographs (GSAP ScrollTrigger)',
+  'team-accordion': 'An interactive team accordion of grayscale image strips that expand on click',
+};
+const addedFeatures = t => [...new Set(t.sections.map(s => s[0]))].filter(id => ADDED_FEATURES[id]).map(id => ADDED_FEATURES[id]);
 
 const problems = [];
 for (const t of WEBSITE_TEMPLATES) {
@@ -33,7 +62,7 @@ for (const t of WEBSITE_TEMPLATES) {
   if (!c) { problems.push(`${t.id}: no content`); continue; }
   if (c.title.length < 50 || c.title.length > 60) problems.push(`${t.id}: title ${c.title.length} chars`);
   if (c.description.length < 150 || c.description.length > 160) problems.push(`${t.id}: description ${c.description.length} chars`);
-  if (c.roles.length !== t.sections.length) problems.push(`${t.id}: ${c.roles.length} roles for ${t.sections.length} sections`);
+  if (!buildRoles(t, c.roles).ok) problems.push(`${t.id}: ${c.roles.length} content roles do not match the ${t.sections.length} sections (add the new sections to WIDGET_ROLES)`);
   if (c.steps.length !== 3) problems.push(`${t.id}: needs 3 steps`);
   if (c.useCases.length !== 3 || c.faqs.length !== 3) problems.push(`${t.id}: needs 3 use cases and 3 faqs`);
   for (const [sid] of t.sections) if (!sectionTemplateById(sid)) problems.push(`${t.id}: unknown section ${sid}`);
@@ -55,9 +84,10 @@ for (const t of WEBSITE_TEMPLATES) {
   const css = `${font ? `@import url('${font}');\n` : ''}${get('styles.css')}`;
   const js = get('script.js');
 
+  const { roles } = buildRoles(t, c.roles);
   const sections = t.sections.map(([sid], i) => {
     const st = sectionTemplateById(sid);
-    return { id: sid, name: st.name, url: `/website-section-templates/${sid}/`, role: c.roles[i] };
+    return { id: sid, name: st.name, url: `/website-section-templates/${sid}/`, role: roles[i] };
   });
   const pages = starterPageList(t.id).length;
   const names = sections.map(s => s.name).join(', ');
@@ -75,6 +105,8 @@ for (const t of WEBSITE_TEMPLATES) {
       'Container-query responsive: each section adapts to the width it is placed in, from phone to desktop',
       'GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion',
       pages ? `Also available as a ${pages + 1}-page website in the builder, sharing one navbar, footer and theme` : 'Add more pages in the Website Builder, sharing one navbar, footer and theme',
+      ...addedFeatures(t),
+      ...(addedFeatures(t).length ? [] : ['Every text, image, colour and link is editable in the Website Builder before you export']),
       'Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind',
     ],
     howToUse: {

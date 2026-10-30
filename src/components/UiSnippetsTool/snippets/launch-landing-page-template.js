@@ -3,7 +3,7 @@
 const launchLandingPageTemplate = {
   id: 'launch-landing-page-template',
   title: 'Startup Launch & Waitlist Template',
-  lastmod: '2026-10-28',
+  lastmod: '2026-10-30',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -11,7 +11,7 @@ const launchLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-announcement" data-uid="smvulbpd2xacw">
+    <section class="st st-navbar-announcement" data-uid="smvutnmiyoqe8">
       <div class="na-bar" data-dismissable>
         <p class="st-wrap na-bar-in"><span>🚀 Launching on Product Hunt, 12 November</span> <a class="na-bar-link" href="#get-started"><span>Get notified</span> <span aria-hidden="true">→</span></a></p>
         <button type="button" class="na-close" data-dismiss aria-label="Dismiss announcement"><span aria-hidden="true">×</span></button>
@@ -40,7 +40,7 @@ const launchLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-centered-gradient-hero" data-uid="smvulbpd2uiyb">
+    <section class="st st-centered-gradient-hero" data-uid="smvutnmiysfrp">
       <div class="cg-glow" aria-hidden="true"></div>
       <div class="cg st-wrap">
         <span class="st-eyebrow cg-eyebrow" data-anim="item">Coming soon</span>
@@ -54,7 +54,7 @@ const launchLandingPageTemplate = {
         <div class="cg-media" data-anim="media"><img width="1200" height="820" src="https://webdevpuneet.com/images/section-templates/hero-dashboard.png" alt="Acme app dashboard"></div>
       </div>
     </section>
-    <section id="features" class="st st-features-bento" data-uid="smvulbpd29uai">
+    <section id="features" class="st st-features-bento" data-uid="smvutnmiyqeru">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">What’s inside</p>
@@ -101,7 +101,64 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvulbpd25ldk">
+    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvutnmiy8m3o">
+      <div class="st-wrap">
+        <header class="st-head">
+          <p class="st-eyebrow" data-anim="item">Roadmap</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Where Lumina is <span class="hl">heading next</span></h2>
+          <p class="st-lead" data-anim="item">We ship in small steps and share the plan. Keep scrolling to follow the roadmap from the beta to launch day.</p>
+        </header>
+        <div class="tlh" data-tlh data-layout="alternate" data-marker="icon" data-start="1" data-mode="pin">
+          <button type="button" class="tlh-nav tlh-prev" data-tlh-prev disabled aria-label="Show earlier events"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+          <div class="tlh-track" data-tlh-track role="region" tabindex="0" aria-label="Company timeline">
+            <ol class="tlh-list">
+              <li class="tlh-item" data-anim="item">
+                <div class="tlh-card">
+                  <p class="tlh-date">Now</p>
+                  <h3 class="tlh-title">Private beta</h3>
+                  <p class="tlh-text">Notes, links and voice memos in one place, with an assistant that reads everything you save.</p>
+                </div>
+                <button type="button" class="tlh-dot" data-tlh-dot aria-label="Private beta"><span class="tlh-num" aria-hidden="true"></span><span class="tlh-ico st-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></svg></span></button>
+              </li>
+              <li class="tlh-item" data-anim="item">
+                <div class="tlh-card">
+                  <p class="tlh-date">Next month</p>
+                  <h3 class="tlh-title">Shared spaces</h3>
+                  <p class="tlh-text">Invite a friend or a team into a notebook and think together in real time.</p>
+                </div>
+                <button type="button" class="tlh-dot" data-tlh-dot aria-label="Shared spaces"><span class="tlh-num" aria-hidden="true"></span><span class="tlh-ico st-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg></span></button>
+              </li>
+              <li class="tlh-item" data-anim="item">
+                <div class="tlh-card">
+                  <p class="tlh-date">Spring</p>
+                  <h3 class="tlh-title">Mobile apps</h3>
+                  <p class="tlh-text">iOS and Android apps with offline notes and quick capture from the lock screen.</p>
+                </div>
+                <button type="button" class="tlh-dot" data-tlh-dot aria-label="Mobile apps"><span class="tlh-num" aria-hidden="true"></span><span class="tlh-ico st-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg></span></button>
+              </li>
+              <li class="tlh-item" data-anim="item">
+                <div class="tlh-card">
+                  <p class="tlh-date">Summer</p>
+                  <h3 class="tlh-title">Public launch</h3>
+                  <p class="tlh-text">Lumina opens to everyone, with a free plan and a Pro plan for heavy users.</p>
+                </div>
+                <button type="button" class="tlh-dot" data-tlh-dot aria-label="Public launch"><span class="tlh-num" aria-hidden="true"></span><span class="tlh-ico st-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" /><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" /><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /></svg></span></button>
+              </li>
+              <li class="tlh-item" data-anim="item">
+                <div class="tlh-card">
+                  <p class="tlh-date">Autumn</p>
+                  <h3 class="tlh-title">Integrations</h3>
+                  <p class="tlh-text">Send notes to Slack, Notion and your calendar without leaving Lumina.</p>
+                </div>
+                <button type="button" class="tlh-dot" data-tlh-dot aria-label="Integrations"><span class="tlh-num" aria-hidden="true"></span><span class="tlh-ico st-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22v-5" /><path d="M9 8V2" /><path d="M15 8V2" /><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z" /></svg></span></button>
+              </li>
+            </ol>
+          </div>
+          <button type="button" class="tlh-nav tlh-next" data-tlh-next aria-label="Show later events"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+        </div>
+      </div>
+    </section>
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvutnmiyxxwm">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -115,7 +172,7 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-newsletter" data-uid="smvulbpd2a3fs">
+    <section class="st st-footer-newsletter" data-uid="smvutnmiyrtbe">
       <footer class="st-wrap fn">
         <div class="fn-top">
           <div class="fn-news" data-anim="item">
@@ -266,6 +323,56 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .fb-media img{width:100%;border-top-left-radius:calc(var(--st-radius) * .8px);border:1px solid color-mix(in srgb,var(--st-text) 12%,transparent);border-right:0;border-bottom:0}
 @container st (max-width:900px){.fb-grid{grid-template-columns:repeat(2,1fr)}.fb-card,.fb-card:nth-child(n){grid-column:span 1;grid-row:auto}.fb-card:nth-child(5n+1){grid-column:1/-1}}
 @container st (max-width:560px){.fb-grid{grid-template-columns:1fr}.fb-card:nth-child(n){grid-column:auto}}
+/* Horizontal Timeline */
+.st-timeline-horizontal{padding:clamp(64px,8cqi,112px) 0}
+.tlh{position:relative;display:flex;align-items:center;gap:8px}
+.tlh-track{flex:1;min-width:0;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;outline:none;border-radius:calc(var(--st-radius) * 1px)}
+.tlh-track::-webkit-scrollbar{display:none}
+.tlh-track.is-dragging{cursor:grabbing;scroll-snap-type:none;user-select:none}
+.tlh-track:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--st-brand) 55%,transparent)}
+.tlh-list{--tl-card-h:158px;--tl-item-w:240px;position:relative;display:flex;width:max-content;min-width:100%;margin:0;padding:0;list-style:none;counter-reset:tl}
+.tlh-list::before{content:"";position:absolute;left:0;right:0;top:calc(var(--tl-card-h) + 22px);height:4px;margin-top:-2px;border-radius:2px;background:color-mix(in srgb,var(--st-text) 14%,transparent)}
+.tlh-list::after{content:"";position:absolute;left:0;top:calc(var(--tl-card-h) + 22px);height:4px;margin-top:-2px;border-radius:2px;width:var(--tl-fill,0px);background:linear-gradient(90deg,color-mix(in srgb,var(--st-brand) 55%,transparent),var(--st-brand));transition:width .7s cubic-bezier(.4,0,.2,1)}
+.tlh-item{counter-increment:tl;position:relative;display:flex;flex:1 0 var(--tl-item-w);flex-direction:column;align-items:center;justify-content:flex-start;min-width:var(--tl-item-w);height:calc(var(--tl-card-h) * 2 + 44px);scroll-snap-align:center}
+.tlh-dot{position:absolute;top:calc(var(--tl-card-h) + 22px);left:50%;z-index:2;display:grid;place-items:center;width:44px;height:44px;margin:-22px 0 0 -22px;padding:0;border:3px solid var(--st-bg);border-radius:50%;background:var(--st-surface);color:var(--st-brand);font:800 15px/1 var(--st-font-heading);box-shadow:0 0 0 2px color-mix(in srgb,var(--st-brand) 45%,transparent);cursor:pointer;transition:background .3s ease,color .3s ease,transform .3s ease,box-shadow .3s ease}
+.tlh-dot:hover{transform:scale(1.1)}
+.tlh-dot:focus-visible{outline:3px solid var(--st-brand);outline-offset:3px}
+.tlh-num::before{content:counter(tl)}
+.tlh-ico{display:none;width:20px;height:20px}
+.tlh-ico svg{width:20px;height:20px}
+.tlh[data-marker=icon] .tlh-num{display:none}
+.tlh[data-marker=icon] .tlh-ico{display:inline-grid}
+.tlh-item.is-active .tlh-dot{background:var(--st-brand);color:var(--st-btn-text);transform:scale(1.18);box-shadow:0 0 0 5px color-mix(in srgb,var(--st-brand) 24%,transparent)}
+.tlh-card{box-sizing:border-box;position:absolute;left:8px;right:8px;bottom:0;display:flex;flex-direction:column;justify-content:flex-start;gap:4px;height:var(--tl-card-h);padding:14px 16px;border-radius:calc(var(--st-radius) * .8px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 8%,transparent);transition:transform .4s ease,box-shadow .4s ease,border-color .4s ease}
+.tlh-card::after{content:"";position:absolute;left:50%;top:-7px;width:12px;height:12px;margin-left:-6px;background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 8%,transparent);border-bottom:0;border-right:0;transform:rotate(45deg);transition:border-color .4s ease}
+@container st (min-width:641px){
+.tlh[data-layout=alternate] .tlh-item:nth-child(odd) .tlh-card,.tlh[data-layout=above] .tlh-card{top:0;bottom:auto}
+.tlh[data-layout=alternate] .tlh-item:nth-child(odd) .tlh-card::after,.tlh[data-layout=above] .tlh-card::after{top:auto;bottom:-7px;border:1px solid color-mix(in srgb,var(--st-text) 8%,transparent);border-top:0;border-left:0}
+.tlh[data-layout=alternate] .tlh-item.is-active:nth-child(odd) .tlh-card::after,.tlh[data-layout=above] .tlh-item.is-active .tlh-card::after{border-color:color-mix(in srgb,var(--st-brand) 50%,transparent)}
+}
+.tlh-item.is-active .tlh-card::after{border-color:color-mix(in srgb,var(--st-brand) 50%,transparent)}
+.tlh-item.is-active .tlh-card{transform:translateY(0);border-color:color-mix(in srgb,var(--st-brand) 50%,transparent);box-shadow:0 18px 40px -18px color-mix(in srgb,var(--st-brand) 55%,transparent)}
+.tlh-date{color:var(--st-brand);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.tlh-title{font-size:17px;letter-spacing:-.01em}
+.tlh-text{color:var(--st-muted);font-size:14px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.tlh-text:empty{display:none}
+.tlh-nav{flex:none;display:grid;place-items:center;width:42px;height:42px;padding:0;border:1px solid color-mix(in srgb,var(--st-text) 14%,transparent);border-radius:50%;background:var(--st-bg);color:var(--st-text);cursor:pointer;box-shadow:0 6px 16px -8px color-mix(in srgb,var(--st-text) 40%,transparent);transition:background .2s ease,color .2s ease,opacity .2s ease}
+.tlh-nav:hover:not(:disabled){background:var(--st-brand);color:var(--st-btn-text);border-color:var(--st-brand)}
+.tlh-nav:focus-visible{outline:3px solid var(--st-brand);outline-offset:2px}
+.tlh-nav:disabled{opacity:.35;cursor:default}
+.is-tl-pinned .tlh-track{overflow:hidden;cursor:default}
+.is-tl-pinned .tlh-nav{display:none}
+.is-tl-pinned .tlh-list{will-change:transform}
+.is-tl-pinned .tlh-list::after{transition:none}
+.tlh.is-fit .tlh-nav{display:none}
+@container st (max-width:640px){
+.tlh-list{--tl-item-w:230px;--tl-card-h:172px}
+.tlh-list::before,.tlh-list::after{top:22px}
+.tlh-item{height:calc(var(--tl-card-h) + 44px)}
+.tlh-dot{top:22px}
+.tlh-nav{width:36px;height:36px}
+}
+@media (prefers-reduced-motion:reduce){.tlh-list::after,.tlh-dot,.tlh-card{transition:none}}
 /* Newsletter Signup CTA */
 .st-cta-newsletter{padding:clamp(56px,7cqi,104px) 0}
 .cn{max-width:760px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:16px;padding:clamp(36px,5cqi,60px) clamp(22px,5cqi,60px);text-align:center;border-radius:calc(var(--st-radius) * 1.4px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 7%,transparent);box-shadow:0 30px 70px -40px color-mix(in srgb,var(--st-brand) 50%,transparent)}
@@ -396,6 +503,132 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   });
 })();
 (function () {
+  var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canPin = !!(G && window.ScrollTrigger && !reduce && !(window.ST_STILL && !window.ST_SCROLL_FX));
+  if (canPin) G.registerPlugin(ScrollTrigger);
+  document.querySelectorAll('.st [data-tlh]').forEach(function (root) {
+    if (root.getAttribute('data-tlh-ready')) return;
+    root.setAttribute('data-tlh-ready', '1');
+    var track = root.querySelector('[data-tlh-track]');
+    var list = root.querySelector('.tlh-list');
+    var prev = root.querySelector('[data-tlh-prev]'), next = root.querySelector('[data-tlh-next]');
+    if (!track || !list) return;
+    var sec = root.closest('.st');
+    var items = Array.prototype.slice.call(list.children).filter(function (c) { return c.classList.contains('tlh-item'); });
+    var active = -1, pinned = false, smooth = reduce ? 'auto' : 'smooth';
+    var mid = function (it) { return it.offsetLeft + it.offsetWidth / 2; };
+    function mark(i) {
+      active = i;
+      items.forEach(function (it, k) {
+        it.classList.toggle('is-active', k === i);
+        var d = it.querySelector('[data-tlh-dot]');
+        if (d) { if (k === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); }
+      });
+    }
+    function centre(i, behavior) {
+      var it = items[i]; if (!it) return;
+      track.scrollTo({ left: Math.max(0, mid(it) - track.clientWidth / 2), behavior: behavior || smooth });
+    }
+    function setActive(i, scroll) {
+      if (!items[i]) return;
+      mark(i);
+      list.style.setProperty('--tl-fill', mid(items[i]) + 'px');
+      if (scroll) centre(i);
+    }
+    function update() {
+      if (pinned) return;
+      var max = track.scrollWidth - track.clientWidth;
+      if (prev) prev.disabled = track.scrollLeft <= 2;
+      if (next) next.disabled = track.scrollLeft >= max - 2;
+      root.classList.toggle('is-fit', max <= 2);
+      if (active > -1) list.style.setProperty('--tl-fill', mid(items[active]) + 'px');
+    }
+    var ticking = false;
+    track.addEventListener('scroll', function () { if (ticking) return; ticking = true; requestAnimationFrame(function () { ticking = false; update(); }); }, { passive: true });
+    if (window.ResizeObserver) new ResizeObserver(update).observe(track); else window.addEventListener('resize', update);
+    var step = function () { var w = items[0] ? items[0].offsetWidth : 240; return Math.max(w, Math.floor(track.clientWidth * 0.8 / w) * w); };
+    if (prev) prev.addEventListener('click', function () { track.scrollBy({ left: -step(), behavior: smooth }); });
+    if (next) next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: smooth }); });
+    var trigger = null;
+    items.forEach(function (it, k) {
+      var d = it.querySelector('[data-tlh-dot]');
+      if (!d) return;
+      d.addEventListener('click', function () {
+        if (root.getAttribute('data-moved')) return;
+        if (pinned && trigger) {
+          var p = items.length > 1 ? k / (items.length - 1) : 0;
+          window.scrollTo({ top: trigger.start + p * (trigger.end - trigger.start), behavior: smooth });
+        } else setActive(k, true);
+      });
+    });
+    track.addEventListener('keydown', function (e) {
+      if (pinned) return;
+      var w = items[0] ? items[0].offsetWidth : 240;
+      if (e.key === 'ArrowRight') { e.preventDefault(); track.scrollBy({ left: w, behavior: smooth }); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); track.scrollBy({ left: -w, behavior: smooth }); }
+      else if (e.key === 'Home') { e.preventDefault(); track.scrollTo({ left: 0, behavior: smooth }); }
+      else if (e.key === 'End') { e.preventDefault(); track.scrollTo({ left: track.scrollWidth, behavior: smooth }); }
+    });
+    var down = false, sx = 0, sl = 0, moved = 0;
+    track.addEventListener('pointerdown', function (e) {
+      if (pinned || e.pointerType !== 'mouse' || e.button !== 0) return;
+      down = true; moved = 0; sx = e.clientX; sl = track.scrollLeft; root.removeAttribute('data-moved');
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - sx; moved = Math.max(moved, Math.abs(dx));
+      if (moved > 5) { track.classList.add('is-dragging'); track.scrollLeft = sl - dx; }
+    });
+    window.addEventListener('pointerup', function () {
+      if (!down) return;
+      down = false; track.classList.remove('is-dragging');
+      if (moved > 5) { root.setAttribute('data-moved', '1'); setTimeout(function () { root.removeAttribute('data-moved'); }, 0); }
+    });
+    var start = parseInt(root.getAttribute('data-start'), 10);
+    setActive(isNaN(start) ? 0 : Math.min(items.length - 1, Math.max(0, start - 1)), false);
+    update();
+
+    if (canPin && root.getAttribute('data-mode') !== 'free' && sec) {
+      G.matchMedia().add('(min-width: 768px)', function () {
+        var dist = function () { return Math.max(0, list.scrollWidth - track.clientWidth); };
+        if (dist() < 24) return;
+        // A sticky header stays on screen, so the section pins just below it instead of under it
+        var head = function () { var h = 0; document.querySelectorAll('.st').forEach(function (n) { if (n !== sec && n.querySelector('[data-sticky-flag]')) h = Math.max(h, n.offsetHeight); }); return h; };
+        pinned = true;
+        sec.classList.add('is-tl-pinned');
+        track.scrollLeft = 0;
+        var first = function () { return mid(items[0]); }, last = function () { return mid(items[items.length - 1]); };
+        var tw = G.timeline({
+          scrollTrigger: {
+            trigger: sec, start: function () { return 'top ' + head(); }, end: function () { return '+=' + Math.round(Math.max(dist() * 1.1, items.length * 170)); },
+            pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true,
+            onUpdate: function (self) {
+              trigger = self;
+              var p = Math.min(1, self.progress / 0.91);
+              var f = first() + (last() - first()) * p;
+              list.style.setProperty('--tl-fill', f + 'px');
+              var idx = 0;
+              for (var k = 0; k < items.length; k++) { if (mid(items[k]) <= f + 2) idx = k; }
+              if (idx !== active) mark(idx);
+            }
+          }
+        });
+        // The row travels for 91% of the scroll, then rests on the last event for the last 9%
+        tw.to(list, { x: function () { return -dist(); }, ease: 'none', duration: 0.91 }).to({}, { duration: 0.09 });
+        trigger = tw.scrollTrigger;
+        return function () {
+          pinned = false; trigger = null;
+          tw.scrollTrigger.kill(); tw.kill();
+          G.set(list, { clearProps: 'transform' });
+          sec.classList.remove('is-tl-pinned');
+          setActive(active > -1 ? active : 0, false);
+          update();
+        };
+      });
+    }
+  });
+})();
+(function () {
   if (!window.gsap) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -431,7 +664,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   seo: {
     "title": "Startup Launch & Waitlist Page Template — Free Snippet",
     "description": "A startup waitlist landing page in HTML, CSS and JS: announcement bar with a launch date, gradient hero, bento feature grid and an email signup form. Edit live.",
-    "subtitle": "Startup Launch & Waitlist template · 5 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Startup Launch & Waitlist template · 6 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "launch",
       "name": "Startup Launch & Waitlist",
@@ -458,6 +691,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "role": "a bento grid of what is coming, which looks intentional even with only a few features"
       },
       {
+        "id": "timeline-horizontal",
+        "name": "Horizontal Timeline",
+        "url": "/website-section-templates/timeline-horizontal/",
+        "role": "a pinned horizontal roadmap that slides along as you scroll, from the beta to launch day"
+      },
+      {
         "id": "cta-newsletter",
         "name": "Newsletter Signup CTA",
         "url": "/website-section-templates/cta-newsletter/",
@@ -475,12 +714,13 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       "description": "A waitlist page has one metric: how many visitors leave an email address. Everything else on the page exists to remove a reason not to. The announcement bar puts the launch date in front of people, so the wait feels finite. The centred gradient hero asks for one thing and nothing else. The bento grid shows what is coming in a layout that is easy to skim and looks intentional even when you only have four ideas to show. And the newsletter form appears twice, once in the main call to action and once in the footer, because some people only decide on the way out.\n\nThe form sends to your email tool, not to this page, so the real work of the snippet is hooking it up: point the form's action at Mailchimp, ConvertKit, Buttondown or any endpoint that accepts a POST. Keep the success message short and tell people what happens next (\"We will email you once, on launch day\").\n\nThis is the layout of the [Startup Launch & Waitlist template](/website-builder/templates/launch/). Open it in the [Website Builder](/website-builder/) to change the colours, rewrite the copy, add the FAQ and About pages from the multi-page version and export the site."
     },
     "features": [
-      "5 ready-made website sections assembled into one finished startup launch & waitlist page: Navbar With Announcement Bar, Centred Gradient Hero, Bento Grid Features, Newsletter Signup CTA, Footer With Newsletter",
+      "6 ready-made website sections assembled into one finished startup launch & waitlist page: Navbar With Announcement Bar, Centred Gradient Hero, Bento Grid Features, Horizontal Timeline, Newsletter Signup CTA, Footer With Newsletter",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 5-page website in the builder, sharing one navbar, footer and theme",
+      "A pinned horizontal timeline (GSAP ScrollTrigger) that slides along as you scroll, with a growing progress line",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
     "howToUse": {
@@ -540,7 +780,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 5 templates in the free Website Section Templates library: Navbar With Announcement Bar, Centred Gradient Hero, Bento Grid Features, Newsletter Signup CTA, Footer With Newsletter. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 6 templates in the free Website Section Templates library: Navbar With Announcement Bar, Centred Gradient Hero, Bento Grid Features, Horizontal Timeline, Newsletter Signup CTA, Footer With Newsletter. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -549,7 +789,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Startup Launch & Waitlist template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete startup launch & waitlist website for “Lumina” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Navbar With Announcement Bar\n2. Centred Gradient Hero: “Your notes, finally thinking with you”\n3. Bento Grid Features: “Built for how you actually think”\n4. Newsletter Signup CTA: “Be first in line for early access”\n5. Footer With Newsletter\n\nLook and feel:\n- Colours as CSS custom properties: brand #e11d48, page background #fff7f9, cards #fde8ee, text #2b0b14, muted text #7d4d5a. Corner radius 14px, content width 1200px.\n- Headings in Space Grotesk, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable software copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Lumina: The Notebook That Thinks With You. Join Early Access”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a software business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- FAQ (faq.html)\n- About (about.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete startup launch & waitlist website for “Lumina” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Navbar With Announcement Bar\n2. Centred Gradient Hero: “Your notes, finally thinking with you”\n3. Bento Grid Features: “Built for how you actually think”\n4. Horizontal Timeline: “Where Lumina is heading next”\n5. Newsletter Signup CTA: “Be first in line for early access”\n6. Footer With Newsletter\n\nLook and feel:\n- Colours as CSS custom properties: brand #e11d48, page background #fff7f9, cards #fde8ee, text #2b0b14, muted text #7d4d5a. Corner radius 14px, content width 1200px.\n- Headings in Space Grotesk, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable software copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Lumina: The Notebook That Thinks With You. Join Early Access”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a software business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- FAQ (faq.html)\n- About (about.html)\n- Privacy (privacy.html)"
     }
   },
 };

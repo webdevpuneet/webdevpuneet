@@ -3,7 +3,7 @@
 const podcastLandingPageTemplate = {
   id: 'podcast-landing-page-template',
   title: 'Podcast Website Template',
-  lastmod: '2026-10-28',
+  lastmod: '2026-10-30',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -11,7 +11,7 @@ const podcastLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvulbpknt8g9">
+    <section class="st st-navbar-simple" data-uid="smvutnmnzr7pa">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" /></svg></span><span>Off the Record</span></span>
@@ -31,7 +31,7 @@ const podcastLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvulbpknb70k">
+    <section class="st st-image-background-hero" data-uid="smvutnmnzc874">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-podcast.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,7 +51,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="blog" class="st st-blog-list" data-uid="smvulbpknl15o">
+    <section id="blog" class="st st-blog-list" data-uid="smvutnmnzu51o">
       <div class="st-wrap">
         <div class="bl-top">
           <header class="st-head st-head--left bl-head">
@@ -91,7 +91,7 @@ const podcastLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvulbpknbvc6">
+    <section id="gallery" class="st st-video-section" data-uid="smvutnmnzrhg9">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Watch</p>
@@ -121,7 +121,7 @@ const podcastLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvulbpkn62zn">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvutnmnzn92x">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Listen anywhere</p>
@@ -156,42 +156,50 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvulbpknhjhb">
+    <section id="team" class="st st-team-accordion" data-uid="smvutnmnz4226">
       <div class="st-wrap">
         <header class="st-head">
-          <p class="st-eyebrow" data-anim="item">Your hosts</p>
-          <h2 class="st-h2" data-anim="item" data-anim-text>The voices <span class="hl">behind the mic</span></h2>
-          <p class="st-lead" data-anim="item">Two friends who have built, broken and rebuilt products for fifteen years.</p>
+          <p class="st-eyebrow" data-anim="item">Who is talking</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>The <span class="hl">voices</span> behind the mic</h2>
+          <p class="st-lead" data-anim="item">Click a face to read a little about each host.</p>
         </header>
-        <ul class="tm2-grid">
-          <li class="tm2-card" data-anim="item">
-            <div class="tm2-photo">
-              <img width="400" height="400" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-1.jpg" alt="Jordan Blake">
-              <div class="tm2-social">
-                <a aria-label="LinkedIn" href="https://www.linkedin.com/"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" /></svg></a>
-                <a aria-label="X (Twitter)" href="https://x.com/"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" /></svg></a>
+        <div class="ta" data-ta data-open="1" data-gray="on">
+          <ul class="ta-strips">
+            <li class="ta-item" data-anim="item">
+              <button type="button" class="ta-trigger" aria-expanded="false" aria-label="Jordan Blake"></button>
+              <div class="ta-info">
+                <div class="ta-inner">
+                  <h3 class="ta-name">Jordan Blake</h3>
+                  <p class="ta-role">Host</p>
+                  <div class="ta-social">
+                    <a href="https://www.linkedin.com/" aria-label="LinkedIn"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" /></svg></span></a>
+                    <a href="https://x.com/" aria-label="X (Twitter)"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" /></svg></span></a>
+                  </div>
+                  <p class="ta-bio">Former startup founder who now asks the questions he wished someone had asked him.</p>
+                </div>
               </div>
-            </div>
-            <h3 class="tm2-name">Jordan Blake</h3>
-            <p class="tm2-role">Host</p>
-            <p class="tm2-bio">Former startup founder who now asks the questions he wished someone had asked him.</p>
-          </li>
-          <li class="tm2-card" data-anim="item">
-            <div class="tm2-photo">
-              <img width="400" height="400" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-4.jpg" alt="Maya Chen">
-              <div class="tm2-social">
-                <a aria-label="LinkedIn" href="https://www.linkedin.com/"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" /></svg></a>
-                <a aria-label="X (Twitter)" href="https://x.com/"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" /></svg></a>
+              <div class="ta-photo"><img width="600" height="800" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-1.jpg" alt="Jordan Blake"></div>
+            </li>
+            <li class="ta-item" data-anim="item">
+              <button type="button" class="ta-trigger" aria-expanded="false" aria-label="Maya Chen"></button>
+              <div class="ta-info">
+                <div class="ta-inner">
+                  <h3 class="ta-name">Maya Chen</h3>
+                  <p class="ta-role">Co-host &amp; producer</p>
+                  <div class="ta-social">
+                    <a href="https://www.linkedin.com/" aria-label="LinkedIn"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" /></svg></span></a>
+                    <a href="https://x.com/" aria-label="X (Twitter)"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" /></svg></span></a>
+                  </div>
+                  <p class="ta-bio">Product designer, editor and the reason every episode sounds this good.</p>
+                </div>
               </div>
-            </div>
-            <h3 class="tm2-name">Maya Chen</h3>
-            <p class="tm2-role">Co-host &amp; producer</p>
-            <p class="tm2-bio">Product designer, editor and the reason every episode sounds this good.</p>
-          </li>
-        </ul>
+              <div class="ta-photo"><img width="600" height="800" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-4.jpg" alt="Maya Chen"></div>
+            </li>
+          </ul>
+        </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-marquee" data-uid="smvulbpkn7y5p">
+    <section id="customers" class="st st-testimonials-marquee" data-uid="smvutnmnzdwvh">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Listener reviews</p>
@@ -274,7 +282,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvulbpkn9htf">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvutnmnzazl5">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -288,7 +296,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvulbpkn14jz">
+    <section class="st st-popup-modal" data-uid="smvutnmnz7hnq">
       <div class="pu" data-pu data-trigger="scroll" data-delay="8" data-scroll="60" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="1cn8zbs">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -314,7 +322,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvulbpknxk2g">
+    <section class="st st-floating-social-share" data-uid="smvutnmnz3m0c">
       <div class="ss" data-ss data-side="right" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="x" data-share="https://x.com/intent/post?url={url}&amp;text={title}&amp;via={via}&amp;hashtags={tags}" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer" style="--c:#111111" aria-label="Share on X (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="ss-tip" aria-hidden="true">X</span></a></li><li class="ss-item"><a class="ss-btn" data-net="whatsapp" data-share="https://wa.me/?text={text}" href="https://wa.me/" target="_blank" rel="noopener noreferrer" style="--c:#128C7E" aria-label="Share on WhatsApp (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5.1A9 9 0 1 1 8.1 19.3z"/><path d="M9 8.5c0 3.300 2.700 6 6 6l1.300-1.500-2.200-1.100-.9.900c-.9-.4-1.700-1.200-2.100-2.100l.9-.9-1.100-2.200z"/></svg><span class="ss-tip" aria-hidden="true">WhatsApp</span></a></li><li class="ss-item"><a class="ss-btn" data-net="reddit" data-share="https://www.reddit.com/submit?url={url}&amp;title={title}" href="https://www.reddit.com/submit" target="_blank" rel="noopener noreferrer" style="--c:#E03D00" aria-label="Share on Reddit (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="14" rx="8" ry="5.500"/><circle cx="4.500" cy="11.200" r="1.600"/><circle cx="19.500" cy="11.200" r="1.600"/><circle cx="9" cy="13.500" r="1" fill="currentColor"/><circle cx="15" cy="13.500" r="1" fill="currentColor"/><path d="M9.500 16.500c1.500 1 3.500 1 5 0"/><path d="M12 8.500 13.200 3l4.300 1"/><circle cx="18.500" cy="4.500" r="1.500"/></svg><span class="ss-tip" aria-hidden="true">Reddit</span></a></li><li class="ss-item"><a class="ss-btn" data-net="email" data-share="mailto:?subject={title}&amp;body={text}" href="mailto:" style="--c:#6B7280" aria-label="Share on Email"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.970 5.700a1.940 1.940 0 0 1-2.060 0L2 7"/></svg><span class="ss-tip" aria-hidden="true">Email</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -323,7 +331,7 @@ const podcastLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvulbpknbqsl">
+    <section class="st st-footer-minimal" data-uid="smvutnmnzryls">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -338,6 +346,15 @@ const podcastLandingPageTemplate = {
         </div>
         <p class="fm-copy">© 2026 Off the Record Podcast</p>
       </footer>
+    </section>
+    <section class="st st-back-to-top" data-uid="smvutnmnzeg9y">
+      <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
+        <div class="btt-demo" aria-hidden="true">
+          <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
+          <span class="btt-note">The button appears here once the page has scrolled</span>
+        </div><!--/btt-demo-->
+        <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </div>
     </section>`,
 
   css: `@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -479,25 +496,44 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .fg-link:hover{text-decoration:underline}
 @container st (max-width:960px){.fg-grid{grid-template-columns:repeat(2,1fr)}}
 @container st (max-width:600px){.fg-grid{grid-template-columns:1fr}}
-/* Team Grid */
-.st-team-grid{padding:clamp(64px,8cqi,112px) 0}
-.tm2-grid{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,2.4cqi,32px)}
-.tm2-card{display:flex;flex-direction:column}
-.tm2-photo{position:relative;overflow:hidden;margin-bottom:16px;border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);aspect-ratio:1}
-.tm2-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-.tm2-card:hover .tm2-photo img{transform:scale(1.05)}
-.tm2-social{position:absolute;left:12px;bottom:12px;display:flex;gap:8px;transform:translateY(calc(100% + 16px));transition:transform .35s cubic-bezier(.2,.8,.2,1)}
-.tm2-card:hover .tm2-social,.tm2-card:focus-within .tm2-social{transform:none}
-@media (hover:none){.tm2-social{transform:none}}
-.tm2-social a{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.92);color:#0f172a;box-shadow:0 6px 16px rgba(0,0,0,.18)}
-.tm2-social a:hover{background:var(--st-brand);color:var(--st-btn-text)}
-.tm2-social svg{width:17px;height:17px}
-.tm2-name{font-size:18px;letter-spacing:-.01em}
-.tm2-role{color:var(--st-brand);font-size:14.5px;font-weight:600;margin-top:2px}
-.tm2-bio{color:var(--st-muted);font-size:15px;margin-top:8px}
-.tm2-bio:empty{display:none}
-@container st (max-width:960px){.tm2-grid{grid-template-columns:repeat(3,1fr)}}
-@container st (max-width:700px){.tm2-grid{grid-template-columns:repeat(2,1fr)}}
+/* Interactive Team Accordion */
+.st-team-accordion{padding:clamp(64px,8cqi,112px) 0;background:radial-gradient(60% 70% at 15% 20%,color-mix(in srgb,var(--st-brand) 14%,transparent),transparent 70%),radial-gradient(50% 60% at 90% 80%,color-mix(in srgb,#ec4899 12%,transparent),transparent 70%),var(--st-bg)}
+.ta-strips{list-style:none;display:flex;gap:clamp(8px,1.2cqi,16px);height:clamp(380px,40cqi,500px);margin:0;padding:clamp(8px,1.2cqi,14px);border-radius:calc(var(--st-radius) * 1.4px);background:color-mix(in srgb,var(--st-surface) 78%,transparent);box-shadow:0 30px 70px -30px color-mix(in srgb,var(--st-text) 35%,transparent),0 0 0 1px color-mix(in srgb,var(--st-text) 6%,transparent)}
+.ta-item{position:relative;display:flex;flex:1 1 0;min-width:0;overflow:hidden;border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);transition:flex-grow .65s cubic-bezier(.4,0,.2,1)}
+.ta-item.is-open,.ta:not([data-ta-ready]) .ta-item:first-child{flex-grow:7}
+.ta-trigger{position:absolute;inset:0;z-index:1;padding:0;border:0;background:transparent;cursor:pointer;border-radius:inherit}
+.ta-item.is-open .ta-trigger{cursor:default}
+.ta-trigger:focus-visible{outline:3px solid var(--st-brand);outline-offset:-4px}
+.ta-info{position:relative;z-index:2;flex:0 1 0;min-width:0;overflow:hidden;visibility:hidden;opacity:0;transition:flex-grow .65s cubic-bezier(.4,0,.2,1),opacity .35s ease,visibility 0s .65s}
+.ta-item.is-open .ta-info,.ta:not([data-ta-ready]) .ta-item:first-child .ta-info{flex-grow:1.15;visibility:visible;opacity:1;transition:flex-grow .65s cubic-bezier(.4,0,.2,1),opacity .45s ease .2s,visibility 0s}
+.ta-inner{box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:10px;width:clamp(260px,26cqi,360px);height:100%;padding:clamp(22px,3cqi,40px)}
+.ta-name{font-size:clamp(22px,2cqi + 8px,30px);letter-spacing:-.02em}
+.ta-role{color:var(--st-brand);font-size:15px;font-weight:600}
+.ta-social{display:flex;gap:8px;margin:4px 0 6px}
+.ta-social a{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:color-mix(in srgb,var(--st-brand) 12%,transparent);color:var(--st-brand);transition:background .2s ease,color .2s ease,transform .2s ease}
+.ta-social a:hover{background:var(--st-brand);color:var(--st-btn-text);transform:translateY(-2px)}
+.ta-social a:focus-visible{outline:3px solid var(--st-brand);outline-offset:2px}
+.ta-social:not(:has(a:not([hidden]))){display:none}
+.ta-social .st-icon{display:inline-grid;place-items:center;width:17px;height:17px}
+.ta-social svg{width:17px;height:17px}
+.ta-bio{color:var(--st-muted);font-size:15.5px;line-height:1.65}
+.ta-bio:empty{display:none}
+.ta-photo{position:relative;flex:1 1 0;min-width:0;background:var(--st-surface)}
+.ta-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%;transition:filter .5s ease,transform .8s ease}
+.ta[data-gray=on] .ta-item:not(.is-open) .ta-photo img{filter:grayscale(1) contrast(1.05)}
+.ta[data-gray=on]:not([data-ta-ready]) .ta-item:not(:first-child) .ta-photo img{filter:grayscale(1) contrast(1.05)}
+.ta-item:not(.is-open):hover .ta-photo img{transform:scale(1.05)}
+@container st (max-width:760px){
+.ta-strips{flex-direction:column;height:clamp(600px,178cqi,830px)}
+.ta-item{flex-direction:column;min-height:56px}
+.ta-info{flex:0 1 0;width:100%}
+.ta-item.is-open .ta-info,.ta:not([data-ta-ready]) .ta-item:first-child .ta-info{flex-grow:2.6}
+.ta-inner{width:100%;gap:6px;padding:16px 20px;justify-content:flex-start;overflow-y:auto}
+.ta-bio{font-size:14.5px;line-height:1.55}
+.ta-photo{flex:1 1 0;min-height:96px}
+.ta-photo img{object-position:center 18%}
+}
+@media (prefers-reduced-motion:reduce){.ta-item,.ta-info,.ta-photo img{transition:none}}
 /* Testimonial Marquee */
 .st-testimonials-marquee{padding:clamp(64px,8cqi,112px) 0}
 .st-stars{color:#f59e0b;font-size:16px;letter-spacing:2px;line-height:1}
@@ -735,6 +771,33 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .fm .st-social:hover{background:color-mix(in srgb,var(--st-brand) 12%,transparent);color:var(--st-brand)}
 .fm-copy{padding-top:20px;color:var(--st-muted);font-size:14px;text-align:center}
 @container st (max-width:760px){.fm-row{flex-direction:column;text-align:center}.fm-links{justify-content:center}.fm .st-socials{justify-content:center}}
+/* Back to Top Button */
+.st-back-to-top{overflow:visible;container-type:normal;height:0;min-height:0;padding:0;background:transparent}
+.st-back-to-top:has(.btt.is-preview){height:auto;padding:clamp(20px,3vw,40px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 6%,var(--st-bg))}
+.btt{--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:.8s;--btt-bg:var(--st-brand);--btt-fg:var(--st-btn-text)}
+.btt-btn{position:fixed;bottom:var(--btt-off);z-index:2147482500;display:grid;place-items:center;width:var(--btt-size);height:var(--btt-size);padding:0;border:0;border-radius:var(--btt-radius);background:var(--btt-bg);color:var(--btt-fg);cursor:pointer;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,transform .3s ease,visibility 0s .3s,box-shadow .2s ease,background .2s ease}
+.btt[data-pos=right] .btt-btn{right:var(--btt-off)}
+.btt[data-pos=left] .btt-btn{left:var(--btt-off)}
+.btt[data-appear=slide] .btt-btn{transform:translateY(28px)}
+.btt[data-appear=zoom] .btt-btn{transform:scale(.5)}
+.btt[data-shadow=on] .btt-btn{box-shadow:0 12px 28px -8px rgba(15,23,42,.45)}
+.btt.is-visible .btt-btn{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .3s ease,transform .3s ease,visibility 0s,box-shadow .2s ease,background .2s ease}
+.btt.is-visible .btt-btn:hover{transform:translateY(-3px)}
+.btt.is-visible .btt-btn:active{transform:translateY(0) scale(.96)}
+.btt-btn:focus-visible{outline:3px solid color-mix(in srgb,var(--btt-bg) 55%,#fff);outline-offset:3px}
+.btt-svg{width:calc(var(--btt-size) * .46);height:calc(var(--btt-size) * .46)}
+@media (max-width:899px){.btt[data-mobile=off] .btt-btn{display:none}}
+.btt[data-enabled=off] .btt-btn{display:none}
+.btt-demo{display:none}
+.btt.is-preview .btt-demo{position:relative;display:flex;flex-direction:column;gap:14px;min-height:320px;padding:34px 30px;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-bg);box-shadow:0 20px 50px -24px color-mix(in srgb,var(--st-text) 40%,transparent)}
+.btt-bar{display:block;height:14px;width:100%;border-radius:7px;background:color-mix(in srgb,var(--st-text) 12%,transparent)}
+.btt-bar--lg{height:22px;width:62%;background:color-mix(in srgb,var(--st-text) 22%,transparent)}
+.btt-bar--md{width:84%}.btt-bar--sm{width:46%}
+.btt-note{margin-top:auto;font-size:13px;color:var(--st-muted)}
+.btt.is-preview .btt-btn{position:absolute;right:calc(var(--st-pad) + 18px);bottom:calc(clamp(20px,3vw,40px) + 18px);opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.btt.is-preview[data-pos=left] .btt-btn{right:auto;left:calc(var(--st-pad) + 18px)}
+@media (prefers-reduced-motion:reduce){.btt-btn{transition:none}}
+@media print{.btt{display:none}}
 `,
 
   js: `(function () {
@@ -884,6 +947,41 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       if (el.focus) el.focus();
     }
     btn.addEventListener('click', start);
+  });
+})();
+(function () {
+  document.querySelectorAll('.st [data-ta]').forEach(function (root) {
+    if (root.getAttribute('data-ta-ready')) return;
+    root.setAttribute('data-ta-ready', '1');
+    var items = Array.prototype.slice.call(root.querySelectorAll('.ta-item'));
+    if (!items.length) return;
+    function open(i) {
+      items.forEach(function (it, k) {
+        var on = k === i;
+        it.classList.toggle('is-open', on);
+        var b = it.querySelector('.ta-trigger');
+        if (b) b.setAttribute('aria-expanded', on ? 'true' : 'false');
+      });
+    }
+    var start = parseInt(root.getAttribute('data-open'), 10);
+    open(isNaN(start) ? 0 : Math.min(items.length - 1, Math.max(0, start - 1)));
+    items.forEach(function (it, k) {
+      var b = it.querySelector('.ta-trigger');
+      if (!b) return;
+      b.addEventListener('click', function () { open(k); });
+      b.addEventListener('keydown', function (e) {
+        var to = -1;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') to = (k + 1) % items.length;
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') to = (k - 1 + items.length) % items.length;
+        else if (e.key === 'Home') to = 0;
+        else if (e.key === 'End') to = items.length - 1;
+        if (to < 0) return;
+        e.preventDefault();
+        var nb = items[to].querySelector('.ta-trigger');
+        if (nb) nb.focus();
+        open(to);
+      });
+    });
   });
 })();
 (function () {
@@ -1145,6 +1243,44 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   });
 })();
 (function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st [data-btt]').forEach(function (root) {
+    if (root.getAttribute('data-btt-ready')) return;
+    root.setAttribute('data-btt-ready', '1');
+    var btn = root.querySelector('.btt-btn');
+    var demo = root.querySelector('.btt-demo');
+    if (!btn || root.getAttribute('data-enabled') === 'off') { if (demo && !inline) demo.parentNode.removeChild(demo); return; }
+    if (!inline && demo) demo.parentNode.removeChild(demo);
+    if (inline) {
+      root.classList.add('is-preview', 'is-visible');
+      btn.addEventListener('click', function (e) { e.preventDefault(); });
+      return;
+    }
+    var dist = parseFloat(root.getAttribute('data-distance')) || 0;
+    var secs = parseFloat(root.getAttribute('data-speed'));
+    if (isNaN(secs)) secs = 0.8;
+    var ticking = false;
+    function check() { ticking = false; root.classList.toggle('is-visible', (window.pageYOffset || document.documentElement.scrollTop) > dist); }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+    var stopped = false;
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, function () { stopped = true; }, { passive: true }); });
+    btn.addEventListener('click', function () {
+      var from = window.pageYOffset || document.documentElement.scrollTop;
+      if (reduce || secs <= 0 || from < 2) { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); return; }
+      stopped = false;
+      var t0 = performance.now(), dur = secs * 1000;
+      (function step(t) {
+        var p = Math.min(1, (t - t0) / dur);
+        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        window.scrollTo({ top: from * (1 - e), left: 0, behavior: 'instant' });
+        if (p < 1 && !stopped) requestAnimationFrame(step);
+      })(t0);
+    });
+  });
+})();
+(function () {
   if (!window.gsap) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -1180,7 +1316,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   seo: {
     "title": "Podcast Website HTML Template — Free CSS & JS Snippet",
     "description": "A podcast website in HTML, CSS and JS: studio-lit hero with latest episode, episode list with show notes, listen links, hosts, reviews and newsletter signup.",
-    "subtitle": "Podcast Website template · 11 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Podcast Website template · 12 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "podcast",
       "name": "Podcast Website",
@@ -1219,10 +1355,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "role": "every app and platform your show is on, so each listener uses their favourite"
       },
       {
-        "id": "team-grid",
-        "name": "Team Grid",
-        "url": "/website-section-templates/team-grid/",
-        "role": "the hosts with photos and short bios, the voices listeners feel they know"
+        "id": "team-accordion",
+        "name": "Interactive Team Accordion",
+        "url": "/website-section-templates/team-accordion/",
+        "role": "an interactive team accordion where each host is a grayscale strip that opens on click"
       },
       {
         "id": "testimonials-marquee",
@@ -1253,6 +1389,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "name": "Minimal Footer",
         "url": "/website-section-templates/footer-minimal/",
         "role": "a minimal footer with sponsorship contact and legal links"
+      },
+      {
+        "id": "back-to-top",
+        "name": "Back to Top Button",
+        "url": "/website-section-templates/back-to-top/",
+        "role": "a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return"
       }
     ],
     "about": {
@@ -1260,12 +1402,14 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       "description": "A podcast site has to do what podcast apps cannot: rank in search, introduce the show to a newcomer and collect an audience you own. The hero puts the latest episode and listen links first, since most visitors arrive to play something. The episode list with show notes gives search engines real text to index, which is why podcasts with written notes outrank those without.\n\nA video section hosts the trailer or best clip, and an icon grid lists every app and platform so listeners can use their favourite. The hosts appear with photos and short bios, the reviews marquee shows what listeners say, and a newsletter signup builds a list of subscribers that does not depend on any platform. A share bar makes it easy to pass episodes along.\n\nReplace the cover art and episode list with yours. It is the layout of the [Podcast Website template](/website-builder/templates/podcast/), which also comes as a multi-page site with Episodes and About pages; open it in the [Website Builder](/website-builder/) to edit and export."
     },
     "features": [
-      "11 ready-made website sections assembled into one finished podcast website page: Simple Sticky Navbar, Image Background Hero, Editorial Post List, Video Section with Poster, Icon Grid Features, Team Grid, Testimonial Marquee, Newsletter Signup CTA, Popup & Promo Modal, Floating Social Share Bar, Minimal Footer",
+      "12 ready-made website sections assembled into one finished podcast website page: Simple Sticky Navbar, Image Background Hero, Editorial Post List, Video Section with Poster, Icon Grid Features, Interactive Team Accordion, Testimonial Marquee, Newsletter Signup CTA, Popup & Promo Modal, Floating Social Share Bar, Minimal Footer, Back to Top Button",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 6-page website in the builder, sharing one navbar, footer and theme",
+      "An interactive team accordion of grayscale image strips that expand on click",
+      "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
     "howToUse": {
@@ -1325,7 +1469,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 11 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Editorial Post List, Video Section with Poster, Icon Grid Features, Team Grid, Testimonial Marquee, Newsletter Signup CTA, Popup & Promo Modal, Floating Social Share Bar, Minimal Footer. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 12 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Editorial Post List, Video Section with Poster, Icon Grid Features, Interactive Team Accordion, Testimonial Marquee, Newsletter Signup CTA, Popup & Promo Modal, Floating Social Share Bar, Minimal Footer, Back to Top Button. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1334,7 +1478,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Podcast Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete podcast website for “Off the Record” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Honest talks with people who build things”\n3. Editorial Post List: “Fresh from the studio”\n4. Video Section with Poster: “See the show”\n5. Icon Grid Features: “Find us on your favourite app”\n6. Team Grid: “The voices behind the mic”\n7. Testimonial Marquee: “What listeners say”\n8. Newsletter Signup CTA: “Never miss an episode”\n9. Popup & Promo Modal\n10. Floating Social Share Bar\n11. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #f97316, page background #0f0a1a, cards #1c1430, text #f5f3ff, muted text #b4aac8. Corner radius 16px, content width 1200px.\n- Headings in Space Grotesk, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable creative copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Off the Record: A Weekly Podcast About Building Products”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a creative business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Episodes (episodes.html)\n- About (about.html)\n- Show notes (show-notes.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete podcast website for “Off the Record” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Honest talks with people who build things”\n3. Editorial Post List: “Fresh from the studio”\n4. Video Section with Poster: “See the show”\n5. Icon Grid Features: “Find us on your favourite app”\n6. Interactive Team Accordion: “The voices behind the mic”\n7. Testimonial Marquee: “What listeners say”\n8. Newsletter Signup CTA: “Never miss an episode”\n9. Popup & Promo Modal\n10. Floating Social Share Bar\n11. Minimal Footer\n12. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #f97316, page background #0f0a1a, cards #1c1430, text #f5f3ff, muted text #b4aac8. Corner radius 16px, content width 1200px.\n- Headings in Space Grotesk, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable creative copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Off the Record: A Weekly Podcast About Building Products”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a creative business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Episodes (episodes.html)\n- About (about.html)\n- Show notes (show-notes.html)\n- Privacy (privacy.html)"
     }
   },
 };

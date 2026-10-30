@@ -761,4 +761,349 @@ A toolbar like this helps visitors adjust how a page looks, but it does not make
 - Respect prefers-reduced-motion and hide the widget when printing.`,
     },
   },
+  'team-accordion': {
+    keywords: ['team accordion html css', 'expanding image strips', 'interactive team section', 'grayscale image hover team', 'flex-grow accordion cards'],
+    about: {
+      title: 'Interactive Team Accordion: Free Expanding Image Strips Team Section',
+      description: `**Interactive Team Accordion** introduces your people as a row of tall, narrow image strips. Every photo starts in grayscale. Click a strip and it grows smoothly to reveal the person's name, job title, social icons and bio on the left, with their full-colour photo on the right, while the other strips stay slim. It is plain HTML, CSS and a few lines of JavaScript, and it takes a minute to fill in.
+
+**How the expanding strips work**
+
+Each strip is a flex item. A closed strip has \`flex-grow: 1\` and the open one has \`flex-grow: 7\`, and a CSS transition on \`flex-grow\` makes the width change glide instead of jump. Inside the strip, the text area and the photo are two more flex items: the text area grows from zero width to about half of the strip, so the content seems to slide out of the image. The text keeps a fixed inner width, so its lines do not reflow while the strip is animating.
+
+**Grayscale until opened**
+
+Closed strips use \`filter: grayscale(1)\`, and the open strip returns to full colour, so the eye goes to the person you have chosen. Switch the grayscale off in the editor if you prefer colour everywhere. Photos are cropped to fill the strip with \`object-fit: cover\`, aimed slightly above the centre so faces stay in view.
+
+**The click, the keyboard and the fallback**
+
+A small vanilla JavaScript behaviour opens the strip you click and closes the others, and exactly one strip is always open. Each strip has a real button with \`aria-expanded\`, and the arrow keys, Home and End move between strips. Closed strips hide their text from keyboard and screen-reader users. Without JavaScript the first strip is shown open, so the content never disappears, and reduced-motion preferences switch the animation off.
+
+**Stacks on phones**
+
+When the section is narrower than 760 pixels the strips stack vertically. The open strip grows downwards, with the text above the photo, and the closed strips become short bars you can tap to open.
+
+**Edit the members**
+
+Members are a repeater list: add, remove and reorder up to eight people, each with a photo, name, job title, bio and up to three social icons. Pick any icon from the library for each slot (LinkedIn, X, Instagram, Facebook, YouTube, GitHub, email, website and more) and give it a link. Choose which strip is open at the start, change the heading, set colours and fonts, and export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). For a simpler layout, see the [Team Grid](/website-section-templates/team-grid/), or for a draggable row see the [Team Carousel](/website-section-templates/team-carousel/).`,
+    },
+    features: [
+      'Tall image strips that expand on click with a smooth CSS flex-grow transition',
+      'Photos start in grayscale and return to full colour when a strip opens, with a switch to turn the grayscale off',
+      'Opened strip reveals name, job title, social icons and bio on the left, photo on the right',
+      'Repeater list for two to eight members, each with three social slots: choose any icon and link, and empty slots stay hidden',
+      'Choose which strip is open when the page loads',
+      'Exactly one strip is always open, so the section never looks empty',
+      'Vanilla JavaScript only, with arrow keys, Home and End to move between strips',
+      'Real buttons with aria-expanded, and hidden text for closed strips',
+      'Stacks vertically on phones, with the open strip growing downwards',
+      'First strip shown open without JavaScript, and reduced motion respected',
+    ],
+    why: [
+      { icon: '🎞', title: 'Memorable, not busy', desc: 'Grayscale strips keep the page calm until a visitor chooses someone, so the team section feels like a small interaction instead of a wall of cards.' },
+      { icon: '⚡', title: 'Light and fast', desc: 'The animation is a CSS transition and the script is a few lines, so there is no slider library, no layout measuring and nothing to load.' },
+      { icon: '📱', title: 'Works on every screen', desc: 'The strips become a vertical stack on phones and stay reachable with touch and keyboard, with each name available to screen readers.' },
+    ],
+    useCases: [
+      { icon: '🎨', title: 'Agency and studio about pages', desc: 'Introduce designers, developers and strategists with a bold, interactive row that shows personality before a visitor reads a single bio.' },
+      { icon: '🏥', title: 'Clinics and professional practices', desc: 'Let patients and clients meet each practitioner in turn, with a photo, a short bio and the profile links they might want to follow.' },
+      { icon: '🎓', title: 'Schools, courses and mentors', desc: 'Present teachers, coaches or mentors in a compact row, and let students open the one whose subject or story interests them.' },
+      { icon: '🚀', title: 'Startups and founder pages', desc: 'Show founders and early hires on a landing page without long cards, and open the founder first to put the most important face forward.' },
+    ],
+    faqs: [
+      { q: 'How does the strips expand animation work?', a: 'Each strip is a flex item. The open one has a larger flex-grow value, and a CSS transition on flex-grow animates the change. The text area grows inside the strip while the photo stays in place.' },
+      { q: 'Can I show colour photos instead of grayscale?', a: 'Yes. Switch off the "Grayscale until opened" option in the editor and every strip stays in full colour, while the opened strip still grows and reveals its content.' },
+      { q: 'How many team members can I add?', a: 'From two to eight members. On wide screens more than eight strips become too narrow to recognise, so for larger teams use the Team Grid or show only the leadership team.' },
+      { q: 'Is the team accordion accessible?', a: 'Yes. Every strip has a real button with aria-expanded and the member name as its label, arrow keys move between strips, and hidden text is not reachable while a strip is closed. Reduced motion is respected.' },
+      { q: 'How does the team accordion look on a phone?', a: 'The strips stack vertically. The open strip grows downwards and shows the text above the photo, and the closed strips are short bars you tap to open.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Team Accordion HTML, CSS and JavaScript: open a strip on hover, add a "show more" link to full profiles, auto-open the next strip every few seconds, or turn it into a React component.',
+      prompt: `Create an interactive team accordion in plain HTML, CSS and vanilla JavaScript.
+
+- A row of tall, narrow image strips (about 460px high) with rounded corners, inside a soft rounded container. Each strip is a flex item that contains a text area and a photo.
+- Closed strips have flex-grow 1 and show only the photo with filter: grayscale(1). The open strip has flex-grow 7, the photo in full colour on the right, and the text area on the left with a name, job title, social icon links and a bio.
+- Animate with CSS only: transition flex-grow 0.65s on the strips and on the text area (which grows from zero width), plus an opacity fade for the text. Keep a fixed inner width on the text so lines do not reflow during the animation.
+- Each strip has a button with aria-expanded and the member name as aria-label. Clicking it opens that strip and closes the others, and exactly one strip is always open. Arrow keys, Home and End move focus between strips. Hide the text of closed strips from keyboard and screen readers with visibility: hidden.
+- Under 760px wide, stack the strips vertically so the open strip grows downwards with the text above the photo.
+- Show the first strip open without JavaScript, and turn off transitions for prefers-reduced-motion.
+- Include five sample team members with illustrated portraits.`,
+    },
+  },
+  'scroll-zoom': {
+    keywords: ['ken burns scroll effect', 'scroll zoom image gsap', 'hero image zoom on scroll', 'scrolltrigger image zoom', 'parallax zoom hero html'],
+    about: {
+      title: 'Ken Burns Scroll Zoom: Free GSAP Hero and Featured Image Template',
+      description: `**Scroll Zoom Images** adds a Ken Burns-style zoom to your hero image and featured images. As a visitor scrolls past, each image slowly grows (or shrinks) in its frame, which makes photography feel alive without video or heavy animation. It uses GSAP ScrollTrigger with a scrubbed tween, so the zoom follows the scroll position exactly and reverses when the visitor scrolls back.
+
+**Settings you control**
+
+Set the **zoom intensity** from 5 to 100 percent, where 30 means the image reaches 130 percent of its size. Choose the **direction**: zoom in while scrolling down, or start zoomed and zoom out. Choose **which images are affected**: the hero image only, the featured images only, or both. Add a **slow sideways drift** for a more cinematic, camera-pan feel. All of it is edited in the panel and written into data attributes on the section.
+
+**Scroll range and smoothness**
+
+The effect starts when an image's top edge reaches a point on the screen you choose, and ends when its bottom edge reaches another. The defaults (start at 100 percent, end at 0 percent) run from the moment an image enters until it has fully left, and a shorter range gives a faster zoom. A hero that is already on screen when the page loads starts at the top of the page, so it never begins half zoomed. A smoothness value in seconds lets the zoom ease into place instead of jumping with every wheel tick.
+
+**How it stays sharp and fast**
+
+Each image sits in a frame with overflow hidden, and only the image is scaled with a transform, so the layout never moves and the browser can animate it on the graphics card. Images are cropped with object-fit cover and can be any size from a wide landscape to a portrait card. Without GSAP, with reduced motion turned on, or in a static preview, the images simply stay at their normal size, so nothing is lost.
+
+**Choosing images that zoom well**
+
+Pick photos with room around the subject, because a zoom crops the edges as it grows. Wide landscapes suit the hero, and portrait or four-by-five crops suit the featured cards. Keep intensity between 15 and 35 percent for a subtle, expensive feel, and use higher values only for short, dramatic ranges. Large images should still be compressed, because the zoom does not make them lighter.
+
+**Customise and export**
+
+Edit the headline, text and button, upload your own hero and featured images, set colours and fonts, and export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). For a pinned storytelling layout see the [Pinned Scroll Story](/website-section-templates/scroll-story/), or for a sideways gallery see the [Horizontal Scroll Gallery](/website-section-templates/scroll-gallery/).`,
+    },
+    features: [
+      'Ken Burns zoom on the hero image and featured images, driven by GSAP ScrollTrigger',
+      'Zoom intensity from 5 to 100 percent',
+      'Zoom in or zoom out while scrolling down',
+      'Choose hero only, featured images only or both',
+      'Set where in the screen the effect starts and ends',
+      'Smoothness control so the zoom eases instead of jumping',
+      'Optional slow sideways drift for a camera-pan feel',
+      'Transform-only animation inside overflow-hidden frames, so the layout never shifts',
+      'Hero starts at normal size when it is already on screen at the top of the page',
+      'Static fallback for no GSAP, reduced motion and previews',
+    ],
+    why: [
+      { icon: '🎞', title: 'Motion without video', desc: 'A slow zoom gives photography life and depth without large video files, autoplay rules or bandwidth costs for your visitors.' },
+      { icon: '🎚', title: 'Every setting is exposed', desc: 'Intensity, direction, affected images, range and smoothness are plain fields in the editor, so you can tune the feel without touching code.' },
+      { icon: '⚙', title: 'Built on GSAP', desc: 'ScrollTrigger scrubs the zoom to the scroll position, reverses it on the way back and refreshes on resize, with no extra library.' },
+    ],
+    useCases: [
+      { icon: '📷', title: 'Photography and travel websites', desc: 'Let landscapes and portraits drift towards the visitor as they scroll, so a gallery page feels like a slow, guided tour of each place.' },
+      { icon: '🏨', title: 'Hotels, restaurants and venues', desc: 'Give the hero and room or dish photos a gentle zoom that draws the eye, and keep a calm, premium feel across the whole page.' },
+      { icon: '🏡', title: 'Real estate and property pages', desc: 'Zoom slowly into a living room or garden as people scroll through the listing, so each photo holds attention a little longer.' },
+      { icon: '🚀', title: 'Product launches and landing pages', desc: 'Add depth to a large hero screenshot or lifestyle photo without a heavy animation, and set a fast range for a punchier effect.' },
+    ],
+    faqs: [
+      { q: 'How does the Ken Burns scroll zoom work?', a: 'GSAP ScrollTrigger scrubs a scale tween on each image while it passes through the screen. The image sits in a frame with overflow hidden, so it zooms inside its box and the layout does not move.' },
+      { q: 'Can the images zoom out instead of in?', a: 'Yes. Set the direction to zoom out and the image starts enlarged, then settles to its normal size as the visitor scrolls down. The intensity setting controls how large it starts.' },
+      { q: 'Can I apply the effect to only the hero image?', a: 'Yes. The Images affected setting lets you choose the hero only, the featured images only, or both. Images that are not chosen stay at their normal size.' },
+      { q: 'What does the scroll range setting do?', a: 'It sets where on the screen the effect starts and ends. Starting at 100 percent and ending at 0 percent covers the whole pass; a shorter range, like 80 to 20, makes a faster zoom in the middle of the screen.' },
+      { q: 'Does it work for visitors who prefer reduced motion?', a: 'Yes. When reduced motion is on, or if GSAP does not load, the images stay at their normal size and nothing is hidden, so the page reads the same without the effect.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Scroll Zoom HTML, CSS and JavaScript: zoom towards a focal point, add a pan direction, pin the hero while it zooms, or turn it into a React component with a ScrollTrigger cleanup.',
+      prompt: `Create a Ken Burns scroll zoom with plain HTML, CSS and GSAP ScrollTrigger.
+
+- A full-width hero with a background image inside a frame that has overflow hidden, plus a row of three featured image cards, each with its own overflow-hidden frame. Images use object-fit cover.
+- With JavaScript, create one scrubbed gsap.fromTo tween per image that animates scale between 1 and 1.3 (a data-zoom setting) and a small xPercent drift tied to the scale, with ease none.
+- ScrollTrigger uses the image frame as the trigger. The start and end are functions: the start is the frame's top minus a share of the viewport height (data-start, default 100 percent), never below 0 so a hero at the top starts at scroll position 0, and the end is the frame's bottom minus a share of the viewport height (data-end, default 0). Use invalidateOnRefresh and scrub with a number of seconds for smoothness.
+- Settings as data attributes: zoom intensity, direction (in or out), which images (hero, featured or both), range and smoothness.
+- Do nothing when GSAP is missing or the visitor prefers reduced motion, and refresh ScrollTrigger on window load.`,
+    },
+  },
+
+  'cursor-follower': {
+    keywords: ['cursor follower css', 'mix blend mode cursor', 'inverting cursor effect', 'custom cursor circle javascript', 'difference blend mode cursor'],
+    about: {
+      title: 'Cursor Follower: Free Circle Cursor That Inverts the Page With Blend Modes',
+      description: `**Cursor Follower** puts a circle on the page that trails the mouse and inverts or recolours whatever text and images are underneath it. It is made with a single fixed element and the CSS property mix-blend-mode, so the effect works over the whole page: text, photos, gradients and buttons. It is plain HTML, CSS and a short vanilla JavaScript file, with no library.
+
+**The blend mode effect**
+
+With the **Difference** blend mode and a white circle, every colour under it flips to its opposite, so black text turns white and a blue photo turns orange. **Exclusion** gives a softer version, **Multiply** darkens, **Screen** lightens, and Overlay, Soft light, Hard light and Color dodge each bring their own look. Change the circle colour to tint the result, or choose Normal for a plain coloured circle.
+
+**Size, border and fill**
+
+Set the diameter from 20 to 240 pixels, with around 50 to 100 working best. Add an optional border with a thickness and a style (solid, dashed, dotted or double), and switch the fill off to get a ring that only outlines what it covers. A ring with no border automatically gets a thin one, so it never disappears.
+
+**Smooth and light on the browser**
+
+The circle eases towards the pointer inside a requestAnimationFrame loop, and the loop stops as soon as it has caught up. Four smoothness levels run from instant to floaty. Only the transform property is animated, which the browser can do on the graphics card, so scrolling and typing stay smooth. On phones and tablets without a mouse the circle is not created at all.
+
+**Works across the entire page**
+
+On a real page the circle is moved to the end of the body and drawn with position fixed, so page layout, overflow and stacking never affect it, and it blends with everything. It can grow over links and buttons, and you can hide the normal cursor if you want the circle to replace it. People who prefer reduced motion get a circle that sticks to the pointer without easing.
+
+**Customise and export**
+
+An editor demo shows the effect over large text and a gradient before you export. Turn the effect off with one switch, then export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). Pair it with a bold [Pinned Scroll Story](/website-section-templates/scroll-story/) or an [Interactive Team Accordion](/website-section-templates/team-accordion/) for a playful portfolio.`,
+    },
+    features: [
+      'Circle that follows the mouse across the whole page, drawn with position fixed',
+      'Inverts or recolours content underneath with mix-blend-mode',
+      'Nine blend modes: difference, exclusion, multiply, screen, overlay, soft light, hard light, color dodge and normal',
+      'Circle size from 20 to 240 pixels and any hex colour',
+      'Optional border with thickness and a solid, dashed, dotted or double style',
+      'Filled circle or ring-only look',
+      'Four smoothness levels from instant to floaty',
+      'Grows over links and buttons, with an option to hide the normal cursor',
+      'Transform-only animation in a loop that stops when idle, and no circle on touch screens',
+      'One switch to turn the effect off, and a live demo in the editor',
+    ],
+    why: [
+      { icon: '🎨', title: 'Striking with almost no code', desc: 'One element and one CSS property invert text and photos across the page, so a plain site gets a memorable hover effect in minutes.' },
+      { icon: '⚡', title: 'Easy on the browser', desc: 'It animates transforms only, stops its loop when idle and is not created on touch screens, so scrolling and typing stay smooth.' },
+      { icon: '🎛', title: 'Tune every detail', desc: 'Size, colour, blend mode, border, fill and smoothness are fields in the editor, so you can match your brand and design without editing code.' },
+    ],
+    useCases: [
+      { icon: '🎨', title: 'Portfolio and agency websites', desc: 'Make large headlines and project images react to the pointer, so a studio site feels bold and playful before anyone reads a word.' },
+      { icon: '📷', title: 'Photography and art sites', desc: 'Let visitors uncover inverted or tinted views of a photograph as they move, turning a simple gallery into something worth exploring.' },
+      { icon: '🎵', title: 'Music, events and festivals', desc: 'Pair a high-contrast circle with big type and gradients on a lineup or tour page for a loud, energetic feel that suits the brand.' },
+      { icon: '🔤', title: 'Typography-led landing pages', desc: 'Show off a headline or poster-style layout where inverted letters under the circle highlight the type and guide attention.' },
+    ],
+    faqs: [
+      { q: 'How does the cursor follower invert colours?', a: 'The circle is a fixed element with the CSS property mix-blend-mode set to difference. The browser blends it with the pixels underneath, so a white circle flips each colour to its opposite.' },
+      { q: 'Will it slow down my website?', a: 'No. Only the transform property is animated, the loop stops when the circle has caught up with the pointer, and nothing is measured on scroll. On touch screens no circle is created.' },
+      { q: 'Can I change the blend mode and colour?', a: 'Yes. Choose from nine blend modes, including difference, exclusion, multiply and screen, and set any hex colour. Different combinations invert, darken, lighten or tint what is under the circle.' },
+      { q: 'Does it work on the whole page?', a: 'Yes. On a real page the circle is moved to the body and drawn with position fixed, so it follows the pointer over every section, and it blends with text, images and backgrounds.' },
+      { q: 'Is a custom cursor bad for accessibility?', a: 'It can be if it hides the normal cursor or distracts. The default keeps the normal cursor, the circle ignores pointer events, and reduced motion removes the easing. Keep important actions obvious and test with real users.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Cursor Follower HTML, CSS and JavaScript: add a text label inside the circle, change its size on click, use GSAP quickTo for the movement, or turn it into a React hook.',
+      prompt: `Create a circular cursor follower in plain HTML, CSS and vanilla JavaScript.
+
+- A single div (80px by default) that is position fixed, border-radius 50 percent, pointer-events none, with a very high z-index and mix-blend-mode set to difference, with a white background so it inverts the page under it.
+- Follow the mouse across the whole page: on mousemove store the pointer position, and in a requestAnimationFrame loop move the circle towards it with linear interpolation (a smoothness factor between 0.05 and 1). Move it with transform translate3d only and stop the loop when it has caught up.
+- Settings as data attributes: size, colour, blend mode (difference, exclusion, multiply, screen and others), border width and style, filled or ring-only, smoothness.
+- Scale the circle up to 1.6 over links, buttons and inputs. Optionally hide the normal cursor.
+- Fade it in on the first move and out when the pointer leaves the window. Do not create it on touch screens (hover: none), and use no smoothing for prefers-reduced-motion.`,
+    },
+  },
+
+  'timeline-horizontal': {
+    keywords: ['horizontal timeline html css', 'scrollable timeline template', 'company history timeline section', 'milestones timeline with navigation', 'responsive horizontal timeline'],
+    about: {
+      title: 'Horizontal Timeline: Free Scrollable Timeline Section With Numbered or Icon Markers',
+      description: `**Horizontal Timeline** lays your events out from left to right along one continuous line, which makes a story of dates and milestones easy to scan. Every event has a round marker on the line, either a number or an icon, with its date, title and text above or below it. When there are more events than fit on the screen, the row scrolls sideways, with arrow buttons, swipe, mouse drag and the keyboard.
+
+**Markers, line and content**
+
+Choose whether the markers show the **event number** (counted automatically, so reordering events renumbers them) or an **icon** you pick for each event. The content can **alternate above and below** the line, which fits more events into the width, or sit always below or always above. On phones everything moves below the line so cards never overlap.
+
+**Pinned scroll mode**
+
+By default the section **pins to the screen** and scrolling the page slides the timeline to the right. A GSAP ScrollTrigger scrubs the movement, so it follows the scroll exactly and reverses when you scroll back. The progress line grows along the timeline and each event becomes active as the line reaches it. The row rests on the last event before the page carries on, and clicking a marker scrolls the page to that event. Phones, reduced-motion visitors and pages without GSAP get the swipe and arrows version below, and you can choose it on purpose with the Free scroll mode.
+
+**Navigation for overflow**
+
+Previous and next buttons scroll the row by most of a screen and disable themselves at each end. They are hidden when every event already fits. The row also scrolls with a swipe on touch screens, a click-and-drag with the mouse and the arrow, Home and End keys, and it snaps to events so nothing stops half in view.
+
+**Active event and smooth animation**
+
+Click a marker and that event becomes active: its marker fills and grows, its card lifts and gets a brand-coloured border, the row glides to centre it and the progress line animates along to it. You choose which event is active when the page loads. Entrance animations come from the template's GSAP motion presets, and reduced-motion settings switch the transitions off.
+
+**Responsive and accessible**
+
+The timeline responds to the width of its own container, so it works in a narrow column or a full-width section. The scrolling row is a labelled, focusable region, each marker is a real button named after its event, and the active marker is marked with aria-current.
+
+**Edit and export**
+
+The events are a repeater list of two to twelve items, each with a date, title, text and icon. Change the heading, colours and fonts, then export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). For a vertical, path-style story see the [Scroll Path Timeline](/website-section-templates/scroll-path/), or for numbered steps see the [How It Works Steps](/website-section-templates/features-steps/).`,
+    },
+    features: [
+      'Events along one continuous horizontal line with round markers',
+      'Markers show an automatic number or an icon you choose',
+      'Content above, below or alternating above and below the line',
+      'Previous and next buttons that disable at the ends and hide when everything fits',
+      'Scrolls by swipe, mouse drag, arrow, Home and End keys, and snaps to events',
+      'Click a marker to activate it, centre it and grow the progress line to it',
+      'Pinned scroll mode: scrolling the page slides the timeline to the right, with a growing progress line (GSAP ScrollTrigger)',
+      'Repeater list of two to twelve events with date, title, text and icon',
+      'Container-aware layout with all content below the line on phones',
+      'Labelled scroll region, real buttons and aria-current for the active event',
+    ],
+    why: [
+      { icon: '📅', title: 'A story in one glance', desc: 'A single line of dated events shows progress and order at once, so visitors see a whole history or roadmap before reading the details.' },
+      { icon: '↔', title: 'Handles any number of events', desc: 'Arrows, swipe, drag and keyboard keys move through a long timeline, and the buttons hide themselves when everything already fits.' },
+      { icon: '✨', title: 'Polished but light', desc: 'A growing progress line, a lifted active card and snapping scroll feel smooth, using CSS transitions and a small script with no library.' },
+    ],
+    useCases: [
+      { icon: '🏢', title: 'Company history and about pages', desc: 'Tell the story of how a business grew, from the first prototype to today, with a date, a title and a few lines for each milestone.' },
+      { icon: '🗺', title: 'Product roadmaps and releases', desc: 'Show what shipped and what is coming next in order, with icons for features and a progress line that makes the direction obvious.' },
+      { icon: '🎓', title: 'Courses, programmes and schedules', desc: 'Lay out the weeks of a course or the stages of an event on one line, so people can see how long it takes and what comes next.' },
+      { icon: '🤝', title: 'Nonprofit impact and milestones', desc: 'Share the journey of a campaign or charity with dated achievements, helping supporters see what their help has already made possible.' },
+    ],
+    faqs: [
+      { q: 'How do I show more events than fit on the screen?', a: 'Add as many as twelve events. In pinned mode the section holds on screen and scrolling the page slides the events to the right. In free mode, and on phones, swipe, drag, the arrow buttons or the arrow keys move the row.' },
+      { q: 'Can the markers show icons instead of numbers?', a: 'Yes. Set the marker to show icons and pick an icon for each event. With numbers, the markers count automatically, so reordering the events renumbers them.' },
+      { q: 'Can the content go above and below the line?', a: 'Yes. Choose alternating above and below, always below, or always above. On phones the content always sits below the line, so cards never overlap in a narrow space.' },
+      { q: 'What happens when I click a marker?', a: 'That event becomes active: its marker fills, its card is highlighted, the row scrolls to centre it and the progress line animates along to it. You can choose which event starts active.' },
+      { q: 'Is the horizontal timeline accessible?', a: 'Yes. The scrolling row is a labelled, focusable region that works with the arrow keys, each marker is a real button named after its event, and the active one uses aria-current. Reduced motion is respected.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Horizontal Timeline HTML, CSS and JavaScript: auto-advance through the events, add images to the cards, build a vertical version for phones, or turn it into a React component.',
+      prompt: `Create a horizontal timeline in plain HTML, CSS and vanilla JavaScript.
+
+- An ordered list laid out in a row inside a scroll container (overflow-x auto, scroll-snap, hidden scrollbar). A continuous 4px line runs through the middle of the row, and every item has a 44px round marker button centred on it showing a number from a CSS counter, or an icon.
+- Each item has a card with a date, a title and a short text. Alternate the cards above and below the line, and put them all below on narrow screens. Give each card a small pointer towards its marker.
+- On screens 768px and wider, pin the section with GSAP ScrollTrigger (pin: true, scrub: 0.6) and animate the list's x from 0 to minus the overflow width, so scrolling the page slides the timeline to the right. Grow the progress line with the scroll and activate each event as the line reaches it. Clicking a marker scrolls the page to that event.
+- On narrow screens, with reduced motion or without GSAP, use previous and next round buttons that scroll the container by most of a screen and disable at each end, plus touch swipe, mouse drag, and the arrow, Home and End keys, with a labelled, focusable scroll region.
+- Clicking a marker sets it active: fill the marker, lift the card with a brand-coloured border, centre it with scrollTo and animate a progress line (a pseudo-element whose width is a CSS variable) to that marker.
+- Use real buttons with aria-current for the active marker, and respect prefers-reduced-motion.`,
+    },
+  },
+
+  'back-to-top': {
+    keywords: ['back to top button html css js', 'scroll to top button', 'floating scroll to top', 'smooth scroll to top javascript', 'back to top button customization'],
+    about: {
+      title: 'Back to Top Button: Free Floating Scroll-to-Top Button With Full Settings',
+      description: `**Back to Top Button** is a small floating button that appears after a visitor has scrolled down a distance you choose, and glides the page back to the top when clicked. It is useful on any page taller than a few screens: long articles, documentation, landing pages and product lists. It is plain HTML, CSS and about thirty lines of JavaScript, with no library.
+
+**When it appears**
+
+Set the **trigger distance** in pixels, from 0 (always visible) to 5000. A scroll listener, throttled with requestAnimationFrame, toggles a single class once the page passes that point, so the cost while scrolling is almost nothing. On a short page the button simply never shows.
+
+**Position, size and shape**
+
+Place it at the **bottom right or bottom left** with a distance from the edge you choose. Set the **size** from 32 to 96 pixels and pick a **shape**: circle, rounded square, square or a custom corner radius. Choose from five **icon styles** (arrow, chevron, double chevron, triangle and rocket), set the **background and icon colours** with hex values (or leave them empty to use your theme), and switch the shadow on or off.
+
+**Animation and scroll speed**
+
+Choose how the button appears: **fade in**, **slide up** or **zoom in**. Choose the **scroll duration** in seconds: the page then scrolls to the top with a smooth ease-in-out animation driven by requestAnimationFrame, and stops at once if the visitor uses the wheel, a touch or a key. A duration of 0 jumps instantly, and visitors who prefer reduced motion always get an instant jump.
+
+**Phones, keyboards and printing**
+
+A switch hides the button on phones and tablets if it would cover your design. The button is a real button with a text label for screen readers and a visible focus ring, it is hidden from the tab order when invisible, and it is left out of printed pages. Turn the whole effect on or off with one switch.
+
+**Customise and export**
+
+An editor preview shows the button on a mock page, so you can judge the look before exporting. Export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). To compare a snippet-only version, see the [Back to Top Button snippet](/ui-snippets/back-to-top-button/), and for a utility that follows the reader see the [Floating Social Share Bar](/website-section-templates/floating-social-share/).`,
+    },
+    features: [
+      'Floating button that takes no space in the layout',
+      'Appears after a scroll distance you set, from 0 to 5000 pixels',
+      'Bottom right or bottom left, with an edge distance setting',
+      'Five icon styles: arrow, chevron, double chevron, triangle and rocket',
+      'Circle, rounded square, square or custom corner radius, sized 32 to 96 pixels',
+      'Custom background and icon colours, with theme colours by default and an optional shadow',
+      'Fade in, slide up or zoom in appearance',
+      'Smooth eased scroll with a duration setting, stopped by the visitor\'s own scrolling',
+      'Switch to hide it on phones and tablets, and one switch to turn it off',
+      'Labelled real button with a focus ring, hidden from tabbing when invisible, and left out of print',
+    ],
+    why: [
+      { icon: '🧭', title: 'Helps on long pages', desc: 'Visitors who have scrolled a long way get a one-click way back to your menu or top section, which keeps them on the site.' },
+      { icon: '🪶', title: 'Tiny and fast', desc: 'One throttled scroll listener and a short eased scroll animation, with no library, so the button adds almost nothing to page weight.' },
+      { icon: '🎛', title: 'Matches any design', desc: 'Distance, icon, position, size, colours, shape, animation and speed are all fields in the editor, so it fits your brand without code.' },
+    ],
+    useCases: [
+      { icon: '📰', title: 'Blogs, news and documentation', desc: 'Give readers of long articles and docs a quick way back to the table of contents or menu after they reach the end of a section.' },
+      { icon: '🛍', title: 'Shops and listings', desc: 'Let shoppers jump back to the filters and categories after scrolling through hundreds of products, without pressing the browser back button.' },
+      { icon: '🚀', title: 'Long landing pages', desc: 'Add a clear, unobtrusive control to tall one-page sites so visitors can return to the hero or main call to action from any section.' },
+      { icon: '📱', title: 'Mobile-first sites', desc: 'Show a larger, thumb-friendly button on phones, or switch it off on small screens where it would cover navigation or a sticky bar.' },
+    ],
+    faqs: [
+      { q: 'How do I make the button appear after scrolling?', a: 'Set the Show after scrolling value in pixels. The button appears once the page has scrolled past that distance from the top and hides again when the visitor returns, using a single class toggle.' },
+      { q: 'How does the smooth scroll to top work?', a: 'A short requestAnimationFrame animation moves the page to the top with an ease-in-out curve over the duration you set. It stops if the visitor scrolls, touches or presses a key, so it never fights them.' },
+      { q: 'Can I hide the button on mobile?', a: 'Yes. Switch off Show on phones and tablets and the button is hidden below 900 pixels wide. You can also make it smaller or move it to the left corner to avoid sticky bars.' },
+      { q: 'Does the button work for people who prefer reduced motion?', a: 'Yes. Visitors with reduced motion turned on get an instant jump to the top instead of a smooth scroll, and the fade, slide and zoom transitions are switched off.' },
+      { q: 'Can I change the icon, colours and shape?', a: 'Yes. Pick an arrow, chevron, double chevron, triangle or rocket, set the background and icon colours with hex values, and choose a circle, rounded square, square or custom corner radius.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Back to Top Button HTML, CSS and JavaScript: add a circular scroll-progress ring around it, hide it near the footer, change it to a pill with text, or turn it into a React component.',
+      prompt: `Create a floating back to top button in plain HTML, CSS and vanilla JavaScript.
+
+- A fixed round button (52px, 24px from the bottom right) with an arrow-up SVG icon, an accessible name and a visible focus ring. It is hidden with opacity 0, visibility hidden and pointer-events none until it gets the class is-visible.
+- Toggle is-visible when window.pageYOffset passes a configurable distance (default 400px), using a passive scroll listener throttled with requestAnimationFrame.
+- Clicking it scrolls to the top with an eased requestAnimationFrame animation (ease-in-out cubic) over a configurable number of seconds, using window.scrollTo with behavior instant on every frame, and stops if the user wheels, touches or presses a key. Jump instantly for prefers-reduced-motion or a duration of 0.
+- Settings as data attributes or CSS variables: position (bottom right or left), size, shape (circle, square, custom radius), colours, appearance (fade, slide up or zoom) and whether to show on phones.
+- Hide it when printing.`,
+    },
+  },
 };

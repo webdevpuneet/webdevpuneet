@@ -77,6 +77,35 @@
   });
 })();
 (function () {
+  var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!G || !window.ScrollTrigger || reduce || (window.ST_STILL && !window.ST_SCROLL_FX)) return;
+  G.registerPlugin(ScrollTrigger);
+  document.querySelectorAll('.st [data-kb]').forEach(function (root) {
+    if (root.getAttribute('data-kb-ready')) return;
+    root.setAttribute('data-kb-ready', '1');
+    var num = function (name, d) { var v = parseFloat(root.getAttribute(name)); return isNaN(v) ? d : v; };
+    var zoom = num('data-zoom', 30) / 100, dir = root.getAttribute('data-dir') === 'out' ? 'out' : 'in';
+    var affect = root.getAttribute('data-affect') || 'both';
+    var startPct = num('data-start', 100), endPct = num('data-end', 0), smooth = num('data-smooth', 0.6);
+    var drift = root.getAttribute('data-drift') !== 'off';
+    root.querySelectorAll('[data-kb-img]').forEach(function (img) {
+      var kind = img.getAttribute('data-kb-img');
+      if (affect !== 'both' && affect !== kind) return;
+      var frame = img.parentNode;
+      var s0 = dir === 'in' ? 1 : 1 + zoom, s1 = dir === 'in' ? 1 + zoom : 1;
+      var x0 = drift ? -(s0 - 1) * 40 : 0, x1 = drift ? -(s1 - 1) * 40 : 0;
+      var startPos = function () { return Math.max(0, frame.getBoundingClientRect().top + window.pageYOffset - window.innerHeight * startPct / 100); };
+      var endPos = function () { return Math.max(startPos() + 120, frame.getBoundingClientRect().bottom + window.pageYOffset - window.innerHeight * endPct / 100); };
+      G.fromTo(img, { scale: s0, xPercent: x0 }, {
+        scale: s1, xPercent: x1, ease: 'none', force3D: true,
+        scrollTrigger: { trigger: frame, start: startPos, end: endPos, scrub: smooth > 0 ? smooth : true, invalidateOnRefresh: true }
+      });
+    });
+    root.setAttribute('data-kb-active', '1');
+  });
+  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+})();
+(function () {
   var G = window.gsap;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!G || reduce || window.ST_STILL) return;
@@ -179,6 +208,44 @@
       e.preventDefault();
       if (G && window.ScrollToPlugin && !reduce) G.to(window, { scrollTo: 0, duration: 1, ease: 'power3.inOut' });
       else window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  });
+})();
+(function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st [data-btt]').forEach(function (root) {
+    if (root.getAttribute('data-btt-ready')) return;
+    root.setAttribute('data-btt-ready', '1');
+    var btn = root.querySelector('.btt-btn');
+    var demo = root.querySelector('.btt-demo');
+    if (!btn || root.getAttribute('data-enabled') === 'off') { if (demo && !inline) demo.parentNode.removeChild(demo); return; }
+    if (!inline && demo) demo.parentNode.removeChild(demo);
+    if (inline) {
+      root.classList.add('is-preview', 'is-visible');
+      btn.addEventListener('click', function (e) { e.preventDefault(); });
+      return;
+    }
+    var dist = parseFloat(root.getAttribute('data-distance')) || 0;
+    var secs = parseFloat(root.getAttribute('data-speed'));
+    if (isNaN(secs)) secs = 0.8;
+    var ticking = false;
+    function check() { ticking = false; root.classList.toggle('is-visible', (window.pageYOffset || document.documentElement.scrollTop) > dist); }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+    var stopped = false;
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, function () { stopped = true; }, { passive: true }); });
+    btn.addEventListener('click', function () {
+      var from = window.pageYOffset || document.documentElement.scrollTop;
+      if (reduce || secs <= 0 || from < 2) { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); return; }
+      stopped = false;
+      var t0 = performance.now(), dur = secs * 1000;
+      (function step(t) {
+        var p = Math.min(1, (t - t0) / dur);
+        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        window.scrollTo({ top: from * (1 - e), left: 0, behavior: 'instant' });
+        if (p < 1 && !stopped) requestAnimationFrame(step);
+      })(t0);
     });
   });
 })();

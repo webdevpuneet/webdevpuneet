@@ -3,7 +3,7 @@
 const lawFirmLandingPageTemplate = {
   id: 'law-firm-landing-page-template',
   title: 'Law Firm Website Template',
-  lastmod: '2026-10-28',
+  lastmod: '2026-10-30',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -11,7 +11,7 @@ const lawFirmLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvulbpk6izyy">
+    <section class="st st-navbar-simple" data-uid="smvutnmnq7kv1">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></svg></span><span>Whitmore &amp; Hale</span></span>
@@ -31,7 +31,7 @@ const lawFirmLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvulbpk6bmc1">
+    <section class="st st-image-background-hero" data-uid="smvutnmnq85ce">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-law.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,7 +51,7 @@ const lawFirmLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="highlights" class="st st-scroll-stack" data-uid="smvulbpk63qk3">
+    <section id="highlights" class="st st-scroll-stack" data-uid="smvutnmnqrdaz">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Practice areas</p>
@@ -102,7 +102,7 @@ const lawFirmLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="journey" class="st st-scroll-path" data-uid="smvulbpk6h5e2">
+    <section id="journey" class="st st-scroll-path" data-uid="smvutnmnqo1yd">
       <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.08" data-art-anim="draw"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="currentColor" stroke-width="1.6"><path data-draw d="M930 420 L933.9 424 L936.5 428.4 L936.9 432.8 L935 436.9 L930.9 440.5 L925 443.3 L918.1 445.2 L911 446.5 L904.5 447.6 L899 448.8 L894.4 450.5 L890.7 452.9 L887.2 456.1 L883.3 459.8 L878.8 463.5 L873.3 466.7 L866.9 468.8 L860 469.6 L853.1 468.8 L846.7 466.7 L841.2 463.5 L836.7 459.8 L832.8 456.1 L829.3 452.9 L825.6 450.5 L821 448.8 L815.5 447.6 L809 446.5 L801.9 445.2 L795 443.3 L789.1 440.5 L785 436.9 L783.1 432.8 L783.5 428.4 L786.1 424 L790 420 L794.5 416.4 L798.6 413.3 L801.7 410.3 L803.5 407.2 L804 403.8 L803.7 399.9 L803.4 395.4 L803.8 390.7 L805.5 386.2 L809 382.3 L814.1 379.4 L820.7 377.8 L828 377.4 L835.5 378.2 L842.6 379.6 L849 381.2 L854.7 382.4 L860 382.8 L865.3 382.4 L871 381.2 L877.4 379.6 L884.5 378.2 L892 377.4 L899.3 377.8 L905.9 379.4 L911 382.3 L914.5 386.2 L916.2 390.7 L916.6 395.4 L916.3 399.8 L916 403.8 L916.5 407.2 L918.3 410.3 L921.4 413.3 L925.5 416.4 L930 420Z"/><path data-draw d="M998.2 420 L1001.9 427.7 L1002.5 435.6 L999.7 443.2 L993.6 450.1 L984.9 456.1 L974.6 461 L963.9 465.1 L953.6 468.7 L944.5 472.4 L936.6 476.6 L929.5 481.5 L922.6 487.2 L915.2 493.4 L906.6 499.3 L896.5 504.4 L885 508 L872.6 509.5 L860 508.9 L847.8 506.3 L836.6 502.2 L826.6 497.2 L817.6 492.2 L809.1 487.6 L800.5 483.9 L791.1 481 L780.7 478.6 L769.2 476.3 L757.4 473.4 L746 469.5 L736.1 464.4 L728.7 458 L724.4 450.6 L723.4 442.7 L725.3 434.7 L729.3 427.1 L734.2 420 L738.9 413.4 L742.6 407.2 L744.7 400.8 L745.5 394.2 L745.6 386.9 L746 379.2 L747.6 371.2 L751.4 363.5 L757.8 356.7 L766.9 351.2 L778.1 347.5 L790.6 345.5 L803.6 345 L816.3 345.5 L828.2 346.3 L839.2 346.8 L849.6 346.5 L860 345.2 L870.8 343.2 L882.5 341 L895 339.1 L907.9 338.4 L920.7 339.3 L932.5 342.1 L942.5 346.9 L950.4 353.2 L955.9 360.5 L959.6 368.2 L962.2 375.6 L964.7 382.5 L967.9 388.8 L972.5 394.6 L978.4 400.3 L985.3 406.3 L992.3 412.8 L998.2 420Z"/><path data-draw d="M1067.5 420 L1069.1 431.3 L1066.1 442.5 L1058.8 453 L1048.1 462.4 L1035.2 470.7 L1021.7 477.9 L1008.5 484.5 L996.7 491.1 L986.1 498.2 L976.5 506.1 L967 514.7 L956.6 523.8 L944.6 532.4 L930.4 539.9 L914.2 545.3 L896.4 548.1 L878.1 548.2 L860 545.6 L842.9 541.1 L827.1 535.5 L812.6 529.7 L798.7 524.4 L784.8 520 L770.1 516.5 L754.3 513.6 L737.6 510.5 L720.4 506.5 L704 501.2 L689.5 494 L678.2 485.1 L670.8 474.7 L667.5 463.4 L667.9 451.9 L670.9 440.7 L675.3 430 L679.5 420 L682.5 410.4 L684 400.8 L684 390.8 L683.5 380.2 L683.6 369 L685.6 357.6 L690.7 346.5 L699.4 336.5 L711.8 328.1 L727.1 321.8 L744.5 317.7 L762.6 315.4 L780.6 314.4 L797.7 313.8 L813.7 312.9 L829.1 311.2 L844.3 308.5 L860 305.1 L876.7 301.5 L894.5 298.6 L913 297.4 L931.4 298.4 L948.7 302 L964.1 308.2 L976.9 316.5 L987 326.2 L994.8 336.4 L1001.2 346.5 L1007.3 356 L1014.2 364.8 L1022.4 373 L1032.1 381.2 L1042.7 389.7 L1053.1 398.9 L1061.8 409.1 L1067.5 420Z"/><path data-draw d="M1135 420 L1132.7 434.8 L1125.1 449 L1113.3 462.1 L1098.7 473.9 L1083.2 484.5 L1068.1 494.5 L1054.3 504.4 L1042.1 514.7 L1030.9 525.9 L1019.6 537.9 L1007 550.2 L992.2 561.9 L974.4 572.1 L953.9 579.9 L931.1 584.5 L907.1 585.7 L883.1 583.8 L860 579.6 L838.3 573.9 L817.9 568 L798.4 562.6 L778.9 558.1 L758.7 554.7 L737.3 551.7 L714.9 548.5 L692.1 544.1 L670.2 537.7 L650.6 528.9 L634.7 517.8 L623.5 504.7 L617.1 490.2 L615.1 475.3 L616.2 460.5 L618.9 446.4 L621.5 432.9 L623 420 L622.7 407.1 L620.9 393.9 L618.7 379.9 L617.6 365.3 L619.1 350.4 L624.7 335.8 L634.9 322.3 L649.9 310.7 L668.8 301.5 L690.5 294.7 L713.3 290.1 L736.2 287 L758 284.4 L778.7 281.6 L798.6 277.9 L818.2 273.1 L838.5 267.6 L860 262.1 L882.9 257.7 L906.8 255.4 L930.9 255.9 L954 259.8 L975.1 267 L993.3 276.8 L1008.6 288.5 L1021.2 300.9 L1032.2 313.2 L1042.8 324.9 L1054.1 335.7 L1066.9 345.9 L1081.2 356.1 L1096.2 366.7 L1110.8 378.3 L1123.1 391.2 L1131.6 405.3 L1135 420Z"/><path data-draw d="M1198 420 L1191 438 L1178.9 454.9 L1163.6 470.4 L1147.1 484.8 L1131 498.4 L1116.4 511.8 L1103.5 525.7 L1091.6 540.5 L1079.4 556 L1065.5 571.9 L1048.6 587 L1028 600.4 L1003.5 610.8 L976 617.7 L946.7 620.6 L916.9 619.9 L887.7 616.5 L860 611.5 L833.7 606.1 L808.5 601.2 L783.3 597.5 L757.4 594.7 L730.3 592.4 L702 589.6 L673.4 585.3 L645.7 578.4 L620.6 568.5 L599.6 555.5 L583.8 539.9 L573.6 522.5 L568.2 504.4 L566.4 486.3 L566.4 468.8 L566.4 452.1 L565.1 436 L562 420 L557.4 403.6 L552.6 386.4 L549.3 368.4 L549.4 349.9 L554.6 331.7 L565.6 314.6 L582.5 299.5 L604.4 287 L629.7 277.2 L656.7 269.8 L683.8 264 L710 258.9 L734.8 253.5 L758.5 247.1 L782.1 239.7 L806.4 231.6 L832.3 223.7 L860 217.2 L889.2 213.2 L918.9 212.9 L947.9 216.6 L975 224.2 L999.1 235.1 L1020 248.1 L1038.2 262.2 L1054.5 276.3 L1070.3 289.6 L1086.8 302 L1104.8 313.7 L1124.4 325.4 L1144.6 337.7 L1164 351.4 L1180.7 366.7 L1192.7 383.6 L1198.7 401.6 L1198 420Z"/><path data-draw d="M1255 420 L1243.6 440.8 L1228.6 460.3 L1212.1 478.5 L1196.1 495.8 L1181.7 513 L1169.2 530.7 L1157.6 549.2 L1145.6 568.6 L1131.2 588.2 L1113.1 607 L1090.2 623.8 L1062.4 637.4 L1030.6 646.9 L996.2 652 L960.8 653.1 L925.7 651.2 L892.1 647.4 L860 643.2 L829 639.6 L798.2 637.2 L766.7 635.8 L733.9 634.8 L699.7 633.1 L665.1 629.3 L631.3 622.5 L600.4 611.8 L573.8 597.4 L552.9 579.8 L537.9 559.8 L528.4 538.7 L522.7 517.5 L519 496.9 L515.4 477.3 L510.4 458.2 L503.4 439.3 L495 420 L486.5 399.7 L480.1 378.5 L478 356.5 L481.9 334.7 L493 313.9 L511 295.1 L535.1 278.9 L563.4 265.7 L593.8 255 L624.5 246 L654.2 237.8 L682.4 229.3 L709.4 219.8 L736.3 209.2 L764 198 L793.8 187.1 L825.8 178 L860 172 L895.3 170.2 L930.2 173.1 L963.4 180.7 L993.8 192.1 L1020.9 206 L1045.1 221.3 L1067.3 236.5 L1088.9 250.9 L1111.2 264.3 L1135.1 276.9 L1160.5 289.5 L1186.5 303.1 L1211.5 318.4 L1233.2 335.8 L1249.5 355.3 L1258.8 376.4 L1260.5 398.3 L1255 420Z"/><path data-draw d="M1306 420 L1292.2 443.4 L1276.9 465.6 L1262.1 486.8 L1249 507.8 L1238 529.3 L1227.8 551.7 L1216.9 574.9 L1203 598.4 L1184.4 621.1 L1160 641.7 L1129.6 658.7 L1094 671.3 L1054.9 679.1 L1014.2 682.6 L973.5 682.7 L934.2 680.8 L896.5 678.5 L860 676.9 L823.8 676.4 L786.9 677.1 L748.4 678.1 L708.5 678.1 L667.9 675.5 L628 669.2 L590.8 658.3 L558.3 642.9 L531.6 623.6 L511.3 601.4 L496.7 577.7 L486.3 553.8 L477.9 530.5 L469.7 508.1 L459.9 486.5 L448.1 465 L434.9 443.1 L422 420 L411.6 395.7 L406.3 370.4 L408.2 344.9 L418.4 320.3 L436.8 297.6 L462.3 277.6 L492.7 260.6 L525.8 246.1 L559.3 233.6 L591.8 221.8 L622.5 209.7 L652 196.6 L681.3 182.4 L711.8 167.6 L744.7 153.3 L780.7 141.1 L819.4 132.5 L860 128.8 L900.9 130.5 L940.4 137.4 L977.2 148.7 L1010.9 163 L1041.4 178.8 L1070 194.5 L1097.9 209.4 L1126.5 223.1 L1156.7 236 L1188.5 249.1 L1220.8 263.4 L1251.8 279.7 L1279.1 298.8 L1300.4 320.6 L1313.8 344.6 L1318.7 369.9 L1315.6 395.3 L1306 420Z"/><path data-draw d="M1353.1 420 L1340 446 L1327.6 471.1 L1317 495.9 L1308.5 521.2 L1300.9 547.5 L1292.1 574.7 L1279.7 602.2 L1261.5 628.9 L1236.3 653.3 L1203.9 674.1 L1165.1 690.2 L1121.9 701.2 L1076.3 707.6 L1030.4 710.3 L985.8 711 L942.8 711.3 L901.2 712.2 L860 714.5 L818 717.9 L774.3 721.4 L728.8 723.6 L682.2 722.8 L636.2 717.6 L592.7 707 L553.8 691.1 L520.9 670.6 L494.5 646.6 L474.1 620.7 L458.1 594.5 L444.2 568.8 L430.4 544.2 L415 520.4 L397.5 496.8 L378.7 472.6 L360.3 447.1 L345.1 420 L335.9 391.6 L334.9 362.6 L343.4 334.2 L361.3 307.5 L387.3 283.3 L419.1 262.2 L453.9 243.7 L489.3 227.2 L523.6 211.4 L556 195.3 L587 178.2 L617.9 160 L650.3 141.1 L685.7 123.1 L724.9 107.4 L767.8 95.8 L813.4 89.6 L860 89.5 L905.8 95.3 L949.3 106 L989.7 120 L1027 135.5 L1062.2 151.2 L1096.7 165.8 L1132 179.2 L1168.8 191.8 L1207.3 204.7 L1246.3 219 L1283.8 236 L1317.2 256.3 L1344 280.1 L1362.2 306.7 L1371.2 335.1 L1371.4 364.1 L1364.5 392.6 L1353.1 420Z"/><path data-draw d="M200 120 L202.6 122.3 L204.5 124.9 L205.3 127.5 L205 130.2 L203.4 132.5 L200.6 134.5 L197 136.1 L192.7 137 L188.3 137.5 L184 137.7 L180 137.7 L176.5 137.8 L173.6 138 L171 138.7 L168.6 139.8 L166.1 141.3 L163.2 143 L160 144.8 L156.3 146.4 L152.2 147.6 L147.9 148.1 L143.6 147.9 L139.8 146.9 L136.5 145.2 L134.1 142.9 L132.5 140.3 L131.7 137.5 L131.5 134.9 L131.4 132.4 L131.4 130.3 L130.9 128.4 L129.8 126.8 L128.1 125.3 L125.7 123.8 L122.9 122 L120 120 L117.4 117.7 L115.5 115.1 L114.7 112.5 L115 109.8 L116.6 107.5 L119.4 105.5 L123 103.9 L127.3 103 L131.7 102.5 L136 102.3 L140 102.3 L143.5 102.2 L146.4 102 L149 101.3 L151.4 100.2 L153.9 98.7 L156.8 97 L160 95.2 L163.7 93.6 L167.8 92.4 L172.1 91.9 L176.4 92.1 L180.2 93.1 L183.5 94.8 L185.9 97.1 L187.5 99.7 L188.3 102.5 L188.5 105.1 L188.6 107.6 L188.6 109.7 L189.1 111.6 L190.2 113.2 L191.9 114.7 L194.3 116.2 L197.1 118 L200 120Z"/><path data-draw d="M263.4 120 L264.4 125.7 L263.3 131.3 L260.3 136.7 L255.6 141.6 L249.6 145.9 L242.7 149.6 L235.4 152.7 L228.1 155.4 L221.2 158 L214.8 160.5 L208.8 163.2 L203.1 166.2 L197.3 169.6 L191.2 173.1 L184.5 176.6 L177 179.8 L168.8 182.4 L160 184.1 L150.9 184.7 L141.8 184.1 L133.1 182.2 L125.2 179.3 L118.2 175.6 L112.3 171.3 L107.2 166.7 L102.8 162.2 L98.8 158 L94.7 154 L90.3 150.3 L85.4 146.7 L80 143.1 L74.4 139.3 L68.7 135.2 L63.5 130.5 L59.3 125.5 L56.6 120 L55.6 114.3 L56.7 108.7 L59.7 103.3 L64.4 98.4 L70.4 94.1 L77.3 90.4 L84.6 87.3 L91.9 84.6 L98.8 82 L105.2 79.5 L111.2 76.8 L116.9 73.8 L122.7 70.4 L128.8 66.9 L135.5 63.4 L143 60.2 L151.2 57.6 L160 55.9 L169.1 55.3 L178.2 55.9 L186.9 57.8 L194.8 60.7 L201.8 64.4 L207.7 68.7 L212.8 73.3 L217.2 77.8 L221.2 82 L225.3 86 L229.7 89.7 L234.6 93.3 L240 96.9 L245.6 100.7 L251.3 104.8 L256.5 109.5 L260.7 114.5 L263.4 120Z"/><path data-draw d="M320.9 120 L317.9 128.6 L312.8 136.7 L306 144.3 L298.1 151.2 L289.8 157.5 L281.4 163.5 L273.4 169.2 L265.7 175 L258.4 181 L250.9 187.2 L243.1 193.6 L234.4 199.9 L224.7 206 L213.6 211.4 L201.4 215.7 L188.1 218.7 L174.1 220 L160 219.8 L146.2 217.9 L133.1 214.7 L120.9 210.5 L109.7 205.6 L99.5 200.5 L89.9 195.3 L80.6 190.3 L71.3 185.6 L61.6 181 L51.6 176.4 L41.3 171.5 L31.1 166.1 L21.3 160.1 L12.6 153.3 L5.7 145.6 L0.9 137.4 L-1.3 128.8 L-0.9 120 L2.1 111.4 L7.2 103.3 L14 95.7 L21.9 88.8 L30.2 82.5 L38.6 76.5 L46.6 70.8 L54.3 65 L61.6 59 L69.1 52.8 L76.9 46.4 L85.6 40.1 L95.3 34 L106.4 28.6 L118.6 24.3 L131.9 21.3 L145.9 20 L160 20.2 L173.8 22.1 L186.9 25.3 L199.1 29.5 L210.3 34.4 L220.5 39.5 L230.1 44.7 L239.4 49.7 L248.7 54.4 L258.4 59 L268.4 63.6 L278.7 68.5 L288.9 73.9 L298.7 79.9 L307.4 86.7 L314.3 94.4 L319.1 102.6 L321.3 111.2 L320.9 120Z"/><path data-draw d="M367 120 L361.3 130.9 L354.6 141.3 L347.4 151.1 L340.1 160.6 L333.1 170 L326.3 179.5 L319.4 189.2 L312 199.1 L303.6 209 L293.6 218.7 L281.8 227.9 L268 236 L252.3 242.7 L234.9 247.6 L216.4 250.5 L197.4 251.5 L178.4 250.7 L160 248.3 L142.4 244.8 L125.7 240.7 L109.8 236.2 L94.4 231.7 L79.3 227.3 L64 223.1 L48.4 218.8 L32.5 214.2 L16.4 209 L0.8 202.8 L-14 195.5 L-27.1 187 L-37.9 177.2 L-45.8 166.4 L-50.6 155 L-52.1 143.2 L-50.8 131.4 L-47 120 L-41.3 109.1 L-34.6 98.7 L-27.4 88.9 L-20.1 79.4 L-13.1 70 L-6.3 60.5 L0.6 50.8 L8 40.9 L16.4 31 L26.4 21.3 L38.2 12.1 L52 4 L67.7 -2.7 L85.1 -7.6 L103.6 -10.5 L122.6 -11.5 L141.6 -10.7 L160 -8.3 L177.6 -4.8 L194.3 -0.7 L210.2 3.8 L225.6 8.3 L240.7 12.7 L256 16.9 L271.6 21.2 L287.5 25.8 L303.6 31 L319.2 37.2 L334 44.5 L347.1 53 L357.9 62.8 L365.8 73.6 L370.6 85 L372.1 96.8 L370.8 108.6 L367 120Z"/></g></svg></div>
       <div class="st-wrap">
         <header class="st-head">
@@ -152,58 +152,72 @@ const lawFirmLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvulbpk6sldi">
+    <section id="team" class="st st-team-accordion" data-uid="smvutnmnq6zfo">
       <div class="st-wrap">
         <header class="st-head">
-          <p class="st-eyebrow" data-anim="item">Our team</p>
-          <h2 class="st-h2" data-anim="item" data-anim-text>Partners you can <span class="hl">talk to</span></h2>
-          <p class="st-lead" data-anim="item">Experienced solicitors who explain things plainly.</p>
+          <p class="st-eyebrow" data-anim="item">Our lawyers</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>The <span class="hl">people</span> you will work with</h2>
+          <p class="st-lead" data-anim="item">Click a name to read about their practice area and background.</p>
         </header>
-        <ul class="tm2-grid">
-          <li class="tm2-card" data-anim="item">
-            <div class="tm2-photo">
-              <img width="400" height="400" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-6.jpg" alt="">
-              <div class="tm2-social">
+        <div class="ta" data-ta data-open="1" data-gray="on">
+          <ul class="ta-strips">
+            <li class="ta-item" data-anim="item">
+              <button type="button" class="ta-trigger" aria-expanded="false" aria-label="Eleanor Whitmore"></button>
+              <div class="ta-info">
+                <div class="ta-inner">
+                  <h3 class="ta-name">Eleanor Whitmore</h3>
+                  <p class="ta-role">Senior Partner · Family law</p>
+                  <div class="ta-social">
+                  </div>
+                  <p class="ta-bio">30 years resolving family matters.</p>
+                </div>
               </div>
-            </div>
-            <h3 class="tm2-name">Eleanor Whitmore</h3>
-            <p class="tm2-role">Senior Partner · Family law</p>
-            <p class="tm2-bio">30 years resolving family matters.</p>
-          </li>
-          <li class="tm2-card" data-anim="item">
-            <div class="tm2-photo">
-              <img width="400" height="400" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-1.jpg" alt="">
-              <div class="tm2-social">
+              <div class="ta-photo"><img width="600" height="800" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-6.jpg" alt="Eleanor Whitmore"></div>
+            </li>
+            <li class="ta-item" data-anim="item">
+              <button type="button" class="ta-trigger" aria-expanded="false" aria-label="James Hale"></button>
+              <div class="ta-info">
+                <div class="ta-inner">
+                  <h3 class="ta-name">James Hale</h3>
+                  <p class="ta-role">Partner · Property</p>
+                  <div class="ta-social">
+                  </div>
+                  <p class="ta-bio">Residential and commercial conveyancing.</p>
+                </div>
               </div>
-            </div>
-            <h3 class="tm2-name">James Hale</h3>
-            <p class="tm2-role">Partner · Property</p>
-            <p class="tm2-bio">Residential and commercial conveyancing.</p>
-          </li>
-          <li class="tm2-card" data-anim="item">
-            <div class="tm2-photo">
-              <img width="400" height="400" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-5.jpg" alt="">
-              <div class="tm2-social">
+              <div class="ta-photo"><img width="600" height="800" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-1.jpg" alt="James Hale"></div>
+            </li>
+            <li class="ta-item" data-anim="item">
+              <button type="button" class="ta-trigger" aria-expanded="false" aria-label="Priya Nair"></button>
+              <div class="ta-info">
+                <div class="ta-inner">
+                  <h3 class="ta-name">Priya Nair</h3>
+                  <p class="ta-role">Partner · Employment</p>
+                  <div class="ta-social">
+                  </div>
+                  <p class="ta-bio">Tribunal and settlement specialist.</p>
+                </div>
               </div>
-            </div>
-            <h3 class="tm2-name">Priya Nair</h3>
-            <p class="tm2-role">Partner · Employment</p>
-            <p class="tm2-bio">Tribunal and settlement specialist.</p>
-          </li>
-          <li class="tm2-card" data-anim="item">
-            <div class="tm2-photo">
-              <img width="400" height="400" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-4.jpg" alt="">
-              <div class="tm2-social">
+              <div class="ta-photo"><img width="600" height="800" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-5.jpg" alt="Priya Nair"></div>
+            </li>
+            <li class="ta-item" data-anim="item">
+              <button type="button" class="ta-trigger" aria-expanded="false" aria-label="David Okoro"></button>
+              <div class="ta-info">
+                <div class="ta-inner">
+                  <h3 class="ta-name">David Okoro</h3>
+                  <p class="ta-role">Associate · Wills &amp; probate</p>
+                  <div class="ta-social">
+                  </div>
+                  <p class="ta-bio">Estates handled with care.</p>
+                </div>
               </div>
-            </div>
-            <h3 class="tm2-name">David Okoro</h3>
-            <p class="tm2-role">Associate · Wills &amp; probate</p>
-            <p class="tm2-bio">Estates handled with care.</p>
-          </li>
-        </ul>
+              <div class="ta-photo"><img width="600" height="800" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-4.jpg" alt="David Okoro"></div>
+            </li>
+          </ul>
+        </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvulbpk6lx62">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvutnmnqcn8g">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Client reviews</p>
@@ -238,7 +252,7 @@ const lawFirmLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvulbpk6yoog">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvutnmnqvf0r">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -265,7 +279,7 @@ const lawFirmLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvulbpk6cti9">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvutnmnqhe73">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -310,7 +324,7 @@ const lawFirmLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvulbpk63mkh">
+    <section class="st st-footer-minimal" data-uid="smvutnmnqtfco">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -320,6 +334,57 @@ const lawFirmLandingPageTemplate = {
         </div>
         <p class="fm-copy">© 2026 Whitmore &amp; Hale Solicitors LLP</p>
       </footer>
+    </section>
+    <section class="st st-back-to-top" data-uid="smvutnmnqvh6a">
+      <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
+        <div class="btt-demo" aria-hidden="true">
+          <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
+          <span class="btt-note">The button appears here once the page has scrolled</span>
+        </div><!--/btt-demo-->
+        <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </div>
+    </section>
+    <section class="st st-accessibility-toolbar" data-uid="smvutnmnq9q23">
+      <div class="a11y" data-a11y data-pos="left" data-remember="on">
+        <button type="button" class="a11y-fab" aria-expanded="false" data-a11y-open aria-label="Open accessibility tools">
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="7.500" r="1.200" fill="currentColor"/><path d="M7 10.500l5 1 5-1M12 11.500v3.500M9.500 19l2.500-4 2.500 4"/></svg>
+        </button>
+        <div class="a11y-panel" role="dialog" tabindex="-1" hidden aria-label="Accessibility">
+          <div class="a11y-head">
+            <h2 class="a11y-title">Accessibility</h2>
+            <button type="button" class="a11y-icon" data-a11y-reset aria-label="Reset all settings" title="Reset all settings"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.700L3 8"/><path d="M3 3v5h5"/></svg></button>
+            <button type="button" class="a11y-icon" data-a11y-close aria-label="Close accessibility tools" title="Close accessibility tools"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+          </div>
+          <div class="a11y-body">
+            <div class="a11y-sec">
+              <h3 class="a11y-h">Text</h3>
+              <div class="a11y-grid">
+                <button type="button" class="a11y-tile" data-feature="text" aria-pressed="false"><svg class="a11y-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7V5h10v2M9 5v12M6 17h6"/><path d="M15 12h6M18 12v6"/></svg><span class="a11y-lab">Bigger text</span><span class="a11y-pips" aria-hidden="true"></span></button>
+                <button type="button" class="a11y-tile" data-feature="lineheight" aria-pressed="false"><svg class="a11y-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 8l2-2 2 2M3 16l2 2 2-2"/></svg><span class="a11y-lab">Line height</span><span class="a11y-pips" aria-hidden="true"></span></button>
+                <button type="button" class="a11y-tile" data-feature="align" aria-pressed="false"><svg class="a11y-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h10M4 18h14"/></svg><span class="a11y-lab">Text align</span><span class="a11y-pips" aria-hidden="true"></span></button>
+                <button type="button" class="a11y-tile" data-feature="font" aria-pressed="false"><svg class="a11y-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 19 10 5l6 14M6.5 14h7"/><path d="M17 11h4M19 11v8"/></svg><span class="a11y-lab">Readable font</span><span class="a11y-pips" aria-hidden="true"></span></button>
+              </div>
+            </div>
+            <div class="a11y-sec">
+              <h3 class="a11y-h">Visual</h3>
+              <div class="a11y-grid">
+                <button type="button" class="a11y-tile" data-feature="contrast" aria-pressed="false"><svg class="a11y-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg><span class="a11y-lab">Contrast</span><span class="a11y-pips" aria-hidden="true"></span></button>
+                <button type="button" class="a11y-tile" data-feature="gray" aria-pressed="false"><svg class="a11y-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3s6 6.2 6 10.5A6 6 0 0 1 6 13.500C6 9.200 12 3 12 3z"/><path d="M12 3v16.500" /></svg><span class="a11y-lab">Grayscale</span><span class="a11y-pips" aria-hidden="true"></span></button>
+                <button type="button" class="a11y-tile" data-feature="images" aria-pressed="false"><svg class="a11y-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.500"/><path d="m21 16-5-5-9 8M3 3l18 18"/></svg><span class="a11y-lab">Hide images</span><span class="a11y-pips" aria-hidden="true"></span></button>
+                <button type="button" class="a11y-tile" data-feature="motion" aria-pressed="false"><svg class="a11y-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/></svg><span class="a11y-lab">Pause animations</span><span class="a11y-pips" aria-hidden="true"></span></button>
+              </div>
+            </div>
+            <div class="a11y-sec">
+              <h3 class="a11y-h">Orientation</h3>
+              <div class="a11y-grid">
+                <button type="button" class="a11y-tile" data-feature="links" aria-pressed="false"><svg class="a11y-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4.500 4.500 0 0 0 6.400 0l3-3a4.500 4.500 0 0 0-6.400-6.400l-1 1"/><path d="M14 10a4.500 4.500 0 0 0-6.400 0l-3 3a4.500 4.500 0 0 0 6.400 6.400l1-1"/></svg><span class="a11y-lab">Highlight links</span><span class="a11y-pips" aria-hidden="true"></span></button>
+                <button type="button" class="a11y-tile" data-feature="mask" aria-pressed="false"><svg class="a11y-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 15h18"/></svg><span class="a11y-lab">Reading mask</span><span class="a11y-pips" aria-hidden="true"></span></button>
+              </div>
+            </div>
+            <p class="a11y-note">Your choices are saved on this device only.</p>
+          </div>
+        </div>
+      </div>
     </section>`,
 
   css: `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -442,25 +507,44 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .sp.is-drawing .sp-item:not(.is-on) .sp-dot{background:var(--st-surface);color:var(--st-muted);transform:scale(.85)}
 .sp.is-drawing .sp-item:not(.is-on) .sp-card{opacity:.35;transform:translateY(12px)}
 @container st (min-width:900px){.sp{max-width:900px}.sp-line{left:50%}.sp-item{grid-template-columns:1fr 56px 1fr}.sp-item .sp-dot{grid-column:2;grid-row:1}.sp-item:nth-child(odd) .sp-card{grid-column:1;grid-row:1;text-align:right;align-items:flex-end}.sp-item:nth-child(even) .sp-card{grid-column:3}}
-/* Team Grid */
-.st-team-grid{padding:clamp(64px,8cqi,112px) 0}
-.tm2-grid{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,2.4cqi,32px)}
-.tm2-card{display:flex;flex-direction:column}
-.tm2-photo{position:relative;overflow:hidden;margin-bottom:16px;border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);aspect-ratio:1}
-.tm2-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-.tm2-card:hover .tm2-photo img{transform:scale(1.05)}
-.tm2-social{position:absolute;left:12px;bottom:12px;display:flex;gap:8px;transform:translateY(calc(100% + 16px));transition:transform .35s cubic-bezier(.2,.8,.2,1)}
-.tm2-card:hover .tm2-social,.tm2-card:focus-within .tm2-social{transform:none}
-@media (hover:none){.tm2-social{transform:none}}
-.tm2-social a{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.92);color:#0f172a;box-shadow:0 6px 16px rgba(0,0,0,.18)}
-.tm2-social a:hover{background:var(--st-brand);color:var(--st-btn-text)}
-.tm2-social svg{width:17px;height:17px}
-.tm2-name{font-size:18px;letter-spacing:-.01em}
-.tm2-role{color:var(--st-brand);font-size:14.5px;font-weight:600;margin-top:2px}
-.tm2-bio{color:var(--st-muted);font-size:15px;margin-top:8px}
-.tm2-bio:empty{display:none}
-@container st (max-width:960px){.tm2-grid{grid-template-columns:repeat(3,1fr)}}
-@container st (max-width:700px){.tm2-grid{grid-template-columns:repeat(2,1fr)}}
+/* Interactive Team Accordion */
+.st-team-accordion{padding:clamp(64px,8cqi,112px) 0;background:radial-gradient(60% 70% at 15% 20%,color-mix(in srgb,var(--st-brand) 14%,transparent),transparent 70%),radial-gradient(50% 60% at 90% 80%,color-mix(in srgb,#ec4899 12%,transparent),transparent 70%),var(--st-bg)}
+.ta-strips{list-style:none;display:flex;gap:clamp(8px,1.2cqi,16px);height:clamp(380px,40cqi,500px);margin:0;padding:clamp(8px,1.2cqi,14px);border-radius:calc(var(--st-radius) * 1.4px);background:color-mix(in srgb,var(--st-surface) 78%,transparent);box-shadow:0 30px 70px -30px color-mix(in srgb,var(--st-text) 35%,transparent),0 0 0 1px color-mix(in srgb,var(--st-text) 6%,transparent)}
+.ta-item{position:relative;display:flex;flex:1 1 0;min-width:0;overflow:hidden;border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);transition:flex-grow .65s cubic-bezier(.4,0,.2,1)}
+.ta-item.is-open,.ta:not([data-ta-ready]) .ta-item:first-child{flex-grow:7}
+.ta-trigger{position:absolute;inset:0;z-index:1;padding:0;border:0;background:transparent;cursor:pointer;border-radius:inherit}
+.ta-item.is-open .ta-trigger{cursor:default}
+.ta-trigger:focus-visible{outline:3px solid var(--st-brand);outline-offset:-4px}
+.ta-info{position:relative;z-index:2;flex:0 1 0;min-width:0;overflow:hidden;visibility:hidden;opacity:0;transition:flex-grow .65s cubic-bezier(.4,0,.2,1),opacity .35s ease,visibility 0s .65s}
+.ta-item.is-open .ta-info,.ta:not([data-ta-ready]) .ta-item:first-child .ta-info{flex-grow:1.15;visibility:visible;opacity:1;transition:flex-grow .65s cubic-bezier(.4,0,.2,1),opacity .45s ease .2s,visibility 0s}
+.ta-inner{box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:10px;width:clamp(260px,26cqi,360px);height:100%;padding:clamp(22px,3cqi,40px)}
+.ta-name{font-size:clamp(22px,2cqi + 8px,30px);letter-spacing:-.02em}
+.ta-role{color:var(--st-brand);font-size:15px;font-weight:600}
+.ta-social{display:flex;gap:8px;margin:4px 0 6px}
+.ta-social a{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:color-mix(in srgb,var(--st-brand) 12%,transparent);color:var(--st-brand);transition:background .2s ease,color .2s ease,transform .2s ease}
+.ta-social a:hover{background:var(--st-brand);color:var(--st-btn-text);transform:translateY(-2px)}
+.ta-social a:focus-visible{outline:3px solid var(--st-brand);outline-offset:2px}
+.ta-social:not(:has(a:not([hidden]))){display:none}
+.ta-social .st-icon{display:inline-grid;place-items:center;width:17px;height:17px}
+.ta-social svg{width:17px;height:17px}
+.ta-bio{color:var(--st-muted);font-size:15.5px;line-height:1.65}
+.ta-bio:empty{display:none}
+.ta-photo{position:relative;flex:1 1 0;min-width:0;background:var(--st-surface)}
+.ta-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%;transition:filter .5s ease,transform .8s ease}
+.ta[data-gray=on] .ta-item:not(.is-open) .ta-photo img{filter:grayscale(1) contrast(1.05)}
+.ta[data-gray=on]:not([data-ta-ready]) .ta-item:not(:first-child) .ta-photo img{filter:grayscale(1) contrast(1.05)}
+.ta-item:not(.is-open):hover .ta-photo img{transform:scale(1.05)}
+@container st (max-width:760px){
+.ta-strips{flex-direction:column;height:clamp(600px,178cqi,830px)}
+.ta-item{flex-direction:column;min-height:56px}
+.ta-info{flex:0 1 0;width:100%}
+.ta-item.is-open .ta-info,.ta:not([data-ta-ready]) .ta-item:first-child .ta-info{flex-grow:2.6}
+.ta-inner{width:100%;gap:6px;padding:16px 20px;justify-content:flex-start;overflow-y:auto}
+.ta-bio{font-size:14.5px;line-height:1.55}
+.ta-photo{flex:1 1 0;min-height:96px}
+.ta-photo img{object-position:center 18%}
+}
+@media (prefers-reduced-motion:reduce){.ta-item,.ta-info,.ta-photo img{transition:none}}
 /* Testimonial Wall */
 .st-testimonials-grid{padding:clamp(64px,8cqi,112px) 0}
 .st-stars{color:#f59e0b;font-size:16px;letter-spacing:2px;line-height:1}
@@ -544,6 +628,73 @@ a.cs2-value:hover{color:var(--st-brand)}
 .fm .st-social:hover{background:color-mix(in srgb,var(--st-brand) 12%,transparent);color:var(--st-brand)}
 .fm-copy{padding-top:20px;color:var(--st-muted);font-size:14px;text-align:center}
 @container st (max-width:760px){.fm-row{flex-direction:column;text-align:center}.fm-links{justify-content:center}.fm .st-socials{justify-content:center}}
+/* Back to Top Button */
+.st-back-to-top{overflow:visible;container-type:normal;height:0;min-height:0;padding:0;background:transparent}
+.st-back-to-top:has(.btt.is-preview){height:auto;padding:clamp(20px,3vw,40px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 6%,var(--st-bg))}
+.btt{--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:.8s;--btt-bg:var(--st-brand);--btt-fg:var(--st-btn-text)}
+.btt-btn{position:fixed;bottom:var(--btt-off);z-index:2147482500;display:grid;place-items:center;width:var(--btt-size);height:var(--btt-size);padding:0;border:0;border-radius:var(--btt-radius);background:var(--btt-bg);color:var(--btt-fg);cursor:pointer;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,transform .3s ease,visibility 0s .3s,box-shadow .2s ease,background .2s ease}
+.btt[data-pos=right] .btt-btn{right:var(--btt-off)}
+.btt[data-pos=left] .btt-btn{left:var(--btt-off)}
+.btt[data-appear=slide] .btt-btn{transform:translateY(28px)}
+.btt[data-appear=zoom] .btt-btn{transform:scale(.5)}
+.btt[data-shadow=on] .btt-btn{box-shadow:0 12px 28px -8px rgba(15,23,42,.45)}
+.btt.is-visible .btt-btn{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .3s ease,transform .3s ease,visibility 0s,box-shadow .2s ease,background .2s ease}
+.btt.is-visible .btt-btn:hover{transform:translateY(-3px)}
+.btt.is-visible .btt-btn:active{transform:translateY(0) scale(.96)}
+.btt-btn:focus-visible{outline:3px solid color-mix(in srgb,var(--btt-bg) 55%,#fff);outline-offset:3px}
+.btt-svg{width:calc(var(--btt-size) * .46);height:calc(var(--btt-size) * .46)}
+@media (max-width:899px){.btt[data-mobile=off] .btt-btn{display:none}}
+.btt[data-enabled=off] .btt-btn{display:none}
+.btt-demo{display:none}
+.btt.is-preview .btt-demo{position:relative;display:flex;flex-direction:column;gap:14px;min-height:320px;padding:34px 30px;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-bg);box-shadow:0 20px 50px -24px color-mix(in srgb,var(--st-text) 40%,transparent)}
+.btt-bar{display:block;height:14px;width:100%;border-radius:7px;background:color-mix(in srgb,var(--st-text) 12%,transparent)}
+.btt-bar--lg{height:22px;width:62%;background:color-mix(in srgb,var(--st-text) 22%,transparent)}
+.btt-bar--md{width:84%}.btt-bar--sm{width:46%}
+.btt-note{margin-top:auto;font-size:13px;color:var(--st-muted)}
+.btt.is-preview .btt-btn{position:absolute;right:calc(var(--st-pad) + 18px);bottom:calc(clamp(20px,3vw,40px) + 18px);opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.btt.is-preview[data-pos=left] .btt-btn{right:auto;left:calc(var(--st-pad) + 18px)}
+@media (prefers-reduced-motion:reduce){.btt-btn{transition:none}}
+@media print{.btt{display:none}}
+/* Accessibility Toolbar Widget */
+.st-accessibility-toolbar{overflow:visible;container-type:normal;height:0;min-height:0;background:transparent}
+.st-accessibility-toolbar:has(.a11y.is-preview){height:auto;min-height:680px;padding:clamp(16px,2vw,24px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 8%,var(--st-bg))}
+.a11y{--a11y-w:380px}
+.a11y-fab{position:fixed;bottom:20px;z-index:2147483000;display:grid;place-items:center;width:58px;height:58px;padding:0;border:3px solid #fff;border-radius:50%;background:var(--st-brand);color:var(--st-btn-text);cursor:pointer;box-shadow:0 10px 28px -6px rgba(15,23,42,.5);transition:transform .2s ease,box-shadow .2s ease}
+.a11y[data-pos=right] .a11y-fab{right:20px}
+.a11y[data-pos=left] .a11y-fab{left:20px}
+.a11y-fab:hover{transform:scale(1.06)}
+.a11y-fab:focus-visible,.a11y-tile:focus-visible,.a11y-icon:focus-visible{outline:3px solid color-mix(in srgb,var(--st-brand) 60%,#fff);outline-offset:3px}
+.a11y.is-open .a11y-fab{box-shadow:0 0 0 4px color-mix(in srgb,var(--st-brand) 30%,transparent),0 10px 28px -6px rgba(15,23,42,.5)}
+.a11y-panel{position:fixed;bottom:92px;z-index:2147483001;display:flex;flex-direction:column;width:min(var(--a11y-w),calc(100vw - 24px));max-height:calc(100vh - 116px);max-height:calc(100dvh - 116px);overflow:hidden;border-radius:calc(var(--st-radius) * 1.3px);background:var(--st-bg);color:var(--st-text);font-family:var(--st-font-body);font-size:15px;line-height:1.4;box-shadow:0 30px 70px -18px rgba(15,23,42,.55),0 0 0 1px color-mix(in srgb,var(--st-text) 8%,transparent);opacity:0;transform:translateY(12px) scale(.98);transition:opacity .2s ease,transform .2s ease}
+.a11y-panel[hidden]{display:none}
+.a11y[data-pos=right] .a11y-panel{right:20px}
+.a11y[data-pos=left] .a11y-panel{left:20px}
+.a11y.is-open .a11y-panel{opacity:1;transform:none}
+.a11y-head{display:flex;align-items:center;gap:6px;padding:13px 18px;background:linear-gradient(135deg,var(--st-brand),color-mix(in srgb,var(--st-brand) 70%,#000));color:var(--st-btn-text)}
+.a11y-title{flex:1;margin:0;font-family:var(--st-font-heading);font-size:21px;font-weight:800;letter-spacing:-.01em;color:inherit}
+.a11y-icon{display:grid;place-items:center;width:34px;height:34px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.16);color:inherit;cursor:pointer;transition:background .15s ease}
+.a11y-icon:hover{background:rgba(255,255,255,.3)}
+.a11y-body{overflow-y:auto;padding:12px 14px 14px;background:var(--st-surface);overscroll-behavior:contain}
+.a11y-sec{margin-bottom:10px;padding:12px;border-radius:calc(var(--st-radius) * 1px);background:var(--st-bg)}
+.a11y-sec:not(:has(.a11y-tile)){display:none}
+.a11y-h{margin:0 0 8px;font-size:14px;font-weight:700;color:var(--st-text)}
+.a11y-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.a11y-tile{position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:8px;min-height:70px;padding:10px 12px;border:2px solid transparent;border-radius:calc(var(--st-radius) * .75px);background:var(--st-surface);color:var(--st-text);font:600 14px/1.25 var(--st-font-body);text-align:left;cursor:pointer;transition:background .15s ease,border-color .15s ease,color .15s ease}
+.a11y-tile:hover{border-color:color-mix(in srgb,var(--st-brand) 35%,transparent)}
+.a11y-tile[aria-pressed=true]{border-color:var(--st-brand);background:color-mix(in srgb,var(--st-brand) 12%,var(--st-bg));color:var(--st-brand)}
+.a11y-ic{flex:none}
+.a11y-lab{display:block}
+.a11y-pips{display:flex;gap:4px;min-height:6px}
+.a11y-pip{width:16px;height:5px;border-radius:3px;background:color-mix(in srgb,var(--st-text) 18%,transparent)}
+.a11y-pip.on{background:var(--st-brand)}
+.a11y-note{margin:4px 2px 0;font-size:12.5px;color:var(--st-muted);text-align:center}
+.a11y-note:empty{display:none}
+.a11y.is-preview .a11y-fab{position:absolute}
+.a11y.is-preview .a11y-panel{position:relative;inset:auto;margin:0 auto;opacity:1;transform:none;max-height:none}
+.a11y-mask{position:fixed;left:0;right:0;z-index:2147482000;background:rgba(0,0,0,.78);pointer-events:none}
+@media (max-width:480px){.a11y-grid{gap:8px}.a11y-tile{min-height:76px;padding:10px}}
+@media (prefers-reduced-motion:reduce){.a11y-fab,.a11y-panel{transition:none}}
+@media print{.a11y,.a11y-mask{display:none}}
 .st:has(>.st-art){isolation:isolate}
 .st-art{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
 .st-art>svg{position:absolute;top:0;left:0;display:block;width:100%;height:100%}
@@ -676,6 +827,41 @@ a.cs2-value:hover{color:var(--st-brand)}
   });
 })();
 (function () {
+  document.querySelectorAll('.st [data-ta]').forEach(function (root) {
+    if (root.getAttribute('data-ta-ready')) return;
+    root.setAttribute('data-ta-ready', '1');
+    var items = Array.prototype.slice.call(root.querySelectorAll('.ta-item'));
+    if (!items.length) return;
+    function open(i) {
+      items.forEach(function (it, k) {
+        var on = k === i;
+        it.classList.toggle('is-open', on);
+        var b = it.querySelector('.ta-trigger');
+        if (b) b.setAttribute('aria-expanded', on ? 'true' : 'false');
+      });
+    }
+    var start = parseInt(root.getAttribute('data-open'), 10);
+    open(isNaN(start) ? 0 : Math.min(items.length - 1, Math.max(0, start - 1)));
+    items.forEach(function (it, k) {
+      var b = it.querySelector('.ta-trigger');
+      if (!b) return;
+      b.addEventListener('click', function () { open(k); });
+      b.addEventListener('keydown', function (e) {
+        var to = -1;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') to = (k + 1) % items.length;
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') to = (k - 1 + items.length) % items.length;
+        else if (e.key === 'Home') to = 0;
+        else if (e.key === 'End') to = items.length - 1;
+        if (to < 0) return;
+        e.preventDefault();
+        var nb = items[to].querySelector('.ta-trigger');
+        if (nb) nb.focus();
+        open(to);
+      });
+    });
+  });
+})();
+(function () {
   var G = window.gsap;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var anim = G && !reduce;
@@ -738,6 +924,235 @@ a.cs2-value:hover{color:var(--st-brand)}
   });
 })();
 (function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st [data-btt]').forEach(function (root) {
+    if (root.getAttribute('data-btt-ready')) return;
+    root.setAttribute('data-btt-ready', '1');
+    var btn = root.querySelector('.btt-btn');
+    var demo = root.querySelector('.btt-demo');
+    if (!btn || root.getAttribute('data-enabled') === 'off') { if (demo && !inline) demo.parentNode.removeChild(demo); return; }
+    if (!inline && demo) demo.parentNode.removeChild(demo);
+    if (inline) {
+      root.classList.add('is-preview', 'is-visible');
+      btn.addEventListener('click', function (e) { e.preventDefault(); });
+      return;
+    }
+    var dist = parseFloat(root.getAttribute('data-distance')) || 0;
+    var secs = parseFloat(root.getAttribute('data-speed'));
+    if (isNaN(secs)) secs = 0.8;
+    var ticking = false;
+    function check() { ticking = false; root.classList.toggle('is-visible', (window.pageYOffset || document.documentElement.scrollTop) > dist); }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+    var stopped = false;
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, function () { stopped = true; }, { passive: true }); });
+    btn.addEventListener('click', function () {
+      var from = window.pageYOffset || document.documentElement.scrollTop;
+      if (reduce || secs <= 0 || from < 2) { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); return; }
+      stopped = false;
+      var t0 = performance.now(), dur = secs * 1000;
+      (function step(t) {
+        var p = Math.min(1, (t - t0) / dur);
+        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        window.scrollTo({ top: from * (1 - e), left: 0, behavior: 'instant' });
+        if (p < 1 && !stopped) requestAnimationFrame(step);
+      })(t0);
+    });
+  });
+})();
+(function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var btnMode = !!window.ST_POPUP_BUTTON;
+  var LEVELS = { text: 3, lineheight: 2, align: 3, font: 1, contrast: 2, gray: 1, images: 1, motion: 1, links: 1, mask: 1 };
+  var SIZES = [1, 1.15, 1.3, 1.5];
+  var ALIGNS = ['', 'left', 'center', 'right'];
+  var KEY = 'st-a11y';
+  var CSS = [
+    'html[data-a11y-lh="1"] body *:not(.a11y *){line-height:1.7!important}',
+    'html[data-a11y-lh="2"] body *:not(.a11y *){line-height:2.1!important}',
+    'html[data-a11y-font] body *:not(.a11y *){font-family:Verdana,Tahoma,Arial,sans-serif!important;letter-spacing:.02em!important}',
+    'html[data-a11y-align] body *:not(.a11y *){text-align:var(--a11y-align)!important}',
+    'html[data-a11y-img] body :is(img,picture,video,canvas):not(.a11y *){visibility:hidden!important}',
+    'html[data-a11y-img] body *:not(.a11y *){background-image:none!important}',
+    'html[data-a11y-motion] body *:not(.a11y *),html[data-a11y-motion] body *::before,html[data-a11y-motion] body *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}',
+    'html[data-a11y-links] body a:not(.a11y a){text-decoration:underline!important;text-underline-offset:3px!important;background:#ffe14d!important;color:#111!important;outline:2px solid #111!important;outline-offset:1px!important}',
+    '.a11y-fx{filter:var(--a11y-filter,none)}',
+    'html[data-a11y-contrast="2"] .a11y-fx :is(img,video,picture){filter:invert(1) hue-rotate(180deg)}'
+  ].join('\\n');
+  var textBase = new Map();
+
+  function load(remember) {
+    if (!remember) return {};
+    try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; }
+  }
+  function save(state, remember) {
+    if (!remember) return;
+    try {
+      var any = Object.keys(LEVELS).some(function (k) { return state[k]; });
+      if (any) localStorage.setItem(KEY, JSON.stringify(state)); else localStorage.removeItem(KEY);
+    } catch (e) {}
+  }
+
+  document.querySelectorAll('.st [data-a11y]').forEach(function (root) {
+    if (root.getAttribute('data-a11y-ready')) return;
+    root.setAttribute('data-a11y-ready', '1');
+    var fab = root.querySelector('.a11y-fab');
+    var panel = root.querySelector('.a11y-panel');
+    if (!fab || !panel) return;
+    var remember = root.getAttribute('data-remember') !== 'off';
+    var tiles = root.querySelectorAll('[data-feature]');
+    var state = {};
+    Object.keys(LEVELS).forEach(function (k) { state[k] = 0; });
+
+    function paint() {
+      tiles.forEach(function (t) {
+        var f = t.getAttribute('data-feature');
+        var lvl = state[f] || 0, max = LEVELS[f] || 1;
+        t.setAttribute('aria-pressed', lvl > 0 ? 'true' : 'false');
+        var pips = t.querySelector('.a11y-pips');
+        if (pips) {
+          pips.innerHTML = '';
+          if (max > 1) for (var i = 1; i <= max; i++) { var p = document.createElement('span'); p.className = 'a11y-pip' + (i <= lvl ? ' on' : ''); pips.appendChild(p); }
+        }
+      });
+    }
+
+    root.querySelectorAll('[data-a11y-close]').forEach(function (b) { b.addEventListener('click', function (e) { if (inline && !btnMode) { e.preventDefault(); panel.hidden = true; fab.setAttribute('aria-expanded', 'false'); return; } close(true); }); });
+
+    if (inline && !btnMode) {
+      root.classList.add('is-preview');
+      panel.hidden = false;
+      fab.setAttribute('aria-expanded', 'true');
+      fab.addEventListener('click', function () { panel.hidden = !panel.hidden; fab.setAttribute('aria-expanded', String(!panel.hidden)); });
+      tiles.forEach(function (t) {
+        t.addEventListener('click', function () { var f = t.getAttribute('data-feature'); state[f] = ((state[f] || 0) + 1) % ((LEVELS[f] || 1) + 1); paint(); });
+      });
+      var rs = root.querySelector('[data-a11y-reset]');
+      if (rs) rs.addEventListener('click', function () { Object.keys(LEVELS).forEach(function (k) { state[k] = 0; }); paint(); });
+      state.text = 1; state.contrast = 0; state.font = 1; // a sample of switched-on options for the preview
+      paint();
+      return;
+    }
+
+    /* ---------- real page ---------- */
+    var styleEl = document.createElement('style');
+    styleEl.setAttribute('data-a11y-css', '');
+    styleEl.textContent = CSS;
+    document.head.appendChild(styleEl);
+    var html = document.documentElement;
+    var maskTop = null, maskBottom = null, maskY = 140;
+
+    function markFx() {
+      (function walk(node) {
+        Array.prototype.forEach.call(node.children, function (c) {
+          if (c === root) return;
+          if (c.contains(root)) { walk(c); return; }
+          if (/^(SCRIPT|STYLE|LINK|META|NOSCRIPT|TEMPLATE)$/.test(c.tagName) || c.hasAttribute('data-a11y-css')) return;
+          c.classList.add('a11y-fx');
+        });
+      })(document.body);
+    }
+
+    function applyText(level) {
+      var els = [];
+      document.body.querySelectorAll('*').forEach(function (el) {
+        if (el.closest('.a11y') || /^(SCRIPT|STYLE|NOSCRIPT|SVG|PATH|BR|HR|IMG|VIDEO|CANVAS)$/i.test(el.tagName)) return;
+        for (var n = el.firstChild; n; n = n.nextSibling) { if (n.nodeType === 3 && n.nodeValue.trim()) { els.push(el); break; } }
+      });
+      if (level === 0) {
+        textBase.forEach(function (info, el) { if (info.inline) el.style.setProperty('font-size', info.inline); else el.style.removeProperty('font-size'); });
+        textBase.clear();
+        return;
+      }
+      els.forEach(function (el) { if (!textBase.has(el)) textBase.set(el, { inline: el.style.getPropertyValue('font-size'), px: parseFloat(getComputedStyle(el).fontSize) || 16 }); });
+      els.forEach(function (el) { var info = textBase.get(el); el.style.setProperty('font-size', (info.px * SIZES[level]).toFixed(2) + 'px', 'important'); });
+    }
+
+    function setMask(on) {
+      if (!on) {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('touchmove', onTouch);
+        document.removeEventListener('focusin', onFocus);
+        if (maskTop) { maskTop.remove(); maskBottom.remove(); maskTop = maskBottom = null; }
+        return;
+      }
+      if (maskTop) return;
+      maskTop = document.createElement('div'); maskTop.className = 'a11y-mask'; maskTop.style.top = '0';
+      maskBottom = document.createElement('div'); maskBottom.className = 'a11y-mask'; maskBottom.style.bottom = '0';
+      document.body.appendChild(maskTop); document.body.appendChild(maskBottom);
+      place(maskY);
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('touchmove', onTouch, { passive: true });
+      document.addEventListener('focusin', onFocus);
+    }
+    function place(y) {
+      maskY = y;
+      var half = 55;
+      maskTop.style.height = Math.max(0, y - half) + 'px';
+      maskBottom.style.height = Math.max(0, window.innerHeight - y - half) + 'px';
+    }
+    function onMove(e) { place(e.clientY); }
+    function onTouch(e) { if (e.touches[0]) place(e.touches[0].clientY); }
+    function onFocus(e) { if (e.target && e.target.getBoundingClientRect && !root.contains(e.target)) { var r = e.target.getBoundingClientRect(); place(r.top + r.height / 2); } }
+
+    function apply() {
+      var s = state;
+      function flag(name, on, val) { if (on) html.setAttribute(name, val === undefined ? '' : val); else html.removeAttribute(name); }
+      flag('data-a11y-lh', s.lineheight > 0, String(s.lineheight));
+      flag('data-a11y-font', s.font > 0);
+      flag('data-a11y-align', s.align > 0);
+      if (s.align > 0) html.style.setProperty('--a11y-align', ALIGNS[s.align]); else html.style.removeProperty('--a11y-align');
+      flag('data-a11y-img', s.images > 0);
+      flag('data-a11y-motion', s.motion > 0);
+      flag('data-a11y-links', s.links > 0);
+      flag('data-a11y-contrast', s.contrast > 0, String(s.contrast));
+      var filters = [];
+      if (s.contrast === 1) filters.push('contrast(1.5)');
+      if (s.contrast === 2) filters.push('invert(1) hue-rotate(180deg)');
+      if (s.gray) filters.push('grayscale(1)');
+      if (filters.length) { markFx(); html.style.setProperty('--a11y-filter', filters.join(' ')); } else html.style.removeProperty('--a11y-filter');
+      applyText(s.text);
+      if (s.motion) {
+        document.querySelectorAll('video').forEach(function (v) { try { v.pause(); } catch (e) {} });
+        if (window.gsap && gsap.globalTimeline) gsap.globalTimeline.pause();
+      } else if (window.gsap && gsap.globalTimeline) gsap.globalTimeline.resume();
+      setMask(s.mask > 0);
+      paint();
+      save(s, remember);
+    }
+
+    tiles.forEach(function (t) {
+      t.addEventListener('click', function () { var f = t.getAttribute('data-feature'); state[f] = ((state[f] || 0) + 1) % ((LEVELS[f] || 1) + 1); apply(); });
+    });
+    var reset = root.querySelector('[data-a11y-reset]');
+    if (reset) reset.addEventListener('click', function () { Object.keys(LEVELS).forEach(function (k) { state[k] = 0; }); apply(); });
+
+    function open() {
+      panel.hidden = false;
+      requestAnimationFrame(function () { root.classList.add('is-open'); });
+      fab.setAttribute('aria-expanded', 'true');
+      panel.focus();
+    }
+    function close(refocus) {
+      root.classList.remove('is-open');
+      fab.setAttribute('aria-expanded', 'false');
+      setTimeout(function () { if (!root.classList.contains('is-open')) panel.hidden = true; }, 220);
+      if (refocus) fab.focus();
+    }
+    fab.addEventListener('click', function () { if (root.classList.contains('is-open')) close(true); else open(); });
+    root.addEventListener('keydown', function (e) { if (e.key === 'Escape' && root.classList.contains('is-open')) { e.stopPropagation(); close(true); } });
+    document.addEventListener('mousedown', function (e) { if (root.classList.contains('is-open') && !root.contains(e.target)) close(false); });
+
+    var saved = load(remember);
+    var any = false;
+    Object.keys(LEVELS).forEach(function (k) { var v = parseInt(saved[k], 10); if (v > 0 && v <= LEVELS[k]) { state[k] = v; any = true; } });
+    paint();
+    // Restore after the page has finished loading, so text added below this script is found too
+    if (any) { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply); else apply(); }
+  });
+})();
+(function () {
   if (!window.gsap) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -796,7 +1211,7 @@ a.cs2-value:hover{color:var(--st-brand)}
   seo: {
     "title": "Law Firm Website HTML Template — Free CSS & JS Snippet",
     "description": "A law firm and solicitor website in HTML, CSS and JS: authority hero, stacking practice areas, case timeline, partners, reviews, fee FAQ and consultation form.",
-    "subtitle": "Law Firm Website template · 9 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Law Firm Website template · 11 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "law-firm",
       "name": "Law Firm Website",
@@ -829,10 +1244,10 @@ a.cs2-value:hover{color:var(--st-brand)}
         "role": "a timeline that draws itself to explain how a case works, from first call to resolution"
       },
       {
-        "id": "team-grid",
-        "name": "Team Grid",
-        "url": "/website-section-templates/team-grid/",
-        "role": "the partners, with photos, qualifications and areas of expertise"
+        "id": "team-accordion",
+        "name": "Interactive Team Accordion",
+        "url": "/website-section-templates/team-accordion/",
+        "role": "an interactive team accordion where each lawyer is a grayscale strip that opens on click"
       },
       {
         "id": "testimonials-grid",
@@ -857,6 +1272,18 @@ a.cs2-value:hover{color:var(--st-brand)}
         "name": "Minimal Footer",
         "url": "/website-section-templates/footer-minimal/",
         "role": "a minimal footer with regulatory details, complaints procedure and legal notices"
+      },
+      {
+        "id": "back-to-top",
+        "name": "Back to Top Button",
+        "url": "/website-section-templates/back-to-top/",
+        "role": "a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return"
+      },
+      {
+        "id": "accessibility-toolbar",
+        "name": "Accessibility Toolbar Widget",
+        "url": "/website-section-templates/accessibility-toolbar/",
+        "role": "a floating accessibility toolbar where visitors can enlarge text, raise contrast, hide images and pause animations"
       }
     ],
     "about": {
@@ -864,12 +1291,15 @@ a.cs2-value:hover{color:var(--st-brand)}
       "description": "People looking for a solicitor are often worried, so authority has to come with clarity. The dark hero states who you help in plain terms, practice areas appear one by one as stacking cards so each gets its own moment and none is lost in a long list, and a timeline that draws itself down the page explains how a case works from first call to resolution, which answers the question that worries clients most: what happens next?\n\nCredibility comes from the partners (photos, qualifications and areas of expertise), client reviews and, importantly, a FAQ that is honest about fees, which is the topic most law firm sites avoid and most clients want answered. A contact form with details closes the page by offering a free first consultation.\n\nRewrite the sample text in your firm's voice and add your regulator details. It is the layout of the [Law Firm Website template](/website-builder/templates/law-firm/), which also comes as a multi-page site with Practice areas, Our team and Contact pages; open it in the [Website Builder](/website-builder/) to edit and export."
     },
     "features": [
-      "9 ready-made website sections assembled into one finished law firm website page: Simple Sticky Navbar, Image Background Hero, Stacking Cards, Scroll Path Timeline, Team Grid, Testimonial Wall, FAQ Accordion, Contact Form With Details, Minimal Footer",
+      "11 ready-made website sections assembled into one finished law firm website page: Simple Sticky Navbar, Image Background Hero, Stacking Cards, Scroll Path Timeline, Interactive Team Accordion, Testimonial Wall, FAQ Accordion, Contact Form With Details, Minimal Footer, Back to Top Button, Accessibility Toolbar Widget",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 6-page website in the builder, sharing one navbar, footer and theme",
+      "An interactive team accordion of grayscale image strips that expand on click",
+      "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
+      "A floating accessibility toolbar with bigger text, contrast, grayscale, hide images and pause animations",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
     "howToUse": {
@@ -929,7 +1359,7 @@ a.cs2-value:hover{color:var(--st-brand)}
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 9 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Stacking Cards, Scroll Path Timeline, Team Grid, Testimonial Wall, FAQ Accordion, Contact Form With Details, Minimal Footer. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 11 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Stacking Cards, Scroll Path Timeline, Interactive Team Accordion, Testimonial Wall, FAQ Accordion, Contact Form With Details, Minimal Footer, Back to Top Button, Accessibility Toolbar Widget. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -938,7 +1368,7 @@ a.cs2-value:hover{color:var(--st-brand)}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Law Firm Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete law firm website for “Whitmore & Hale” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Clear advice when it matters most”\n3. Stacking Cards: “How we can help”\n4. Scroll Path Timeline: “Your case, step by step”\n5. Team Grid: “Partners you can talk to”\n6. Testimonial Wall: “Trusted by families and businesses”\n7. FAQ Accordion: “Questions about working with us”\n8. Contact Form With Details: “Tell us what happened”\n9. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #c9a96e, page background #0f1626, cards #172036, text #f1f5f9, muted text #a3adc2. Corner radius 6px, content width 1200px.\n- Headings in Playfair Display, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable professional services copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Whitmore & Hale: Solicitors in Manchester Since 1998”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a professional services business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Practice areas (practice-areas.html)\n- Our team (team.html)\n- Contact (contact.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete law firm website for “Whitmore & Hale” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Clear advice when it matters most”\n3. Stacking Cards: “How we can help”\n4. Scroll Path Timeline: “Your case, step by step”\n5. Interactive Team Accordion: “The people you will work with”\n6. Testimonial Wall: “Trusted by families and businesses”\n7. FAQ Accordion: “Questions about working with us”\n8. Contact Form With Details: “Tell us what happened”\n9. Minimal Footer\n10. Back to Top Button\n11. Accessibility Toolbar Widget\n\nLook and feel:\n- Colours as CSS custom properties: brand #c9a96e, page background #0f1626, cards #172036, text #f1f5f9, muted text #a3adc2. Corner radius 6px, content width 1200px.\n- Headings in Playfair Display, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable professional services copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Whitmore & Hale: Solicitors in Manchester Since 1998”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a professional services business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Practice areas (practice-areas.html)\n- Our team (team.html)\n- Contact (contact.html)\n- Privacy (privacy.html)"
     }
   },
 };

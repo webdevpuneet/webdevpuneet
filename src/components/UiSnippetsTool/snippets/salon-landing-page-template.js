@@ -3,7 +3,7 @@
 const salonLandingPageTemplate = {
   id: 'salon-landing-page-template',
   title: 'Hair & Beauty Salon Website Template',
-  lastmod: '2026-10-28',
+  lastmod: '2026-10-30',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -11,7 +11,7 @@ const salonLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvulbpiy7lpw">
+    <section class="st st-navbar-simple" data-uid="smvutnmnha9g8">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></svg></span><span>Bloom Studio</span></span>
@@ -31,7 +31,7 @@ const salonLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvulbpiyv9y4">
+    <section class="st st-image-background-hero" data-uid="smvutnmnh96cv">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-salon.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,8 +51,8 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="menu" class="st st-restaurant-menu" data-uid="smvulbpizh7d3">
-      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.08" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><filter id="art-blur-smvulbpizh7d3" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter></defs><g filter="url(#art-blur-smvulbpizh7d3)" fill="currentColor"><circle data-float cx="180" cy="160" r="190"/><circle data-float cx="1040" cy="260" r="220"/><circle data-float cx="640" cy="720" r="200"/></g></svg></div>
+    <section id="menu" class="st st-restaurant-menu" data-uid="smvutnmnirwwn">
+      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.08" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><filter id="art-blur-smvutnmnirwwn" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter></defs><g filter="url(#art-blur-smvutnmnirwwn)" fill="currentColor"><circle data-float cx="180" cy="160" r="190"/><circle data-float cx="1040" cy="260" r="220"/><circle data-float cx="640" cy="720" r="200"/></g></svg></div>
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services &amp; prices</p>
@@ -117,7 +117,54 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvulbpizoapf">
+    <section id="zoom" class="st st-scroll-zoom" data-uid="smvutnmni5z0l">
+      <div class="kb" data-kb data-zoom="28" data-dir="in" data-affect="both" data-start="100" data-end="0" data-smooth="0.6" data-drift="on">
+        <header class="kb-hero">
+          <div class="kb-frame kb-frame--hero">
+            <img class="kb-img" data-kb-img="hero" width="1920" height="1080" loading="eager" src="https://webdevpuneet.com/images/section-templates/tpl-salon.jpg" alt="">
+          </div>
+          <div class="kb-shade" aria-hidden="true"></div>
+          <div class="st-wrap kb-hero-text">
+            <p class="st-eyebrow" data-anim="item">The studio</p>
+            <h2 class="kb-h1" data-anim="item" data-anim-text>A calm place <span class="hl">to take your time</span></h2>
+            <p class="st-lead kb-lead" data-anim="item">Soft light, arched mirrors and chairs by the window. Scroll and the studio comes a little closer.</p>
+            <div class="st-btns kb-btns" data-anim="item">
+              <a class="st-btn" href="https://webdevpuneet.com/book"><span>Book a visit</span></a>
+            </div>
+          </div>
+        </header>
+        <section class="st-wrap kb-featured">
+          <header class="st-head">
+            <h2 class="st-h2" data-anim="item">Three corners of Bloom</h2>
+            <p class="st-lead" data-anim="item">Where colour, cuts and quiet moments happen.</p>
+          </header>
+          <ul class="kb-grid">
+            <li class="kb-card" data-anim="item">
+              <div class="kb-frame kb-frame--card">
+                <img class="kb-img" data-kb-img="featured" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/room-1.jpg" alt="A bright room with tall windows and soft light">
+              </div>
+              <h3 class="kb-title">The colour bar</h3>
+              <p class="kb-cap">Where every colour starts with a chat</p>
+            </li>
+            <li class="kb-card" data-anim="item">
+              <div class="kb-frame kb-frame--card">
+                <img class="kb-img" data-kb-img="featured" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/room-2.jpg" alt="A calm room with natural light">
+              </div>
+              <h3 class="kb-title">The quiet room</h3>
+              <p class="kb-cap">Treatments without the noise</p>
+            </li>
+            <li class="kb-card" data-anim="item">
+              <div class="kb-frame kb-frame--card">
+                <img class="kb-img" data-kb-img="featured" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/room-4.jpg" alt="A warm room with wooden floors">
+              </div>
+              <h3 class="kb-title">The window seats</h3>
+              <p class="kb-cap">Tea while the colour sets</p>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </section>
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvutnmniemhv">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Results</p>
@@ -152,58 +199,72 @@ const salonLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvulbpizt5i2">
+    <section id="team" class="st st-team-accordion" data-uid="smvutnmnixqma">
       <div class="st-wrap">
         <header class="st-head">
-          <p class="st-eyebrow" data-anim="item">Our stylists</p>
-          <h2 class="st-h2" data-anim="item" data-anim-text>The people <span class="hl">behind the chair</span></h2>
-          <p class="st-lead" data-anim="item">Experienced, friendly and always learning.</p>
+          <p class="st-eyebrow" data-anim="item">The team</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Meet the <span class="hl">hands behind Bloom</span></h2>
+          <p class="st-lead" data-anim="item">Click a stylist to read about their speciality and how they like to work.</p>
         </header>
-        <ul class="tm2-grid">
-          <li class="tm2-card" data-anim="item">
-            <div class="tm2-photo">
-              <img width="400" height="400" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-2.jpg" alt="">
-              <div class="tm2-social">
+        <div class="ta" data-ta data-open="1" data-gray="on">
+          <ul class="ta-strips">
+            <li class="ta-item" data-anim="item">
+              <button type="button" class="ta-trigger" aria-expanded="false" aria-label="Amara Osei"></button>
+              <div class="ta-info">
+                <div class="ta-inner">
+                  <h3 class="ta-name">Amara Osei</h3>
+                  <p class="ta-role">Founder &amp; Creative Director</p>
+                  <div class="ta-social">
+                  </div>
+                  <p class="ta-bio">Colour specialist with 18 years of experience.</p>
+                </div>
               </div>
-            </div>
-            <h3 class="tm2-name">Amara Osei</h3>
-            <p class="tm2-role">Founder &amp; Creative Director</p>
-            <p class="tm2-bio">Colour specialist with 18 years of experience.</p>
-          </li>
-          <li class="tm2-card" data-anim="item">
-            <div class="tm2-photo">
-              <img width="400" height="400" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-4.jpg" alt="">
-              <div class="tm2-social">
+              <div class="ta-photo"><img width="600" height="800" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-2.jpg" alt="Amara Osei"></div>
+            </li>
+            <li class="ta-item" data-anim="item">
+              <button type="button" class="ta-trigger" aria-expanded="false" aria-label="Theo Grant"></button>
+              <div class="ta-info">
+                <div class="ta-inner">
+                  <h3 class="ta-name">Theo Grant</h3>
+                  <p class="ta-role">Senior Stylist</p>
+                  <div class="ta-social">
+                  </div>
+                  <p class="ta-bio">Precision cuts and men’s grooming.</p>
+                </div>
               </div>
-            </div>
-            <h3 class="tm2-name">Theo Grant</h3>
-            <p class="tm2-role">Senior Stylist</p>
-            <p class="tm2-bio">Precision cuts and men’s grooming.</p>
-          </li>
-          <li class="tm2-card" data-anim="item">
-            <div class="tm2-photo">
-              <img width="400" height="400" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-5.jpg" alt="">
-              <div class="tm2-social">
+              <div class="ta-photo"><img width="600" height="800" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-4.jpg" alt="Theo Grant"></div>
+            </li>
+            <li class="ta-item" data-anim="item">
+              <button type="button" class="ta-trigger" aria-expanded="false" aria-label="Lucia Romano"></button>
+              <div class="ta-info">
+                <div class="ta-inner">
+                  <h3 class="ta-name">Lucia Romano</h3>
+                  <p class="ta-role">Colourist</p>
+                  <div class="ta-social">
+                  </div>
+                  <p class="ta-bio">Balayage and lived-in blondes.</p>
+                </div>
               </div>
-            </div>
-            <h3 class="tm2-name">Lucia Romano</h3>
-            <p class="tm2-role">Colourist</p>
-            <p class="tm2-bio">Balayage and lived-in blondes.</p>
-          </li>
-          <li class="tm2-card" data-anim="item">
-            <div class="tm2-photo">
-              <img width="400" height="400" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-8.jpg" alt="">
-              <div class="tm2-social">
+              <div class="ta-photo"><img width="600" height="800" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-5.jpg" alt="Lucia Romano"></div>
+            </li>
+            <li class="ta-item" data-anim="item">
+              <button type="button" class="ta-trigger" aria-expanded="false" aria-label="Mei Tanaka"></button>
+              <div class="ta-info">
+                <div class="ta-inner">
+                  <h3 class="ta-name">Mei Tanaka</h3>
+                  <p class="ta-role">Beauty Therapist</p>
+                  <div class="ta-social">
+                  </div>
+                  <p class="ta-bio">Brows, lashes and skin.</p>
+                </div>
               </div>
-            </div>
-            <h3 class="tm2-name">Mei Tanaka</h3>
-            <p class="tm2-role">Beauty Therapist</p>
-            <p class="tm2-bio">Brows, lashes and skin.</p>
-          </li>
-        </ul>
+              <div class="ta-photo"><img width="600" height="800" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-8.jpg" alt="Mei Tanaka"></div>
+            </li>
+          </ul>
+        </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvulbpiz1ts9">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvutnmni9a2k">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Client love</p>
@@ -238,7 +299,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvulbpizy0ti">
+    <section id="contact" class="st st-booking-form" data-uid="smvutnmniyf1s">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -299,7 +360,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvulbpizp3kj">
+    <section id="contact-2" class="st st-contact-map" data-uid="smvutnmniibb7">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -324,7 +385,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvulbpiznz4q">
+    <section class="st st-popup-modal" data-uid="smvutnmnii7rk">
       <div class="pu" data-pu data-trigger="delay" data-delay="10" data-scroll="50" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="1pcpcek">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -344,7 +405,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvulbpiz47g3">
+    <section class="st st-footer-minimal" data-uid="smvutnmniiu8x">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -359,6 +420,15 @@ const salonLandingPageTemplate = {
         </div>
         <p class="fm-copy">© 2026 Bloom Studio</p>
       </footer>
+    </section>
+    <section class="st st-back-to-top" data-uid="smvutnmniybkn">
+      <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
+        <div class="btt-demo" aria-hidden="true">
+          <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
+          <span class="btt-note">The button appears here once the page has scrolled</span>
+        </div><!--/btt-demo-->
+        <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </div>
     </section>`,
 
   css: `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -461,6 +531,26 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .rm-foot{display:flex;flex-direction:column;align-items:center;gap:18px;margin-top:clamp(40px,5cqi,64px);text-align:center}
 .rm-note{color:var(--st-muted);font-size:14px;max-width:44em}
 @container st (max-width:720px){.rm-list{grid-template-columns:1fr}}
+/* Scroll Zoom Images (Ken Burns) */
+.st-scroll-zoom{padding:0}
+.kb-hero{position:relative;display:flex;align-items:flex-end;min-height:clamp(520px,64cqi,760px);overflow:hidden}
+.kb-frame{position:relative;overflow:hidden;background:var(--st-surface)}
+.kb-frame--hero{position:absolute;inset:0}
+.kb-img{display:block;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%;will-change:transform}
+.kb-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,9,13,.15) 0%,rgba(6,9,13,.35) 45%,rgba(6,9,13,.82) 100%)}
+.kb-hero-text{position:relative;z-index:1;padding-top:clamp(120px,16cqi,200px);padding-bottom:clamp(40px,6cqi,80px)}
+.kb-h1{max-width:13em;font-size:clamp(38px,5.4cqi + 8px,78px);color:#fff}
+.kb-lead{max-width:34em;margin-top:16px;color:rgba(255,255,255,.82)}
+.kb-btns{margin-top:26px}
+.kb-featured{padding-top:clamp(56px,7cqi,104px);padding-bottom:clamp(64px,8cqi,112px)}
+.kb-grid{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.4cqi,32px);margin:0;padding:0}
+.kb-frame--card{aspect-ratio:4/5;border-radius:calc(var(--st-radius) * 1px);margin-bottom:16px}
+.kb-title{font-size:20px;letter-spacing:-.01em}
+.kb-cap{margin-top:4px;color:var(--st-muted);font-size:15px}
+.kb-cap:empty{display:none}
+.kb:not([data-kb-ready]) .kb-img{transform:none}
+@container st (max-width:820px){.kb-grid{grid-template-columns:1fr 1fr}}
+@container st (max-width:520px){.kb-grid{grid-template-columns:1fr}.kb-frame--card{aspect-ratio:4/3}}
 /* Before & After Slider */
 .st-before-after-slider{padding:clamp(56px,7cqi,104px) 0}
 .ba-grid{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(24px,3cqi,40px)}
@@ -480,25 +570,44 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .ba-compare.is-static .ba-handle::before{content:"";position:absolute;top:0;bottom:0;left:-18px;right:-18px}
 .ba-title{font-size:19px;line-height:1.3;letter-spacing:-.015em}
 .ba-cap{color:var(--st-muted);font-size:15.5px}
-/* Team Grid */
-.st-team-grid{padding:clamp(64px,8cqi,112px) 0}
-.tm2-grid{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,2.4cqi,32px)}
-.tm2-card{display:flex;flex-direction:column}
-.tm2-photo{position:relative;overflow:hidden;margin-bottom:16px;border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);aspect-ratio:1}
-.tm2-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-.tm2-card:hover .tm2-photo img{transform:scale(1.05)}
-.tm2-social{position:absolute;left:12px;bottom:12px;display:flex;gap:8px;transform:translateY(calc(100% + 16px));transition:transform .35s cubic-bezier(.2,.8,.2,1)}
-.tm2-card:hover .tm2-social,.tm2-card:focus-within .tm2-social{transform:none}
-@media (hover:none){.tm2-social{transform:none}}
-.tm2-social a{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.92);color:#0f172a;box-shadow:0 6px 16px rgba(0,0,0,.18)}
-.tm2-social a:hover{background:var(--st-brand);color:var(--st-btn-text)}
-.tm2-social svg{width:17px;height:17px}
-.tm2-name{font-size:18px;letter-spacing:-.01em}
-.tm2-role{color:var(--st-brand);font-size:14.5px;font-weight:600;margin-top:2px}
-.tm2-bio{color:var(--st-muted);font-size:15px;margin-top:8px}
-.tm2-bio:empty{display:none}
-@container st (max-width:960px){.tm2-grid{grid-template-columns:repeat(3,1fr)}}
-@container st (max-width:700px){.tm2-grid{grid-template-columns:repeat(2,1fr)}}
+/* Interactive Team Accordion */
+.st-team-accordion{padding:clamp(64px,8cqi,112px) 0;background:radial-gradient(60% 70% at 15% 20%,color-mix(in srgb,var(--st-brand) 14%,transparent),transparent 70%),radial-gradient(50% 60% at 90% 80%,color-mix(in srgb,#ec4899 12%,transparent),transparent 70%),var(--st-bg)}
+.ta-strips{list-style:none;display:flex;gap:clamp(8px,1.2cqi,16px);height:clamp(380px,40cqi,500px);margin:0;padding:clamp(8px,1.2cqi,14px);border-radius:calc(var(--st-radius) * 1.4px);background:color-mix(in srgb,var(--st-surface) 78%,transparent);box-shadow:0 30px 70px -30px color-mix(in srgb,var(--st-text) 35%,transparent),0 0 0 1px color-mix(in srgb,var(--st-text) 6%,transparent)}
+.ta-item{position:relative;display:flex;flex:1 1 0;min-width:0;overflow:hidden;border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);transition:flex-grow .65s cubic-bezier(.4,0,.2,1)}
+.ta-item.is-open,.ta:not([data-ta-ready]) .ta-item:first-child{flex-grow:7}
+.ta-trigger{position:absolute;inset:0;z-index:1;padding:0;border:0;background:transparent;cursor:pointer;border-radius:inherit}
+.ta-item.is-open .ta-trigger{cursor:default}
+.ta-trigger:focus-visible{outline:3px solid var(--st-brand);outline-offset:-4px}
+.ta-info{position:relative;z-index:2;flex:0 1 0;min-width:0;overflow:hidden;visibility:hidden;opacity:0;transition:flex-grow .65s cubic-bezier(.4,0,.2,1),opacity .35s ease,visibility 0s .65s}
+.ta-item.is-open .ta-info,.ta:not([data-ta-ready]) .ta-item:first-child .ta-info{flex-grow:1.15;visibility:visible;opacity:1;transition:flex-grow .65s cubic-bezier(.4,0,.2,1),opacity .45s ease .2s,visibility 0s}
+.ta-inner{box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:10px;width:clamp(260px,26cqi,360px);height:100%;padding:clamp(22px,3cqi,40px)}
+.ta-name{font-size:clamp(22px,2cqi + 8px,30px);letter-spacing:-.02em}
+.ta-role{color:var(--st-brand);font-size:15px;font-weight:600}
+.ta-social{display:flex;gap:8px;margin:4px 0 6px}
+.ta-social a{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:color-mix(in srgb,var(--st-brand) 12%,transparent);color:var(--st-brand);transition:background .2s ease,color .2s ease,transform .2s ease}
+.ta-social a:hover{background:var(--st-brand);color:var(--st-btn-text);transform:translateY(-2px)}
+.ta-social a:focus-visible{outline:3px solid var(--st-brand);outline-offset:2px}
+.ta-social:not(:has(a:not([hidden]))){display:none}
+.ta-social .st-icon{display:inline-grid;place-items:center;width:17px;height:17px}
+.ta-social svg{width:17px;height:17px}
+.ta-bio{color:var(--st-muted);font-size:15.5px;line-height:1.65}
+.ta-bio:empty{display:none}
+.ta-photo{position:relative;flex:1 1 0;min-width:0;background:var(--st-surface)}
+.ta-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%;transition:filter .5s ease,transform .8s ease}
+.ta[data-gray=on] .ta-item:not(.is-open) .ta-photo img{filter:grayscale(1) contrast(1.05)}
+.ta[data-gray=on]:not([data-ta-ready]) .ta-item:not(:first-child) .ta-photo img{filter:grayscale(1) contrast(1.05)}
+.ta-item:not(.is-open):hover .ta-photo img{transform:scale(1.05)}
+@container st (max-width:760px){
+.ta-strips{flex-direction:column;height:clamp(600px,178cqi,830px)}
+.ta-item{flex-direction:column;min-height:56px}
+.ta-info{flex:0 1 0;width:100%}
+.ta-item.is-open .ta-info,.ta:not([data-ta-ready]) .ta-item:first-child .ta-info{flex-grow:2.6}
+.ta-inner{width:100%;gap:6px;padding:16px 20px;justify-content:flex-start;overflow-y:auto}
+.ta-bio{font-size:14.5px;line-height:1.55}
+.ta-photo{flex:1 1 0;min-height:96px}
+.ta-photo img{object-position:center 18%}
+}
+@media (prefers-reduced-motion:reduce){.ta-item,.ta-info,.ta-photo img{transition:none}}
 /* Testimonial Wall */
 .st-testimonials-grid{padding:clamp(64px,8cqi,112px) 0}
 .st-stars{color:#f59e0b;font-size:16px;letter-spacing:2px;line-height:1}
@@ -680,6 +789,33 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .fm .st-social:hover{background:color-mix(in srgb,var(--st-brand) 12%,transparent);color:var(--st-brand)}
 .fm-copy{padding-top:20px;color:var(--st-muted);font-size:14px;text-align:center}
 @container st (max-width:760px){.fm-row{flex-direction:column;text-align:center}.fm-links{justify-content:center}.fm .st-socials{justify-content:center}}
+/* Back to Top Button */
+.st-back-to-top{overflow:visible;container-type:normal;height:0;min-height:0;padding:0;background:transparent}
+.st-back-to-top:has(.btt.is-preview){height:auto;padding:clamp(20px,3vw,40px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 6%,var(--st-bg))}
+.btt{--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:.8s;--btt-bg:var(--st-brand);--btt-fg:var(--st-btn-text)}
+.btt-btn{position:fixed;bottom:var(--btt-off);z-index:2147482500;display:grid;place-items:center;width:var(--btt-size);height:var(--btt-size);padding:0;border:0;border-radius:var(--btt-radius);background:var(--btt-bg);color:var(--btt-fg);cursor:pointer;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,transform .3s ease,visibility 0s .3s,box-shadow .2s ease,background .2s ease}
+.btt[data-pos=right] .btt-btn{right:var(--btt-off)}
+.btt[data-pos=left] .btt-btn{left:var(--btt-off)}
+.btt[data-appear=slide] .btt-btn{transform:translateY(28px)}
+.btt[data-appear=zoom] .btt-btn{transform:scale(.5)}
+.btt[data-shadow=on] .btt-btn{box-shadow:0 12px 28px -8px rgba(15,23,42,.45)}
+.btt.is-visible .btt-btn{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .3s ease,transform .3s ease,visibility 0s,box-shadow .2s ease,background .2s ease}
+.btt.is-visible .btt-btn:hover{transform:translateY(-3px)}
+.btt.is-visible .btt-btn:active{transform:translateY(0) scale(.96)}
+.btt-btn:focus-visible{outline:3px solid color-mix(in srgb,var(--btt-bg) 55%,#fff);outline-offset:3px}
+.btt-svg{width:calc(var(--btt-size) * .46);height:calc(var(--btt-size) * .46)}
+@media (max-width:899px){.btt[data-mobile=off] .btt-btn{display:none}}
+.btt[data-enabled=off] .btt-btn{display:none}
+.btt-demo{display:none}
+.btt.is-preview .btt-demo{position:relative;display:flex;flex-direction:column;gap:14px;min-height:320px;padding:34px 30px;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-bg);box-shadow:0 20px 50px -24px color-mix(in srgb,var(--st-text) 40%,transparent)}
+.btt-bar{display:block;height:14px;width:100%;border-radius:7px;background:color-mix(in srgb,var(--st-text) 12%,transparent)}
+.btt-bar--lg{height:22px;width:62%;background:color-mix(in srgb,var(--st-text) 22%,transparent)}
+.btt-bar--md{width:84%}.btt-bar--sm{width:46%}
+.btt-note{margin-top:auto;font-size:13px;color:var(--st-muted)}
+.btt.is-preview .btt-btn{position:absolute;right:calc(var(--st-pad) + 18px);bottom:calc(clamp(20px,3vw,40px) + 18px);opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.btt.is-preview[data-pos=left] .btt-btn{right:auto;left:calc(var(--st-pad) + 18px)}
+@media (prefers-reduced-motion:reduce){.btt-btn{transition:none}}
+@media print{.btt{display:none}}
 .st:has(>.st-art){isolation:isolate}
 .st-art{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
 .st-art>svg{position:absolute;top:0;left:0;display:block;width:100%;height:100%}
@@ -769,6 +905,35 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   });
 })();
 (function () {
+  var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!G || !window.ScrollTrigger || reduce || (window.ST_STILL && !window.ST_SCROLL_FX)) return;
+  G.registerPlugin(ScrollTrigger);
+  document.querySelectorAll('.st [data-kb]').forEach(function (root) {
+    if (root.getAttribute('data-kb-ready')) return;
+    root.setAttribute('data-kb-ready', '1');
+    var num = function (name, d) { var v = parseFloat(root.getAttribute(name)); return isNaN(v) ? d : v; };
+    var zoom = num('data-zoom', 30) / 100, dir = root.getAttribute('data-dir') === 'out' ? 'out' : 'in';
+    var affect = root.getAttribute('data-affect') || 'both';
+    var startPct = num('data-start', 100), endPct = num('data-end', 0), smooth = num('data-smooth', 0.6);
+    var drift = root.getAttribute('data-drift') !== 'off';
+    root.querySelectorAll('[data-kb-img]').forEach(function (img) {
+      var kind = img.getAttribute('data-kb-img');
+      if (affect !== 'both' && affect !== kind) return;
+      var frame = img.parentNode;
+      var s0 = dir === 'in' ? 1 : 1 + zoom, s1 = dir === 'in' ? 1 + zoom : 1;
+      var x0 = drift ? -(s0 - 1) * 40 : 0, x1 = drift ? -(s1 - 1) * 40 : 0;
+      var startPos = function () { return Math.max(0, frame.getBoundingClientRect().top + window.pageYOffset - window.innerHeight * startPct / 100); };
+      var endPos = function () { return Math.max(startPos() + 120, frame.getBoundingClientRect().bottom + window.pageYOffset - window.innerHeight * endPct / 100); };
+      G.fromTo(img, { scale: s0, xPercent: x0 }, {
+        scale: s1, xPercent: x1, ease: 'none', force3D: true,
+        scrollTrigger: { trigger: frame, start: startPos, end: endPos, scrub: smooth > 0 ? smooth : true, invalidateOnRefresh: true }
+      });
+    });
+    root.setAttribute('data-kb-active', '1');
+  });
+  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+})();
+(function () {
   document.querySelectorAll('.st [data-compare]').forEach(function (box) {
     var input = box.querySelector('.ba-range');
     if (!input) return;
@@ -795,6 +960,41 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     function set() { box.style.setProperty('--pos', input.value + '%'); }
     input.addEventListener('input', set);
     set();
+  });
+})();
+(function () {
+  document.querySelectorAll('.st [data-ta]').forEach(function (root) {
+    if (root.getAttribute('data-ta-ready')) return;
+    root.setAttribute('data-ta-ready', '1');
+    var items = Array.prototype.slice.call(root.querySelectorAll('.ta-item'));
+    if (!items.length) return;
+    function open(i) {
+      items.forEach(function (it, k) {
+        var on = k === i;
+        it.classList.toggle('is-open', on);
+        var b = it.querySelector('.ta-trigger');
+        if (b) b.setAttribute('aria-expanded', on ? 'true' : 'false');
+      });
+    }
+    var start = parseInt(root.getAttribute('data-open'), 10);
+    open(isNaN(start) ? 0 : Math.min(items.length - 1, Math.max(0, start - 1)));
+    items.forEach(function (it, k) {
+      var b = it.querySelector('.ta-trigger');
+      if (!b) return;
+      b.addEventListener('click', function () { open(k); });
+      b.addEventListener('keydown', function (e) {
+        var to = -1;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') to = (k + 1) % items.length;
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') to = (k - 1 + items.length) % items.length;
+        else if (e.key === 'Home') to = 0;
+        else if (e.key === 'End') to = items.length - 1;
+        if (to < 0) return;
+        e.preventDefault();
+        var nb = items[to].querySelector('.ta-trigger');
+        if (nb) nb.focus();
+        open(to);
+      });
+    });
   });
 })();
 (function () {
@@ -1004,6 +1204,44 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   });
 })();
 (function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st [data-btt]').forEach(function (root) {
+    if (root.getAttribute('data-btt-ready')) return;
+    root.setAttribute('data-btt-ready', '1');
+    var btn = root.querySelector('.btt-btn');
+    var demo = root.querySelector('.btt-demo');
+    if (!btn || root.getAttribute('data-enabled') === 'off') { if (demo && !inline) demo.parentNode.removeChild(demo); return; }
+    if (!inline && demo) demo.parentNode.removeChild(demo);
+    if (inline) {
+      root.classList.add('is-preview', 'is-visible');
+      btn.addEventListener('click', function (e) { e.preventDefault(); });
+      return;
+    }
+    var dist = parseFloat(root.getAttribute('data-distance')) || 0;
+    var secs = parseFloat(root.getAttribute('data-speed'));
+    if (isNaN(secs)) secs = 0.8;
+    var ticking = false;
+    function check() { ticking = false; root.classList.toggle('is-visible', (window.pageYOffset || document.documentElement.scrollTop) > dist); }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+    var stopped = false;
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, function () { stopped = true; }, { passive: true }); });
+    btn.addEventListener('click', function () {
+      var from = window.pageYOffset || document.documentElement.scrollTop;
+      if (reduce || secs <= 0 || from < 2) { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); return; }
+      stopped = false;
+      var t0 = performance.now(), dur = secs * 1000;
+      (function step(t) {
+        var p = Math.min(1, (t - t0) / dur);
+        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        window.scrollTo({ top: from * (1 - e), left: 0, behavior: 'instant' });
+        if (p < 1 && !stopped) requestAnimationFrame(step);
+      })(t0);
+    });
+  });
+})();
+(function () {
   if (!window.gsap) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -1062,7 +1300,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   seo: {
     "title": "Hair & Beauty Salon Website HTML Template — Free Snippet",
     "description": "A hair salon and beauty studio website in HTML, CSS and JS: soft hero, services menu with prices, before/after slider, stylists, reviews, booking and map.",
-    "subtitle": "Hair & Beauty Salon Website template · 10 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Hair & Beauty Salon Website template · 12 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "salon",
       "name": "Hair & Beauty Salon Website",
@@ -1089,16 +1327,22 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "role": "services and prices laid out like a menu, so the cost is clear before anyone books"
       },
       {
+        "id": "scroll-zoom",
+        "name": "Scroll Zoom Images (Ken Burns)",
+        "url": "/website-section-templates/scroll-zoom/",
+        "role": "a hero and three featured corners of the studio whose photographs zoom gently as you scroll"
+      },
+      {
         "id": "before-after-slider",
         "name": "Before & After Slider",
         "url": "/website-section-templates/before-after-slider/",
         "role": "before-and-after results, the proof of skill that words cannot give"
       },
       {
-        "id": "team-grid",
-        "name": "Team Grid",
-        "url": "/website-section-templates/team-grid/",
-        "role": "the stylists with photos and specialities, because clients book a person"
+        "id": "team-accordion",
+        "name": "Interactive Team Accordion",
+        "url": "/website-section-templates/team-accordion/",
+        "role": "an interactive team accordion where each stylist is a grayscale strip that opens on click"
       },
       {
         "id": "testimonials-grid",
@@ -1129,6 +1373,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "name": "Minimal Footer",
         "url": "/website-section-templates/footer-minimal/",
         "role": "a minimal footer with socials and legal links"
+      },
+      {
+        "id": "back-to-top",
+        "name": "Back to Top Button",
+        "url": "/website-section-templates/back-to-top/",
+        "role": "a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return"
       }
     ],
     "about": {
@@ -1136,12 +1386,15 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       "description": "Clients choose a salon on three things: the work, the price and the person who will do it. The services are therefore laid out like a menu, with prices, so the cost of a cut and colour is clear before anyone books. A before-and-after slider shows transformations that no description can convey, and the stylist grid lets a client pick someone by name, which is how most salon bookings really work.\n\nReviews from regulars confirm the experience, a booking request form takes the service, preferred stylist and date, and a map shows where to find you. A popup can promote a new-client offer or a quiet-day discount without restructuring the page.\n\nReplace the sample menu and stylists with your own, and photograph your real work. It is the layout of the [Hair & Beauty Salon Website template](/website-builder/templates/salon/), which also comes as a multi-page site with Services, Stylists and Book pages; open it in the [Website Builder](/website-builder/) to edit and export."
     },
     "features": [
-      "10 ready-made website sections assembled into one finished hair & beauty salon website page: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Before & After Slider, Team Grid, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer",
+      "12 ready-made website sections assembled into one finished hair & beauty salon website page: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Images (Ken Burns), Before & After Slider, Interactive Team Accordion, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 6-page website in the builder, sharing one navbar, footer and theme",
+      "A Ken Burns scroll zoom on the hero and featured photographs (GSAP ScrollTrigger)",
+      "An interactive team accordion of grayscale image strips that expand on click",
+      "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
     "howToUse": {
@@ -1201,7 +1454,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 10 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Before & After Slider, Team Grid, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 12 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Images (Ken Burns), Before & After Slider, Interactive Team Accordion, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1210,7 +1463,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Hair & Beauty Salon Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete hair & beauty salon website for “Bloom Studio” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Leave feeling like yourself, only better”\n3. Restaurant Menu: “Cut, colour and care”\n4. Before & After Slider: “Colour and cut, before and after”\n5. Team Grid: “The people behind the chair”\n6. Testimonial Wall: “Kind words from regulars”\n7. Booking Request Form: “Request your appointment”\n8. Contact With Map: “Find the studio”\n9. Popup & Promo Modal\n10. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #be185d, page background #fff8f7, cards #f8e9e6, text #3b1d24, muted text #7b5960. Corner radius 18px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable health & beauty copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Bloom Studio: Hair, Colour and Beauty Salon in Hackney”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a health & beauty business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Services (services.html)\n- Stylists (team.html)\n- Book (book.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete hair & beauty salon website for “Bloom Studio” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Leave feeling like yourself, only better”\n3. Restaurant Menu: “Cut, colour and care”\n4. Scroll Zoom Images (Ken Burns): “A calm place to take your time”\n5. Before & After Slider: “Colour and cut, before and after”\n6. Interactive Team Accordion: “Meet the hands behind Bloom”\n7. Testimonial Wall: “Kind words from regulars”\n8. Booking Request Form: “Request your appointment”\n9. Contact With Map: “Find the studio”\n10. Popup & Promo Modal\n11. Minimal Footer\n12. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #be185d, page background #fff8f7, cards #f8e9e6, text #3b1d24, muted text #7b5960. Corner radius 18px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable health & beauty copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Bloom Studio: Hair, Colour and Beauty Salon in Hackney”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a health & beauty business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Services (services.html)\n- Stylists (team.html)\n- Book (book.html)\n- Privacy (privacy.html)"
     }
   },
 };

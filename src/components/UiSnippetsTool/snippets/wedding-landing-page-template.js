@@ -3,7 +3,7 @@
 const weddingLandingPageTemplate = {
   id: 'wedding-landing-page-template',
   title: 'Wedding Website Template',
-  lastmod: '2026-10-28',
+  lastmod: '2026-10-30',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -11,7 +11,7 @@ const weddingLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvulbpi7t06g">
+    <section class="st st-navbar-floating" data-uid="smvutnmmtuxpk">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -31,7 +31,7 @@ const weddingLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvulbpi79d4f">
+    <section class="st st-image-background-hero" data-uid="smvutnmmtxjl5">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-wedding.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,7 +51,7 @@ const weddingLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="story" class="st st-scroll-story" data-uid="smvulbpi7cy89">
+    <section id="story" class="st st-scroll-story" data-uid="smvutnmmtkmu0">
       <div class="st-wrap">
         <header class="st-head st-head--left">
           <p class="st-eyebrow" data-anim="item">Our story</p>
@@ -88,7 +88,7 @@ const weddingLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="journey" class="st st-scroll-path" data-uid="smvulbpi70zmf">
+    <section id="journey" class="st st-scroll-path" data-uid="smvutnmmuc4hk">
       <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.3" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><g fill="currentColor"><path data-float data-spin d="M120 118 C123.3 136.7 123.3 136.7 142 140 C123.3 143.3 123.3 143.3 120 162 C116.7 143.3 116.7 143.3 98 140 C116.7 136.7 116.7 136.7 120 118Z"/><path data-float data-spin d="M340 606 C342.1 617.9 342.1 617.9 354 620 C342.1 622.1 342.1 622.1 340 634 C337.9 622.1 337.9 622.1 326 620 C337.9 617.9 337.9 617.9 340 606Z"/><path data-float data-spin d="M560 78 C561.8 88.2 561.8 88.2 572 90 C561.8 91.8 561.8 91.8 560 102 C558.2 91.8 558.2 91.8 548 90 C558.2 88.2 558.2 88.2 560 78Z"/><path data-float data-spin d="M820 660 C823 677 823 677 840 680 C823 683 823 683 820 700 C817 683 817 683 800 680 C817 677 817 677 820 660Z"/><path data-float data-spin d="M1020 154 C1023.9 176.1 1023.9 176.1 1046 180 C1023.9 183.9 1023.9 183.9 1020 206 C1016.1 183.9 1016.1 183.9 994 180 C1016.1 176.1 1016.1 176.1 1020 154Z"/><path data-float data-spin d="M1120 508 C1121.8 518.2 1121.8 518.2 1132 520 C1121.8 521.8 1121.8 521.8 1120 532 C1118.2 521.8 1118.2 521.8 1108 520 C1118.2 518.2 1118.2 518.2 1120 508Z"/><path data-float data-spin d="M240 370 C241.5 378.5 241.5 378.5 250 380 C241.5 381.5 241.5 381.5 240 390 C238.5 381.5 238.5 381.5 230 380 C238.5 378.5 238.5 378.5 240 370Z"/><path data-float data-spin d="M700 371 C701.35 378.65 701.35 378.65 709 380 C701.35 381.35 701.35 381.35 700 389 C698.65 381.35 698.65 381.35 691 380 C698.65 378.65 698.65 378.65 700 371Z"/><path data-float data-spin d="M920 406 C922.1 417.9 922.1 417.9 934 420 C922.1 422.1 922.1 422.1 920 434 C917.9 422.1 917.9 422.1 906 420 C917.9 417.9 917.9 417.9 920 406Z"/><path data-float data-spin d="M460 292 C461.2 298.8 461.2 298.8 468 300 C461.2 301.2 461.2 301.2 460 308 C458.8 301.2 458.8 301.2 452 300 C458.8 298.8 458.8 298.8 460 292Z"/></g></svg></div>
       <div class="st-wrap">
         <header class="st-head">
@@ -138,7 +138,7 @@ const weddingLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvulbpi8wwdr">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvutnmmuzmcp">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -174,7 +174,7 @@ const weddingLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="faq" class="st st-faq-split" data-uid="smvulbpi84998">
+    <section id="faq" class="st st-faq-split" data-uid="smvutnmmuilwm">
       <div class="st-wrap fs2">
         <div class="fs2-side">
           <header class="st-head st-head--left fs2-head">
@@ -209,7 +209,7 @@ const weddingLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvulbpi8egse">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvutnmmuvxxm">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -250,7 +250,7 @@ const weddingLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvulbpi8ezq3">
+    <section class="st st-floating-social-share" data-uid="smvutnmmupwjt">
       <div class="ss" data-ss data-side="left" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="whatsapp" data-share="https://wa.me/?text={text}" href="https://wa.me/" target="_blank" rel="noopener noreferrer" style="--c:#128C7E" aria-label="Share on WhatsApp (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5.1A9 9 0 1 1 8.1 19.3z"/><path d="M9 8.5c0 3.300 2.700 6 6 6l1.300-1.500-2.200-1.100-.9.900c-.9-.4-1.700-1.200-2.100-2.100l.9-.9-1.100-2.200z"/></svg><span class="ss-tip" aria-hidden="true">WhatsApp</span></a></li><li class="ss-item"><a class="ss-btn" data-net="facebook" data-share="https://www.facebook.com/sharer/sharer.php?u={url}" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer" style="--c:#1877F2" aria-label="Share on Facebook (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="ss-tip" aria-hidden="true">Facebook</span></a></li><li class="ss-item"><a class="ss-btn" data-net="email" data-share="mailto:?subject={title}&amp;body={text}" href="mailto:" style="--c:#6B7280" aria-label="Share on Email"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.970 5.700a1.940 1.940 0 0 1-2.060 0L2 7"/></svg><span class="ss-tip" aria-hidden="true">Email</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -259,7 +259,7 @@ const weddingLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvulbpi8e2t0">
+    <section class="st st-footer-minimal" data-uid="smvutnmmu2jjv">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -269,6 +269,15 @@ const weddingLandingPageTemplate = {
         </div>
         <p class="fm-copy">14 June 2027 · Sintra, Portugal</p>
       </footer>
+    </section>
+    <section class="st st-back-to-top" data-uid="smvutnmmu0m53">
+      <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
+        <div class="btt-demo" aria-hidden="true">
+          <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
+          <span class="btt-note">The button appears here once the page has scrolled</span>
+        </div><!--/btt-demo-->
+        <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </div>
     </section>`,
 
   css: `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -590,6 +599,33 @@ a.cs2-value:hover{color:var(--st-brand)}
 .fm .st-social:hover{background:color-mix(in srgb,var(--st-brand) 12%,transparent);color:var(--st-brand)}
 .fm-copy{padding-top:20px;color:var(--st-muted);font-size:14px;text-align:center}
 @container st (max-width:760px){.fm-row{flex-direction:column;text-align:center}.fm-links{justify-content:center}.fm .st-socials{justify-content:center}}
+/* Back to Top Button */
+.st-back-to-top{overflow:visible;container-type:normal;height:0;min-height:0;padding:0;background:transparent}
+.st-back-to-top:has(.btt.is-preview){height:auto;padding:clamp(20px,3vw,40px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 6%,var(--st-bg))}
+.btt{--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:.8s;--btt-bg:var(--st-brand);--btt-fg:var(--st-btn-text)}
+.btt-btn{position:fixed;bottom:var(--btt-off);z-index:2147482500;display:grid;place-items:center;width:var(--btt-size);height:var(--btt-size);padding:0;border:0;border-radius:var(--btt-radius);background:var(--btt-bg);color:var(--btt-fg);cursor:pointer;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,transform .3s ease,visibility 0s .3s,box-shadow .2s ease,background .2s ease}
+.btt[data-pos=right] .btt-btn{right:var(--btt-off)}
+.btt[data-pos=left] .btt-btn{left:var(--btt-off)}
+.btt[data-appear=slide] .btt-btn{transform:translateY(28px)}
+.btt[data-appear=zoom] .btt-btn{transform:scale(.5)}
+.btt[data-shadow=on] .btt-btn{box-shadow:0 12px 28px -8px rgba(15,23,42,.45)}
+.btt.is-visible .btt-btn{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .3s ease,transform .3s ease,visibility 0s,box-shadow .2s ease,background .2s ease}
+.btt.is-visible .btt-btn:hover{transform:translateY(-3px)}
+.btt.is-visible .btt-btn:active{transform:translateY(0) scale(.96)}
+.btt-btn:focus-visible{outline:3px solid color-mix(in srgb,var(--btt-bg) 55%,#fff);outline-offset:3px}
+.btt-svg{width:calc(var(--btt-size) * .46);height:calc(var(--btt-size) * .46)}
+@media (max-width:899px){.btt[data-mobile=off] .btt-btn{display:none}}
+.btt[data-enabled=off] .btt-btn{display:none}
+.btt-demo{display:none}
+.btt.is-preview .btt-demo{position:relative;display:flex;flex-direction:column;gap:14px;min-height:320px;padding:34px 30px;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-bg);box-shadow:0 20px 50px -24px color-mix(in srgb,var(--st-text) 40%,transparent)}
+.btt-bar{display:block;height:14px;width:100%;border-radius:7px;background:color-mix(in srgb,var(--st-text) 12%,transparent)}
+.btt-bar--lg{height:22px;width:62%;background:color-mix(in srgb,var(--st-text) 22%,transparent)}
+.btt-bar--md{width:84%}.btt-bar--sm{width:46%}
+.btt-note{margin-top:auto;font-size:13px;color:var(--st-muted)}
+.btt.is-preview .btt-btn{position:absolute;right:calc(var(--st-pad) + 18px);bottom:calc(clamp(20px,3vw,40px) + 18px);opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.btt.is-preview[data-pos=left] .btt-btn{right:auto;left:calc(var(--st-pad) + 18px)}
+@media (prefers-reduced-motion:reduce){.btt-btn{transition:none}}
+@media print{.btt{display:none}}
 .st:has(>.st-art){isolation:isolate}
 .st-art{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
 .st-art>svg{position:absolute;top:0;left:0;display:block;width:100%;height:100%}
@@ -1010,6 +1046,44 @@ a.cs2-value:hover{color:var(--st-brand)}
   });
 })();
 (function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st [data-btt]').forEach(function (root) {
+    if (root.getAttribute('data-btt-ready')) return;
+    root.setAttribute('data-btt-ready', '1');
+    var btn = root.querySelector('.btt-btn');
+    var demo = root.querySelector('.btt-demo');
+    if (!btn || root.getAttribute('data-enabled') === 'off') { if (demo && !inline) demo.parentNode.removeChild(demo); return; }
+    if (!inline && demo) demo.parentNode.removeChild(demo);
+    if (inline) {
+      root.classList.add('is-preview', 'is-visible');
+      btn.addEventListener('click', function (e) { e.preventDefault(); });
+      return;
+    }
+    var dist = parseFloat(root.getAttribute('data-distance')) || 0;
+    var secs = parseFloat(root.getAttribute('data-speed'));
+    if (isNaN(secs)) secs = 0.8;
+    var ticking = false;
+    function check() { ticking = false; root.classList.toggle('is-visible', (window.pageYOffset || document.documentElement.scrollTop) > dist); }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+    var stopped = false;
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, function () { stopped = true; }, { passive: true }); });
+    btn.addEventListener('click', function () {
+      var from = window.pageYOffset || document.documentElement.scrollTop;
+      if (reduce || secs <= 0 || from < 2) { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); return; }
+      stopped = false;
+      var t0 = performance.now(), dur = secs * 1000;
+      (function step(t) {
+        var p = Math.min(1, (t - t0) / dur);
+        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        window.scrollTo({ top: from * (1 - e), left: 0, behavior: 'instant' });
+        if (p < 1 && !stopped) requestAnimationFrame(step);
+      })(t0);
+    });
+  });
+})();
+(function () {
   if (!window.gsap) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -1068,7 +1142,7 @@ a.cs2-value:hover{color:var(--st-brand)}
   seo: {
     "title": "Wedding Website HTML Template — Free CSS & JS Snippet",
     "description": "A wedding website in HTML, CSS and JS: floral hero with date and venue, scrolling love story, day-of timeline, gallery, travel FAQ and an RSVP form. Edit live.",
-    "subtitle": "Wedding Website template · 9 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Wedding Website template · 10 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "wedding",
       "name": "Wedding Website",
@@ -1129,6 +1203,12 @@ a.cs2-value:hover{color:var(--st-brand)}
         "name": "Minimal Footer",
         "url": "/website-section-templates/footer-minimal/",
         "role": "a minimal footer with your hashtag and a thank-you"
+      },
+      {
+        "id": "back-to-top",
+        "name": "Back to Top Button",
+        "url": "/website-section-templates/back-to-top/",
+        "role": "a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return"
       }
     ],
     "about": {
@@ -1136,12 +1216,13 @@ a.cs2-value:hover{color:var(--st-brand)}
       "description": "A wedding site has one audience, your guests, and four jobs: tell the story, say where and when, answer the practical questions, and collect RSVPs. The floral hero opens with the date and venue so nobody has to hunt for them. The pinned scroll story walks guests through how you met as they scroll, which is the part they will enjoy, and the timeline that draws itself down the page shows the order of the day, from ceremony to the last dance.\n\nA filterable gallery shares your photographs, and the split FAQ answers the questions that otherwise arrive by message (dress code, children, parking, accommodation) beside a contact card. The RSVP form then sends replies straight to your inbox. Share it with a single link.\n\nReplace the names, venue and photos, and keep the order. It is the layout of the [Wedding Website template](/website-builder/templates/wedding/), which also comes as a multi-page site with Our story, Travel & stay and RSVP pages; open it in the [Website Builder](/website-builder/) to edit and export."
     },
     "features": [
-      "9 ready-made website sections assembled into one finished wedding website page: Floating Pill Navbar, Image Background Hero, Pinned Scroll Story, Scroll Path Timeline, Filterable Image Gallery, Split FAQ With Contact Card, Contact Form With Details, Floating Social Share Bar, Minimal Footer",
+      "10 ready-made website sections assembled into one finished wedding website page: Floating Pill Navbar, Image Background Hero, Pinned Scroll Story, Scroll Path Timeline, Filterable Image Gallery, Split FAQ With Contact Card, Contact Form With Details, Floating Social Share Bar, Minimal Footer, Back to Top Button",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 6-page website in the builder, sharing one navbar, footer and theme",
+      "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
     "howToUse": {
@@ -1201,7 +1282,7 @@ a.cs2-value:hover{color:var(--st-brand)}
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 9 templates in the free Website Section Templates library: Floating Pill Navbar, Image Background Hero, Pinned Scroll Story, Scroll Path Timeline, Filterable Image Gallery, Split FAQ With Contact Card, Contact Form With Details, Floating Social Share Bar, Minimal Footer. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 10 templates in the free Website Section Templates library: Floating Pill Navbar, Image Background Hero, Pinned Scroll Story, Scroll Path Timeline, Filterable Image Gallery, Split FAQ With Contact Card, Contact Form With Details, Floating Social Share Bar, Minimal Footer, Back to Top Button. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1210,7 +1291,7 @@ a.cs2-value:hover{color:var(--st-brand)}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Wedding Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete wedding website for “Maya & Daniel” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Floating Pill Navbar\n2. Image Background Hero: “Maya & Daniel are getting married”\n3. Pinned Scroll Story: “How we found each other”\n4. Scroll Path Timeline: “Wedding day schedule”\n5. Filterable Image Gallery: “A few places and moments”\n6. Split FAQ With Contact Card: “Good to know”\n7. Contact Form With Details: “Will you join us?”\n8. Floating Social Share Bar\n9. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #b76e79, page background #fffaf7, cards #f6ece6, text #3a2a2a, muted text #7a6262. Corner radius 20px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable events copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Maya & Daniel: Our Wedding in Sintra, 14 June 2027”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a events business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Our story (story.html)\n- Travel & stay (travel.html)\n- RSVP (rsvp.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete wedding website for “Maya & Daniel” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Floating Pill Navbar\n2. Image Background Hero: “Maya & Daniel are getting married”\n3. Pinned Scroll Story: “How we found each other”\n4. Scroll Path Timeline: “Wedding day schedule”\n5. Filterable Image Gallery: “A few places and moments”\n6. Split FAQ With Contact Card: “Good to know”\n7. Contact Form With Details: “Will you join us?”\n8. Floating Social Share Bar\n9. Minimal Footer\n10. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #b76e79, page background #fffaf7, cards #f6ece6, text #3a2a2a, muted text #7a6262. Corner radius 20px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable events copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Maya & Daniel: Our Wedding in Sintra, 14 June 2027”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a events business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Our story (story.html)\n- Travel & stay (travel.html)\n- RSVP (rsvp.html)\n- Privacy (privacy.html)"
     }
   },
 };

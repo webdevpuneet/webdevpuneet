@@ -93,7 +93,10 @@ export function reorderSitePages(site, ids) {
 }
 
 const isHeaderSection = s => sectionTemplateById(s.tpl)?.category === 'navbar';
-const isFooterSection = s => sectionTemplateById(s.tpl)?.category === 'footer';
+/* Floating widgets (back to top, accessibility toolbar, cursor follower) are placed after the footer, so they join the
+   shared footer and appear on every page of a multi-page site */
+const FOOTER_LIKE = ['footer', 'effects', 'accessibility'];
+const isFooterSection = s => FOOTER_LIKE.includes(sectionTemplateById(s.tpl)?.category);
 
 /** A one-page site from a single page: leading navbars become the shared header and
     trailing footers the shared footer; everything else is the home page. */

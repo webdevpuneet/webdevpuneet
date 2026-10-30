@@ -180,6 +180,8 @@ Links are written one per line as "Label | URL", so even big footers are quick t
     keywords: ['team section template', 'meet the team html css', 'team carousel', 'careers section', 'about us team'],
     intro: `People buy from people. A team section puts faces and names to your company, which builds trust with customers, partners and future hires.
 
+The **[Interactive Team Accordion](/website-section-templates/team-accordion/)** shows people as tall grayscale image strips that expand on click to reveal a name, job title, social icons and bio, and stack vertically on phones.
+
 The **[Team Grid](/website-section-templates/team-grid/)** shows members as cards with photos, roles, bios and social links that slide in on hover. The **[Team Carousel](/website-section-templates/team-carousel/)** presents tall portrait cards in a row you can drag with momentum, ideal for larger or creative teams. The **[Team With Hiring CTA](/website-section-templates/team-hiring/)** pairs a mosaic of team photos with a "We're hiring" card listing perks and open roles.
 
 Team members are editable lists: add, reorder and remove people, and upload photos (resized in your browser) or start with the illustrated placeholders. Every section shares the library's theme, animates with GSAP and exports to HTML, React or Vue.`,
@@ -244,6 +246,44 @@ A toolbar is a helpful extra, not a substitute for an accessible page. Build the
       { q: 'Is a free accessibility widget enough for legal compliance?', a: 'No. A widget helps visitors adjust the display, but compliance depends on how the page is built. Fix headings, alt text, forms, contrast and keyboard access first.' },
       { q: 'Does the widget need a subscription or an account?', a: 'No. It is plain HTML, CSS and a little JavaScript that you export and host yourself, with no third-party script or tracking.' },
       { q: 'Can I translate the accessibility panel?', a: 'Yes. Every label in the panel can be renamed in the editor, so you can write it in your own language or change the wording.' },
+    ],
+  },
+  effects: {
+    title: 'Cursor Effect & Back to Top Button Templates: Free',
+    description: 'Free page effect templates: a cursor follower that inverts what is under it with blend modes and a floating back to top button. Edit online, export HTML.',
+    h1: 'Cursor Effect & Back to Top Button Templates',
+    keywords: ['cursor follower html', 'mix blend mode cursor', 'back to top button html', 'scroll to top button css', 'floating page effects'],
+    intro: `Some of the best details on a website do not live in a section at all: they float above the page and react to the visitor. These templates take no space in your layout and work across the whole page.
+
+The **[Cursor Follower](/website-section-templates/cursor-follower/)** puts a circle on the page that trails the mouse and uses a CSS blend mode such as difference or exclusion to invert the text and images beneath it. Set its size, colour, border, blend mode and smoothness, and it grows over links and switches itself off on touch screens.
+
+The **[Back to Top Button](/website-section-templates/back-to-top/)** appears after a scroll distance you choose and glides back to the top. Pick its icon, corner, size, colours, shape, animation and speed, and hide it on phones if you prefer.
+
+Both are plain HTML, CSS and a short script, work with a keyboard where it matters, respect reduced motion and export to HTML, a ZIP, React or Vue. Pair them with the [scroll effect sections](/website-section-templates/category/scroll/) for a polished, modern feel.`,
+    faqs: [
+      { q: 'What does a cursor follower do?', a: 'It adds a circle that trails the mouse across the page. With a blend mode like difference, the circle inverts the colours of the text and images under it, which gives the page a bold, interactive feel.' },
+      { q: 'Do these effects slow my website down?', a: 'No. The cursor circle animates transforms only and stops its loop when idle, and the back to top button uses one throttled scroll listener. Neither loads a library or an extra file.' },
+      { q: 'Do they work on phones and tablets?', a: 'The back to top button does, and you can hide it on small screens. The cursor follower is not created on touch screens, because there is no pointer to follow.' },
+      { q: 'Can I turn the effects off without removing them?', a: 'Yes. Each template has an on or off switch in the editor, so you can keep the section in your page and turn the effect off whenever you like.' },
+    ],
+  },
+  timeline: {
+    title: 'Timeline Section Templates: Free Horizontal Timelines',
+    description: 'Free timeline section templates: a scrollable horizontal timeline with numbered or icon markers for company history, roadmaps and milestones. Export HTML.',
+    h1: 'Timeline Section Templates',
+    keywords: ['timeline section template', 'horizontal timeline html css', 'company history timeline', 'roadmap timeline template', 'milestones section'],
+    intro: `A timeline turns a list of dates into a story. It tells visitors where a company, project or course has been and where it is going, and it is one of the quickest ways to build trust on an about page.
+
+The **[Horizontal Timeline](/website-section-templates/timeline-horizontal/)** lays events along one continuous line with round numbered or icon markers, and puts each date, title and short text above or below. By default the section pins to the screen and scrolling the page slides the timeline to the right with GSAP ScrollTrigger, while a progress line grows and each event lights up in turn. On phones, or in free mode, the row scrolls with arrow buttons, swipe, drag or the keyboard, and clicking a marker centres that event.
+
+Events are a repeater list, so you can add, remove and reorder them, and pick the layout (alternating or all below), the marker style and which event starts active. The timeline adapts to phones, respects reduced motion and exports to HTML, a ZIP, React or Vue.
+
+Use a timeline for company history, product roadmaps, course schedules and project milestones. For a vertical, scroll-drawn story see the [Scroll Path Timeline](/website-section-templates/scroll-path/).`,
+    faqs: [
+      { q: 'What is a horizontal timeline used for?', a: 'It shows a series of dated events from left to right, such as a company history, a product roadmap, a course schedule or the milestones of a project, so visitors see the order and pace at a glance.' },
+      { q: 'How many events can a timeline have?', a: 'From two to twelve events. If they do not all fit on the screen, the row scrolls sideways with arrows, swipe, drag and keyboard keys, and snaps to each event.' },
+      { q: 'Does the timeline work on mobile?', a: 'Yes. On phones the content moves below the line, the row scrolls with a swipe and the arrow buttons stay available, so every event remains readable and easy to reach.' },
+      { q: 'Can I use icons instead of numbers?', a: 'Yes. Choose icon markers and pick an icon for each event, or keep automatic numbers that renumber themselves when you reorder the events.' },
     ],
   },
   social: {

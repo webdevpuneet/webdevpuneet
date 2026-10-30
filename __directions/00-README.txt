@@ -23,7 +23,7 @@ REFERENCE MATERIAL (moved here 2026-10-28; this folder is now the ONLY copy)
   audits/content-audit.md   content audit
   audits/usecases-audit.csv UI snippet use-case audit
   ideas/ideas1.txt          UI snippet ideas
-  ideas/ELEMENTOR-EXPORT-NOTES.txt  Elementor export: options, test site + MCP, limits found, pilot, open questions (read before any Elementor work)
+  ideas/ELEMENTOR-EXPORT-NOTES.txt  Elementor export: DROPPED 2026-10-30 (HTML export only). Reference notes: options, MCP, limits found
   project-rules/MEMORY.md   project rules and the UI Snippets goal
 
   The originals in the project root were deleted on 2026-10-28. Edit these files here.

@@ -3,7 +3,7 @@
 const saasLandingPageTemplate = {
   id: 'saas-landing-page-template',
   title: 'SaaS Landing Page Template',
-  lastmod: '2026-10-28',
+  lastmod: '2026-10-30',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -13,7 +13,7 @@ const saasLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvulbpaq2pct">
+    <section class="st st-navbar-simple" data-uid="smvutnmhhm26j">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z" /><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65" /><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65" /></svg></span><span>Acme</span></span>
@@ -35,7 +35,7 @@ const saasLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvulbpaqfwt8">
+    <section class="st st-saas-split-hero" data-uid="smvutnmhirieb">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="https://webdevpuneet.com/changelog"><span>New: Automations are here →</span></a>
@@ -52,7 +52,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-logo-cloud" data-uid="smvulbpaqg75w">
+    <section class="st st-logo-cloud" data-uid="smvutnmhii5kk">
       <div class="st-wrap">
         <p class="lc-title" data-anim="item">Trusted by <span class="hl">2,000+ teams</span> at fast-growing companies</p>
       </div>
@@ -85,7 +85,7 @@ const saasLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvulbpaqk4pj">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvutnmhimo73">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Features</p>
@@ -127,7 +127,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features-2" class="st st-features-alternating" data-uid="smvulbpaqtp39">
+    <section id="features-2" class="st st-features-alternating" data-uid="smvutnmhi6nwr">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it helps</p>
@@ -167,7 +167,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvulbpaqbmbc">
+    <section id="gallery" class="st st-video-section" data-uid="smvutnmhino4c">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Product tour</p>
@@ -197,7 +197,7 @@ const saasLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="showcase" class="st st-scroll-ring" data-uid="smvulbpaqvp6j">
+    <section id="showcase" class="st st-scroll-ring" data-uid="smvutnmhip6f1">
       <div class="st-wrap rg-head">
         <p class="st-eyebrow" data-anim="item">Product tour</p>
         <h2 class="st-h2" data-anim="item" data-anim-text>Every Acme screen, <span class="hl">one scroll away</span></h2>
@@ -246,7 +246,7 @@ const saasLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvulbparh2q2">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvutnmhidyx7">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Wall of love</p>
@@ -305,7 +305,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvulbparma8v">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvutnmhic81d">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Pricing</p>
@@ -352,7 +352,7 @@ const saasLandingPageTemplate = {
         <p class="p3-note" data-anim="item">All paid plans include a 14-day free trial. Prices in USD, taxes may apply.</p>
       </div>
     </section>
-    <section id="pricing-2" class="st st-pricing-comparison" data-uid="smvulbparm5sl">
+    <section id="pricing-2" class="st st-pricing-comparison" data-uid="smvutnmhi8b1e">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Compare plans</p>
@@ -458,7 +458,7 @@ const saasLandingPageTemplate = {
         <p class="st-form-note pc-note">Prices are per month, billed yearly. Cancel any time.</p>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvulbpar3w8n">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvutnmhirtb1">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -494,7 +494,7 @@ const saasLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvulbparh5lr">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvutnmhirbkj">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Ready to ship your best work yet?</h2>
@@ -507,7 +507,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvulbpar0qgy">
+    <section class="st st-popup-modal" data-uid="smvutnmhipgc3">
       <div class="pu" data-pu data-trigger="exit" data-delay="8" data-scroll="50" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="hrcwe3">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -533,7 +533,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvulbparplbv">
+    <section class="st st-footer-columns" data-uid="smvutnmhiar6g">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -569,6 +569,15 @@ const saasLandingPageTemplate = {
           <a class="fo-totop" href="#" data-totop><span>Back to top</span> <span aria-hidden="true">↑</span></a>
         </div>
       </footer>
+    </section>
+    <section class="st st-back-to-top" data-uid="smvutnmhilkdk">
+      <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
+        <div class="btt-demo" aria-hidden="true">
+          <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
+          <span class="btt-note">The button appears here once the page has scrolled</span>
+        </div><!--/btt-demo-->
+        <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </div>
     </section>`,
 
   css: `@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -999,6 +1008,33 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .fo-totop:hover{background:var(--st-brand);color:var(--st-btn-text)}
 @container st (max-width:820px){.fo-top{grid-template-columns:1fr}}
 @container st (max-width:520px){.fo-cols{grid-template-columns:1fr 1fr}.fo-copy{margin-right:0;flex-basis:100%}}
+/* Back to Top Button */
+.st-back-to-top{overflow:visible;container-type:normal;height:0;min-height:0;padding:0;background:transparent}
+.st-back-to-top:has(.btt.is-preview){height:auto;padding:clamp(20px,3vw,40px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 6%,var(--st-bg))}
+.btt{--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:.8s;--btt-bg:var(--st-brand);--btt-fg:var(--st-btn-text)}
+.btt-btn{position:fixed;bottom:var(--btt-off);z-index:2147482500;display:grid;place-items:center;width:var(--btt-size);height:var(--btt-size);padding:0;border:0;border-radius:var(--btt-radius);background:var(--btt-bg);color:var(--btt-fg);cursor:pointer;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,transform .3s ease,visibility 0s .3s,box-shadow .2s ease,background .2s ease}
+.btt[data-pos=right] .btt-btn{right:var(--btt-off)}
+.btt[data-pos=left] .btt-btn{left:var(--btt-off)}
+.btt[data-appear=slide] .btt-btn{transform:translateY(28px)}
+.btt[data-appear=zoom] .btt-btn{transform:scale(.5)}
+.btt[data-shadow=on] .btt-btn{box-shadow:0 12px 28px -8px rgba(15,23,42,.45)}
+.btt.is-visible .btt-btn{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .3s ease,transform .3s ease,visibility 0s,box-shadow .2s ease,background .2s ease}
+.btt.is-visible .btt-btn:hover{transform:translateY(-3px)}
+.btt.is-visible .btt-btn:active{transform:translateY(0) scale(.96)}
+.btt-btn:focus-visible{outline:3px solid color-mix(in srgb,var(--btt-bg) 55%,#fff);outline-offset:3px}
+.btt-svg{width:calc(var(--btt-size) * .46);height:calc(var(--btt-size) * .46)}
+@media (max-width:899px){.btt[data-mobile=off] .btt-btn{display:none}}
+.btt[data-enabled=off] .btt-btn{display:none}
+.btt-demo{display:none}
+.btt.is-preview .btt-demo{position:relative;display:flex;flex-direction:column;gap:14px;min-height:320px;padding:34px 30px;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-bg);box-shadow:0 20px 50px -24px color-mix(in srgb,var(--st-text) 40%,transparent)}
+.btt-bar{display:block;height:14px;width:100%;border-radius:7px;background:color-mix(in srgb,var(--st-text) 12%,transparent)}
+.btt-bar--lg{height:22px;width:62%;background:color-mix(in srgb,var(--st-text) 22%,transparent)}
+.btt-bar--md{width:84%}.btt-bar--sm{width:46%}
+.btt-note{margin-top:auto;font-size:13px;color:var(--st-muted)}
+.btt.is-preview .btt-btn{position:absolute;right:calc(var(--st-pad) + 18px);bottom:calc(clamp(20px,3vw,40px) + 18px);opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.btt.is-preview[data-pos=left] .btt-btn{right:auto;left:calc(var(--st-pad) + 18px)}
+@media (prefers-reduced-motion:reduce){.btt-btn{transition:none}}
+@media print{.btt{display:none}}
 `,
 
   js: `(function () {
@@ -1618,6 +1654,44 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   });
 })();
 (function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st [data-btt]').forEach(function (root) {
+    if (root.getAttribute('data-btt-ready')) return;
+    root.setAttribute('data-btt-ready', '1');
+    var btn = root.querySelector('.btt-btn');
+    var demo = root.querySelector('.btt-demo');
+    if (!btn || root.getAttribute('data-enabled') === 'off') { if (demo && !inline) demo.parentNode.removeChild(demo); return; }
+    if (!inline && demo) demo.parentNode.removeChild(demo);
+    if (inline) {
+      root.classList.add('is-preview', 'is-visible');
+      btn.addEventListener('click', function (e) { e.preventDefault(); });
+      return;
+    }
+    var dist = parseFloat(root.getAttribute('data-distance')) || 0;
+    var secs = parseFloat(root.getAttribute('data-speed'));
+    if (isNaN(secs)) secs = 0.8;
+    var ticking = false;
+    function check() { ticking = false; root.classList.toggle('is-visible', (window.pageYOffset || document.documentElement.scrollTop) > dist); }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+    var stopped = false;
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, function () { stopped = true; }, { passive: true }); });
+    btn.addEventListener('click', function () {
+      var from = window.pageYOffset || document.documentElement.scrollTop;
+      if (reduce || secs <= 0 || from < 2) { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); return; }
+      stopped = false;
+      var t0 = performance.now(), dur = secs * 1000;
+      (function step(t) {
+        var p = Math.min(1, (t - t0) / dur);
+        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        window.scrollTo({ top: from * (1 - e), left: 0, behavior: 'instant' });
+        if (p < 1 && !stopped) requestAnimationFrame(step);
+      })(t0);
+    });
+  });
+})();
+(function () {
   if (!window.gsap) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -1653,7 +1727,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   seo: {
     "title": "SaaS Landing Page HTML Template — Free CSS & JS Snippet",
     "description": "A complete SaaS landing page in plain HTML, CSS and JS: split hero, logo strip, feature rows, pricing toggle, FAQ and CTA. Edit it live, then export it.",
-    "subtitle": "SaaS Landing Page template · 14 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "SaaS Landing Page template · 15 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "saas",
       "name": "SaaS Landing Page",
@@ -1744,6 +1818,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "name": "Multi-Column Footer",
         "url": "/website-section-templates/footer-columns/",
         "role": "the sitemap in miniature: product, company and legal links for visitors and for search engines"
+      },
+      {
+        "id": "back-to-top",
+        "name": "Back to Top Button",
+        "url": "/website-section-templates/back-to-top/",
+        "role": "a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return"
       }
     ],
     "about": {
@@ -1751,12 +1831,13 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       "description": "A software visitor decides in seconds whether your product is for them, so this page is ordered by the doubts a stranger has, in the order they have them. First \"what is this?\" (the split hero with a product screenshot), then \"do other people trust it?\" (the logo strip), then \"what does it do for me?\" (an icon grid for skimmers and alternating rows for readers), then \"who else uses it?\" (the testimonial wall), and finally \"what will it cost, and what if I change my mind?\" (pricing, comparison table and FAQ).\n\nTwo details are easy to miss. The pricing toggle and the comparison table sit on the same page on purpose: the cards answer \"which plan?\" in five seconds and the table answers \"does the middle plan include SSO?\" for the buyer who needs to justify it to someone else. And the call to action is repeated three times (hero, mid-page, closing banner) with the same wording, so a visitor never has to scroll back to act.\n\nTo make it yours, keep the order and replace the content: write the hero headline as the outcome your customer gets, put real customer logos in the strip, and name the plans exactly as your app does. This is the same page as the [SaaS Landing Page website template](/website-builder/templates/saas/); open it in the [Website Builder](/website-builder/) to change colours, fonts and copy with forms, add the Pricing, Blog, About and Contact pages, and export the site."
     },
     "features": [
-      "14 ready-made website sections assembled into one finished saas landing page page: Simple Sticky Navbar, SaaS Split Hero, Scrolling Logo Cloud, Icon Grid Features, Alternating Feature Rows, Video Section with Poster, 3D Scroll Carousel, Testimonial Wall, Three-Tier Pricing, Pricing Comparison Table, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Multi-Column Footer",
+      "15 ready-made website sections assembled into one finished saas landing page page: Simple Sticky Navbar, SaaS Split Hero, Scrolling Logo Cloud, Icon Grid Features, Alternating Feature Rows, Video Section with Poster, 3D Scroll Carousel, Testimonial Wall, Three-Tier Pricing, Pricing Comparison Table, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Multi-Column Footer, Back to Top Button",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 10-page website in the builder, sharing one navbar, footer and theme",
+      "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
     "howToUse": {
@@ -1816,7 +1897,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 14 templates in the free Website Section Templates library: Simple Sticky Navbar, SaaS Split Hero, Scrolling Logo Cloud, Icon Grid Features, Alternating Feature Rows, Video Section with Poster, 3D Scroll Carousel, Testimonial Wall, Three-Tier Pricing, Pricing Comparison Table, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Multi-Column Footer. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 15 templates in the free Website Section Templates library: Simple Sticky Navbar, SaaS Split Hero, Scrolling Logo Cloud, Icon Grid Features, Alternating Feature Rows, Video Section with Poster, 3D Scroll Carousel, Testimonial Wall, Three-Tier Pricing, Pricing Comparison Table, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Multi-Column Footer, Back to Top Button. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1825,7 +1906,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the SaaS Landing Page template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete saas website for “Acme” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. SaaS Split Hero: “Plan, ship and report without the chaos”\n3. Scrolling Logo Cloud: “Trusted by 2,000+ teams at fast-growing companies”\n4. Icon Grid Features: “Everything your team needs to ship faster”\n5. Alternating Feature Rows: “From messy backlog to shipped, in one place”\n6. Video Section with Poster: “See Acme in two minutes”\n7. 3D Scroll Carousel: “Every Acme screen, one scroll away”\n8. Testimonial Wall: “Loved by teams everywhere”\n9. Three-Tier Pricing: “Simple pricing that grows with you”\n10. Pricing Comparison Table: “Everything in every Acme plan”\n11. FAQ Accordion: “Questions? We’ve got answers”\n12. Gradient CTA Banner: “Ready to ship your best work yet?”\n13. Popup & Promo Modal\n14. Multi-Column Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #4f46e5, page background #ffffff, cards #f4f4f8, text #0f172a, muted text #475569. Corner radius 14px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable software copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Acme: Roadmaps, Tasks and Reports in One Calm Workspace”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a software business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Pricing (pricing.html)\n- Blog (blog.html)\n- About (about.html)\n- Contact (contact.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Article (article.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete saas website for “Acme” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. SaaS Split Hero: “Plan, ship and report without the chaos”\n3. Scrolling Logo Cloud: “Trusted by 2,000+ teams at fast-growing companies”\n4. Icon Grid Features: “Everything your team needs to ship faster”\n5. Alternating Feature Rows: “From messy backlog to shipped, in one place”\n6. Video Section with Poster: “See Acme in two minutes”\n7. 3D Scroll Carousel: “Every Acme screen, one scroll away”\n8. Testimonial Wall: “Loved by teams everywhere”\n9. Three-Tier Pricing: “Simple pricing that grows with you”\n10. Pricing Comparison Table: “Everything in every Acme plan”\n11. FAQ Accordion: “Questions? We’ve got answers”\n12. Gradient CTA Banner: “Ready to ship your best work yet?”\n13. Popup & Promo Modal\n14. Multi-Column Footer\n15. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #4f46e5, page background #ffffff, cards #f4f4f8, text #0f172a, muted text #475569. Corner radius 14px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable software copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Acme: Roadmaps, Tasks and Reports in One Calm Workspace”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a software business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Pricing (pricing.html)\n- Blog (blog.html)\n- About (about.html)\n- Contact (contact.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Article (article.html)\n- Privacy (privacy.html)"
     }
   },
 };
