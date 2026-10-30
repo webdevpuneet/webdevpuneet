@@ -332,7 +332,7 @@
   ]
  },
  "section": {
-  "total": 72,
+  "total": 73,
   "categories": [
    {
     "id": "hero",
@@ -701,6 +701,16 @@
      {
       "id": "popup-modal",
       "name": "Popup & Promo Modal"
+     }
+    ]
+   },
+   {
+    "id": "accessibility",
+    "label": "Accessibility",
+    "items": [
+     {
+      "id": "accessibility-toolbar",
+      "name": "Accessibility Toolbar Widget"
      }
     ]
    },

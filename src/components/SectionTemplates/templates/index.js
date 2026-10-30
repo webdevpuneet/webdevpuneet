@@ -69,6 +69,7 @@ import releaseSpotlight from './release-spotlight.js';
 import streamingLinks from './streaming-links.js';
 import socialShare from './social-share.js';
 import popupModal from './popup-modal.js';
+import accessibilityToolbar from './accessibility-toolbar.js';
 import blogPost from './blog-post.js';
 import blogGridPagination from './blog-grid-pagination.js';
 import loginForm from './login-form.js';
@@ -150,6 +151,7 @@ export const SECTION_TEMPLATES = [
   streamingLinks,
   socialShare,
   popupModal,
+  accessibilityToolbar,
   blogPost,
   blogGridPagination,
   loginForm,

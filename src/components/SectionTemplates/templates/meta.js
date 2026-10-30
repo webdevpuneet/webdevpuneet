@@ -24,6 +24,7 @@ export const SECTION_CATEGORIES = [
   { id: 'music',       label: 'Music',           blurb: 'Sections for bands, artists and labels: a music hero, an audio player with a track list, tour dates with tickets, a discography grid, a release countdown and streaming links.' },
   { id: 'auth',         label: 'Login & Sign up', blurb: 'Login and register screens with email and password, social sign-in buttons, show password and a password strength hint.' },
   { id: 'popup',        label: 'Popups',          blurb: 'Popups that open after a delay, on exit intent or on scroll, for sign-ups, offers and announcements.' },
+  { id: 'accessibility', label: 'Accessibility', blurb: 'Floating accessibility toolbars that let visitors enlarge text, change contrast, hide images, pause animations and more.' },
   { id: 'social',       label: 'Social share',    blurb: 'Floating social share bars that take no space in the layout, with share buttons for the popular networks.' },
   { id: 'footer',       label: 'Footer',         blurb: 'Website footers with link columns, newsletter sign-up and social links.' },
 ];

@@ -227,6 +227,25 @@ For a whole blog, use the **[Blog Grid with Pagination](/website-section-templat
       { q: 'How many posts should a homepage show?', a: 'Three is the most common: enough to show activity without competing with the rest of the page. Link to the full blog for more.' },
     ],
   },
+  accessibility: {
+    title: 'Accessibility Widget Templates: Free Toolbar for Websites',
+    description: 'Free accessibility widget templates: a floating toolbar with bigger text, contrast, grayscale, readable font, reading mask and more. Edit online, export HTML.',
+    h1: 'Accessibility Widget Templates',
+    keywords: ['accessibility widget html', 'accessibility toolbar for website', 'free accessibility widget', 'high contrast widget', 'bigger text button for website'],
+    intro: `Some visitors need larger text, stronger contrast or fewer distractions, and a visible toolbar lets them set the page up for themselves in a click. These templates add that toolbar to any website as a small floating button, with no subscription and no tracking.
+
+The **[Accessibility Toolbar Widget](/website-section-templates/accessibility-toolbar/)** offers ten options: bigger text, line height, text alignment, a readable font, contrast, grayscale, hide images, pause animations, highlight links and a reading mask. Choices are remembered on the visitor's device and a reset button clears them.
+
+It takes no space in your layout, works with a keyboard and respects reduced motion. Rename every label for your language, switch off options you do not need, set your brand colours and export HTML, a ZIP, React or Vue.
+
+A toolbar is a helpful extra, not a substitute for an accessible page. Build the basics first: ordered headings, alt text, labelled forms and enough contrast. Then add the toolbar. For an offer that appears at the right moment, see the [popup templates](/website-section-templates/category/popup/).`,
+    faqs: [
+      { q: 'What does an accessibility widget do?', a: 'It adds a floating button that opens a panel where visitors can enlarge text, raise contrast, switch to grayscale, hide images, pause animations, highlight links or use a reading mask.' },
+      { q: 'Is a free accessibility widget enough for legal compliance?', a: 'No. A widget helps visitors adjust the display, but compliance depends on how the page is built. Fix headings, alt text, forms, contrast and keyboard access first.' },
+      { q: 'Does the widget need a subscription or an account?', a: 'No. It is plain HTML, CSS and a little JavaScript that you export and host yourself, with no third-party script or tracking.' },
+      { q: 'Can I translate the accessibility panel?', a: 'Yes. Every label in the panel can be renamed in the editor, so you can write it in your own language or change the wording.' },
+    ],
+  },
   social: {
     title: 'Social Share Button Templates — Free Floating Share Bar',
     description: 'Free social share button templates: a floating bar that takes no space, with Facebook, X, WhatsApp, LinkedIn and more. Edit online, export HTML, React or Vue.',

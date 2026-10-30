@@ -1,0 +1,138 @@
+ELEMENTOR EXPORT: NOTES, FINDINGS AND IDEAS (a cache to start from)
+Started 2026-10-30. Keep adding to this file whenever something new is learned. Newest findings go in the log at the bottom.
+
+GOAL
+  Let people take our Website Section Templates (101) and Website Templates (24 landing pages, one-page and
+  multi-page) into Elementor. Decision so far (2026-10-30): go for the HYBRID version (native Elementor
+  widgets + our look), starting with a PILOT, not all 101 sections at once.
+
+THE THREE OPTIONS (effort estimates given to Puneet)
+  A. One HTML block per section: 3-5 days. Looks identical, text is edited as code only, images load from our
+     server. Judged not worth it as a product (little value over our existing HTML export).
+  B. Hybrid, native widgets (heading, text, button, image) + our CSS: converter 2-3 weeks, checking all 101
+     sections 2-4 weeks, website templates (one file per page) about 1 week. Total 5-8 weeks.
+  C. Fully native with Elementor controls only: 3-4+ months, some designs impossible. Not recommended.
+  Pilot plan: 2-3 weeks, about 8 common sections (navbar, hero, features, pricing, testimonials, FAQ, CTA,
+  footer) combined into ONE landing-page kit; publish it as "Free Elementor landing page kit", measure
+  downloads and Hire Me clicks for a month, then decide on the full rollout.
+
+TEST SITE AND MCP CONNECTION (done 2026-10-30)
+  - WordPress test site: https://webdevpuneet.com/wp/  (fresh install; blog also lives at /blog per migration log)
+  - Elementor MCP server in Claude Code, name "word-press-elementor", URL
+    https://webdevpuneet.com/wp/index.php?rest_route=/elementor/mcp/  (HTTP, Basic auth with the WP user
+    "wdpuneet" and an application password).
+    The password is NOT stored in this repo. It is in C:\Users\punee\.claude.json (user-level mcpServers).
+    Puneet added it by hand because Claude Code blocks Claude from editing its own config.
+    Consider revoking and re-creating the application password (it was pasted into a chat).
+  - 20 tools (all start with mcp__word-press-elementor__elementor-): list-posts, create-page,
+    build-composition (the main one), manage-elements, get-page-structure, get-widget-schema,
+    list-widget-schemas, create-preview-link, update-page-settings, publish-document, manage-classes,
+    reorder-classes, manage-global-variable, manage-default-styles, get-default-styles, manage-component,
+    list-components, list-assets, list-resources, read-resource.
+  - Tool schemas are "deferred": load them with ToolSearch ("select:<tool name>") before calling.
+  - Only call publish-document or other live-changing tools when Puneet asks. Use drafts and preview links.
+  - Test page: post id 10 "Centred Gradient Hero (test)", draft. Edit URL:
+    https://webdevpuneet.com/wp/wp-admin/post.php?post=10&action=elementor
+
+HOW TO BUILD (what works)
+  1. create-page (draft) -> post id.
+  2. build-composition: XML of widgets with a unique configuration-id on every tag, plus three maps keyed by
+     that id: element_config (widget settings), style (plain CSS string), classes (global class labels).
+  3. Widgets available (V4 "atomic"): e-flexbox, e-div-block, e-grid, e-heading, e-paragraph, e-button,
+     e-image, e-svg, e-divider, e-youtube, e-self-hosted-video, e-tabs (+menu/tab/content), e-accordion
+     (+item/header/title/icon/content), e-background-video, e-form, e-collection-loop.
+  4. Check the result: get-page-structure (add element_id + include_content=true to see saved settings and CSS),
+     create-preview-link, then screenshot the signed preview URL with Playwright (headless Chromium is allowed).
+     A small script that does this: take a URL, open at 1280 and 390 wide, fullPage screenshot.
+  5. update-page-settings {"template": "elementor_canvas"} hides the WordPress theme header and title so only
+     our section shows.
+
+LIMITS AND QUIRKS FOUND (important, read before building)
+  - Calls can TIME OUT or return ECONNRESET and still have saved. ALWAYS run get-page-structure before
+    retrying, or you will create duplicates. Send one edit per call; big two-op calls dropped the connection.
+  - Shorthands that are NOT saved (reported in "warnings" of the response): background-image / background with
+    gradients (the three-glow hero background), pointer-events. Always read the warnings.
+  - Inline style on <span> inside a heading is stripped (only tags b, strong, sup, sub, s, em, i, u, a, del,
+    span, br survive, and attributes such as style are removed). So a coloured highlight word needs another
+    way (try an <em> styled through the parent, a global class, or split text).
+  - cqi / container-query units are not supported in this context; use vw and clamp() (media queries only as
+    @media(--mobile) style breakpoints, not pixel queries).
+  - Fonts: one Google Font name per font-family, no fallback stacks. Our hero used Space Grotesk and Inter.
+  - Hover states work inline: "&:hover { ... }" inside the style string. Animations (animation / animation-*)
+    are dropped, so our GSAP data-anim effects need separate JS or Elementor interactions
+    (elementor://interactions/schema).
+  - e-image with an external URL works ({"src":{"url":...,"alt":...},"size":"full"}). Whether Elementor copies
+    external images into the Media Library on IMPORT of a template file is still UNTESTED. Must be tested.
+  - e-svg needs an uploaded SVG attachment (external URLs render empty). Icons would need another plan.
+  - Global variables and global classes on the test site are empty. Idea: create one variable per theme value
+    (brand, bg, surface, text, muted, radius) so the exported kit is re-themable in one place.
+  - Elementor Pro is not installed on the test site (custom CSS, theme builder, site-parts are Pro features).
+  - Elementor is moving to V4 (atomic elements, classes), which is exactly what this MCP builds. Good fit,
+    but formats may still change: re-test after Elementor updates.
+
+WORKAROUNDS THAT WORK (found 2026-10-30)
+  - Soft glow backgrounds: gradients are dropped, so use small absolutely positioned e-div-block elements with a
+    solid rgba background-color + filter: blur(90px) (filter blur IS saved). box-shadow alone leaves a dark hole in
+    the centre; a plain fill alone gives a hard disc; fill + blur gives the soft glow.
+  - box-shadow: none and similar resets are not saved; remove a style by rebuilding the element.
+  - Coloured highlight word inside a headline: NOT possible natively. <em> survives in the title text, but nested
+    selectors in the style ("& em { ... }") are not saved. Options to test: split into h1 + styled span widget,
+    a global class, or Elementor Pro custom CSS.
+  - elementor_canvas page template (update-page-settings) removes the WordPress theme header/footer so only the
+    section shows.
+  - manage-elements: use the element ids returned by the LAST build-composition (resolved_xml); delete + update
+    several elements in one call works for small edits.
+
+PILOT RESULT SO FAR
+  Centred Gradient Hero (section template id centered-gradient-hero, source:
+  src/components/SectionTemplates/templates/centered-gradient-hero.js) was rebuilt with native widgets:
+  eyebrow pill, h1, lead, two buttons, note, framed dashboard image. Renders well on desktop (1280) and mobile
+  (390) and now matches the original, including the three-colour glow (via the blur workaround).
+  Still missing: the highlighted words in the headline and the entrance animations.
+
+OPEN QUESTIONS (answer by testing)
+  1. What file does the Elementor "Export template" give for a V4 page, and does importing it into another
+     site bring the images into the Media Library? (This decides how we ship kits.)
+  2. Can our own CSS (gradients, color-mix, :has) ship as a Custom CSS / HTML widget on free Elementor?
+  3. How to map our theme (colours, fonts, radius) to Elementor global variables/classes.
+  4. How to export a whole website template (one-page + multi-page) as Elementor pages plus header/footer.
+  5. Does a kit built on this test site work in a fresh site with a different theme (Hello vs others)?
+
+IDEAS TO ADD LATER
+  - "How to use in Elementor" guide on each template page (doubles as SEO content).
+  - Elementor download button next to the HTML / React / Vue exports in the Website Builder.
+  - Free "Elementor landing page kit" as a lead magnet with a Hire Me link inside the page (never inside the
+    exported file itself, per the Hire Me rule).
+  - Same approach later for Divi (a Divi Layouts link already exists in Puneet's bookmarks) or Gutenberg blocks.
+  - Convert section by section by reading each section template's data: the html uses data-edit / data-href /
+    data-image attributes that map almost directly to widget settings (text -> e-heading/e-paragraph,
+    data-href -> link, data-image -> e-image).
+
+IDEA: SCREENSHOT TO ELEMENTOR (2026-10-30, from Puneet)
+  Claude can read a screenshot, build the page with native Elementor widgets through the MCP tools, screenshot the
+  result with Playwright and compare, repeating until close (expect 2-3 rounds). Good for: layout, colours, fonts,
+  spacing, responsive stacking. Weak: gradients, animations, highlighted headline words, icons (need uploaded SVG),
+  real photos (placeholders). Not pixel-perfect. Caution: do not clone other companies' designs 1:1.
+  Uses: (1) a paid service / Upwork gig "Figma or screenshot to Elementor" (Hire Me lead), (2) alternative route for
+  the pilot: rebuild our own section screenshots this way instead of writing a converter, (3) a demo post.
+  To try: Puneet sends a screenshot of one section; build on page ids on the test site; log the time it took.
+
+DECISION: TWO GROUPS (2026-10-30, after Puneet pointed out scripted sections are hard)
+  Group 1 static/visual sections (hero, features, pricing, testimonials, FAQ, CTA, footer; about half of the library):
+  convert to NATIVE Elementor widgets. Group 2 scripted sections (ScrollTrigger, carousels, counters, pinning, drag,
+  tabs): ship as ONE Elementor HTML widget holding the section html + css + js, with the GSAP CDN scripts, so they
+  keep working on the live page (text/images edited as code; effects may not run in the editor preview: TEST).
+  Rough counts from the template files: about 44 use some script/behaviour, about 15 use ScrollTrigger.
+  Estimate: group 1 about 3-4 weeks, group 2 about 3-5 days, total about 4-5 weeks.
+  Next steps: (1) classify every section static vs interactive from its code (behaviors.js, ScrollTrigger, data-anim),
+  (2) finish pilot with static sections only (navbar, features, pricing, FAQ, footer), (3) test template export/import
+  incl. one HTML-widget scripted section.
+
+IDEA FROM PUNEET (2026-10-30): the Elementor "Ally" accessibility widget (floating button + panel with bigger text, readable font,
+  grayscale, contrast, hide images, pause animations, highlight links, reading mask, text align) as a section template.
+  DONE as section template accessibility-toolbar (plain HTML/CSS/JS). It is a scripted section, so for Elementor it belongs
+  to group 2 (HTML widget). Possible later: more accessibility options (dyslexia font, cursor size, keyboard shortcut).
+
+LOG (newest first)
+  2026-10-30  Hero pilot visually matches the original after the glow workaround and canvas template. Draft page 10.
+  2026-10-30  MCP connected. Built the centred-gradient-hero pilot as draft page 10; found the limits above.

@@ -693,4 +693,72 @@ Every button is a real link or button with a label that says what it does and th
 - On screens under 640px turn it into a horizontal bar fixed to the bottom of the screen, and hide it for printing.`,
     },
   },
+  'accessibility-toolbar': {
+    keywords: ['accessibility widget html', 'accessibility toolbar for website', 'free accessibility widget', 'ally accessibility widget alternative', 'bigger text high contrast widget'],
+    about: {
+      title: 'Accessibility Toolbar Widget: Free Floating Accessibility Panel for Any Website',
+      description: `**Accessibility Toolbar Widget** is a free floating button that opens a panel of display options visitors can switch on for themselves, in the style of the Ally and UserWay widgets. It takes no space in your layout: the round button sits in the bottom corner of the screen, and one click or key press opens the panel. Everything is plain HTML, CSS and a little JavaScript, with no account, no tracking and no monthly fee.
+
+**What visitors can change**
+
+Ten options are built in. **Bigger text** steps the page text through three larger sizes, **line height** adds more space between lines and **text align** switches the page to left, centre or right aligned text. **Readable font** swaps the typeface for a plain, widely installed one. **Contrast** offers a high-contrast mode and a dark inverted mode, **grayscale** removes colour, **hide images** clears pictures and background images, and **pause animations** stops CSS animations, videos and GSAP timelines. **Highlight links** underlines every link on a bright background, and the **reading mask** darkens the page except a strip that follows the pointer or the focused element, which helps people who lose their place when reading.
+
+**It remembers each visitor**
+
+Choices are saved in the visitor's browser (localStorage) and applied again on the next page and the next visit, so a visitor sets things once. A reset button clears everything, and you can switch memory off for a site that should never store anything on the visitor's device.
+
+**Built to be usable itself**
+
+The button and the panel are real buttons with labels, visible focus rings and Esc to close, and focus returns to the button afterwards. The panel stays out of every filter and style it applies, so it never becomes unreadable. Reduced-motion preferences are respected.
+
+**Customise it**
+
+Choose the button corner, switch individual options on or off, rename every label for your language, and set the brand colour and corner radius in the theme. Export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). To pair it with an exit offer or promo, see the [Popup & Promo Modal](/website-section-templates/popup-modal/).
+
+**An honest note**
+
+A toolbar like this helps visitors adjust how a page looks, but it does not make a website compliant on its own. Real accessibility starts in the page itself: headings in order, alt text, labelled forms, enough contrast and keyboard access. Use the toolbar as a friendly extra, not a replacement, and test your pages with a keyboard and a screen reader.`,
+    },
+    features: [
+      'Floating round button that takes no space in your layout, bottom left or bottom right',
+      'Bigger text in three steps, applied to the text on the whole page',
+      'Line height and text alignment options for easier reading',
+      'Readable font option that swaps to a plain, widely installed typeface',
+      'High-contrast and dark inverted modes, with images kept natural in dark mode',
+      'Grayscale, hide images and pause animations (CSS, video and GSAP)',
+      'Highlight links with a bright underlined style',
+      'Reading mask that follows the pointer, touch or keyboard focus',
+      'Remembers each visitor\'s choices on their device, with a reset button',
+      'Keyboard friendly: Esc closes, focus returns to the button, every option is a labelled button',
+    ],
+    why: [
+      { icon: '🧩', title: 'One snippet, no subscription', desc: 'Add one section and get the main display options without a paid widget, an account or a third-party script on your pages.' },
+      { icon: '🔐', title: 'Nothing leaves the browser', desc: 'The options run on the visitor\'s device and only a small setting is stored locally, so there is no tracking and no data sent anywhere.' },
+      { icon: '🎛', title: 'Yours to edit', desc: 'Rename every label, hide options you do not need, move the button and match your brand colours, in the editor or in the exported code.' },
+    ],
+    useCases: [
+      { icon: '🏫', title: 'Schools, colleges and councils', desc: 'Give students and residents a visible way to enlarge text and raise contrast on information-heavy sites, alongside properly built pages.' },
+      { icon: '🏥', title: 'Clinics and care services', desc: 'Help older visitors read opening hours and booking details with bigger text, a readable font and a reading mask that keeps their place.' },
+      { icon: '🛍', title: 'Shops and landing pages', desc: 'Show customers you care about usability with a toolbar that lets them hide busy images or pause moving banners while they compare products.' },
+      { icon: '🎓', title: 'Learning how it works', desc: 'Study how page-wide display options work: attributes on the root element, injected styles, filters on siblings and a pointer-following mask.' },
+    ],
+    faqs: [
+      { q: 'Does an accessibility widget make my website compliant?', a: 'No. A toolbar helps visitors change how a page looks, but compliance depends on the page itself: heading order, alt text, labelled forms, colour contrast and keyboard access. Use the widget as an extra and test your pages.' },
+      { q: 'How do I add the accessibility toolbar to my website?', a: 'Edit the labels and colours, then export the HTML and paste it into your page, or add it as a section in the Website Builder. It appears as a floating button on every page that includes it.' },
+      { q: 'Do the visitor\'s settings stay on the next page?', a: 'Yes. Choices are saved in the browser with localStorage and applied again on later pages and visits. The reset button clears them, and you can turn memory off in the settings.' },
+      { q: 'Does it slow my website down or track visitors?', a: 'No. It is a small script with no external requests and no analytics, and the only thing stored is a short setting on the visitor\'s own device.' },
+      { q: 'Can I show only some of the options?', a: 'Yes. Each of the ten options has a switch, and every label can be renamed, so you can show just bigger text and contrast, or translate the panel into your own language.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Accessibility Toolbar HTML, CSS and JavaScript: add a dyslexia-friendly font, a stronger dark mode, a keyboard shortcut to open the panel, or turn it into a React component.',
+      prompt: `Create a floating accessibility toolbar in plain HTML, CSS and JavaScript.
+
+- A fixed round button in the bottom-right corner (aria-expanded, aria-label) that opens a non-modal panel; Esc and a close button close it and return focus to the button.
+- The panel has tiles you click to step through levels, each a real button with aria-pressed and small level dots: bigger text (3 steps, scaling the font size of every text element), line height (2 steps), text align (left, centre, right), readable font, contrast (high contrast, then inverted dark mode), grayscale, hide images, pause animations, highlight links and a reading mask.
+- Apply options with attributes on the html element and one injected style element. Exclude the widget itself from every rule. Put filters (contrast, grayscale) on the page's top-level blocks, not on html, so the fixed button and panel are not filtered.
+- The reading mask is two dark fixed bars with a clear strip that follows the pointer, touch and focused element.
+- Save the choices in localStorage inside try/catch, restore them on load, and add a reset button.
+- Respect prefers-reduced-motion and hide the widget when printing.`,
+    },
+  },
 };
