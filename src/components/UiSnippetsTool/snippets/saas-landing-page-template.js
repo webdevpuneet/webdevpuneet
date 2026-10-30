@@ -13,7 +13,7 @@ const saasLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuveuq3cnjr">
+    <section class="st st-navbar-simple" data-uid="smvuvixqw02mh">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z" /><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65" /><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65" /></svg></span><span>Acme</span></span>
@@ -35,7 +35,7 @@ const saasLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvuveuq3149q">
+    <section class="st st-saas-split-hero" data-uid="smvuvixqxuegu">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="https://webdevpuneet.com/changelog"><span>New: Automations are here →</span></a>
@@ -52,7 +52,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-logo-cloud" data-uid="smvuveuq3xeve">
+    <section class="st st-logo-cloud" data-uid="smvuvixqyye5n">
       <div class="st-wrap">
         <p class="lc-title" data-anim="item">Trusted by <span class="hl">2,000+ teams</span> at fast-growing companies</p>
       </div>
@@ -85,7 +85,7 @@ const saasLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuveuq36ta5">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuvixqyugef">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Features</p>
@@ -127,7 +127,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features-2" class="st st-features-alternating" data-uid="smvuveuq3sqde">
+    <section id="features-2" class="st st-features-alternating" data-uid="smvuvixqy3xcb">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it helps</p>
@@ -167,7 +167,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvuveuq31kva">
+    <section id="gallery" class="st st-video-section" data-uid="smvuvixqypvqz">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Product tour</p>
@@ -197,7 +197,7 @@ const saasLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="showcase" class="st st-scroll-ring" data-uid="smvuveuq399j8">
+    <section id="showcase" class="st st-scroll-ring" data-uid="smvuvixqyvvkq">
       <div class="st-wrap rg-head">
         <p class="st-eyebrow" data-anim="item">Product tour</p>
         <h2 class="st-h2" data-anim="item" data-anim-text>Every Acme screen, <span class="hl">one scroll away</span></h2>
@@ -246,7 +246,7 @@ const saasLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuveuq3p7ft">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuvixqyw0j1">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Wall of love</p>
@@ -305,7 +305,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuveuq3xc6h">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuvixqzjw5u">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Pricing</p>
@@ -352,7 +352,7 @@ const saasLandingPageTemplate = {
         <p class="p3-note" data-anim="item">All paid plans include a 14-day free trial. Prices in USD, taxes may apply.</p>
       </div>
     </section>
-    <section id="pricing-2" class="st st-pricing-comparison" data-uid="smvuveuq3izge">
+    <section id="pricing-2" class="st st-pricing-comparison" data-uid="smvuvixqz5gzb">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Compare plans</p>
@@ -458,7 +458,7 @@ const saasLandingPageTemplate = {
         <p class="st-form-note pc-note">Prices are per month, billed yearly. Cancel any time.</p>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuveuq3b86d">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuvixqzca1l">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -494,7 +494,7 @@ const saasLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuveuq3pvst">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuvixqze5vz">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Ready to ship your best work yet?</h2>
@@ -507,7 +507,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuveuq3vd05">
+    <section class="st st-popup-modal" data-uid="smvuvixqzty28">
       <div class="pu" data-pu data-trigger="exit" data-delay="8" data-scroll="50" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="hrcwe3">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -533,7 +533,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvuveuq4ovf0">
+    <section class="st st-footer-columns" data-uid="smvuvixqzloki">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -570,7 +570,7 @@ const saasLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveuq4rp4k">
+    <section class="st st-back-to-top" data-uid="smvuvixqzfnl0">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -1828,7 +1828,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "Anatomy of a SaaS Landing Page That Converts: Why Each Section Sits Where It Does",
-      "description": "A software visitor decides in seconds whether your product is for them, so this page is ordered by the doubts a stranger has, in the order they have them. First \"what is this?\" (the split hero with a product screenshot), then \"do other people trust it?\" (the logo strip), then \"what does it do for me?\" (an icon grid for skimmers and alternating rows for readers), then \"who else uses it?\" (the testimonial wall), and finally \"what will it cost, and what if I change my mind?\" (pricing, comparison table and FAQ).\n\nTwo details are easy to miss. The pricing toggle and the comparison table sit on the same page on purpose: the cards answer \"which plan?\" in five seconds and the table answers \"does the middle plan include SSO?\" for the buyer who needs to justify it to someone else. And the call to action is repeated three times (hero, mid-page, closing banner) with the same wording, so a visitor never has to scroll back to act.\n\nTo make it yours, keep the order and replace the content: write the hero headline as the outcome your customer gets, put real customer logos in the strip, and name the plans exactly as your app does. This is the same page as the [SaaS Landing Page website template](/website-builder/templates/saas/); open it in the [Website Builder](/website-builder/) to change colours, fonts and copy with forms, add the Pricing, Blog, About and Contact pages, and export the site."
+      "description": "A software visitor decides in seconds whether your product is for them, so this page is ordered by the doubts a stranger has, in the order they have them. First \"what is this?\" (the split hero with a product screenshot), then \"do other people trust it?\" (the logo strip), then \"what does it do for me?\" (an icon grid for skimmers and alternating rows for readers), then \"who else uses it?\" (the testimonial wall), and finally \"what will it cost, and what if I change my mind?\" (pricing, comparison table and FAQ).\n\nTwo details are easy to miss. The pricing toggle and the comparison table sit on the same page on purpose: the cards answer \"which plan?\" in five seconds and the table answers \"does the middle plan include SSO?\" for the buyer who needs to justify it to someone else. And the call to action is repeated three times (hero, mid-page, closing banner) with the same wording, so a visitor never has to scroll back to act.\n\nTo make it yours, keep the order and replace the content: write the hero headline as the outcome your customer gets, put real customer logos in the strip, and name the plans exactly as your app does. This is the same page as the [SaaS Landing Page website template](/website-builder/templates/saas/); open it in the [Website Builder](/website-builder/) to change colours, fonts and copy with forms, add the Pricing, Blog, About and Contact pages, and export the site.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "15 ready-made website sections assembled into one finished saas landing page page: Simple Sticky Navbar, SaaS Split Hero, Scrolling Logo Cloud, Icon Grid Features, Alternating Feature Rows, Video Section with Poster, 3D Scroll Carousel, Testimonial Wall, Three-Tier Pricing, Pricing Comparison Table, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Multi-Column Footer, Back to Top Button",
@@ -1894,6 +1894,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       {
         "q": "How do I connect the sign-up buttons to my app?",
         "a": "Every button is a plain link. Point the hero, pricing and banner buttons at your sign-up or checkout URL; no script change is needed."
+      },
+      {
+        "q": "What extras are built into the SaaS Landing Page template?",
+        "a": "It adds a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

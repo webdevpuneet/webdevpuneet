@@ -14,7 +14,7 @@ const portfolioLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvuveus30ji3">
+    <section class="st st-navbar-floating" data-uid="smvuvixtg0vi1">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -34,7 +34,7 @@ const portfolioLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-portfolio-hero" data-uid="smvuveus3uw7b">
+    <section class="st st-portfolio-hero" data-uid="smvuvixtgttn9">
       <div class="pf st-wrap">
         <div class="pf-copy">
           <span class="pf-status" data-anim="item"><i aria-hidden="true"></i><span>Available for freelance work</span></span>
@@ -57,7 +57,7 @@ const portfolioLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuveus3hbmw">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuvixtg9gr6">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -83,7 +83,7 @@ const portfolioLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-case-study-showcase" data-uid="smvuveus3rcmx">
+    <section id="customers" class="st st-case-study-showcase" data-uid="smvuvixtg2naj">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Case studies</p>
@@ -124,7 +124,7 @@ const portfolioLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="showcase" class="st st-scroll-ring" data-uid="smvuveus3mtj1">
+    <section id="showcase" class="st st-scroll-ring" data-uid="smvuvixtgpshp">
       <div class="st-wrap rg-head">
         <p class="st-eyebrow" data-anim="item">More projects</p>
         <h2 class="st-h2" data-anim="item" data-anim-text>Recent work, <span class="hl">up close</span></h2>
@@ -173,7 +173,7 @@ const portfolioLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="customers-2" class="st st-testimonials-carousel" data-uid="smvuveus31lv0">
+    <section id="customers-2" class="st st-testimonials-carousel" data-uid="smvuvixtg9j2o">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -230,7 +230,7 @@ const portfolioLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="blog" class="st st-blog-cards" data-uid="smvuveus308bb">
+    <section id="blog" class="st st-blog-cards" data-uid="smvuvixtgfojz">
       <div class="st-wrap">
         <div class="bc-top">
           <header class="st-head st-head--left bc-head">
@@ -264,7 +264,7 @@ const portfolioLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvuveus3c4ci">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvuvixtgzzr5">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -313,7 +313,7 @@ const portfolioLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvuveus30eso">
+    <section class="st st-floating-social-share" data-uid="smvuvixtgjmhm">
       <div class="ss" data-ss data-side="right" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="linkedin" data-share="https://www.linkedin.com/sharing/share-offsite/?url={url}" href="https://www.linkedin.com/sharing/share-offsite/" target="_blank" rel="noopener noreferrer" style="--c:#0A66C2" aria-label="Share on LinkedIn (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span class="ss-tip" aria-hidden="true">LinkedIn</span></a></li><li class="ss-item"><a class="ss-btn" data-net="x" data-share="https://x.com/intent/post?url={url}&amp;text={title}&amp;via={via}&amp;hashtags={tags}" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer" style="--c:#111111" aria-label="Share on X (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="ss-tip" aria-hidden="true">X</span></a></li><li class="ss-item"><a class="ss-btn" data-net="email" data-share="mailto:?subject={title}&amp;body={text}" href="mailto:" style="--c:#6B7280" aria-label="Share on Email"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.970 5.700a1.940 1.940 0 0 1-2.060 0L2 7"/></svg><span class="ss-tip" aria-hidden="true">Email</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -322,7 +322,7 @@ const portfolioLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuveus4eeub">
+    <section class="st st-footer-minimal" data-uid="smvuvixtgv64g">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -338,7 +338,7 @@ const portfolioLandingPageTemplate = {
         <p class="fm-copy">© 2026 Alex Rivera</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveus4ivpz">
+    <section class="st st-back-to-top" data-uid="smvuvixtgpi9e">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -347,7 +347,7 @@ const portfolioLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-cursor-follower" data-uid="smvuveus4yomy">
+    <section class="st st-cursor-follower" data-uid="smvuvixtge947">
       <div class="cf" data-cf data-enabled="on" data-size="80" data-color="#ffffff" data-blend="difference" data-speed="0.18" data-border="0" data-border-style="solid" data-fill="on" data-grow="on" data-hide="off">
         <div class="cf-stage" aria-hidden="true">
           <p class="cf-word">Cur<b>sors</b></p>
@@ -1424,7 +1424,7 @@ a.cs2-value:hover{color:var(--st-brand)}
     ],
     "about": {
       "title": "A One-Page Freelancer Portfolio That Answers the Client's Questions in Order",
-      "description": "A prospective client scanning a freelancer's site wants three answers fast: who are you, can you do my job, and are you free? This layout is arranged around those. The hero has a real photo and an availability badge, so the \"are you free\" question is answered before it is asked. Services come next in a short icon grid, then a case study with a result, which is stronger proof than a gallery of screenshots.\n\nTestimonials come after the work, where they confirm what the client has just seen. Writing and contact finish the page: blog cards show you think about your craft in public, and the contact form with details (email, location, response time) makes the final step easy. A floating share bar keeps the page easy to pass between people, which is how freelance work often spreads.\n\nSwap the sample details for yours and keep the order. It is the one-page layout from the [Personal Portfolio Website template](/website-builder/templates/portfolio/); open it in the [Website Builder](/website-builder/) to change the theme, add your own images and export."
+      "description": "A prospective client scanning a freelancer's site wants three answers fast: who are you, can you do my job, and are you free? This layout is arranged around those. The hero has a real photo and an availability badge, so the \"are you free\" question is answered before it is asked. Services come next in a short icon grid, then a case study with a result, which is stronger proof than a gallery of screenshots.\n\nTestimonials come after the work, where they confirm what the client has just seen. Writing and contact finish the page: blog cards show you think about your craft in public, and the contact form with details (email, location, response time) makes the final step easy. A floating share bar keeps the page easy to pass between people, which is how freelance work often spreads.\n\nSwap the sample details for yours and keep the order. It is the one-page layout from the [Personal Portfolio Website template](/website-builder/templates/portfolio/); open it in the [Website Builder](/website-builder/) to change the theme, add your own images and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return; and a circle that follows the cursor and inverts the page beneath it with a blend mode, adding a bold, playful touch. Each one has its own page in the Website Section Templates library ([Back to Top Button](/website-section-templates/back-to-top/), [Cursor Follower](/website-section-templates/cursor-follower/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "12 ready-made website sections assembled into one finished personal portfolio website page: Floating Pill Navbar, Personal Portfolio Hero, Icon Grid Features, Case Study Showcase, 3D Scroll Carousel, Testimonial Carousel, Blog Post Cards, Contact Form With Details, Floating Social Share Bar, Minimal Footer, Back to Top Button, Cursor Follower (Blend Mode Circle)",
@@ -1491,6 +1491,10 @@ a.cs2-value:hover{color:var(--st-brand)}
       {
         "q": "Can I add a blog?",
         "a": "The page already shows blog cards. Link each card to your own posts, or to articles you have published elsewhere."
+      },
+      {
+        "q": "What extras are built into the Personal Portfolio Website template?",
+        "a": "It adds a floating back to top button and a cursor follower circle. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

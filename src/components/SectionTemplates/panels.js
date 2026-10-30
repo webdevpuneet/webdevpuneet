@@ -447,7 +447,7 @@ export function ArtworkPanel({ art, onChange, idPrefix = 'art' }) {
           {seg('Strength', a.strength, ART_STRENGTHS, v => set({ strength: v }))}
           {def.layout === 'edge' && seg('Edge', a.pos, [['top', 'Top'], ['bottom', 'Bottom']], v => set({ pos: v }))}
           {def.anims.length > 0 && seg('Animation', a.anim || '', [['', 'None'], ...def.anims.map(k => [k, ART_ANIMS[k]])], v => set({ anim: v }))}
-          {a.anim && <p className={s.hint}>Animation plays in your exports and when you press ▶ Play; it switches off for people who prefer reduced motion.</p>}
+          {a.anim && <p className={s.hint}>Animation plays in your exports and when you press ▶ Play (↻ Refresh on scroll-driven sections); it switches off for people who prefer reduced motion.</p>}
         </>
       )}
     </section>
@@ -585,7 +585,7 @@ export function ThemePanel({ value, onChange, showTextEffect = true, idPrefix = 
                 </label>
               </div>
             ))}
-            <p className={s.hint}>Press ▶ Play to try them in the preview; they are always on in your exports.</p>
+            <p className={s.hint}>Press ▶ Play (↻ Refresh on scroll-driven sections) to try them in the preview; they are always on in your exports.</p>
           </>
         )}
       </section>

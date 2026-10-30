@@ -12,7 +12,7 @@ const fitnessLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuveutsvzj1">
+    <section class="st st-navbar-simple" data-uid="smvuvixuspt3h">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg></span><span>IRONHOUSE</span></span>
@@ -34,7 +34,7 @@ const fitnessLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuveuts2ej2">
+    <section class="st st-image-background-hero" data-uid="smvuvixus3s3m">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-fitness.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -54,7 +54,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuveuts3w7n">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuvixusoz59">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Classes</p>
@@ -95,7 +95,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timetable" class="st st-class-timetable" data-uid="smvuveuttu58s">
+    <section id="timetable" class="st st-class-timetable" data-uid="smvuvixusu3el">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Timetable</p>
@@ -159,7 +159,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuveutty06i">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuvixust0h2">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Membership</p>
@@ -206,7 +206,7 @@ const fitnessLandingPageTemplate = {
         <p class="p3-note" data-anim="item">Students and NHS staff get 20% off. Prices include VAT.</p>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvuveuttqz2n">
+    <section id="team" class="st st-team-grid" data-uid="smvuvixus68gy">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Coaches</p>
@@ -257,7 +257,7 @@ const fitnessLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-marquee" data-uid="smvuveutttgrj">
+    <section id="customers" class="st st-testimonials-marquee" data-uid="smvuvixus25mu">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Members</p>
@@ -324,7 +324,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvuveuttqpc9">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvuvixushjyp">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Member progress</p>
@@ -347,7 +347,7 @@ const fitnessLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuveutt9y2r">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuvixusqqap">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -375,7 +375,7 @@ const fitnessLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuveuttd94f">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuvixusuu2c">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Your first week is <span class="hl">on us</span></h2>
@@ -388,7 +388,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuveuttm9ko">
+    <section class="st st-popup-modal" data-uid="smvuvixus79gn">
       <div class="pu" data-pu data-trigger="scroll" data-delay="8" data-scroll="40" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="pewc8w">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -414,7 +414,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuveutt6d6m">
+    <section class="st st-footer-minimal" data-uid="smvuvixusub8p">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -430,7 +430,7 @@ const fitnessLandingPageTemplate = {
         <p class="fm-copy">© 2026 Ironhouse Fitness</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveuttux3x">
+    <section class="st st-back-to-top" data-uid="smvuvixus94v3">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -1414,7 +1414,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "A Gym Website That Sells Memberships: Classes, Timetable, Coaches and a Free-Trial Offer",
-      "description": "People choosing a gym compare three things: what classes run when, what it costs, and whether they will fit in. The page is built around those. The icon grid lists what you offer, the class timetable lets a visitor see that a 6 pm Tuesday class exists (often the deciding fact), and the pricing section uses a monthly/yearly switch so the saving from annual membership is visible rather than buried in small print.\n\nThe belonging question is handled by people. Coaches appear in a grid with real photos, member reviews scroll by in a marquee and a before/after slider gives proof of results without a wall of testimonials. The FAQ then handles the usual blockers (contracts, freezing a membership, beginners), and a free-trial banner and popup push toward the action that converts best for gyms: coming in once.\n\nReplace the black-and-lime palette with your brand colours in one place. This is the layout of the [Gym & Fitness Website template](/website-builder/templates/fitness/); open it in the [Website Builder](/website-builder/) to edit the timetable, prices and copy and export clean HTML."
+      "description": "People choosing a gym compare three things: what classes run when, what it costs, and whether they will fit in. The page is built around those. The icon grid lists what you offer, the class timetable lets a visitor see that a 6 pm Tuesday class exists (often the deciding fact), and the pricing section uses a monthly/yearly switch so the saving from annual membership is visible rather than buried in small print.\n\nThe belonging question is handled by people. Coaches appear in a grid with real photos, member reviews scroll by in a marquee and a before/after slider gives proof of results without a wall of testimonials. The FAQ then handles the usual blockers (contracts, freezing a membership, beginners), and a free-trial banner and popup push toward the action that converts best for gyms: coming in once.\n\nReplace the black-and-lime palette with your brand colours in one place. This is the layout of the [Gym & Fitness Website template](/website-builder/templates/fitness/); open it in the [Website Builder](/website-builder/) to edit the timetable, prices and copy and export clean HTML.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "13 ready-made website sections assembled into one finished gym & fitness website page: Simple Sticky Navbar, Image Background Hero, Icon Grid Features, Class Timetable, Three-Tier Pricing, Team Grid, Testimonial Marquee, Before & After Slider, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Minimal Footer, Back to Top Button",
@@ -1480,6 +1480,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       {
         "q": "Can I show prices for annual and monthly plans?",
         "a": "Yes. The pricing section has a monthly/yearly switch; enter both prices for each tier and the toggle swaps them."
+      },
+      {
+        "q": "What extras are built into the Gym & Fitness Website template?",
+        "a": "It adds a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

@@ -11,7 +11,7 @@ const appLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuveur5yeas">
+    <section class="st st-navbar-simple" data-uid="smvuvixsnm02b">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg></span><span>Pocketly</span></span>
@@ -32,7 +32,7 @@ const appLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-app-product-hero" data-uid="smvuveur5t52o">
+    <section class="st st-app-product-hero" data-uid="smvuvixsn7b57">
       <div class="ap st-wrap">
         <div class="ap-copy">
           <span class="st-eyebrow" data-anim="item">iPhone &amp; Android</span>
@@ -52,7 +52,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-split-image" data-uid="smvuveur5yz3f">
+    <section id="features" class="st st-features-split-image" data-uid="smvuvixsnzgt1">
       <div class="st-wrap fs">
         <div class="fs-copy">
           <header class="st-head st-head--left fs-head">
@@ -81,7 +81,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="showcase" class="st st-scroll-ring" data-uid="smvuveur58oxp">
+    <section id="showcase" class="st st-scroll-ring" data-uid="smvuvixsnr8vt">
       <div class="st-wrap rg-head">
         <p class="st-eyebrow" data-anim="item">Inside the app</p>
         <h2 class="st-h2" data-anim="item" data-anim-text>Swipe through <span class="hl">every screen</span></h2>
@@ -130,7 +130,7 @@ const appLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvuveur5rf1a">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvuvixsna3nq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it works</p>
@@ -160,7 +160,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-marquee" data-uid="smvuveur55fz4">
+    <section id="customers" class="st st-testimonials-marquee" data-uid="smvuvixsni4h2">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -243,7 +243,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-split-image" data-uid="smvuveur5ylpg">
+    <section id="get-started" class="st st-cta-split-image" data-uid="smvuvixsnhdkh">
       <div class="st-wrap">
         <div class="cs">
           <div class="cs-copy">
@@ -259,7 +259,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-split" data-uid="smvuveur53gti">
+    <section id="faq" class="st st-faq-split" data-uid="smvuvixsnotxz">
       <div class="st-wrap fs2">
         <div class="fs2-side">
           <header class="st-head st-head--left fs2-head">
@@ -302,7 +302,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuveur5wo9o">
+    <section class="st st-footer-minimal" data-uid="smvuvixsn3j27">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -318,7 +318,7 @@ const appLandingPageTemplate = {
         <p class="fm-copy">© 2026 Pocketly Ltd.</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveur522uq">
+    <section class="st st-back-to-top" data-uid="smvuvixsnptl3">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -1111,7 +1111,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "A Mobile App Landing Page in Eight Sections: From Store Badge to Download",
-      "description": "An app page has a different job from a SaaS page: it has to move a visitor, usually on a phone, from curiosity to the App Store or Google Play in a few scrolls. That is why this layout is short. The hero puts the phone mockup and both store buttons above the fold, the features sit beside a real screenshot, three numbered steps remove the fear that the app is hard to start, and the reviews scroll past in a marquee so social proof is moving rather than something to read.\n\nThe dark theme is a deliberate choice for apps: screenshots of a dark UI blend into the page, which makes the product look like part of the site instead of a picture pasted on it. If your app is light, switch the theme in the builder and the whole page, including the glow behind the mockup, follows from one set of colour variables.\n\nSwap in your own screenshots and store links and the page is done. It is the code behind the [Mobile App Landing Page template](/website-builder/templates/app/), so you can also open it in the [Website Builder](/website-builder/), restyle it with the theme panel and export clean HTML."
+      "description": "An app page has a different job from a SaaS page: it has to move a visitor, usually on a phone, from curiosity to the App Store or Google Play in a few scrolls. That is why this layout is short. The hero puts the phone mockup and both store buttons above the fold, the features sit beside a real screenshot, three numbered steps remove the fear that the app is hard to start, and the reviews scroll past in a marquee so social proof is moving rather than something to read.\n\nThe dark theme is a deliberate choice for apps: screenshots of a dark UI blend into the page, which makes the product look like part of the site instead of a picture pasted on it. If your app is light, switch the theme in the builder and the whole page, including the glow behind the mockup, follows from one set of colour variables.\n\nSwap in your own screenshots and store links and the page is done. It is the code behind the [Mobile App Landing Page template](/website-builder/templates/app/), so you can also open it in the [Website Builder](/website-builder/), restyle it with the theme panel and export clean HTML.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "10 ready-made website sections assembled into one finished mobile app landing page page: Simple Sticky Navbar, App Product Hero, Split Features With Image, 3D Scroll Carousel, How It Works Steps, Testimonial Marquee, Split CTA With Image, Split FAQ With Contact Card, Minimal Footer, Back to Top Button",
@@ -1177,6 +1177,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       {
         "q": "How do I add a QR code for desktop visitors?",
         "a": "Add an image to the hero or download banner pointing at your store listing; desktop visitors can scan it with their phone to install straight away."
+      },
+      {
+        "q": "What extras are built into the Mobile App Landing Page template?",
+        "a": "It adds a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

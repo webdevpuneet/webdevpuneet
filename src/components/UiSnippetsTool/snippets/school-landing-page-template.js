@@ -12,7 +12,7 @@ const schoolLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuveuy3vfjx">
+    <section class="st st-navbar-simple" data-uid="smvuvixy050rd">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /><path d="M22 10v6" /><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg></span><span>Brookfield Primary</span></span>
@@ -33,7 +33,7 @@ const schoolLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuveuy31308">
+    <section class="st st-image-background-hero" data-uid="smvuvixy07244">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-school.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -53,7 +53,7 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvuveuy3c9dm">
+    <section id="results" class="st st-stats-counters" data-uid="smvuvixy0ndtl">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Brookfield in numbers</p>
@@ -84,7 +84,7 @@ const schoolLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuveuy36zy9">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuvixy0jhj0">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Learning</p>
@@ -125,7 +125,7 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuveuy3or5r">
+    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuvixy0cz7c">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The school year</p>
@@ -190,7 +190,7 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvuveuy35eky">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvuvixy0hgmm">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -222,7 +222,7 @@ const schoolLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="timetable" class="st st-class-timetable" data-uid="smvuveuy3ifdi">
+    <section id="timetable" class="st st-class-timetable" data-uid="smvuvixy0lip5">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The school day</p>
@@ -286,7 +286,7 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvuveuy3tpce">
+    <section id="team" class="st st-team-grid" data-uid="smvuvixy0c6cv">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our staff</p>
@@ -337,7 +337,7 @@ const schoolLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="faq" class="st st-faq-grid" data-uid="smvuveuy3gsmq">
+    <section id="faq" class="st st-faq-grid" data-uid="smvuvixy0ubz0">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">For parents</p>
@@ -372,7 +372,7 @@ const schoolLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="contact" class="st st-contact-map" data-uid="smvuveuy3o9az">
+    <section id="contact" class="st st-contact-map" data-uid="smvuvixy093ll">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -397,7 +397,7 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvuveuy33a5l">
+    <section class="st st-footer-columns" data-uid="smvuvixy0uwlc">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -434,7 +434,7 @@ const schoolLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveuy3w5wx">
+    <section class="st st-back-to-top" data-uid="smvuvixy01jwz">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -443,7 +443,7 @@ const schoolLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-accessibility-toolbar" data-uid="smvuveuy3vv0e">
+    <section class="st st-accessibility-toolbar" data-uid="smvuvixy0uo2g">
       <div class="a11y" data-a11y data-pos="left" data-remember="on">
         <button type="button" class="a11y-fab" aria-expanded="false" data-a11y-open aria-label="Open accessibility tools">
           <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="7.500" r="1.200" fill="currentColor"/><path d="M7 10.500l5 1 5-1M12 11.500v3.500M9.500 19l2.500-4 2.500 4"/></svg>
@@ -1597,7 +1597,7 @@ html.stg-open{overflow:hidden}
     ],
     "about": {
       "title": "A School Website That Answers Parents' Questions First: Who You Are, How Pupils Do and How to Apply",
-      "description": "Parents visiting a school site have a short list of questions: what is the school like, how do pupils do, what does a day look like, who will teach my child and how do I apply? This layout answers them in that order. A warm hero introduces the school, animated counters show results and numbers (pupils, class size, inspection rating), and the icon grid sets out what pupils learn.\n\nA filterable gallery shows real classrooms and activities, a class timetable explains the school day, and the staff grid introduces the teachers by name. A FAQ grid handles admissions, uniform, meals and term dates, and a map with contact details closes the page. Everything is written for a parent reading on a phone between other tasks.\n\nReplace the sample details with your school's and keep the language plain. It is the layout of the [School Website template](/website-builder/templates/school/), which also comes as a multi-page site with Admissions and Visit pages; open it in the [Website Builder](/website-builder/) to edit and export."
+      "description": "Parents visiting a school site have a short list of questions: what is the school like, how do pupils do, what does a day look like, who will teach my child and how do I apply? This layout answers them in that order. A warm hero introduces the school, animated counters show results and numbers (pupils, class size, inspection rating), and the icon grid sets out what pupils learn.\n\nA filterable gallery shows real classrooms and activities, a class timetable explains the school day, and the staff grid introduces the teachers by name. A FAQ grid handles admissions, uniform, meals and term dates, and a map with contact details closes the page. Everything is written for a parent reading on a phone between other tasks.\n\nReplace the sample details with your school's and keep the language plain. It is the layout of the [School Website template](/website-builder/templates/school/), which also comes as a multi-page site with Admissions and Visit pages; open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned horizontal timeline of the school year, from welcome week to the summer fair; a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return; and a floating accessibility toolbar where visitors can enlarge text, raise contrast, hide images and pause animations. Each one has its own page in the Website Section Templates library ([Horizontal Timeline](/website-section-templates/timeline-horizontal/), [Back to Top Button](/website-section-templates/back-to-top/), [Accessibility Toolbar Widget](/website-section-templates/accessibility-toolbar/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "13 ready-made website sections assembled into one finished school website page: Simple Sticky Navbar, Image Background Hero, Animated Stats Counters, Icon Grid Features, Horizontal Timeline, Filterable Image Gallery, Class Timetable, Team Grid, FAQ Grid, Contact With Map, Multi-Column Footer, Back to Top Button, Accessibility Toolbar Widget",
@@ -1665,6 +1665,10 @@ html.stg-open{overflow:hidden}
       {
         "q": "Can I add term dates and a newsletter page?",
         "a": "Yes. Add pages in the Website Builder, for example Term dates and News, so they share the navbar, footer and theme."
+      },
+      {
+        "q": "What extras are built into the School Website template?",
+        "a": "It adds a pinned horizontal timeline, a floating back to top button and an accessibility toolbar. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

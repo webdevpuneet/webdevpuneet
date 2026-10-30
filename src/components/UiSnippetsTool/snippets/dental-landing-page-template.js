@@ -11,7 +11,7 @@ const dentalLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuveuu5kfzj">
+    <section class="st st-navbar-simple" data-uid="smvuvixv4z3kt">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg></span><span>Brightsmile Dental</span></span>
@@ -32,7 +32,7 @@ const dentalLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvuveuu5i730">
+    <section class="st st-saas-split-hero" data-uid="smvuvixv4r79g">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="#contact"><span>Now welcoming new patients</span></a>
@@ -49,7 +49,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuveuu5ctn4">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuvixv4ownq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Treatments</p>
@@ -90,7 +90,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvuveuu549xq">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvuvixv4pk0k">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Your first visit</p>
@@ -120,7 +120,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvuveuu5qo87">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvuvixv4n369">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Smile results</p>
@@ -143,7 +143,7 @@ const dentalLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvuveuu5ce6g">
+    <section id="team" class="st st-team-grid" data-uid="smvuvixv4hjli">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our team</p>
@@ -194,7 +194,7 @@ const dentalLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuveuu5qq5i">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuvixv4yb7r">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Patient reviews</p>
@@ -229,7 +229,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-split" data-uid="smvuveuu51muc">
+    <section id="faq" class="st st-faq-split" data-uid="smvuvixv4fwe4">
       <div class="st-wrap fs2">
         <div class="fs2-side">
           <header class="st-head st-head--left fs2-head">
@@ -264,7 +264,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvuveuu5c52i">
+    <section id="contact" class="st st-booking-form" data-uid="smvuvixv4f1cf">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -325,7 +325,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvuveuu53lk4">
+    <section id="contact-2" class="st st-contact-map" data-uid="smvuvixv4hx4t">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -350,7 +350,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuveuu5h814">
+    <section class="st st-footer-minimal" data-uid="smvuvixv4ypl8">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -366,7 +366,7 @@ const dentalLandingPageTemplate = {
         <p class="fm-copy">© 2026 Brightsmile Dental Clinic</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveuu5f301">
+    <section class="st st-back-to-top" data-uid="smvuvixv4z4vk">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -375,7 +375,7 @@ const dentalLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-accessibility-toolbar" data-uid="smvuveuu5hsad">
+    <section class="st st-accessibility-toolbar" data-uid="smvuvixv4mpgi">
       <div class="a11y" data-a11y data-pos="left" data-remember="on">
         <button type="button" class="a11y-fab" aria-expanded="false" data-a11y-open aria-label="Open accessibility tools">
           <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="7.500" r="1.200" fill="currentColor"/><path d="M7 10.500l5 1 5-1M12 11.500v3.500M9.500 19l2.500-4 2.500 4"/></svg>
@@ -1273,7 +1273,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "A Dental Clinic Website That Calms Nervous Patients and Books Appointments",
-      "description": "Many dental patients arrive on a website already anxious, so this layout is designed to lower the temperature. The hero is friendly, with an appointment button, not a clinical image. The treatments grid explains what you offer in everyday language, and a \"what happens at your first visit\" step list removes the biggest unknown, which is what will actually happen in the chair.\n\nTrust is built with specifics: before-and-after results, the clinicians with their photos and credentials, and reviews that mention the experience, not just the outcome. A split FAQ with a contact card handles the practical questions (emergency appointments, costs, payment plans), and the booking form and map close the page with exactly what a patient needs to act: a request form and directions.\n\nKeep the calm palette and replace the sample practice with yours. This is the layout of the [Dental Clinic Website template](/website-builder/templates/dental/), which also comes as a multi-page site with Treatments, Our team and Book online pages; open it in the [Website Builder](/website-builder/) to edit and export."
+      "description": "Many dental patients arrive on a website already anxious, so this layout is designed to lower the temperature. The hero is friendly, with an appointment button, not a clinical image. The treatments grid explains what you offer in everyday language, and a \"what happens at your first visit\" step list removes the biggest unknown, which is what will actually happen in the chair.\n\nTrust is built with specifics: before-and-after results, the clinicians with their photos and credentials, and reviews that mention the experience, not just the outcome. A split FAQ with a contact card handles the practical questions (emergency appointments, costs, payment plans), and the booking form and map close the page with exactly what a patient needs to act: a request form and directions.\n\nKeep the calm palette and replace the sample practice with yours. This is the layout of the [Dental Clinic Website template](/website-builder/templates/dental/), which also comes as a multi-page site with Treatments, Our team and Book online pages; open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return; and a floating accessibility toolbar where visitors can enlarge text, raise contrast, hide images and pause animations. Each one has its own page in the Website Section Templates library ([Back to Top Button](/website-section-templates/back-to-top/), [Accessibility Toolbar Widget](/website-section-templates/accessibility-toolbar/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "13 ready-made website sections assembled into one finished dental clinic website page: Simple Sticky Navbar, SaaS Split Hero, Icon Grid Features, How It Works Steps, Before & After Slider, Team Grid, Testimonial Wall, Split FAQ With Contact Card, Booking Request Form, Contact With Map, Minimal Footer, Back to Top Button, Accessibility Toolbar Widget",
@@ -1340,6 +1340,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       {
         "q": "Can I show before-and-after photos?",
         "a": "Yes, with the patient's written consent. The slider lets visitors drag between the two images to see the change."
+      },
+      {
+        "q": "What extras are built into the Dental Clinic Website template?",
+        "a": "It adds a floating back to top button and an accessibility toolbar. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

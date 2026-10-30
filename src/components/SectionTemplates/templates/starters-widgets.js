@@ -156,3 +156,23 @@ export const WIDGET_ROLES = {
   'law-firm:team-accordion': 'an interactive team accordion where each lawyer is a grayscale strip that opens on click',
   'podcast:team-accordion': 'an interactive team accordion where each host is a grayscale strip that opens on click',
 };
+
+/* The sections added on 2026-10-30, described for SEO text: name and page of the section template, a short phrase for
+   sentences and FAQs, and a phrase for the gallery blurb. */
+export const ADDED_TYPES = {
+  'back-to-top': { name: 'Back to Top Button', short: 'a floating back to top button', blurb: 'a back to top button' },
+  'accessibility-toolbar': { name: 'Accessibility Toolbar Widget', short: 'an accessibility toolbar', blurb: 'an accessibility toolbar' },
+  'cursor-follower': { name: 'Cursor Follower', short: 'a cursor follower circle', blurb: 'a cursor follower' },
+  'timeline-horizontal': { name: 'Horizontal Timeline', short: 'a pinned horizontal timeline', blurb: 'a pinned timeline' },
+  'scroll-zoom': { name: 'Scroll Zoom Image Stack', short: 'a scroll zoom image stack', blurb: 'a scroll zoom image stack' },
+  'team-accordion': { name: 'Interactive Team Accordion', short: 'an interactive team accordion', blurb: 'an interactive team accordion' },
+};
+
+/** The added sections a website template uses, once each, in page order, with the template-specific wording */
+export const addedSectionsOf = t => {
+  const seen = new Set();
+  return t.sections.map(s => s[0]).filter(id => ADDED_TYPES[id] && !seen.has(id) && seen.add(id)).map(id => ({
+    id, ...ADDED_TYPES[id], url: '/website-section-templates/' + id + '/', role: WIDGET_ROLES[t.id + ':' + id] || WIDGET_ROLES[id] || ADDED_TYPES[id].short,
+  }));
+};
+export const joinList = items => (items.length < 2 ? items.join('') : items.slice(0, -1).join(', ') + ' and ' + items[items.length - 1]);

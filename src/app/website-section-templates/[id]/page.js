@@ -71,6 +71,8 @@ export default async function WebsiteSectionTemplatePage({ params }) {
   // Website templates built with this section: a link from the section page to each of them
   const usedIn = WEBSITE_TEMPLATES.filter(w => w.sections.some(([sid]) => sid === t.id));
 
+  // Sections whose effect runs on scroll get a Refresh button in the editor instead of Play (see SCROLL_FX in SectionTemplates/index.js)
+  const SCROLL_DRIVEN = (t.behaviors || []).some(b => ['hscroll', 'story', 'stack', 'drawpath', 'ring', 'htimeline', 'kenburns'].includes(b));
   const sections = [
     { type: 'features', label: "What's included", heading: 'Features', items: seo.features },
     {
@@ -108,7 +110,7 @@ export default async function WebsiteSectionTemplatePage({ params }) {
         { title: 'Edit the content', text: t.custom ? 'Add rows and columns in the panel, fill them with blocks such as headings, text, images, buttons, lists and HTML, then set alignment, spacing and any custom CSS or JavaScript. Click text in the preview to edit it in place.' : `Fill in the ${listJoin(parts)} in the panel.${toggleable.length ? ` Switch the ${listJoin(toggleable)} on or off.` : ''} Wrap words in *asterisks* to colour them.` },
         { title: 'Add your images', text: 'Upload your own images (resized in your browser and kept on your device) or paste a hosted image URL.' },
         { title: 'Match your brand', text: 'Pick a colour preset or exact colours, choose heading and body fonts from Google Fonts or your own uploaded font, set the corner radius and width, or apply your brand kit.' },
-        { title: 'Animate and preview', text: 'Choose a GSAP entrance effect and speed, press Play animation, and check the section on desktop, tablet and mobile.' },
+        { title: 'Animate and preview', text: SCROLL_DRIVEN ? 'This section is driven by scrolling: scroll inside the preview to see the effect, press Refresh to restart it from the top, and check the section on desktop, tablet and mobile.' : 'Choose a GSAP entrance effect and speed, press Play animation, and check the section on desktop, tablet and mobile.' },
         { title: 'Save and export', text: 'Save it to My designs, then export a single HTML file, a ZIP with your images, a React or Vue component, or fork it into My Code.' },
       ],
     },

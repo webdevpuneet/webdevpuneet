@@ -14,7 +14,7 @@ const agencyLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvuveuro6k5e">
+    <section class="st st-navbar-floating" data-uid="smvuvixt3yr92">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -34,7 +34,7 @@ const agencyLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-centered-gradient-hero" data-uid="smvuveuron63p">
+    <section class="st st-centered-gradient-hero" data-uid="smvuvixt3ta6a">
       <div class="cg-glow" aria-hidden="true"></div>
       <div class="cg st-wrap">
         <span class="st-eyebrow cg-eyebrow" data-anim="item">Brand, web &amp; product design</span>
@@ -48,7 +48,7 @@ const agencyLandingPageTemplate = {
         <div class="cg-media" data-anim="media"><img width="1200" height="820" src="https://webdevpuneet.com/images/section-templates/hero-dashboard.png" alt="Acme app dashboard"></div>
       </div>
     </section>
-    <section id="features" class="st st-features-bento" data-uid="smvuveurobjpn">
+    <section id="features" class="st st-features-bento" data-uid="smvuvixt3zgez">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -95,7 +95,7 @@ const agencyLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvuveurof0u1">
+    <section id="results" class="st st-stats-counters" data-uid="smvuvixt33wrw">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Results</p>
@@ -126,7 +126,7 @@ const agencyLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="customers" class="st st-case-study-showcase" data-uid="smvuveuro477r">
+    <section id="customers" class="st st-case-study-showcase" data-uid="smvuvixt3cg43">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Selected work</p>
@@ -172,7 +172,7 @@ const agencyLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="showcase" class="st st-scroll-ring" data-uid="smvuveuroe1d4">
+    <section id="showcase" class="st st-scroll-ring" data-uid="smvuvixt3clui">
       <div class="st-wrap rg-head">
         <p class="st-eyebrow" data-anim="item">More work</p>
         <h2 class="st-h2" data-anim="item" data-anim-text>A few more <span class="hl">projects we love</span></h2>
@@ -221,7 +221,7 @@ const agencyLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="team" class="st st-team-carousel" data-uid="smvuveurowjcy">
+    <section id="team" class="st st-team-carousel" data-uid="smvuvixt3j9e7">
       <div class="st-wrap">
         <div class="tc2-top">
           <header class="st-head st-head--left tc2-head">
@@ -280,7 +280,7 @@ const agencyLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers-2" class="st st-testimonial-spotlight" data-uid="smvuveurop7qc">
+    <section id="customers-2" class="st st-testimonial-spotlight" data-uid="smvuvixt3a819">
       <div class="st-wrap">
         <figure class="ts-card">
           <span class="ts-mark" aria-hidden="true">“</span>
@@ -299,7 +299,7 @@ const agencyLandingPageTemplate = {
         </figure>
       </div>
     </section>
-    <section id="blog" class="st st-blog-list" data-uid="smvuveuro0drq">
+    <section id="blog" class="st st-blog-list" data-uid="smvuvixt3t2g6">
       <div class="st-wrap">
         <div class="bl-top">
           <header class="st-head st-head--left bl-head">
@@ -348,7 +348,7 @@ const agencyLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvuveuro9xmh">
+    <section class="st st-floating-social-share" data-uid="smvuvixt32x0f">
       <div class="ss" data-ss data-side="left" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="linkedin" data-share="https://www.linkedin.com/sharing/share-offsite/?url={url}" href="https://www.linkedin.com/sharing/share-offsite/" target="_blank" rel="noopener noreferrer" style="--c:#0A66C2" aria-label="Share on LinkedIn (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span class="ss-tip" aria-hidden="true">LinkedIn</span></a></li><li class="ss-item"><a class="ss-btn" data-net="x" data-share="https://x.com/intent/post?url={url}&amp;text={title}&amp;via={via}&amp;hashtags={tags}" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer" style="--c:#111111" aria-label="Share on X (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="ss-tip" aria-hidden="true">X</span></a></li><li class="ss-item"><a class="ss-btn" data-net="facebook" data-share="https://www.facebook.com/sharer/sharer.php?u={url}" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer" style="--c:#1877F2" aria-label="Share on Facebook (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="ss-tip" aria-hidden="true">Facebook</span></a></li><li class="ss-item"><a class="ss-btn" data-net="email" data-share="mailto:?subject={title}&amp;body={text}" href="mailto:" style="--c:#6B7280" aria-label="Share on Email"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.970 5.700a1.940 1.940 0 0 1-2.060 0L2 7"/></svg><span class="ss-tip" aria-hidden="true">Email</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -357,7 +357,7 @@ const agencyLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section id="contact" class="st st-footer-giant" data-uid="smvuveuro3yuz">
+    <section id="contact" class="st st-footer-giant" data-uid="smvuvixt36y43">
       <footer class="fgi">
         <div class="st-wrap">
           <div class="fgi-cta">
@@ -383,7 +383,7 @@ const agencyLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveurphswh">
+    <section class="st st-back-to-top" data-uid="smvuvixt3qi67">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -392,7 +392,7 @@ const agencyLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-cursor-follower" data-uid="smvuveurpsm2p">
+    <section class="st st-cursor-follower" data-uid="smvuvixt37w6a">
       <div class="cf" data-cf data-enabled="on" data-size="80" data-color="#ffffff" data-blend="difference" data-speed="0.18" data-border="0" data-border-style="solid" data-fill="on" data-grow="on" data-hide="off">
         <div class="cf-stage" aria-hidden="true">
           <p class="cf-word">Cur<b>sors</b></p>
@@ -1504,7 +1504,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "A Creative Agency Website Built Around Proof: Services, Numbers, People and One Case Study",
-      "description": "Agency sites fail in one of two ways: they look like every other agency, or they say nothing a buyer can check. This layout sidesteps both by pairing confident visuals with evidence. The centred hero sets the tone, the bento grid explains the services without a wall of text, the animated counters turn \"we are experienced\" into numbers, and the case study shows one real piece of work end to end, which persuades a prospect more than a gallery of ten thumbnails.\n\nThe people matter too. A draggable team carousel puts faces to the studio, and the editorial journal shows how the team thinks, which is what a buyer is really hiring. The footer ends with a giant wordmark and a single line, \"Let's talk\", so the last thing a visitor sees is the action you want.\n\nReplace the sample studio with yours and keep the proportions: one hero, one case study, real numbers. It is the layout of the [Creative Agency Website template](/website-builder/templates/agency/); open it in the [Website Builder](/website-builder/) to add the Services, Work, About and Contact pages that share one navbar and theme, then export."
+      "description": "Agency sites fail in one of two ways: they look like every other agency, or they say nothing a buyer can check. This layout sidesteps both by pairing confident visuals with evidence. The centred hero sets the tone, the bento grid explains the services without a wall of text, the animated counters turn \"we are experienced\" into numbers, and the case study shows one real piece of work end to end, which persuades a prospect more than a gallery of ten thumbnails.\n\nThe people matter too. A draggable team carousel puts faces to the studio, and the editorial journal shows how the team thinks, which is what a buyer is really hiring. The footer ends with a giant wordmark and a single line, \"Let's talk\", so the last thing a visitor sees is the action you want.\n\nReplace the sample studio with yours and keep the proportions: one hero, one case study, real numbers. It is the layout of the [Creative Agency Website template](/website-builder/templates/agency/); open it in the [Website Builder](/website-builder/) to add the Services, Work, About and Contact pages that share one navbar and theme, then export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return; and a circle that follows the cursor and inverts the page beneath it with a blend mode, adding a bold, playful touch. Each one has its own page in the Website Section Templates library ([Back to Top Button](/website-section-templates/back-to-top/), [Cursor Follower](/website-section-templates/cursor-follower/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "13 ready-made website sections assembled into one finished creative agency website page: Floating Pill Navbar, Centred Gradient Hero, Bento Grid Features, Animated Stats Counters, Case Study Showcase, 3D Scroll Carousel, Team Carousel, Testimonial Spotlight, Editorial Post List, Floating Social Share Bar, Big Wordmark Footer, Back to Top Button, Cursor Follower (Blend Mode Circle)",
@@ -1571,6 +1571,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       {
         "q": "Can I add more pages?",
         "a": "Yes. The multi-page version in the Website Builder adds Services, Work, About and Contact pages sharing one navbar, footer and theme."
+      },
+      {
+        "q": "What extras are built into the Creative Agency Website template?",
+        "a": "It adds a floating back to top button and a cursor follower circle. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

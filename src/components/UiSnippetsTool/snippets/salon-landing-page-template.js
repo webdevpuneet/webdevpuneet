@@ -11,7 +11,7 @@ const salonLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuveuwqr4xw">
+    <section class="st st-navbar-simple" data-uid="smvuvixx27b2g">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></svg></span><span>Bloom Studio</span></span>
@@ -31,7 +31,7 @@ const salonLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuveuwqsran">
+    <section class="st st-image-background-hero" data-uid="smvuvixx2bvya">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-salon.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,8 +51,8 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="menu" class="st st-restaurant-menu" data-uid="smvuveuwq3bh6">
-      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.08" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><filter id="art-blur-smvuveuwq3bh6" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter></defs><g filter="url(#art-blur-smvuveuwq3bh6)" fill="currentColor"><circle data-float cx="180" cy="160" r="190"/><circle data-float cx="1040" cy="260" r="220"/><circle data-float cx="640" cy="720" r="200"/></g></svg></div>
+    <section id="menu" class="st st-restaurant-menu" data-uid="smvuvixx2ge00">
+      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.08" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><filter id="art-blur-smvuvixx2ge00" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter></defs><g filter="url(#art-blur-smvuvixx2ge00)" fill="currentColor"><circle data-float cx="180" cy="160" r="190"/><circle data-float cx="1040" cy="260" r="220"/><circle data-float cx="640" cy="720" r="200"/></g></svg></div>
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services &amp; prices</p>
@@ -117,7 +117,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuveuwqcmsu">
+    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuvixx2c7zk">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The studio</p>
@@ -159,7 +159,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvuveuwqzwp6">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvuvixx2jqud">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Results</p>
@@ -194,7 +194,7 @@ const salonLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="team" class="st st-team-accordion" data-uid="smvuveuwq9hp7">
+    <section id="team" class="st st-team-accordion" data-uid="smvuvixx2fxog">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The team</p>
@@ -259,7 +259,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuveuwqa7gm">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuvixx2fpq7">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Client love</p>
@@ -294,7 +294,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvuveuwqn82u">
+    <section id="contact" class="st st-booking-form" data-uid="smvuvixx2ufxi">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -355,7 +355,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvuveuwqu3vy">
+    <section id="contact-2" class="st st-contact-map" data-uid="smvuvixx2z2fz">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -380,7 +380,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuveuwrgwcf">
+    <section class="st st-popup-modal" data-uid="smvuvixx2zc31">
       <div class="pu" data-pu data-trigger="delay" data-delay="10" data-scroll="50" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="1pcpcek">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -400,7 +400,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuveuwrl407">
+    <section class="st st-footer-minimal" data-uid="smvuvixx2qgpk">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -416,7 +416,7 @@ const salonLandingPageTemplate = {
         <p class="fm-copy">© 2026 Bloom Studio</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveuwr237w">
+    <section class="st st-back-to-top" data-uid="smvuvixx2zbsy">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -1440,7 +1440,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "A Salon Website That Books Appointments: Services Menu, Stylists and Before-and-After Proof",
-      "description": "Clients choose a salon on three things: the work, the price and the person who will do it. The services are therefore laid out like a menu, with prices, so the cost of a cut and colour is clear before anyone books. A before-and-after slider shows transformations that no description can convey, and the stylist grid lets a client pick someone by name, which is how most salon bookings really work.\n\nReviews from regulars confirm the experience, a booking request form takes the service, preferred stylist and date, and a map shows where to find you. A popup can promote a new-client offer or a quiet-day discount without restructuring the page.\n\nReplace the sample menu and stylists with your own, and photograph your real work. It is the layout of the [Hair & Beauty Salon Website template](/website-builder/templates/salon/), which also comes as a multi-page site with Services, Stylists and Book pages; open it in the [Website Builder](/website-builder/) to edit and export."
+      "description": "Clients choose a salon on three things: the work, the price and the person who will do it. The services are therefore laid out like a menu, with prices, so the cost of a cut and colour is clear before anyone books. A before-and-after slider shows transformations that no description can convey, and the stylist grid lets a client pick someone by name, which is how most salon bookings really work.\n\nReviews from regulars confirm the experience, a booking request form takes the service, preferred stylist and date, and a map shows where to find you. A popup can promote a new-client offer or a quiet-day discount without restructuring the page.\n\nReplace the sample menu and stylists with your own, and photograph your real work. It is the layout of the [Hair & Beauty Salon Website template](/website-builder/templates/salon/), which also comes as a multi-page site with Services, Stylists and Book pages; open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned stack of studio photographs that each arrive small and zoom up to fill the screen as you scroll, room by room; an interactive team accordion where each stylist is a grayscale strip that opens on click; and a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Scroll Zoom Image Stack](/website-section-templates/scroll-zoom/), [Interactive Team Accordion](/website-section-templates/team-accordion/), [Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "12 ready-made website sections assembled into one finished hair & beauty salon website page: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Image Stack (Ken Burns), Before & After Slider, Interactive Team Accordion, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button",
@@ -1508,6 +1508,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       {
         "q": "Should I publish my prices?",
         "a": "Yes. Clear prices reduce no-shows and queries and let clients choose with confidence."
+      },
+      {
+        "q": "What extras are built into the Hair & Beauty Salon Website template?",
+        "a": "It adds a scroll zoom image stack, an interactive team accordion and a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

@@ -15,7 +15,7 @@ const eventLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-announcement" data-uid="smvuveuv78zlg">
+    <section class="st st-navbar-announcement" data-uid="smvuvixw5j0vp">
       <div class="na-bar" data-dismissable>
         <p class="st-wrap na-bar-in"><span>🎟️ Early-bird tickets end 30 September</span> <a class="na-bar-link" href="#pricing"><span>Save 40%</span> <span aria-hidden="true">→</span></a></p>
         <button type="button" class="na-close" data-dismiss aria-label="Dismiss announcement"><span aria-hidden="true">×</span></button>
@@ -44,7 +44,7 @@ const eventLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuveuv7p21k">
+    <section class="st st-image-background-hero" data-uid="smvuvixw5hu9p">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-event.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -64,7 +64,7 @@ const eventLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-alternating" data-uid="smvuveuv710uk">
+    <section id="features" class="st st-features-alternating" data-uid="smvuvixw52w9e">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Schedule</p>
@@ -93,7 +93,7 @@ const eventLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="team" class="st st-team-carousel" data-uid="smvuveuv72i20">
+    <section id="team" class="st st-team-carousel" data-uid="smvuvixw5rjkr">
       <div class="st-wrap">
         <div class="tc2-top">
           <header class="st-head st-head--left tc2-head">
@@ -152,7 +152,7 @@ const eventLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuveuv74jiw">
+    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuvixw5rej6">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The schedule</p>
@@ -217,7 +217,7 @@ const eventLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuveuv7zjkz">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuvixw56xub">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Tickets</p>
@@ -260,7 +260,7 @@ const eventLandingPageTemplate = {
         <p class="p3-note" data-anim="item">All prices exclude VAT. Tickets are transferable.</p>
       </div>
     </section>
-    <section class="st st-logo-cloud" data-uid="smvuveuv7ocgn">
+    <section class="st st-logo-cloud" data-uid="smvuvixw57qz8">
       <div class="st-wrap">
         <p class="lc-title" data-anim="item">Proudly supported by <span class="hl">our sponsors</span></p>
       </div>
@@ -293,7 +293,7 @@ const eventLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuveuv7vwa7">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuvixw522fx">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -321,7 +321,7 @@ const eventLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuveuv7ygd7">
+    <section class="st st-popup-modal" data-uid="smvuvixw5x8i5">
       <div class="pu" data-pu data-trigger="delay" data-delay="10" data-scroll="50" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="qfowe4">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -341,7 +341,7 @@ const eventLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvuveuv71z5d">
+    <section class="st st-floating-social-share" data-uid="smvuvixw5g1k7">
       <div class="ss" data-ss data-side="left" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="x" data-share="https://x.com/intent/post?url={url}&amp;text={title}&amp;via={via}&amp;hashtags={tags}" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer" style="--c:#111111" aria-label="Share on X (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="ss-tip" aria-hidden="true">X</span></a></li><li class="ss-item"><a class="ss-btn" data-net="linkedin" data-share="https://www.linkedin.com/sharing/share-offsite/?url={url}" href="https://www.linkedin.com/sharing/share-offsite/" target="_blank" rel="noopener noreferrer" style="--c:#0A66C2" aria-label="Share on LinkedIn (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span class="ss-tip" aria-hidden="true">LinkedIn</span></a></li><li class="ss-item"><a class="ss-btn" data-net="whatsapp" data-share="https://wa.me/?text={text}" href="https://wa.me/" target="_blank" rel="noopener noreferrer" style="--c:#128C7E" aria-label="Share on WhatsApp (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5.1A9 9 0 1 1 8.1 19.3z"/><path d="M9 8.5c0 3.300 2.700 6 6 6l1.300-1.500-2.200-1.100-.9.900c-.9-.4-1.700-1.200-2.100-2.100l.9-.9-1.100-2.200z"/></svg><span class="ss-tip" aria-hidden="true">WhatsApp</span></a></li><li class="ss-item"><a class="ss-btn" data-net="facebook" data-share="https://www.facebook.com/sharer/sharer.php?u={url}" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer" style="--c:#1877F2" aria-label="Share on Facebook (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="ss-tip" aria-hidden="true">Facebook</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -350,7 +350,7 @@ const eventLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section id="contact" class="st st-footer-giant" data-uid="smvuveuv7p224">
+    <section id="contact" class="st st-footer-giant" data-uid="smvuvixw5xyjb">
       <footer class="fgi">
         <div class="st-wrap">
           <div class="fgi-cta">
@@ -376,7 +376,7 @@ const eventLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveuv828l8">
+    <section class="st st-back-to-top" data-uid="smvuvixw5w40c">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -1646,7 +1646,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "A Conference Website That Sells Tickets: Date, Speakers, Schedule and Three Ticket Tiers",
-      "description": "An event page has a deadline and a capacity, so it needs to create a decision. The announcement bar and hero put the date, city and one button in front of the visitor straight away. The alternating feature blocks give reasons to attend, built around what attendees will take home, the speaker carousel gives the draw (people choose events for who is on stage), and the ticket tiers with a highlighted default plan make the choice easy, with the early-bird price creating urgency.\n\nThe page covers the practicalities too: a sponsor logo cloud shows who backs the event, the FAQ handles travel, refunds and accessibility, a promo popup can announce a speaker or a price change and a share bar makes it easy to pass the link to a colleague, which is how most conference tickets get bought.\n\nReplace the sample event with yours, ideally with real speaker photos. It is the layout of the [Event & Conference Website template](/website-builder/templates/event/); open it in the [Website Builder](/website-builder/) to edit and export."
+      "description": "An event page has a deadline and a capacity, so it needs to create a decision. The announcement bar and hero put the date, city and one button in front of the visitor straight away. The alternating feature blocks give reasons to attend, built around what attendees will take home, the speaker carousel gives the draw (people choose events for who is on stage), and the ticket tiers with a highlighted default plan make the choice easy, with the early-bird price creating urgency.\n\nThe page covers the practicalities too: a sponsor logo cloud shows who backs the event, the FAQ handles travel, refunds and accessibility, a promo popup can announce a speaker or a price change and a share bar makes it easy to pass the link to a colleague, which is how most conference tickets get bought.\n\nReplace the sample event with yours, ideally with real speaker photos. It is the layout of the [Event & Conference Website template](/website-builder/templates/event/); open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned horizontal schedule that moves through both days of the conference as you scroll; and a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Horizontal Timeline](/website-section-templates/timeline-horizontal/), [Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "12 ready-made website sections assembled into one finished event & conference website page: Navbar With Announcement Bar, Image Background Hero, Alternating Feature Rows, Team Carousel, Horizontal Timeline, Three-Tier Pricing, Scrolling Logo Cloud, FAQ Accordion, Popup & Promo Modal, Floating Social Share Bar, Big Wordmark Footer, Back to Top Button",
@@ -1713,6 +1713,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       {
         "q": "Can I add a full schedule?",
         "a": "Yes. Add a schedule section from the Website Section Templates library, or list sessions inside the feature rows."
+      },
+      {
+        "q": "What extras are built into the Event & Conference Website template?",
+        "a": "It adds a pinned horizontal timeline and a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

@@ -13,7 +13,7 @@ import { siteFromStarter, siteFiles, starterPageList } from '../src/components/S
 import { sectionTemplateById, THEME_PRESETS } from '../src/components/SectionTemplates/templates/index.js';
 import { websiteAiPrompt } from '../src/components/SectionTemplates/templates/ai-prompts.js';
 import { resolveFont } from '../src/lib/fonts.js';
-import { STARTER_WIDGET_EXTRAS, WIDGET_ROLES } from '../src/components/SectionTemplates/templates/starters-widgets.js';
+import { STARTER_WIDGET_EXTRAS, WIDGET_ROLES, addedSectionsOf, joinList } from '../src/components/SectionTemplates/templates/starters-widgets.js';
 import { BATCH_1 } from './landing-page-content/batch-1.mjs';
 import { BATCH_2 } from './landing-page-content/batch-2.mjs';
 import { BATCH_3 } from './landing-page-content/batch-3.mjs';
@@ -56,6 +56,18 @@ const ADDED_FEATURES = {
 };
 const addedFeatures = t => [...new Set(t.sections.map(s => s[0]))].filter(id => ADDED_FEATURES[id]).map(id => ADDED_FEATURES[id]);
 
+/* The widgets and sections added later, written into the article and the FAQs (data-driven, so it stays correct) */
+const extrasAbout = t => {
+  const ex = addedSectionsOf(t);
+  if (!ex.length) return '';
+  return `\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds ${ex.length > 1 ? ex.slice(0, -1).map(e => e.role).join("; ") + "; and " + ex[ex.length - 1].role : ex[0].role}. Each one has its own page in the Website Section Templates library (${ex.map(e => `[${e.name}](${e.url})`).join(', ')}), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder.`;
+};
+const extrasFaq = t => {
+  const ex = addedSectionsOf(t);
+  if (!ex.length) return [];
+  return [{ q: `What extras are built into the ${t.name} template?`, a: `It adds ${joinList(ex.map(e => e.short))}. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library.` }];
+};
+
 const problems = [];
 for (const t of WEBSITE_TEMPLATES) {
   const c = CONTENT[t.id];
@@ -97,7 +109,7 @@ for (const t of WEBSITE_TEMPLATES) {
     subtitle: `${t.name} template · ${sections.length} website sections · Plain HTML, CSS & JS · Customise it in the Website Builder`,
     startTemplate: { id: t.id, name: t.name, url: `/website-builder/editor/?starter=${t.id}`, templateUrl: `/website-builder/templates/${t.id}/` },
     sectionsUsed: sections,
-    about: { title: c.headline, description: c.about },
+    about: { title: c.headline, description: c.about + extrasAbout(t) },
     features: [
       `${sections.length} ready-made website sections assembled into one finished ${t.name.toLowerCase()} page: ${names}`,
       'Every section links to its own page in the Website Section Templates library, where you can edit it on its own',
@@ -120,6 +132,7 @@ for (const t of WEBSITE_TEMPLATES) {
     useCases: c.useCases,
     faqs: [
       ...c.faqs,
+      ...extrasFaq(t),
       { q: 'Which website sections is this landing page built from?', a: `It is assembled from ${sections.length} templates in the free Website Section Templates library: ${names}. Each one has its own page where you can edit it separately.` },
       { q: 'How is this snippet different from the template in the Website Builder?', a: 'It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site.' },
     ],

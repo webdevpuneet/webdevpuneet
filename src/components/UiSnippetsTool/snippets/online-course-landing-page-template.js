@@ -12,7 +12,7 @@ const onlineCourseLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuveuuolj4v">
+    <section class="st st-navbar-simple" data-uid="smvuvixvmfxms">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /><path d="M22 10v6" /><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg></span><span>Design Academy</span></span>
@@ -33,7 +33,7 @@ const onlineCourseLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvuveuuojimg">
+    <section class="st st-saas-split-hero" data-uid="smvuvixvmsf3c">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="#pricing"><span>New cohort starts 4 November</span></a>
@@ -50,7 +50,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuveuuo66zj">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuvixvmbf2n">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">What you’ll learn</p>
@@ -91,7 +91,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvuveuuoj0vw">
+    <section id="gallery" class="st st-video-section" data-uid="smvuvixvmll7l">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Course preview</p>
@@ -121,7 +121,7 @@ const onlineCourseLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="features-2" class="st st-features-alternating" data-uid="smvuveuuoypbe">
+    <section id="features-2" class="st st-features-alternating" data-uid="smvuvixvm8pzj">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Curriculum</p>
@@ -159,7 +159,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuveuuoop3y">
+    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuvixvmn3tb">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The syllabus</p>
@@ -224,7 +224,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonial-spotlight" data-uid="smvuveuuopo6n">
+    <section id="customers" class="st st-testimonial-spotlight" data-uid="smvuvixvmo41x">
       <div class="st-wrap">
         <figure class="ts-card">
           <span class="ts-mark" aria-hidden="true">“</span>
@@ -243,7 +243,7 @@ const onlineCourseLandingPageTemplate = {
         </figure>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvuveuuo7he1">
+    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvuvixvmhsv4">
       <div class="st-wrap ps">
         <div class="ps-copy">
           <header class="st-head st-head--left ps-head">
@@ -272,7 +272,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuveuuo335z">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuvixvmwvl0">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -300,7 +300,7 @@ const onlineCourseLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuveuuodzbj">
+    <section class="st st-popup-modal" data-uid="smvuvixvmwswx">
       <div class="pu" data-pu data-trigger="scroll" data-delay="8" data-scroll="50" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="1kxmbuq">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -321,7 +321,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuveuuo42xc">
+    <section class="st st-footer-minimal" data-uid="smvuvixvmydkk">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -337,7 +337,7 @@ const onlineCourseLandingPageTemplate = {
         <p class="fm-copy">© 2026 Design Academy</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveuuocw16">
+    <section class="st st-back-to-top" data-uid="smvuvixvmmq0j">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -1367,7 +1367,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "A Course Sales Page Structure: Promise, Preview, Curriculum, Proof and One Price",
-      "description": "Buying a course is a bet on a stranger, so a good sales page reduces risk at every step. This layout does it in order. The hero makes a specific promise and shows a lesson preview so people can sample the teaching, the icon grid lists what students will be able to do afterwards (outcomes, not topics), and alternating feature rows walk through the curriculum module by module so a buyer can see how it is built.\n\nA video section lets the instructor speak directly, a spotlight testimonial shows a result from a real student, and a single plan price keeps the decision simple, with the money-back guarantee next to the button where doubt peaks. The FAQ ends the objections: how long, what level, what if I get stuck.\n\nKeep the single-price layout unless you really have tiers. It is the layout of the [Online Course Website template](/website-builder/templates/online-course/); open it in the [Website Builder](/website-builder/) to edit the curriculum, price and copy and export."
+      "description": "Buying a course is a bet on a stranger, so a good sales page reduces risk at every step. This layout does it in order. The hero makes a specific promise and shows a lesson preview so people can sample the teaching, the icon grid lists what students will be able to do afterwards (outcomes, not topics), and alternating feature rows walk through the curriculum module by module so a buyer can see how it is built.\n\nA video section lets the instructor speak directly, a spotlight testimonial shows a result from a real student, and a single plan price keeps the decision simple, with the money-back guarantee next to the button where doubt peaks. The FAQ ends the objections: how long, what level, what if I get stuck.\n\nKeep the single-price layout unless you really have tiers. It is the layout of the [Online Course Website template](/website-builder/templates/online-course/); open it in the [Website Builder](/website-builder/) to edit the curriculum, price and copy and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned horizontal syllabus that walks through the eight weeks of the course; and a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Horizontal Timeline](/website-section-templates/timeline-horizontal/), [Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "12 ready-made website sections assembled into one finished online course website page: Simple Sticky Navbar, SaaS Split Hero, Icon Grid Features, Video Section with Poster, Alternating Feature Rows, Horizontal Timeline, Testimonial Spotlight, Single Plan Pricing, FAQ Accordion, Popup & Promo Modal, Minimal Footer, Back to Top Button",
@@ -1434,6 +1434,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       {
         "q": "How do I take payments?",
         "a": "Link the main button to a checkout from Stripe, Gumroad, Paddle or your course platform; this page handles the selling, the checkout handles the payment."
+      },
+      {
+        "q": "What extras are built into the Online Course Website template?",
+        "a": "It adds a pinned horizontal timeline and a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

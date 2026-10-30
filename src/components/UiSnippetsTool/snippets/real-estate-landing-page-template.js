@@ -12,7 +12,7 @@ const realEstateLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuveuti7zjv">
+    <section class="st st-navbar-simple" data-uid="smvuvixuhe8nu">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg></span><span>Harbor Homes</span></span>
@@ -33,7 +33,7 @@ const realEstateLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuveuticm12">
+    <section class="st st-image-background-hero" data-uid="smvuvixuhlg56">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-realestate.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -53,7 +53,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="listings" class="st st-property-listings" data-uid="smvuveutijg32">
+    <section id="listings" class="st st-property-listings" data-uid="smvuvixuhg4oc">
       <div class="st-wrap">
         <div class="pl-head">
           <div class="pl-titles">
@@ -159,7 +159,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuveutiulfq">
+    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuvixuh4x7w">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Featured homes</p>
@@ -201,7 +201,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuveutiklqj">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuvixuhj4tz">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -242,7 +242,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvuveutiprhz">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvuvixuhl9xx">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it works</p>
@@ -272,7 +272,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvuveutirhl6">
+    <section id="results" class="st st-stats-counters" data-uid="smvuvixuh39mc">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our results</p>
@@ -303,7 +303,7 @@ const realEstateLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvuveutinjqv">
+    <section id="team" class="st st-team-grid" data-uid="smvuvixuhc8yt">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our agents</p>
@@ -354,7 +354,7 @@ const realEstateLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuveuti6w7c">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuvixuh8ran">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -389,7 +389,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuveutio2dx">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuvixuh0asd">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -417,7 +417,7 @@ const realEstateLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvuveutikp5x">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvuvixuhdeh3">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -462,7 +462,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvuveutisutj">
+    <section class="st st-footer-columns" data-uid="smvuvixuh87um">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -495,7 +495,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveutixt5h">
+    <section class="st st-back-to-top" data-uid="smvuvixuhh6ls">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -1262,7 +1262,7 @@ a.cs2-value:hover{color:var(--st-brand)}
     ],
     "about": {
       "title": "A Real Estate Website Built on Trust: Listings, Process, Results and the People Behind Them",
-      "description": "Choosing an agent is a trust decision, so this page leads with something tangible: a striking home at dusk and the listings themselves, not a slogan. Property cards give visitors something to do immediately, while the services grid and three-step process explain what you do for buyers and sellers in plain terms, so the unknown becomes manageable. Moving counters (homes sold, years in the area, average days to sell) turn \"experienced\" into evidence.\n\nThe people come next. A team grid with real agent photos gives a nervous seller a face, and the testimonial wall and FAQ answer the questions every client asks before they pick up the phone: fees, timelines, how valuations work. The contact form at the end is built for a valuation request, which is the conversation most agents want to start.\n\nReplace the sample listings and agents with yours. It is the layout of the [Real Estate Agency Website template](/website-builder/templates/real-estate/); open it in the [Website Builder](/website-builder/) to edit copy, theme and images and export."
+      "description": "Choosing an agent is a trust decision, so this page leads with something tangible: a striking home at dusk and the listings themselves, not a slogan. Property cards give visitors something to do immediately, while the services grid and three-step process explain what you do for buyers and sellers in plain terms, so the unknown becomes manageable. Moving counters (homes sold, years in the area, average days to sell) turn \"experienced\" into evidence.\n\nThe people come next. A team grid with real agent photos gives a nervous seller a face, and the testimonial wall and FAQ answer the questions every client asks before they pick up the phone: fees, timelines, how valuations work. The contact form at the end is built for a valuation request, which is the conversation most agents want to start.\n\nReplace the sample listings and agents with yours. It is the layout of the [Real Estate Agency Website template](/website-builder/templates/real-estate/); open it in the [Website Builder](/website-builder/) to edit copy, theme and images and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned stack of home photographs that each arrive small and zoom up to fill the screen as you scroll, one home at a time; and a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Scroll Zoom Image Stack](/website-section-templates/scroll-zoom/), [Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "13 ready-made website sections assembled into one finished real estate agency website page: Simple Sticky Navbar, Image Background Hero, Property Listings, Scroll Zoom Image Stack (Ken Burns), Icon Grid Features, How It Works Steps, Animated Stats Counters, Team Grid, Testimonial Wall, FAQ Accordion, Contact Form With Details, Multi-Column Footer, Back to Top Button",
@@ -1329,6 +1329,10 @@ a.cs2-value:hover{color:var(--st-brand)}
       {
         "q": "Why include a three-step process?",
         "a": "Buying or selling is unfamiliar and stressful. Three clear steps show what happens next and make contacting you feel low-risk."
+      },
+      {
+        "q": "What extras are built into the Real Estate Agency Website template?",
+        "a": "It adds a scroll zoom image stack and a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

@@ -23,7 +23,7 @@ export default {
   updated: '2026-10-30',
   seoTitle: 'Horizontal Timeline Template: Scrollable Events on a Line',
   seoDescription: 'Free horizontal timeline: pin and scroll events to the right with GSAP, numbered or icon markers, content above or below, arrows on phones. Export code.',
-  description: 'A horizontal timeline for company history, roadmaps and project milestones. Events sit left to right along one continuous line, each with a round numbered or icon marker and its date, title and text above or below. When there are more events than fit, the row scrolls with swipe, drag or arrow buttons and snaps to each event. Pick an event and the progress line grows to it. It adapts to phones and works with a keyboard.',
+  description: 'A horizontal timeline for company history, roadmaps and project milestones. Events sit left to right along one continuous line, each with a round numbered or icon marker and its date, title and text above or below. By default the section pins to the screen and scrolling the page slides the events along to the right, with a progress line that grows and each event lighting up as it is reached. On phones, with reduced motion, or in free mode, the row scrolls with swipe, drag or arrow buttons and snaps to each event. It works with a keyboard.',
   bestFor: ['Company history and about pages', 'Product roadmaps and release notes', 'Project milestones, courses and event schedules'],
   behaviors: ['htimeline'],
   /* Writes the layout settings onto the root (called by fillHtml) */

@@ -12,7 +12,7 @@ const restaurantLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuveusxq6um">
+    <section class="st st-navbar-simple" data-uid="smvuvixu7gq8b">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg></span><span>Olive &amp; Ember</span></span>
@@ -32,7 +32,7 @@ const restaurantLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuveusx20qf">
+    <section class="st st-image-background-hero" data-uid="smvuvixu7iwjj">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-restaurant.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -52,7 +52,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="menu" class="st st-restaurant-menu" data-uid="smvuveusxh59j">
+    <section id="menu" class="st st-restaurant-menu" data-uid="smvuvixu7citk">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">From the kitchen</p>
@@ -118,7 +118,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuveusx56hv">
+    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuvixu77y1r">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">From the farm</p>
@@ -160,7 +160,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvuveusxkeww">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvuvixu7oib3">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -192,7 +192,7 @@ const restaurantLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-rows" data-uid="smvuveusxwkgs">
+    <section id="pricing" class="st st-pricing-rows" data-uid="smvuvixu7dovt">
       <div class="st-wrap">
         <div class="pl-top">
           <header class="st-head st-head--left pl-head">
@@ -241,7 +241,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuveusywyss">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuvixu74z5s">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Guest reviews</p>
@@ -276,7 +276,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvuveusykntb">
+    <section id="contact" class="st st-booking-form" data-uid="smvuvixu7yph1">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -337,7 +337,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvuveusytecy">
+    <section id="contact-2" class="st st-contact-map" data-uid="smvuvixu7k1ya">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -362,7 +362,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuveusyrwpe">
+    <section class="st st-popup-modal" data-uid="smvuvixu70be0">
       <div class="pu" data-pu data-trigger="delay" data-delay="12" data-scroll="50" data-days="7" data-pos="bottom-left" data-layout="left" data-autoplay="0" data-pu-id="1ingh17">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -382,7 +382,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuveusyyirb">
+    <section class="st st-footer-minimal" data-uid="smvuvixu74fim">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -398,7 +398,7 @@ const restaurantLandingPageTemplate = {
         <p class="fm-copy">© 2026 Olive &amp; Ember</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveusyfkwb">
+    <section class="st st-back-to-top" data-uid="smvuvixu7zsef">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -1511,7 +1511,7 @@ html.stg-open{overflow:hidden}
     ],
     "about": {
       "title": "A Restaurant Website That Fills Tables: Menu, Booking and Directions in One Page",
-      "description": "People search for a restaurant to answer four questions: what do you serve, what does it cost, can I get a table, and where are you? This layout answers them in that order. A moody photo hero with a \"Book a table\" button, then the menu itself on the page rather than behind a PDF link (readable by search engines and by customers on slow phones), then a filterable gallery that sells the atmosphere, set menus with prices, and reviews that confirm the experience.\n\nThe bottom of the page is where bookings happen. A booking request form collects the date, party size and any dietary notes, and the contact section pairs a map with your opening hours so there is no reason to leave the page to find either. A promo modal can announce a seasonal menu or a special evening without redesigning anything.\n\nSwap in your dishes, hours and photographs. It is the layout of the [Restaurant Website template](/website-builder/templates/restaurant/), which also comes as a multi-page site with Menu, About and Visit pages; open it in the [Website Builder](/website-builder/) to edit and export."
+      "description": "People search for a restaurant to answer four questions: what do you serve, what does it cost, can I get a table, and where are you? This layout answers them in that order. A moody photo hero with a \"Book a table\" button, then the menu itself on the page rather than behind a PDF link (readable by search engines and by customers on slow phones), then a filterable gallery that sells the atmosphere, set menus with prices, and reviews that confirm the experience.\n\nThe bottom of the page is where bookings happen. A booking request form collects the date, party size and any dietary notes, and the contact section pairs a map with your opening hours so there is no reason to leave the page to find either. A promo modal can announce a seasonal menu or a special evening without redesigning anything.\n\nSwap in your dishes, hours and photographs. It is the layout of the [Restaurant Website template](/website-builder/templates/restaurant/), which also comes as a multi-page site with Menu, About and Visit pages; open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned stack of four photographs that each arrive small and zoom up to fill the screen as you scroll, from the plates to the farm and the hills; and a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Scroll Zoom Image Stack](/website-section-templates/scroll-zoom/), [Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "12 ready-made website sections assembled into one finished restaurant website page: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Image Stack (Ken Burns), Filterable Image Gallery, Pricing List Rows, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button",
@@ -1578,6 +1578,10 @@ html.stg-open{overflow:hidden}
       {
         "q": "What does a restaurant need for local search?",
         "a": "An accurate address, opening hours, a menu in text and consistent business details across your site and listings."
+      },
+      {
+        "q": "What extras are built into the Restaurant Website template?",
+        "a": "It adds a scroll zoom image stack and a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

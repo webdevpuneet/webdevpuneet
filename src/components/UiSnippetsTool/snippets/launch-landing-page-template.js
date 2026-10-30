@@ -11,7 +11,7 @@ const launchLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-announcement" data-uid="smvuveurgcy4j">
+    <section class="st st-navbar-announcement" data-uid="smvuvixswzuea">
       <div class="na-bar" data-dismissable>
         <p class="st-wrap na-bar-in"><span>🚀 Launching on Product Hunt, 12 November</span> <a class="na-bar-link" href="#get-started"><span>Get notified</span> <span aria-hidden="true">→</span></a></p>
         <button type="button" class="na-close" data-dismiss aria-label="Dismiss announcement"><span aria-hidden="true">×</span></button>
@@ -40,7 +40,7 @@ const launchLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-centered-gradient-hero" data-uid="smvuveurgfcqf">
+    <section class="st st-centered-gradient-hero" data-uid="smvuvixswjh6s">
       <div class="cg-glow" aria-hidden="true"></div>
       <div class="cg st-wrap">
         <span class="st-eyebrow cg-eyebrow" data-anim="item">Coming soon</span>
@@ -54,7 +54,7 @@ const launchLandingPageTemplate = {
         <div class="cg-media" data-anim="media"><img width="1200" height="820" src="https://webdevpuneet.com/images/section-templates/hero-dashboard.png" alt="Acme app dashboard"></div>
       </div>
     </section>
-    <section id="features" class="st st-features-bento" data-uid="smvuveurg3cu0">
+    <section id="features" class="st st-features-bento" data-uid="smvuvixswvv0u">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">What’s inside</p>
@@ -101,7 +101,7 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuveurhnfqp">
+    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuvixswc950">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Roadmap</p>
@@ -158,7 +158,7 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuveurhw8ue">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuvixswy58i">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -172,7 +172,7 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-newsletter" data-uid="smvuveurhqyuq">
+    <section class="st st-footer-newsletter" data-uid="smvuvixswcle6">
       <footer class="st-wrap fn">
         <div class="fn-top">
           <div class="fn-news" data-anim="item">
@@ -711,7 +711,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "A Waitlist Page That Builds an Audience Before You Launch",
-      "description": "A waitlist page has one metric: how many visitors leave an email address. Everything else on the page exists to remove a reason not to. The announcement bar puts the launch date in front of people, so the wait feels finite. The centred gradient hero asks for one thing and nothing else. The bento grid shows what is coming in a layout that is easy to skim and looks intentional even when you only have four ideas to show. And the newsletter form appears twice, once in the main call to action and once in the footer, because some people only decide on the way out.\n\nThe form sends to your email tool, not to this page, so the real work of the snippet is hooking it up: point the form's action at Mailchimp, ConvertKit, Buttondown or any endpoint that accepts a POST. Keep the success message short and tell people what happens next (\"We will email you once, on launch day\").\n\nThis is the layout of the [Startup Launch & Waitlist template](/website-builder/templates/launch/). Open it in the [Website Builder](/website-builder/) to change the colours, rewrite the copy, add the FAQ and About pages from the multi-page version and export the site."
+      "description": "A waitlist page has one metric: how many visitors leave an email address. Everything else on the page exists to remove a reason not to. The announcement bar puts the launch date in front of people, so the wait feels finite. The centred gradient hero asks for one thing and nothing else. The bento grid shows what is coming in a layout that is easy to skim and looks intentional even when you only have four ideas to show. And the newsletter form appears twice, once in the main call to action and once in the footer, because some people only decide on the way out.\n\nThe form sends to your email tool, not to this page, so the real work of the snippet is hooking it up: point the form's action at Mailchimp, ConvertKit, Buttondown or any endpoint that accepts a POST. Keep the success message short and tell people what happens next (\"We will email you once, on launch day\").\n\nThis is the layout of the [Startup Launch & Waitlist template](/website-builder/templates/launch/). Open it in the [Website Builder](/website-builder/) to change the colours, rewrite the copy, add the FAQ and About pages from the multi-page version and export the site.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned horizontal roadmap that slides along as you scroll, from the beta to launch day. Each one has its own page in the Website Section Templates library ([Horizontal Timeline](/website-section-templates/timeline-horizontal/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "6 ready-made website sections assembled into one finished startup launch & waitlist page: Navbar With Announcement Bar, Centred Gradient Hero, Bento Grid Features, Horizontal Timeline, Newsletter Signup CTA, Footer With Newsletter",
@@ -777,6 +777,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       {
         "q": "Should the waitlist form ask for more than an email?",
         "a": "Rarely. Every extra field lowers sign-ups. Ask for the email now and learn more about subscribers later, in the welcome email."
+      },
+      {
+        "q": "What extras are built into the Startup Launch & Waitlist template?",
+        "a": "It adds a pinned horizontal timeline. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

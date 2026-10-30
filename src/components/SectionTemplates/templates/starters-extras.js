@@ -8,7 +8,7 @@
    Each section is [id, state] exactly like the template's own `sections`. */
 import { IMG } from './meta.js';
 import { STARTER_MORE_EXTRAS } from './starters-more.js';
-import { STARTER_WIDGET_EXTRAS } from './starters-widgets.js';
+import { STARTER_WIDGET_EXTRAS, ADDED_TYPES, joinList } from './starters-widgets.js';
 
 const gallery = (fields, images) => ['gallery-grid', { fields, lists: { images } }];
 const ring = (fields, cards) => ['scroll-ring', { fields, lists: { cards } }];
@@ -230,6 +230,9 @@ export function applyExtras(list) {
       if (i < 0) i = sections.length - 2;
       sections.splice(e.before ? Math.max(i, 0) : i + 1, 0, make());
     }
-    return { ...t, sections };
+    // The gallery card text names the widgets and sections added later
+    const added = [...new Set(sections.map(x => x[0]))].filter(id => ADDED_TYPES[id]).map(id => ADDED_TYPES[id].blurb);
+    const blurb = added.length ? `${String(t.blurb || '').replace(/\.$/, '')}, plus ${joinList(added)}.` : t.blurb;
+    return { ...t, sections, blurb };
   });
 }

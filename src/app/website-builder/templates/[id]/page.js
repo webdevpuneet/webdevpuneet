@@ -9,6 +9,7 @@ import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from '@/components/SectionTemplates/templates/starters.js';
 import { starterPageList } from '@/components/SectionTemplates/templates/site.js';
+import { addedSectionsOf, joinList } from '@/components/SectionTemplates/templates/starters-widgets.js';
 import { sectionTemplateById, sectionCategoryById, THEME_PRESETS } from '@/components/SectionTemplates/templates/index.js';
 import { WEBSITE_TEMPLATE_SEO } from '@/components/SectionTemplates/templates/seo-website-templates.js';
 import { resolveFont } from '@/lib/fonts';
@@ -77,6 +78,7 @@ export default async function WebsiteTemplatePage({ params }) {
   ];
 
   const ai = websiteAiPrompt(t, { theme, fontNames: fonts, pages });
+  const extras = addedSectionsOf(t);
   const SECTIONS = [
     ...(multi ? [{ type: 'features', label: 'Multi-page version', heading: `Pages in the ${pages.length}-Page ${t.name} Template`, items: pages.map(pg => `${pg.name} (${pg.file}): ${pg.n} sections${pg.file === 'index.html' ? ', the home page' : ''}`) }] : []),
     { type: 'features', label: "What's included", heading: `Sections in the ${t.name} Template`, items: parts.map(p => `${p.name}: ${p.description.split('. ')[0].replace(/\.$/, '')}`) },
@@ -91,6 +93,15 @@ ${multi ? `Use it as one scrolling page, or as a ${pages.length}-page website ($
 
 The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour theme suited to ${nameLower} websites; switch to any Google Font, upload your own, or apply your brand kit in one click.`,
     },
+    // Widgets and sections added to the template later (back to top, accessibility toolbar, timeline ...), each linked to its own page
+    ...(extras.length ? [{
+      type: 'text',
+      label: 'Extras included',
+      heading: `Extras Built Into the ${t.name} Template`,
+      quickFacts: false,
+      boxed: true,
+      text: `Beyond the standard sections, the ${t.name} template includes ${extras.length === 1 ? 'one extra' : `${extras.length} extras`} that you can edit, move or remove in the builder.\n\n${extras.map(e => `**[${e.name}](${e.url})**: ${e.role}.`).join('\n\n')}\n\nEach extra has its own page in the free [Website Section Templates](/website-section-templates/) library, where you can try its settings on their own before you use it here.`,
+    }] : []),
     ...(seo?.about ? [{ type: 'text', label: 'Make it yours', heading: `How to Get the Most From the ${t.name} Template`, quickFacts: false, boxed: true, text: seo.about }] : []),
     { type: 'aiPrompt', label: 'Extend with AI', heading: 'Take This Template Further With AI', paragraph: ai.paragraph, prompt: ai.prompt },
     ...(seo?.checklist ? [{ type: 'features', label: 'Checklist', heading: `What a ${nameLower} Website Needs`, items: seo.checklist }] : []),

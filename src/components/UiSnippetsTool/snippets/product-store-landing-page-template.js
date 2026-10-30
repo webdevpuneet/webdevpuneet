@@ -13,7 +13,7 @@ const productStoreLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-announcement" data-uid="smvuveuxp2845">
+    <section class="st st-navbar-announcement" data-uid="smvuvixxqi6rp">
       <div class="na-bar" data-dismissable>
         <p class="st-wrap na-bar-in"><span>Free shipping and 30-day returns on every order</span> <a class="na-bar-link" href="#faq"><span>Learn more</span> <span aria-hidden="true">→</span></a></p>
         <button type="button" class="na-close" data-dismiss aria-label="Dismiss announcement"><span aria-hidden="true">×</span></button>
@@ -42,7 +42,7 @@ const productStoreLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-app-product-hero" data-uid="smvuveuxp2g9l">
+    <section class="st st-app-product-hero" data-uid="smvuvixxqmdjx">
       <div class="ap st-wrap">
         <div class="ap-copy">
           <span class="st-eyebrow" data-anim="item">Sona One · wireless headphones</span>
@@ -62,7 +62,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-alternating" data-uid="smvuveuxpu6lz">
+    <section id="features" class="st st-features-alternating" data-uid="smvuvixxqavsi">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Features</p>
@@ -100,7 +100,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvuveuxp65uy">
+    <section id="gallery" class="st st-video-section" data-uid="smvuvixxq1lol">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">See it in action</p>
@@ -130,7 +130,7 @@ const productStoreLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvuveuxpg52r">
+    <section id="results" class="st st-stats-counters" data-uid="smvuvixxqw9oq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Why people switch</p>
@@ -161,7 +161,7 @@ const productStoreLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuveuxpdt3s">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuvixxqvhr5">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -196,7 +196,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-product-grid" data-uid="smvuveuxp9bf2">
+    <section class="st st-product-grid" data-uid="smvuvixxqfd33">
       <div class="st-wrap">
         <div class="pg-top">
           <header class="st-head st-head--left pg-head">
@@ -260,7 +260,7 @@ const productStoreLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvuveuxpjl5t">
+    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvuvixxq61z8">
       <div class="st-wrap ps">
         <div class="ps-copy">
           <header class="st-head st-head--left ps-head">
@@ -289,7 +289,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuveuxp369n">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuvixxqipjq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -317,7 +317,7 @@ const productStoreLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still unsure?</span> <a href="mailto:hello@webdevpuneet.com"><span>Chat with us</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuveuxpp00e">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuvixxqqqlo">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Hear the difference <span class="hl">today</span></h2>
@@ -330,7 +330,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuveuxpdem9">
+    <section class="st st-popup-modal" data-uid="smvuvixxqjx07">
       <div class="pu" data-pu data-trigger="exit" data-delay="8" data-scroll="50" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="qbkxs8">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -356,7 +356,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvuveuxp070u">
+    <section class="st st-footer-columns" data-uid="smvuvixxq1v1i">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -393,7 +393,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveuxpsuqe">
+    <section class="st st-back-to-top" data-uid="smvuvixxqog99">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -1385,7 +1385,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "A Single-Product Landing Page That Sells: Hero, Proof, Buy Box and Objection Handling",
-      "description": "A one-product page works like a good salesperson: it shows the product, explains why it is better, answers doubts and asks for the order. The hero puts the product, price and rating up front. Alternating feature rows show what makes the product different, with an image for each, so a buyer sees the benefit instead of reading a list of specifications. A demo video shows it in use, and animated counters (units sold, rating, years of warranty) add evidence.\n\nReviews come next, followed by a product grid for accessories or bundles, and then the buy box, a single plan with the price, shipping and money-back guarantee next to the button, which is where doubt peaks. The FAQ clears the last objections (delivery, returns, sizing) and a closing banner and popup remind the visitor of any offer.\n\nReplace the sample product and keep the sequence. It is the layout of the [Product Landing Page Store template](/website-builder/templates/product-store/), which also comes with a Support page; open it in the [Website Builder](/website-builder/) to edit and export."
+      "description": "A one-product page works like a good salesperson: it shows the product, explains why it is better, answers doubts and asks for the order. The hero puts the product, price and rating up front. Alternating feature rows show what makes the product different, with an image for each, so a buyer sees the benefit instead of reading a list of specifications. A demo video shows it in use, and animated counters (units sold, rating, years of warranty) add evidence.\n\nReviews come next, followed by a product grid for accessories or bundles, and then the buy box, a single plan with the price, shipping and money-back guarantee next to the button, which is where doubt peaks. The FAQ clears the last objections (delivery, returns, sizing) and a closing banner and popup remind the visitor of any offer.\n\nReplace the sample product and keep the sequence. It is the layout of the [Product Landing Page Store template](/website-builder/templates/product-store/), which also comes with a Support page; open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "13 ready-made website sections assembled into one finished product landing page store page: Navbar With Announcement Bar, App Product Hero, Alternating Feature Rows, Video Section with Poster, Animated Stats Counters, Testimonial Wall, Product Grid, Single Plan Pricing, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Multi-Column Footer, Back to Top Button",
@@ -1451,6 +1451,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       {
         "q": "Why put the guarantee near the button?",
         "a": "Doubt peaks at the moment of buying. A visible guarantee and shipping details beside the button remove the last reason to hesitate."
+      },
+      {
+        "q": "What extras are built into the Product Landing Page Store template?",
+        "a": "It adds a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",

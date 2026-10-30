@@ -14,7 +14,7 @@ const musicLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvuveuynkr1e">
+    <section class="st st-navbar-floating" data-uid="smvuvixyiya26">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -35,7 +35,7 @@ const musicLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-music-hero" data-uid="smvuveuynj84d">
+    <section class="st st-music-hero" data-uid="smvuvixyirbh7">
       <div class="mh-bg" role="img" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-music.jpg')" aria-label="The singer at the microphone under cyan and pink stage lights"></div>
       <div class="mh-shade" aria-hidden="true"></div>
       <div class="mh st-wrap">
@@ -55,7 +55,7 @@ const musicLandingPageTemplate = {
       </div>
       <div class="mh-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     </section>
-    <section id="new-release" class="st st-release-spotlight" data-uid="smvuveuynw4ei">
+    <section id="new-release" class="st st-release-spotlight" data-uid="smvuvixyjrxn9">
       <div class="st-wrap rs">
         <div class="rs-art" data-anim="media">
           <span class="rs-disc" aria-hidden="true"></span>
@@ -80,7 +80,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="listen" class="st st-audio-player" data-uid="smvuveuynl1zo">
+    <section id="listen" class="st st-audio-player" data-uid="smvuvixyj483l">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Listen</p>
@@ -144,7 +144,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="tour" class="st st-tour-dates" data-uid="smvuveuynmqjh">
+    <section id="tour" class="st st-tour-dates" data-uid="smvuvixyjkagi">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">On tour</p>
@@ -195,7 +195,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="music" class="st st-discography" data-uid="smvuveuynczcp">
+    <section id="music" class="st st-discography" data-uid="smvuvixyj8zwn">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Discography</p>
@@ -243,7 +243,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="videos" class="st st-video-section" data-uid="smvuveuynyzcq">
+    <section id="videos" class="st st-video-section" data-uid="smvuvixyj9eg1">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Live session</p>
@@ -273,7 +273,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvuveuyn5yhh">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvuvixyj6rw7">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -309,7 +309,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuveuynvddi">
+    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuvixyji9f9">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -350,7 +350,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="merch" class="st st-product-grid" data-uid="smvuveuynxmel">
+    <section id="merch" class="st st-product-grid" data-uid="smvuvixyjm4bl">
       <div class="st-wrap">
         <div class="pg-top">
           <header class="st-head st-head--left pg-head">
@@ -413,7 +413,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvuveuyn82pv">
+    <section id="contact" class="st st-booking-form" data-uid="smvuvixyjnbf2">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -471,7 +471,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuveuyowa2g">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuvixyjewjt">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -485,7 +485,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuveuyogt0q">
+    <section class="st st-footer-minimal" data-uid="smvuvixyjy0iw">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -502,7 +502,7 @@ const musicLandingPageTemplate = {
         <p class="fm-copy">© 2026 Velvet Static</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuveuyodd0j">
+    <section class="st st-back-to-top" data-uid="smvuvixyjtb75">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -511,7 +511,7 @@ const musicLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-cursor-follower" data-uid="smvuveuyon6kp">
+    <section class="st st-cursor-follower" data-uid="smvuvixyj28cl">
       <div class="cf" data-cf data-enabled="on" data-size="80" data-color="#ffffff" data-blend="difference" data-speed="0.18" data-border="0" data-border-style="solid" data-fill="on" data-grow="on" data-hide="off">
         <div class="cf-stage" aria-hidden="true">
           <p class="cf-word">Cur<b>sors</b></p>
@@ -1673,7 +1673,7 @@ html.stg-open{overflow:hidden}
     ],
     "about": {
       "title": "Anatomy of a Band Website: Why Each Section Sits Where It Does",
-      "description": "A band website has three jobs: get people to press play, get them to a show and get them on your list. This page is ordered around those jobs. The stage hero names the band and offers the music and the tour in two buttons, the [New Release Spotlight](/website-section-templates/release-spotlight/) counts down to the album, and the [Audio Player](/website-section-templates/audio-player/) lets a visitor hear the new songs without leaving the page, because a song heard is worth ten described.\n\nTour dates come next because that is the second thing a fan looks for, and they are a list with a clear status (Tickets, Few left, Sold out) rather than a poster image, so search engines can read them. The [Discography Grid](/website-section-templates/discography/) follows for the visitor who wants the back catalogue, then a live video and a photo gallery for atmosphere, press quotes for proof, merch for the fans who want something physical, and a booking and press form for promoters and journalists. A newsletter closes the page so the people who do not buy today can still hear about the next release.\n\nTo make it yours, keep the order and replace the content: use a stage photo with space on the left for the hero, write the release date and time into the countdown, paste links to your own MP3 previews into the player and add the date of every show so the tour list can describe itself to search engines. This is the same page as the [Music Artist & Band website template](/website-builder/templates/music/), which also opens as a six-page site with Music, Tour, Videos, Merch, About and Contact pages."
+      "description": "A band website has three jobs: get people to press play, get them to a show and get them on your list. This page is ordered around those jobs. The stage hero names the band and offers the music and the tour in two buttons, the [New Release Spotlight](/website-section-templates/release-spotlight/) counts down to the album, and the [Audio Player](/website-section-templates/audio-player/) lets a visitor hear the new songs without leaving the page, because a song heard is worth ten described.\n\nTour dates come next because that is the second thing a fan looks for, and they are a list with a clear status (Tickets, Few left, Sold out) rather than a poster image, so search engines can read them. The [Discography Grid](/website-section-templates/discography/) follows for the visitor who wants the back catalogue, then a live video and a photo gallery for atmosphere, press quotes for proof, merch for the fans who want something physical, and a booking and press form for promoters and journalists. A newsletter closes the page so the people who do not buy today can still hear about the next release.\n\nTo make it yours, keep the order and replace the content: use a stage photo with space on the left for the hero, write the release date and time into the countdown, paste links to your own MP3 previews into the player and add the date of every show so the tour list can describe itself to search engines. This is the same page as the [Music Artist & Band website template](/website-builder/templates/music/), which also opens as a six-page site with Music, Tour, Videos, Merch, About and Contact pages.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return; and a circle that follows the cursor and inverts the page beneath it with a blend mode, adding a bold, playful touch. Each one has its own page in the Website Section Templates library ([Back to Top Button](/website-section-templates/back-to-top/), [Cursor Follower](/website-section-templates/cursor-follower/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
       "15 ready-made website sections assembled into one finished music artist & band website page: Floating Pill Navbar, Music Artist Hero, New Release Spotlight, Audio Player & Track List, Tour Dates & Tickets, Discography Grid, Video Section with Poster, Filterable Image Gallery, Testimonial Carousel, Product Grid, Booking Request Form, Newsletter Signup CTA, Minimal Footer, Back to Top Button, Cursor Follower (Blend Mode Circle)",
@@ -1740,6 +1740,10 @@ html.stg-open{overflow:hidden}
       {
         "q": "Can I use this page for a DJ, producer or label?",
         "a": "Yes. Change the names, photos and links: a DJ can use the tour list as a booking calendar, and a label can use the discography grid as a roster, with the artist name as the type for the filter chips."
+      },
+      {
+        "q": "What extras are built into the Music Artist & Band Website template?",
+        "a": "It adds a floating back to top button and a cursor follower circle. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",
