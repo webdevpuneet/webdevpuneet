@@ -51,7 +51,7 @@ const ADDED_FEATURES = {
   'accessibility-toolbar': 'A floating accessibility toolbar with bigger text, contrast, grayscale, hide images and pause animations',
   'cursor-follower': 'A cursor follower circle that inverts the text and images under it with a blend mode',
   'timeline-horizontal': 'A pinned horizontal timeline (GSAP ScrollTrigger) that slides along as you scroll, with a growing progress line',
-  'scroll-zoom': 'A Ken Burns scroll zoom on the hero and featured photographs (GSAP ScrollTrigger)',
+  'scroll-zoom': 'A pinned stack of photographs that zoom and fade into one another as you scroll (GSAP ScrollTrigger)',
   'team-accordion': 'An interactive team accordion of grayscale image strips that expand on click',
 };
 const addedFeatures = t => [...new Set(t.sections.map(s => s[0]))].filter(id => ADDED_FEATURES[id]).map(id => ADDED_FEATURES[id]);

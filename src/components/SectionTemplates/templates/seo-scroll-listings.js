@@ -538,7 +538,7 @@ export const SCROLL_LISTINGS_CATEGORY_SEO = {
 
 The **[3D Scroll Carousel](/website-section-templates/scroll-ring/)** puts cards in perspective and turns them as you scroll, in four styles (ring, coverflow, stack and arc) with mouse tilt and reflections. The **[Horizontal Scroll Gallery](/website-section-templates/scroll-gallery/)** pins and slides a row of cards sideways as you scroll down. The **[Pinned Scroll Story](/website-section-templates/scroll-story/)** keeps an image stage in view while steps scroll past and crossfades to each step's picture. **[Stacking Cards](/website-section-templates/scroll-stack/)** pins features one over another like a deck being dealt. The **[Scroll Path Timeline](/website-section-templates/scroll-path/)** draws an SVG line through your milestones as you read.
 
-The **[Scroll Zoom Images](/website-section-templates/scroll-zoom/)** section adds a Ken Burns zoom to a hero and featured images as they pass through the screen, with settings for intensity, direction, which images are affected and the scroll range.
+The **[Scroll Zoom Image Stack](/website-section-templates/scroll-zoom/)** layers images one over the other in a pinned stage: the top image zooms and fades as you scroll to reveal the next, with settings for intensity, direction, which images zoom and how far you scroll for each one.
 
 Every section is editable in the browser and shares one theme with the rest of the library. In the [Website Builder](/website-builder/) you can add scroll animations to any section too: pin, scrub, keyframes and effects, without writing code.`,
     faqs: [

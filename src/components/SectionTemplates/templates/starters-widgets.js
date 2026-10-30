@@ -32,7 +32,7 @@ const toAccordion = fields => old => ['team-accordion', {
 }];
 
 const TIMELINE = (fields, list) => ['timeline-horizontal', { fields: { scrollMode: 'pin', layout: 'alternate', marker: 'icon', ...fields }, lists: { events: events(list) } }];
-const ZOOM = (fields, list) => ['scroll-zoom', { fields: { zoom: '28', direction: 'in', affect: 'both', ...fields }, lists: { images: zoomImages(list) } }];
+const ZOOM = (fields, list) => ['scroll-zoom', { fields: { zoom: '28', direction: 'in', affect: 'all', perImage: '100', ...fields }, lists: { images: zoomImages(list) } }];
 
 export const STARTER_WIDGET_EXTRAS = {
   saas: [end(BACK_TO_TOP())],
@@ -50,7 +50,8 @@ export const STARTER_WIDGET_EXTRAS = {
   portfolio: [end(BACK_TO_TOP()), end(CURSOR())],
   photographer: [end(BACK_TO_TOP()), end(CURSOR())],
   restaurant: [
-    { after: 'restaurant-menu', section: ZOOM({ eyebrow: 'From the farm', heading: 'Slow food, *seen up close*', lead: 'Long tables, small plates and produce from the hills behind the restaurant. Scroll and the photographs drift a little closer.', cta: 'Book a table', ctaUrl: 'https://webdevpuneet.com/book', heroImage: IMG('tpl-restaurant.jpg'), heroAlt: 'A table of seasonal dishes', featuredHeading: 'Three things we are proud of', featuredLead: 'The room, the farm and the view that ends most evenings.' }, [
+    { after: 'restaurant-menu', section: ZOOM({ eyebrow: 'From the farm', heading: 'Slow food, *seen up close*', lead: 'Long tables, small plates and produce from the hills behind the restaurant. Keep scrolling and each photograph drifts closer before the next one appears.' }, [
+      ['tpl-restaurant.jpg', 'A table of seasonal dishes', 'The plates', 'Seasonal dishes that change every week'],
       ['wed-dinner.jpg', 'A long dinner table set with candles', 'The long table', 'Shared dinners every Friday'],
       ['tpl-nature.jpg', 'Green hills at sunrise where the produce is grown', 'The farm', 'Vegetables picked that morning'],
       ['hero-landscape.jpg', 'Hills above the farm at dawn', 'The hills', 'Where the lamb and herbs come from'],
@@ -58,7 +59,8 @@ export const STARTER_WIDGET_EXTRAS = {
     end(BACK_TO_TOP()),
   ],
   'real-estate': [
-    { after: 'property-listings', section: ZOOM({ eyebrow: 'Featured homes', heading: 'Homes that *reward a closer look*', lead: 'Scroll slowly and each photograph draws you a little further into the room.', cta: 'See all homes', ctaUrl: 'https://webdevpuneet.com/homes', heroImage: IMG('tpl-realestate.jpg'), heroAlt: 'A modern house with large windows by the coast', featuredHeading: 'Three homes this month', featuredLead: 'Light, space and a short walk to the harbour.' }, [
+    { after: 'property-listings', section: ZOOM({ eyebrow: 'Featured homes', heading: 'Homes that *reward a closer look*', lead: 'Keep scrolling and each photograph draws you a little further into the room, then gives way to the next home.' }, [
+      ['tpl-realestate.jpg', 'A modern house with large windows by the coast', 'The house by the coast', 'Three bedrooms, steps from the harbour'],
       ['room-1.jpg', 'A bright living room with tall windows', 'Harbour apartment', 'Two bedrooms with a sea view'],
       ['room-2.jpg', 'A calm bedroom with soft natural light', 'Garden house', 'Three bedrooms and a private garden'],
       ['room-4.jpg', 'An open-plan room with warm wooden floors', 'Old town loft', 'One bedroom in a restored building'],
@@ -105,7 +107,8 @@ export const STARTER_WIDGET_EXTRAS = {
   hotel: [end(BACK_TO_TOP()), end(A11Y())],
   salon: [
     { replace: 'team-grid', section: toAccordion({ eyebrow: 'The team', heading: 'Meet the *hands behind Bloom*', lead: 'Click a stylist to read about their speciality and how they like to work.' }) },
-    { after: 'restaurant-menu', section: ZOOM({ eyebrow: 'The studio', heading: 'A calm place *to take your time*', lead: 'Soft light, arched mirrors and chairs by the window. Scroll and the studio comes a little closer.', cta: 'Book a visit', ctaUrl: 'https://webdevpuneet.com/book', heroImage: IMG('tpl-salon.jpg'), heroAlt: 'A bright salon with arched mirrors', featuredHeading: 'Three corners of Bloom', featuredLead: 'Where colour, cuts and quiet moments happen.' }, [
+    { after: 'restaurant-menu', section: ZOOM({ eyebrow: 'The studio', heading: 'A calm place *to take your time*', lead: 'Soft light, arched mirrors and chairs by the window. Keep scrolling and the studio comes a little closer, room by room.' }, [
+      ['tpl-salon.jpg', 'A bright salon with arched mirrors', 'Inside Bloom Studio', 'Soft light and arched mirrors'],
       ['room-1.jpg', 'A bright room with tall windows and soft light', 'The colour bar', 'Where every colour starts with a chat'],
       ['room-2.jpg', 'A calm room with natural light', 'The quiet room', 'Treatments without the noise'],
       ['room-4.jpg', 'A warm room with wooden floors', 'The window seats', 'Tea while the colour sets'],
@@ -146,9 +149,9 @@ export const WIDGET_ROLES = {
   'online-course:timeline-horizontal': 'a pinned horizontal syllabus that walks through the eight weeks of the course',
   'nonprofit:timeline-horizontal': 'a pinned horizontal timeline of the charity\'s decade of planting, from the first nursery to millions of trees',
   'school:timeline-horizontal': 'a pinned horizontal timeline of the school year, from welcome week to the summer fair',
-  'restaurant:scroll-zoom': 'a hero and three featured photographs that slowly zoom as you scroll, showing the food, the farm and the view up close',
-  'real-estate:scroll-zoom': 'a hero and three featured homes whose photographs zoom gently as you scroll past them',
-  'salon:scroll-zoom': 'a hero and three featured corners of the studio whose photographs zoom gently as you scroll',
+  'restaurant:scroll-zoom': 'a pinned stack of four photographs that zoom and fade into one another as you scroll, from the plates to the farm and the hills',
+  'real-estate:scroll-zoom': 'a pinned stack of home photographs that zoom and fade into one another as you scroll, one home at a time',
+  'salon:scroll-zoom': 'a pinned stack of studio photographs that zoom and fade into one another as you scroll, room by room',
   'salon:team-accordion': 'an interactive team accordion where each stylist is a grayscale strip that opens on click',
   'law-firm:team-accordion': 'an interactive team accordion where each lawyer is a grayscale strip that opens on click',
   'podcast:team-accordion': 'an interactive team accordion where each host is a grayscale strip that opens on click',

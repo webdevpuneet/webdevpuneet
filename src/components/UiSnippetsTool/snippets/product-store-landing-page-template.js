@@ -13,7 +13,7 @@ const productStoreLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-announcement" data-uid="smvutnmoae5fu">
+    <section class="st st-navbar-announcement" data-uid="smvuuxk3yo2kg">
       <div class="na-bar" data-dismissable>
         <p class="st-wrap na-bar-in"><span>Free shipping and 30-day returns on every order</span> <a class="na-bar-link" href="#faq"><span>Learn more</span> <span aria-hidden="true">→</span></a></p>
         <button type="button" class="na-close" data-dismiss aria-label="Dismiss announcement"><span aria-hidden="true">×</span></button>
@@ -42,7 +42,7 @@ const productStoreLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-app-product-hero" data-uid="smvutnmoaqwln">
+    <section class="st st-app-product-hero" data-uid="smvuuxk3ykreo">
       <div class="ap st-wrap">
         <div class="ap-copy">
           <span class="st-eyebrow" data-anim="item">Sona One · wireless headphones</span>
@@ -62,7 +62,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-alternating" data-uid="smvutnmoaxy5a">
+    <section id="features" class="st st-features-alternating" data-uid="smvuuxk3y7edb">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Features</p>
@@ -100,7 +100,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvutnmoa6e52">
+    <section id="gallery" class="st st-video-section" data-uid="smvuuxk3yzrli">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">See it in action</p>
@@ -130,7 +130,7 @@ const productStoreLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvutnmoad7mg">
+    <section id="results" class="st st-stats-counters" data-uid="smvuuxk3yykav">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Why people switch</p>
@@ -161,7 +161,7 @@ const productStoreLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvutnmoap9ji">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuuxk3y5rf9">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -196,7 +196,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-product-grid" data-uid="smvutnmoag0iu">
+    <section class="st st-product-grid" data-uid="smvuuxk3yn76m">
       <div class="st-wrap">
         <div class="pg-top">
           <header class="st-head st-head--left pg-head">
@@ -260,7 +260,7 @@ const productStoreLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvutnmoaa4k8">
+    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvuuxk3y72yc">
       <div class="st-wrap ps">
         <div class="ps-copy">
           <header class="st-head st-head--left ps-head">
@@ -289,7 +289,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvutnmoa1twm">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuuxk3ypnny">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -317,7 +317,7 @@ const productStoreLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still unsure?</span> <a href="mailto:hello@webdevpuneet.com"><span>Chat with us</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvutnmoa3ei4">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuuxk3ytvza">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Hear the difference <span class="hl">today</span></h2>
@@ -330,7 +330,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvutnmoaugin">
+    <section class="st st-popup-modal" data-uid="smvuuxk3yvqv9">
       <div class="pu" data-pu data-trigger="exit" data-delay="8" data-scroll="50" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="qbkxs8">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -356,7 +356,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvutnmoaby9c">
+    <section class="st st-footer-columns" data-uid="smvuuxk3y79gg">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -393,7 +393,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvutnmoasdz6">
+    <section class="st st-back-to-top" data-uid="smvuuxk3ygz63">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>

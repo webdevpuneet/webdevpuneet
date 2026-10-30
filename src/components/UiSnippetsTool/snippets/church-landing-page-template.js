@@ -11,7 +11,7 @@ const churchLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvutnmotanui">
+    <section class="st st-navbar-floating" data-uid="smvuuxk7a4q28">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -31,7 +31,7 @@ const churchLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvutnmotav4v">
+    <section class="st st-image-background-hero" data-uid="smvuuxk7a782s">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-church.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,7 +51,7 @@ const churchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="journey" class="st st-scroll-path" data-uid="smvutnmotbycd">
+    <section id="journey" class="st st-scroll-path" data-uid="smvuuxk7a896q">
       <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.15" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><g fill="currentColor"><path data-float data-spin d="M120 118 C123.3 136.7 123.3 136.7 142 140 C123.3 143.3 123.3 143.3 120 162 C116.7 143.3 116.7 143.3 98 140 C116.7 136.7 116.7 136.7 120 118Z"/><path data-float data-spin d="M340 606 C342.1 617.9 342.1 617.9 354 620 C342.1 622.1 342.1 622.1 340 634 C337.9 622.1 337.9 622.1 326 620 C337.9 617.9 337.9 617.9 340 606Z"/><path data-float data-spin d="M560 78 C561.8 88.2 561.8 88.2 572 90 C561.8 91.8 561.8 91.8 560 102 C558.2 91.8 558.2 91.8 548 90 C558.2 88.2 558.2 88.2 560 78Z"/><path data-float data-spin d="M820 660 C823 677 823 677 840 680 C823 683 823 683 820 700 C817 683 817 683 800 680 C817 677 817 677 820 660Z"/><path data-float data-spin d="M1020 154 C1023.9 176.1 1023.9 176.1 1046 180 C1023.9 183.9 1023.9 183.9 1020 206 C1016.1 183.9 1016.1 183.9 994 180 C1016.1 176.1 1016.1 176.1 1020 154Z"/><path data-float data-spin d="M1120 508 C1121.8 518.2 1121.8 518.2 1132 520 C1121.8 521.8 1121.8 521.8 1120 532 C1118.2 521.8 1118.2 521.8 1108 520 C1118.2 518.2 1118.2 518.2 1120 508Z"/><path data-float data-spin d="M240 370 C241.5 378.5 241.5 378.5 250 380 C241.5 381.5 241.5 381.5 240 390 C238.5 381.5 238.5 381.5 230 380 C238.5 378.5 238.5 378.5 240 370Z"/><path data-float data-spin d="M700 371 C701.35 378.65 701.35 378.65 709 380 C701.35 381.35 701.35 381.35 700 389 C698.65 381.35 698.65 381.35 691 380 C698.65 378.65 698.65 378.65 700 371Z"/><path data-float data-spin d="M920 406 C922.1 417.9 922.1 417.9 934 420 C922.1 422.1 922.1 422.1 920 434 C917.9 422.1 917.9 422.1 906 420 C917.9 417.9 917.9 417.9 920 406Z"/><path data-float data-spin d="M460 292 C461.2 298.8 461.2 298.8 468 300 C461.2 301.2 461.2 301.2 460 308 C458.8 301.2 458.8 301.2 452 300 C458.8 298.8 458.8 298.8 460 292Z"/></g></svg></div>
       <div class="st-wrap">
         <header class="st-head">
@@ -101,7 +101,7 @@ const churchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvutnmotso8y">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuuxk7a595o">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Get involved</p>
@@ -136,7 +136,7 @@ const churchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvutnmot2ke9">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvuuxk7ailbc">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -172,7 +172,7 @@ const churchLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvutnmotrv6t">
+    <section id="team" class="st st-team-grid" data-uid="smvuuxk7awrvd">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our leaders</p>
@@ -223,7 +223,7 @@ const churchLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="blog" class="st st-blog-cards" data-uid="smvutnmoto46m">
+    <section id="blog" class="st st-blog-cards" data-uid="smvuuxk7ath51">
       <div class="st-wrap">
         <div class="bc-top">
           <header class="st-head st-head--left bc-head">
@@ -257,7 +257,7 @@ const churchLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="contact" class="st st-contact-map" data-uid="smvutnmoternz">
+    <section id="contact" class="st st-contact-map" data-uid="smvuuxk7akmfb">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -282,7 +282,7 @@ const churchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvutnmot6qit">
+    <section class="st st-floating-social-share" data-uid="smvuuxk7a9zk1">
       <div class="ss" data-ss data-side="right" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="facebook" data-share="https://www.facebook.com/sharer/sharer.php?u={url}" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer" style="--c:#1877F2" aria-label="Share on Facebook (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="ss-tip" aria-hidden="true">Facebook</span></a></li><li class="ss-item"><a class="ss-btn" data-net="whatsapp" data-share="https://wa.me/?text={text}" href="https://wa.me/" target="_blank" rel="noopener noreferrer" style="--c:#128C7E" aria-label="Share on WhatsApp (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5.1A9 9 0 1 1 8.1 19.3z"/><path d="M9 8.5c0 3.300 2.700 6 6 6l1.300-1.500-2.200-1.100-.9.900c-.9-.4-1.700-1.200-2.100-2.100l.9-.9-1.100-2.200z"/></svg><span class="ss-tip" aria-hidden="true">WhatsApp</span></a></li><li class="ss-item"><a class="ss-btn" data-net="email" data-share="mailto:?subject={title}&amp;body={text}" href="mailto:" style="--c:#6B7280" aria-label="Share on Email"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.970 5.700a1.940 1.940 0 0 1-2.060 0L2 7"/></svg><span class="ss-tip" aria-hidden="true">Email</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -291,7 +291,7 @@ const churchLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvutnmotsyya">
+    <section class="st st-footer-minimal" data-uid="smvuuxk7as3cq">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -307,7 +307,7 @@ const churchLandingPageTemplate = {
         <p class="fm-copy">© 2026 Grace Chapel Riverside · Registered charity no. 1100000</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvutnmotwhof">
+    <section class="st st-back-to-top" data-uid="smvuuxk7aibc9">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -316,7 +316,7 @@ const churchLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-accessibility-toolbar" data-uid="smvutnmoti3un">
+    <section class="st st-accessibility-toolbar" data-uid="smvuuxk7aukj8">
       <div class="a11y" data-a11y data-pos="left" data-remember="on">
         <button type="button" class="a11y-fab" aria-expanded="false" data-a11y-open aria-label="Open accessibility tools">
           <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="7.500" r="1.200" fill="currentColor"/><path d="M7 10.500l5 1 5-1M12 11.500v3.500M9.500 19l2.500-4 2.500 4"/></svg>

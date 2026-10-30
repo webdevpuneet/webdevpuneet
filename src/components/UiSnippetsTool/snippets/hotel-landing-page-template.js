@@ -14,7 +14,7 @@ const hotelLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvutnmn0r3pl">
+    <section class="st st-navbar-simple" data-uid="smvuuxjxxpi7a">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg></span><span>Casa Mar</span></span>
@@ -34,7 +34,7 @@ const hotelLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvutnmn0ax5r">
+    <section class="st st-image-background-hero" data-uid="smvuuxjxxwa78">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-hotel.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -54,7 +54,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="work" class="st st-scroll-gallery" data-uid="smvutnmn05621">
+    <section id="work" class="st st-scroll-gallery" data-uid="smvuuxjxxz3xk">
       <div class="st-wrap hs-head">
         <div class="hs-titles">
           <p class="st-eyebrow" data-anim="item">Rooms &amp; suites</p>
@@ -89,8 +89,8 @@ const hotelLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="highlights" class="st st-scroll-stack" data-uid="smvutnmn030iy">
-      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.15" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="art-glow-smvutnmn030iy"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs><ellipse data-float cx="600" cy="80" rx="620" ry="380" fill="url(#art-glow-smvutnmn030iy)"/><ellipse data-float cx="1100" cy="760" rx="420" ry="300" fill="url(#art-glow-smvutnmn030iy)"/></svg></div>
+    <section id="highlights" class="st st-scroll-stack" data-uid="smvuuxjxxlpz2">
+      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.15" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="art-glow-smvuuxjxxlpz2"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs><ellipse data-float cx="600" cy="80" rx="620" ry="380" fill="url(#art-glow-smvuuxjxxlpz2)"/><ellipse data-float cx="1100" cy="760" rx="420" ry="300" fill="url(#art-glow-smvuuxjxxlpz2)"/></svg></div>
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The experience</p>
@@ -141,7 +141,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvutnmn0zayg">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvuuxjxxjabk">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -177,7 +177,7 @@ const hotelLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvutnmn02dy6">
+    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuuxjxxnhm5">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -218,7 +218,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvutnmn0u6vk">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuuxjxx4bv2">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -245,7 +245,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvutnmn04vj7">
+    <section id="contact" class="st st-booking-form" data-uid="smvuuxjxxsvgn">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -304,7 +304,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvutnmn09tpn">
+    <section id="contact-2" class="st st-contact-map" data-uid="smvuuxjxxs5hi">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -329,7 +329,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvutnmn0p3p7">
+    <section class="st st-popup-modal" data-uid="smvuuxjxxxd4u">
       <div class="pu" data-pu data-trigger="delay" data-delay="15" data-scroll="50" data-days="7" data-pos="bottom-center" data-layout="left" data-autoplay="0" data-pu-id="ncmalq">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -349,7 +349,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvutnmn0asl5">
+    <section class="st st-footer-minimal" data-uid="smvuuxjxx7mjn">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -365,7 +365,7 @@ const hotelLandingPageTemplate = {
         <p class="fm-copy">© 2026 Casa Mar Boutique Hotel</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvutnmn0fbxs">
+    <section class="st st-back-to-top" data-uid="smvuuxjxx6lkc">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -374,7 +374,7 @@ const hotelLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-accessibility-toolbar" data-uid="smvutnmn053lr">
+    <section class="st st-accessibility-toolbar" data-uid="smvuuxjxxruhp">
       <div class="a11y" data-a11y data-pos="left" data-remember="on">
         <button type="button" class="a11y-fab" aria-expanded="false" data-a11y-open aria-label="Open accessibility tools">
           <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="7.500" r="1.200" fill="currentColor"/><path d="M7 10.500l5 1 5-1M12 11.500v3.500M9.500 19l2.500-4 2.500 4"/></svg>

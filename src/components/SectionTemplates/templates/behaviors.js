@@ -1947,41 +1947,91 @@ BEHAVIORS.strips = {
 };
 
 BEHAVIORS.kenburns = {
-  /* Scroll Zoom Images (scroll-zoom): a Ken Burns zoom tied to scrolling. Each [data-kb-img] (hero or featured) is
-     scaled from 1 to 1+zoom (zoom in) or back (zoom out) by a scrubbed GSAP ScrollTrigger on its frame, with an optional
-     slow sideways drift. Settings are data attributes on [data-kb]: data-zoom (percent), data-dir (in / out), data-affect
-     (both / hero / featured), data-start and data-end (where in the screen the scroll range starts and ends, in percent of
-     the screen height), data-smooth (scrub seconds) and data-drift. Images already on screen at the top of the page start at
-     scroll position 0. No GSAP, reduced motion and static renders leave the images unscaled. */
+  /* Scroll Zoom Image Stack (scroll-zoom): the .zs-layer images of a [data-zs] stage are stacked one over the other (the first on
+     top). The stage pins and one scrubbed GSAP timeline plays as the page scrolls: the image on top zooms (in or out, with an
+     optional sideways drift) and fades away to uncover the next one, which zooms in turn; the last image zooms but stays.
+     Settings are data attributes on [data-zs]: data-zoom (percent), data-dir (in / out), data-affect (all: every layer zooms
+     while it is on top, exit: a layer holds still and zooms only as it leaves), data-per (scroll distance per image, in percent
+     of the screen height), data-smooth (scrub seconds), data-drift. A counter and progress bar follow the scroll.
+     No GSAP and reduced motion leave an ordinary column of images; in a static render (previews and thumbnails) the stack
+     is shown frozen part way through its first transition. */
   plugins: [],
   js: `(function () {
   var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!G || !window.ScrollTrigger || reduce || (window.ST_STILL && !window.ST_SCROLL_FX)) return;
-  G.registerPlugin(ScrollTrigger);
-  document.querySelectorAll('.st [data-kb]').forEach(function (root) {
-    if (root.getAttribute('data-kb-ready')) return;
-    root.setAttribute('data-kb-ready', '1');
+  var still = window.ST_STILL && !window.ST_SCROLL_FX;
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  document.querySelectorAll('.st [data-zs]').forEach(function (root) {
+    if (root.getAttribute('data-zs-ready')) return;
+    root.setAttribute('data-zs-ready', '1');
+    var layers = Array.prototype.slice.call(root.querySelectorAll('.zs-layer'));
+    var n = layers.length;
+    if (n < 2 || reduce) return;
     var num = function (name, d) { var v = parseFloat(root.getAttribute(name)); return isNaN(v) ? d : v; };
     var zoom = num('data-zoom', 30) / 100, dir = root.getAttribute('data-dir') === 'out' ? 'out' : 'in';
-    var affect = root.getAttribute('data-affect') || 'both';
-    var startPct = num('data-start', 100), endPct = num('data-end', 0), smooth = num('data-smooth', 0.6);
+    var exitOnly = root.getAttribute('data-affect') === 'exit';
+    var per = Math.max(30, num('data-per', 100)), smooth = num('data-smooth', 0.6);
     var drift = root.getAttribute('data-drift') !== 'off';
-    root.querySelectorAll('[data-kb-img]').forEach(function (img) {
-      var kind = img.getAttribute('data-kb-img');
-      if (affect !== 'both' && affect !== kind) return;
-      var frame = img.parentNode;
-      var s0 = dir === 'in' ? 1 : 1 + zoom, s1 = dir === 'in' ? 1 + zoom : 1;
-      var x0 = drift ? -(s0 - 1) * 40 : 0, x1 = drift ? -(s1 - 1) * 40 : 0;
-      var startPos = function () { return Math.max(0, frame.getBoundingClientRect().top + window.pageYOffset - window.innerHeight * startPct / 100); };
-      var endPos = function () { return Math.max(startPos() + 120, frame.getBoundingClientRect().bottom + window.pageYOffset - window.innerHeight * endPct / 100); };
-      G.fromTo(img, { scale: s0, xPercent: x0 }, {
-        scale: s1, xPercent: x1, ease: 'none', force3D: true,
-        scrollTrigger: { trigger: frame, start: startPos, end: endPos, scrub: smooth > 0 ? smooth : true, invalidateOnRefresh: true }
-      });
+    var imgs = layers.map(function (l) { return l.querySelector('.zs-img'); });
+    layers.forEach(function (l, i) { l.style.zIndex = String(n - i); });
+
+    if (still || !G || !window.ScrollTrigger) {
+      if (!still) return;
+      // A frame from the effect for previews: the top image mid-zoom and half faded, the next one just behind it
+      root.classList.add('is-zs');
+      layers.forEach(function (l, i) { if (i > 1) l.style.visibility = 'hidden'; });
+      if (imgs[0]) imgs[0].style.transform = 'scale(' + (1 + zoom * 0.55) + ')';
+      layers[0].style.opacity = '0.62';
+      var cap1 = layers[1].querySelector('.zs-cap'); if (cap1) cap1.style.opacity = '0';
+      if (imgs[1]) imgs[1].style.transform = 'scale(' + (1 + zoom * 0.12) + ')';
+      var c0 = root.querySelector('.zs-count'); if (c0) c0.textContent = pad(1) + ' / ' + pad(n);
+      var b0 = root.querySelector('.zs-bar i'); if (b0) b0.style.transform = 'scaleX(' + (0.55 / n).toFixed(3) + ')';
+      return;
+    }
+
+    G.registerPlugin(ScrollTrigger);
+    root.classList.add('is-zs');
+    var count = root.querySelector('.zs-count'), bar = root.querySelector('.zs-bar i');
+    // A sticky header stays on screen, so the stage pins just below it instead of under it
+    var head = function () { var h = 0; document.querySelectorAll('.st').forEach(function (s) { if (s.querySelector('[data-sticky-flag]')) h = Math.max(h, s.offsetHeight); }); return h; };
+    var tl = G.timeline({
+      defaults: { ease: 'none' },
+      scrollTrigger: {
+        trigger: root,
+        start: function () { return 'top ' + (head() + 16); },
+        end: function () { return '+=' + Math.round(window.innerHeight * per / 100 * n); },
+        pin: true, scrub: smooth > 0 ? smooth : true, anticipatePin: 1, invalidateOnRefresh: true,
+        onUpdate: function (self) {
+          var i = Math.min(n - 1, Math.floor(self.progress * n));
+          if (count) count.textContent = pad(i + 1) + ' / ' + pad(n);
+          if (bar) bar.style.transform = 'scaleX(' + self.progress.toFixed(3) + ')';
+        }
+      }
     });
-    root.setAttribute('data-kb-active', '1');
+    if (count) count.textContent = pad(1) + ' / ' + pad(n);
+    layers.forEach(function (layer, i) {
+      var img = imgs[i], last = i === n - 1;
+      if (!img) return;
+      if (exitOnly) {
+        // Holds still, then zooms (and fades) as it leaves; the last image just zooms in place
+        var to = dir === 'in' ? 1 + zoom : 1 / (1 + zoom);
+        tl.fromTo(img, { scale: 1, xPercent: 0 }, { scale: to, xPercent: dir === 'in' && drift ? -zoom * 40 : 0, duration: 0.45 }, i + 0.55);
+      } else {
+        // Zooms the whole time it is on top, starting a little before the layer above it has gone
+        var s0 = dir === 'in' ? 1 : 1 + zoom, s1 = dir === 'in' ? 1 + zoom : 1;
+        var x0 = drift ? -(s0 - 1) * 40 : 0, x1 = drift ? -(s1 - 1) * 40 : 0;
+        tl.fromTo(img, { scale: s0, xPercent: x0 }, { scale: s1, xPercent: x1, duration: i === 0 ? 1 : 1.3 }, i === 0 ? 0 : i - 0.3);
+      }
+      if (!last) tl.to(layer, { autoAlpha: 0, duration: 0.3 }, i + 0.7);
+      // Captions never overlap: each one fades out first, then the next one fades in
+      var cap = layer.querySelector('.zs-cap');
+      if (cap) {
+        if (i > 0) G.set(cap, { opacity: 0 });
+        if (!last) tl.to(cap, { opacity: 0, duration: 0.2 }, i + 0.6);
+        if (i > 0) tl.to(cap, { opacity: 1, duration: 0.2 }, i - 0.15);
+      }
+    });
   });
-  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  window.addEventListener('load', function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
 })();`,
 };
 

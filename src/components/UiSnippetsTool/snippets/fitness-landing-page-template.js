@@ -12,7 +12,7 @@ const fitnessLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvutnml1om71">
+    <section class="st st-navbar-simple" data-uid="smvuuxh46pgjm">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg></span><span>IRONHOUSE</span></span>
@@ -34,7 +34,7 @@ const fitnessLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvutnml2tmnp">
+    <section class="st st-image-background-hero" data-uid="smvuuxh46ozth">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-fitness.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -54,7 +54,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvutnml2tqxy">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuuxh46ufzc">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Classes</p>
@@ -95,7 +95,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timetable" class="st st-class-timetable" data-uid="smvutnml2kggu">
+    <section id="timetable" class="st st-class-timetable" data-uid="smvuuxh46565q">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Timetable</p>
@@ -159,7 +159,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvutnml2p5jl">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuuxh46pqyj">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Membership</p>
@@ -206,7 +206,7 @@ const fitnessLandingPageTemplate = {
         <p class="p3-note" data-anim="item">Students and NHS staff get 20% off. Prices include VAT.</p>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvutnml256fa">
+    <section id="team" class="st st-team-grid" data-uid="smvuuxh46dtr5">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Coaches</p>
@@ -257,7 +257,7 @@ const fitnessLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-marquee" data-uid="smvutnml2jsw0">
+    <section id="customers" class="st st-testimonials-marquee" data-uid="smvuuxh46yls9">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Members</p>
@@ -324,7 +324,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvutnml2llwt">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvuuxh46ypu9">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Member progress</p>
@@ -347,7 +347,7 @@ const fitnessLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvutnml2bqby">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuuxh46ohow">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -375,7 +375,7 @@ const fitnessLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvutnml2bru5">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuuxh46p0gi">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Your first week is <span class="hl">on us</span></h2>
@@ -388,7 +388,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvutnml2xpub">
+    <section class="st st-popup-modal" data-uid="smvuuxh46sqer">
       <div class="pu" data-pu data-trigger="scroll" data-delay="8" data-scroll="40" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="pewc8w">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -414,7 +414,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvutnml2xxu2">
+    <section class="st st-footer-minimal" data-uid="smvuuxh461s00">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -430,7 +430,7 @@ const fitnessLandingPageTemplate = {
         <p class="fm-copy">© 2026 Ironhouse Fitness</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvutnml2kbxu">
+    <section class="st st-back-to-top" data-uid="smvuuxh460ln4">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>

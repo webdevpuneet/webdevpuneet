@@ -12,7 +12,7 @@ const realEstateLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvutnmkrdqol">
+    <section class="st st-navbar-simple" data-uid="smvuuxh2uxarj">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg></span><span>Harbor Homes</span></span>
@@ -33,7 +33,7 @@ const realEstateLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvutnmkrure5">
+    <section class="st st-image-background-hero" data-uid="smvuuxh2u7iam">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-realestate.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -53,7 +53,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="listings" class="st st-property-listings" data-uid="smvutnmkrc8sk">
+    <section id="listings" class="st st-property-listings" data-uid="smvuuxh2u25rc">
       <div class="st-wrap">
         <div class="pl-head">
           <div class="pl-titles">
@@ -159,54 +159,49 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="zoom" class="st st-scroll-zoom" data-uid="smvutnmkrq9fc">
-      <div class="kb" data-kb data-zoom="28" data-dir="in" data-affect="both" data-start="100" data-end="0" data-smooth="0.6" data-drift="on">
-        <header class="kb-hero">
-          <div class="kb-frame kb-frame--hero">
-            <img class="kb-img" data-kb-img="hero" width="1920" height="1080" loading="eager" src="https://webdevpuneet.com/images/section-templates/tpl-realestate.jpg" alt="">
-          </div>
-          <div class="kb-shade" aria-hidden="true"></div>
-          <div class="st-wrap kb-hero-text">
-            <p class="st-eyebrow" data-anim="item">Featured homes</p>
-            <h2 class="kb-h1" data-anim="item" data-anim-text>Homes that <span class="hl">reward a closer look</span></h2>
-            <p class="st-lead kb-lead" data-anim="item">Scroll slowly and each photograph draws you a little further into the room.</p>
-            <div class="st-btns kb-btns" data-anim="item">
-              <a class="st-btn" href="https://webdevpuneet.com/homes"><span>See all homes</span></a>
-            </div>
-          </div>
+    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuuxh2u878c">
+      <div class="st-wrap">
+        <header class="st-head">
+          <p class="st-eyebrow" data-anim="item">Featured homes</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Homes that <span class="hl">reward a closer look</span></h2>
+          <p class="st-lead" data-anim="item">Keep scrolling and each photograph draws you a little further into the room, then gives way to the next home.</p>
         </header>
-        <section class="st-wrap kb-featured">
-          <header class="st-head">
-            <h2 class="st-h2" data-anim="item">Three homes this month</h2>
-            <p class="st-lead" data-anim="item">Light, space and a short walk to the harbour.</p>
-          </header>
-          <ul class="kb-grid">
-            <li class="kb-card" data-anim="item">
-              <div class="kb-frame kb-frame--card">
-                <img class="kb-img" data-kb-img="featured" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/room-1.jpg" alt="A bright living room with tall windows">
+        <div class="zs" data-zs data-zoom="28" data-dir="in" data-affect="all" data-per="100" data-smooth="0.6" data-drift="on">
+          <ul class="zs-list">
+            <li class="zs-layer">
+              <img class="zs-img" width="1600" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/tpl-realestate.jpg" alt="A modern house with large windows by the coast">
+              <div class="zs-cap">
+                <h3 class="zs-title">The house by the coast</h3>
+                <p class="zs-text">Three bedrooms, steps from the harbour</p>
               </div>
-              <h3 class="kb-title">Harbour apartment</h3>
-              <p class="kb-cap">Two bedrooms with a sea view</p>
             </li>
-            <li class="kb-card" data-anim="item">
-              <div class="kb-frame kb-frame--card">
-                <img class="kb-img" data-kb-img="featured" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/room-2.jpg" alt="A calm bedroom with soft natural light">
+            <li class="zs-layer">
+              <img class="zs-img" width="1600" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/room-1.jpg" alt="A bright living room with tall windows">
+              <div class="zs-cap">
+                <h3 class="zs-title">Harbour apartment</h3>
+                <p class="zs-text">Two bedrooms with a sea view</p>
               </div>
-              <h3 class="kb-title">Garden house</h3>
-              <p class="kb-cap">Three bedrooms and a private garden</p>
             </li>
-            <li class="kb-card" data-anim="item">
-              <div class="kb-frame kb-frame--card">
-                <img class="kb-img" data-kb-img="featured" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/room-4.jpg" alt="An open-plan room with warm wooden floors">
+            <li class="zs-layer">
+              <img class="zs-img" width="1600" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/room-2.jpg" alt="A calm bedroom with soft natural light">
+              <div class="zs-cap">
+                <h3 class="zs-title">Garden house</h3>
+                <p class="zs-text">Three bedrooms and a private garden</p>
               </div>
-              <h3 class="kb-title">Old town loft</h3>
-              <p class="kb-cap">One bedroom in a restored building</p>
+            </li>
+            <li class="zs-layer">
+              <img class="zs-img" width="1600" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/room-4.jpg" alt="An open-plan room with warm wooden floors">
+              <div class="zs-cap">
+                <h3 class="zs-title">Old town loft</h3>
+                <p class="zs-text">One bedroom in a restored building</p>
+              </div>
             </li>
           </ul>
-        </section>
+          <div class="zs-ui" aria-hidden="true"><span class="zs-count">01</span><span class="zs-bar"><i></i></span></div>
+        </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvutnmkr7y8w">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuuxh2uc7jb">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -247,7 +242,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvutnmkr1dox">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvuuxh2vzogo">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it works</p>
@@ -277,7 +272,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvutnmks0at8">
+    <section id="results" class="st st-stats-counters" data-uid="smvuuxh2v1vau">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our results</p>
@@ -308,7 +303,7 @@ const realEstateLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvutnmksen4z">
+    <section id="team" class="st st-team-grid" data-uid="smvuuxh2vhkbo">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our agents</p>
@@ -359,7 +354,7 @@ const realEstateLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvutnmkspljt">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuuxh2v32vf">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -394,7 +389,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvutnmkswv8h">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuuxh2vwhie">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -422,7 +417,7 @@ const realEstateLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvutnmksxgz5">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvuuxh2vmce1">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -467,7 +462,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvutnmksofgn">
+    <section class="st st-footer-columns" data-uid="smvuuxh2v29w3">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -500,7 +495,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvutnmksursy">
+    <section class="st st-back-to-top" data-uid="smvuuxh2vylmz">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -634,26 +629,23 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .pl-card:nth-child(3n) .pa-sun{fill:color-mix(in srgb,#f8fafc 85%,transparent)}
 .pl-card:nth-child(3n) .pa-win{fill:#fcd34d}
 .pl-card:nth-child(3n) .pa-hill{fill:color-mix(in srgb,var(--st-text) 70%,var(--st-brand))}
-/* Scroll Zoom Images (Ken Burns) */
-.st-scroll-zoom{padding:0}
-.kb-hero{position:relative;display:flex;align-items:flex-end;min-height:clamp(520px,64cqi,760px);overflow:hidden}
-.kb-frame{position:relative;overflow:hidden;background:var(--st-surface)}
-.kb-frame--hero{position:absolute;inset:0}
-.kb-img{display:block;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%;will-change:transform}
-.kb-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,9,13,.15) 0%,rgba(6,9,13,.35) 45%,rgba(6,9,13,.82) 100%)}
-.kb-hero-text{position:relative;z-index:1;padding-top:clamp(120px,16cqi,200px);padding-bottom:clamp(40px,6cqi,80px)}
-.kb-h1{max-width:13em;font-size:clamp(38px,5.4cqi + 8px,78px);color:#fff}
-.kb-lead{max-width:34em;margin-top:16px;color:rgba(255,255,255,.82)}
-.kb-btns{margin-top:26px}
-.kb-featured{padding-top:clamp(56px,7cqi,104px);padding-bottom:clamp(64px,8cqi,112px)}
-.kb-grid{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.4cqi,32px);margin:0;padding:0}
-.kb-frame--card{aspect-ratio:4/5;border-radius:calc(var(--st-radius) * 1px);margin-bottom:16px}
-.kb-title{font-size:20px;letter-spacing:-.01em}
-.kb-cap{margin-top:4px;color:var(--st-muted);font-size:15px}
-.kb-cap:empty{display:none}
-.kb:not([data-kb-ready]) .kb-img{transform:none}
-@container st (max-width:820px){.kb-grid{grid-template-columns:1fr 1fr}}
-@container st (max-width:520px){.kb-grid{grid-template-columns:1fr}.kb-frame--card{aspect-ratio:4/3}}
+/* Scroll Zoom Image Stack (Ken Burns) */
+.st-scroll-zoom{padding:clamp(56px,7cqi,104px) 0}
+.zs{position:relative}
+.zs-list{list-style:none;display:grid;gap:clamp(16px,2.4cqi,28px);margin:0;padding:0}
+.zs-layer{position:relative;overflow:hidden;aspect-ratio:16/9;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-surface)}
+.zs-img{display:block;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%;will-change:transform}
+.zs-cap{position:absolute;left:0;right:0;bottom:0;padding:clamp(40px,8cqi,96px) clamp(18px,3cqi,40px) clamp(18px,3cqi,36px);background:linear-gradient(to top,rgba(6,9,13,.78),rgba(6,9,13,0));color:#fff;pointer-events:none}
+.zs-title{font-size:clamp(22px,2.6cqi + 8px,40px);color:#fff;letter-spacing:-.02em}
+.zs-text{margin-top:6px;color:rgba(255,255,255,.82);font-size:clamp(14px,1cqi + 10px,18px)}
+.zs-text:empty{display:none}
+.zs-ui{display:none}
+.zs.is-zs .zs-list{display:block;position:relative;height:clamp(420px,calc(100vh - 170px),760px);gap:0}
+.zs.is-zs .zs-layer{position:absolute;inset:0;aspect-ratio:auto}
+.zs.is-zs .zs-ui{position:absolute;right:clamp(16px,3cqi,32px);bottom:clamp(16px,3cqi,32px);z-index:60;display:flex;align-items:center;gap:12px;color:#fff;font:700 13px/1 var(--st-font-heading);letter-spacing:.08em}
+.zs-bar{display:block;width:clamp(60px,10cqi,120px);height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden}
+.zs-bar i{display:block;width:100%;height:100%;background:#fff;transform:scaleX(0);transform-origin:0 50%}
+@container st (max-width:560px){.zs.is-zs .zs-list{height:clamp(380px,calc(100vh - 150px),620px)}.zs-layer{aspect-ratio:4/3}}
 /* Icon Grid Features */
 .st-features-icon-grid{padding:clamp(64px,8cqi,112px) 0}
 .fg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2cqi,24px)}
@@ -909,32 +901,80 @@ a.cs2-value:hover{color:var(--st-brand)}
 })();
 (function () {
   var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!G || !window.ScrollTrigger || reduce || (window.ST_STILL && !window.ST_SCROLL_FX)) return;
-  G.registerPlugin(ScrollTrigger);
-  document.querySelectorAll('.st [data-kb]').forEach(function (root) {
-    if (root.getAttribute('data-kb-ready')) return;
-    root.setAttribute('data-kb-ready', '1');
+  var still = window.ST_STILL && !window.ST_SCROLL_FX;
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  document.querySelectorAll('.st [data-zs]').forEach(function (root) {
+    if (root.getAttribute('data-zs-ready')) return;
+    root.setAttribute('data-zs-ready', '1');
+    var layers = Array.prototype.slice.call(root.querySelectorAll('.zs-layer'));
+    var n = layers.length;
+    if (n < 2 || reduce) return;
     var num = function (name, d) { var v = parseFloat(root.getAttribute(name)); return isNaN(v) ? d : v; };
     var zoom = num('data-zoom', 30) / 100, dir = root.getAttribute('data-dir') === 'out' ? 'out' : 'in';
-    var affect = root.getAttribute('data-affect') || 'both';
-    var startPct = num('data-start', 100), endPct = num('data-end', 0), smooth = num('data-smooth', 0.6);
+    var exitOnly = root.getAttribute('data-affect') === 'exit';
+    var per = Math.max(30, num('data-per', 100)), smooth = num('data-smooth', 0.6);
     var drift = root.getAttribute('data-drift') !== 'off';
-    root.querySelectorAll('[data-kb-img]').forEach(function (img) {
-      var kind = img.getAttribute('data-kb-img');
-      if (affect !== 'both' && affect !== kind) return;
-      var frame = img.parentNode;
-      var s0 = dir === 'in' ? 1 : 1 + zoom, s1 = dir === 'in' ? 1 + zoom : 1;
-      var x0 = drift ? -(s0 - 1) * 40 : 0, x1 = drift ? -(s1 - 1) * 40 : 0;
-      var startPos = function () { return Math.max(0, frame.getBoundingClientRect().top + window.pageYOffset - window.innerHeight * startPct / 100); };
-      var endPos = function () { return Math.max(startPos() + 120, frame.getBoundingClientRect().bottom + window.pageYOffset - window.innerHeight * endPct / 100); };
-      G.fromTo(img, { scale: s0, xPercent: x0 }, {
-        scale: s1, xPercent: x1, ease: 'none', force3D: true,
-        scrollTrigger: { trigger: frame, start: startPos, end: endPos, scrub: smooth > 0 ? smooth : true, invalidateOnRefresh: true }
-      });
+    var imgs = layers.map(function (l) { return l.querySelector('.zs-img'); });
+    layers.forEach(function (l, i) { l.style.zIndex = String(n - i); });
+
+    if (still || !G || !window.ScrollTrigger) {
+      if (!still) return;
+      // A frame from the effect for previews: the top image mid-zoom and half faded, the next one just behind it
+      root.classList.add('is-zs');
+      layers.forEach(function (l, i) { if (i > 1) l.style.visibility = 'hidden'; });
+      if (imgs[0]) imgs[0].style.transform = 'scale(' + (1 + zoom * 0.55) + ')';
+      layers[0].style.opacity = '0.62';
+      var cap1 = layers[1].querySelector('.zs-cap'); if (cap1) cap1.style.opacity = '0';
+      if (imgs[1]) imgs[1].style.transform = 'scale(' + (1 + zoom * 0.12) + ')';
+      var c0 = root.querySelector('.zs-count'); if (c0) c0.textContent = pad(1) + ' / ' + pad(n);
+      var b0 = root.querySelector('.zs-bar i'); if (b0) b0.style.transform = 'scaleX(' + (0.55 / n).toFixed(3) + ')';
+      return;
+    }
+
+    G.registerPlugin(ScrollTrigger);
+    root.classList.add('is-zs');
+    var count = root.querySelector('.zs-count'), bar = root.querySelector('.zs-bar i');
+    // A sticky header stays on screen, so the stage pins just below it instead of under it
+    var head = function () { var h = 0; document.querySelectorAll('.st').forEach(function (s) { if (s.querySelector('[data-sticky-flag]')) h = Math.max(h, s.offsetHeight); }); return h; };
+    var tl = G.timeline({
+      defaults: { ease: 'none' },
+      scrollTrigger: {
+        trigger: root,
+        start: function () { return 'top ' + (head() + 16); },
+        end: function () { return '+=' + Math.round(window.innerHeight * per / 100 * n); },
+        pin: true, scrub: smooth > 0 ? smooth : true, anticipatePin: 1, invalidateOnRefresh: true,
+        onUpdate: function (self) {
+          var i = Math.min(n - 1, Math.floor(self.progress * n));
+          if (count) count.textContent = pad(i + 1) + ' / ' + pad(n);
+          if (bar) bar.style.transform = 'scaleX(' + self.progress.toFixed(3) + ')';
+        }
+      }
     });
-    root.setAttribute('data-kb-active', '1');
+    if (count) count.textContent = pad(1) + ' / ' + pad(n);
+    layers.forEach(function (layer, i) {
+      var img = imgs[i], last = i === n - 1;
+      if (!img) return;
+      if (exitOnly) {
+        // Holds still, then zooms (and fades) as it leaves; the last image just zooms in place
+        var to = dir === 'in' ? 1 + zoom : 1 / (1 + zoom);
+        tl.fromTo(img, { scale: 1, xPercent: 0 }, { scale: to, xPercent: dir === 'in' && drift ? -zoom * 40 : 0, duration: 0.45 }, i + 0.55);
+      } else {
+        // Zooms the whole time it is on top, starting a little before the layer above it has gone
+        var s0 = dir === 'in' ? 1 : 1 + zoom, s1 = dir === 'in' ? 1 + zoom : 1;
+        var x0 = drift ? -(s0 - 1) * 40 : 0, x1 = drift ? -(s1 - 1) * 40 : 0;
+        tl.fromTo(img, { scale: s0, xPercent: x0 }, { scale: s1, xPercent: x1, duration: i === 0 ? 1 : 1.3 }, i === 0 ? 0 : i - 0.3);
+      }
+      if (!last) tl.to(layer, { autoAlpha: 0, duration: 0.3 }, i + 0.7);
+      // Captions never overlap: each one fades out first, then the next one fades in
+      var cap = layer.querySelector('.zs-cap');
+      if (cap) {
+        if (i > 0) G.set(cap, { opacity: 0 });
+        if (!last) tl.to(cap, { opacity: 0, duration: 0.2 }, i + 0.6);
+        if (i > 0) tl.to(cap, { opacity: 1, duration: 0.2 }, i - 0.15);
+      }
+    });
   });
-  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  window.addEventListener('load', function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
 })();
 (function () {
   var G = window.gsap;
@@ -1144,9 +1184,9 @@ a.cs2-value:hover{color:var(--st-brand)}
       },
       {
         "id": "scroll-zoom",
-        "name": "Scroll Zoom Images (Ken Burns)",
+        "name": "Scroll Zoom Image Stack (Ken Burns)",
         "url": "/website-section-templates/scroll-zoom/",
-        "role": "a hero and three featured homes whose photographs zoom gently as you scroll past them"
+        "role": "a pinned stack of home photographs that zoom and fade into one another as you scroll, one home at a time"
       },
       {
         "id": "features-icon-grid",
@@ -1208,13 +1248,13 @@ a.cs2-value:hover{color:var(--st-brand)}
       "description": "Choosing an agent is a trust decision, so this page leads with something tangible: a striking home at dusk and the listings themselves, not a slogan. Property cards give visitors something to do immediately, while the services grid and three-step process explain what you do for buyers and sellers in plain terms, so the unknown becomes manageable. Moving counters (homes sold, years in the area, average days to sell) turn \"experienced\" into evidence.\n\nThe people come next. A team grid with real agent photos gives a nervous seller a face, and the testimonial wall and FAQ answer the questions every client asks before they pick up the phone: fees, timelines, how valuations work. The contact form at the end is built for a valuation request, which is the conversation most agents want to start.\n\nReplace the sample listings and agents with yours. It is the layout of the [Real Estate Agency Website template](/website-builder/templates/real-estate/); open it in the [Website Builder](/website-builder/) to edit copy, theme and images and export."
     },
     "features": [
-      "13 ready-made website sections assembled into one finished real estate agency website page: Simple Sticky Navbar, Image Background Hero, Property Listings, Scroll Zoom Images (Ken Burns), Icon Grid Features, How It Works Steps, Animated Stats Counters, Team Grid, Testimonial Wall, FAQ Accordion, Contact Form With Details, Multi-Column Footer, Back to Top Button",
+      "13 ready-made website sections assembled into one finished real estate agency website page: Simple Sticky Navbar, Image Background Hero, Property Listings, Scroll Zoom Image Stack (Ken Burns), Icon Grid Features, How It Works Steps, Animated Stats Counters, Team Grid, Testimonial Wall, FAQ Accordion, Contact Form With Details, Multi-Column Footer, Back to Top Button",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 6-page website in the builder, sharing one navbar, footer and theme",
-      "A Ken Burns scroll zoom on the hero and featured photographs (GSAP ScrollTrigger)",
+      "A pinned stack of photographs that zoom and fade into one another as you scroll (GSAP ScrollTrigger)",
       "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
@@ -1275,7 +1315,7 @@ a.cs2-value:hover{color:var(--st-brand)}
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 13 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Property Listings, Scroll Zoom Images (Ken Burns), Icon Grid Features, How It Works Steps, Animated Stats Counters, Team Grid, Testimonial Wall, FAQ Accordion, Contact Form With Details, Multi-Column Footer, Back to Top Button. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 13 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Property Listings, Scroll Zoom Image Stack (Ken Burns), Icon Grid Features, How It Works Steps, Animated Stats Counters, Team Grid, Testimonial Wall, FAQ Accordion, Contact Form With Details, Multi-Column Footer, Back to Top Button. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1284,7 +1324,7 @@ a.cs2-value:hover{color:var(--st-brand)}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Real Estate Agency Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete real estate agency website for “Harbor Homes” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Find the home that fits your life”\n3. Property Listings: “Homes ready to view”\n4. Scroll Zoom Images (Ken Burns): “Homes that reward a closer look”\n5. Icon Grid Features: “Everything for your next move”\n6. How It Works Steps: “Selling in three simple steps”\n7. Animated Stats Counters: “Numbers that speak for us”\n8. Team Grid: “Local people, local knowledge”\n9. Testimonial Wall: “Happy homeowners”\n10. FAQ Accordion: “Questions answered”\n11. Contact Form With Details: “Book your free valuation”\n12. Multi-Column Footer\n13. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #0f766e, page background #ffffff, cards #f0f7f5, text #0f1f1c, muted text #4b5f5a. Corner radius 12px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable real estate copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Real Estate Website Template — Free HTML Agency Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a real estate business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- About (about.html)\n- FAQ (faq.html)\n- Contact (contact.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete real estate agency website for “Harbor Homes” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Find the home that fits your life”\n3. Property Listings: “Homes ready to view”\n4. Scroll Zoom Image Stack (Ken Burns): “Homes that reward a closer look”\n5. Icon Grid Features: “Everything for your next move”\n6. How It Works Steps: “Selling in three simple steps”\n7. Animated Stats Counters: “Numbers that speak for us”\n8. Team Grid: “Local people, local knowledge”\n9. Testimonial Wall: “Happy homeowners”\n10. FAQ Accordion: “Questions answered”\n11. Contact Form With Details: “Book your free valuation”\n12. Multi-Column Footer\n13. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #0f766e, page background #ffffff, cards #f0f7f5, text #0f1f1c, muted text #4b5f5a. Corner radius 12px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable real estate copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Real Estate Website Template — Free HTML Agency Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a real estate business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- About (about.html)\n- FAQ (faq.html)\n- Contact (contact.html)\n- Privacy (privacy.html)"
     }
   },
 };

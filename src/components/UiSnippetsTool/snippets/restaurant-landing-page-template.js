@@ -12,7 +12,7 @@ const restaurantLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvutnmkgd3nj">
+    <section class="st st-navbar-simple" data-uid="smvuuxgzzr6l5">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg></span><span>Olive &amp; Ember</span></span>
@@ -32,7 +32,7 @@ const restaurantLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvutnmkgev8k">
+    <section class="st st-image-background-hero" data-uid="smvuuxgzz58x7">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-restaurant.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -52,7 +52,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="menu" class="st st-restaurant-menu" data-uid="smvutnmkgzq7c">
+    <section id="menu" class="st st-restaurant-menu" data-uid="smvuuxgzzqmqg">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">From the kitchen</p>
@@ -118,54 +118,49 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="zoom" class="st st-scroll-zoom" data-uid="smvutnmkgzvn9">
-      <div class="kb" data-kb data-zoom="28" data-dir="in" data-affect="both" data-start="100" data-end="0" data-smooth="0.6" data-drift="on">
-        <header class="kb-hero">
-          <div class="kb-frame kb-frame--hero">
-            <img class="kb-img" data-kb-img="hero" width="1920" height="1080" loading="eager" src="https://webdevpuneet.com/images/section-templates/tpl-restaurant.jpg" alt="">
-          </div>
-          <div class="kb-shade" aria-hidden="true"></div>
-          <div class="st-wrap kb-hero-text">
-            <p class="st-eyebrow" data-anim="item">From the farm</p>
-            <h2 class="kb-h1" data-anim="item" data-anim-text>Slow food, <span class="hl">seen up close</span></h2>
-            <p class="st-lead kb-lead" data-anim="item">Long tables, small plates and produce from the hills behind the restaurant. Scroll and the photographs drift a little closer.</p>
-            <div class="st-btns kb-btns" data-anim="item">
-              <a class="st-btn" href="https://webdevpuneet.com/book"><span>Book a table</span></a>
-            </div>
-          </div>
+    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuuxgzzbtn8">
+      <div class="st-wrap">
+        <header class="st-head">
+          <p class="st-eyebrow" data-anim="item">From the farm</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Slow food, <span class="hl">seen up close</span></h2>
+          <p class="st-lead" data-anim="item">Long tables, small plates and produce from the hills behind the restaurant. Keep scrolling and each photograph drifts closer before the next one appears.</p>
         </header>
-        <section class="st-wrap kb-featured">
-          <header class="st-head">
-            <h2 class="st-h2" data-anim="item">Three things we are proud of</h2>
-            <p class="st-lead" data-anim="item">The room, the farm and the view that ends most evenings.</p>
-          </header>
-          <ul class="kb-grid">
-            <li class="kb-card" data-anim="item">
-              <div class="kb-frame kb-frame--card">
-                <img class="kb-img" data-kb-img="featured" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/wed-dinner.jpg" alt="A long dinner table set with candles">
+        <div class="zs" data-zs data-zoom="28" data-dir="in" data-affect="all" data-per="100" data-smooth="0.6" data-drift="on">
+          <ul class="zs-list">
+            <li class="zs-layer">
+              <img class="zs-img" width="1600" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/tpl-restaurant.jpg" alt="A table of seasonal dishes">
+              <div class="zs-cap">
+                <h3 class="zs-title">The plates</h3>
+                <p class="zs-text">Seasonal dishes that change every week</p>
               </div>
-              <h3 class="kb-title">The long table</h3>
-              <p class="kb-cap">Shared dinners every Friday</p>
             </li>
-            <li class="kb-card" data-anim="item">
-              <div class="kb-frame kb-frame--card">
-                <img class="kb-img" data-kb-img="featured" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/tpl-nature.jpg" alt="Green hills at sunrise where the produce is grown">
+            <li class="zs-layer">
+              <img class="zs-img" width="1600" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/wed-dinner.jpg" alt="A long dinner table set with candles">
+              <div class="zs-cap">
+                <h3 class="zs-title">The long table</h3>
+                <p class="zs-text">Shared dinners every Friday</p>
               </div>
-              <h3 class="kb-title">The farm</h3>
-              <p class="kb-cap">Vegetables picked that morning</p>
             </li>
-            <li class="kb-card" data-anim="item">
-              <div class="kb-frame kb-frame--card">
-                <img class="kb-img" data-kb-img="featured" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/hero-landscape.jpg" alt="Hills above the farm at dawn">
+            <li class="zs-layer">
+              <img class="zs-img" width="1600" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/tpl-nature.jpg" alt="Green hills at sunrise where the produce is grown">
+              <div class="zs-cap">
+                <h3 class="zs-title">The farm</h3>
+                <p class="zs-text">Vegetables picked that morning</p>
               </div>
-              <h3 class="kb-title">The hills</h3>
-              <p class="kb-cap">Where the lamb and herbs come from</p>
+            </li>
+            <li class="zs-layer">
+              <img class="zs-img" width="1600" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/hero-landscape.jpg" alt="Hills above the farm at dawn">
+              <div class="zs-cap">
+                <h3 class="zs-title">The hills</h3>
+                <p class="zs-text">Where the lamb and herbs come from</p>
+              </div>
             </li>
           </ul>
-        </section>
+          <div class="zs-ui" aria-hidden="true"><span class="zs-count">01</span><span class="zs-bar"><i></i></span></div>
+        </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvutnmkguwp8">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvuuxgzzrbdu">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -197,7 +192,7 @@ const restaurantLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-rows" data-uid="smvutnmkg5123">
+    <section id="pricing" class="st st-pricing-rows" data-uid="smvuuxgzzmbo4">
       <div class="st-wrap">
         <div class="pl-top">
           <header class="st-head st-head--left pl-head">
@@ -246,7 +241,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvutnmkgdwqo">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuuxgzzcxvq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Guest reviews</p>
@@ -281,7 +276,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvutnmkhfx2a">
+    <section id="contact" class="st st-booking-form" data-uid="smvuuxgzzpdhu">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -342,7 +337,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvutnmkhncck">
+    <section id="contact-2" class="st st-contact-map" data-uid="smvuuxgzz7du0">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -367,7 +362,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvutnmkha58r">
+    <section class="st st-popup-modal" data-uid="smvuuxgzzxcfm">
       <div class="pu" data-pu data-trigger="delay" data-delay="12" data-scroll="50" data-days="7" data-pos="bottom-left" data-layout="left" data-autoplay="0" data-pu-id="1ingh17">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -387,7 +382,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvutnmkhqaz0">
+    <section class="st st-footer-minimal" data-uid="smvuuxgzzl813">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -403,7 +398,7 @@ const restaurantLandingPageTemplate = {
         <p class="fm-copy">© 2026 Olive &amp; Ember</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvutnmkh1kkg">
+    <section class="st st-back-to-top" data-uid="smvuuxgzzwbcs">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -513,26 +508,23 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .rm-foot{display:flex;flex-direction:column;align-items:center;gap:18px;margin-top:clamp(40px,5cqi,64px);text-align:center}
 .rm-note{color:var(--st-muted);font-size:14px;max-width:44em}
 @container st (max-width:720px){.rm-list{grid-template-columns:1fr}}
-/* Scroll Zoom Images (Ken Burns) */
-.st-scroll-zoom{padding:0}
-.kb-hero{position:relative;display:flex;align-items:flex-end;min-height:clamp(520px,64cqi,760px);overflow:hidden}
-.kb-frame{position:relative;overflow:hidden;background:var(--st-surface)}
-.kb-frame--hero{position:absolute;inset:0}
-.kb-img{display:block;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%;will-change:transform}
-.kb-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,9,13,.15) 0%,rgba(6,9,13,.35) 45%,rgba(6,9,13,.82) 100%)}
-.kb-hero-text{position:relative;z-index:1;padding-top:clamp(120px,16cqi,200px);padding-bottom:clamp(40px,6cqi,80px)}
-.kb-h1{max-width:13em;font-size:clamp(38px,5.4cqi + 8px,78px);color:#fff}
-.kb-lead{max-width:34em;margin-top:16px;color:rgba(255,255,255,.82)}
-.kb-btns{margin-top:26px}
-.kb-featured{padding-top:clamp(56px,7cqi,104px);padding-bottom:clamp(64px,8cqi,112px)}
-.kb-grid{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.4cqi,32px);margin:0;padding:0}
-.kb-frame--card{aspect-ratio:4/5;border-radius:calc(var(--st-radius) * 1px);margin-bottom:16px}
-.kb-title{font-size:20px;letter-spacing:-.01em}
-.kb-cap{margin-top:4px;color:var(--st-muted);font-size:15px}
-.kb-cap:empty{display:none}
-.kb:not([data-kb-ready]) .kb-img{transform:none}
-@container st (max-width:820px){.kb-grid{grid-template-columns:1fr 1fr}}
-@container st (max-width:520px){.kb-grid{grid-template-columns:1fr}.kb-frame--card{aspect-ratio:4/3}}
+/* Scroll Zoom Image Stack (Ken Burns) */
+.st-scroll-zoom{padding:clamp(56px,7cqi,104px) 0}
+.zs{position:relative}
+.zs-list{list-style:none;display:grid;gap:clamp(16px,2.4cqi,28px);margin:0;padding:0}
+.zs-layer{position:relative;overflow:hidden;aspect-ratio:16/9;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-surface)}
+.zs-img{display:block;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%;will-change:transform}
+.zs-cap{position:absolute;left:0;right:0;bottom:0;padding:clamp(40px,8cqi,96px) clamp(18px,3cqi,40px) clamp(18px,3cqi,36px);background:linear-gradient(to top,rgba(6,9,13,.78),rgba(6,9,13,0));color:#fff;pointer-events:none}
+.zs-title{font-size:clamp(22px,2.6cqi + 8px,40px);color:#fff;letter-spacing:-.02em}
+.zs-text{margin-top:6px;color:rgba(255,255,255,.82);font-size:clamp(14px,1cqi + 10px,18px)}
+.zs-text:empty{display:none}
+.zs-ui{display:none}
+.zs.is-zs .zs-list{display:block;position:relative;height:clamp(420px,calc(100vh - 170px),760px);gap:0}
+.zs.is-zs .zs-layer{position:absolute;inset:0;aspect-ratio:auto}
+.zs.is-zs .zs-ui{position:absolute;right:clamp(16px,3cqi,32px);bottom:clamp(16px,3cqi,32px);z-index:60;display:flex;align-items:center;gap:12px;color:#fff;font:700 13px/1 var(--st-font-heading);letter-spacing:.08em}
+.zs-bar{display:block;width:clamp(60px,10cqi,120px);height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden}
+.zs-bar i{display:block;width:100%;height:100%;background:#fff;transform:scaleX(0);transform-origin:0 50%}
+@container st (max-width:560px){.zs.is-zs .zs-list{height:clamp(380px,calc(100vh - 150px),620px)}.zs-layer{aspect-ratio:4/3}}
 /* Filterable Image Gallery */
 .st-gallery-grid{padding:clamp(56px,7cqi,104px) 0}
 .gg-filters{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:clamp(24px,3cqi,36px)}
@@ -894,32 +886,80 @@ html.stg-open{overflow:hidden}
 })();
 (function () {
   var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!G || !window.ScrollTrigger || reduce || (window.ST_STILL && !window.ST_SCROLL_FX)) return;
-  G.registerPlugin(ScrollTrigger);
-  document.querySelectorAll('.st [data-kb]').forEach(function (root) {
-    if (root.getAttribute('data-kb-ready')) return;
-    root.setAttribute('data-kb-ready', '1');
+  var still = window.ST_STILL && !window.ST_SCROLL_FX;
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  document.querySelectorAll('.st [data-zs]').forEach(function (root) {
+    if (root.getAttribute('data-zs-ready')) return;
+    root.setAttribute('data-zs-ready', '1');
+    var layers = Array.prototype.slice.call(root.querySelectorAll('.zs-layer'));
+    var n = layers.length;
+    if (n < 2 || reduce) return;
     var num = function (name, d) { var v = parseFloat(root.getAttribute(name)); return isNaN(v) ? d : v; };
     var zoom = num('data-zoom', 30) / 100, dir = root.getAttribute('data-dir') === 'out' ? 'out' : 'in';
-    var affect = root.getAttribute('data-affect') || 'both';
-    var startPct = num('data-start', 100), endPct = num('data-end', 0), smooth = num('data-smooth', 0.6);
+    var exitOnly = root.getAttribute('data-affect') === 'exit';
+    var per = Math.max(30, num('data-per', 100)), smooth = num('data-smooth', 0.6);
     var drift = root.getAttribute('data-drift') !== 'off';
-    root.querySelectorAll('[data-kb-img]').forEach(function (img) {
-      var kind = img.getAttribute('data-kb-img');
-      if (affect !== 'both' && affect !== kind) return;
-      var frame = img.parentNode;
-      var s0 = dir === 'in' ? 1 : 1 + zoom, s1 = dir === 'in' ? 1 + zoom : 1;
-      var x0 = drift ? -(s0 - 1) * 40 : 0, x1 = drift ? -(s1 - 1) * 40 : 0;
-      var startPos = function () { return Math.max(0, frame.getBoundingClientRect().top + window.pageYOffset - window.innerHeight * startPct / 100); };
-      var endPos = function () { return Math.max(startPos() + 120, frame.getBoundingClientRect().bottom + window.pageYOffset - window.innerHeight * endPct / 100); };
-      G.fromTo(img, { scale: s0, xPercent: x0 }, {
-        scale: s1, xPercent: x1, ease: 'none', force3D: true,
-        scrollTrigger: { trigger: frame, start: startPos, end: endPos, scrub: smooth > 0 ? smooth : true, invalidateOnRefresh: true }
-      });
+    var imgs = layers.map(function (l) { return l.querySelector('.zs-img'); });
+    layers.forEach(function (l, i) { l.style.zIndex = String(n - i); });
+
+    if (still || !G || !window.ScrollTrigger) {
+      if (!still) return;
+      // A frame from the effect for previews: the top image mid-zoom and half faded, the next one just behind it
+      root.classList.add('is-zs');
+      layers.forEach(function (l, i) { if (i > 1) l.style.visibility = 'hidden'; });
+      if (imgs[0]) imgs[0].style.transform = 'scale(' + (1 + zoom * 0.55) + ')';
+      layers[0].style.opacity = '0.62';
+      var cap1 = layers[1].querySelector('.zs-cap'); if (cap1) cap1.style.opacity = '0';
+      if (imgs[1]) imgs[1].style.transform = 'scale(' + (1 + zoom * 0.12) + ')';
+      var c0 = root.querySelector('.zs-count'); if (c0) c0.textContent = pad(1) + ' / ' + pad(n);
+      var b0 = root.querySelector('.zs-bar i'); if (b0) b0.style.transform = 'scaleX(' + (0.55 / n).toFixed(3) + ')';
+      return;
+    }
+
+    G.registerPlugin(ScrollTrigger);
+    root.classList.add('is-zs');
+    var count = root.querySelector('.zs-count'), bar = root.querySelector('.zs-bar i');
+    // A sticky header stays on screen, so the stage pins just below it instead of under it
+    var head = function () { var h = 0; document.querySelectorAll('.st').forEach(function (s) { if (s.querySelector('[data-sticky-flag]')) h = Math.max(h, s.offsetHeight); }); return h; };
+    var tl = G.timeline({
+      defaults: { ease: 'none' },
+      scrollTrigger: {
+        trigger: root,
+        start: function () { return 'top ' + (head() + 16); },
+        end: function () { return '+=' + Math.round(window.innerHeight * per / 100 * n); },
+        pin: true, scrub: smooth > 0 ? smooth : true, anticipatePin: 1, invalidateOnRefresh: true,
+        onUpdate: function (self) {
+          var i = Math.min(n - 1, Math.floor(self.progress * n));
+          if (count) count.textContent = pad(i + 1) + ' / ' + pad(n);
+          if (bar) bar.style.transform = 'scaleX(' + self.progress.toFixed(3) + ')';
+        }
+      }
     });
-    root.setAttribute('data-kb-active', '1');
+    if (count) count.textContent = pad(1) + ' / ' + pad(n);
+    layers.forEach(function (layer, i) {
+      var img = imgs[i], last = i === n - 1;
+      if (!img) return;
+      if (exitOnly) {
+        // Holds still, then zooms (and fades) as it leaves; the last image just zooms in place
+        var to = dir === 'in' ? 1 + zoom : 1 / (1 + zoom);
+        tl.fromTo(img, { scale: 1, xPercent: 0 }, { scale: to, xPercent: dir === 'in' && drift ? -zoom * 40 : 0, duration: 0.45 }, i + 0.55);
+      } else {
+        // Zooms the whole time it is on top, starting a little before the layer above it has gone
+        var s0 = dir === 'in' ? 1 : 1 + zoom, s1 = dir === 'in' ? 1 + zoom : 1;
+        var x0 = drift ? -(s0 - 1) * 40 : 0, x1 = drift ? -(s1 - 1) * 40 : 0;
+        tl.fromTo(img, { scale: s0, xPercent: x0 }, { scale: s1, xPercent: x1, duration: i === 0 ? 1 : 1.3 }, i === 0 ? 0 : i - 0.3);
+      }
+      if (!last) tl.to(layer, { autoAlpha: 0, duration: 0.3 }, i + 0.7);
+      // Captions never overlap: each one fades out first, then the next one fades in
+      var cap = layer.querySelector('.zs-cap');
+      if (cap) {
+        if (i > 0) G.set(cap, { opacity: 0 });
+        if (!last) tl.to(cap, { opacity: 0, duration: 0.2 }, i + 0.6);
+        if (i > 0) tl.to(cap, { opacity: 1, duration: 0.2 }, i - 0.15);
+      }
+    });
   });
-  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  window.addEventListener('load', function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
 })();
 (function () {
   var viewer, imgEl, capEl, countEl, items = [], index = 0, opener = null;
@@ -1399,9 +1439,9 @@ html.stg-open{overflow:hidden}
       },
       {
         "id": "scroll-zoom",
-        "name": "Scroll Zoom Images (Ken Burns)",
+        "name": "Scroll Zoom Image Stack (Ken Burns)",
         "url": "/website-section-templates/scroll-zoom/",
-        "role": "a hero and three featured photographs that slowly zoom as you scroll, showing the food, the farm and the view up close"
+        "role": "a pinned stack of four photographs that zoom and fade into one another as you scroll, from the plates to the farm and the hills"
       },
       {
         "id": "gallery-grid",
@@ -1457,13 +1497,13 @@ html.stg-open{overflow:hidden}
       "description": "People search for a restaurant to answer four questions: what do you serve, what does it cost, can I get a table, and where are you? This layout answers them in that order. A moody photo hero with a \"Book a table\" button, then the menu itself on the page rather than behind a PDF link (readable by search engines and by customers on slow phones), then a filterable gallery that sells the atmosphere, set menus with prices, and reviews that confirm the experience.\n\nThe bottom of the page is where bookings happen. A booking request form collects the date, party size and any dietary notes, and the contact section pairs a map with your opening hours so there is no reason to leave the page to find either. A promo modal can announce a seasonal menu or a special evening without redesigning anything.\n\nSwap in your dishes, hours and photographs. It is the layout of the [Restaurant Website template](/website-builder/templates/restaurant/), which also comes as a multi-page site with Menu, About and Visit pages; open it in the [Website Builder](/website-builder/) to edit and export."
     },
     "features": [
-      "12 ready-made website sections assembled into one finished restaurant website page: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Images (Ken Burns), Filterable Image Gallery, Pricing List Rows, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button",
+      "12 ready-made website sections assembled into one finished restaurant website page: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Image Stack (Ken Burns), Filterable Image Gallery, Pricing List Rows, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 6-page website in the builder, sharing one navbar, footer and theme",
-      "A Ken Burns scroll zoom on the hero and featured photographs (GSAP ScrollTrigger)",
+      "A pinned stack of photographs that zoom and fade into one another as you scroll (GSAP ScrollTrigger)",
       "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
@@ -1524,7 +1564,7 @@ html.stg-open{overflow:hidden}
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 12 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Images (Ken Burns), Filterable Image Gallery, Pricing List Rows, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 12 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Image Stack (Ken Burns), Filterable Image Gallery, Pricing List Rows, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1533,7 +1573,7 @@ html.stg-open{overflow:hidden}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Restaurant Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete restaurant website for “Olive & Ember” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Seasonal plates, slow evenings”\n3. Restaurant Menu: “Dishes guests come back for”\n4. Scroll Zoom Images (Ken Burns): “Slow food, seen up close”\n5. Filterable Image Gallery: “From the kitchen and the room”\n6. Pricing List Rows: “Let the kitchen choose for you”\n7. Testimonial Wall: “Loved by locals and travellers”\n8. Booking Request Form: “Request a table”\n9. Contact With Map: “Find our table”\n10. Popup & Promo Modal\n11. Minimal Footer\n12. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #b45309, page background #fffaf3, cards #f6ecdf, text #2a1a10, muted text #6b5444. Corner radius 10px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable food & drink copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Olive & Ember: Wood-Fired Restaurant in Alfama, Lisbon”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a food & drink business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Menu (menu.html)\n- About (about.html)\n- Visit (visit.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete restaurant website for “Olive & Ember” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Seasonal plates, slow evenings”\n3. Restaurant Menu: “Dishes guests come back for”\n4. Scroll Zoom Image Stack (Ken Burns): “Slow food, seen up close”\n5. Filterable Image Gallery: “From the kitchen and the room”\n6. Pricing List Rows: “Let the kitchen choose for you”\n7. Testimonial Wall: “Loved by locals and travellers”\n8. Booking Request Form: “Request a table”\n9. Contact With Map: “Find our table”\n10. Popup & Promo Modal\n11. Minimal Footer\n12. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #b45309, page background #fffaf3, cards #f6ecdf, text #2a1a10, muted text #6b5444. Corner radius 10px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable food & drink copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Olive & Ember: Wood-Fired Restaurant in Alfama, Lisbon”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a food & drink business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Menu (menu.html)\n- About (about.html)\n- Visit (visit.html)\n- Privacy (privacy.html)"
     }
   },
 };
