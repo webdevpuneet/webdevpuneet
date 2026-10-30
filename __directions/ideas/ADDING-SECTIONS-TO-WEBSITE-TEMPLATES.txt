@@ -1,0 +1,39 @@
+ADDING A SECTION TO THE EXISTING WEBSITE TEMPLATES (how it was done on 2026-10-30; follow it again)
+Keep this file current when the process changes.
+
+WHERE THINGS LIVE (src/components/SectionTemplates/templates/)
+  starters.js                  the 24 base templates (oldest first), then applyExtras() merges extras
+  starters-extras.js           STARTER_EXTRAS + the merge of starters-more.js (popups, share bars) and starters-widgets.js
+  starters-widgets.js          sections added on 2026-10-30: STARTER_WIDGET_EXTRAS (placement + content) and WIDGET_ROLES
+  site.js                      FOOTER_LIKE = ['footer', 'effects', 'accessibility']: sections of these categories that are
+                               last on the page become part of the shared footer, so they appear on EVERY page of the
+                               multi-page version
+
+PLACEMENT OPTIONS (entries of STARTER_WIDGET_EXTRAS[templateId])
+  { after: 'section-id', section }   insert after the first section with that id
+  { before: 'section-id', section }  insert before it
+  { replace: 'section-id', section } swap it (section may be a function of the old section, to carry its content over)
+  { atEnd: true, section }           push after the footer = site-wide floating widget (back to top, accessibility toolbar,
+                                     cursor follower). Use a function that returns a NEW array for shared widgets.
+
+STEPS WHEN YOU ADD A SECTION TO TEMPLATES
+  1. Write the content for that template (real copy that matches its brand and facts; check the template's own stats first,
+     for example nonprofit: 2.4M trees since 2016, 38 villages).
+  2. Add the entry in starters-widgets.js, and a phrase in WIDGET_ROLES ('templateId:sectionId' or 'sectionId').
+  3. node scripts/generate-landing-page-snippets.mjs --check   (it reports sections without a role phrase)
+  4. node scripts/generate-landing-page-snippets.mjs           (regenerates the 24 landing-page snippets; it also adds a
+     feature bullet per added section type: ADDED_FEATURES in the script)
+  5. Check every template builds, has exactly ONE h1 per page (a section placed mid-page must use h2, not h1), and the
+     widgets are on every page of the multi-page version (build siteFromStarter(id, { multi: true }) and siteFiles).
+  6. Test in headless Chromium inside a real exported site (siteFiles served over local http).
+  7. node scripts/export-website-demos.mjs, then node scripts/upload-demos.mjs --preview, then upload when allowed.
+  8. node scripts/generate-template-nav.mjs, update TEMPLATES-ROADMAP.html and 05-ADVISOR-LOG.txt.
+  9. Website template previews / og images only show the top of the page; recapture them only if the hero changed.
+
+GOTCHAS FOUND
+  - Starter source files use Windows line endings (CRLF): do exact-string edits on them with line endings normalised.
+  - A "clean" render (documentHtml default) is also used by the preview capture, so never strip demo markup in finalize
+    based on `clean`; let the behaviour remove it on real pages instead.
+  - container-type on .st makes fixed children relative to the section: floating sections set container-type:normal and
+    overflow:visible.
+  - Counters (counter()) cannot be read back through getComputedStyle in tests; check them in a screenshot.
