@@ -190,6 +190,12 @@
 .backBtn { box-sizing: border-box; height: 44px; line-height: 1; padding: 0 16px; border: 1.5px solid rgba(127, 127, 127, 0.4); border-radius: 10px; background: transparent; color: inherit; font-weight: 700; font-size: 14.5px; cursor: pointer; }
 .backBtn:hover { border-color: #4f46e5; color: #4f46e5; }
 .backBtn:focus-visible { outline: 3px solid rgba(79, 70, 229, 0.45); outline-offset: 2px; }
+/* Template detail: "Live demo" links (open in a new tab), lighter than the use buttons */
+.demoLabel { margin: 4px 0 -2px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.65; }
+.demoLinks { display: flex; gap: 8px; }
+.demoLink { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 38px; border-radius: 10px; background: rgba(79, 70, 229, 0.1); color: #4f46e5; font-weight: 600; font-size: 13.5px; text-decoration: none; }
+.demoLink:hover { background: rgba(79, 70, 229, 0.18); }
+.demoLink:focus-visible { outline: 3px solid rgba(79, 70, 229, 0.45); outline-offset: 2px; }
 .deviceBtn.catOn { border-color: #4f46e5; background: #4f46e5; color: #fff; }
 .customStrip { margin-bottom: 22px; }
 .stripTitle { margin: 0 0 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.75; }

@@ -15,6 +15,8 @@ import { WEBSITE_TEMPLATES, TEMPLATE_INDUSTRIES } from '@/components/SectionTemp
 import { starterPageList } from '@/components/SectionTemplates/templates/site.js';
 
 const fullOf = id => `/images/website-templates/full/${id}.jpg`;
+const DEMOS = 'https://webdevpuneet.com/demos/website-templates/'; // live demos (scripts/export-website-demos.mjs)
+const ARROW = <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>;
 const ago = iso => { try { return new Date(iso).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }); } catch { return ''; } };
 const PAGE = 10; // two rows of five; Load more adds two rows
 
@@ -161,6 +163,11 @@ export default function TemplatePickerModal({ open, onClose, onUse, saved = [], 
               <div className={b.modalActions}>
                 <button type="button" className={b.useBtn} onClick={() => onUse(chosen.id, false)}>Use as one page</button>
                 {pages.length > 1 && <button type="button" className={b.backBtn} onClick={() => onUse(chosen.id, true)}>Use multi-page website ({pages.length} pages)</button>}
+                <span className={b.demoLabel}>Live demo</span>
+                <div className={b.demoLinks}>
+                  <a className={b.demoLink} href={`${DEMOS}${chosen.id}/one-page/`} target="_blank" rel="noopener">One page {ARROW}</a>
+                  {pages.length > 1 && <a className={b.demoLink} href={`${DEMOS}${chosen.id}/multi-page/`} target="_blank" rel="noopener">Multi-page {ARROW}</a>}
+                </div>
                 <button type="button" className={b.backBtn} onClick={() => setChosen(null)}>← Back to all templates</button>
               </div>
               <p className={b.modalCardCat}>{chosen.industry}</p>
