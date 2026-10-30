@@ -96,7 +96,7 @@ export default async function SocialPostTemplatePage({ params }) {
         </div>
       ),
     },
-    ...(socialAi ? [{ type: 'aiPrompt', label: 'Build with AI', heading: 'Build, Understand, Optimize, and Extend It With AI', paragraph: socialAi.paragraph, prompt: socialAi.prompt }] : []),
+    ...(socialAi ? [{ type: 'aiPrompt', label: 'Extend with AI', heading: 'Take This Post Further With AI', paragraph: socialAi.paragraph, prompt: socialAi.prompt }] : []),
     { type: 'cards', label: 'Why use it', heading: `Why Use the ${t.name} Template`, columns: 3, items: TEMPLATE_WHY[t.id] },
     { type: 'cards', label: 'How it’s different', heading: 'How It’s Different From Canva-Style Templates', columns: 3, items: TEMPLATE_DIFFERENT },
     {

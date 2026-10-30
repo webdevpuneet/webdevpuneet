@@ -90,7 +90,7 @@ export default async function EmailTemplatePage({ params }) {
         </div>
       ),
     },
-    { type: 'aiPrompt', label: 'Build with AI', heading: 'Build, Understand, Optimize, and Extend It With AI', paragraph: emailAi.paragraph, prompt: emailAi.prompt },
+    { type: 'aiPrompt', label: 'Extend with AI', heading: 'Take This Email Further With AI', paragraph: emailAi.paragraph, prompt: emailAi.prompt },
     { type: 'cards', label: 'Why use it', heading: `Why Use the ${t.name} Template`, columns: 3, items: seo.why },
     { type: 'cards', label: 'How it’s different', heading: 'How It’s Different From Other Free Email Templates', columns: 3, items: EMAIL_DIFFERENT },
     {
