@@ -88,6 +88,15 @@ export default async function WebsiteSectionTemplatePage({ params }) {
         </div>
       ),
     },
+    // Optional live demo: a UI snippet that shows this section working on an example page (t.liveExample = { snippet, name, text })
+    ...(t.liveExample ? [{
+      type: 'text',
+      label: 'Live example',
+      heading: `See the ${t.name} Working on a Demo Page`,
+      quickFacts: false,
+      boxed: true,
+      text: `${t.liveExample.text} Open the [${t.liveExample.name} UI snippet](/ui-snippets/${t.liveExample.snippet}/) to try it. It uses the same code this template exports, so you can copy it from either page.`,
+    }] : []),
     ...(seo.aiPrompt ? [{ type: 'aiPrompt', label: 'Extend with AI', heading: 'Take This Section Further With AI', paragraph: seo.aiPrompt.paragraph, prompt: seo.aiPrompt.prompt }] : []),
     { type: 'cards', label: 'Why use it', heading: `Why Use the ${t.name}`, columns: 3, items: seo.why },
     { type: 'cards', label: 'How it’s different', heading: 'How It’s Different From Other Free Section Templates', columns: 3, items: SECTION_DIFFERENT },

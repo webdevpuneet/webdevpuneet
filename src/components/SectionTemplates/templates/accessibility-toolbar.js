@@ -40,6 +40,8 @@ export default {
   description: 'A floating accessibility button that opens a panel of display options visitors can switch on for themselves: bigger text, line height, text alignment, a readable font, contrast, grayscale, hide images, pause animations, highlight links and a reading mask. It takes no space in your layout, remembers each visitor\'s choices on their device and works with a keyboard.',
   bestFor: ['Business, school and public-sector websites', 'Landing pages that want a visible accessibility option', 'Any site that wants visitors to adjust text and contrast'],
   behaviors: ['a11y'],
+  /* A UI snippet that shows this section working on a demo page; the section page links to it */
+  liveExample: { snippet: 'accessibility-toolbar-widget', name: 'Accessibility Toolbar Widget', text: 'The editor above shows the panel as a card you can edit. To see what the toolbar does to a real page, try it on a demo school newsletter, where bigger text, contrast, grayscale, hiding images, pausing animations and the reading mask each change the page in front of you.' },
   previewMinHeight: 640,
   /* Called by fillHtml with the section's markup: writes the root settings */
   finalize: (html, state) => {
