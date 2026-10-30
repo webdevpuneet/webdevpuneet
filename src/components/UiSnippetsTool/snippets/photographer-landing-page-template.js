@@ -15,7 +15,7 @@ const photographerLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuuxgyrwkmb">
+    <section class="st st-navbar-simple" data-uid="smvuveushzm5t">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" /><circle cx="12" cy="13" r="3" /></svg></span><span>Mira Lens</span></span>
@@ -35,7 +35,7 @@ const photographerLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuuxgyr7sy2">
+    <section class="st st-image-background-hero" data-uid="smvuveushi5pf">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/hero-landscape.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -55,7 +55,7 @@ const photographerLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvuuxgyru9ko">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvuveush7jhp">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Selected work</p>
@@ -91,7 +91,7 @@ const photographerLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-rows" data-uid="smvuuxgyspuwl">
+    <section id="pricing" class="st st-pricing-rows" data-uid="smvuveushv3en">
       <div class="st-wrap">
         <div class="pl-top">
           <header class="st-head st-head--left pl-head">
@@ -140,7 +140,7 @@ const photographerLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuuxgysaxmf">
+    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuveush4fee">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -197,7 +197,7 @@ const photographerLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="blog" class="st st-blog-cards" data-uid="smvuuxgysm4sl">
+    <section id="blog" class="st st-blog-cards" data-uid="smvuveushjv73">
       <div class="st-wrap">
         <div class="bc-top">
           <header class="st-head st-head--left bc-head">
@@ -231,7 +231,7 @@ const photographerLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section class="st st-product-grid" data-uid="smvuuxgys3d8f">
+    <section class="st st-product-grid" data-uid="smvuveushqla7">
       <div class="st-wrap">
         <div class="pg-top">
           <header class="st-head st-head--left pg-head">
@@ -293,7 +293,7 @@ const photographerLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvuuxgysaknh">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvuveush0fsx">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -342,7 +342,7 @@ const photographerLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvuuxgysa5vx">
+    <section class="st st-floating-social-share" data-uid="smvuveushgjdi">
       <div class="ss" data-ss data-side="left" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="pinterest" data-share="https://www.pinterest.com/pin/create/button/?url={url}&amp;media={image}&amp;description={title}" href="https://www.pinterest.com/pin/create/button/" target="_blank" rel="noopener noreferrer" style="--c:#E60023" aria-label="Share on Pinterest (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10.600 18l1.400-6"/><path d="M9.600 12.800C8.700 10 10.300 7.500 12.800 7.500c2.200 0 3.500 1.500 3.500 3.300 0 2.400-1.400 4-3.200 4-.8 0-1.500-.4-1.700-1.100"/></svg><span class="ss-tip" aria-hidden="true">Pinterest</span></a></li><li class="ss-item"><a class="ss-btn" data-net="facebook" data-share="https://www.facebook.com/sharer/sharer.php?u={url}" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer" style="--c:#1877F2" aria-label="Share on Facebook (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="ss-tip" aria-hidden="true">Facebook</span></a></li><li class="ss-item"><a class="ss-btn" data-net="x" data-share="https://x.com/intent/post?url={url}&amp;text={title}&amp;via={via}&amp;hashtags={tags}" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer" style="--c:#111111" aria-label="Share on X (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="ss-tip" aria-hidden="true">X</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -351,7 +351,7 @@ const photographerLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuuxgysnrnj">
+    <section class="st st-footer-minimal" data-uid="smvuveushz14t">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -367,7 +367,7 @@ const photographerLandingPageTemplate = {
         <p class="fm-copy">© 2026 Mira Lens Photography</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuuxgysl53m">
+    <section class="st st-back-to-top" data-uid="smvuveushrnfk">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -376,7 +376,7 @@ const photographerLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-cursor-follower" data-uid="smvuuxgysuo4d">
+    <section class="st st-cursor-follower" data-uid="smvuveushn95l">
       <div class="cf" data-cf data-enabled="on" data-size="80" data-color="#ffffff" data-blend="difference" data-speed="0.18" data-border="0" data-border-style="solid" data-fill="on" data-grow="on" data-hide="off">
         <div class="cf-stage" aria-hidden="true">
           <p class="cf-word">Cur<b>sors</b></p>
@@ -1317,7 +1317,7 @@ a.cs2-value:hover{color:var(--st-brand)}
       var media = section.querySelectorAll('[data-anim="media"]');
       var tl = gsap.timeline({
         defaults: { ease: 'power3.out', duration: 0.80 },
-        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
+        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', end: function () { var pin = ScrollTrigger.getAll().filter(function (t) { return t.pin === section; })[0]; return pin ? pin.end + section.offsetHeight : 'bottom top'; }, toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
       });
       Array.prototype.forEach.call(heads, function (el, i) {
         var opts = { type: TEXT.split };

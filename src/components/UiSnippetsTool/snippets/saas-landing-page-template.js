@@ -13,7 +13,7 @@ const saasLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuuxgom54x9">
+    <section class="st st-navbar-simple" data-uid="smvuveuq3cnjr">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z" /><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65" /><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65" /></svg></span><span>Acme</span></span>
@@ -35,7 +35,7 @@ const saasLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvuuxgom62sk">
+    <section class="st st-saas-split-hero" data-uid="smvuveuq3149q">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="https://webdevpuneet.com/changelog"><span>New: Automations are here →</span></a>
@@ -52,7 +52,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-logo-cloud" data-uid="smvuuxgom7wl7">
+    <section class="st st-logo-cloud" data-uid="smvuveuq3xeve">
       <div class="st-wrap">
         <p class="lc-title" data-anim="item">Trusted by <span class="hl">2,000+ teams</span> at fast-growing companies</p>
       </div>
@@ -85,7 +85,7 @@ const saasLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuuxgompwza">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuveuq36ta5">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Features</p>
@@ -127,7 +127,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features-2" class="st st-features-alternating" data-uid="smvuuxgommitb">
+    <section id="features-2" class="st st-features-alternating" data-uid="smvuveuq3sqde">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it helps</p>
@@ -167,7 +167,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvuuxgommpl8">
+    <section id="gallery" class="st st-video-section" data-uid="smvuveuq31kva">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Product tour</p>
@@ -197,7 +197,7 @@ const saasLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="showcase" class="st st-scroll-ring" data-uid="smvuuxgomtmxw">
+    <section id="showcase" class="st st-scroll-ring" data-uid="smvuveuq399j8">
       <div class="st-wrap rg-head">
         <p class="st-eyebrow" data-anim="item">Product tour</p>
         <h2 class="st-h2" data-anim="item" data-anim-text>Every Acme screen, <span class="hl">one scroll away</span></h2>
@@ -246,7 +246,7 @@ const saasLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuuxgomwige">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuveuq3p7ft">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Wall of love</p>
@@ -305,7 +305,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuuxgomnf2w">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuveuq3xc6h">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Pricing</p>
@@ -352,7 +352,7 @@ const saasLandingPageTemplate = {
         <p class="p3-note" data-anim="item">All paid plans include a 14-day free trial. Prices in USD, taxes may apply.</p>
       </div>
     </section>
-    <section id="pricing-2" class="st st-pricing-comparison" data-uid="smvuuxgonvi7q">
+    <section id="pricing-2" class="st st-pricing-comparison" data-uid="smvuveuq3izge">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Compare plans</p>
@@ -458,7 +458,7 @@ const saasLandingPageTemplate = {
         <p class="st-form-note pc-note">Prices are per month, billed yearly. Cancel any time.</p>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuuxgoninfd">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuveuq3b86d">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -494,7 +494,7 @@ const saasLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuuxgonfulb">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuveuq3pvst">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Ready to ship your best work yet?</h2>
@@ -507,7 +507,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuuxgon7tow">
+    <section class="st st-popup-modal" data-uid="smvuveuq3vd05">
       <div class="pu" data-pu data-trigger="exit" data-delay="8" data-scroll="50" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="hrcwe3">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -533,7 +533,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvuuxgonzwjt">
+    <section class="st st-footer-columns" data-uid="smvuveuq4ovf0">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -570,7 +570,7 @@ const saasLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuuxgoniu7z">
+    <section class="st st-back-to-top" data-uid="smvuveuq4rp4k">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -1704,7 +1704,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       var media = section.querySelectorAll('[data-anim="media"]');
       var tl = gsap.timeline({
         defaults: { ease: 'power3.out', duration: 0.80 },
-        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
+        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', end: function () { var pin = ScrollTrigger.getAll().filter(function (t) { return t.pin === section; })[0]; return pin ? pin.end + section.offsetHeight : 'bottom top'; }, toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
       });
       Array.prototype.forEach.call(heads, function (el, i) {
         var opts = { type: TEXT.split };

@@ -11,7 +11,7 @@ const launchLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-announcement" data-uid="smvuuxgth1mx7">
+    <section class="st st-navbar-announcement" data-uid="smvuveurgcy4j">
       <div class="na-bar" data-dismissable>
         <p class="st-wrap na-bar-in"><span>🚀 Launching on Product Hunt, 12 November</span> <a class="na-bar-link" href="#get-started"><span>Get notified</span> <span aria-hidden="true">→</span></a></p>
         <button type="button" class="na-close" data-dismiss aria-label="Dismiss announcement"><span aria-hidden="true">×</span></button>
@@ -40,7 +40,7 @@ const launchLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-centered-gradient-hero" data-uid="smvuuxgthgqfw">
+    <section class="st st-centered-gradient-hero" data-uid="smvuveurgfcqf">
       <div class="cg-glow" aria-hidden="true"></div>
       <div class="cg st-wrap">
         <span class="st-eyebrow cg-eyebrow" data-anim="item">Coming soon</span>
@@ -54,7 +54,7 @@ const launchLandingPageTemplate = {
         <div class="cg-media" data-anim="media"><img width="1200" height="820" src="https://webdevpuneet.com/images/section-templates/hero-dashboard.png" alt="Acme app dashboard"></div>
       </div>
     </section>
-    <section id="features" class="st st-features-bento" data-uid="smvuuxgth5e94">
+    <section id="features" class="st st-features-bento" data-uid="smvuveurg3cu0">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">What’s inside</p>
@@ -101,7 +101,7 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuuxgthc2c3">
+    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuveurhnfqp">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Roadmap</p>
@@ -158,7 +158,7 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuuxgth7ka4">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuveurhw8ue">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -172,7 +172,7 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-newsletter" data-uid="smvuuxgth70i4">
+    <section class="st st-footer-newsletter" data-uid="smvuveurhqyuq">
       <footer class="st-wrap fn">
         <div class="fn-top">
           <div class="fn-news" data-anim="item">
@@ -641,7 +641,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       var media = section.querySelectorAll('[data-anim="media"]');
       var tl = gsap.timeline({
         defaults: { ease: 'power3.out', duration: 0.80 },
-        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
+        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', end: function () { var pin = ScrollTrigger.getAll().filter(function (t) { return t.pin === section; })[0]; return pin ? pin.end + section.offsetHeight : 'bottom top'; }, toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
       });
       Array.prototype.forEach.call(heads, function (el, i) {
         var opts = { type: TEXT.split };

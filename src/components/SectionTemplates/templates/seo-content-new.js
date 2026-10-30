@@ -831,68 +831,70 @@ Members are a repeater list: add, remove and reorder up to eight people, each wi
     },
   },
   'scroll-zoom': {
-    keywords: ['scroll zoom image stack', 'ken burns scroll effect', 'stacked images zoom on scroll', 'scrolltrigger image zoom reveal', 'pinned image zoom gsap'],
+    keywords: ['scroll zoom image stack', 'ken burns scroll effect', 'images zoom up on scroll', 'scrolltrigger image zoom reveal', 'pinned scroll zoom gsap'],
     about: {
-      title: 'Scroll Zoom Image Stack: Free Ken Burns Layers That Zoom and Reveal on Scroll',
-      description: `**Scroll Zoom Image Stack** layers several images one on top of the other in a pinned stage. As the visitor scrolls, the image on top zooms towards them with a slow Ken Burns drift and fades away to uncover the next image, which zooms in turn, until the last one is reached. It is built with GSAP ScrollTrigger and one scrubbed timeline, so the effect follows the scroll exactly and plays backwards when scrolling up.
+      title: 'Scroll Zoom Image Stack: Free Images That Start Small and Zoom Up on Scroll',
+      description: `**Scroll Zoom Image Stack** layers several images one over the other in a pinned stage. The first image fills the stage. As the visitor scrolls, the next image first appears small, as a rounded card in the middle on top of the one before, and then zooms up until it fills the whole stage. Then the following image appears small on top of that, and so on. It is built with GSAP ScrollTrigger and one scrubbed timeline, so the effect follows the scroll exactly and plays backwards when scrolling up.
 
 **How the stack works**
 
-The stage is pinned to the screen while the page scrolls. Every image sits in the same place with its own layer order, the first on top. Each image zooms from its starting size to its end size while it is on top, and in the last part of its turn it fades out, so the next image, which has already begun to zoom, is revealed beneath it. Only transforms and opacity are animated, which the browser can do smoothly on the graphics card.
+The stage is pinned to the screen while the page scrolls. Each new image starts at a size you choose, with rounded corners and a soft shadow so it reads as a card lying on the previous picture. Over its share of the scroll it scales up to full size while its corners square off and the shadow fades, and the picture inside settles from slightly enlarged to normal, which gives the zoom depth. Only transforms and opacity are animated, which the browser can do smoothly on the graphics card.
 
 **Settings you control**
 
-Set the **zoom intensity** from 5 to 100 percent, where 30 means an image reaches 130 percent of its size. Choose the **direction**: zoom in so the top image grows towards the visitor, or zoom out so images start close and settle back. Choose **which images zoom**: every image while it is on top, or each one holding still and zooming only as it leaves. Switch the **sideways drift** on for a camera-pan feel.
+Set the **zoom intensity** from 5 to 100 percent: it is how small each image starts, so 45 starts it at about two thirds of the stage and 80 makes it zoom a long way. Choose the **direction**: zoom in, where each new image grows up over the last, or zoom out, where the image on top shrinks to a small card and goes, uncovering the next. Choose **which images are affected**: the zooming image only, or also the image beneath it, which drifts slowly closer for a Ken Burns feel.
 
 **Scroll range and smoothness**
 
-The **scroll range per image** is the share of the screen height the visitor scrolls for each image: 100 percent is one screen per image, 60 is quicker and 200 is slower. The smoothness value, in seconds, lets the zoom ease into place instead of jumping with each wheel tick. A counter and a progress bar show where the visitor is in the stack, and each image has its own title and caption that fade with it.
+The **scroll range per image** is the share of the screen height the visitor scrolls for each zoom: 100 percent is one screen, 60 is quicker and 200 is slower. The smoothness value, in seconds, lets the zoom ease into place instead of jumping with each wheel tick. A counter and a progress bar show where the visitor is, and every image has its own title and caption, which fade so two are never shown at once.
 
 **Fallbacks and accessibility**
 
-Without GSAP, or when the visitor prefers reduced motion, the images become an ordinary column with their captions, so nothing is hidden and the page reads the same. The pin respects a sticky header by stopping just below it. Alt text is set for each image, and the layer on top is always the one with its caption visible.
+Without GSAP, or when the visitor prefers reduced motion, the images become an ordinary column with their captions, so nothing is hidden and the page reads the same. The pin respects a sticky header by stopping just below it, and every image has its own alt text.
 
 **Customise and export**
 
 Add two to eight images, upload your own, edit titles and captions, set colours and fonts, and export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). For a pinned story with steps see the [Pinned Scroll Story](/website-section-templates/scroll-story/), or for stacking cards see the [Stacking Cards](/website-section-templates/scroll-stack/).`,
     },
     features: [
-      'Images stacked one over the other in a stage that pins while you scroll',
-      'The top image zooms and fades to reveal the next, then the next, until the last one',
-      'Ken Burns zoom intensity from 5 to 100 percent',
-      'Zoom in or zoom out',
-      'Every image zooms while on top, or only as it leaves',
+      'Images layered in a stage that pins while you scroll',
+      'Each new image starts small, as a rounded card on top of the last, then zooms up to fill the stage',
+      'Zoom intensity from 5 to 100 percent sets how small each image starts',
+      'Zoom in, or zoom out so the top image shrinks away and uncovers the next',
+      'Optionally the image beneath also drifts closer for a Ken Burns depth effect',
       'Scroll range per image, from fast to slow, set as a share of the screen height',
       'Smoothness control so the zoom eases instead of jumping',
-      'Optional slow sideways drift for a camera-pan feel',
+      'Corners square off and the card shadow fades as each image reaches full size',
       'Title and caption for every image, with a counter and progress bar',
       'Plain column of images without GSAP or with reduced motion, and a pin that respects sticky headers',
     ],
     why: [
-      { icon: '🎞', title: 'A cinematic scroll without video', desc: 'Layered images zooming into one another feel like a film sequence, with small files and none of the autoplay or bandwidth problems of video.' },
-      { icon: '🎚', title: 'Every setting is exposed', desc: 'Intensity, direction, which images zoom, scroll range and smoothness are plain fields in the editor, so you can tune the feel without code.' },
+      { icon: '🎞', title: 'A cinematic scroll without video', desc: 'Images arriving small and zooming up over each other feel like a film sequence, with small files and none of the autoplay or bandwidth problems of video.' },
+      { icon: '🎚', title: 'Every setting is exposed', desc: 'Intensity, direction, which images move, scroll range and smoothness are plain fields in the editor, so you can tune the feel without code.' },
       { icon: '⚙', title: 'One timeline, built on GSAP', desc: 'ScrollTrigger pins the stage and scrubs a single timeline, so scrolling back up reverses the effect exactly and it refreshes on resize.' },
     ],
     useCases: [
-      { icon: '📷', title: 'Photography and travel stories', desc: 'Take visitors through a trip or a shoot one place at a time, each photograph drifting closer before it hands over to the next.' },
+      { icon: '📷', title: 'Photography and travel stories', desc: 'Take visitors through a trip or a shoot one place at a time, each photograph arriving small and zooming up to fill the screen.' },
       { icon: '🏨', title: 'Hotels, restaurants and venues', desc: 'Move from the lobby to the rooms to the dining table in one scroll, with a caption on each image to say what visitors are seeing.' },
-      { icon: '🏡', title: 'Real estate and property tours', desc: 'Let a buyer scroll through a house room by room, each interior zooming gently before it fades into the next one.' },
-      { icon: '🚀', title: 'Product launches and case studies', desc: 'Tell a before, during and after story in four images, with a slow zoom that keeps attention on each step of the result.' },
+      { icon: '🏡', title: 'Real estate and property tours', desc: 'Let a buyer scroll through a house room by room, each interior zooming up over the last until it fills the whole stage.' },
+      { icon: '🚀', title: 'Product launches and case studies', desc: 'Tell a before, during and after story in four images, with a zoom that gives each step of the result its own moment on screen.' },
     ],
     faqs: [
-      { q: 'How does the stacked scroll zoom work?', a: 'The images sit on top of one another in a pinned stage. A GSAP ScrollTrigger scrubs one timeline as you scroll: the top image zooms and fades to reveal the next, which zooms in turn, and scrolling back reverses it.' },
-      { q: 'Can the images zoom out instead of in?', a: 'Yes. Set the direction to zoom out and each image starts enlarged and settles to its normal size while it is on top. The intensity setting controls how large it starts.' },
-      { q: 'What does the scroll range per image do?', a: 'It sets how far the visitor scrolls for each image, as a percentage of the screen height. At 100 each image takes one screen of scrolling, lower values are faster and higher values are slower.' },
-      { q: 'What do visitors see without JavaScript or with reduced motion?', a: 'They see the images as an ordinary column with their titles and captions. Nothing is pinned or hidden, so the content reads the same, only without the zoom and fade.' },
-      { q: 'How many images can I add?', a: 'From two to eight. More images mean more scrolling, so keep the stack short for a quick page, and lower the scroll range per image if you need a long stack to feel faster.' },
+      { q: 'How does the stacked scroll zoom work?', a: 'The images sit on top of one another in a pinned stage. A GSAP ScrollTrigger scrubs one timeline as you scroll: each new image appears small on top of the last and zooms up to fill the stage, and scrolling back reverses it.' },
+      { q: 'How do I make the images start smaller or larger?', a: 'Change the zoom intensity. At 45 each image starts at about two thirds of the stage, and at 80 it starts tiny and zooms a long way. Lower values give a subtle zoom close to full size.' },
+      { q: 'Can the effect run the other way?', a: 'Yes. Set the direction to zoom out and the image on top shrinks to a small card and disappears, uncovering the next image underneath, which is already full size.' },
+      { q: 'What does the scroll range per image do?', a: 'It sets how far the visitor scrolls for each zoom, as a percentage of the screen height. At 100 each image takes one screen of scrolling, lower values are faster and higher values are slower.' },
+      { q: 'What do visitors see without JavaScript or with reduced motion?', a: 'They see the images as an ordinary column with their titles and captions. Nothing is pinned or hidden, so the content reads the same, only without the zoom.' },
     ],
     aiPrompt: {
-      paragraph: 'Ask an AI assistant to adapt the Scroll Zoom Image Stack HTML, CSS and JavaScript: add a zoom towards a focal point, tie a headline to each image, add dots you can click, or turn it into a React component with a ScrollTrigger cleanup.',
+      paragraph: 'Ask an AI assistant to adapt the Scroll Zoom Image Stack HTML, CSS and JavaScript: zoom from a point other than the centre, add clickable dots, tie a headline to each image, or turn it into a React component with a ScrollTrigger cleanup.',
       prompt: `Create a stacked image zoom on scroll with plain HTML, CSS and GSAP ScrollTrigger.
 
-- A stage with four full-size image layers stacked on top of each other (position absolute, inset 0, the first image on top with the highest z-index), each with object-fit cover, rounded corners and overflow hidden, plus a title and caption at the bottom left.
-- One GSAP timeline with scrub and pin: pin the stage and set the scroll length to the number of images times the screen height. For each image add a tween that scales it from 1 to 1.3 (with a small xPercent drift tied to the scale) while it is on top, and fade the layer out (autoAlpha 0) near the end of its turn so the next image, which has just started to zoom, is revealed. The last image zooms but does not fade.
-- Settings as data attributes: zoom intensity, direction (in or out), whether every layer zooms or only the one leaving, scroll range per image as a percentage of the screen height, and scrub smoothness in seconds.
+- A rounded stage with four full-size image layers stacked on top of each other (position absolute, inset 0, later images with a higher z-index), each image with object-fit cover, plus a title and caption at the bottom left of each layer.
+- The first image fills the stage at the start. Hide the other layers and set each to scale 0.65 with border-radius 30px and a soft box-shadow, so it is a small card in the middle.
+- One GSAP timeline with scrub and pin: pin the stage and set the scroll length to the number of transitions times the screen height. For each following image, fade the card in quickly, then scale it from 0.65 to 1 while its border-radius goes to 0, its shadow fades out and the picture inside settles from scale 1.22 to 1. At the same time let the image beneath drift to scale 1.1.
+- Fade the caption of the previous image out as the next card appears and fade the new caption in near the end of the zoom, so two captions never show at once.
+- Settings as data attributes: zoom intensity (how small an image starts), direction (in, or out where the top image shrinks to a card and fades), whether the image beneath also drifts, scroll range per image as a percentage of the screen height, and scrub smoothness in seconds.
 - Show a counter ("01 / 04") and a thin progress bar that follow the scroll progress.
 - Without GSAP or with prefers-reduced-motion, show the images as a normal column and do not pin. Pin below a sticky header and refresh ScrollTrigger on window load.`,
     },

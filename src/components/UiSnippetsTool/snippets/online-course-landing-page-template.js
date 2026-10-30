@@ -12,7 +12,7 @@ const onlineCourseLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuuxh8bxkof">
+    <section class="st st-navbar-simple" data-uid="smvuveuuolj4v">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /><path d="M22 10v6" /><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg></span><span>Design Academy</span></span>
@@ -33,7 +33,7 @@ const onlineCourseLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvuuxh8byxmx">
+    <section class="st st-saas-split-hero" data-uid="smvuveuuojimg">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="#pricing"><span>New cohort starts 4 November</span></a>
@@ -50,7 +50,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuuxh8bmnlk">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuveuuo66zj">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">What you’ll learn</p>
@@ -91,7 +91,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvuuxh8b6c2p">
+    <section id="gallery" class="st st-video-section" data-uid="smvuveuuoj0vw">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Course preview</p>
@@ -121,7 +121,7 @@ const onlineCourseLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="features-2" class="st st-features-alternating" data-uid="smvuuxh8cxxqt">
+    <section id="features-2" class="st st-features-alternating" data-uid="smvuveuuoypbe">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Curriculum</p>
@@ -159,7 +159,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuuxh8c5g7r">
+    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuveuuoop3y">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The syllabus</p>
@@ -224,7 +224,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonial-spotlight" data-uid="smvuuxh8cdgtn">
+    <section id="customers" class="st st-testimonial-spotlight" data-uid="smvuveuuopo6n">
       <div class="st-wrap">
         <figure class="ts-card">
           <span class="ts-mark" aria-hidden="true">“</span>
@@ -243,7 +243,7 @@ const onlineCourseLandingPageTemplate = {
         </figure>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvuuxh8c4ojh">
+    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvuveuuo7he1">
       <div class="st-wrap ps">
         <div class="ps-copy">
           <header class="st-head st-head--left ps-head">
@@ -272,7 +272,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuuxh8c9vtw">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuveuuo335z">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -300,7 +300,7 @@ const onlineCourseLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuuxh8c4oyp">
+    <section class="st st-popup-modal" data-uid="smvuveuuodzbj">
       <div class="pu" data-pu data-trigger="scroll" data-delay="8" data-scroll="50" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="1kxmbuq">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -321,7 +321,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuuxh8d0l0d">
+    <section class="st st-footer-minimal" data-uid="smvuveuuo42xc">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -337,7 +337,7 @@ const onlineCourseLandingPageTemplate = {
         <p class="fm-copy">© 2026 Design Academy</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuuxh8dztd5">
+    <section class="st st-back-to-top" data-uid="smvuveuuocw16">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -1261,7 +1261,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       var media = section.querySelectorAll('[data-anim="media"]');
       var tl = gsap.timeline({
         defaults: { ease: 'power3.out', duration: 0.80 },
-        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
+        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', end: function () { var pin = ScrollTrigger.getAll().filter(function (t) { return t.pin === section; })[0]; return pin ? pin.end + section.offsetHeight : 'bottom top'; }, toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
       });
       Array.prototype.forEach.call(heads, function (el, i) {
         var opts = { type: TEXT.split };

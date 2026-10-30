@@ -14,7 +14,7 @@ const musicLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvuuxk95iydz">
+    <section class="st st-navbar-floating" data-uid="smvuveuynkr1e">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -35,7 +35,7 @@ const musicLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-music-hero" data-uid="smvuuxk950f6b">
+    <section class="st st-music-hero" data-uid="smvuveuynj84d">
       <div class="mh-bg" role="img" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-music.jpg')" aria-label="The singer at the microphone under cyan and pink stage lights"></div>
       <div class="mh-shade" aria-hidden="true"></div>
       <div class="mh st-wrap">
@@ -55,7 +55,7 @@ const musicLandingPageTemplate = {
       </div>
       <div class="mh-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     </section>
-    <section id="new-release" class="st st-release-spotlight" data-uid="smvuuxk96w31b">
+    <section id="new-release" class="st st-release-spotlight" data-uid="smvuveuynw4ei">
       <div class="st-wrap rs">
         <div class="rs-art" data-anim="media">
           <span class="rs-disc" aria-hidden="true"></span>
@@ -80,7 +80,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="listen" class="st st-audio-player" data-uid="smvuuxk96y5vb">
+    <section id="listen" class="st st-audio-player" data-uid="smvuveuynl1zo">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Listen</p>
@@ -144,7 +144,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="tour" class="st st-tour-dates" data-uid="smvuuxk96oj72">
+    <section id="tour" class="st st-tour-dates" data-uid="smvuveuynmqjh">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">On tour</p>
@@ -195,7 +195,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="music" class="st st-discography" data-uid="smvuuxk96jgls">
+    <section id="music" class="st st-discography" data-uid="smvuveuynczcp">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Discography</p>
@@ -243,7 +243,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="videos" class="st st-video-section" data-uid="smvuuxk96lkvf">
+    <section id="videos" class="st st-video-section" data-uid="smvuveuynyzcq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Live session</p>
@@ -273,7 +273,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvuuxk967kxx">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvuveuyn5yhh">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -309,7 +309,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuuxk96x8fx">
+    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuveuynvddi">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -350,7 +350,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="merch" class="st st-product-grid" data-uid="smvuuxk967mxl">
+    <section id="merch" class="st st-product-grid" data-uid="smvuveuynxmel">
       <div class="st-wrap">
         <div class="pg-top">
           <header class="st-head st-head--left pg-head">
@@ -413,7 +413,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvuuxk96ncyd">
+    <section id="contact" class="st st-booking-form" data-uid="smvuveuyn82pv">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -471,7 +471,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuuxk96ge5h">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuveuyowa2g">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -485,7 +485,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuuxk96kzqp">
+    <section class="st st-footer-minimal" data-uid="smvuveuyogt0q">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -502,7 +502,7 @@ const musicLandingPageTemplate = {
         <p class="fm-copy">© 2026 Velvet Static</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuuxk96opz4">
+    <section class="st st-back-to-top" data-uid="smvuveuyodd0j">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -511,7 +511,7 @@ const musicLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-cursor-follower" data-uid="smvuuxk96844y">
+    <section class="st st-cursor-follower" data-uid="smvuveuyon6kp">
       <div class="cf" data-cf data-enabled="on" data-size="80" data-color="#ffffff" data-blend="difference" data-speed="0.18" data-border="0" data-border-style="solid" data-fill="on" data-grow="on" data-hide="off">
         <div class="cf-stage" aria-hidden="true">
           <p class="cf-word">Cur<b>sors</b></p>
@@ -1549,7 +1549,7 @@ html.stg-open{overflow:hidden}
       var media = section.querySelectorAll('[data-anim="media"]');
       var tl = gsap.timeline({
         defaults: { ease: 'power3.out', duration: 0.80 },
-        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
+        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', end: function () { var pin = ScrollTrigger.getAll().filter(function (t) { return t.pin === section; })[0]; return pin ? pin.end + section.offsetHeight : 'bottom top'; }, toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
       });
       Array.prototype.forEach.call(heads, function (el, i) {
         var opts = { type: TEXT.split };

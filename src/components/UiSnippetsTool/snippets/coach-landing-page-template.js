@@ -15,7 +15,7 @@ const coachLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvuuxjre5tsc">
+    <section class="st st-navbar-floating" data-uid="smvuveuuy3x9b">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -35,7 +35,7 @@ const coachLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-portfolio-hero" data-uid="smvuuxjres2ie">
+    <section class="st st-portfolio-hero" data-uid="smvuveuuyzu5j">
       <div class="pf st-wrap">
         <div class="pf-copy">
           <span class="pf-status" data-anim="item"><i aria-hidden="true"></i><span>Taking new clients for January</span></span>
@@ -58,7 +58,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuuxjreh4ta">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuveuuygq1s">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How I help</p>
@@ -84,7 +84,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuuxjrexh6y">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuveuuy5mgn">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Programmes</p>
@@ -127,7 +127,7 @@ const coachLandingPageTemplate = {
         <p class="p3-note" data-anim="item">Payment plans available for all programmes.</p>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuuxjrear4y">
+    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuveuuyv7mc">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -184,7 +184,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuuxjrf1e4i">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuveuuy63w6">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -198,7 +198,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvuuxjrfrh4x">
+    <section id="contact" class="st st-booking-form" data-uid="smvuveuuy8riw">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -256,7 +256,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuuxjrfb0bf">
+    <section class="st st-footer-minimal" data-uid="smvuveuuyl45m">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -703,7 +703,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       var media = section.querySelectorAll('[data-anim="media"]');
       var tl = gsap.timeline({
         defaults: { ease: 'power3.out', duration: 0.80 },
-        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
+        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', end: function () { var pin = ScrollTrigger.getAll().filter(function (t) { return t.pin === section; })[0]; return pin ? pin.end + section.offsetHeight : 'bottom top'; }, toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
       });
       Array.prototype.forEach.call(heads, function (el, i) {
         var opts = { type: TEXT.split };

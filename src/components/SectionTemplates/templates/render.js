@@ -229,7 +229,9 @@ export function motionPlugins(state) {
 export const motionCdn = state => (motionScript(state) ? gsapCdn(motionPlugins(state)) : []);
 
 /* In the editor preview (window.ST_PREVIEW) the entrance animation replays every time a section scrolls
-   into view, from above or below, so ▶ Play can be checked repeatedly; exports play it once. */
+   into view, from above or below, so ▶ Play can be checked repeatedly; exports play it once. A section that another
+   ScrollTrigger pins (horizontal timeline, scroll gallery, zoom stack) only counts as left once its pin has ended;
+   otherwise the replay reset hid its content half way through the pin. */
 /** The animation script for a section's [data-anim] elements (sections with a scroll
     animation, data-scroll in the Website Builder, are skipped: they run that instead) ('' when motion is off).
     Content is visible without it: the hidden "from" state is only applied by GSAP. */
@@ -255,7 +257,7 @@ export function motionScript(state) {
       var media = section.querySelectorAll('[data-anim="media"]');
       var tl = gsap.timeline({
         defaults: { ease: 'power3.out', duration: ${(0.8 * sp).toFixed(2)} },
-        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
+        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', end: function () { var pin = ScrollTrigger.getAll().filter(function (t) { return t.pin === section; })[0]; return pin ? pin.end + section.offsetHeight : 'bottom top'; }, toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
       });
       Array.prototype.forEach.call(heads, function (el, i) {
         var opts = { type: TEXT.split };

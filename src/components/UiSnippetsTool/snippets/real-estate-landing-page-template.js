@@ -12,7 +12,7 @@ const realEstateLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuuxh2uxarj">
+    <section class="st st-navbar-simple" data-uid="smvuveuti7zjv">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg></span><span>Harbor Homes</span></span>
@@ -33,7 +33,7 @@ const realEstateLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuuxh2u7iam">
+    <section class="st st-image-background-hero" data-uid="smvuveuticm12">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-realestate.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -53,7 +53,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="listings" class="st st-property-listings" data-uid="smvuuxh2u25rc">
+    <section id="listings" class="st st-property-listings" data-uid="smvuveutijg32">
       <div class="st-wrap">
         <div class="pl-head">
           <div class="pl-titles">
@@ -159,14 +159,14 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuuxh2u878c">
+    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuveutiulfq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Featured homes</p>
           <h2 class="st-h2" data-anim="item" data-anim-text>Homes that <span class="hl">reward a closer look</span></h2>
-          <p class="st-lead" data-anim="item">Keep scrolling and each photograph draws you a little further into the room, then gives way to the next home.</p>
+          <p class="st-lead" data-anim="item">Keep scrolling: each home arrives as a small photograph and zooms up to fill the screen, then the next one follows.</p>
         </header>
-        <div class="zs" data-zs data-zoom="28" data-dir="in" data-affect="all" data-per="100" data-smooth="0.6" data-drift="on">
+        <div class="zs" data-zs data-zoom="45" data-dir="in" data-affect="both" data-per="100" data-smooth="0.6" data-drift="on">
           <ul class="zs-list">
             <li class="zs-layer">
               <img class="zs-img" width="1600" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/tpl-realestate.jpg" alt="A modern house with large windows by the coast">
@@ -201,7 +201,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuuxh2uc7jb">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuveutiklqj">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -242,7 +242,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvuuxh2vzogo">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvuveutiprhz">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it works</p>
@@ -272,7 +272,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvuuxh2v1vau">
+    <section id="results" class="st st-stats-counters" data-uid="smvuveutirhl6">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our results</p>
@@ -303,7 +303,7 @@ const realEstateLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvuuxh2vhkbo">
+    <section id="team" class="st st-team-grid" data-uid="smvuveutinjqv">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our agents</p>
@@ -354,7 +354,7 @@ const realEstateLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuuxh2v32vf">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuveuti6w7c">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -389,7 +389,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuuxh2vwhie">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuveutio2dx">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -417,7 +417,7 @@ const realEstateLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvuuxh2vmce1">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvuveutikp5x">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -462,7 +462,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvuuxh2v29w3">
+    <section class="st st-footer-columns" data-uid="smvuveutisutj">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -495,7 +495,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuuxh2vylmz">
+    <section class="st st-back-to-top" data-uid="smvuveutixt5h">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -640,8 +640,8 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .zs-text{margin-top:6px;color:rgba(255,255,255,.82);font-size:clamp(14px,1cqi + 10px,18px)}
 .zs-text:empty{display:none}
 .zs-ui{display:none}
-.zs.is-zs .zs-list{display:block;position:relative;height:clamp(420px,calc(100vh - 170px),760px);gap:0}
-.zs.is-zs .zs-layer{position:absolute;inset:0;aspect-ratio:auto}
+.zs.is-zs .zs-list{display:block;position:relative;height:clamp(420px,calc(100vh - 170px),760px);gap:0;overflow:hidden;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-surface);box-shadow:0 30px 70px -30px rgba(0,0,0,.6)}
+.zs.is-zs .zs-layer{position:absolute;inset:0;aspect-ratio:auto;border-radius:0;will-change:transform;transform-origin:50% 50%}
 .zs.is-zs .zs-ui{position:absolute;right:clamp(16px,3cqi,32px);bottom:clamp(16px,3cqi,32px);z-index:60;display:flex;align-items:center;gap:12px;color:#fff;font:700 13px/1 var(--st-font-heading);letter-spacing:.08em}
 .zs-bar{display:block;width:clamp(60px,10cqi,120px);height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden}
 .zs-bar i{display:block;width:100%;height:100%;background:#fff;transform:scaleX(0);transform-origin:0 50%}
@@ -903,6 +903,7 @@ a.cs2-value:hover{color:var(--st-brand)}
   var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var still = window.ST_STILL && !window.ST_SCROLL_FX;
   var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  var SHADOW_ON = '0 30px 80px rgba(0,0,0,0.55)', SHADOW_OFF = '0 30px 80px rgba(0,0,0,0)';
   document.querySelectorAll('.st [data-zs]').forEach(function (root) {
     if (root.getAttribute('data-zs-ready')) return;
     root.setAttribute('data-zs-ready', '1');
@@ -910,30 +911,39 @@ a.cs2-value:hover{color:var(--st-brand)}
     var n = layers.length;
     if (n < 2 || reduce) return;
     var num = function (name, d) { var v = parseFloat(root.getAttribute(name)); return isNaN(v) ? d : v; };
-    var zoom = num('data-zoom', 30) / 100, dir = root.getAttribute('data-dir') === 'out' ? 'out' : 'in';
-    var exitOnly = root.getAttribute('data-affect') === 'exit';
+    var zoom = Math.min(100, Math.max(5, num('data-zoom', 45)));
+    var s0 = Math.max(0.22, 1 - 0.7 * zoom / 100);           // the size an image starts at, as a share of the stage
+    var dir = root.getAttribute('data-dir') === 'out' ? 'out' : 'in';
+    var both = root.getAttribute('data-affect') !== 'moving';
     var per = Math.max(30, num('data-per', 100)), smooth = num('data-smooth', 0.6);
     var drift = root.getAttribute('data-drift') !== 'off';
     var imgs = layers.map(function (l) { return l.querySelector('.zs-img'); });
-    layers.forEach(function (l, i) { l.style.zIndex = String(n - i); });
+    var caps = layers.map(function (l) { return l.querySelector('.zs-cap'); });
+    var RADIUS = 30;
+    layers.forEach(function (l, i) { l.style.zIndex = String(dir === 'in' ? i + 1 : n - i); });
+    var count = root.querySelector('.zs-count'), bar = root.querySelector('.zs-bar i');
+    var label = function (i) { return pad(i + 1) + ' / ' + pad(n); };
 
     if (still || !G || !window.ScrollTrigger) {
       if (!still) return;
-      // A frame from the effect for previews: the top image mid-zoom and half faded, the next one just behind it
+      // A frame from the effect for previews: the first image fills the stage, the second is part way through its zoom
       root.classList.add('is-zs');
+      var mid = s0 + (1 - s0) * 0.5;
       layers.forEach(function (l, i) { if (i > 1) l.style.visibility = 'hidden'; });
-      if (imgs[0]) imgs[0].style.transform = 'scale(' + (1 + zoom * 0.55) + ')';
-      layers[0].style.opacity = '0.62';
-      var cap1 = layers[1].querySelector('.zs-cap'); if (cap1) cap1.style.opacity = '0';
-      if (imgs[1]) imgs[1].style.transform = 'scale(' + (1 + zoom * 0.12) + ')';
-      var c0 = root.querySelector('.zs-count'); if (c0) c0.textContent = pad(1) + ' / ' + pad(n);
-      var b0 = root.querySelector('.zs-bar i'); if (b0) b0.style.transform = 'scaleX(' + (0.55 / n).toFixed(3) + ')';
+      var small = dir === 'in' ? layers[1] : layers[0];
+      small.style.transform = 'scale(' + mid + ')';
+      small.style.borderRadius = Math.round(RADIUS * 0.6) + 'px';
+      small.style.boxShadow = SHADOW_ON;
+      if (caps[0]) caps[0].style.opacity = '0';
+      if (caps[1]) caps[1].style.opacity = '0';
+      if (count) count.textContent = label(0);
+      if (bar) bar.style.transform = 'scaleX(' + (0.5 / (n - 1)).toFixed(3) + ')';
       return;
     }
 
     G.registerPlugin(ScrollTrigger);
     root.classList.add('is-zs');
-    var count = root.querySelector('.zs-count'), bar = root.querySelector('.zs-bar i');
+    var steps = n - 1, HOLD = 0.3;
     // A sticky header stays on screen, so the stage pins just below it instead of under it
     var head = function () { var h = 0; document.querySelectorAll('.st').forEach(function (s) { if (s.querySelector('[data-sticky-flag]')) h = Math.max(h, s.offsetHeight); }); return h; };
     var tl = G.timeline({
@@ -941,38 +951,45 @@ a.cs2-value:hover{color:var(--st-brand)}
       scrollTrigger: {
         trigger: root,
         start: function () { return 'top ' + (head() + 16); },
-        end: function () { return '+=' + Math.round(window.innerHeight * per / 100 * n); },
+        end: function () { return '+=' + Math.round(window.innerHeight * per / 100 * (steps + HOLD)); },
         pin: true, scrub: smooth > 0 ? smooth : true, anticipatePin: 1, invalidateOnRefresh: true,
         onUpdate: function (self) {
-          var i = Math.min(n - 1, Math.floor(self.progress * n));
-          if (count) count.textContent = pad(i + 1) + ' / ' + pad(n);
-          if (bar) bar.style.transform = 'scaleX(' + self.progress.toFixed(3) + ')';
+          var i = Math.min(n - 1, Math.floor(self.progress * (steps + HOLD) + 0.5));
+          if (count) count.textContent = label(i);
+          if (bar) bar.style.transform = 'scaleX(' + Math.min(1, self.progress * (steps + HOLD) / steps).toFixed(3) + ')';
         }
       }
     });
-    if (count) count.textContent = pad(1) + ' / ' + pad(n);
-    layers.forEach(function (layer, i) {
-      var img = imgs[i], last = i === n - 1;
-      if (!img) return;
-      if (exitOnly) {
-        // Holds still, then zooms (and fades) as it leaves; the last image just zooms in place
-        var to = dir === 'in' ? 1 + zoom : 1 / (1 + zoom);
-        tl.fromTo(img, { scale: 1, xPercent: 0 }, { scale: to, xPercent: dir === 'in' && drift ? -zoom * 40 : 0, duration: 0.45 }, i + 0.55);
-      } else {
-        // Zooms the whole time it is on top, starting a little before the layer above it has gone
-        var s0 = dir === 'in' ? 1 : 1 + zoom, s1 = dir === 'in' ? 1 + zoom : 1;
-        var x0 = drift ? -(s0 - 1) * 40 : 0, x1 = drift ? -(s1 - 1) * 40 : 0;
-        tl.fromTo(img, { scale: s0, xPercent: x0 }, { scale: s1, xPercent: x1, duration: i === 0 ? 1 : 1.3 }, i === 0 ? 0 : i - 0.3);
-      }
-      if (!last) tl.to(layer, { autoAlpha: 0, duration: 0.3 }, i + 0.7);
-      // Captions never overlap: each one fades out first, then the next one fades in
-      var cap = layer.querySelector('.zs-cap');
-      if (cap) {
-        if (i > 0) G.set(cap, { opacity: 0 });
-        if (!last) tl.to(cap, { opacity: 0, duration: 0.2 }, i + 0.6);
-        if (i > 0) tl.to(cap, { opacity: 1, duration: 0.2 }, i - 0.15);
-      }
-    });
+    if (count) count.textContent = label(0);
+    var kb = 1 + (1 - s0) * 0.2;                              // how far the image beneath drifts closer
+    var kbx = drift ? -(kb - 1) * 35 : 0;
+    G.set(caps.slice(1), { opacity: 0 });
+
+    if (dir === 'in') {
+      layers.forEach(function (layer, i) {
+        if (!i) return;
+        var t = i - 1;
+        G.set(layer, { scale: s0, autoAlpha: 0, borderRadius: RADIUS, boxShadow: SHADOW_ON });
+        G.set(imgs[i], { scale: 1.22 });
+        tl.to(layer, { autoAlpha: 1, duration: 0.14 }, t);
+        tl.to(layer, { scale: 1, borderRadius: 0, boxShadow: SHADOW_OFF, duration: 1, ease: 'power1.inOut' }, t);
+        tl.to(imgs[i], { scale: 1, duration: 1, ease: 'power1.inOut' }, t);
+        if (both) tl.to(imgs[i - 1], { scale: kb, xPercent: kbx, duration: 1 }, t);
+        if (caps[i - 1]) tl.to(caps[i - 1], { opacity: 0, duration: 0.2 }, t);
+        if (caps[i]) tl.to(caps[i], { opacity: 1, duration: 0.25 }, t + 0.75);
+      });
+    } else {
+      layers.forEach(function (layer, i) {
+        if (i === n - 1) return;
+        G.set(layer, { boxShadow: SHADOW_OFF });
+        tl.to(layer, { scale: s0, borderRadius: RADIUS, boxShadow: SHADOW_ON, duration: 0.86, ease: 'power1.inOut' }, i);
+        tl.to(layer, { autoAlpha: 0, duration: 0.14 }, i + 0.86);
+        if (both) tl.fromTo(imgs[i + 1], { scale: kb, xPercent: kbx }, { scale: 1, xPercent: 0, duration: 1 }, i);
+        if (caps[i]) tl.to(caps[i], { opacity: 0, duration: 0.2 }, i);
+        if (caps[i + 1]) tl.to(caps[i + 1], { opacity: 1, duration: 0.25 }, i + 0.75);
+      });
+    }
+    tl.to({}, { duration: HOLD }, steps);
   });
   window.addEventListener('load', function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
 })();
@@ -1133,7 +1150,7 @@ a.cs2-value:hover{color:var(--st-brand)}
       var media = section.querySelectorAll('[data-anim="media"]');
       var tl = gsap.timeline({
         defaults: { ease: 'power3.out', duration: 0.80 },
-        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
+        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', end: function () { var pin = ScrollTrigger.getAll().filter(function (t) { return t.pin === section; })[0]; return pin ? pin.end + section.offsetHeight : 'bottom top'; }, toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
       });
       Array.prototype.forEach.call(heads, function (el, i) {
         var opts = { type: TEXT.split };
@@ -1186,7 +1203,7 @@ a.cs2-value:hover{color:var(--st-brand)}
         "id": "scroll-zoom",
         "name": "Scroll Zoom Image Stack (Ken Burns)",
         "url": "/website-section-templates/scroll-zoom/",
-        "role": "a pinned stack of home photographs that zoom and fade into one another as you scroll, one home at a time"
+        "role": "a pinned stack of home photographs that each arrive small and zoom up to fill the screen as you scroll, one home at a time"
       },
       {
         "id": "features-icon-grid",
@@ -1254,7 +1271,7 @@ a.cs2-value:hover{color:var(--st-brand)}
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 6-page website in the builder, sharing one navbar, footer and theme",
-      "A pinned stack of photographs that zoom and fade into one another as you scroll (GSAP ScrollTrigger)",
+      "A pinned stack of photographs that each start small and zoom up to full size as you scroll (GSAP ScrollTrigger)",
       "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],

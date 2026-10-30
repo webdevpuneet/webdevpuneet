@@ -861,9 +861,11 @@ export function SectionTemplateEditor({ id }) {
                   ))}
                 </div>
               )}
-              {view === 'preview' && state.motion?.preset !== 'none' && (
-                <button type="button" className={`${s.miniBtn} ${x.toolBtn}`} onClick={() => setPlaying(n => n + 1)} title="Play animation">▶ Play</button>
-              )}
+              {/* Scroll-driven sections (pinned timelines, zoom stacks, scroll galleries): Refresh restarts the preview from the top.
+                  Other sections: Play replays the entrance animation (only when one is chosen). */}
+              {view === 'preview' && (scrollFx
+                ? <button type="button" className={`${s.miniBtn} ${x.toolBtn}`} onClick={() => setPlaying(n => n + 1)} title="Restart the preview: reloads it and scrolls back to the start so the scroll effect runs again">↻ Refresh</button>
+                : state.motion?.preset !== 'none' && <button type="button" className={`${s.miniBtn} ${x.toolBtn}`} onClick={() => setPlaying(n => n + 1)} title="Play animation">▶ Play</button>)}
             </div>
             <div className={s.toolbarRight} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <HistoryButtons onUndo={undo} onRedo={redo} onReset={() => setState({ ...defaultSectionState(t) })} canUndo={past.current.length > 0} canRedo={future.current.length > 0} />

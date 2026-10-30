@@ -1,11 +1,13 @@
 import { IMG, esc } from './meta.js';
 
-/* Scroll Zoom Image Stack (Ken Burns): several images stacked one on top of the other in a pinned stage. As the visitor
-   scrolls, the image on top zooms (in or out, with a slow sideways drift) and fades away to uncover the next one, which
-   zooms in turn, until the last image is reached. GSAP ScrollTrigger pins the stage and scrubs one timeline, so the
-   effect follows the scroll exactly and plays backwards when scrolling up.
-   Settings: zoom intensity, direction (in or out), which images zoom (all layers while they are on top, or only as they leave),
-   how much scrolling each image gets (the scroll range), smoothness, drift, counter. Each image has its own title and caption.
+/* Scroll Zoom Image Stack (Ken Burns): images layered one over the other in a pinned stage. The first image fills the stage.
+   As the visitor scrolls, the next image first appears SMALL, as a rounded card in the middle of the stage on top of the one
+   before, and then ZOOMS UP until it fills the whole stage and covers the previous image. Then the following image appears
+   small on top of that, and so on to the last image. (Direction "out" plays it the other way: the image on top shrinks to a
+   small card and disappears, uncovering the next one.)
+   GSAP ScrollTrigger pins the stage and scrubs one timeline, so the effect follows the scroll exactly and plays backwards when
+   scrolling up. Settings: zoom intensity (how small an image starts), direction, whether the image underneath drifts too, how much
+   scrolling each image gets (the scroll range), smoothness and a slow drift. Each image has its own title and caption.
    Without GSAP, with reduced motion, or in a plain static render, the images are an ordinary column and nothing is hidden.
    `finalize` (render.js fillHtml) writes the settings onto the root; the `kenburns` behaviour (behaviors.js) builds the timeline. */
 
@@ -15,15 +17,15 @@ const num = (v, d, min, max) => { const n = parseFloat(v); return Number.isFinit
 export default {
   id: 'scroll-zoom',
   name: 'Scroll Zoom Image Stack (Ken Burns)',
-  version: '2.0.0',
+  version: '3.0.0',
   category: 'scroll',
   anchor: 'zoom',
   tags: ['scroll', 'ken-burns', 'zoom', 'image-stack', 'pinned', 'layers', 'gsap', 'scrolltrigger', 'dark'],
   created: '2026-10-30',
   updated: '2026-10-30',
-  seoTitle: 'Scroll Zoom Image Stack: Ken Burns Layers With GSAP',
-  seoDescription: 'Free scroll zoom section: images stacked on top of each other, the top one zooms and fades on scroll to reveal the next. GSAP ScrollTrigger. Export the code.',
-  description: 'A pinned stack of images, one layered over the other. As the visitor scrolls, the image on top zooms in (or out) with a slow Ken Burns drift and fades away to uncover the next image, and so on down the stack. Choose the zoom intensity, the direction, whether every layer zooms or only the one leaving, how much scrolling each image gets, how smooth it feels, and give every image its own title and caption. Built with GSAP ScrollTrigger and no extra library; without it the images become a simple column.',
+  seoTitle: 'Scroll Zoom Image Stack: Small Images Zoom Up With GSAP',
+  seoDescription: 'Free scroll zoom section: each image appears small on top of the last, then zooms to full size as you scroll. GSAP ScrollTrigger, pinned. Export the code.',
+  description: 'A pinned stack of images, one layered over the other. The first image fills the stage. As the visitor scrolls, the next image first appears small, as a rounded card in the middle on top of the one before, and then zooms up until it fills the whole stage. Then the next one appears small on top of that, and so on. Choose how small each image starts, the direction (zoom in, or shrink the top image away), whether the image underneath drifts too, how much scrolling each image gets, how smooth it feels, and give every image its own title and caption. Built with GSAP ScrollTrigger and no extra library; without it the images become a simple column.',
   bestFor: ['Photography, travel and hospitality websites', 'Product launches and case studies told in a few images', 'Portfolios and landing pages that want a cinematic scroll'],
   behaviors: ['kenburns'],
   previewMinHeight: 0,
@@ -32,9 +34,9 @@ export default {
     const f = state.fields || {};
     const toggles = state.toggles || {};
     const attrs = [
-      ['data-zoom', num(f.zoom, 30, 5, 100)],
+      ['data-zoom', num(f.zoom, 45, 5, 100)],
       ['data-dir', pick(f.direction, ['in', 'out'], 'in')],
-      ['data-affect', pick(f.affect, ['all', 'exit'], 'all')],
+      ['data-affect', pick(f.affect, ['both', 'moving'], 'both')],
       ['data-per', num(f.perImage, 100, 30, 400)],
       ['data-smooth', num(f.smooth, 0.6, 0, 3)],
       ['data-drift', toggles.drift === false ? 'off' : 'on'],
@@ -50,16 +52,16 @@ export default {
   fields: [
     { key: 'eyebrow', group: 'header', label: 'Eyebrow (optional)', type: 'text', value: 'Lake Como · Italy' },
     { key: 'heading', group: 'header', label: 'Heading', type: 'textarea', value: 'Slow down and *look closer*' },
-    { key: 'lead', group: 'header', label: 'Intro text (optional)', type: 'textarea', value: 'Keep scrolling. Each photograph drifts towards you and fades to reveal the next, one place at a time.' },
+    { key: 'lead', group: 'header', label: 'Intro text (optional)', type: 'textarea', value: 'Keep scrolling. Each photograph arrives small, then zooms up to fill the screen before the next one appears.' },
 
-    { key: 'zoom', group: 'effect', label: 'Zoom intensity (%)', type: 'text', value: '30', hint: 'How much bigger an image gets: 30 means up to 130% of its size. Between 5 and 100. Subtle effects look best around 15 to 35.' },
-    { key: 'direction', group: 'effect', label: 'Direction', type: 'choice', options: [['in', 'Zoom in (the top image grows towards you)'], ['out', 'Zoom out (images start close and settle back)']], value: 'in' },
-    { key: 'affect', group: 'effect', label: 'Images affected', type: 'choice', options: [['all', 'Every image zooms while it is on top'], ['exit', 'Each image holds still and zooms only as it leaves']], value: 'all', hint: 'With "only as it leaves", the picture stays calm and then zooms and fades to reveal the next one.' },
-    { key: 'perImage', group: 'effect', label: 'Scroll range per image (% of screen height)', type: 'text', value: '100', hint: 'How far the visitor scrolls for each image: 100 is one screen height per image, 60 is faster, 200 is slower. Between 30 and 400.' },
+    { key: 'zoom', group: 'effect', label: 'Zoom intensity (%)', type: 'text', value: '45', hint: 'How small each image starts: 45 starts it at about two thirds of the stage, 80 starts it tiny so it zooms a long way. Between 5 and 100.' },
+    { key: 'direction', group: 'effect', label: 'Direction', type: 'choice', options: [['in', 'Zoom in (each new image starts small and zooms up over the last)'], ['out', 'Zoom out (the image on top shrinks to a small card and goes, uncovering the next)']], value: 'in' },
+    { key: 'affect', group: 'effect', label: 'Images affected', type: 'choice', options: [['both', 'The moving image and the one beneath it (a slow Ken Burns zoom)'], ['moving', 'Only the image that is zooming']], value: 'both', hint: 'With "both", the image underneath also drifts slowly closer while the new one zooms up, for extra depth.' },
+    { key: 'perImage', group: 'effect', label: 'Scroll range per image (% of screen height)', type: 'text', value: '100', hint: 'How far the visitor scrolls for each image to zoom up: 100 is one screen height, 60 is faster, 200 is slower. Between 30 and 400.' },
     { key: 'smooth', group: 'effect', label: 'Smoothness (seconds)', type: 'text', value: '0.6', hint: 'How long the zoom takes to catch up with the scroll. 0 follows the scroll exactly; around 0.6 feels fluid.' },
   ],
   lists: [{
-    key: 'images', group: 'items', label: 'Images (the first one is on top)', itemLabel: 'Image', titleKey: 'title', min: 2, max: 8,
+    key: 'images', group: 'items', label: 'Images (the first one fills the stage at the start)', itemLabel: 'Image', titleKey: 'title', min: 2, max: 8,
     fields: [
       { key: 'image', label: 'Image', type: 'image', value: '', hint: 'A wide image, at least 1600×900 px. It is cropped to fill the stage.', upload: { name: 'zoom-image', maxW: 2000 } },
       { key: 'imageAlt', label: 'Alt text', type: 'text', value: '' },
@@ -110,8 +112,8 @@ export default {
 .zs-text{margin-top:6px;color:rgba(255,255,255,.82);font-size:clamp(14px,1cqi + 10px,18px)}
 .zs-text:empty{display:none}
 .zs-ui{display:none}
-.zs.is-zs .zs-list{display:block;position:relative;height:clamp(420px,calc(100vh - 170px),760px);gap:0}
-.zs.is-zs .zs-layer{position:absolute;inset:0;aspect-ratio:auto}
+.zs.is-zs .zs-list{display:block;position:relative;height:clamp(420px,calc(100vh - 170px),760px);gap:0;overflow:hidden;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-surface);box-shadow:0 30px 70px -30px rgba(0,0,0,.6)}
+.zs.is-zs .zs-layer{position:absolute;inset:0;aspect-ratio:auto;border-radius:0;will-change:transform;transform-origin:50% 50%}
 .zs.is-zs .zs-ui{position:absolute;right:clamp(16px,3cqi,32px);bottom:clamp(16px,3cqi,32px);z-index:60;display:flex;align-items:center;gap:12px;color:#fff;font:700 13px/1 var(--st-font-heading);letter-spacing:.08em}
 .zs-bar{display:block;width:clamp(60px,10cqi,120px);height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden}
 .zs-bar i{display:block;width:100%;height:100%;background:#fff;transform:scaleX(0);transform-origin:0 50%}
