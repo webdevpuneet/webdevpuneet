@@ -55,6 +55,8 @@
 <nav class="toc" aria-label="Contents">
   <a href="#how">How to use this</a>
   <a href="#sections">Section templates</a>
+  <a href="#websites">Website templates</a>
+  <a href="#trends">Trends &amp; new ideas</a>
   <a href="#site">Site &amp; SEO</a>
   <a href="#log">Change log</a>
 </nav>
@@ -67,7 +69,7 @@
 
 <section id="sections">
   <h2>Section templates (Website Section Templates library)</h2>
-  <p class="muted">The library has 51 sections in 17 categories. The gaps below come from comparing it with what the 23 website templates actually need.</p>
+  <p class="muted">The library has 78 sections in 23 categories (checked 2026-10-31). The gaps below come from comparing it with what the 24 website templates actually need.</p>
 
   <div class="sug top">
     <div class="sug-head"><h3>1. Opening Hours &amp; Location</h3><span class="pill todo">Suggested</span><span class="pill done">Top pick</span></div>
@@ -140,8 +142,8 @@
   </div>
 
   <div class="sug">
-    <div class="sug-head"><h3>8. Scroll-Driven 3D Carousel (GSAP)</h3><span class="pill doing">Building</span><span class="pill done">Top pick</span></div>
-    <p class="muted">Category: Scroll &amp; motion · Added 2026-10-27</p>
+    <div class="sug-head"><h3>8. Scroll-Driven 3D Carousel (GSAP)</h3><span class="pill done">Done</span><span class="pill done">Top pick</span></div>
+    <p class="muted">Category: Scroll &amp; motion · Added 2026-10-27 · <strong>Built as the <code>scroll-ring</code> section (3D Scroll Carousel, v1.2.0)</strong>: checked in a browser 2026-10-31 (5 cards, the view changes as the page scrolls, no errors) and its preview image exists. The variants and extras below are what the idea started from; further ideas for it (drag to rotate, idle auto-rotate, a changing caption) are still open.</p>
     <p><strong>Why:</strong> a popular "showcase" look (centre card faces forward, side cards curve away in perspective, glowing rounded cards) that the library does not have. It suits product, portfolio and app-screens sections, and reuses the existing GSAP + ScrollTrigger runtime.</p>
     <ul>
       <li><strong>Layout:</strong> the section is pinned; cards sit on a ring (<code>perspective</code>, <code>transform-style: preserve-3d</code>, <code>rotateY()</code> + <code>translateZ()</code> per card). Scrolling rotates the ring (ScrollTrigger <code>pin</code> + <code>scrub</code>), so the active card changes as the page scrolls.</li>
@@ -155,7 +157,7 @@
   </div>
   <div class="sug">
     <div class="sug-head"><h3>9. Music: more sections and versions</h3><span class="pill doing">Building</span></div>
-    <p class="muted">Category: Music · Added 2026-10-27 · The first set (hero, audio player, tour dates, discography, release spotlight, streaming links) and the Music Artist &amp; Band website are built.</p>
+    <p class="muted">Category: Music · Added 2026-10-27 · The first set (hero, audio player, tour dates, discography, release spotlight, streaming links) and the Music Artist &amp; Band website are built, with preview images and a local demo export. <strong>Still to do for that part:</strong> upload the demo and deploy. The ideas in the list below are not built yet.</p>
     <ul>
       <li><strong>Waveform player:</strong> a waveform as the progress bar, drawn from the audio file.</li>
       <li><strong>Lyrics / track notes:</strong> a section with a song's lyrics or story, with the lines highlighted as it plays.</li>
@@ -181,6 +183,212 @@
     <p class="muted">Artwork is already shared by both editors (46 artworks, search, position with centre and % offsets, animation); the ideas above would keep the two editors in step.</p>
   </div>
 
+  <div class="sug top">
+    <div class="sug-head"><h3>11. Next wave of sections (gaps in the 78)</h3><span class="pill todo">Suggested</span><span class="pill done">Top pick: Opening Hours &amp; Location</span></div>
+    <p class="muted">Category: new sections · Added 2026-10-31 · Checked against the current list (hero, navbar, features, pricing, testimonials, faq, cta, stats, team, contact, blog, gallery, scroll, listings, music, auth, popup, timeline, footers) and against ideas 1 to 7 above, which are still open and belong in this wave.</p>
+
+    <h3>First batch (fills the biggest holes)</h3>
+    <table>
+      <thead><tr><th style="width:210px">Section</th><th>Why</th></tr></thead>
+      <tbody>
+      <tr><td>2026-10-31</td><td>Idea 13 extended: industry needs will change the sections too. A section gap check comes before each template, a rule for option versus new section, and a table of the new and adapted sections for 11 industries (clinic, food, legal and finance, shops, real estate, trades, education, hotels and travel, creative, fitness, events, non-profit).</td></tr>
+      <tr><td>2026-10-31</td><td>Status check against the code: idea 8 (3D carousel, <code>scroll-ring</code>) marked Done after a browser check; idea 9 (Music) stays Building until its demo is uploaded and deployed; idea 10 Done. Ideas 1 to 7 and 11 to 14 are not built yet.</td></tr>
+      <tr><td>2026-10-31</td><td>Idea 13 added in a new Website templates group: a template for every kind of business (17 categories, about 150 ideas, 24 already built), why it matters for search, how to build them fast, and a first wave of about 12. Idea 14 added in a new Trends &amp; new ideas group (WhatsApp button, booking embed, scroll storytelling, mesh gradients, dark mode, page transitions and more); this list keeps growing.</td></tr>
+      <tr><td>2026-10-31</td><td>Idea 12 extended with the full product page feature list (gallery with carousel, hover zoom and lightbox, buy box, trust, details, cross-sell, story, SEO, accessibility), marked v1 and later.</td></tr>
+      <tr><td>2026-10-31</td><td>Idea 12 added: the ecommerce kit (shop, product detail, cart, checkout, confirmation, an Online Store website template), with the checkout options that work without a server and a build order.</td></tr>
+        <tr><td><strong>1. Opening Hours &amp; Location</strong> <span class="muted">(idea 1)</span></td><td>It was already the top pick. None of the local-business templates (restaurant, salon, dental, local service) has hours, so each one has to improvise.</td></tr>
+        <tr><td><strong>2. About / Our story with values</strong></td><td>There is no About section in the library at all. The About pages in the multi-page templates currently reuse the features and team sections.</td></tr>
+        <tr><td><strong>3. Vertical timeline</strong></td><td>We only have a horizontal one. A vertical one covers company history, "how it works" and CVs, and it reads better on phones.</td></tr>
+        <tr><td><strong>4. Reviews summary</strong></td><td>A rating average, star breakdown bars and review cards. It builds trust for shops and local businesses, and we only have quote layouts today.</td></tr>
+        <tr><td><strong>5. Feature tabs</strong></td><td>A tabbed product tour with one image per tab. It's a standard SaaS and app page that we can't build yet.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Second batch</h3>
+    <ul>
+      <li><strong>Product detail:</strong> an image gallery, price, options and a buy link. The listings only have grids, so a shop template can't show a single product.</li>
+      <li><strong>Event Schedule &amp; Countdown</strong> (idea 2): fits events, weddings, launches and conferences.</li>
+      <li><strong>Cookie consent banner</strong> (idea 7): a practical need, and the popup category only has a modal.</li>
+      <li><strong>404 / Coming Soon page</strong> (idea 5).</li>
+      <li><strong>Resume:</strong> an experience list with skill bars, for portfolio and freelance templates.</li>
+    </ul>
+
+    <h3>Later</h3>
+    <ul>
+      <li>Services List with Booking (idea 4), Donation selector (idea 3), Integrations Grid (idea 6), an ebook / lead-magnet download, webinar registration.</li>
+    </ul>
+
+    <p><strong>What to skip:</strong> more heroes, pricing tables or testimonial layouts. They add choice, but each section above lets people build a page type that is hard to make today.</p>
+    <p class="muted">When building: follow the section checklist in <code>__directions/06-QUALITY-BARS.txt</code>; add each new section to its website template(s) where it fits (Opening Hours to restaurant, salon, dental and local-service; About to the multi-page templates); and give every section SEO text, a preview image and the new section options (Look panel, artwork, focus point) for free via the shared editor.</p>
+  </div>
+
+  <div class="sug top">
+    <div class="sug-head"><h3>12. Ecommerce kit: shop, cart, add to cart, checkout</h3><span class="pill todo">Suggested</span><span class="pill done">Top pick</span></div>
+    <p class="muted">Category: new sections + a website template · Added 2026-10-31 · Today only <code>product-grid</code> (a button that links out), the <code>listings</code> sections and the Product Landing Page Store template exist, so nobody can build a real shop with a cart.</p>
+    <div class="callout"><strong>The constraint:</strong> exports are plain HTML with no server, so the kit cannot take payments or keep stock by itself. The cart can live in the browser (a few lines of JavaScript and <code>localStorage</code>); the payment must go to a hosted checkout. The site's card details must never touch our HTML. This also suits the site's angle: people see exactly how a cart works.</div>
+
+    <h3>How checkout would work (pick the options to support)</h3>
+    <table>
+      <thead><tr><th style="width:220px">Option</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Payment link per product</strong> (Stripe, PayPal, Razorpay)</td><td>Each product has a Pay link; the cart sends the buyer to the hosted page. No code, works for single items and small shops.</td></tr>
+        <tr><td><strong>Order by message</strong></td><td>The checkout form sends the cart as an email, WhatsApp message or form service (Formspree and similar). Good for local shops, bakeries, services, India and other markets without card checkout.</td></tr>
+        <tr><td><strong>Hosted shop widget</strong> (Snipcart, Shopify Buy Button, Ecwid)</td><td>The section outputs the product data attributes the widget needs and loads its script. Real cart, stock, tax and orders without writing a backend.</td></tr>
+        <tr><td><strong>Digital downloads</strong> (Gumroad, Lemon Squeezy)</td><td>Product buttons open their overlay checkout. Fits templates, ebooks and courses.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Sections to build</h3>
+    <ul>
+      <li><strong>1. Product grid with working Add to cart</strong> (upgrade <code>product-grid</code>): quantity, a cart counter in the navbar, filters and search.</li>
+      <li><strong>2. Product detail:</strong> the product page itself, the most important page of a shop. What it should have is listed in full under "The product page" below.</li>
+      <li><strong>3. Cart drawer / mini cart:</strong> slides in from the right, line items, quantity steppers, subtotal, Checkout button.</li>
+      <li><strong>4. Cart page:</strong> full table of items, promo code box (display only unless the shop widget handles it), shipping estimate, order summary.</li>
+      <li><strong>5. Checkout page:</strong> contact and shipping form, order summary, payment choices from the table above, trust badges and policy links. No card fields in our markup.</li>
+      <li><strong>6. Order confirmation / thank you:</strong> order summary, what happens next, a continue-shopping link.</li>
+      <li><strong>7. Extras:</strong> wishlist (heart button), free-shipping progress bar, trust badges row (secure payment, returns, delivery), recently viewed, collection banner, size guide modal.</li>
+    </ul>
+
+    <h3>The product page: what matters (2026)</h3>
+    <p class="muted">Added 2026-10-31. The product page decides the sale, so it gets the most detail. Items marked <strong>v1</strong> are the first version; the rest follow.</p>
+    <table>
+      <thead><tr><th style="width:200px">Area</th><th>What to build</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Gallery</strong></td><td><strong>v1:</strong> thumbnail strip (vertical on desktop) with a swipeable carousel (scroll-snap, dots on phones); <strong>zoom on hover</strong> (the image magnifies inside its frame and follows the mouse; a tap zooms on touch screens); click to open a <strong>lightbox</strong> with arrow keys and pinch zoom; choosing a colour switches the images. Next: a product <strong>video</strong> as a gallery item (muted, looping), a 360 degree spin (drag an image sequence), and 3D / AR with the <code>model-viewer</code> web component (a .glb file; works from plain HTML, AR on phones).</td></tr>
+        <tr><td><strong>Buy box</strong></td><td><strong>v1:</strong> price with a crossed-out old price and a savings badge; colour <strong>swatches</strong> and size buttons (sold-out sizes struck through); quantity stepper; <strong>Add to cart</strong> plus Buy now; wishlist heart; a <strong>sticky buy box</strong> on desktop and a <strong>sticky Add to cart bar</strong> on phones that appears when the main button scrolls away. Next: stock notice ("Only 3 left", set by the owner, never faked), delivery estimate and dispatch cut-off countdown, a free-shipping progress bar, and a "pay in instalments" note.</td></tr>
+        <tr><td><strong>Trust</strong></td><td><strong>v1:</strong> a row of badges (secure payment, free returns, delivery time, warranty); star rating that scrolls to the reviews; the reviews summary from idea 11 with a photo-reviews filter. Next: customer photo gallery (user generated content), questions and answers.</td></tr>
+        <tr><td><strong>Details</strong></td><td><strong>v1:</strong> accordions for description, materials and care, shipping and returns; a <strong>size guide</strong> opening as a modal (bottom sheet on phones) with a table; a specs table; key benefits with icons. Next: what's in the box, comparison with other models, FAQ.</td></tr>
+        <tr><td><strong>Cross-sell</strong></td><td><strong>v1:</strong> "You may also like" carousel. Next: "Complete the look" / frequently bought together with checkboxes and a running total, recently viewed.</td></tr>
+        <tr><td><strong>Story</strong></td><td>A trend worth using: scroll-driven product storytelling below the buy box (a pinned image that changes as you read, a zoom-in on details), built with our existing scroll sections, so the page feels like a brand page and not a catalogue.</td></tr>
+        <tr><td><strong>SEO and speed</strong></td><td>Product, Offer and AggregateRating structured data (the grid already writes the first two), BreadcrumbList, images with fixed aspect ratios so nothing jumps, the first image loaded eagerly and the rest lazily, real alt text on every image.</td></tr>
+        <tr><td><strong>Accessibility</strong></td><td>Gallery and swatches work with the keyboard and screen readers, zoom never traps focus, every animation respects reduced motion, sticky bars never cover the focus outline.</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">How it fits the editor: the gallery images are a list with the focus point, so cropped photos keep their subject; the Look panel (colours, gradient, spacing), artwork and button style apply; the variants are a list the cart script reads, so "Add to cart" adds the chosen colour and size.</p>
+
+    <h3>Website template</h3>
+    <p>An <strong>Online Store</strong> multi-page template: Home, Shop (all products), Product, Cart, Checkout, Order confirmed, About, Contact, plus Privacy, Shipping &amp; returns and Terms (a shop needs these pages). Variants by industry: fashion, electronics, food and bakery, handmade, digital products.</p>
+
+    <h3>Build order</h3>
+    <ol>
+      <li>A small shared cart script (add, remove, quantity, total, <code>localStorage</code>, a cart counter) used by every shop section, written so people can read it.</li>
+      <li>Product grid upgrade, product detail, cart drawer.</li>
+      <li>Cart page, checkout page with the "order by message" and "payment link" options first, confirmation page.</li>
+      <li>The Online Store website template, then the hosted-widget option.</li>
+    </ol>
+    <p class="muted"><strong>Honest limits to tell visitors on the page:</strong> no stock control, no tax or shipping rules and no order management in the plain version. For a bigger shop the template should point people to a hosted shop (Shopify, WooCommerce) or use the hosted-widget option.</p>
+  </div>
+
+</section>
+
+<section id="websites">
+  <h2>Website templates for every kind of business</h2>
+  <p class="muted">The library has 24 website templates in 18 industries. The goal is to cover every kind of professional and personal website, so that whoever lands on the site finds their own industry.</p>
+
+  <div class="sug top">
+    <div class="sug-head"><h3>13. A website template for every industry</h3><span class="pill todo">Suggested</span><span class="pill done">Top pick</span></div>
+    <p class="muted">Category: website templates · Added 2026-10-31 · Bold entries are the first wave (high demand, and mostly buildable with sections we already have).</p>
+    <div class="callout"><strong>Why this matters for the site:</strong> every template is also a landing page for a search such as "dentist website template" or "bakery website template". A page per industry brings visitors who want exactly that, and each one can show the live demo, the sections it uses and a "use this template" button.</div>
+    <table>
+      <thead><tr><th style="width:170px">Category</th><th style="width:210px">Already built</th><th>Templates to add</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Health &amp; medical</strong></td><td class="muted">Dental Clinic, Gym &amp; Fitness</td><td><strong>Doctor / family clinic</strong>, specialist clinic (physio, chiropractor, skin), <strong>veterinary and pet clinic</strong>, therapist and counsellor, optician, pharmacy, diagnostics lab, hospital, ayurveda and wellness centre, nutritionist and dietitian</td></tr>
+        <tr><td><strong>Beauty &amp; personal care</strong></td><td class="muted">Hair &amp; Beauty Salon</td><td>Barber shop, nail studio, spa and massage, makeup artist, tattoo studio, aesthetic clinic (med spa)</td></tr>
+        <tr><td><strong>Food &amp; drink</strong></td><td class="muted">Restaurant</td><td><strong>Cafe and coffee shop</strong>, <strong>bakery</strong> (with online orders), bar and pub, food truck, catering, brewery and winery, cloud kitchen, chef and recipe blog</td></tr>
+        <tr><td><strong>Shops &amp; ecommerce</strong></td><td class="muted">Product Landing Page Store</td><td><strong>Fashion store</strong>, electronics, jewellery, furniture and home decor, <strong>florist</strong>, bookstore, grocery, handmade / maker shop, art prints, digital products, pet shop (these need the ecommerce kit, idea 12)</td></tr>
+        <tr><td><strong>Professional services</strong></td><td class="muted">Law Firm, Coach &amp; Consultant</td><td><strong>Accountant / tax advisor</strong>, financial advisor, insurance agent, architect, <strong>interior designer</strong>, consulting firm, immigration consultant, recruitment agency, notary, IT services</td></tr>
+        <tr><td><strong>Trades &amp; home services</strong></td><td class="muted">Local Service Business</td><td>Plumber, electrician, cleaning company, HVAC, landscaping and gardening, roofing, painter, pest control, moving company, locksmith (one base with several industry versions)</td></tr>
+        <tr><td><strong>Cars &amp; transport</strong></td><td class="muted">none</td><td>Auto repair and garage, car dealership, car wash, car and bike rental, driving school, taxi and chauffeur</td></tr>
+        <tr><td><strong>Creative &amp; arts</strong></td><td class="muted">Agency, Portfolio, Photographer</td><td><strong>Art gallery and artist</strong>, illustrator, graphic designer, videographer and filmmaker, wedding photographer, dance studio, theatre and performing arts, author and book launch, craft maker</td></tr>
+        <tr><td><strong>Music</strong></td><td class="muted">Music Artist &amp; Band, Podcast</td><td><strong>DJ</strong>, record label, music school and teacher, choir and orchestra, music festival, recording studio</td></tr>
+        <tr><td><strong>Education</strong></td><td class="muted">Online Course, School, Coach</td><td>University and college, <strong>kindergarten and daycare</strong>, tutoring centre, language school, coding bootcamp, student club and alumni, library</td></tr>
+        <tr><td><strong>Software &amp; tech</strong></td><td class="muted">SaaS, Mobile App, Startup Launch</td><td>Developer portfolio, documentation and API product, open-source project, AI product, cybersecurity, web hosting, Chrome extension, newsletter and creator</td></tr>
+        <tr><td><strong>Real estate &amp; construction</strong></td><td class="muted">Real Estate Agency</td><td>Property developer, home builder and construction company, vacation rental, co-working space, other estate agent styles</td></tr>
+        <tr><td><strong>Travel &amp; hospitality</strong></td><td class="muted">Boutique Hotel</td><td><strong>Travel agency and tour operator</strong>, bed and breakfast, hostel, campsite, safari and adventure, resort</td></tr>
+        <tr><td><strong>Events &amp; community</strong></td><td class="muted">Event &amp; Conference, Wedding, Church</td><td>Festival, wedding planner, meetup and community, club and association, political campaign, neighbourhood association, temple, mosque or synagogue, funeral home</td></tr>
+        <tr><td><strong>Sports</strong></td><td class="muted">Gym &amp; Fitness</td><td><strong>Yoga studio</strong>, martial arts, football and sports club, golf club, personal trainer, swimming school, climbing gym, cycling shop</td></tr>
+        <tr><td><strong>Media &amp; personal</strong></td><td class="muted">Podcast, Portfolio</td><td>Blog and magazine, news site, YouTuber and creator, newsletter, personal CV / resume, link in bio, memorial page, birthday and baby-shower invitation</td></tr>
+        <tr><td><strong>Non-profit &amp; public</strong></td><td class="muted">Nonprofit &amp; Charity</td><td>Crowdfunding campaign, animal shelter, food bank, town hall and municipality</td></tr>
+        <tr><td><strong>Single pages</strong></td><td class="muted">Startup Launch &amp; Waitlist</td><td>Coming soon, 404 and maintenance, thank you page, restaurant QR menu, event invitation</td></tr>
+      </tbody>
+    </table>
+
+    <h3>How to build them fast</h3>
+    <ul>
+      <li><strong>A template is mostly content.</strong> It is a list of sections, a theme preset, a font pair and real text and pictures for that industry. A new template reuses the same sections, so the work is the writing, the images and the page list.</li>
+      <li><strong>Work in batches of about ten</strong> in one industry group at a time (health, then food, then trades), so the images, wording and SEO text can be done together.</li>
+      <li><strong>Industry versions of one base:</strong> Local Service Business becomes plumber, electrician, cleaner and so on by changing the text, photos, colours and a few sections. The same goes for the clinic family (doctor, vet, physio, optician).</li>
+      <li><strong>Each template needs:</strong> one-page and multi-page versions, an SEO title and description within the limits in <code>06-QUALITY-BARS.txt</code>, images with alt text, a preview image, a demo export and upload, and an entry in the industry filters. The steps are in <code>__directions/ideas/ADDING-SECTIONS-TO-WEBSITE-TEMPLATES.txt</code> and the website templates update checklist.</li>
+      <li><strong>Pick the order by search demand,</strong> not by guess: check Search Console and a keyword tool for "[industry] website template" and build the biggest first.</li>
+      <li><strong>Sections these need that do not exist yet</strong> (see idea 11): Opening Hours &amp; Location (almost every local business), About / Our story, Reviews summary, Event schedule, and the shop sections of idea 12 for all the shops.</li>
+    </ul>
+
+    <h3>Industry needs will change the sections too</h3>
+    <div class="callout"><strong>Plan for this:</strong> each industry demands sections the library does not have, and some of the 78 sections will need an industry version or a new option. So building a website template is two jobs: first a <strong>section gap check</strong> (what does this industry's website need, what exists, what is missing or needs changing), then the template itself. Write the findings into this document under the industry before building.</div>
+    <p><strong>Rule of thumb:</strong> if an existing section only needs different fields, wording or one extra option, add an <strong>option or variant</strong> to it (for example a monthly / yearly switch on pricing) rather than copying it into a new section. Create a new section only when the layout or behaviour is genuinely different.</p>
+    <table>
+      <thead><tr><th style="width:150px">Industry</th><th>New sections it needs</th><th>Existing sections to adapt</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Doctor / clinic</strong></td><td>Doctor profiles (photo, speciality, qualifications, languages, Book button), insurance and accepted payment logos, department list, patient stories, emergency contact bar, opening hours</td><td>Contact form becomes an <em>appointment request</em> (date, reason); FAQ with an insurance and first-visit group; blog for health tips</td></tr>
+        <tr><td><strong>Restaurant, cafe, bakery</strong></td><td>Opening hours, table reservation, today's special, order online / delivery links, menu with dietary icons (vegan, spicy)</td><td>Restaurant menu: add a photo per dish and a category switch; gallery for the venue</td></tr>
+        <tr><td><strong>Law, finance, accounting</strong></td><td>Practice areas, case results, credentials and memberships, free consultation form, calculators (tax, mortgage, loan)</td><td>Team: profile with bar number or licence; testimonials with a case type</td></tr>
+        <tr><td><strong>Shops and ecommerce</strong></td><td>Product detail, cart, checkout, size guide, reviews summary, collections banner (idea 12)</td><td>Product grid: filters, quick add and a wishlist; navbar: cart counter and search</td></tr>
+        <tr><td><strong>Real estate and construction</strong></td><td>Property detail page, mortgage calculator, agent profile, virtual tour, neighbourhood map, project portfolio with stages</td><td>Property listings: filters (price, rooms, area) and a map toggle</td></tr>
+        <tr><td><strong>Trades and home services</strong></td><td>Service area (map or list of towns), quote request with photo upload, 24/7 emergency bar, licence and insurance badges, price guide</td><td>Before / after slider for jobs; contact form with a service picker; booking form with a time window</td></tr>
+        <tr><td><strong>Education</strong></td><td>Programs and courses list, admissions steps, fees table, faculty, events calendar, parent or student portal link</td><td>Class timetable for school timetables; stats for results and rankings</td></tr>
+        <tr><td><strong>Hotels, travel, tours</strong></td><td>Rooms with rates and an availability search, packages, itinerary (vertical timeline), map with points of interest, booking widget</td><td>Gallery with a lightbox and categories; reviews summary</td></tr>
+        <tr><td><strong>Art, music, creative</strong></td><td>Exhibitions and events, works gallery with filters and a lightbox, commissions and enquiry form, press kit</td><td>Gallery grid: categories and captions; audio player for music pages</td></tr>
+        <tr><td><strong>Fitness, yoga, sports</strong></td><td>Membership plans, trainers, free-trial offer, fixtures and results (clubs), BMI or calorie calculator</td><td>Class timetable: filters by level and teacher; pricing: monthly / yearly switch</td></tr>
+        <tr><td><strong>Events and community</strong></td><td>Speakers, schedule by day and room, tickets, sponsors, venue and travel info, volunteer sign-up</td><td>Countdown in the hero; team for organisers</td></tr>
+        <tr><td><strong>Non-profit and public</strong></td><td>Donation selector, impact numbers, campaigns, volunteer form, annual report downloads</td><td>Stats counters with source notes; blog for news</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">Keep this table growing as each industry is planned. When a gap is real, give it its own numbered idea above and link it here.</p>
+
+    <h3>Suggested first wave (about 12)</h3>
+    <ol>
+      <li>Doctor / family clinic and Veterinary clinic (one clinic base)</li>
+      <li>Cafe and coffee shop, and Bakery</li>
+      <li>Barber shop (next to the existing salon)</li>
+      <li>Plumber, electrician and cleaning (versions of Local Service Business)</li>
+      <li>Accountant / financial advisor</li>
+      <li>Interior designer / architect</li>
+      <li>Yoga studio</li>
+      <li>Art gallery and artist</li>
+      <li>DJ and music school</li>
+      <li>Travel agency</li>
+      <li>Kindergarten and daycare</li>
+      <li>Fashion store and Florist (the first ones on the ecommerce kit)</li>
+    </ol>
+  </div>
+</section>
+
+<section id="trends">
+  <h2>Trends &amp; new ideas</h2>
+  <p class="muted">A running list of trendy things worth trying, added as ideas come up while building. Newest first. Each one says where it would go.</p>
+
+  <div class="sug">
+    <div class="sug-head"><h3>14. Trendy features for templates and sections</h3><span class="pill todo">Suggested</span></div>
+    <p class="muted">Added 2026-10-31 · Cross-cutting ideas, not tied to one section.</p>
+    <ul>
+      <li><strong>WhatsApp click-to-chat button:</strong> a floating button for local businesses, shops and clinics. Very common and useful worldwide; fits next to Back to top and the social share bar.</li>
+      <li><strong>Booking calendar embed</strong> (Cal.com, Calendly): a section that loads the embed with the person's link. Needed by clinics, coaches, salons and consultants.</li>
+      <li><strong>Scroll-driven storytelling:</strong> pinned images that change as you read, and zoom-ins on details (we have the scroll sections), for product pages, portfolios and brand pages.</li>
+      <li><strong>Mesh and animated gradient backgrounds:</strong> a gradient that slowly moves, as a new artwork and as a hero background (the gradient scheme and artwork already exist).</li>
+      <li><strong>Bento grids:</strong> mixed-size tiles for features and portfolios (Features Bento exists; extend it to portfolios and product highlights).</li>
+      <li><strong>Dark / light mode toggle</strong> on the exported site, using the theme presets we already have as the two modes.</li>
+      <li><strong>Page transitions</strong> between pages of a multi-page export (the browser's view transitions, a few lines of CSS), so the site feels like an app.</li>
+      <li><strong>Story-style testimonials:</strong> short customer videos in a tap-through row, like social stories.</li>
+      <li><strong>Scroll progress bar</strong> and reading-time label for blog posts.</li>
+      <li><strong>Language switcher and right-to-left support:</strong> two-language sites (English plus Hindi, Arabic and so on) from one template.</li>
+      <li><strong>Lottie / animated illustration section:</strong> a place to drop an animation file.</li>
+      <li><strong>Micro-interactions:</strong> magnetic buttons, tilt cards, animated counters and an animated checkmark on form success (some already exist; make them options in the Look panel).</li>
+      <li><strong>Mobile first details:</strong> bottom sheets, sticky call and book buttons, and a bottom tab bar for app-like sites.</li>
+      <li><strong>AI-ready touches:</strong> a clean <code>llms.txt</code> (already exported), plus an "Ask about this page" chat placeholder people can connect to their own assistant.</li>
+      <li><strong>Performance badge:</strong> show the exported page's size and a check list (images sized, fonts limited), a nice learning angle.</li>
+    </ul>
+    <p class="muted">Keep adding to this list whenever a good idea comes up, and move an idea into its own numbered entry once it is planned.</p>
+  </div>
 </section>
 
 <section id="site">
@@ -222,6 +430,7 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-10-31</td><td>Idea 11 added and expanded: the next wave of sections, with the reasons (first batch: Opening Hours &amp; Location, About / Our story, vertical timeline, reviews summary, feature tabs; second batch and later items listed).</td></tr>
       <tr><td>2026-10-31</td><td>Idea 10 built (all nine options): Look panel in the Website Sections editor (colours, gradient, spacing, background photo, hide on phones/larger screens, heading typography, own CSS) shared with the Website Builder; image focus point; Button style (Solid / Outline / Soft) in the Theme; Surprise me; Apply to all sections in the Website Builder. Also fixed Float on Concentric rings and Orbits (it had nothing to animate). Not yet deployed.</td></tr>
       <tr><td>2026-10-31</td><td>Idea 10 added: more options in the section editor (background and spacing first, then gradient, hide on phone/desktop, image focus point, button style, typography, Surprise me, apply to all, own CSS). Also built today, not suggestions: artwork picker with search, 31 new artworks, position with centre and % offsets, click-to-play animation, and a full-width option for the Horizontal Timeline.</td></tr>
       <tr><td>2026-10-27</td><td>Idea 9 added and partly built: the Music category (6 sections) and the Music Artist &amp; Band website template, with SEO, previews and a demo export. Upload and deploy are still to do.</td></tr>

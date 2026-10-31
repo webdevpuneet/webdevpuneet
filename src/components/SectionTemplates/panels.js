@@ -597,7 +597,12 @@ function OwnCssField({ value, onCommit }) {
       />
       {bad
         ? <p className={s.hint} role="alert" style={{ color: '#dc2626' }}>Not applied yet: check that every {'{'} has a closing {'}'} and that there is no @import or script.</p>
-        : <p className={s.hint}>Rules apply inside this section only (they are nested in it). Use the section’s class names, e.g. <code>.st-h2</code>, <code>.st-lead</code>, <code>button</code>. It is part of your export.</p>}
+        : (
+          <>
+            <p className={s.hint}>Rules apply inside this section only (they are nested in it) and are part of your export. Use the section’s class names, e.g. <code>.st-h2</code> (heading), <code>.st-lead</code> (intro text), <code>.st-eyebrow</code> (small label), <code>.st-btn</code> (button).</p>
+            <p className={s.hint}><b>Finding a class name:</b> open the <b>HTML</b> tab above the preview and look for <code>class=&quot;…&quot;</code> on the element you want, or right-click the element in the preview and choose <b>Inspect</b>. Put a dot in front of the name, like <code>.st-h2</code>.</p>
+          </>
+        )}
     </div>
   );
 }
