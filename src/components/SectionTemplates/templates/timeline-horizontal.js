@@ -32,6 +32,7 @@ export default {
     const attrs = [
       ['data-layout', pick(f.layout, ['alternate', 'below', 'above'], 'alternate')],
       ['data-marker', pick(f.marker, ['number', 'icon'], 'number')],
+      ['data-width', pick(f.width, ['contained', 'full'], 'contained')],
       ['data-start', num(f.startAt, 1, 1, 12)],
       ['data-mode', pick(f.scrollMode, ['pin', 'free'], 'pin')],
     ].map(([k, v]) => ` ${k}="${esc(v)}"`).join('');
@@ -49,6 +50,7 @@ export default {
     { key: 'lead', group: 'header', label: 'Intro text (optional)', type: 'textarea', value: 'From a spare-room prototype to a product used in 120 countries. Keep scrolling and the timeline moves along.' },
     { key: 'scrollMode', group: 'settings', label: 'Scroll mode', type: 'choice', options: [['pin', 'Pinned: page scroll moves the timeline to the right (GSAP ScrollTrigger)'], ['free', 'Free: swipe, drag and arrow buttons']], value: 'pin', hint: 'Pinned mode holds the section on screen while scrolling the page slides the events along. Phones, reduced motion and no-JavaScript visitors always get the swipe and arrows version.' },
     { key: 'layout', group: 'settings', label: 'Content position', type: 'choice', options: [['alternate', 'Alternate above and below the line'], ['below', 'Always below the line'], ['above', 'Always above the line']], value: 'alternate', hint: 'On phones the content always sits below the line.' },
+    { key: 'width', group: 'settings', label: 'Timeline width', type: 'choice', options: [['contained', 'Contained: lines up with the page content'], ['full', 'Full width: the line runs from edge to edge']], value: 'contained', hint: 'Full width lets the line and the events use the whole width of the section. The arrows then sit on the line, over the edges.' },
     { key: 'marker', group: 'settings', label: 'Marker shows', type: 'choice', options: [['number', 'The event number'], ['icon', 'An icon you choose for each event']], value: 'number' },
     { key: 'startAt', group: 'settings', label: 'Active event at the start (number)', type: 'text', value: '1', hint: 'Which event is highlighted when the page loads: 1 is the first.' },
     { key: 'prevLabel', group: 'settings', label: 'Previous button label (screen readers)', type: 'text', value: 'Show earlier events' },
@@ -114,6 +116,7 @@ export default {
 .tlh-dot:focus-visible{outline:3px solid var(--st-brand);outline-offset:3px}
 .tlh-num::before{content:counter(tl)}
 .tlh-ico{display:none;width:20px;height:20px}
+.tlh-dot .tlh-ico{background:none;border-radius:0;color:inherit}
 .tlh-ico svg{width:20px;height:20px}
 .tlh[data-marker=icon] .tlh-num{display:none}
 .tlh[data-marker=icon] .tlh-ico{display:inline-grid}
@@ -140,7 +143,14 @@ export default {
 .is-tl-pinned .tlh-list{will-change:transform}
 .is-tl-pinned .tlh-list::after{transition:none}
 .tlh.is-fit .tlh-nav{display:none}
+.tlh[data-width=full]{width:100cqi;margin-inline:calc(50% - 50cqi);gap:0}
+.tlh[data-width=full] .tlh-track{border-radius:0}
+.tlh[data-width=full] .tlh-list{padding-inline:max(28px,var(--st-pad))}
+.tlh[data-width=full] .tlh-nav{position:absolute;top:50%;z-index:3;transform:translateY(-50%)}
+.tlh[data-width=full] .tlh-prev{left:12px}
+.tlh[data-width=full] .tlh-next{right:12px}
 @container st (max-width:640px){
+.tlh[data-width=full] .tlh-nav{top:22px}
 .tlh-list{--tl-item-w:230px;--tl-card-h:172px}
 .tlh-list::before,.tlh-list::after{top:22px}
 .tlh-item{height:calc(var(--tl-card-h) + 44px)}

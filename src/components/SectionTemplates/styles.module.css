@@ -158,6 +158,20 @@
 .artThumbEdge svg { top: auto; height: 50%; }
 .artLabel { font-size: 10px; line-height: 1.2; color: var(--text2); }
 .artNone { display: grid; place-items: center; height: 40px; font-size: 11px; font-weight: 600; color: var(--text2); }
+/* The chosen artwork in the panel, and the bigger tiles in the modal */
+.artCurrent { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.artCurrent .artThumb { flex: none; width: 88px; height: 52px; }
+.artCurrent .artNone { height: 52px; }
+.artCurrentName { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; font-weight: 600; }
+.artModalGrid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.artModalGrid .artTile { padding: 6px; }
+.artModalGrid .artThumb, .artModalGrid .artNone { height: 84px; }
+.artModalGrid .artLabel { font-size: 12px; }
+.artSearch { flex: 1; min-width: 0; max-width: 420px; margin-left: auto; padding: 8px 14px; border: 1px solid rgba(127, 127, 127, 0.4); border-radius: 999px; background: transparent; color: inherit; font-size: 14px; }
+.artSearch:focus { outline: 2px solid var(--spt-accent, #6366f1); outline-offset: 1px; }
+.posRow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+.posHint { grid-column: 1 / -1; margin: 0; }
+.artMore { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 14px 0 4px; }
 
 /* Custom Section editor (CustomLayoutPanel) */
 .csLayoutIcon { display: inline-flex; gap: 2px; width: 30px; height: 14px; flex: none; }

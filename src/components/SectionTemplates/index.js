@@ -445,7 +445,7 @@ export function SectionTemplateEditor({ id }) {
   const previewHtml = useMemo(
     // Navbars get room below them in the preview, so their menus have space to open
     // ST_PREVIEW: forms simulate success instead of sending anything
-    () => previewImages(documentHtml(t, state, { imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0, extraHead: `<script>window.ST_PREVIEW=true</script>${scrollFx ? scrollFxHead((t.behaviors || []).includes('ring') ? 0 : 40) : ''}${t.previewMinHeight ? `<style>body{min-height:${t.previewMinHeight}px;background:#f1f5f9}</style>` : ''}` }), origin),
+    () => previewImages(documentHtml(t, state, { imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0, extraHead: `<script>window.ST_PREVIEW=true;window.ST_ART_PLAY=true</script>${scrollFx ? scrollFxHead((t.behaviors || []).includes('ring') ? 0 : 40) : ''}${t.previewMinHeight ? `<style>body{min-height:${t.previewMinHeight}px;background:#f1f5f9}</style>` : ''}` }), origin),
     [t, state, previewSrc, fontFaces, origin, playing, scrollFx],
   );
   /* Click-to-edit: text is typed right in the preview, any other bound element points to its
@@ -464,7 +464,8 @@ export function SectionTemplateEditor({ id }) {
     onEnd: editEnd,
   }), [t, setState, editStart, editEnd]);
   // Any edit other than the animation settings stops the replay, so typing never re-runs it
-  const stillJson = JSON.stringify({ ...state, motion: null });
+  // (the artwork's animation choice counts as an animation setting: picking one plays it)
+  const stillJson = JSON.stringify({ ...state, motion: null, art: state.art ? { ...state.art, anim: null } : state.art });
   useEffect(() => { setPlaying(0); }, [stillJson]);
   const codeHtml = useMemo(() => documentHtml(t, state, { imageSrc: relativeSrc, fontFaces: fontFaces ? '/* + your uploaded fonts (inlined on export) */' : '' }), [t, state, fontFaces]); // eslint-disable-line react-hooks/exhaustive-deps
   const highlighted = useMemo(() => (view === 'html' ? highlightHtml(codeHtml) : ''), [view, codeHtml]);
@@ -835,7 +836,8 @@ export function SectionTemplateEditor({ id }) {
                   idPrefix={`sa-${t.id}`}
                   onChange={next => {
                     setState(p => { const { art: _old, ...rest } = p; return next ? { ...rest, art: next } : rest; });
-                    if (next?.anim && next.anim !== state.art?.anim) setPlaying(n => n + 1);
+                    // Picking an animation plays it right away; switching it off stops the replay
+                    if ((next?.anim || '') !== (state.art?.anim || '')) setPlaying(next?.anim ? n => n + 1 : 0);
                   }}
                 />
               </>

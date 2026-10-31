@@ -8,6 +8,7 @@
    parent (which owns the file input and the asset store). */
 
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from './styles.module.css';
 import FontPicker from '@/components/FontPicker';
@@ -15,7 +16,7 @@ import { revealInPanel } from '@/lib/reveal-in-panel';
 import ImageLibraryPicker from '@/components/ImageLibrary';
 import { putAsset } from './storage';
 import { ICON_SETS, loadIconSet } from './icon-sets';
-import { ARTWORKS, ART_COLORS, ART_STRENGTHS, ART_ANIMS, artworkById, cleanArt, newArt, artPreview, artMarkup, ART_CUSTOM_MAX, CUSTOM_ART_LAYOUTS } from './templates/art.js';
+import { ARTWORKS, ART_COLORS, ART_STRENGTHS, ART_ANIMS, artworkById, cleanArt, newArt, artPreview, artMarkup, ART_CUSTOM_MAX, CUSTOM_ART_LAYOUTS, ART_POSITIONS } from './templates/art.js';
 import { parseHex, onColor } from '../OgImageGenerator/engine';
 import {
   THEME_PRESETS, THEME_COLORS, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS,
@@ -376,19 +377,36 @@ export function importArtSvg(text) {
   return { vb, body };
 }
 
+const ART_PAGE = 12; // artworks per page in the picker; Show more adds another page
+
 export function ArtworkPanel({ art, onChange, idPrefix = 'art' }) {
   const a = art ? cleanArt(art) : null;
   const custom = a?.id === 'custom';
   const def = a && (custom ? { layout: a.layout, anims: ['float', 'spin', 'parallax'] } : artworkById(a.id));
+  const [pick, setPick] = useState(false); // the artwork modal is open
+  const [q, setQ] = useState('');
+  const [shown, setShown] = useState(ART_PAGE); // artworks listed in the modal; Show more adds a page
+  const openPick = () => { setQ(''); setShown(ART_PAGE); setPick(true); };
+  const words = q.toLowerCase().split(/\s+/).filter(Boolean);
+  const found = words.length ? ARTWORKS.filter(w => { const hay = `${w.label} ${w.cat} ${w.kind} ${w.tags || ''} ${w.anims.join(' ')}`.toLowerCase(); return words.every(t => hay.includes(t)); }) : ARTWORKS;
   const [own, setOwn] = useState(false); // the "Your own" tile is open (paste / upload)
   const [paste, setPaste] = useState('');
   const [err, setErr] = useState('');
+  // The modal closes on Escape or a click outside, and the page behind stays put
+  useEffect(() => {
+    if (!pick) return undefined;
+    const onKey = e => { if (e.key === 'Escape') setPick(false); };
+    document.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
+  }, [pick]);
   const useSvg = (text, name) => {
     try {
       const { vb, body } = importArtSvg(text);
       const next = cleanArt({ id: 'custom', name, vb, body, layout: 'cover', recolor: true, color: 'brand', strength: '15', anim: '' });
       if (!next) throw new Error('That SVG couldn’t be used. Try exporting it again as plain SVG.');
-      setErr(''); setPaste(''); onChange(next);
+      setErr(''); setPaste(''); onChange(next); setPick(false);
     } catch (e) { setErr(e.message); }
   };
   const onFile = async ev => {
@@ -411,41 +429,92 @@ export function ArtworkPanel({ art, onChange, idPrefix = 'art' }) {
     <section className={s.section}>
       <h2 className={s.sectionTitle}>Artwork</h2>
       <p className={s.hint} style={{ margin: '0 0 10px' }}>SVG shapes behind the content, in your theme colours. They recolour with every preset and can animate with GSAP.</p>
-      <div className={x.artGrid} role="radiogroup" aria-label="Artwork">
-        <button type="button" role="radio" aria-checked={!a} className={`${x.artTile} ${!a ? x.artTileOn : ''}`} onClick={() => onChange(null)} title="No artwork"><span className={x.artNone}>None</span></button>
-        {ARTWORKS.map(w => (
-          <button key={w.id} type="button" role="radio" aria-checked={a?.id === w.id} className={`${x.artTile} ${a?.id === w.id ? x.artTileOn : ''}`} onClick={() => onChange(a?.id === w.id ? a : newArt(w.id))} title={w.label}>
-            <span className={`${x.artThumb} ${w.layout === 'edge' ? x.artThumbEdge : ''}`} dangerouslySetInnerHTML={{ __html: artPreview(w.id, idPrefix) }} />
-            <span className={x.artLabel}>{w.label}</span>
-          </button>
-        ))}
-        <button type="button" role="radio" aria-checked={custom} className={`${x.artTile} ${custom || own ? x.artTileOn : ''}`} onClick={() => setOwn(o => !o)} title="Upload or paste your own SVG">
-          {custom
-            ? <span className={x.artThumb} dangerouslySetInnerHTML={{ __html: artMarkup({ ...a, strength: '100', anim: '' }, `${idPrefix}-own`).replace(/style="[^"]*"/, 'style="position:relative;display:block;width:100%;height:100%;color:currentColor"') }} />
-            : <span className={x.artNone}>+ SVG</span>}
-          <span className={x.artLabel}>Your own</span>
-        </button>
+      {/* The chosen artwork; the full list opens in a modal */}
+      <div className={x.artCurrent}>
+        {!a
+          ? <span className={x.artThumb}><span className={x.artNone}>None</span></span>
+          : <span className={`${x.artThumb} ${def.layout === 'edge' ? x.artThumbEdge : ''}`} dangerouslySetInnerHTML={{ __html: custom ? artMarkup({ ...a, strength: '100', anim: '' }, `${idPrefix}-cur`).replace(/style="[^"]*"/, 'style="position:relative;display:block;width:100%;height:100%;color:currentColor"') : artPreview(a.id, `${idPrefix}-cur`) }} />}
+        <span className={x.artCurrentName}>{!a ? 'No artwork' : custom ? (a.name || 'Your own SVG') : ARTWORKS.find(w => w.id === a.id)?.label}</span>
+        <button type="button" className={s.miniBtn} onClick={openPick} aria-haspopup="dialog">{a ? 'Change' : 'Choose'}</button>
       </div>
-      {(own || custom) && (
-        <div className={s.field}>
-          <span className={s.label}>{custom ? `Your artwork${a.name ? `: ${a.name}` : ''}` : 'Your own SVG'}</span>
-          <label className={s.miniBtn} style={{ alignSelf: 'flex-start', cursor: 'pointer' }}>
-            {custom ? 'Replace with another .svg' : 'Upload an .svg file'}
-            <input type="file" accept=".svg,image/svg+xml" onChange={onFile} hidden />
-          </label>
-          <textarea className={s.textarea} rows={3} placeholder="…or paste SVG code here" value={paste} onChange={ev => setPaste(ev.target.value)} aria-label="Paste SVG code" />
-          {paste.trim() && <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} style={{ alignSelf: 'flex-start' }} onClick={() => useSvg(paste, 'Pasted SVG')}>Use this SVG</button>}
-          {err && <p className={s.hint} role="alert" style={{ color: '#dc2626' }}>{err}</p>}
-          <p className={s.hint}>Vector shapes only: scripts, links, text and embedded images are removed. It is saved inside your design, so exports work offline.</p>
-        </div>
+      {pick && createPortal(
+        <div
+          onMouseDown={e => { if (e.target === e.currentTarget) setPick(false); }}
+          style={{ position: 'fixed', inset: 0, zIndex: 3000, display: 'grid', placeItems: 'center', padding: 'clamp(8px, 3vw, 32px)', background: 'rgba(15,23,42,.62)', backdropFilter: 'blur(3px)' }}
+        >
+          <div role="dialog" aria-modal="true" aria-label="Choose artwork" style={{ display: 'flex', flexDirection: 'column', width: 'min(900px, 100%)', maxHeight: '100%', borderRadius: 16, background: 'var(--bg, #fff)', color: 'var(--text, #0f172a)', boxShadow: '0 30px 80px rgba(0,0,0,.45)', overflow: 'hidden' }}>
+            <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '14px 18px', borderBottom: '1px solid rgba(127,127,127,.25)' }}>
+              <h2 style={{ margin: 0, fontSize: 18, whiteSpace: 'nowrap' }}>Artwork <span style={{ opacity: 0.6, fontWeight: 500 }}>{ARTWORKS.length}</span></h2>
+              <input className={x.artSearch} type="search" value={q} autoFocus onChange={ev => { setQ(ev.target.value); setShown(ART_PAGE); }} placeholder={`Search ${ARTWORKS.length} artworks (dots, waves, stars, edge…)`} aria-label="Search artwork" />
+              <button type="button" onClick={() => setPick(false)} aria-label="Close" style={{ width: 32, height: 32, border: 0, borderRadius: 8, background: 'transparent', color: 'inherit', fontSize: 24, lineHeight: 1, cursor: 'pointer' }}>&times;</button>
+            </header>
+            <div style={{ padding: 18, overflowY: 'auto' }}>
+              <p className={s.hint} style={{ margin: '0 0 12px' }}>SVG shapes behind the content, in your theme colours. They recolour with every preset and can animate with GSAP.</p>
+              <div className={`${x.artGrid} ${x.artModalGrid}`} role="radiogroup" aria-label="Artwork">
+                {!words.length && <button type="button" role="radio" aria-checked={!a} className={`${x.artTile} ${!a ? x.artTileOn : ''}`} onClick={() => { onChange(null); setPick(false); }} title="No artwork"><span className={x.artNone}>None</span></button>}
+                {!words.length && (
+                  <button type="button" role="radio" aria-checked={custom} className={`${x.artTile} ${custom || own ? x.artTileOn : ''}`} onClick={() => setOwn(o => !o)} title="Upload or paste your own SVG">
+                    {custom
+                      ? <span className={x.artThumb} dangerouslySetInnerHTML={{ __html: artMarkup({ ...a, strength: '100', anim: '' }, `${idPrefix}-own`).replace(/style="[^"]*"/, 'style="position:relative;display:block;width:100%;height:100%;color:currentColor"') }} />
+                      : <span className={x.artNone}>+ SVG</span>}
+                    <span className={x.artLabel}>Your own</span>
+                  </button>
+                )}
+                {found.slice(0, shown).map(w => (
+                  <button key={w.id} type="button" role="radio" aria-checked={a?.id === w.id} className={`${x.artTile} ${a?.id === w.id ? x.artTileOn : ''}`} onClick={() => { onChange(a?.id === w.id ? a : newArt(w.id)); setPick(false); }} title={w.label}>
+                    <span className={`${x.artThumb} ${w.layout === 'edge' ? x.artThumbEdge : ''}`} dangerouslySetInnerHTML={{ __html: artPreview(w.id, `${idPrefix}-m`) }} />
+                    <span className={x.artLabel}>{w.label}</span>
+                  </button>
+                ))}
+              </div>
+              {words.length > 0 && !found.length && (
+                <p className={s.hint} style={{ margin: '4px 0 12px' }}>No artwork matches “{q}”. <button type="button" className={s.miniBtn} onClick={() => setQ('')}>Clear search</button></p>
+              )}
+              {found.length > shown && (
+                <div className={x.artMore}>
+                  <button type="button" className={s.miniBtn} onClick={() => setShown(n => n + ART_PAGE)}>Show more</button>
+                  <span className={s.hint}>Showing {shown} of {found.length}</span>
+                </div>
+              )}
+              {(own || custom) && (
+                <div className={s.field}>
+                  <span className={s.label}>{custom ? `Your artwork${a.name ? `: ${a.name}` : ''}` : 'Your own SVG'}</span>
+                  <label className={s.miniBtn} style={{ alignSelf: 'flex-start', cursor: 'pointer' }}>
+                    {custom ? 'Replace with another .svg' : 'Upload an .svg file'}
+                    <input type="file" accept=".svg,image/svg+xml" onChange={onFile} hidden />
+                  </label>
+                  <textarea className={s.textarea} rows={3} placeholder="…or paste SVG code here" value={paste} onChange={ev => setPaste(ev.target.value)} aria-label="Paste SVG code" />
+                  {paste.trim() && <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} style={{ alignSelf: 'flex-start' }} onClick={() => useSvg(paste, 'Pasted SVG')}>Use this SVG</button>}
+                  {err && <p className={s.hint} role="alert" style={{ color: '#dc2626' }}>{err}</p>}
+                  <p className={s.hint}>Vector shapes only: scripts, links, text and embedded images are removed. It is saved inside your design, so exports work offline.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>,
+        document.body,
       )}
       {a && (
         <>
-          {custom && seg('Layout', a.layout, CUSTOM_ART_LAYOUTS, v => set({ layout: v }))}
+          {custom && seg('Layout', a.layout, CUSTOM_ART_LAYOUTS, v => set({ layout: v, pos: v === 'corner' ? 'c' : undefined, x: undefined, y: undefined }))}
           {custom && seg('Colours', a.recolor ? 'theme' : 'own', [['theme', 'Theme colour'], ['own', 'Its own colours']], v => set({ recolor: v === 'theme' }))}
           {(!custom || a.recolor) && seg('Colour', a.color, ART_COLORS, v => set({ color: v }))}
           {seg('Strength', a.strength, ART_STRENGTHS, v => set({ strength: v }))}
           {def.layout === 'edge' && seg('Edge', a.pos, [['top', 'Top'], ['bottom', 'Bottom']], v => set({ pos: v }))}
+          {ART_POSITIONS[def.layout] && seg('Position', a.pos || '', ART_POSITIONS[def.layout], v => set({ pos: v }))}
+          {def.layout === 'corner' && a.pos === 'c' && (
+            <div className={x.posRow}>
+              {[['y', 'From top (%)'], ['x', 'From left (%)']].map(([k, label]) => (
+                <label key={k} className={s.field}>
+                  <span className={s.label}>{label}</span>
+                  <input type="number" className={s.input} min={-50} max={150} step={1} value={a[k] ?? 50} aria-label={label} onChange={ev => { if (ev.target.value !== '') set({ [k]: Number(ev.target.value) }); }} />
+                </label>
+              ))}
+              <p className={`${s.hint} ${x.posHint}`}>The middle of the artwork sits at this point. 50 and 50 is the center; use a number below 0 or above 100 to push it past the edge.</p>
+            </div>
+          )}
+          {def.layout === 'corners' && <p className={s.hint}>The same shape also sits in the opposite corner.</p>}
+          {ART_POSITIONS[def.layout]?.length === 5 && <p className={s.hint}>Top, Bottom, Left and Right place the artwork in that half of the section.</p>}
           {def.anims.length > 0 && seg('Animation', a.anim || '', [['', 'None'], ...def.anims.map(k => [k, ART_ANIMS[k]])], v => set({ anim: v }))}
           {a.anim && <p className={s.hint}>Animation plays in your exports and when you press ▶ Play (↻ Refresh on scroll-driven sections); it switches off for people who prefer reduced motion.</p>}
         </>
