@@ -3,7 +3,7 @@
 const restaurantLandingPageTemplate = {
   id: 'restaurant-landing-page-template',
   title: 'Restaurant Website Template',
-  lastmod: '2026-10-30',
+  lastmod: '2026-10-31',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -12,7 +12,7 @@ const restaurantLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuw56s566q4">
+    <section class="st st-navbar-simple" data-uid="smvw6s7qdkuz8">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg></span><span>Olive &amp; Ember</span></span>
@@ -32,7 +32,7 @@ const restaurantLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuw56s5hcki">
+    <section class="st st-image-background-hero" data-uid="smvw6s7qdl3z5">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-restaurant.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -52,7 +52,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="menu" class="st st-restaurant-menu" data-uid="smvuw56s5if1z">
+    <section id="menu" class="st st-restaurant-menu" data-uid="smvw6s7qddvko">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">From the kitchen</p>
@@ -118,7 +118,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuw56s5iq9w">
+    <section id="zoom" class="st st-scroll-zoom" data-uid="smvw6s7qdjj40">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">From the farm</p>
@@ -160,7 +160,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvuw56s5h6cy">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvw6s7qduk2s">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -192,7 +192,7 @@ const restaurantLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-rows" data-uid="smvuw56s53ipo">
+    <section id="pricing" class="st st-pricing-rows" data-uid="smvw6s7qd596x">
       <div class="st-wrap">
         <div class="pl-top">
           <header class="st-head st-head--left pl-head">
@@ -241,7 +241,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuw56s5xbfb">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvw6s7qdleo1">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Guest reviews</p>
@@ -276,7 +276,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvuw56s5oyci">
+    <section id="contact" class="st st-booking-form" data-uid="smvw6s7qd6zxg">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -337,32 +337,94 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvuw56s53j54">
-      <div class="st-wrap cm">
-        <div class="cm-info">
-          <header class="st-head st-head--left cm-head">
-            <p class="st-eyebrow" data-anim="item">Visit us</p>
-            <h2 class="st-h2" data-anim="item" data-anim-text>Find <span class="hl">our table</span></h2>
-            <p class="st-lead" data-anim="item">Walk-ins welcome at the bar. For dinner, booking is recommended.</p>
-          </header>
-          <ul class="cm-offices">
-            <li class="cm-office" data-anim="item">
-              <h3 class="cm-city">Olive &amp; Ember</h3>
-              <address class="cm-address">Rua de São Miguel 24<br>1100-544 Lisbon</address>
-              <p class="cm-hours">Tue–Sun, 6pm–11pm</p>
-              <p class="cm-contact">
-                <a href="tel:+351210001234"><span>+351 21 000 1234</span></a>
-                <a href="mailto:hello@oliveandember.pt"><span>hello@oliveandember.pt</span></a>
-              </p>
-            </li>
-          </ul>
-        </div>
-        <div class="cm-map" data-anim="media">
-          <iframe class="cm-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.openstreetmap.org/export/embed.html?bbox=-0.1135%2C51.5185%2C-0.0955%2C51.5265&amp;layer=mapnik&amp;marker=51.5225%2C-0.1045" title="Map showing Olive &amp; Ember in Lisbon"></iframe>
+    <section id="contact-2" class="st st-opening-hours" data-uid="smvw6s7qe6uhn">
+      <div class="st-wrap">
+        <header class="st-head">
+          <p class="st-eyebrow" data-anim="item">Visit us</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Find <span class="hl">our table</span></h2>
+          <p class="st-lead" data-anim="item">Walk-ins welcome at the bar. For dinner, booking is recommended.</p>
+        </header>
+        <div class="oh" data-opennow data-tz="Europe/Lisbon" data-open-label="Open now" data-closes-label="closes at" data-shut-label="Closed now" data-opens-label="opens">
+          <div class="oh-card oh-hours" data-anim="item">
+            <div class="oh-top">
+              <h3 class="oh-title">Opening hours</h3>
+              <p class="oh-badge" data-open-badge role="status" hidden><span class="oh-dot" aria-hidden="true"></span><span class="oh-badge-text"></span></p>
+            </div>
+            <ol class="oh-list">
+              <li class="oh-row" data-hours-row data-day="Monday" data-open="09:00" data-close="17:00" data-closed="closed">
+                <span class="oh-day">Monday</span>
+                <span class="oh-shut">Closed</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Tuesday" data-open="18:00" data-close="23:00" data-closed="">
+                <span class="oh-day">Tuesday</span>
+                <span class="oh-time"><time>18:00</time> <span aria-hidden="true">–</span> <time>23:00</time></span>
+                <span class="oh-note">Dinner</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Wednesday" data-open="18:00" data-close="23:00" data-closed="">
+                <span class="oh-day">Wednesday</span>
+                <span class="oh-time"><time>18:00</time> <span aria-hidden="true">–</span> <time>23:00</time></span>
+                <span class="oh-note">Dinner</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Thursday" data-open="18:00" data-close="23:00" data-closed="">
+                <span class="oh-day">Thursday</span>
+                <span class="oh-time"><time>18:00</time> <span aria-hidden="true">–</span> <time>23:00</time></span>
+                <span class="oh-note">Dinner</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Friday" data-open="12:30" data-close="15:00" data-closed="">
+                <span class="oh-day">Friday</span>
+                <span class="oh-time"><time>12:30</time> <span aria-hidden="true">–</span> <time>15:00</time></span>
+                <span class="oh-note">Lunch</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Friday" data-open="18:00" data-close="23:30" data-closed="">
+                <span class="oh-day">Friday</span>
+                <span class="oh-time"><time>18:00</time> <span aria-hidden="true">–</span> <time>23:30</time></span>
+                <span class="oh-note">Dinner</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Saturday" data-open="12:30" data-close="15:00" data-closed="">
+                <span class="oh-day">Saturday</span>
+                <span class="oh-time"><time>12:30</time> <span aria-hidden="true">–</span> <time>15:00</time></span>
+                <span class="oh-note">Lunch</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Saturday" data-open="18:00" data-close="23:30" data-closed="">
+                <span class="oh-day">Saturday</span>
+                <span class="oh-time"><time>18:00</time> <span aria-hidden="true">–</span> <time>23:30</time></span>
+                <span class="oh-note">Dinner</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Sunday" data-open="12:30" data-close="16:00" data-closed="">
+                <span class="oh-day">Sunday</span>
+                <span class="oh-time"><time>12:30</time> <span aria-hidden="true">–</span> <time>16:00</time></span>
+                <span class="oh-note">Lunch only</span>
+              </li>
+            </ol>
+            <p class="oh-special">Tell us about allergies when you book and the kitchen will plan around them.</p>
+          </div>
+          <div class="oh-side">
+            <div class="oh-map" data-anim="media">
+              <iframe class="oh-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.openstreetmap.org/export/embed.html?bbox=-9.134%2C38.7085%2C-9.123999999999999%2C38.713499999999996&amp;layer=mapnik&amp;marker=38.711%2C-9.129" title="Map showing Olive &amp; Ember in Lisbon"></iframe>
+            </div>
+            <div class="oh-card oh-contact" data-anim="item">
+              <ul class="oh-info">
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg></span>
+                  <address class="oh-addr">
+                    <span class="oh-line oh-name">Olive &amp; Ember</span>
+                    <span class="oh-line">Rua de São Miguel 24</span>
+                    <span class="oh-line"><span>1100-544</span> <span>Lisbon</span></span>
+                    <span class="oh-line">Portugal</span>
+                  </address>
+                </li>
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg></span><a class="oh-link" href="tel:+351210001234">+351 21 000 1234</a></li>
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span><a class="oh-link" href="mailto:hello@oliveandember.pt">hello@oliveandember.pt</a></li>
+              </ul>
+              <div class="st-btns">
+                <a class="st-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Rua%20de%20S%C3%A3o%20Miguel%2024%2C%201100-544%20Lisbon"><span>Get directions</span></a>
+                <a class="st-btn st-btn--ghost" href="tel:+351210001234"><span>Book by phone</span></a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuw56s55zn1">
+    <section class="st st-popup-modal" data-uid="smvw6s7qegmbq">
       <div class="pu" data-pu data-trigger="delay" data-delay="12" data-scroll="50" data-days="7" data-pos="bottom-left" data-layout="left" data-autoplay="0" data-pu-id="1ingh17">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -382,7 +444,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuw56s5q2b2">
+    <section class="st st-footer-minimal" data-uid="smvw6s7qen948">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -398,7 +460,7 @@ const restaurantLandingPageTemplate = {
         <p class="fm-copy">© 2026 Olive &amp; Ember</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuw56s51fq3">
+    <section class="st st-back-to-top" data-uid="smvw6s7qek75c">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -643,22 +705,44 @@ html.stg-open{overflow:hidden}
 .bk-row dd{color:var(--st-muted);font-variant-numeric:tabular-nums}
 .bk-card{padding:clamp(24px,3.4cqi,40px);border-radius:calc(var(--st-radius) * 1.3px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 7%,transparent);box-shadow:0 30px 70px -40px color-mix(in srgb,var(--st-text) 45%,transparent)}
 @container st (max-width:860px){.bk{grid-template-columns:1fr}}
-/* Contact With Map */
-.st-contact-map{padding:clamp(64px,8cqi,112px) 0}
-.cm{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:stretch;gap:clamp(32px,5cqi,72px)}
-.cm-info{display:flex;flex-direction:column;gap:32px}
-.cm-head{margin:0}
-.cm-offices{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
-.cm-office{display:flex;flex-direction:column;gap:6px;padding:22px;border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface)}
-.cm-city{font-size:18px;margin-bottom:4px}
-.cm-address{font-style:normal;color:var(--st-muted);font-size:15.5px;line-height:1.6}
-.cm-hours{color:var(--st-text);font-size:14.5px;font-weight:600;margin-top:4px}
-.cm-contact{display:flex;flex-direction:column;gap:2px;margin-top:6px}
-.cm-contact a{color:var(--st-brand);font-weight:600;font-size:15px;text-decoration:none;word-break:break-word}
-.cm-contact a:hover{text-decoration:underline}
-.cm-map{min-height:420px;overflow:hidden;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent);box-shadow:0 30px 70px -40px rgba(28,25,23,.45)}
-.cm-frame{display:block;width:100%;height:100%;min-height:420px;border:0}
-@container st (max-width:860px){.cm{grid-template-columns:1fr}.cm-map,.cm-frame{min-height:320px}}
+/* Opening Hours & Location */
+.st-opening-hours{padding:clamp(64px,8cqi,112px) 0}
+.oh{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(18px,2.6cqi,32px);align-items:stretch}
+.oh-card{padding:clamp(22px,2.8cqi,34px);border-radius:calc(var(--st-radius) * 1.1px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent);box-shadow:0 24px 60px -44px color-mix(in srgb,var(--st-text) 55%,transparent)}
+.oh-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-bottom:6px}
+.oh-title{font-size:clamp(21px,2.3cqi,26px)}
+.oh-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 13px;border-radius:999px;background:color-mix(in srgb,var(--st-text) 7%,transparent);color:var(--st-text);font-size:13.5px;font-weight:700}
+.oh-badge[hidden]{display:none}
+.oh-dot{width:9px;height:9px;border-radius:50%;background:#94a3b8}
+.oh-badge.is-open{background:rgba(34,197,94,.15);color:color-mix(in srgb,#16a34a 78%,var(--st-text))}
+.oh-badge.is-open .oh-dot{background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.25)}
+.oh-badge.is-shut{background:rgba(239,68,68,.12);color:color-mix(in srgb,#dc2626 78%,var(--st-text))}
+.oh-badge.is-shut .oh-dot{background:#ef4444}
+.oh-list{list-style:none;margin:0;padding:0}
+.oh-row{display:grid;grid-template-columns:minmax(96px,auto) 1fr;gap:3px 16px;align-items:baseline;padding:13px 12px;margin:0 -12px;border-bottom:1px dashed color-mix(in srgb,var(--st-text) 14%,transparent);font-size:16px}
+.oh-row:last-child{border-bottom:0}
+.oh-day{font-weight:700}
+.oh-time,.oh-shut{justify-self:end;font-variant-numeric:tabular-nums}
+.oh-shut{color:var(--st-muted)}
+.oh-note{grid-column:1 / -1;justify-self:end;color:var(--st-muted);font-size:13.5px}
+.oh-row.is-today{background:color-mix(in srgb,var(--st-brand) 10%,transparent);border-radius:10px;border-bottom-color:transparent}
+.oh-row.is-today .oh-day{color:var(--st-brand)}
+.oh-row.is-today .oh-day::before{content:"";display:inline-block;width:8px;height:8px;margin-right:9px;border-radius:50%;background:var(--st-brand)}
+.oh-special{margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--st-text) 9%,transparent);color:var(--st-muted);font-size:14.5px}
+.oh-side{display:flex;flex-direction:column;gap:clamp(14px,2cqi,20px);min-width:0}
+.oh-map{flex:1;min-height:280px;overflow:hidden;border-radius:calc(var(--st-radius) * 1.1px);background:var(--st-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 420' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='600' height='420' fill='%23e9eef0'/%3E%3Cpath d='M0 90H600M0 250H600M0 350H600M110 0V420M300 0V420M470 0V420' stroke='%23ffffff' stroke-width='16'/%3E%3Cpath d='M0 190L600 150M200 0L330 420' stroke='%23ffffff' stroke-width='10'/%3E%3Crect x='330' y='110' width='110' height='80' rx='8' fill='%23d9e6dc'/%3E%3Cpath d='M300 150c-28 0-50 22-50 50 0 36 50 82 50 82s50-46 50-82c0-28-22-50-50-50z' fill='%23ef4444'/%3E%3Ccircle cx='300' cy='200' r='17' fill='%23ffffff'/%3E%3C/svg%3E") center/cover no-repeat;border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent)}
+.oh-frame{display:block;width:100%;height:100%;min-height:280px;border:0}
+.oh-info{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:14px}
+.oh-item{display:flex;align-items:flex-start;gap:14px}
+.oh-item .st-icon{width:42px;height:42px;background:color-mix(in srgb,var(--st-brand) 14%,transparent)}
+.oh-item .st-icon svg{width:20px;height:20px}
+.oh-addr{display:flex;flex-direction:column;font-style:normal;font-size:16px;line-height:1.5;padding-top:2px}
+.oh-name{font-weight:700}
+.oh-link{align-self:center;color:var(--st-text);font-size:16.5px;font-weight:600;text-decoration:none;word-break:break-word}
+.oh-link:hover{color:var(--st-brand);text-decoration:underline}
+.oh-contact .st-btns{display:flex;flex-wrap:wrap;gap:12px}
+@container st (max-width:860px){.oh{grid-template-columns:1fr}.oh-map,.oh-frame{min-height:260px}}
+@media (prefers-reduced-motion:reduce){.oh-dot{box-shadow:none!important}}
 /* Popup & Promo Modal */
 .st-popup-modal{overflow:visible;container-type:normal;height:0;min-height:0;background:transparent}
 .st-popup-modal:has(.pu.is-preview){height:auto;padding:clamp(24px,4vw,48px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 8%,var(--st-bg))}
@@ -1185,6 +1269,74 @@ html.stg-open{overflow:hidden}
   document.querySelectorAll('.st [data-booking-date]').forEach(function (input) { input.min = today; });
 })();
 (function () {
+  var KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  function mins(v) {
+    var m = String(v || '').trim().toLowerCase().match(/^(\\d{1,2})(?::(\\d{2}))?\\s*(am|pm)?$/);
+    if (!m) return null;
+    var h = +m[1], mi = +(m[2] || 0);
+    if (m[3] === 'pm' && h < 12) h += 12;
+    if (m[3] === 'am' && h === 12) h = 0;
+    return h > 24 || mi > 59 ? null : h * 60 + mi;
+  }
+  function clock(total) {
+    var h = Math.floor(total / 60) % 24, mi = total % 60;
+    return (h < 10 ? '0' : '') + h + ':' + (mi < 10 ? '0' : '') + mi;
+  }
+  function nowIn(tz) {
+    var o = { weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' };
+    if (tz) o.timeZone = tz;
+    var parts;
+    try { parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    catch (e) { delete o.timeZone; parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    var p = {};
+    parts.forEach(function (x) { p[x.type] = x.value; });
+    return { day: KEYS.indexOf(String(p.weekday).slice(0, 3).toLowerCase()), min: (parseInt(p.hour, 10) % 24) * 60 + parseInt(p.minute, 10) };
+  }
+  document.querySelectorAll('.st').forEach(function (sec) {
+    var root = sec.querySelector('[data-opennow]');
+    if (!root) return;
+    var badge = root.querySelector('[data-open-badge]');
+    var text = badge && badge.querySelector('.oh-badge-text');
+    var rows = Array.prototype.map.call(root.querySelectorAll('[data-hours-row]'), function (r) {
+      var d = KEYS.indexOf(String(r.getAttribute('data-day') || '').slice(0, 3).toLowerCase());
+      var o = mins(r.getAttribute('data-open')), c = mins(r.getAttribute('data-close'));
+      var label = r.querySelector('.oh-day');
+      return { el: r, day: d, open: o, close: c, shut: r.getAttribute('data-closed') === 'closed' || o === null || c === null, name: label ? label.textContent : '' };
+    });
+    if (!rows.length) return;
+    var tz = root.getAttribute('data-tz') || '';
+    function attr(n, d) { return root.getAttribute(n) || d; }
+    function update() {
+      var n = nowIn(tz), prev = (n.day + 6) % 7, open = null;
+      rows.forEach(function (r) {
+        r.el.classList.toggle('is-today', r.day === n.day);
+        if (r.day === n.day) r.el.setAttribute('aria-current', 'date'); else r.el.removeAttribute('aria-current');
+        if (r.shut) return;
+        var over = r.close <= r.open;
+        if (r.day === n.day && n.min >= r.open && (over || n.min < r.close)) open = open || r;
+        if (r.day === prev && over && n.min < r.close) open = open || r;
+      });
+      if (!badge || !text) return;
+      badge.hidden = false;
+      badge.classList.toggle('is-open', !!open);
+      badge.classList.toggle('is-shut', !open);
+      if (open) { text.textContent = attr('data-open-label', 'Open now') + ' \\u00b7 ' + attr('data-closes-label', 'closes at') + ' ' + clock(open.close); return; }
+      var next = null;
+      for (var i = 0; i < 8 && !next; i++) {
+        var dd = (n.day + i) % 7;
+        rows.forEach(function (r) {
+          if (r.shut || r.day !== dd || (i === 0 && r.open <= n.min)) return;
+          if (!next || r.open < next.open) next = r;
+        });
+        if (next) next.when = i === 0 ? '' : next.name + ' ';
+      }
+      text.textContent = attr('data-shut-label', 'Closed now') + (next ? ' \\u00b7 ' + attr('data-opens-label', 'opens') + ' ' + next.when + clock(next.open) : '');
+    }
+    update();
+    setInterval(update, 60000);
+  });
+})();
+(function () {
   var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
   document.querySelectorAll('.st [data-pu]').forEach(function (root) {
     var dlg = root.querySelector('.pu-dialog');
@@ -1487,10 +1639,10 @@ html.stg-open{overflow:hidden}
         "role": "a booking request form with date, party size and dietary notes"
       },
       {
-        "id": "contact-map",
-        "name": "Contact With Map",
-        "url": "/website-section-templates/contact-map/",
-        "role": "a map beside your address and opening hours, so nobody has to leave the page for directions"
+        "id": "opening-hours",
+        "name": "Opening Hours & Location",
+        "url": "/website-section-templates/opening-hours/",
+        "role": "an opening hours table with lunch and dinner service, a live Open now badge, the address and a map"
       },
       {
         "id": "popup-modal",
@@ -1513,16 +1665,17 @@ html.stg-open{overflow:hidden}
     ],
     "about": {
       "title": "A Restaurant Website That Fills Tables: Menu, Booking and Directions in One Page",
-      "description": "People search for a restaurant to answer four questions: what do you serve, what does it cost, can I get a table, and where are you? This layout answers them in that order. A moody photo hero with a \"Book a table\" button, then the menu itself on the page rather than behind a PDF link (readable by search engines and by customers on slow phones), then a filterable gallery that sells the atmosphere, set menus with prices, and reviews that confirm the experience.\n\nThe bottom of the page is where bookings happen. A booking request form collects the date, party size and any dietary notes, and the contact section pairs a map with your opening hours so there is no reason to leave the page to find either. A promo modal can announce a seasonal menu or a special evening without redesigning anything.\n\nSwap in your dishes, hours and photographs. It is the layout of the [Restaurant Website template](/website-builder/templates/restaurant/), which also comes as a multi-page site with Menu, About and Visit pages; open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned stack of four photographs that each arrive small and zoom up to fill the screen as you scroll, from the plates to the farm and the hills; and a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Scroll Zoom Image Stack](/website-section-templates/scroll-zoom/), [Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
+      "description": "People search for a restaurant to answer four questions: what do you serve, what does it cost, can I get a table, and where are you? This layout answers them in that order. A moody photo hero with a \"Book a table\" button, then the menu itself on the page rather than behind a PDF link (readable by search engines and by customers on slow phones), then a filterable gallery that sells the atmosphere, set menus with prices, and reviews that confirm the experience.\n\nThe bottom of the page is where bookings happen. A booking request form collects the date, party size and any dietary notes, and the contact section pairs a map with your opening hours so there is no reason to leave the page to find either. A promo modal can announce a seasonal menu or a special evening without redesigning anything.\n\nSwap in your dishes, hours and photographs. It is the layout of the [Restaurant Website template](/website-builder/templates/restaurant/), which also comes as a multi-page site with Menu, About and Visit pages; open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned stack of four photographs that each arrive small and zoom up to fill the screen as you scroll, from the plates to the farm and the hills; an opening hours table with lunch and dinner service, a live Open now badge, the address and a map; and a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Scroll Zoom Image Stack](/website-section-templates/scroll-zoom/), [Opening Hours & Location](/website-section-templates/opening-hours/), [Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
-      "12 ready-made website sections assembled into one finished restaurant website page: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Image Stack (Ken Burns), Filterable Image Gallery, Pricing List Rows, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button",
+      "12 ready-made website sections assembled into one finished restaurant website page: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Image Stack (Ken Burns), Filterable Image Gallery, Pricing List Rows, Testimonial Wall, Booking Request Form, Opening Hours & Location, Popup & Promo Modal, Minimal Footer, Back to Top Button",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 6-page website in the builder, sharing one navbar, footer and theme",
       "A pinned stack of photographs that each start small and zoom up to full size as you scroll (GSAP ScrollTrigger)",
+      "Opening hours with a live Open now badge in the business time zone, the address, a map and call buttons, plus LocalBusiness data for search engines",
       "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
@@ -1583,11 +1736,11 @@ html.stg-open{overflow:hidden}
       },
       {
         "q": "What extras are built into the Restaurant Website template?",
-        "a": "It adds a scroll zoom image stack and a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
+        "a": "It adds a scroll zoom image stack, an opening hours section with a live Open now badge and a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 12 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Image Stack (Ken Burns), Filterable Image Gallery, Pricing List Rows, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 12 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Image Stack (Ken Burns), Filterable Image Gallery, Pricing List Rows, Testimonial Wall, Booking Request Form, Opening Hours & Location, Popup & Promo Modal, Minimal Footer, Back to Top Button. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1596,7 +1749,7 @@ html.stg-open{overflow:hidden}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Restaurant Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete restaurant website for “Olive & Ember” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Seasonal plates, slow evenings”\n3. Restaurant Menu: “Dishes guests come back for”\n4. Scroll Zoom Image Stack (Ken Burns): “Slow food, seen up close”\n5. Filterable Image Gallery: “From the kitchen and the room”\n6. Pricing List Rows: “Let the kitchen choose for you”\n7. Testimonial Wall: “Loved by locals and travellers”\n8. Booking Request Form: “Request a table”\n9. Contact With Map: “Find our table”\n10. Popup & Promo Modal\n11. Minimal Footer\n12. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #b45309, page background #fffaf3, cards #f6ecdf, text #2a1a10, muted text #6b5444. Corner radius 10px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable food & drink copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Olive & Ember: Wood-Fired Restaurant in Alfama, Lisbon”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a food & drink business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Menu (menu.html)\n- About (about.html)\n- Visit (visit.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete restaurant website for “Olive & Ember” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Seasonal plates, slow evenings”\n3. Restaurant Menu: “Dishes guests come back for”\n4. Scroll Zoom Image Stack (Ken Burns): “Slow food, seen up close”\n5. Filterable Image Gallery: “From the kitchen and the room”\n6. Pricing List Rows: “Let the kitchen choose for you”\n7. Testimonial Wall: “Loved by locals and travellers”\n8. Booking Request Form: “Request a table”\n9. Opening Hours & Location: “Find our table”\n10. Popup & Promo Modal\n11. Minimal Footer\n12. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #b45309, page background #fffaf3, cards #f6ecdf, text #2a1a10, muted text #6b5444. Corner radius 10px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable food & drink copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Olive & Ember: Wood-Fired Restaurant in Alfama, Lisbon”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a food & drink business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Menu (menu.html)\n- About (about.html)\n- Visit (visit.html)\n- Privacy (privacy.html)"
     }
   },
 };

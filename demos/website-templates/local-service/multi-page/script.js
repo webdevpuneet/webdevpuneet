@@ -138,61 +138,38 @@
   });
 })();
 (function () {
-  var G = window.gsap;
-  if (G && window.Draggable) G.registerPlugin(Draggable);
-  if (G && window.InertiaPlugin) G.registerPlugin(InertiaPlugin);
-  if (G && window.ScrollToPlugin) G.registerPlugin(ScrollToPlugin);
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
-  document.querySelectorAll('.st').forEach(function (sec) {
-    var track = sec.querySelector('[data-carousel]');
-    if (!track) return;
-    var prev = sec.querySelector('[data-carousel-prev]');
-    var next = sec.querySelector('[data-carousel-next]');
-    var max = function () { return Math.max(0, track.scrollWidth - track.clientWidth); };
-    var points = function () {
-      var first = track.children[0];
-      if (!first) return [0];
-      return Array.prototype.map.call(track.children, function (c) { return Math.min(max(), c.offsetLeft - first.offsetLeft); });
-    };
-    var nearest = function (x) { return points().reduce(function (a, p) { return Math.abs(p - x) < Math.abs(a - x) ? p : a; }, 0); };
-    var update = function () {
-      var x = track.scrollLeft;
-      if (prev) prev.disabled = x <= 2;
-      if (next) next.disabled = x >= max() - 2;
-    };
-    var go = function (dir) {
-      var ps = points(), x = track.scrollLeft, target = x;
-      if (dir > 0) { for (var i = 0; i < ps.length; i++) if (ps[i] > x + 4) { target = ps[i]; break; } }
-      else { for (var j = ps.length - 1; j >= 0; j--) if (ps[j] < x - 4) { target = ps[j]; break; } }
-      if (G && window.ScrollToPlugin && !reduce) G.to(track, { scrollTo: { x: target }, duration: 0.6, ease: 'power3.out', onUpdate: update });
-      else track.scrollTo({ left: target, behavior: reduce ? 'auto' : 'smooth' });
-    };
-    if (prev) prev.addEventListener('click', function () { go(-1); });
-    if (next) next.addEventListener('click', function () { go(1); });
-    track.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
-    // Mouse drag with momentum on desktop; touch keeps native scrolling and snap.
-    // An invisible proxy is dragged and its x is mapped onto the track's native scrollLeft,
-    // so the slides' markup and layout never change.
-    if (G && window.Draggable && fine) {
-      track.classList.add('is-draggable');
-      var proxy = document.createElement('div');
-      var start = 0;
-      var apply = function () { track.scrollLeft = start - this.x; update(); };
-      Draggable.create(proxy, {
-        type: 'x',
-        trigger: track,
-        inertia: !!window.InertiaPlugin && !reduce,
-        dragClickables: false,
-        onPress: function () { G.killTweensOf(track); start = track.scrollLeft; G.set(proxy, { x: 0 }); this.update(); },
-        onDrag: apply,
-        onThrowUpdate: apply,
-        snap: { x: function (v) { return start - nearest(Math.max(0, Math.min(max(), start - v))); } },
-        onRelease: function () { if (!this.tween) { G.to(track, { scrollTo: window.ScrollToPlugin ? { x: nearest(track.scrollLeft) } : undefined, duration: 0.4, ease: 'power3.out', onUpdate: update }); } }
+  document.querySelectorAll('.st [data-revfilter]').forEach(function (root) {
+    var btns = root.querySelectorAll('[data-filter-star]');
+    var cards = root.querySelectorAll('[data-rating]');
+    var status = root.querySelector('[data-filter-status]');
+    var msg = status && status.querySelector('[data-filter-message]');
+    var clear = status && status.querySelector('[data-filter-clear]');
+    if (!btns.length || !cards.length) return;
+    var tpl = root.getAttribute('data-filter-text') || 'Showing {n} of {t} reviews rated {s} stars';
+    if (clear) clear.textContent = root.getAttribute('data-clear-label') || 'Show all reviews';
+    Array.prototype.forEach.call(btns, function (b) {
+      var label = b.getAttribute('aria-label');
+      if (label) b.setAttribute('aria-label', label.replace('{s}', b.getAttribute('data-star')));
+    });
+    var current = '';
+    function apply(star) {
+      current = star;
+      var shown = 0;
+      Array.prototype.forEach.call(cards, function (c) {
+        var show = !star || String(Math.round(parseFloat(c.getAttribute('data-rating')) || 0)) === star;
+        c.hidden = !show;
+        if (show) shown++;
       });
+      Array.prototype.forEach.call(btns, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-star') === star)); });
+      if (status) {
+        status.hidden = !star;
+        if (msg && star) msg.textContent = tpl.replace('{n}', shown).replace('{t}', cards.length).replace('{s}', star);
+      }
     }
+    Array.prototype.forEach.call(btns, function (b) {
+      b.addEventListener('click', function () { var s = b.getAttribute('data-star'); apply(current === s ? '' : s); });
+    });
+    if (clear) clear.addEventListener('click', function () { apply(''); });
   });
 })();
 (function () {
@@ -255,6 +232,74 @@
         .then(function (r) { finish(); if (r.ok) done(); else if (bad) bad.hidden = false; })
         .catch(function () { finish(); if (bad) bad.hidden = false; });
     });
+  });
+})();
+(function () {
+  var KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  function mins(v) {
+    var m = String(v || '').trim().toLowerCase().match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)?$/);
+    if (!m) return null;
+    var h = +m[1], mi = +(m[2] || 0);
+    if (m[3] === 'pm' && h < 12) h += 12;
+    if (m[3] === 'am' && h === 12) h = 0;
+    return h > 24 || mi > 59 ? null : h * 60 + mi;
+  }
+  function clock(total) {
+    var h = Math.floor(total / 60) % 24, mi = total % 60;
+    return (h < 10 ? '0' : '') + h + ':' + (mi < 10 ? '0' : '') + mi;
+  }
+  function nowIn(tz) {
+    var o = { weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' };
+    if (tz) o.timeZone = tz;
+    var parts;
+    try { parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    catch (e) { delete o.timeZone; parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    var p = {};
+    parts.forEach(function (x) { p[x.type] = x.value; });
+    return { day: KEYS.indexOf(String(p.weekday).slice(0, 3).toLowerCase()), min: (parseInt(p.hour, 10) % 24) * 60 + parseInt(p.minute, 10) };
+  }
+  document.querySelectorAll('.st').forEach(function (sec) {
+    var root = sec.querySelector('[data-opennow]');
+    if (!root) return;
+    var badge = root.querySelector('[data-open-badge]');
+    var text = badge && badge.querySelector('.oh-badge-text');
+    var rows = Array.prototype.map.call(root.querySelectorAll('[data-hours-row]'), function (r) {
+      var d = KEYS.indexOf(String(r.getAttribute('data-day') || '').slice(0, 3).toLowerCase());
+      var o = mins(r.getAttribute('data-open')), c = mins(r.getAttribute('data-close'));
+      var label = r.querySelector('.oh-day');
+      return { el: r, day: d, open: o, close: c, shut: r.getAttribute('data-closed') === 'closed' || o === null || c === null, name: label ? label.textContent : '' };
+    });
+    if (!rows.length) return;
+    var tz = root.getAttribute('data-tz') || '';
+    function attr(n, d) { return root.getAttribute(n) || d; }
+    function update() {
+      var n = nowIn(tz), prev = (n.day + 6) % 7, open = null;
+      rows.forEach(function (r) {
+        r.el.classList.toggle('is-today', r.day === n.day);
+        if (r.day === n.day) r.el.setAttribute('aria-current', 'date'); else r.el.removeAttribute('aria-current');
+        if (r.shut) return;
+        var over = r.close <= r.open;
+        if (r.day === n.day && n.min >= r.open && (over || n.min < r.close)) open = open || r;
+        if (r.day === prev && over && n.min < r.close) open = open || r;
+      });
+      if (!badge || !text) return;
+      badge.hidden = false;
+      badge.classList.toggle('is-open', !!open);
+      badge.classList.toggle('is-shut', !open);
+      if (open) { text.textContent = attr('data-open-label', 'Open now') + ' \u00b7 ' + attr('data-closes-label', 'closes at') + ' ' + clock(open.close); return; }
+      var next = null;
+      for (var i = 0; i < 8 && !next; i++) {
+        var dd = (n.day + i) % 7;
+        rows.forEach(function (r) {
+          if (r.shut || r.day !== dd || (i === 0 && r.open <= n.min)) return;
+          if (!next || r.open < next.open) next = r;
+        });
+        if (next) next.when = i === 0 ? '' : next.name + ' ';
+      }
+      text.textContent = attr('data-shut-label', 'Closed now') + (next ? ' \u00b7 ' + attr('data-opens-label', 'opens') + ' ' + next.when + clock(next.open) : '');
+    }
+    update();
+    setInterval(update, 60000);
   });
 })();
 (function () {
@@ -641,7 +686,7 @@
       var media = section.querySelectorAll('[data-anim="media"]');
       var tl = gsap.timeline({
         defaults: { ease: 'power3.out', duration: 0.80 },
-        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
+        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', end: function () { var pin = ScrollTrigger.getAll().filter(function (t) { return t.pin === section; })[0]; return pin ? pin.end + section.offsetHeight : 'bottom top'; }, toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
       });
       Array.prototype.forEach.call(heads, function (el, i) {
         var opts = { type: TEXT.split };

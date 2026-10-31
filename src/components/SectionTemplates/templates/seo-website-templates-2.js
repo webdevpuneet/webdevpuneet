@@ -4,7 +4,7 @@ export const WEBSITE_TEMPLATE_SEO_2 = {
   restaurant: {
     about: `Most people look up a restaurant on their phone, standing on a street, so this template puts what they need first: an image hero with a booking button, the menu with prices, set menus or tasting options in a clean rows layout, guest reviews and a map with opening hours. The multi-page version adds Menu, About and Visit pages, so each has its own address and can rank for searches like "wood-fired restaurant Alfama".
 
-Replace the sample dishes with yours and keep prices as text rather than inside images, which keeps the menu readable on small screens and searchable. Use the map section for the address, hours and parking, and link the booking buttons to your reservation system or a phone number. Photograph a handful of signature dishes rather than the whole menu, and use the About page for the story of the kitchen. A filterable gallery shows dishes and the dining room, and a table request form with service, day and time sits before the map.`,
+Replace the sample dishes with yours and keep prices as text rather than inside images, which keeps the menu readable on small screens and searchable. Use the opening hours and location section for the address, hours and parking (it shows a live Open now badge, and tells search engines your hours), and link the booking buttons to your reservation system or a phone number. Photograph a handful of signature dishes rather than the whole menu, and use the About page for the story of the kitchen. A filterable gallery shows dishes and the dining room, and a table request form with service, day and time sits before the opening hours.`,
     checklist: [
       'Opening hours, address and a booking link without scrolling',
       'The menu as text with prices, not as a PDF or an image',
@@ -15,7 +15,7 @@ Replace the sample dishes with yours and keep prices as text rather than inside 
     faqs: [
       { q: 'Should a restaurant website have the menu as a PDF?', a: 'Better as text on the page. Text loads fast on phones, can be read by search engines and is easy to update. This template shows the menu in a restaurant menu section with names, descriptions and prices you edit in the panel.' },
       { q: 'How do I take table bookings?', a: 'Use the table request form before the map to collect the service, day and time, and reply to confirm, or link the booking buttons to your reservation platform or a phone number. Every button has a link field, so you can use a tel: link, a booking widget page or an email address.' },
-      { q: 'Can I show opening hours and the location?', a: 'Yes. The map section holds the address, a map embed and the details you add, such as opening hours and parking. Paste a Google Maps embed URL if you prefer it to the default OpenStreetMap map.' },
+      { q: 'Can I show opening hours and the location?', a: 'Yes. The Opening Hours & Location section shows a weekly table with lunch and dinner service, a live Open now badge in the restaurant\'s time zone, the address, a map and call and directions buttons. It also writes your hours as LocalBusiness data for search engines. Paste a Google Maps embed URL if you prefer it to the default OpenStreetMap map.' },
       { q: 'Is this restaurant template suitable for a cafe, bar or bakery?', a: 'Yes. Change the headline, photos and menu items and it works for cafes, bars, bakeries and food trucks. Use the pricing rows for set menus, brunch deals or catering packages.' },
     ],
   },
@@ -69,7 +69,7 @@ Use your real class names and times in the timetable, since it is the section pe
   dental: {
     about: `Patients choose a dentist on trust and convenience, so this template leads with reassurance: a clear promise, the treatments you offer, a three-step explanation of what a first visit involves, and photos and short bios of the dentists and hygienists. Reviews and an FAQ answer the worries that stop people booking, such as cost, pain and emergency appointments, and a contact section with a map makes finding the practice easy.
 
-Write for nervous patients: say plainly that you offer gentle care, list prices or price ranges where you can, and make the booking button obvious on every screen. Add the practice address, phone number and opening hours to the contact section so they are consistent everywhere, which helps local search. The multi-page version adds Treatments, Our team and Book online pages, so each can rank for the treatments you want to be found for. A before-and-after slider shows smile results with patients’ permission, and a booking request form lets patients choose a treatment, a day and a time.`,
+Write for nervous patients: say plainly that you offer gentle care, list prices or price ranges where you can, and make the booking button obvious on every screen. Add the practice address, phone number and opening hours in the opening hours and location section so they are consistent everywhere, which helps local search. A live Open now badge tells patients at a glance whether the clinic is open, and a reviews summary shows the 4.9 rating with a star breakdown that filters the patient reviews. The multi-page version adds Treatments, Our team and Book online pages, so each can rank for the treatments you want to be found for. A before-and-after slider shows smile results with patients’ permission, and a booking request form lets patients choose a treatment, a day and a time.`,
     checklist: [
       'A booking button and phone number visible on every screen',
       'A treatments list in plain language, with prices where possible',
@@ -80,7 +80,7 @@ Write for nervous patients: say plainly that you offer gentle care, list prices 
     faqs: [
       { q: 'What should a dental website include?', a: 'Treatments, prices or price ranges, the team, how to book, opening hours and emergency contact details. Reviews and a short FAQ about cost and anxious patients help people decide to call.' },
       { q: 'Can patients book online with this template?', a: 'Link the booking buttons to your online booking system, or use the Book online page in the multi-page version as the place that explains how to book. Add a phone number for patients who prefer to call.' },
-      { q: 'How do I show the practice location?', a: 'Use the contact and map section for the address, phone, opening hours and parking, and add the same details in the footer. Consistent contact details across the site and your listings help local search.' },
+      { q: 'How do I show the practice location?', a: 'Use the Opening Hours & Location section for the address, phone, opening hours and a map, and add the same details in the footer. It writes your hours and address as LocalBusiness (Dentist) data for search engines. Consistent contact details across the site and your listings help local search.' },
       { q: 'Is the template suitable for orthodontists and other clinics?', a: 'Yes. Rename the treatments, replace the photos and change the colour preset. It works for orthodontists, physiotherapists, opticians, vets and similar clinics.' },
     ],
   },

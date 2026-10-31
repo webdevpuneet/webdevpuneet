@@ -3,7 +3,7 @@
 const onlineCourseLandingPageTemplate = {
   id: 'online-course-landing-page-template',
   title: 'Online Course Website Template',
-  lastmod: '2026-10-30',
+  lastmod: '2026-10-31',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -12,7 +12,7 @@ const onlineCourseLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuw56u0w2wy">
+    <section class="st st-navbar-simple" data-uid="smvw6s7tin1nc">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /><path d="M22 10v6" /><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg></span><span>Design Academy</span></span>
@@ -33,7 +33,7 @@ const onlineCourseLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvuw56u0qa1m">
+    <section class="st st-saas-split-hero" data-uid="smvw6s7tinutw">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="#pricing"><span>New cohort starts 4 November</span></a>
@@ -50,7 +50,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuw56u0o13o">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvw6s7tibwri">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">What you’ll learn</p>
@@ -91,7 +91,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvuw56u09tkp">
+    <section id="gallery" class="st st-video-section" data-uid="smvw6s7tiwo6a">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Course preview</p>
@@ -121,7 +121,7 @@ const onlineCourseLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="features-2" class="st st-features-alternating" data-uid="smvuw56u1ev8w">
+    <section id="features-2" class="st st-features-alternating" data-uid="smvw6s7tjakwm">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Curriculum</p>
@@ -159,14 +159,14 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuw56u1l0yi">
+    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvw6s7tjc7eb">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The syllabus</p>
           <h2 class="st-h2" data-anim="item" data-anim-text>Your 8-week <span class="hl">learning path</span></h2>
           <p class="st-lead" data-anim="item">Keep scrolling to follow the course from your first layout to a finished portfolio project.</p>
         </header>
-        <div class="tlh" data-tlh data-layout="alternate" data-marker="icon" data-start="1" data-mode="pin">
+        <div class="tlh" data-tlh data-layout="alternate" data-marker="icon" data-width="contained" data-start="1" data-mode="pin">
           <button type="button" class="tlh-nav tlh-prev" data-tlh-prev disabled aria-label="Show earlier events"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
           <div class="tlh-track" data-tlh-track role="region" tabindex="0" aria-label="Company timeline">
             <ol class="tlh-list">
@@ -224,7 +224,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonial-spotlight" data-uid="smvuw56u1zlb1">
+    <section id="customers" class="st st-testimonial-spotlight" data-uid="smvw6s7tjxlk8">
       <div class="st-wrap">
         <figure class="ts-card">
           <span class="ts-mark" aria-hidden="true">“</span>
@@ -243,7 +243,7 @@ const onlineCourseLandingPageTemplate = {
         </figure>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvuw56u1iacv">
+    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvw6s7tj69s8">
       <div class="st-wrap ps">
         <div class="ps-copy">
           <header class="st-head st-head--left ps-head">
@@ -272,7 +272,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuw56u14m2v">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvw6s7tjrgcr">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -300,7 +300,7 @@ const onlineCourseLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuw56u11wx0">
+    <section class="st st-popup-modal" data-uid="smvw6s7tjysrr">
       <div class="pu" data-pu data-trigger="scroll" data-delay="8" data-scroll="50" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="1kxmbuq">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -321,7 +321,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuw56u1u0ta">
+    <section class="st st-footer-minimal" data-uid="smvw6s7tjjqx5">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -337,7 +337,7 @@ const onlineCourseLandingPageTemplate = {
         <p class="fm-copy">© 2026 Design Academy</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuw56u1uecc">
+    <section class="st st-back-to-top" data-uid="smvw6s7tjf5gt">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -499,6 +499,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .tlh-dot:focus-visible{outline:3px solid var(--st-brand);outline-offset:3px}
 .tlh-num::before{content:counter(tl)}
 .tlh-ico{display:none;width:20px;height:20px}
+.tlh-dot .tlh-ico{background:none;border-radius:0;color:inherit}
 .tlh-ico svg{width:20px;height:20px}
 .tlh[data-marker=icon] .tlh-num{display:none}
 .tlh[data-marker=icon] .tlh-ico{display:inline-grid}
@@ -525,7 +526,14 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .is-tl-pinned .tlh-list{will-change:transform}
 .is-tl-pinned .tlh-list::after{transition:none}
 .tlh.is-fit .tlh-nav{display:none}
+.tlh[data-width=full]{width:100cqi;margin-inline:calc(50% - 50cqi);gap:0}
+.tlh[data-width=full] .tlh-track{border-radius:0}
+.tlh[data-width=full] .tlh-list{padding-inline:max(28px,var(--st-pad))}
+.tlh[data-width=full] .tlh-nav{position:absolute;top:50%;z-index:3;transform:translateY(-50%)}
+.tlh[data-width=full] .tlh-prev{left:12px}
+.tlh[data-width=full] .tlh-next{right:12px}
 @container st (max-width:640px){
+.tlh[data-width=full] .tlh-nav{top:22px}
 .tlh-list{--tl-item-w:230px;--tl-card-h:172px}
 .tlh-list::before,.tlh-list::after{top:22px}
 .tlh-item{height:calc(var(--tl-card-h) + 44px)}
@@ -986,7 +994,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         trigger = tw.scrollTrigger;
         return function () {
           pinned = false; trigger = null;
-          tw.scrollTrigger.kill(); tw.kill();
+          if (tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill();
           G.set(list, { clearProps: 'transform' });
           sec.classList.remove('is-tl-pinned');
           setActive(active > -1 ? active : 0, false);

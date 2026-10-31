@@ -604,7 +604,7 @@
       var media = section.querySelectorAll('[data-anim="media"]');
       var tl = gsap.timeline({
         defaults: { ease: 'power3.out', duration: 0.80 },
-        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
+        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', end: function () { var pin = ScrollTrigger.getAll().filter(function (t) { return t.pin === section; })[0]; return pin ? pin.end + section.offsetHeight : 'bottom top'; }, toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
       });
       Array.prototype.forEach.call(heads, function (el, i) {
         var opts = { type: TEXT.split };
@@ -634,14 +634,18 @@
     if (mode === 'spin') layer.querySelectorAll('[data-spin]').forEach(function (el, i) {
       G.to(el, { rotation: i % 2 ? -360 : 360, duration: 60 + i * 8, ease: 'none', repeat: -1, transformOrigin: '50% 50%' });
     });
-    if (mode === 'draw' && window.ScrollTrigger) layer.querySelectorAll('[data-draw]').forEach(function (p, i) {
+    // window.ST_ART_PLAY (the section editor's preview): draw and parallax play once by themselves,
+    // so picking them shows the effect without scrolling. Exports and pages keep the scroll-driven version.
+    if (mode === 'draw' && (window.ScrollTrigger || window.ST_ART_PLAY)) layer.querySelectorAll('[data-draw]').forEach(function (p, i) {
       var len = p.getTotalLength ? p.getTotalLength() : 0;
       if (!len) return;
-      G.fromTo(p, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: sec, start: 'top 90%', end: 'bottom 40%', scrub: 0.6 } });
+      if (window.ST_ART_PLAY) G.fromTo(p, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 2.4, delay: i * 0.12, ease: 'power2.out' });
+      else G.fromTo(p, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: sec, start: 'top 90%', end: 'bottom 40%', scrub: 0.6 } });
     });
-    if (mode === 'parallax' && window.ScrollTrigger && svg) {
+    if (mode === 'parallax' && svg && (window.ScrollTrigger || window.ST_ART_PLAY)) {
       G.set(svg, { scale: 1.15 });
-      G.fromTo(svg, { yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: true } });
+      if (window.ST_ART_PLAY) G.fromTo(svg, { yPercent: -6 }, { yPercent: 6, duration: 2.4, ease: 'sine.inOut', yoyo: true, repeat: 1 });
+      else G.fromTo(svg, { yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: true } });
     }
   });
 })();

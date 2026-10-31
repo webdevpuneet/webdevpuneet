@@ -3,7 +3,7 @@
 const coachLandingPageTemplate = {
   id: 'coach-landing-page-template',
   title: 'Coach & Consultant Website Template',
-  lastmod: '2026-10-30',
+  lastmod: '2026-10-31',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -15,7 +15,7 @@ const coachLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvuw56uerknw">
+    <section class="st st-navbar-floating" data-uid="smvw6s7tz04jn">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -35,7 +35,7 @@ const coachLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-portfolio-hero" data-uid="smvuw56uedout">
+    <section class="st st-portfolio-hero" data-uid="smvw6s7tzkw74">
       <div class="pf st-wrap">
         <div class="pf-copy">
           <span class="pf-status" data-anim="item"><i aria-hidden="true"></i><span>Taking new clients for January</span></span>
@@ -58,7 +58,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuw56uee4lt">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvw6s7tzbe7d">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How I help</p>
@@ -84,7 +84,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuw56uei2zw">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvw6s7tzklf5">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Programmes</p>
@@ -127,7 +127,7 @@ const coachLandingPageTemplate = {
         <p class="p3-note" data-anim="item">Payment plans available for all programmes.</p>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuw56uerzw3">
+    <section id="customers" class="st st-testimonials-carousel" data-uid="smvw6s7tz0fno">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -184,7 +184,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuw56ueatzh">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvw6s7tzrxqy">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -198,7 +198,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvuw56uewkz1">
+    <section id="contact" class="st st-booking-form" data-uid="smvw6s7tzwg4z">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -256,7 +256,7 @@ const coachLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuw56ue8oxk">
+    <section class="st st-footer-minimal" data-uid="smvw6s7tzcdic">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">

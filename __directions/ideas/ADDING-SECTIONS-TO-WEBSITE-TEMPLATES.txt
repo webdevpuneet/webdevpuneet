@@ -16,6 +16,20 @@ PLACEMENT OPTIONS (entries of STARTER_WIDGET_EXTRAS[templateId])
   { atEnd: true, section }           push after the footer = site-wide floating widget (back to top, accessibility toolbar,
                                      cursor follower). Use a function that returns a NEW array for shared widgets.
 
+ADDED 2026-10-31 (opening hours, About us, reviews summary; content in starters-wave2.js, merged by starters-widgets.js)
+  { page: 'About', before|after|replace, section }   place it on an EXPLICIT page of the template (templates with a pages: list,
+                                                     like restaurant and agency) instead of the home page
+  { replace: 'contact-map', inPages: true, section } swap the section on the home page AND on every explicit page that has it
+  SPLIT_PAGES (site.js) now maps the category 'about' to the About page, so an About section added to the home page of a
+  template without explicit pages moves to the About page together with the team in the multi-page version.
+  Check every text against the template's own facts: the hours must match its booking form, ratings its stats, founders its team.
+  For a rating of the business itself leave the reviews section's "itemName" empty: no review markup for self-reviews.
+  Template page SEO text is data-driven from ADDED_TYPES / WIDGET_ROLES (starters-widgets.js) and addedSectionsOf(); also search
+  seo-website-templates-*.js for hand-written sentences that name the section you replaced (for example "the map section").
+  After adding: node scripts/generate-landing-page-snippets.mjs --check, then without --check (also add a line for the new
+  type to ADDED_FEATURES in that script), node scripts/capture-website-templates.mjs --force <ids> for the long previews,
+  node scripts/export-website-demos.mjs and node scripts/upload-demos.mjs <ids>.
+
 STEPS WHEN YOU ADD A SECTION TO TEMPLATES
   1. Write the content for that template (real copy that matches its brand and facts; check the template's own stats first,
      for example nonprofit: 2.4M trees since 2016, 38 villages).

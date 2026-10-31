@@ -3,7 +3,7 @@
 const realEstateLandingPageTemplate = {
   id: 'real-estate-landing-page-template',
   title: 'Real Estate Agency Website Template',
-  lastmod: '2026-10-30',
+  lastmod: '2026-10-31',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -12,7 +12,7 @@ const realEstateLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuw56sjsa4t">
+    <section class="st st-navbar-simple" data-uid="smvw6s7r3vrwx">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg></span><span>Harbor Homes</span></span>
@@ -33,7 +33,7 @@ const realEstateLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuw56sj6lkv">
+    <section class="st st-image-background-hero" data-uid="smvw6s7r39na4">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-realestate.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -53,7 +53,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="listings" class="st st-property-listings" data-uid="smvuw56sjqq9f">
+    <section id="listings" class="st st-property-listings" data-uid="smvw6s7r364zn">
       <div class="st-wrap">
         <div class="pl-head">
           <div class="pl-titles">
@@ -159,7 +159,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuw56sj3gvj">
+    <section id="zoom" class="st st-scroll-zoom" data-uid="smvw6s7r3mrcq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Featured homes</p>
@@ -201,7 +201,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuw56sjh424">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvw6s7r32sbr">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -242,7 +242,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvuw56sjw25x">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvw6s7r301xv">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it works</p>
@@ -272,7 +272,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvuw56sjo8qd">
+    <section id="results" class="st st-stats-counters" data-uid="smvw6s7r3t51k">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our results</p>
@@ -303,7 +303,54 @@ const realEstateLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvuw56sjk5m7">
+    <section id="about" class="st st-about-story" data-uid="smvw6s7r3fud7">
+      <div class="st-wrap">
+        <div class="ab">
+          <div class="ab-media" data-anim="media">
+            <img class="ab-img" src="https://webdevpuneet.com/images/section-templates/tpl-realestate.jpg" alt="A modern house with large windows by the coast">
+            <p class="ab-badge"><strong>14</strong><span>years on the coast</span></p>
+          </div>
+          <div class="ab-copy">
+            <p class="st-eyebrow" data-anim="item">About Harbor Homes</p>
+            <h2 class="st-h2" data-anim="item" data-anim-text>Local agents who <span class="hl">know the coast</span></h2>
+            <p class="ab-story" data-anim="item">Harbor Homes was founded in 2012 by Grace Okafor, who had spent years selling homes on the coast and wanted an agency that treats every sale the way a good neighbour would.</p>
+            <p class="ab-story" data-anim="item">Every agent specialises in a few neighbourhoods, so you get real local insight, honest advice and a smooth move from first viewing to keys in hand.</p>
+            <ul class="ab-facts" data-anim="item">
+              <li class="ab-fact"><strong class="ab-num">1,200+</strong><span class="ab-label">homes sold</span></li>
+              <li class="ab-fact"><strong class="ab-num">21</strong><span class="ab-label">days to sell on average</span></li>
+              <li class="ab-fact"><strong class="ab-num">98%</strong><span class="ab-label">of asking price</span></li>
+            </ul>
+            <figure class="ab-founder" data-anim="item">
+              <img class="ab-face" src="https://webdevpuneet.com/images/section-templates/avatar-6.jpg" alt="Grace Okafor, founder">
+              <figcaption><strong class="ab-who">Grace Okafor</strong><span class="ab-role">Founder and director</span></figcaption>
+              <blockquote class="ab-quote">“A good sale starts with an honest valuation.”</blockquote>
+            </figure>
+            <div class="st-btns" data-anim="item">
+              <a class="st-btn" href="#team"><span>Meet the agents</span></a>
+              <a class="st-btn st-btn--ghost" href="#contact"><span>Book a valuation</span></a>
+            </div>
+          </div>
+        </div>
+        <ul class="ab-values">
+          <li class="ab-value" data-anim="item">
+            <span class="st-icon"></span>
+            <h3 class="ab-vtitle">Honest advice</h3>
+            <p class="ab-vtext">We will tell you what your home is worth, and what is not worth doing before you sell.</p>
+          </li>
+          <li class="ab-value" data-anim="item">
+            <span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg></span>
+            <h3 class="ab-vtitle">Local knowledge</h3>
+            <p class="ab-vtext">Agents who live in the area know the streets, the schools and the buyers.</p>
+          </li>
+          <li class="ab-value" data-anim="item">
+            <span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg></span>
+            <h3 class="ab-vtitle">Looked after to the keys</h3>
+            <p class="ab-vtext">One person guides you from the first viewing to the day you move.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <section id="team" class="st st-team-grid" data-uid="smvw6s7r3ei3g">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our agents</p>
@@ -354,7 +401,7 @@ const realEstateLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuw56sjbp9j">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvw6s7r32xtn">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -389,7 +436,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuw56sjnmw8">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvw6s7r3trnh">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -417,7 +464,7 @@ const realEstateLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvuw56sjv7jz">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvw6s7r312fr">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -462,7 +509,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvuw56skouhx">
+    <section class="st st-footer-columns" data-uid="smvw6s7r3m80v">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -495,7 +542,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuw56skb0cr">
+    <section class="st st-back-to-top" data-uid="smvw6s7r3axct">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -685,6 +732,33 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .sc-note{margin:0;color:var(--st-muted);font-size:14.5px}
 .sc-note:empty{display:none}
 @container st (max-width:720px){.sc-grid{grid-template-columns:1fr 1fr}.sc-stat + .sc-stat{border-left:0}.sc-stat:nth-child(even){border-left:1px solid color-mix(in srgb,var(--st-text) 8%,transparent)}.sc-stat:nth-child(n+3){border-top:1px solid color-mix(in srgb,var(--st-text) 8%,transparent)}}
+/* About Us & Our Story */
+.st-about-story{padding:clamp(64px,8cqi,112px) 0}
+.ab{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5cqi,76px);align-items:center}
+.ab-media{position:relative}
+.ab-img{width:100%;aspect-ratio:4 / 5;object-fit:cover;border-radius:calc(var(--st-radius) * 1.6px);background:var(--st-surface)}
+.ab-badge{position:absolute;left:clamp(12px,2cqi,22px);bottom:clamp(12px,2cqi,22px);display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px 20px;border-radius:calc(var(--st-radius) * 1px);background:var(--st-brand);color:var(--st-btn-text);box-shadow:0 18px 40px -16px color-mix(in srgb,var(--st-brand) 70%,#000)}
+.ab-badge strong{font:700 clamp(30px,3.6cqi,42px)/1 var(--st-font-heading)}
+.ab-badge span{font-size:14px;font-weight:600;opacity:.92}
+.ab-copy{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(12px,1.6cqi,18px)}
+.ab-copy .st-h2{text-align:left}
+.ab-story{color:var(--st-muted);font-size:clamp(16px,1.5cqi,18px);line-height:1.7}
+.ab-facts{list-style:none;display:flex;flex-wrap:wrap;gap:16px clamp(24px,4cqi,48px);margin:6px 0;padding:18px 0;width:100%;border-block:1px solid color-mix(in srgb,var(--st-text) 11%,transparent)}
+.ab-fact{display:flex;flex-direction:column;gap:2px}
+.ab-num{font:700 clamp(28px,3.2cqi,38px)/1.1 var(--st-font-heading);color:var(--st-brand)}
+.ab-label{color:var(--st-muted);font-size:14px}
+.ab-founder{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:4px 14px;width:100%}
+.ab-face{width:56px;height:56px;border-radius:50%;object-fit:cover;background:var(--st-surface)}
+.ab-founder figcaption{display:flex;flex-direction:column}
+.ab-who{font-size:16px}
+.ab-role{color:var(--st-muted);font-size:14px}
+.ab-quote{grid-column:1 / -1;margin-top:8px;padding-left:16px;border-left:3px solid var(--st-brand);color:var(--st-text);font:italic 500 clamp(17px,1.7cqi,20px)/1.5 var(--st-font-heading)}
+.ab-values{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(14px,1.8cqi,22px);margin-top:clamp(40px,6cqi,76px)}
+.ab-value{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:clamp(22px,2.4cqi,30px);border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 8%,transparent)}
+.ab-value .st-icon{background:color-mix(in srgb,var(--st-brand) 14%,transparent);margin-bottom:4px}
+.ab-vtitle{font-size:19px}
+.ab-vtext{color:var(--st-muted);font-size:15.5px}
+@container st (max-width:820px){.ab{grid-template-columns:1fr}.ab-img{aspect-ratio:5 / 4}}
 /* Team Grid */
 .st-team-grid{padding:clamp(64px,8cqi,112px) 0}
 .tm2-grid{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,2.4cqi,32px)}
@@ -1175,7 +1249,7 @@ a.cs2-value:hover{color:var(--st-brand)}
   seo: {
     "title": "Real Estate Agency Website HTML Template — Free Snippet",
     "description": "A real estate agency website in HTML, CSS and JS: hero, property listings, services, three-step process, counting stats, agent team, reviews and FAQ. Edit live.",
-    "subtitle": "Real Estate Agency Website template · 13 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Real Estate Agency Website template · 14 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "real-estate",
       "name": "Real Estate Agency Website",
@@ -1226,6 +1300,12 @@ a.cs2-value:hover{color:var(--st-brand)}
         "role": "counters for homes sold, years in the area and days to sell: proof a seller can compare"
       },
       {
+        "id": "about-story",
+        "name": "About Us & Our Story",
+        "url": "/website-section-templates/about-story/",
+        "role": "an About us section with the agency's story, its founder, headline numbers and values"
+      },
+      {
         "id": "team-grid",
         "name": "Team Grid",
         "url": "/website-section-templates/team-grid/",
@@ -1264,16 +1344,17 @@ a.cs2-value:hover{color:var(--st-brand)}
     ],
     "about": {
       "title": "A Real Estate Website Built on Trust: Listings, Process, Results and the People Behind Them",
-      "description": "Choosing an agent is a trust decision, so this page leads with something tangible: a striking home at dusk and the listings themselves, not a slogan. Property cards give visitors something to do immediately, while the services grid and three-step process explain what you do for buyers and sellers in plain terms, so the unknown becomes manageable. Moving counters (homes sold, years in the area, average days to sell) turn \"experienced\" into evidence.\n\nThe people come next. A team grid with real agent photos gives a nervous seller a face, and the testimonial wall and FAQ answer the questions every client asks before they pick up the phone: fees, timelines, how valuations work. The contact form at the end is built for a valuation request, which is the conversation most agents want to start.\n\nReplace the sample listings and agents with yours. It is the layout of the [Real Estate Agency Website template](/website-builder/templates/real-estate/); open it in the [Website Builder](/website-builder/) to edit copy, theme and images and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned stack of home photographs that each arrive small and zoom up to fill the screen as you scroll, one home at a time; and a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Scroll Zoom Image Stack](/website-section-templates/scroll-zoom/), [Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
+      "description": "Choosing an agent is a trust decision, so this page leads with something tangible: a striking home at dusk and the listings themselves, not a slogan. Property cards give visitors something to do immediately, while the services grid and three-step process explain what you do for buyers and sellers in plain terms, so the unknown becomes manageable. Moving counters (homes sold, years in the area, average days to sell) turn \"experienced\" into evidence.\n\nThe people come next. A team grid with real agent photos gives a nervous seller a face, and the testimonial wall and FAQ answer the questions every client asks before they pick up the phone: fees, timelines, how valuations work. The contact form at the end is built for a valuation request, which is the conversation most agents want to start.\n\nReplace the sample listings and agents with yours. It is the layout of the [Real Estate Agency Website template](/website-builder/templates/real-estate/); open it in the [Website Builder](/website-builder/) to edit copy, theme and images and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned stack of home photographs that each arrive small and zoom up to fill the screen as you scroll, one home at a time; an About us section with the agency's story, its founder, headline numbers and values; and a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Scroll Zoom Image Stack](/website-section-templates/scroll-zoom/), [About Us & Our Story](/website-section-templates/about-story/), [Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
-      "13 ready-made website sections assembled into one finished real estate agency website page: Simple Sticky Navbar, Image Background Hero, Property Listings, Scroll Zoom Image Stack (Ken Burns), Icon Grid Features, How It Works Steps, Animated Stats Counters, Team Grid, Testimonial Wall, FAQ Accordion, Contact Form With Details, Multi-Column Footer, Back to Top Button",
+      "14 ready-made website sections assembled into one finished real estate agency website page: Simple Sticky Navbar, Image Background Hero, Property Listings, Scroll Zoom Image Stack (Ken Burns), Icon Grid Features, How It Works Steps, Animated Stats Counters, About Us & Our Story, Team Grid, Testimonial Wall, FAQ Accordion, Contact Form With Details, Multi-Column Footer, Back to Top Button",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 6-page website in the builder, sharing one navbar, footer and theme",
       "A pinned stack of photographs that each start small and zoom up to full size as you scroll (GSAP ScrollTrigger)",
+      "An About us section with a picture and badge, the story, the founder, key facts and values, plus Organization data for search engines",
       "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
@@ -1334,11 +1415,11 @@ a.cs2-value:hover{color:var(--st-brand)}
       },
       {
         "q": "What extras are built into the Real Estate Agency Website template?",
-        "a": "It adds a scroll zoom image stack and a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
+        "a": "It adds a scroll zoom image stack, an About us section with the story, facts and values and a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 13 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Property Listings, Scroll Zoom Image Stack (Ken Burns), Icon Grid Features, How It Works Steps, Animated Stats Counters, Team Grid, Testimonial Wall, FAQ Accordion, Contact Form With Details, Multi-Column Footer, Back to Top Button. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 14 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Property Listings, Scroll Zoom Image Stack (Ken Burns), Icon Grid Features, How It Works Steps, Animated Stats Counters, About Us & Our Story, Team Grid, Testimonial Wall, FAQ Accordion, Contact Form With Details, Multi-Column Footer, Back to Top Button. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1347,7 +1428,7 @@ a.cs2-value:hover{color:var(--st-brand)}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Real Estate Agency Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete real estate agency website for “Harbor Homes” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Find the home that fits your life”\n3. Property Listings: “Homes ready to view”\n4. Scroll Zoom Image Stack (Ken Burns): “Homes that reward a closer look”\n5. Icon Grid Features: “Everything for your next move”\n6. How It Works Steps: “Selling in three simple steps”\n7. Animated Stats Counters: “Numbers that speak for us”\n8. Team Grid: “Local people, local knowledge”\n9. Testimonial Wall: “Happy homeowners”\n10. FAQ Accordion: “Questions answered”\n11. Contact Form With Details: “Book your free valuation”\n12. Multi-Column Footer\n13. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #0f766e, page background #ffffff, cards #f0f7f5, text #0f1f1c, muted text #4b5f5a. Corner radius 12px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable real estate copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Real Estate Website Template — Free HTML Agency Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a real estate business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- About (about.html)\n- FAQ (faq.html)\n- Contact (contact.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete real estate agency website for “Harbor Homes” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Find the home that fits your life”\n3. Property Listings: “Homes ready to view”\n4. Scroll Zoom Image Stack (Ken Burns): “Homes that reward a closer look”\n5. Icon Grid Features: “Everything for your next move”\n6. How It Works Steps: “Selling in three simple steps”\n7. Animated Stats Counters: “Numbers that speak for us”\n8. About Us & Our Story: “Local agents who know the coast”\n9. Team Grid: “Local people, local knowledge”\n10. Testimonial Wall: “Happy homeowners”\n11. FAQ Accordion: “Questions answered”\n12. Contact Form With Details: “Book your free valuation”\n13. Multi-Column Footer\n14. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #0f766e, page background #ffffff, cards #f0f7f5, text #0f1f1c, muted text #4b5f5a. Corner radius 12px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable real estate copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Real Estate Website Template — Free HTML Agency Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a real estate business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- About (about.html)\n- FAQ (faq.html)\n- Contact (contact.html)\n- Privacy (privacy.html)"
     }
   },
 };

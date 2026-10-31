@@ -153,6 +153,41 @@
   });
 })();
 (function () {
+  document.querySelectorAll('.st [data-revfilter]').forEach(function (root) {
+    var btns = root.querySelectorAll('[data-filter-star]');
+    var cards = root.querySelectorAll('[data-rating]');
+    var status = root.querySelector('[data-filter-status]');
+    var msg = status && status.querySelector('[data-filter-message]');
+    var clear = status && status.querySelector('[data-filter-clear]');
+    if (!btns.length || !cards.length) return;
+    var tpl = root.getAttribute('data-filter-text') || 'Showing {n} of {t} reviews rated {s} stars';
+    if (clear) clear.textContent = root.getAttribute('data-clear-label') || 'Show all reviews';
+    Array.prototype.forEach.call(btns, function (b) {
+      var label = b.getAttribute('aria-label');
+      if (label) b.setAttribute('aria-label', label.replace('{s}', b.getAttribute('data-star')));
+    });
+    var current = '';
+    function apply(star) {
+      current = star;
+      var shown = 0;
+      Array.prototype.forEach.call(cards, function (c) {
+        var show = !star || String(Math.round(parseFloat(c.getAttribute('data-rating')) || 0)) === star;
+        c.hidden = !show;
+        if (show) shown++;
+      });
+      Array.prototype.forEach.call(btns, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-star') === star)); });
+      if (status) {
+        status.hidden = !star;
+        if (msg && star) msg.textContent = tpl.replace('{n}', shown).replace('{t}', cards.length).replace('{s}', star);
+      }
+    }
+    Array.prototype.forEach.call(btns, function (b) {
+      b.addEventListener('click', function () { var s = b.getAttribute('data-star'); apply(current === s ? '' : s); });
+    });
+    if (clear) clear.addEventListener('click', function () { apply(''); });
+  });
+})();
+(function () {
   if (window.gsap && window.Flip) gsap.registerPlugin(Flip);
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll('.st').forEach(function (sec) {
@@ -778,7 +813,7 @@
       var media = section.querySelectorAll('[data-anim="media"]');
       var tl = gsap.timeline({
         defaults: { ease: 'power3.out', duration: 0.80 },
-        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
+        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', end: function () { var pin = ScrollTrigger.getAll().filter(function (t) { return t.pin === section; })[0]; return pin ? pin.end + section.offsetHeight : 'bottom top'; }, toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
       });
       Array.prototype.forEach.call(heads, function (el, i) {
         var opts = { type: TEXT.split };

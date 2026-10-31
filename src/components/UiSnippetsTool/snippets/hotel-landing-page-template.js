@@ -3,7 +3,7 @@
 const hotelLandingPageTemplate = {
   id: 'hotel-landing-page-template',
   title: 'Boutique Hotel Website Template',
-  lastmod: '2026-10-30',
+  lastmod: '2026-10-31',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -14,7 +14,7 @@ const hotelLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuw56vu8b68">
+    <section class="st st-navbar-simple" data-uid="smvw6s7vi6ut7">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg></span><span>Casa Mar</span></span>
@@ -34,7 +34,7 @@ const hotelLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuw56vuacvx">
+    <section class="st st-image-background-hero" data-uid="smvw6s7vi29he">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-hotel.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -54,7 +54,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="work" class="st st-scroll-gallery" data-uid="smvuw56vuufmm">
+    <section id="work" class="st st-scroll-gallery" data-uid="smvw6s7vi0mh5">
       <div class="st-wrap hs-head">
         <div class="hs-titles">
           <p class="st-eyebrow" data-anim="item">Rooms &amp; suites</p>
@@ -89,8 +89,8 @@ const hotelLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="highlights" class="st st-scroll-stack" data-uid="smvuw56vv2cgv">
-      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.15" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="art-glow-smvuw56vv2cgv"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs><ellipse data-float cx="600" cy="80" rx="620" ry="380" fill="url(#art-glow-smvuw56vv2cgv)"/><ellipse data-float cx="1100" cy="760" rx="420" ry="300" fill="url(#art-glow-smvuw56vv2cgv)"/></svg></div>
+    <section id="highlights" class="st st-scroll-stack" data-uid="smvw6s7vijqty">
+      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.15" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="art-glow-smvw6s7vijqty"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs><ellipse data-float cx="600" cy="80" rx="620" ry="380" fill="url(#art-glow-smvw6s7vijqty)"/><ellipse data-float cx="1100" cy="760" rx="420" ry="300" fill="url(#art-glow-smvw6s7vijqty)"/></svg></div>
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The experience</p>
@@ -141,7 +141,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvuw56vvkdpb">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvw6s7vi1fo2">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -177,7 +177,7 @@ const hotelLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuw56vvuvub">
+    <section id="customers" class="st st-testimonials-carousel" data-uid="smvw6s7vinrdl">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -218,7 +218,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuw56vvrae8">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvw6s7vivi51">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -245,7 +245,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvuw56vvbhpj">
+    <section id="contact" class="st st-booking-form" data-uid="smvw6s7vi5d3n">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -304,32 +304,78 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvuw56vvgvbg">
-      <div class="st-wrap cm">
-        <div class="cm-info">
-          <header class="st-head st-head--left cm-head">
-            <p class="st-eyebrow" data-anim="item">Find us</p>
-            <h2 class="st-h2" data-anim="item" data-anim-text>Two minutes <span class="hl">from the sea</span></h2>
-            <p class="st-lead" data-anim="item">On a quiet lane above Praia da Luz, 45 minutes from Faro airport.</p>
-          </header>
-          <ul class="cm-offices">
-            <li class="cm-office" data-anim="item">
-              <h3 class="cm-city">Casa Mar</h3>
-              <address class="cm-address">Rua da Praia 12<br>8600-160 Luz, Algarve</address>
-              <p class="cm-hours">Reception 8am – 10pm</p>
-              <p class="cm-contact">
-                <a href="tel:+351282000123"><span>+351 282 000 123</span></a>
-                <a href="mailto:hello@webdevpuneet.com"><span>hello@webdevpuneet.com</span></a>
-              </p>
-            </li>
-          </ul>
-        </div>
-        <div class="cm-map" data-anim="media">
-          <iframe class="cm-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.openstreetmap.org/export/embed.html?bbox=-0.1135%2C51.5185%2C-0.0955%2C51.5265&amp;layer=mapnik&amp;marker=51.5225%2C-0.1045" title="Map showing Casa Mar"></iframe>
+    <section id="contact-2" class="st st-opening-hours" data-uid="smvw6s7vio6ex">
+      <div class="st-wrap">
+        <header class="st-head">
+          <p class="st-eyebrow" data-anim="item">Find us</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Two minutes <span class="hl">from the sea</span></h2>
+          <p class="st-lead" data-anim="item">On a quiet lane above Praia da Luz, 45 minutes from Faro airport.</p>
+        </header>
+        <div class="oh" data-opennow data-tz="Europe/Lisbon" data-open-label="Open now" data-closes-label="closes at" data-shut-label="Closed now" data-opens-label="opens">
+          <div class="oh-card oh-hours" data-anim="item">
+            <div class="oh-top">
+              <h3 class="oh-title">Reception hours</h3>
+              <p class="oh-badge" data-open-badge role="status" hidden><span class="oh-dot" aria-hidden="true"></span><span class="oh-badge-text"></span></p>
+            </div>
+            <ol class="oh-list">
+              <li class="oh-row" data-hours-row data-day="Monday" data-open="07:00" data-close="23:00" data-closed="">
+                <span class="oh-day">Monday</span>
+                <span class="oh-time"><time>07:00</time> <span aria-hidden="true">–</span> <time>23:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Tuesday" data-open="07:00" data-close="23:00" data-closed="">
+                <span class="oh-day">Tuesday</span>
+                <span class="oh-time"><time>07:00</time> <span aria-hidden="true">–</span> <time>23:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Wednesday" data-open="07:00" data-close="23:00" data-closed="">
+                <span class="oh-day">Wednesday</span>
+                <span class="oh-time"><time>07:00</time> <span aria-hidden="true">–</span> <time>23:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Thursday" data-open="07:00" data-close="23:00" data-closed="">
+                <span class="oh-day">Thursday</span>
+                <span class="oh-time"><time>07:00</time> <span aria-hidden="true">–</span> <time>23:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Friday" data-open="07:00" data-close="23:00" data-closed="">
+                <span class="oh-day">Friday</span>
+                <span class="oh-time"><time>07:00</time> <span aria-hidden="true">–</span> <time>23:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Saturday" data-open="07:00" data-close="23:00" data-closed="">
+                <span class="oh-day">Saturday</span>
+                <span class="oh-time"><time>07:00</time> <span aria-hidden="true">–</span> <time>23:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Sunday" data-open="07:00" data-close="23:00" data-closed="">
+                <span class="oh-day">Sunday</span>
+                <span class="oh-time"><time>07:00</time> <span aria-hidden="true">–</span> <time>23:00</time></span>
+              </li>
+            </ol>
+            <p class="oh-special">Check-in from 15:00, check-out until 11:00. Arriving late? Tell us and we will leave your key.</p>
+          </div>
+          <div class="oh-side">
+            <div class="oh-map" data-anim="media">
+              <iframe class="oh-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.openstreetmap.org/export/embed.html?bbox=-8.738900000000001%2C37.0842%2C-8.7289%2C37.0892&amp;layer=mapnik&amp;marker=37.0867%2C-8.7339" title="Map showing Casa Mar in Luz"></iframe>
+            </div>
+            <div class="oh-card oh-contact" data-anim="item">
+              <ul class="oh-info">
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg></span>
+                  <address class="oh-addr">
+                    <span class="oh-line oh-name">Casa Mar</span>
+                    <span class="oh-line">Rua da Praia 12</span>
+                    <span class="oh-line"><span>8600-160</span> <span>Luz, Algarve</span></span>
+                    <span class="oh-line">Portugal</span>
+                  </address>
+                </li>
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg></span><a class="oh-link" href="tel:+351282000123">+351 282 000 123</a></li>
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span><a class="oh-link" href="mailto:hello@webdevpuneet.com">hello@webdevpuneet.com</a></li>
+              </ul>
+              <div class="st-btns">
+                <a class="st-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Rua%20da%20Praia%2012%2C%208600-160%20Luz%2C%20Portugal"><span>Get directions</span></a>
+                <a class="st-btn st-btn--ghost" href="tel:+351282000123"><span>Call reception</span></a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuw56vvi5yf">
+    <section class="st st-popup-modal" data-uid="smvw6s7vi8k4y">
       <div class="pu" data-pu data-trigger="delay" data-delay="15" data-scroll="50" data-days="7" data-pos="bottom-center" data-layout="left" data-autoplay="0" data-pu-id="ncmalq">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -349,7 +395,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuw56vv60ob">
+    <section class="st st-footer-minimal" data-uid="smvw6s7vid2he">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -365,7 +411,7 @@ const hotelLandingPageTemplate = {
         <p class="fm-copy">© 2026 Casa Mar Boutique Hotel</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuw56vv1cbj">
+    <section class="st st-back-to-top" data-uid="smvw6s7vi14g7">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -374,7 +420,7 @@ const hotelLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-accessibility-toolbar" data-uid="smvuw56vvjtov">
+    <section class="st st-accessibility-toolbar" data-uid="smvw6s7vi3ncf">
       <div class="a11y" data-a11y data-pos="left" data-remember="on">
         <button type="button" class="a11y-fab" aria-expanded="false" data-a11y-open aria-label="Open accessibility tools">
           <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="7.500" r="1.200" fill="currentColor"/><path d="M7 10.500l5 1 5-1M12 11.500v3.500M9.500 19l2.500-4 2.500 4"/></svg>
@@ -646,22 +692,44 @@ html.stg-open{overflow:hidden}
 .bk-row dd{color:var(--st-muted);font-variant-numeric:tabular-nums}
 .bk-card{padding:clamp(24px,3.4cqi,40px);border-radius:calc(var(--st-radius) * 1.3px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 7%,transparent);box-shadow:0 30px 70px -40px color-mix(in srgb,var(--st-text) 45%,transparent)}
 @container st (max-width:860px){.bk{grid-template-columns:1fr}}
-/* Contact With Map */
-.st-contact-map{padding:clamp(64px,8cqi,112px) 0}
-.cm{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:stretch;gap:clamp(32px,5cqi,72px)}
-.cm-info{display:flex;flex-direction:column;gap:32px}
-.cm-head{margin:0}
-.cm-offices{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
-.cm-office{display:flex;flex-direction:column;gap:6px;padding:22px;border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface)}
-.cm-city{font-size:18px;margin-bottom:4px}
-.cm-address{font-style:normal;color:var(--st-muted);font-size:15.5px;line-height:1.6}
-.cm-hours{color:var(--st-text);font-size:14.5px;font-weight:600;margin-top:4px}
-.cm-contact{display:flex;flex-direction:column;gap:2px;margin-top:6px}
-.cm-contact a{color:var(--st-brand);font-weight:600;font-size:15px;text-decoration:none;word-break:break-word}
-.cm-contact a:hover{text-decoration:underline}
-.cm-map{min-height:420px;overflow:hidden;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent);box-shadow:0 30px 70px -40px rgba(28,25,23,.45)}
-.cm-frame{display:block;width:100%;height:100%;min-height:420px;border:0}
-@container st (max-width:860px){.cm{grid-template-columns:1fr}.cm-map,.cm-frame{min-height:320px}}
+/* Opening Hours & Location */
+.st-opening-hours{padding:clamp(64px,8cqi,112px) 0}
+.oh{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(18px,2.6cqi,32px);align-items:stretch}
+.oh-card{padding:clamp(22px,2.8cqi,34px);border-radius:calc(var(--st-radius) * 1.1px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent);box-shadow:0 24px 60px -44px color-mix(in srgb,var(--st-text) 55%,transparent)}
+.oh-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-bottom:6px}
+.oh-title{font-size:clamp(21px,2.3cqi,26px)}
+.oh-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 13px;border-radius:999px;background:color-mix(in srgb,var(--st-text) 7%,transparent);color:var(--st-text);font-size:13.5px;font-weight:700}
+.oh-badge[hidden]{display:none}
+.oh-dot{width:9px;height:9px;border-radius:50%;background:#94a3b8}
+.oh-badge.is-open{background:rgba(34,197,94,.15);color:color-mix(in srgb,#16a34a 78%,var(--st-text))}
+.oh-badge.is-open .oh-dot{background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.25)}
+.oh-badge.is-shut{background:rgba(239,68,68,.12);color:color-mix(in srgb,#dc2626 78%,var(--st-text))}
+.oh-badge.is-shut .oh-dot{background:#ef4444}
+.oh-list{list-style:none;margin:0;padding:0}
+.oh-row{display:grid;grid-template-columns:minmax(96px,auto) 1fr;gap:3px 16px;align-items:baseline;padding:13px 12px;margin:0 -12px;border-bottom:1px dashed color-mix(in srgb,var(--st-text) 14%,transparent);font-size:16px}
+.oh-row:last-child{border-bottom:0}
+.oh-day{font-weight:700}
+.oh-time,.oh-shut{justify-self:end;font-variant-numeric:tabular-nums}
+.oh-shut{color:var(--st-muted)}
+.oh-note{grid-column:1 / -1;justify-self:end;color:var(--st-muted);font-size:13.5px}
+.oh-row.is-today{background:color-mix(in srgb,var(--st-brand) 10%,transparent);border-radius:10px;border-bottom-color:transparent}
+.oh-row.is-today .oh-day{color:var(--st-brand)}
+.oh-row.is-today .oh-day::before{content:"";display:inline-block;width:8px;height:8px;margin-right:9px;border-radius:50%;background:var(--st-brand)}
+.oh-special{margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--st-text) 9%,transparent);color:var(--st-muted);font-size:14.5px}
+.oh-side{display:flex;flex-direction:column;gap:clamp(14px,2cqi,20px);min-width:0}
+.oh-map{flex:1;min-height:280px;overflow:hidden;border-radius:calc(var(--st-radius) * 1.1px);background:var(--st-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 420' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='600' height='420' fill='%23e9eef0'/%3E%3Cpath d='M0 90H600M0 250H600M0 350H600M110 0V420M300 0V420M470 0V420' stroke='%23ffffff' stroke-width='16'/%3E%3Cpath d='M0 190L600 150M200 0L330 420' stroke='%23ffffff' stroke-width='10'/%3E%3Crect x='330' y='110' width='110' height='80' rx='8' fill='%23d9e6dc'/%3E%3Cpath d='M300 150c-28 0-50 22-50 50 0 36 50 82 50 82s50-46 50-82c0-28-22-50-50-50z' fill='%23ef4444'/%3E%3Ccircle cx='300' cy='200' r='17' fill='%23ffffff'/%3E%3C/svg%3E") center/cover no-repeat;border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent)}
+.oh-frame{display:block;width:100%;height:100%;min-height:280px;border:0}
+.oh-info{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:14px}
+.oh-item{display:flex;align-items:flex-start;gap:14px}
+.oh-item .st-icon{width:42px;height:42px;background:color-mix(in srgb,var(--st-brand) 14%,transparent)}
+.oh-item .st-icon svg{width:20px;height:20px}
+.oh-addr{display:flex;flex-direction:column;font-style:normal;font-size:16px;line-height:1.5;padding-top:2px}
+.oh-name{font-weight:700}
+.oh-link{align-self:center;color:var(--st-text);font-size:16.5px;font-weight:600;text-decoration:none;word-break:break-word}
+.oh-link:hover{color:var(--st-brand);text-decoration:underline}
+.oh-contact .st-btns{display:flex;flex-wrap:wrap;gap:12px}
+@container st (max-width:860px){.oh{grid-template-columns:1fr}.oh-map,.oh-frame{min-height:260px}}
+@media (prefers-reduced-motion:reduce){.oh-dot{box-shadow:none!important}}
 /* Popup & Promo Modal */
 .st-popup-modal{overflow:visible;container-type:normal;height:0;min-height:0;background:transparent}
 .st-popup-modal:has(.pu.is-preview){height:auto;padding:clamp(24px,4vw,48px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 8%,var(--st-bg))}
@@ -857,6 +925,16 @@ html.stg-open{overflow:hidden}
 .st-art--corner>svg{top:-12%;right:-8%;left:auto;width:min(58%,620px);height:auto}
 .st-art--corners>svg{top:0;right:0;left:auto;width:clamp(140px,22cqi,300px);height:auto}
 .st-art--corners>svg+svg{top:auto;right:auto;bottom:0;left:0;transform:rotate(180deg)}
+.st-art[data-pos=top]{inset:0 0 50% 0}
+.st-art[data-pos=bottom]{inset:50% 0 0 0}
+.st-art[data-pos=left]{inset:0 50% 0 0}
+.st-art[data-pos=right]{inset:0 0 0 50%}
+.st-art--corner[data-pos=c]>svg{top:var(--art-y,50%);left:var(--art-x,50%);right:auto;bottom:auto;translate:-50% -50%}
+.st-art--corner[data-pos=tl]>svg{right:auto;left:-8%}
+.st-art--corner[data-pos=br]>svg{top:auto;bottom:-12%}
+.st-art--corner[data-pos=bl]>svg{top:auto;right:auto;bottom:-12%;left:-8%}
+.st-art--corners[data-pos=tl]>svg{right:auto;left:0;transform:scaleX(-1)}
+.st-art--corners[data-pos=tl]>svg+svg{left:auto;right:0;transform:scaleY(-1)}
 `,
 
   js: `(function () {
@@ -950,7 +1028,7 @@ html.stg-open{overflow:hidden}
       // A sticky header stays on screen, so the section pins just below it instead of under it
       var head = function () { var h = 0; document.querySelectorAll('.st').forEach(function (n) { if (n !== sec && n.querySelector('[data-sticky-flag]')) h = Math.max(h, n.offsetHeight); }); return h; };
       var tw = G.to(row, { x: function () { return -dist(); }, ease: 'none', scrollTrigger: { trigger: sec, start: function () { return 'top ' + head(); }, end: function () { return '+=' + dist(); }, pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true } });
-      made.push(function () { tw.scrollTrigger.kill(); tw.kill(); G.set(row, { clearProps: 'transform' }); sec.classList.remove('is-hscroll'); });
+      made.push(function () { if (tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill(); G.set(row, { clearProps: 'transform' }); sec.classList.remove('is-hscroll'); });
     });
     return function () { made.forEach(function (f) { f(); }); };
   });
@@ -974,7 +1052,7 @@ html.stg-open{overflow:hidden}
         var inner = card.firstElementChild || card;
         // fromTo: GSAP can't tween a filter from "none" (it would start at brightness 0)
         var tw = G.fromTo(inner, { scale: 1, filter: 'brightness(1)' }, { scale: 1 - (cards.length - 1 - i) * 0.04, filter: 'brightness(.82)', ease: 'none', scrollTrigger: { trigger: cards[i + 1], start: 'top bottom', end: 'top ' + top, scrub: true } });
-        made.push(function () { tw.scrollTrigger.kill(); tw.kill(); G.set(inner, { clearProps: 'transform,filter' }); });
+        made.push(function () { if (tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill(); G.set(inner, { clearProps: 'transform,filter' }); });
       });
     });
     return function () { made.forEach(function (f) { f(); }); };
@@ -1251,6 +1329,74 @@ html.stg-open{overflow:hidden}
   var pad = function (n) { return (n < 10 ? '0' : '') + n; };
   var today = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
   document.querySelectorAll('.st [data-booking-date]').forEach(function (input) { input.min = today; });
+})();
+(function () {
+  var KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  function mins(v) {
+    var m = String(v || '').trim().toLowerCase().match(/^(\\d{1,2})(?::(\\d{2}))?\\s*(am|pm)?$/);
+    if (!m) return null;
+    var h = +m[1], mi = +(m[2] || 0);
+    if (m[3] === 'pm' && h < 12) h += 12;
+    if (m[3] === 'am' && h === 12) h = 0;
+    return h > 24 || mi > 59 ? null : h * 60 + mi;
+  }
+  function clock(total) {
+    var h = Math.floor(total / 60) % 24, mi = total % 60;
+    return (h < 10 ? '0' : '') + h + ':' + (mi < 10 ? '0' : '') + mi;
+  }
+  function nowIn(tz) {
+    var o = { weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' };
+    if (tz) o.timeZone = tz;
+    var parts;
+    try { parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    catch (e) { delete o.timeZone; parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    var p = {};
+    parts.forEach(function (x) { p[x.type] = x.value; });
+    return { day: KEYS.indexOf(String(p.weekday).slice(0, 3).toLowerCase()), min: (parseInt(p.hour, 10) % 24) * 60 + parseInt(p.minute, 10) };
+  }
+  document.querySelectorAll('.st').forEach(function (sec) {
+    var root = sec.querySelector('[data-opennow]');
+    if (!root) return;
+    var badge = root.querySelector('[data-open-badge]');
+    var text = badge && badge.querySelector('.oh-badge-text');
+    var rows = Array.prototype.map.call(root.querySelectorAll('[data-hours-row]'), function (r) {
+      var d = KEYS.indexOf(String(r.getAttribute('data-day') || '').slice(0, 3).toLowerCase());
+      var o = mins(r.getAttribute('data-open')), c = mins(r.getAttribute('data-close'));
+      var label = r.querySelector('.oh-day');
+      return { el: r, day: d, open: o, close: c, shut: r.getAttribute('data-closed') === 'closed' || o === null || c === null, name: label ? label.textContent : '' };
+    });
+    if (!rows.length) return;
+    var tz = root.getAttribute('data-tz') || '';
+    function attr(n, d) { return root.getAttribute(n) || d; }
+    function update() {
+      var n = nowIn(tz), prev = (n.day + 6) % 7, open = null;
+      rows.forEach(function (r) {
+        r.el.classList.toggle('is-today', r.day === n.day);
+        if (r.day === n.day) r.el.setAttribute('aria-current', 'date'); else r.el.removeAttribute('aria-current');
+        if (r.shut) return;
+        var over = r.close <= r.open;
+        if (r.day === n.day && n.min >= r.open && (over || n.min < r.close)) open = open || r;
+        if (r.day === prev && over && n.min < r.close) open = open || r;
+      });
+      if (!badge || !text) return;
+      badge.hidden = false;
+      badge.classList.toggle('is-open', !!open);
+      badge.classList.toggle('is-shut', !open);
+      if (open) { text.textContent = attr('data-open-label', 'Open now') + ' \\u00b7 ' + attr('data-closes-label', 'closes at') + ' ' + clock(open.close); return; }
+      var next = null;
+      for (var i = 0; i < 8 && !next; i++) {
+        var dd = (n.day + i) % 7;
+        rows.forEach(function (r) {
+          if (r.shut || r.day !== dd || (i === 0 && r.open <= n.min)) return;
+          if (!next || r.open < next.open) next = r;
+        });
+        if (next) next.when = i === 0 ? '' : next.name + ' ';
+      }
+      text.textContent = attr('data-shut-label', 'Closed now') + (next ? ' \\u00b7 ' + attr('data-opens-label', 'opens') + ' ' + next.when + clock(next.open) : '');
+    }
+    update();
+    setInterval(update, 60000);
+  });
 })();
 (function () {
   var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
@@ -1696,14 +1842,18 @@ html.stg-open{overflow:hidden}
     if (mode === 'spin') layer.querySelectorAll('[data-spin]').forEach(function (el, i) {
       G.to(el, { rotation: i % 2 ? -360 : 360, duration: 60 + i * 8, ease: 'none', repeat: -1, transformOrigin: '50% 50%' });
     });
-    if (mode === 'draw' && window.ScrollTrigger) layer.querySelectorAll('[data-draw]').forEach(function (p, i) {
+    // window.ST_ART_PLAY (the section editor's preview): draw and parallax play once by themselves,
+    // so picking them shows the effect without scrolling. Exports and pages keep the scroll-driven version.
+    if (mode === 'draw' && (window.ScrollTrigger || window.ST_ART_PLAY)) layer.querySelectorAll('[data-draw]').forEach(function (p, i) {
       var len = p.getTotalLength ? p.getTotalLength() : 0;
       if (!len) return;
-      G.fromTo(p, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: sec, start: 'top 90%', end: 'bottom 40%', scrub: 0.6 } });
+      if (window.ST_ART_PLAY) G.fromTo(p, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 2.4, delay: i * 0.12, ease: 'power2.out' });
+      else G.fromTo(p, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: sec, start: 'top 90%', end: 'bottom 40%', scrub: 0.6 } });
     });
-    if (mode === 'parallax' && window.ScrollTrigger && svg) {
+    if (mode === 'parallax' && svg && (window.ScrollTrigger || window.ST_ART_PLAY)) {
       G.set(svg, { scale: 1.15 });
-      G.fromTo(svg, { yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: true } });
+      if (window.ST_ART_PLAY) G.fromTo(svg, { yPercent: -6 }, { yPercent: 6, duration: 2.4, ease: 'sine.inOut', yoyo: true, repeat: 1 });
+      else G.fromTo(svg, { yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: true } });
     }
   });
 })();
@@ -1769,10 +1919,10 @@ html.stg-open{overflow:hidden}
         "role": "a booking request form with dates, guests and room preference"
       },
       {
-        "id": "contact-map",
-        "name": "Contact With Map",
-        "url": "/website-section-templates/contact-map/",
-        "role": "a map with directions, nearest station and parking"
+        "id": "opening-hours",
+        "name": "Opening Hours & Location",
+        "url": "/website-section-templates/opening-hours/",
+        "role": "reception hours with a live Open now badge, the address, a map and a call button"
       },
       {
         "id": "popup-modal",
@@ -1801,15 +1951,16 @@ html.stg-open{overflow:hidden}
     ],
     "about": {
       "title": "A Boutique Hotel Website That Sells the Stay: Rooms, Experience and Direct Booking",
-      "description": "Small hotels and B&Bs compete with booking platforms that take a commission, so the site's job is to make a direct booking feel better. The dusk hero sets the mood and states the essentials (location, price from, availability), and the rooms scroll sideways as the guest scrolls down, a horizontal gallery that gives each room space to be looked at, which a grid of thumbnails cannot.\n\nThe experience is told in stacking cards, one idea at a time (breakfast, the garden, the walks nearby), so guests picture the stay rather than comparing room specifications. Reviews from past guests, a FAQ on check-in, parking and pets, and a booking request form with a map complete the page, with a popup available for a seasonal offer such as \"stay three nights, pay for two\".\n\nUse your own photography, because in hospitality the images are the product. It is the layout of the [Boutique Hotel Website template](/website-builder/templates/hotel/), which also comes as a multi-page site with Rooms, Experience and Book pages; open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return; and a floating accessibility toolbar where visitors can enlarge text, raise contrast, hide images and pause animations. Each one has its own page in the Website Section Templates library ([Back to Top Button](/website-section-templates/back-to-top/), [Accessibility Toolbar Widget](/website-section-templates/accessibility-toolbar/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
+      "description": "Small hotels and B&Bs compete with booking platforms that take a commission, so the site's job is to make a direct booking feel better. The dusk hero sets the mood and states the essentials (location, price from, availability), and the rooms scroll sideways as the guest scrolls down, a horizontal gallery that gives each room space to be looked at, which a grid of thumbnails cannot.\n\nThe experience is told in stacking cards, one idea at a time (breakfast, the garden, the walks nearby), so guests picture the stay rather than comparing room specifications. Reviews from past guests, a FAQ on check-in, parking and pets, and a booking request form with a map complete the page, with a popup available for a seasonal offer such as \"stay three nights, pay for two\".\n\nUse your own photography, because in hospitality the images are the product. It is the layout of the [Boutique Hotel Website template](/website-builder/templates/hotel/), which also comes as a multi-page site with Rooms, Experience and Book pages; open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds reception hours with a live Open now badge, the address, a map and a call button; a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return; and a floating accessibility toolbar where visitors can enlarge text, raise contrast, hide images and pause animations. Each one has its own page in the Website Section Templates library ([Opening Hours & Location](/website-section-templates/opening-hours/), [Back to Top Button](/website-section-templates/back-to-top/), [Accessibility Toolbar Widget](/website-section-templates/accessibility-toolbar/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
-      "13 ready-made website sections assembled into one finished boutique hotel website page: Simple Sticky Navbar, Image Background Hero, Horizontal Scroll Gallery, Stacking Cards, Filterable Image Gallery, Testimonial Carousel, FAQ Accordion, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button, Accessibility Toolbar Widget",
+      "13 ready-made website sections assembled into one finished boutique hotel website page: Simple Sticky Navbar, Image Background Hero, Horizontal Scroll Gallery, Stacking Cards, Filterable Image Gallery, Testimonial Carousel, FAQ Accordion, Booking Request Form, Opening Hours & Location, Popup & Promo Modal, Minimal Footer, Back to Top Button, Accessibility Toolbar Widget",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 6-page website in the builder, sharing one navbar, footer and theme",
+      "Opening hours with a live Open now badge in the business time zone, the address, a map and call buttons, plus LocalBusiness data for search engines",
       "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "A floating accessibility toolbar with bigger text, contrast, grayscale, hide images and pause animations",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
@@ -1871,11 +2022,11 @@ html.stg-open{overflow:hidden}
       },
       {
         "q": "What extras are built into the Boutique Hotel Website template?",
-        "a": "It adds a floating back to top button and an accessibility toolbar. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
+        "a": "It adds an opening hours section with a live Open now badge, a floating back to top button and an accessibility toolbar. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 13 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Horizontal Scroll Gallery, Stacking Cards, Filterable Image Gallery, Testimonial Carousel, FAQ Accordion, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button, Accessibility Toolbar Widget. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 13 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Horizontal Scroll Gallery, Stacking Cards, Filterable Image Gallery, Testimonial Carousel, FAQ Accordion, Booking Request Form, Opening Hours & Location, Popup & Promo Modal, Minimal Footer, Back to Top Button, Accessibility Toolbar Widget. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1884,7 +2035,7 @@ html.stg-open{overflow:hidden}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Boutique Hotel Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete boutique hotel website for “Casa Mar” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Slow mornings, salt-water days”\n3. Horizontal Scroll Gallery: “Find your room”\n4. Stacking Cards: “Everything for a slow stay”\n5. Filterable Image Gallery: “A look around Casa Mar”\n6. Testimonial Carousel: “Guests come back”\n7. FAQ Accordion: “Before you arrive”\n8. Booking Request Form: “Request your stay”\n9. Contact With Map: “Two minutes from the sea”\n10. Popup & Promo Modal\n11. Minimal Footer\n12. Back to Top Button\n13. Accessibility Toolbar Widget\n\nLook and feel:\n- Colours as CSS custom properties: brand #0f766e, page background #fbf8f3, cards #f1ebe1, text #1f2a24, muted text #5c665f. Corner radius 14px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable travel & hospitality copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Casa Mar: Boutique Hotel Two Minutes From the Algarve Sea”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a travel & hospitality business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Rooms (rooms.html)\n- Experience (experience.html)\n- Book (book.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete boutique hotel website for “Casa Mar” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Slow mornings, salt-water days”\n3. Horizontal Scroll Gallery: “Find your room”\n4. Stacking Cards: “Everything for a slow stay”\n5. Filterable Image Gallery: “A look around Casa Mar”\n6. Testimonial Carousel: “Guests come back”\n7. FAQ Accordion: “Before you arrive”\n8. Booking Request Form: “Request your stay”\n9. Opening Hours & Location: “Two minutes from the sea”\n10. Popup & Promo Modal\n11. Minimal Footer\n12. Back to Top Button\n13. Accessibility Toolbar Widget\n\nLook and feel:\n- Colours as CSS custom properties: brand #0f766e, page background #fbf8f3, cards #f1ebe1, text #1f2a24, muted text #5c665f. Corner radius 14px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable travel & hospitality copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Casa Mar: Boutique Hotel Two Minutes From the Algarve Sea”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a travel & hospitality business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Rooms (rooms.html)\n- Experience (experience.html)\n- Book (book.html)\n- Privacy (privacy.html)"
     }
   },
 };

@@ -126,6 +126,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .tlh-dot:focus-visible{outline:3px solid var(--st-brand);outline-offset:3px}
 .tlh-num::before{content:counter(tl)}
 .tlh-ico{display:none;width:20px;height:20px}
+.tlh-dot .tlh-ico{background:none;border-radius:0;color:inherit}
 .tlh-ico svg{width:20px;height:20px}
 .tlh[data-marker=icon] .tlh-num{display:none}
 .tlh[data-marker=icon] .tlh-ico{display:inline-grid}
@@ -152,7 +153,14 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .is-tl-pinned .tlh-list{will-change:transform}
 .is-tl-pinned .tlh-list::after{transition:none}
 .tlh.is-fit .tlh-nav{display:none}
+.tlh[data-width=full]{width:100cqi;margin-inline:calc(50% - 50cqi);gap:0}
+.tlh[data-width=full] .tlh-track{border-radius:0}
+.tlh[data-width=full] .tlh-list{padding-inline:max(28px,var(--st-pad))}
+.tlh[data-width=full] .tlh-nav{position:absolute;top:50%;z-index:3;transform:translateY(-50%)}
+.tlh[data-width=full] .tlh-prev{left:12px}
+.tlh[data-width=full] .tlh-next{right:12px}
 @container st (max-width:640px){
+.tlh[data-width=full] .tlh-nav{top:22px}
 .tlh-list{--tl-item-w:230px;--tl-card-h:172px}
 .tlh-list::before,.tlh-list::after{top:22px}
 .tlh-item{height:calc(var(--tl-card-h) + 44px)}

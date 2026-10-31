@@ -3,7 +3,7 @@
 const fitnessLandingPageTemplate = {
   id: 'fitness-landing-page-template',
   title: 'Gym & Fitness Website Template',
-  lastmod: '2026-10-30',
+  lastmod: '2026-10-31',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -12,7 +12,7 @@ const fitnessLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuw56svov4a">
+    <section class="st st-navbar-simple" data-uid="smvw6s7rr6mgi">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg></span><span>IRONHOUSE</span></span>
@@ -34,7 +34,7 @@ const fitnessLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuw56swm3kf">
+    <section class="st st-image-background-hero" data-uid="smvw6s7rro3r7">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-fitness.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -54,7 +54,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuw56swlvre">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvw6s7rrt5ks">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Classes</p>
@@ -95,7 +95,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timetable" class="st st-class-timetable" data-uid="smvuw56swruos">
+    <section id="timetable" class="st st-class-timetable" data-uid="smvw6s7rrju97">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Timetable</p>
@@ -159,7 +159,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuw56swkipt">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvw6s7rr0hde">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Membership</p>
@@ -206,7 +206,54 @@ const fitnessLandingPageTemplate = {
         <p class="p3-note" data-anim="item">Students and NHS staff get 20% off. Prices include VAT.</p>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvuw56swdy8l">
+    <section id="about" class="st st-about-story" data-uid="smvw6s7rrhhav">
+      <div class="st-wrap">
+        <div class="ab">
+          <div class="ab-media" data-anim="media">
+            <img class="ab-img" src="https://webdevpuneet.com/images/section-templates/tpl-fitness.jpg" alt="Members training together at IRONHOUSE">
+            <p class="ab-badge"><strong>900</strong><span>members and counting</span></p>
+          </div>
+          <div class="ab-copy">
+            <p class="st-eyebrow" data-anim="item">Our story</p>
+            <h2 class="st-h2" data-anim="item" data-anim-text>Built by <span class="hl">lifters</span>, for everyone</h2>
+            <p class="ab-story" data-anim="item">IRONHOUSE opened in 2016 in a converted warehouse with six racks and one rule: nobody trains alone. Today 900 members share the floor, from first-timers on their first week to athletes training for race day.</p>
+            <p class="ab-story" data-anim="item">Every class is coached and every programme scales to your level, so you can start where you are and get stronger every single week.</p>
+            <ul class="ab-facts" data-anim="item">
+              <li class="ab-fact"><strong class="ab-num">900</strong><span class="ab-label">members</span></li>
+              <li class="ab-fact"><strong class="ab-num">60+</strong><span class="ab-label">classes a week</span></li>
+              <li class="ab-fact"><strong class="ab-num">24/7</strong><span class="ab-label">open gym</span></li>
+            </ul>
+            <figure class="ab-founder" data-anim="item">
+              <img class="ab-face" src="https://webdevpuneet.com/images/section-templates/avatar-4.jpg" alt="Marcus Webb, head coach">
+              <figcaption><strong class="ab-who">Marcus Webb</strong><span class="ab-role">Head coach and co-founder</span></figcaption>
+              <blockquote class="ab-quote">“The best programme is the one you keep showing up for.”</blockquote>
+            </figure>
+            <div class="st-btns" data-anim="item">
+              <a class="st-btn" href="#team"><span>Meet the coaches</span></a>
+              <a class="st-btn st-btn--ghost" href="#pricing"><span>Start free trial</span></a>
+            </div>
+          </div>
+        </div>
+        <ul class="ab-values">
+          <li class="ab-value" data-anim="item">
+            <span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg></span>
+            <h3 class="ab-vtitle">Everyone belongs</h3>
+            <p class="ab-vtext">Beginners are welcome here, and no one is left to figure it out alone.</p>
+          </li>
+          <li class="ab-value" data-anim="item">
+            <span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /><polyline points="16 7 22 7 22 13" /></svg></span>
+            <h3 class="ab-vtitle">Progress you can see</h3>
+            <p class="ab-vtext">Workouts and results are tracked every week so you can see how far you have come.</p>
+          </li>
+          <li class="ab-value" data-anim="item">
+            <span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg></span>
+            <h3 class="ab-vtitle">Community first</h3>
+            <p class="ab-vtext">People come for the training and stay for the people they train with.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <section id="team" class="st st-team-grid" data-uid="smvw6s7rrby5q">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Coaches</p>
@@ -257,7 +304,7 @@ const fitnessLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-marquee" data-uid="smvuw56swy25a">
+    <section id="customers" class="st st-testimonials-marquee" data-uid="smvw6s7rr2eiu">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Members</p>
@@ -324,7 +371,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvuw56swln4t">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvw6s7rrp3p3">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Member progress</p>
@@ -347,7 +394,7 @@ const fitnessLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuw56swvwun">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvw6s7rrjskl">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -375,7 +422,7 @@ const fitnessLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuw56swxy20">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvw6s7rrvdi5">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Your first week is <span class="hl">on us</span></h2>
@@ -388,7 +435,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuw56sw1vtx">
+    <section class="st st-popup-modal" data-uid="smvw6s7rru7g8">
       <div class="pu" data-pu data-trigger="scroll" data-delay="8" data-scroll="40" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="pewc8w">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -414,7 +461,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuw56swhygk">
+    <section class="st st-footer-minimal" data-uid="smvw6s7rr3v1u">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -430,7 +477,7 @@ const fitnessLandingPageTemplate = {
         <p class="fm-copy">© 2026 Ironhouse Fitness</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuw56sw3e0d">
+    <section class="st st-back-to-top" data-uid="smvw6s7rral4k">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -591,6 +638,33 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .p3-list{margin-top:10px;padding-top:20px;border-top:1px solid color-mix(in srgb,var(--st-text) 9%,transparent)}
 .p3-note{margin-top:clamp(28px,3cqi,40px);text-align:center;color:var(--st-muted);font-size:14.5px}
 @container st (max-width:640px){.p3-grid{grid-template-columns:1fr}.p3-card:has(.p3-badge){margin-top:8px}}
+/* About Us & Our Story */
+.st-about-story{padding:clamp(64px,8cqi,112px) 0}
+.ab{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5cqi,76px);align-items:center}
+.ab-media{position:relative}
+.ab-img{width:100%;aspect-ratio:4 / 5;object-fit:cover;border-radius:calc(var(--st-radius) * 1.6px);background:var(--st-surface)}
+.ab-badge{position:absolute;left:clamp(12px,2cqi,22px);bottom:clamp(12px,2cqi,22px);display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px 20px;border-radius:calc(var(--st-radius) * 1px);background:var(--st-brand);color:var(--st-btn-text);box-shadow:0 18px 40px -16px color-mix(in srgb,var(--st-brand) 70%,#000)}
+.ab-badge strong{font:700 clamp(30px,3.6cqi,42px)/1 var(--st-font-heading)}
+.ab-badge span{font-size:14px;font-weight:600;opacity:.92}
+.ab-copy{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(12px,1.6cqi,18px)}
+.ab-copy .st-h2{text-align:left}
+.ab-story{color:var(--st-muted);font-size:clamp(16px,1.5cqi,18px);line-height:1.7}
+.ab-facts{list-style:none;display:flex;flex-wrap:wrap;gap:16px clamp(24px,4cqi,48px);margin:6px 0;padding:18px 0;width:100%;border-block:1px solid color-mix(in srgb,var(--st-text) 11%,transparent)}
+.ab-fact{display:flex;flex-direction:column;gap:2px}
+.ab-num{font:700 clamp(28px,3.2cqi,38px)/1.1 var(--st-font-heading);color:var(--st-brand)}
+.ab-label{color:var(--st-muted);font-size:14px}
+.ab-founder{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:4px 14px;width:100%}
+.ab-face{width:56px;height:56px;border-radius:50%;object-fit:cover;background:var(--st-surface)}
+.ab-founder figcaption{display:flex;flex-direction:column}
+.ab-who{font-size:16px}
+.ab-role{color:var(--st-muted);font-size:14px}
+.ab-quote{grid-column:1 / -1;margin-top:8px;padding-left:16px;border-left:3px solid var(--st-brand);color:var(--st-text);font:italic 500 clamp(17px,1.7cqi,20px)/1.5 var(--st-font-heading)}
+.ab-values{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(14px,1.8cqi,22px);margin-top:clamp(40px,6cqi,76px)}
+.ab-value{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:clamp(22px,2.4cqi,30px);border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 8%,transparent)}
+.ab-value .st-icon{background:color-mix(in srgb,var(--st-brand) 14%,transparent);margin-bottom:4px}
+.ab-vtitle{font-size:19px}
+.ab-vtext{color:var(--st-muted);font-size:15.5px}
+@container st (max-width:820px){.ab{grid-template-columns:1fr}.ab-img{aspect-ratio:5 / 4}}
 /* Team Grid */
 .st-team-grid{padding:clamp(64px,8cqi,112px) 0}
 .tm2-grid{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,2.4cqi,32px)}
@@ -1325,7 +1399,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   seo: {
     "title": "Gym & Fitness Website HTML Template — Free Snippet",
     "description": "A gym and fitness studio website in HTML, CSS and JS: bold hero, classes, timetable, membership pricing, coaches, reviews, before/after slider and CTA.",
-    "subtitle": "Gym & Fitness Website template · 13 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Gym & Fitness Website template · 14 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "fitness",
       "name": "Gym & Fitness Website",
@@ -1362,6 +1436,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "name": "Three-Tier Pricing",
         "url": "/website-section-templates/pricing-three-tier/",
         "role": "memberships with a monthly/yearly switch that makes the annual saving visible"
+      },
+      {
+        "id": "about-story",
+        "name": "About Us & Our Story",
+        "url": "/website-section-templates/about-story/",
+        "role": "an About us section with the gym's story, the head coach, headline numbers and values"
       },
       {
         "id": "team-grid",
@@ -1414,15 +1494,16 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "A Gym Website That Sells Memberships: Classes, Timetable, Coaches and a Free-Trial Offer",
-      "description": "People choosing a gym compare three things: what classes run when, what it costs, and whether they will fit in. The page is built around those. The icon grid lists what you offer, the class timetable lets a visitor see that a 6 pm Tuesday class exists (often the deciding fact), and the pricing section uses a monthly/yearly switch so the saving from annual membership is visible rather than buried in small print.\n\nThe belonging question is handled by people. Coaches appear in a grid with real photos, member reviews scroll by in a marquee and a before/after slider gives proof of results without a wall of testimonials. The FAQ then handles the usual blockers (contracts, freezing a membership, beginners), and a free-trial banner and popup push toward the action that converts best for gyms: coming in once.\n\nReplace the black-and-lime palette with your brand colours in one place. This is the layout of the [Gym & Fitness Website template](/website-builder/templates/fitness/); open it in the [Website Builder](/website-builder/) to edit the timetable, prices and copy and export clean HTML.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
+      "description": "People choosing a gym compare three things: what classes run when, what it costs, and whether they will fit in. The page is built around those. The icon grid lists what you offer, the class timetable lets a visitor see that a 6 pm Tuesday class exists (often the deciding fact), and the pricing section uses a monthly/yearly switch so the saving from annual membership is visible rather than buried in small print.\n\nThe belonging question is handled by people. Coaches appear in a grid with real photos, member reviews scroll by in a marquee and a before/after slider gives proof of results without a wall of testimonials. The FAQ then handles the usual blockers (contracts, freezing a membership, beginners), and a free-trial banner and popup push toward the action that converts best for gyms: coming in once.\n\nReplace the black-and-lime palette with your brand colours in one place. This is the layout of the [Gym & Fitness Website template](/website-builder/templates/fitness/); open it in the [Website Builder](/website-builder/) to edit the timetable, prices and copy and export clean HTML.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds an About us section with the gym's story, the head coach, headline numbers and values; and a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([About Us & Our Story](/website-section-templates/about-story/), [Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
-      "13 ready-made website sections assembled into one finished gym & fitness website page: Simple Sticky Navbar, Image Background Hero, Icon Grid Features, Class Timetable, Three-Tier Pricing, Team Grid, Testimonial Marquee, Before & After Slider, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Minimal Footer, Back to Top Button",
+      "14 ready-made website sections assembled into one finished gym & fitness website page: Simple Sticky Navbar, Image Background Hero, Icon Grid Features, Class Timetable, Three-Tier Pricing, About Us & Our Story, Team Grid, Testimonial Marquee, Before & After Slider, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Minimal Footer, Back to Top Button",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 10-page website in the builder, sharing one navbar, footer and theme",
+      "An About us section with a picture and badge, the story, the founder, key facts and values, plus Organization data for search engines",
       "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
@@ -1483,11 +1564,11 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       },
       {
         "q": "What extras are built into the Gym & Fitness Website template?",
-        "a": "It adds a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
+        "a": "It adds an About us section with the story, facts and values and a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 13 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Icon Grid Features, Class Timetable, Three-Tier Pricing, Team Grid, Testimonial Marquee, Before & After Slider, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Minimal Footer, Back to Top Button. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 14 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Icon Grid Features, Class Timetable, Three-Tier Pricing, About Us & Our Story, Team Grid, Testimonial Marquee, Before & After Slider, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Minimal Footer, Back to Top Button. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1496,7 +1577,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Gym & Fitness Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete gym & fitness website for “IRONHOUSE” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Stronger every single week”\n3. Icon Grid Features: “Find your training”\n4. Class Timetable: “This week at IRONHOUSE”\n5. Three-Tier Pricing: “Simple, flexible plans”\n6. Team Grid: “Coaches who care”\n7. Testimonial Marquee: “Results that speak”\n8. Before & After Slider: “Twelve weeks, real change”\n9. FAQ Accordion: “Before you start”\n10. Gradient CTA Banner: “Your first week is on us”\n11. Popup & Promo Modal\n12. Minimal Footer\n13. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #a3e635, page background #0a0a0a, cards #161616, text #fafafa, muted text #a3a3a3. Corner radius 8px, content width 1200px.\n- Headings in Oswald, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable health & fitness copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Gym Website Template — Free Fitness Studio HTML Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a health & fitness business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Pricing (pricing.html)\n- About (about.html)\n- FAQ (faq.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Blog (blog.html)\n- Article (article.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete gym & fitness website for “IRONHOUSE” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Stronger every single week”\n3. Icon Grid Features: “Find your training”\n4. Class Timetable: “This week at IRONHOUSE”\n5. Three-Tier Pricing: “Simple, flexible plans”\n6. About Us & Our Story: “Built by lifters, for everyone”\n7. Team Grid: “Coaches who care”\n8. Testimonial Marquee: “Results that speak”\n9. Before & After Slider: “Twelve weeks, real change”\n10. FAQ Accordion: “Before you start”\n11. Gradient CTA Banner: “Your first week is on us”\n12. Popup & Promo Modal\n13. Minimal Footer\n14. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #a3e635, page background #0a0a0a, cards #161616, text #fafafa, muted text #a3a3a3. Corner radius 8px, content width 1200px.\n- Headings in Oswald, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable health & fitness copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Gym Website Template — Free Fitness Studio HTML Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a health & fitness business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Pricing (pricing.html)\n- About (about.html)\n- FAQ (faq.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Blog (blog.html)\n- Article (article.html)\n- Privacy (privacy.html)"
     }
   },
 };

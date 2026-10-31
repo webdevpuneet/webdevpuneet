@@ -9,6 +9,7 @@
    WIDGET_ROLES: the phrase that describes each added section in the landing-page snippets
    (scripts/generate-landing-page-snippets.mjs), by 'templateId:sectionId' or just 'sectionId'. */
 import { IMG } from './meta.js';
+import { WAVE2_EXTRAS, WAVE2_ROLES } from './starters-wave2.js';
 
 const BACK_TO_TOP = () => ['back-to-top', { fields: { distance: '500' } }];
 const A11Y = () => ['accessibility-toolbar', { fields: { position: 'left' } }];
@@ -157,6 +158,9 @@ export const WIDGET_ROLES = {
   'podcast:team-accordion': 'an interactive team accordion where each host is a grayscale strip that opens on click',
 };
 
+for (const [id, list] of Object.entries(WAVE2_EXTRAS)) STARTER_WIDGET_EXTRAS[id] = [...(STARTER_WIDGET_EXTRAS[id] || []), ...list];
+Object.assign(WIDGET_ROLES, WAVE2_ROLES);
+
 /* The sections added on 2026-10-30, described for SEO text: name and page of the section template, a short phrase for
    sentences and FAQs, and a phrase for the gallery blurb. */
 export const ADDED_TYPES = {
@@ -166,12 +170,17 @@ export const ADDED_TYPES = {
   'timeline-horizontal': { name: 'Horizontal Timeline', short: 'a pinned horizontal timeline', blurb: 'a pinned timeline' },
   'scroll-zoom': { name: 'Scroll Zoom Image Stack', short: 'a scroll zoom image stack', blurb: 'a scroll zoom image stack' },
   'team-accordion': { name: 'Interactive Team Accordion', short: 'an interactive team accordion', blurb: 'an interactive team accordion' },
+  // Added on 2026-10-31
+  'opening-hours': { name: 'Opening Hours & Location', short: 'an opening hours section with a live Open now badge', blurb: 'opening hours with a live Open now badge' },
+  'about-story': { name: 'About Us & Our Story', short: 'an About us section with the story, facts and values', blurb: 'an About us section' },
+  'reviews-summary': { name: 'Reviews Summary & Rating', short: 'a reviews summary with a star breakdown and filter', blurb: 'a reviews summary with a star filter' },
 };
 
 /** The added sections a website template uses, once each, in page order, with the template-specific wording */
 export const addedSectionsOf = t => {
   const seen = new Set();
-  return t.sections.map(s => s[0]).filter(id => ADDED_TYPES[id] && !seen.has(id) && seen.add(id)).map(id => ({
+  const ids = [...t.sections, ...(t.pages || []).flatMap(p => p.sections)].map(s => s[0]); // the home page, then the explicit pages
+  return ids.filter(id => ADDED_TYPES[id] && !seen.has(id) && seen.add(id)).map(id => ({
     id, ...ADDED_TYPES[id], url: '/website-section-templates/' + id + '/', role: WIDGET_ROLES[t.id + ':' + id] || WIDGET_ROLES[id] || ADDED_TYPES[id].short,
   }));
 };

@@ -126,7 +126,7 @@ export const emptySite = (name = 'Untitled website') => ({ ...siteFromPage(empty
      lives on another page are pointed at that page (fixSiteLinks). */
 
 /** Categories that move to their own page when a template is split automatically */
-const SPLIT_PAGES = { pricing: 'Pricing', team: 'About', blog: 'Blog', faq: 'FAQ', contact: 'Contact' };
+const SPLIT_PAGES = { pricing: 'Pricing', team: 'About', about: 'About', blog: 'Blog', faq: 'FAQ', contact: 'Contact' };
 
 /** The brand name in the site's navbar (logo text), for page titles */
 const brandOf = site => site.header.map(s => s.state?.fields?.logoText).find(Boolean) || site.name;

@@ -211,12 +211,16 @@ for (const [id, more] of Object.entries(STARTER_MORE_EXTRAS)) STARTER_EXTRAS[id]
 // Widgets and sections added on 2026-10-30 (back to top, accessibility toolbar, cursor follower, timeline, scroll zoom, team accordion)
 for (const [id, more] of Object.entries(STARTER_WIDGET_EXTRAS)) STARTER_EXTRAS[id] = [...(STARTER_EXTRAS[id] || []), ...more];
 
+/* An extra may carry:
+     page: 'About'   apply it to that explicit page of the template instead of the home page (after / before / replace)
+     inPages: true   with replace: swap the section on the home page AND on every explicit page that has it */
 export function applyExtras(list) {
   return list.map(t => {
     const extras = STARTER_EXTRAS[t.id];
     if (!extras) return t;
     const sections = [...t.sections];
     for (const e of extras) {
+      if (e.page) continue; // page-level extras are placed below
       // section can be a function of the section it replaces (to carry over its content)
       const make = old => (typeof e.section === 'function' ? e.section(old, t) : e.section);
       if (e.replace) {
@@ -230,9 +234,28 @@ export function applyExtras(list) {
       if (i < 0) i = sections.length - 2;
       sections.splice(e.before ? Math.max(i, 0) : i + 1, 0, make());
     }
+    // Explicit pages (restaurant, salon, agency...): the same swaps and insertions where an extra asks for it
+    const paged = t.pages && extras.some(e => e.page || e.inPages);
+    const pages = paged ? t.pages.map(p => ({ ...p, sections: [...p.sections] })) : t.pages;
+    if (paged) {
+      for (const e of extras) {
+        const targets = e.page ? pages.filter(p => p.name === e.page) : e.inPages ? pages : [];
+        const make = old => (typeof e.section === 'function' ? e.section(old, t) : e.section);
+        for (const p of targets) {
+          if (e.replace) {
+            const i = p.sections.findIndex(s => s[0] === e.replace);
+            if (i >= 0) p.sections[i] = make(p.sections[i]);
+            continue;
+          }
+          const i = p.sections.findIndex(s => s[0] === (e.after || e.before));
+          if (i >= 0) p.sections.splice(e.before ? i : i + 1, 0, make());
+        }
+      }
+    }
     // The gallery card text names the widgets and sections added later
-    const added = [...new Set(sections.map(x => x[0]))].filter(id => ADDED_TYPES[id]).map(id => ADDED_TYPES[id].blurb);
+    const all = [...sections, ...(pages || []).flatMap(p => p.sections)];
+    const added = [...new Set(all.map(x => x[0]))].filter(id => ADDED_TYPES[id]).map(id => ADDED_TYPES[id].blurb);
     const blurb = added.length ? `${String(t.blurb || '').replace(/\.$/, '')}, plus ${joinList(added)}.` : t.blurb;
-    return { ...t, sections, blurb };
+    return { ...t, sections, ...(pages ? { pages } : {}), blurb };
   });
 }

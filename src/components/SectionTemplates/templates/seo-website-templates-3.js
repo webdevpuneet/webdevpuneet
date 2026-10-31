@@ -58,14 +58,14 @@ Use your best photographs for the rooms and write each room with its size, bed t
       { q: 'How do guests book a room from this hotel template?', a: 'Link the book buttons to your booking engine or a reservation page, or to a phone number. The page presents the rooms and the experience; your booking system handles availability and payment.' },
       { q: 'Can I show several room types?', a: 'Yes. The scrolling gallery has one slide per room or suite with an image, name and details, and you can add, duplicate and reorder them. The Rooms page in the multi-page version is a good place for more detail.' },
       { q: 'Does it work for guesthouses, B&Bs and holiday rentals?', a: 'Yes. Rename the rooms, change the images and edit the experience cards. It suits guesthouses, B&Bs, villas and holiday rentals as well as boutique hotels.' },
-      { q: 'How do I help the hotel appear in local search?', a: 'Name the town, coast or region in headings and the map section, add the full address and phone number to the footer and encourage guest reviews. The FAQ section is also marked up for search engines.' },
+      { q: 'How do I help the hotel appear in local search?', a: 'Name the town, coast or region in headings and the opening hours and location section, add the full address and phone number to the footer and encourage guest reviews. The FAQ section is also marked up for search engines.' },
     ],
   },
 
   salon: {
     about: `Clients book a salon on three things: the look of the work, the price and how easy it is to book. This template opens with an image hero and a book button, shows services with prices in a menu layout, introduces each stylist with a photo and short bio, adds reviews from regulars and ends with a booking form and a map to the studio. The multi-page version separates Services, Stylists and Book pages.
 
-List real prices, or a starting-from price with a note that it varies by hair length, as the sample does, and say that every visit starts with a consultation. Show the work with photographs of real clients and tag each stylist with the services they offer. Put opening hours and the late evenings in the map section. Link the book button to your booking app, or use the booking request form, which collects the service, a day and a time slot. A before-and-after slider shows colour and cut results, and a booking request form replaces the plain contact form so clients can choose a service, a day and a time.`,
+List real prices, or a starting-from price with a note that it varies by hair length, as the sample does, and say that every visit starts with a consultation. Show the work with photographs of real clients and tag each stylist with the services they offer. Put opening hours and the late evenings in the opening hours and location section, which shows a live Open now badge and tells search engines your hours. Link the book button to your booking app, or use the booking request form, which collects the service, a day and a time slot. A before-and-after slider shows colour and cut results, and a booking request form replaces the plain contact form so clients can choose a service, a day and a time.`,
     checklist: [
       'Services with prices, or a starting-from price and a note on what changes it',
       'A stylist for each service, with a photo and a short bio',

@@ -375,6 +375,74 @@
   document.querySelectorAll('.st [data-booking-date]').forEach(function (input) { input.min = today; });
 })();
 (function () {
+  var KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  function mins(v) {
+    var m = String(v || '').trim().toLowerCase().match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)?$/);
+    if (!m) return null;
+    var h = +m[1], mi = +(m[2] || 0);
+    if (m[3] === 'pm' && h < 12) h += 12;
+    if (m[3] === 'am' && h === 12) h = 0;
+    return h > 24 || mi > 59 ? null : h * 60 + mi;
+  }
+  function clock(total) {
+    var h = Math.floor(total / 60) % 24, mi = total % 60;
+    return (h < 10 ? '0' : '') + h + ':' + (mi < 10 ? '0' : '') + mi;
+  }
+  function nowIn(tz) {
+    var o = { weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' };
+    if (tz) o.timeZone = tz;
+    var parts;
+    try { parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    catch (e) { delete o.timeZone; parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    var p = {};
+    parts.forEach(function (x) { p[x.type] = x.value; });
+    return { day: KEYS.indexOf(String(p.weekday).slice(0, 3).toLowerCase()), min: (parseInt(p.hour, 10) % 24) * 60 + parseInt(p.minute, 10) };
+  }
+  document.querySelectorAll('.st').forEach(function (sec) {
+    var root = sec.querySelector('[data-opennow]');
+    if (!root) return;
+    var badge = root.querySelector('[data-open-badge]');
+    var text = badge && badge.querySelector('.oh-badge-text');
+    var rows = Array.prototype.map.call(root.querySelectorAll('[data-hours-row]'), function (r) {
+      var d = KEYS.indexOf(String(r.getAttribute('data-day') || '').slice(0, 3).toLowerCase());
+      var o = mins(r.getAttribute('data-open')), c = mins(r.getAttribute('data-close'));
+      var label = r.querySelector('.oh-day');
+      return { el: r, day: d, open: o, close: c, shut: r.getAttribute('data-closed') === 'closed' || o === null || c === null, name: label ? label.textContent : '' };
+    });
+    if (!rows.length) return;
+    var tz = root.getAttribute('data-tz') || '';
+    function attr(n, d) { return root.getAttribute(n) || d; }
+    function update() {
+      var n = nowIn(tz), prev = (n.day + 6) % 7, open = null;
+      rows.forEach(function (r) {
+        r.el.classList.toggle('is-today', r.day === n.day);
+        if (r.day === n.day) r.el.setAttribute('aria-current', 'date'); else r.el.removeAttribute('aria-current');
+        if (r.shut) return;
+        var over = r.close <= r.open;
+        if (r.day === n.day && n.min >= r.open && (over || n.min < r.close)) open = open || r;
+        if (r.day === prev && over && n.min < r.close) open = open || r;
+      });
+      if (!badge || !text) return;
+      badge.hidden = false;
+      badge.classList.toggle('is-open', !!open);
+      badge.classList.toggle('is-shut', !open);
+      if (open) { text.textContent = attr('data-open-label', 'Open now') + ' \u00b7 ' + attr('data-closes-label', 'closes at') + ' ' + clock(open.close); return; }
+      var next = null;
+      for (var i = 0; i < 8 && !next; i++) {
+        var dd = (n.day + i) % 7;
+        rows.forEach(function (r) {
+          if (r.shut || r.day !== dd || (i === 0 && r.open <= n.min)) return;
+          if (!next || r.open < next.open) next = r;
+        });
+        if (next) next.when = i === 0 ? '' : next.name + ' ';
+      }
+      text.textContent = attr('data-shut-label', 'Closed now') + (next ? ' \u00b7 ' + attr('data-opens-label', 'opens') + ' ' + next.when + clock(next.open) : '');
+    }
+    update();
+    setInterval(update, 60000);
+  });
+})();
+(function () {
   var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
   document.querySelectorAll('.st [data-pu]').forEach(function (root) {
     var dlg = root.querySelector('.pu-dialog');

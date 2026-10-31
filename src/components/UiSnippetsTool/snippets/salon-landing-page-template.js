@@ -3,7 +3,7 @@
 const salonLandingPageTemplate = {
   id: 'salon-landing-page-template',
   title: 'Hair & Beauty Salon Website Template',
-  lastmod: '2026-10-30',
+  lastmod: '2026-10-31',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -11,7 +11,7 @@ const salonLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuw56w8f96n">
+    <section class="st st-navbar-simple" data-uid="smvw6s7vyz5l3">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></svg></span><span>Bloom Studio</span></span>
@@ -31,7 +31,7 @@ const salonLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuw56w8v060">
+    <section class="st st-image-background-hero" data-uid="smvw6s7vyj3sp">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-salon.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,8 +51,8 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="menu" class="st st-restaurant-menu" data-uid="smvuw56w8wztu">
-      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.08" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><filter id="art-blur-smvuw56w8wztu" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter></defs><g filter="url(#art-blur-smvuw56w8wztu)" fill="currentColor"><circle data-float cx="180" cy="160" r="190"/><circle data-float cx="1040" cy="260" r="220"/><circle data-float cx="640" cy="720" r="200"/></g></svg></div>
+    <section id="menu" class="st st-restaurant-menu" data-uid="smvw6s7vyhalo">
+      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.08" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><filter id="art-blur-smvw6s7vyhalo" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter></defs><g filter="url(#art-blur-smvw6s7vyhalo)" fill="currentColor"><circle data-float cx="180" cy="160" r="190"/><circle data-float cx="1040" cy="260" r="220"/><circle data-float cx="640" cy="720" r="200"/></g></svg></div>
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services &amp; prices</p>
@@ -117,7 +117,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuw56w8gfta">
+    <section id="zoom" class="st st-scroll-zoom" data-uid="smvw6s7vzmlw0">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The studio</p>
@@ -159,7 +159,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvuw56w8js14">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvw6s7vznr2g">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Results</p>
@@ -194,7 +194,7 @@ const salonLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="team" class="st st-team-accordion" data-uid="smvuw56w86jrz">
+    <section id="team" class="st st-team-accordion" data-uid="smvw6s7vzt2gd">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The team</p>
@@ -259,42 +259,125 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuw56w8s8wi">
+    <section id="customers" class="st st-reviews-summary" data-uid="smvw6s7vzh0vy">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Client love</p>
-          <h2 class="st-h2" data-anim="item" data-anim-text>Kind words <span class="hl">from regulars</span></h2>
-          <p class="tg-summary" data-anim="item">★ 4.9 from 640+ Google reviews</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Rated <span class="hl">4.9 out of 5</span> by our clients</h2>
+          <p class="st-lead" data-anim="item">Kind words from regulars and first-timers. Tap a bar to read only the reviews with that rating.</p>
         </header>
-        <div class="tg-wall">
-          <figure class="tg-card" data-anim="item">
-            <p class="st-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">★★★★★</span></p>
-            <blockquote class="tg-quote"><p>Amara finally got my colour right after years of trying elsewhere. I leave smiling every time.</p></blockquote>
-            <figcaption><div class="st-person">
-                <img class="st-avatar" width="96" height="96" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-3.jpg" alt="">
-                <div><p class="st-person-name">Jess P.</p><p class="st-person-role">Client since 2019</p></div>
-              </div></figcaption>
-          </figure>
-          <figure class="tg-card" data-anim="item">
-            <p class="st-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">★★★★★</span></p>
-            <blockquote class="tg-quote"><p>Best fade in East London, and they always remember how I like it.</p></blockquote>
-            <figcaption><div class="st-person">
-                <img class="st-avatar" width="96" height="96" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-7.jpg" alt="">
-                <div><p class="st-person-name">Kwame A.</p><p class="st-person-role">Monthly regular</p></div>
-              </div></figcaption>
-          </figure>
-          <figure class="tg-card" data-anim="item">
-            <p class="st-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">★★★★★</span></p>
-            <blockquote class="tg-quote"><p>Warm, relaxed and so talented. The balayage is exactly what I asked for.</p></blockquote>
-            <figcaption><div class="st-person">
-                <img class="st-avatar" width="96" height="96" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-6.jpg" alt="">
-                <div><p class="st-person-name">Sofia L.</p><p class="st-person-role">First visit</p></div>
-              </div></figcaption>
-          </figure>
+        <div class="rs" data-revfilter data-filter-text="Showing {n} of {t} reviews rated {s} stars" data-clear-label="Show all reviews">
+          <aside class="rs-sum" data-anim="item">
+            <p class="rs-score"><span class="rs-avg">4.9</span><span class="rs-of">/5</span></p>
+            <span class="rs-stars rs-stars--big" style="--r:4.9" role="img" aria-label="Rated 4.9 out of 5">★★★★★</span>
+            <p class="rs-count"><span>640</span> <span>Google reviews</span></p>
+            <ul class="rs-bars">
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="5" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>5</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:92%"></span></span>
+                  <span class="rs-n">590</span>
+                </button>
+              </li>
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="4" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>4</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:6%"></span></span>
+                  <span class="rs-n">38</span>
+                </button>
+              </li>
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="3" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>3</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:1%"></span></span>
+                  <span class="rs-n">8</span>
+                </button>
+              </li>
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="2" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>2</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:0%"></span></span>
+                  <span class="rs-n">3</span>
+                </button>
+              </li>
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="1" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>1</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:0%"></span></span>
+                  <span class="rs-n">1</span>
+                </button>
+              </li>
+            </ul>
+            <a class="st-btn" href="#contact"><span>Leave a review</span></a>
+          </aside>
+          <div class="rs-main">
+            <p class="rs-status" data-filter-status role="status" hidden><span data-filter-message></span> <button type="button" class="rs-clear" data-filter-clear></button></p>
+            <ul class="rs-list">
+              <li class="rs-card" data-anim="item" data-rating="5">
+                <div class="rs-top"><span class="rs-stars" style="--r:5" role="img" aria-label="Rated 5 out of 5">★★★★★</span><span class="rs-date">October 2026</span></div>
+                <h3 class="rs-title">Finally the right colour</h3>
+                <p class="rs-text">Amara finally got my colour right after years of trying elsewhere. I leave smiling every time.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-3.jpg" alt="">
+                  <span class="rs-name">Jess P.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified client</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="5">
+                <div class="rs-top"><span class="rs-stars" style="--r:5" role="img" aria-label="Rated 5 out of 5">★★★★★</span><span class="rs-date">September 2026</span></div>
+                <h3 class="rs-title">Best fade in East London</h3>
+                <p class="rs-text">Best fade in East London, and they always remember how I like it.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-7.jpg" alt="">
+                  <span class="rs-name">Kwame A.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified client</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="5">
+                <div class="rs-top"><span class="rs-stars" style="--r:5" role="img" aria-label="Rated 5 out of 5">★★★★★</span><span class="rs-date">September 2026</span></div>
+                <h3 class="rs-title">Exactly what I asked for</h3>
+                <p class="rs-text">Warm, relaxed and so talented. The balayage is exactly what I asked for.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-6.jpg" alt="">
+                  <span class="rs-name">Sofia L.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified client</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="4">
+                <div class="rs-top"><span class="rs-stars" style="--r:4" role="img" aria-label="Rated 4 out of 5">★★★★★</span><span class="rs-date">August 2026</span></div>
+                <p class="rs-text">Lovely studio and a great cut. Popular days book up quickly, so plan ahead.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-2.jpg" alt="">
+                  <span class="rs-name">Nadia R.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified client</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="5">
+                <div class="rs-top"><span class="rs-stars" style="--r:5" role="img" aria-label="Rated 5 out of 5">★★★★★</span><span class="rs-date">August 2026</span></div>
+                <h3 class="rs-title">A calm place</h3>
+                <p class="rs-text">Nobody rushes you here. Tea, a chat and a cut I did not have to fix at home.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-4.jpg" alt="">
+                  <span class="rs-name">Chris M.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified client</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="3">
+                <div class="rs-top"><span class="rs-stars" style="--r:3" role="img" aria-label="Rated 3 out of 5">★★★★★</span><span class="rs-date">July 2026</span></div>
+                <h3 class="rs-title">Great result, long wait</h3>
+                <p class="rs-text">Beautiful colour, though my appointment started a little late. Worth it in the end.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-5.jpg" alt="">
+                  <span class="rs-name">Beth O.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified client</span></span>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvuw56w8c2zb">
+    <section id="contact" class="st st-booking-form" data-uid="smvw6s7vzzm7b">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -355,32 +438,80 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvuw56w8593u">
-      <div class="st-wrap cm">
-        <div class="cm-info">
-          <header class="st-head st-head--left cm-head">
-            <p class="st-eyebrow" data-anim="item">Visit</p>
-            <h2 class="st-h2" data-anim="item" data-anim-text>Find <span class="hl">the studio</span></h2>
-            <p class="st-lead" data-anim="item">On Broadway Market, two minutes from London Fields.</p>
-          </header>
-          <ul class="cm-offices">
-            <li class="cm-office" data-anim="item">
-              <h3 class="cm-city">Bloom Studio</h3>
-              <address class="cm-address">41 Broadway Market<br>London E8 4PH</address>
-              <p class="cm-hours">Tue–Sat 9am–7pm · Thu–Fri until 9pm</p>
-              <p class="cm-contact">
-                <a href="tel:+442079460456"><span>020 7946 0456</span></a>
-                <a href="mailto:hello@webdevpuneet.com"><span>hello@webdevpuneet.com</span></a>
-              </p>
-            </li>
-          </ul>
-        </div>
-        <div class="cm-map" data-anim="media">
-          <iframe class="cm-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.openstreetmap.org/export/embed.html?bbox=-0.1135%2C51.5185%2C-0.0955%2C51.5265&amp;layer=mapnik&amp;marker=51.5225%2C-0.1045" title="Map showing Bloom Studio"></iframe>
+    <section id="contact-2" class="st st-opening-hours" data-uid="smvw6s7vzxmj5">
+      <div class="st-wrap">
+        <header class="st-head">
+          <p class="st-eyebrow" data-anim="item">Visit</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Find <span class="hl">the studio</span></h2>
+          <p class="st-lead" data-anim="item">On Broadway Market, two minutes from London Fields.</p>
+        </header>
+        <div class="oh" data-opennow data-tz="Europe/London" data-open-label="Open now" data-closes-label="closes at" data-shut-label="Closed now" data-opens-label="opens">
+          <div class="oh-card oh-hours" data-anim="item">
+            <div class="oh-top">
+              <h3 class="oh-title">Opening hours</h3>
+              <p class="oh-badge" data-open-badge role="status" hidden><span class="oh-dot" aria-hidden="true"></span><span class="oh-badge-text"></span></p>
+            </div>
+            <ol class="oh-list">
+              <li class="oh-row" data-hours-row data-day="Monday" data-open="09:00" data-close="17:00" data-closed="closed">
+                <span class="oh-day">Monday</span>
+                <span class="oh-shut">Closed</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Tuesday" data-open="09:30" data-close="18:00" data-closed="">
+                <span class="oh-day">Tuesday</span>
+                <span class="oh-time"><time>09:30</time> <span aria-hidden="true">–</span> <time>18:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Wednesday" data-open="09:30" data-close="18:00" data-closed="">
+                <span class="oh-day">Wednesday</span>
+                <span class="oh-time"><time>09:30</time> <span aria-hidden="true">–</span> <time>18:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Thursday" data-open="09:30" data-close="20:00" data-closed="">
+                <span class="oh-day">Thursday</span>
+                <span class="oh-time"><time>09:30</time> <span aria-hidden="true">–</span> <time>20:00</time></span>
+                <span class="oh-note">Late night</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Friday" data-open="09:30" data-close="20:00" data-closed="">
+                <span class="oh-day">Friday</span>
+                <span class="oh-time"><time>09:30</time> <span aria-hidden="true">–</span> <time>20:00</time></span>
+                <span class="oh-note">Late night</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Saturday" data-open="09:00" data-close="17:00" data-closed="">
+                <span class="oh-day">Saturday</span>
+                <span class="oh-time"><time>09:00</time> <span aria-hidden="true">–</span> <time>17:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Sunday" data-open="09:00" data-close="17:00" data-closed="closed">
+                <span class="oh-day">Sunday</span>
+                <span class="oh-shut">Closed</span>
+              </li>
+            </ol>
+            <p class="oh-special">Walk-ins are welcome when there is a free chair. Booking is the best way to get your stylist.</p>
+          </div>
+          <div class="oh-side">
+            <div class="oh-map" data-anim="media">
+              <iframe class="oh-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.openstreetmap.org/export/embed.html?bbox=-0.0663%2C51.5341%2C-0.0563%2C51.5391&amp;layer=mapnik&amp;marker=51.5366%2C-0.0613" title="Map showing Bloom Studio on Broadway Market"></iframe>
+            </div>
+            <div class="oh-card oh-contact" data-anim="item">
+              <ul class="oh-info">
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg></span>
+                  <address class="oh-addr">
+                    <span class="oh-line oh-name">Bloom Studio</span>
+                    <span class="oh-line">41 Broadway Market</span>
+                    <span class="oh-line"><span>E8 4PH</span> <span>London</span></span>
+                    <span class="oh-line">United Kingdom</span>
+                  </address>
+                </li>
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg></span><a class="oh-link" href="tel:+442079460456">020 7946 0456</a></li>
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span><a class="oh-link" href="mailto:hello@webdevpuneet.com">hello@webdevpuneet.com</a></li>
+              </ul>
+              <div class="st-btns">
+                <a class="st-btn" href="https://www.google.com/maps/search/?api=1&amp;query=41%20Broadway%20Market%2C%20London%20E8%204PH"><span>Get directions</span></a>
+                <a class="st-btn st-btn--ghost" href="tel:+442079460456"><span>Call to book</span></a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuw56w8ynrc">
+    <section class="st st-popup-modal" data-uid="smvw6s7vz36oz">
       <div class="pu" data-pu data-trigger="delay" data-delay="10" data-scroll="50" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="1pcpcek">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -400,7 +531,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuw56w8u3dm">
+    <section class="st st-footer-minimal" data-uid="smvw6s7vzxgje">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -416,7 +547,7 @@ const salonLandingPageTemplate = {
         <p class="fm-copy">© 2026 Bloom Studio</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuw56w8opsl">
+    <section class="st st-back-to-top" data-uid="smvw6s7vzodbe">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -602,20 +733,42 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .ta-photo img{object-position:center 18%}
 }
 @media (prefers-reduced-motion:reduce){.ta-item,.ta-info,.ta-photo img{transition:none}}
-/* Testimonial Wall */
-.st-testimonials-grid{padding:clamp(64px,8cqi,112px) 0}
-.st-stars{color:#f59e0b;font-size:16px;letter-spacing:2px;line-height:1}
-.st-person{display:flex;align-items:center;gap:12px}
-.st-avatar{width:44px;height:44px;flex:none;border-radius:50%;object-fit:cover;background:var(--st-surface)}
-.st-person-name{font-weight:700;font-size:15.5px;line-height:1.3}
-.st-person-role{color:var(--st-muted);font-size:14px;line-height:1.4}
-.st-person-role:empty{display:none}
-.tg-summary{padding:6px 14px;border-radius:999px;background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 8%,transparent);color:var(--st-muted);font-size:14.5px;font-weight:600}
-.tg-summary:empty{display:none}
-.tg-wall{columns:3 300px;column-gap:clamp(16px,2cqi,22px)}
-.tg-card{break-inside:avoid;display:flex;flex-direction:column;gap:16px;margin:0 0 clamp(16px,2cqi,22px);padding:clamp(22px,2.4cqi,28px);border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 7%,transparent);box-shadow:0 10px 30px -22px color-mix(in srgb,var(--st-text) 40%,transparent)}
-.tg-quote{font-size:16.5px;line-height:1.65}
-.tg-card:nth-child(3n+2){background:color-mix(in srgb,var(--st-brand) 6%,var(--st-surface))}
+/* Reviews Summary & Rating */
+.st-reviews-summary{padding:clamp(64px,8cqi,112px) 0}
+.rs{display:grid;grid-template-columns:minmax(260px,.42fr) minmax(0,1fr);gap:clamp(22px,3.4cqi,48px);align-items:start}
+.rs-sum{position:sticky;top:24px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:clamp(22px,2.6cqi,32px);border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent)}
+.rs-score{display:flex;align-items:baseline;gap:6px}
+.rs-avg{font:800 clamp(52px,6cqi,72px)/1 var(--st-font-heading);letter-spacing:-.03em}
+.rs-of{color:var(--st-muted);font-size:20px;font-weight:600}
+.rs-stars{--star:#f59e0b;--empty:color-mix(in srgb,var(--st-text) 18%,transparent);display:inline-block;font-size:18px;line-height:1;letter-spacing:1px;white-space:nowrap;background:linear-gradient(90deg,var(--star) calc(var(--r,0) / 5 * 100%),var(--empty) 0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rs-stars--big{font-size:26px}
+.rs-count{color:var(--st-muted);font-size:15px;margin-bottom:8px}
+.rs-count span:first-child{color:var(--st-text);font-weight:700}
+.rs-bars{list-style:none;display:grid;gap:4px;width:100%;margin-bottom:12px}
+.rs-barbtn{display:grid;grid-template-columns:34px 1fr 44px;align-items:center;gap:10px;width:100%;padding:7px 8px;border:1px solid transparent;border-radius:10px;background:transparent;color:inherit;font:inherit;font-size:14px;text-align:left;cursor:pointer;transition:background .15s ease,border-color .15s ease}
+.rs-barbtn:hover{background:color-mix(in srgb,var(--st-text) 6%,transparent)}
+.rs-barbtn:focus-visible{outline:3px solid color-mix(in srgb,var(--st-brand) 55%,transparent);outline-offset:1px}
+.rs-barbtn[aria-pressed=true]{background:color-mix(in srgb,var(--st-brand) 12%,transparent);border-color:color-mix(in srgb,var(--st-brand) 50%,transparent)}
+.rs-lab{font-weight:700;white-space:nowrap}
+.rs-lab::after{content:""}
+.rs-track{position:relative;height:9px;border-radius:99px;background:color-mix(in srgb,var(--st-text) 11%,transparent);overflow:hidden}
+.rs-fill{position:absolute;inset:0 auto 0 0;width:var(--w,0%);border-radius:99px;background:#f59e0b}
+.rs-n{color:var(--st-muted);text-align:right;font-variant-numeric:tabular-nums}
+.rs-status{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-bottom:14px;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,var(--st-brand) 10%,transparent);font-size:14.5px;font-weight:600}
+.rs-status[hidden]{display:none}
+.rs-clear{padding:0;border:0;background:none;color:var(--st-brand);font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.rs-list{list-style:none;display:grid;gap:clamp(12px,1.6cqi,18px)}
+.rs-card[hidden]{display:none}
+.rs-card{display:flex;flex-direction:column;gap:8px;padding:clamp(18px,2.2cqi,26px);border-radius:calc(var(--st-radius) * 1.1px);background:var(--st-bg);border:1px solid color-mix(in srgb,var(--st-text) 10%,transparent)}
+.rs-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.rs-date{color:var(--st-muted);font-size:13.5px}
+.rs-title{font-size:17.5px}
+.rs-text{color:var(--st-muted);font-size:15.5px;line-height:1.65}
+.rs-by{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:4px}
+.rs-av{width:38px;height:38px;border-radius:50%;object-fit:cover;background:var(--st-surface)}
+.rs-name{font-weight:700;font-size:15px}
+.rs-badge{color:#15803d;font-size:13px;font-weight:600}
+@container st (max-width:860px){.rs{grid-template-columns:1fr}.rs-sum{position:static}}
 /* Booking Request Form */
 .st-booking-form{padding:clamp(64px,8cqi,112px) 0}
 .st-form{display:block}
@@ -647,22 +800,44 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .bk-row dd{color:var(--st-muted);font-variant-numeric:tabular-nums}
 .bk-card{padding:clamp(24px,3.4cqi,40px);border-radius:calc(var(--st-radius) * 1.3px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 7%,transparent);box-shadow:0 30px 70px -40px color-mix(in srgb,var(--st-text) 45%,transparent)}
 @container st (max-width:860px){.bk{grid-template-columns:1fr}}
-/* Contact With Map */
-.st-contact-map{padding:clamp(64px,8cqi,112px) 0}
-.cm{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:stretch;gap:clamp(32px,5cqi,72px)}
-.cm-info{display:flex;flex-direction:column;gap:32px}
-.cm-head{margin:0}
-.cm-offices{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
-.cm-office{display:flex;flex-direction:column;gap:6px;padding:22px;border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface)}
-.cm-city{font-size:18px;margin-bottom:4px}
-.cm-address{font-style:normal;color:var(--st-muted);font-size:15.5px;line-height:1.6}
-.cm-hours{color:var(--st-text);font-size:14.5px;font-weight:600;margin-top:4px}
-.cm-contact{display:flex;flex-direction:column;gap:2px;margin-top:6px}
-.cm-contact a{color:var(--st-brand);font-weight:600;font-size:15px;text-decoration:none;word-break:break-word}
-.cm-contact a:hover{text-decoration:underline}
-.cm-map{min-height:420px;overflow:hidden;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent);box-shadow:0 30px 70px -40px rgba(28,25,23,.45)}
-.cm-frame{display:block;width:100%;height:100%;min-height:420px;border:0}
-@container st (max-width:860px){.cm{grid-template-columns:1fr}.cm-map,.cm-frame{min-height:320px}}
+/* Opening Hours & Location */
+.st-opening-hours{padding:clamp(64px,8cqi,112px) 0}
+.oh{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(18px,2.6cqi,32px);align-items:stretch}
+.oh-card{padding:clamp(22px,2.8cqi,34px);border-radius:calc(var(--st-radius) * 1.1px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent);box-shadow:0 24px 60px -44px color-mix(in srgb,var(--st-text) 55%,transparent)}
+.oh-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-bottom:6px}
+.oh-title{font-size:clamp(21px,2.3cqi,26px)}
+.oh-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 13px;border-radius:999px;background:color-mix(in srgb,var(--st-text) 7%,transparent);color:var(--st-text);font-size:13.5px;font-weight:700}
+.oh-badge[hidden]{display:none}
+.oh-dot{width:9px;height:9px;border-radius:50%;background:#94a3b8}
+.oh-badge.is-open{background:rgba(34,197,94,.15);color:color-mix(in srgb,#16a34a 78%,var(--st-text))}
+.oh-badge.is-open .oh-dot{background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.25)}
+.oh-badge.is-shut{background:rgba(239,68,68,.12);color:color-mix(in srgb,#dc2626 78%,var(--st-text))}
+.oh-badge.is-shut .oh-dot{background:#ef4444}
+.oh-list{list-style:none;margin:0;padding:0}
+.oh-row{display:grid;grid-template-columns:minmax(96px,auto) 1fr;gap:3px 16px;align-items:baseline;padding:13px 12px;margin:0 -12px;border-bottom:1px dashed color-mix(in srgb,var(--st-text) 14%,transparent);font-size:16px}
+.oh-row:last-child{border-bottom:0}
+.oh-day{font-weight:700}
+.oh-time,.oh-shut{justify-self:end;font-variant-numeric:tabular-nums}
+.oh-shut{color:var(--st-muted)}
+.oh-note{grid-column:1 / -1;justify-self:end;color:var(--st-muted);font-size:13.5px}
+.oh-row.is-today{background:color-mix(in srgb,var(--st-brand) 10%,transparent);border-radius:10px;border-bottom-color:transparent}
+.oh-row.is-today .oh-day{color:var(--st-brand)}
+.oh-row.is-today .oh-day::before{content:"";display:inline-block;width:8px;height:8px;margin-right:9px;border-radius:50%;background:var(--st-brand)}
+.oh-special{margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--st-text) 9%,transparent);color:var(--st-muted);font-size:14.5px}
+.oh-side{display:flex;flex-direction:column;gap:clamp(14px,2cqi,20px);min-width:0}
+.oh-map{flex:1;min-height:280px;overflow:hidden;border-radius:calc(var(--st-radius) * 1.1px);background:var(--st-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 420' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='600' height='420' fill='%23e9eef0'/%3E%3Cpath d='M0 90H600M0 250H600M0 350H600M110 0V420M300 0V420M470 0V420' stroke='%23ffffff' stroke-width='16'/%3E%3Cpath d='M0 190L600 150M200 0L330 420' stroke='%23ffffff' stroke-width='10'/%3E%3Crect x='330' y='110' width='110' height='80' rx='8' fill='%23d9e6dc'/%3E%3Cpath d='M300 150c-28 0-50 22-50 50 0 36 50 82 50 82s50-46 50-82c0-28-22-50-50-50z' fill='%23ef4444'/%3E%3Ccircle cx='300' cy='200' r='17' fill='%23ffffff'/%3E%3C/svg%3E") center/cover no-repeat;border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent)}
+.oh-frame{display:block;width:100%;height:100%;min-height:280px;border:0}
+.oh-info{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:14px}
+.oh-item{display:flex;align-items:flex-start;gap:14px}
+.oh-item .st-icon{width:42px;height:42px;background:color-mix(in srgb,var(--st-brand) 14%,transparent)}
+.oh-item .st-icon svg{width:20px;height:20px}
+.oh-addr{display:flex;flex-direction:column;font-style:normal;font-size:16px;line-height:1.5;padding-top:2px}
+.oh-name{font-weight:700}
+.oh-link{align-self:center;color:var(--st-text);font-size:16.5px;font-weight:600;text-decoration:none;word-break:break-word}
+.oh-link:hover{color:var(--st-brand);text-decoration:underline}
+.oh-contact .st-btns{display:flex;flex-wrap:wrap;gap:12px}
+@container st (max-width:860px){.oh{grid-template-columns:1fr}.oh-map,.oh-frame{min-height:260px}}
+@media (prefers-reduced-motion:reduce){.oh-dot{box-shadow:none!important}}
 /* Popup & Promo Modal */
 .st-popup-modal{overflow:visible;container-type:normal;height:0;min-height:0;background:transparent}
 .st-popup-modal:has(.pu.is-preview){height:auto;padding:clamp(24px,4vw,48px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 8%,var(--st-bg))}
@@ -818,6 +993,16 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .st-art--corner>svg{top:-12%;right:-8%;left:auto;width:min(58%,620px);height:auto}
 .st-art--corners>svg{top:0;right:0;left:auto;width:clamp(140px,22cqi,300px);height:auto}
 .st-art--corners>svg+svg{top:auto;right:auto;bottom:0;left:0;transform:rotate(180deg)}
+.st-art[data-pos=top]{inset:0 0 50% 0}
+.st-art[data-pos=bottom]{inset:50% 0 0 0}
+.st-art[data-pos=left]{inset:0 50% 0 0}
+.st-art[data-pos=right]{inset:0 0 0 50%}
+.st-art--corner[data-pos=c]>svg{top:var(--art-y,50%);left:var(--art-x,50%);right:auto;bottom:auto;translate:-50% -50%}
+.st-art--corner[data-pos=tl]>svg{right:auto;left:-8%}
+.st-art--corner[data-pos=br]>svg{top:auto;bottom:-12%}
+.st-art--corner[data-pos=bl]>svg{top:auto;right:auto;bottom:-12%;left:-8%}
+.st-art--corners[data-pos=tl]>svg{right:auto;left:0;transform:scaleX(-1)}
+.st-art--corners[data-pos=tl]>svg+svg{left:auto;right:0;transform:scaleY(-1)}
 `,
 
   js: `(function () {
@@ -1057,6 +1242,41 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   });
 })();
 (function () {
+  document.querySelectorAll('.st [data-revfilter]').forEach(function (root) {
+    var btns = root.querySelectorAll('[data-filter-star]');
+    var cards = root.querySelectorAll('[data-rating]');
+    var status = root.querySelector('[data-filter-status]');
+    var msg = status && status.querySelector('[data-filter-message]');
+    var clear = status && status.querySelector('[data-filter-clear]');
+    if (!btns.length || !cards.length) return;
+    var tpl = root.getAttribute('data-filter-text') || 'Showing {n} of {t} reviews rated {s} stars';
+    if (clear) clear.textContent = root.getAttribute('data-clear-label') || 'Show all reviews';
+    Array.prototype.forEach.call(btns, function (b) {
+      var label = b.getAttribute('aria-label');
+      if (label) b.setAttribute('aria-label', label.replace('{s}', b.getAttribute('data-star')));
+    });
+    var current = '';
+    function apply(star) {
+      current = star;
+      var shown = 0;
+      Array.prototype.forEach.call(cards, function (c) {
+        var show = !star || String(Math.round(parseFloat(c.getAttribute('data-rating')) || 0)) === star;
+        c.hidden = !show;
+        if (show) shown++;
+      });
+      Array.prototype.forEach.call(btns, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-star') === star)); });
+      if (status) {
+        status.hidden = !star;
+        if (msg && star) msg.textContent = tpl.replace('{n}', shown).replace('{t}', cards.length).replace('{s}', star);
+      }
+    }
+    Array.prototype.forEach.call(btns, function (b) {
+      b.addEventListener('click', function () { var s = b.getAttribute('data-star'); apply(current === s ? '' : s); });
+    });
+    if (clear) clear.addEventListener('click', function () { apply(''); });
+  });
+})();
+(function () {
   var G = window.gsap;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll('.st form[data-form]').forEach(function (form) {
@@ -1089,6 +1309,74 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   var pad = function (n) { return (n < 10 ? '0' : '') + n; };
   var today = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
   document.querySelectorAll('.st [data-booking-date]').forEach(function (input) { input.min = today; });
+})();
+(function () {
+  var KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  function mins(v) {
+    var m = String(v || '').trim().toLowerCase().match(/^(\\d{1,2})(?::(\\d{2}))?\\s*(am|pm)?$/);
+    if (!m) return null;
+    var h = +m[1], mi = +(m[2] || 0);
+    if (m[3] === 'pm' && h < 12) h += 12;
+    if (m[3] === 'am' && h === 12) h = 0;
+    return h > 24 || mi > 59 ? null : h * 60 + mi;
+  }
+  function clock(total) {
+    var h = Math.floor(total / 60) % 24, mi = total % 60;
+    return (h < 10 ? '0' : '') + h + ':' + (mi < 10 ? '0' : '') + mi;
+  }
+  function nowIn(tz) {
+    var o = { weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' };
+    if (tz) o.timeZone = tz;
+    var parts;
+    try { parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    catch (e) { delete o.timeZone; parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    var p = {};
+    parts.forEach(function (x) { p[x.type] = x.value; });
+    return { day: KEYS.indexOf(String(p.weekday).slice(0, 3).toLowerCase()), min: (parseInt(p.hour, 10) % 24) * 60 + parseInt(p.minute, 10) };
+  }
+  document.querySelectorAll('.st').forEach(function (sec) {
+    var root = sec.querySelector('[data-opennow]');
+    if (!root) return;
+    var badge = root.querySelector('[data-open-badge]');
+    var text = badge && badge.querySelector('.oh-badge-text');
+    var rows = Array.prototype.map.call(root.querySelectorAll('[data-hours-row]'), function (r) {
+      var d = KEYS.indexOf(String(r.getAttribute('data-day') || '').slice(0, 3).toLowerCase());
+      var o = mins(r.getAttribute('data-open')), c = mins(r.getAttribute('data-close'));
+      var label = r.querySelector('.oh-day');
+      return { el: r, day: d, open: o, close: c, shut: r.getAttribute('data-closed') === 'closed' || o === null || c === null, name: label ? label.textContent : '' };
+    });
+    if (!rows.length) return;
+    var tz = root.getAttribute('data-tz') || '';
+    function attr(n, d) { return root.getAttribute(n) || d; }
+    function update() {
+      var n = nowIn(tz), prev = (n.day + 6) % 7, open = null;
+      rows.forEach(function (r) {
+        r.el.classList.toggle('is-today', r.day === n.day);
+        if (r.day === n.day) r.el.setAttribute('aria-current', 'date'); else r.el.removeAttribute('aria-current');
+        if (r.shut) return;
+        var over = r.close <= r.open;
+        if (r.day === n.day && n.min >= r.open && (over || n.min < r.close)) open = open || r;
+        if (r.day === prev && over && n.min < r.close) open = open || r;
+      });
+      if (!badge || !text) return;
+      badge.hidden = false;
+      badge.classList.toggle('is-open', !!open);
+      badge.classList.toggle('is-shut', !open);
+      if (open) { text.textContent = attr('data-open-label', 'Open now') + ' \\u00b7 ' + attr('data-closes-label', 'closes at') + ' ' + clock(open.close); return; }
+      var next = null;
+      for (var i = 0; i < 8 && !next; i++) {
+        var dd = (n.day + i) % 7;
+        rows.forEach(function (r) {
+          if (r.shut || r.day !== dd || (i === 0 && r.open <= n.min)) return;
+          if (!next || r.open < next.open) next = r;
+        });
+        if (next) next.when = i === 0 ? '' : next.name + ' ';
+      }
+      text.textContent = attr('data-shut-label', 'Closed now') + (next ? ' \\u00b7 ' + attr('data-opens-label', 'opens') + ' ' + next.when + clock(next.open) : '');
+    }
+    update();
+    setInterval(update, 60000);
+  });
 })();
 (function () {
   var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
@@ -1343,14 +1631,18 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     if (mode === 'spin') layer.querySelectorAll('[data-spin]').forEach(function (el, i) {
       G.to(el, { rotation: i % 2 ? -360 : 360, duration: 60 + i * 8, ease: 'none', repeat: -1, transformOrigin: '50% 50%' });
     });
-    if (mode === 'draw' && window.ScrollTrigger) layer.querySelectorAll('[data-draw]').forEach(function (p, i) {
+    // window.ST_ART_PLAY (the section editor's preview): draw and parallax play once by themselves,
+    // so picking them shows the effect without scrolling. Exports and pages keep the scroll-driven version.
+    if (mode === 'draw' && (window.ScrollTrigger || window.ST_ART_PLAY)) layer.querySelectorAll('[data-draw]').forEach(function (p, i) {
       var len = p.getTotalLength ? p.getTotalLength() : 0;
       if (!len) return;
-      G.fromTo(p, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: sec, start: 'top 90%', end: 'bottom 40%', scrub: 0.6 } });
+      if (window.ST_ART_PLAY) G.fromTo(p, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 2.4, delay: i * 0.12, ease: 'power2.out' });
+      else G.fromTo(p, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: sec, start: 'top 90%', end: 'bottom 40%', scrub: 0.6 } });
     });
-    if (mode === 'parallax' && window.ScrollTrigger && svg) {
+    if (mode === 'parallax' && svg && (window.ScrollTrigger || window.ST_ART_PLAY)) {
       G.set(svg, { scale: 1.15 });
-      G.fromTo(svg, { yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: true } });
+      if (window.ST_ART_PLAY) G.fromTo(svg, { yPercent: -6 }, { yPercent: 6, duration: 2.4, ease: 'sine.inOut', yoyo: true, repeat: 1 });
+      else G.fromTo(svg, { yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: true } });
     }
   });
 })();
@@ -1404,10 +1696,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "role": "an interactive team accordion where each stylist is a grayscale strip that opens on click"
       },
       {
-        "id": "testimonials-grid",
-        "name": "Testimonial Wall",
-        "url": "/website-section-templates/testimonials-grid/",
-        "role": "reviews from regulars, which confirm the atmosphere and the consistency"
+        "id": "reviews-summary",
+        "name": "Reviews Summary & Rating",
+        "url": "/website-section-templates/reviews-summary/",
+        "role": "a reviews summary with the 4.9 average and a star breakdown that filters the client reviews"
       },
       {
         "id": "booking-form",
@@ -1416,10 +1708,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "role": "a booking request form for service, stylist, date and contact details"
       },
       {
-        "id": "contact-map",
-        "name": "Contact With Map",
-        "url": "/website-section-templates/contact-map/",
-        "role": "a map with address, parking and opening hours"
+        "id": "opening-hours",
+        "name": "Opening Hours & Location",
+        "url": "/website-section-templates/opening-hours/",
+        "role": "an opening hours table with a live Open now badge, late-night Thursdays and Fridays and a map of the studio"
       },
       {
         "id": "popup-modal",
@@ -1442,10 +1734,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "A Salon Website That Books Appointments: Services Menu, Stylists and Before-and-After Proof",
-      "description": "Clients choose a salon on three things: the work, the price and the person who will do it. The services are therefore laid out like a menu, with prices, so the cost of a cut and colour is clear before anyone books. A before-and-after slider shows transformations that no description can convey, and the stylist grid lets a client pick someone by name, which is how most salon bookings really work.\n\nReviews from regulars confirm the experience, a booking request form takes the service, preferred stylist and date, and a map shows where to find you. A popup can promote a new-client offer or a quiet-day discount without restructuring the page.\n\nReplace the sample menu and stylists with your own, and photograph your real work. It is the layout of the [Hair & Beauty Salon Website template](/website-builder/templates/salon/), which also comes as a multi-page site with Services, Stylists and Book pages; open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned stack of studio photographs that each arrive small and zoom up to fill the screen as you scroll, room by room; an interactive team accordion where each stylist is a grayscale strip that opens on click; and a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Scroll Zoom Image Stack](/website-section-templates/scroll-zoom/), [Interactive Team Accordion](/website-section-templates/team-accordion/), [Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
+      "description": "Clients choose a salon on three things: the work, the price and the person who will do it. The services are therefore laid out like a menu, with prices, so the cost of a cut and colour is clear before anyone books. A before-and-after slider shows transformations that no description can convey, and the stylist grid lets a client pick someone by name, which is how most salon bookings really work.\n\nReviews from regulars confirm the experience, a booking request form takes the service, preferred stylist and date, and a map shows where to find you. A popup can promote a new-client offer or a quiet-day discount without restructuring the page.\n\nReplace the sample menu and stylists with your own, and photograph your real work. It is the layout of the [Hair & Beauty Salon Website template](/website-builder/templates/salon/), which also comes as a multi-page site with Services, Stylists and Book pages; open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned stack of studio photographs that each arrive small and zoom up to fill the screen as you scroll, room by room; an interactive team accordion where each stylist is a grayscale strip that opens on click; a reviews summary with the 4.9 average and a star breakdown that filters the client reviews; an opening hours table with a live Open now badge, late-night Thursdays and Fridays and a map of the studio; and a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Scroll Zoom Image Stack](/website-section-templates/scroll-zoom/), [Interactive Team Accordion](/website-section-templates/team-accordion/), [Reviews Summary & Rating](/website-section-templates/reviews-summary/), [Opening Hours & Location](/website-section-templates/opening-hours/), [Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
-      "12 ready-made website sections assembled into one finished hair & beauty salon website page: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Image Stack (Ken Burns), Before & After Slider, Interactive Team Accordion, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button",
+      "12 ready-made website sections assembled into one finished hair & beauty salon website page: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Image Stack (Ken Burns), Before & After Slider, Interactive Team Accordion, Reviews Summary & Rating, Booking Request Form, Opening Hours & Location, Popup & Promo Modal, Minimal Footer, Back to Top Button",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
@@ -1453,6 +1745,8 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       "Also available as a 6-page website in the builder, sharing one navbar, footer and theme",
       "A pinned stack of photographs that each start small and zoom up to full size as you scroll (GSAP ScrollTrigger)",
       "An interactive team accordion of grayscale image strips that expand on click",
+      "A reviews summary with the average rating and a star breakdown that filters the review cards",
+      "Opening hours with a live Open now badge in the business time zone, the address, a map and call buttons, plus LocalBusiness data for search engines",
       "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
@@ -1513,11 +1807,11 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       },
       {
         "q": "What extras are built into the Hair & Beauty Salon Website template?",
-        "a": "It adds a scroll zoom image stack, an interactive team accordion and a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
+        "a": "It adds a scroll zoom image stack, an interactive team accordion, a reviews summary with a star breakdown and filter, an opening hours section with a live Open now badge and a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 12 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Image Stack (Ken Burns), Before & After Slider, Interactive Team Accordion, Testimonial Wall, Booking Request Form, Contact With Map, Popup & Promo Modal, Minimal Footer, Back to Top Button. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 12 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Restaurant Menu, Scroll Zoom Image Stack (Ken Burns), Before & After Slider, Interactive Team Accordion, Reviews Summary & Rating, Booking Request Form, Opening Hours & Location, Popup & Promo Modal, Minimal Footer, Back to Top Button. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1526,7 +1820,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Hair & Beauty Salon Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete hair & beauty salon website for “Bloom Studio” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Leave feeling like yourself, only better”\n3. Restaurant Menu: “Cut, colour and care”\n4. Scroll Zoom Image Stack (Ken Burns): “A calm place to take your time”\n5. Before & After Slider: “Colour and cut, before and after”\n6. Interactive Team Accordion: “Meet the hands behind Bloom”\n7. Testimonial Wall: “Kind words from regulars”\n8. Booking Request Form: “Request your appointment”\n9. Contact With Map: “Find the studio”\n10. Popup & Promo Modal\n11. Minimal Footer\n12. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #be185d, page background #fff8f7, cards #f8e9e6, text #3b1d24, muted text #7b5960. Corner radius 18px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable health & beauty copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Bloom Studio: Hair, Colour and Beauty Salon in Hackney”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a health & beauty business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Services (services.html)\n- Stylists (team.html)\n- Book (book.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete hair & beauty salon website for “Bloom Studio” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Leave feeling like yourself, only better”\n3. Restaurant Menu: “Cut, colour and care”\n4. Scroll Zoom Image Stack (Ken Burns): “A calm place to take your time”\n5. Before & After Slider: “Colour and cut, before and after”\n6. Interactive Team Accordion: “Meet the hands behind Bloom”\n7. Reviews Summary & Rating: “Rated 4.9 out of 5 by our clients”\n8. Booking Request Form: “Request your appointment”\n9. Opening Hours & Location: “Find the studio”\n10. Popup & Promo Modal\n11. Minimal Footer\n12. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #be185d, page background #fff8f7, cards #f8e9e6, text #3b1d24, muted text #7b5960. Corner radius 18px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable health & beauty copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Bloom Studio: Hair, Colour and Beauty Salon in Hackney”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a health & beauty business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Services (services.html)\n- Stylists (team.html)\n- Book (book.html)\n- Privacy (privacy.html)"
     }
   },
 };

@@ -3,7 +3,7 @@
 const productStoreLandingPageTemplate = {
   id: 'product-store-landing-page-template',
   title: 'Product Landing Page Store Template',
-  lastmod: '2026-10-30',
+  lastmod: '2026-10-31',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -13,7 +13,7 @@ const productStoreLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-announcement" data-uid="smvuw56xczkfo">
+    <section class="st st-navbar-announcement" data-uid="smvw6s7y2old2">
       <div class="na-bar" data-dismissable>
         <p class="st-wrap na-bar-in"><span>Free shipping and 30-day returns on every order</span> <a class="na-bar-link" href="#faq"><span>Learn more</span> <span aria-hidden="true">→</span></a></p>
         <button type="button" class="na-close" data-dismiss aria-label="Dismiss announcement"><span aria-hidden="true">×</span></button>
@@ -42,7 +42,7 @@ const productStoreLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-app-product-hero" data-uid="smvuw56xcylnj">
+    <section class="st st-app-product-hero" data-uid="smvw6s7y23m99">
       <div class="ap st-wrap">
         <div class="ap-copy">
           <span class="st-eyebrow" data-anim="item">Sona One · wireless headphones</span>
@@ -62,7 +62,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-alternating" data-uid="smvuw56xcy79k">
+    <section id="features" class="st st-features-alternating" data-uid="smvw6s7y2rppz">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Features</p>
@@ -100,7 +100,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvuw56xc76d8">
+    <section id="gallery" class="st st-video-section" data-uid="smvw6s7y2qip2">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">See it in action</p>
@@ -130,7 +130,7 @@ const productStoreLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvuw56xcih8n">
+    <section id="results" class="st st-stats-counters" data-uid="smvw6s7y25ju2">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Why people switch</p>
@@ -161,42 +161,125 @@ const productStoreLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuw56xc9s0r">
+    <section id="customers" class="st st-reviews-summary" data-uid="smvw6s7y269pf">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
-          <h2 class="st-h2" data-anim="item" data-anim-text>Loved by <span class="hl">3,200 listeners</span></h2>
-          <p class="tg-summary" data-anim="item"></p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Rated <span class="hl">4.8 out of 5</span> by 3,200 listeners</h2>
+          <p class="st-lead" data-anim="item">Every review comes from a verified purchase. Tap a bar to read only the reviews with that rating.</p>
         </header>
-        <div class="tg-wall">
-          <figure class="tg-card" data-anim="item">
-            <p class="st-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">★★★★★</span></p>
-            <blockquote class="tg-quote"><p>I wore them on a 14-hour flight and only took them off to eat. The noise cancelling is unreal.</p></blockquote>
-            <figcaption><div class="st-person">
-                <img class="st-avatar" width="96" height="96" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-2.jpg" alt="">
-                <div><p class="st-person-name">Hannah L.</p><p class="st-person-role">Verified buyer</p></div>
-              </div></figcaption>
-          </figure>
-          <figure class="tg-card" data-anim="item">
-            <p class="st-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">★★★★★</span></p>
-            <blockquote class="tg-quote"><p>Calls sound clear even on a windy street. My team stopped asking me to repeat myself.</p></blockquote>
-            <figcaption><div class="st-person">
-                <img class="st-avatar" width="96" height="96" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-3.jpg" alt="">
-                <div><p class="st-person-name">Marcus T.</p><p class="st-person-role">Verified buyer</p></div>
-              </div></figcaption>
-          </figure>
-          <figure class="tg-card" data-anim="item">
-            <p class="st-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">★★★★★</span></p>
-            <blockquote class="tg-quote"><p>Comfortable all day with glasses, which I could never say about my old pair.</p></blockquote>
-            <figcaption><div class="st-person">
-                <img class="st-avatar" width="96" height="96" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-5.jpg" alt="">
-                <div><p class="st-person-name">Ines R.</p><p class="st-person-role">Verified buyer</p></div>
-              </div></figcaption>
-          </figure>
+        <div class="rs" data-revfilter data-filter-text="Showing {n} of {t} reviews rated {s} stars" data-clear-label="Show all reviews">
+          <aside class="rs-sum" data-anim="item">
+            <p class="rs-score"><span class="rs-avg">4.8</span><span class="rs-of">/5</span></p>
+            <span class="rs-stars rs-stars--big" style="--r:4.8" role="img" aria-label="Rated 4.8 out of 5">★★★★★</span>
+            <p class="rs-count"><span>3,200</span> <span>verified reviews</span></p>
+            <ul class="rs-bars">
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="5" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>5</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:83%"></span></span>
+                  <span class="rs-n">2,650</span>
+                </button>
+              </li>
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="4" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>4</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:13%"></span></span>
+                  <span class="rs-n">400</span>
+                </button>
+              </li>
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="3" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>3</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:3%"></span></span>
+                  <span class="rs-n">90</span>
+                </button>
+              </li>
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="2" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>2</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:1%"></span></span>
+                  <span class="rs-n">35</span>
+                </button>
+              </li>
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="1" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>1</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:1%"></span></span>
+                  <span class="rs-n">25</span>
+                </button>
+              </li>
+            </ul>
+            <a class="st-btn" href="#pricing"><span>Write a review</span></a>
+          </aside>
+          <div class="rs-main">
+            <p class="rs-status" data-filter-status role="status" hidden><span data-filter-message></span> <button type="button" class="rs-clear" data-filter-clear></button></p>
+            <ul class="rs-list">
+              <li class="rs-card" data-anim="item" data-rating="5">
+                <div class="rs-top"><span class="rs-stars" style="--r:5" role="img" aria-label="Rated 5 out of 5">★★★★★</span><span class="rs-date">October 2026</span></div>
+                <h3 class="rs-title">Unreal noise cancelling</h3>
+                <p class="rs-text">I wore them on a 14-hour flight and only took them off to eat. The noise cancelling is unreal.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-2.jpg" alt="">
+                  <span class="rs-name">Hannah L.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified purchase</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="5">
+                <div class="rs-top"><span class="rs-stars" style="--r:5" role="img" aria-label="Rated 5 out of 5">★★★★★</span><span class="rs-date">September 2026</span></div>
+                <h3 class="rs-title">Clear calls</h3>
+                <p class="rs-text">Calls sound clear even on a windy street. My team stopped asking me to repeat myself.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-3.jpg" alt="">
+                  <span class="rs-name">Marcus T.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified purchase</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="5">
+                <div class="rs-top"><span class="rs-stars" style="--r:5" role="img" aria-label="Rated 5 out of 5">★★★★★</span><span class="rs-date">September 2026</span></div>
+                <h3 class="rs-title">Fine with glasses</h3>
+                <p class="rs-text">Comfortable all day with glasses, which I could never say about my old pair.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-5.jpg" alt="">
+                  <span class="rs-name">Ines R.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified purchase</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="4">
+                <div class="rs-top"><span class="rs-stars" style="--r:4" role="img" aria-label="Rated 4 out of 5">★★★★★</span><span class="rs-date">August 2026</span></div>
+                <h3 class="rs-title">Great, but I wish for a hard case</h3>
+                <p class="rs-text">Sound and battery are excellent. A hard case in the box would make it perfect.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-7.jpg" alt="">
+                  <span class="rs-name">Tom B.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified purchase</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="5">
+                <div class="rs-top"><span class="rs-stars" style="--r:5" role="img" aria-label="Rated 5 out of 5">★★★★★</span><span class="rs-date">August 2026</span></div>
+                <p class="rs-text">Paired in seconds and switches between my phone and laptop without any fuss.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-6.jpg" alt="">
+                  <span class="rs-name">Aisha K.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified purchase</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="3">
+                <div class="rs-top"><span class="rs-stars" style="--r:3" role="img" aria-label="Rated 3 out of 5">★★★★★</span><span class="rs-date">July 2026</span></div>
+                <h3 class="rs-title">Good, took time to learn</h3>
+                <p class="rs-text">Lovely sound. The touch controls took me a few days to get used to.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-1.jpg" alt="">
+                  <span class="rs-name">Leo F.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified purchase</span></span>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
-    <section class="st st-product-grid" data-uid="smvuw56xce7vk">
+    <section class="st st-product-grid" data-uid="smvw6s7y2ekbc">
       <div class="st-wrap">
         <div class="pg-top">
           <header class="st-head st-head--left pg-head">
@@ -260,7 +343,7 @@ const productStoreLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvuw56xdfel0">
+    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvw6s7y2sv3r">
       <div class="st-wrap ps">
         <div class="ps-copy">
           <header class="st-head st-head--left ps-head">
@@ -289,7 +372,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuw56xdt23y">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvw6s7y2q7kz">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -317,7 +400,7 @@ const productStoreLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still unsure?</span> <a href="mailto:hello@webdevpuneet.com"><span>Chat with us</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuw56xdouiq">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvw6s7y2ks02">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Hear the difference <span class="hl">today</span></h2>
@@ -330,7 +413,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuw56xdn5je">
+    <section class="st st-popup-modal" data-uid="smvw6s7y2pd46">
       <div class="pu" data-pu data-trigger="exit" data-delay="8" data-scroll="50" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="qbkxs8">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -356,7 +439,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvuw56xdez1z">
+    <section class="st st-footer-columns" data-uid="smvw6s7y222nn">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -393,7 +476,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuw56xd1tlf">
+    <section class="st st-back-to-top" data-uid="smvw6s7y3326h">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -551,20 +634,42 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .sc-note{margin:0;color:var(--st-muted);font-size:14.5px}
 .sc-note:empty{display:none}
 @container st (max-width:720px){.sc-grid{grid-template-columns:1fr 1fr}.sc-stat + .sc-stat{border-left:0}.sc-stat:nth-child(even){border-left:1px solid color-mix(in srgb,var(--st-text) 8%,transparent)}.sc-stat:nth-child(n+3){border-top:1px solid color-mix(in srgb,var(--st-text) 8%,transparent)}}
-/* Testimonial Wall */
-.st-testimonials-grid{padding:clamp(64px,8cqi,112px) 0}
-.st-stars{color:#f59e0b;font-size:16px;letter-spacing:2px;line-height:1}
-.st-person{display:flex;align-items:center;gap:12px}
-.st-avatar{width:44px;height:44px;flex:none;border-radius:50%;object-fit:cover;background:var(--st-surface)}
-.st-person-name{font-weight:700;font-size:15.5px;line-height:1.3}
-.st-person-role{color:var(--st-muted);font-size:14px;line-height:1.4}
-.st-person-role:empty{display:none}
-.tg-summary{padding:6px 14px;border-radius:999px;background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 8%,transparent);color:var(--st-muted);font-size:14.5px;font-weight:600}
-.tg-summary:empty{display:none}
-.tg-wall{columns:3 300px;column-gap:clamp(16px,2cqi,22px)}
-.tg-card{break-inside:avoid;display:flex;flex-direction:column;gap:16px;margin:0 0 clamp(16px,2cqi,22px);padding:clamp(22px,2.4cqi,28px);border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 7%,transparent);box-shadow:0 10px 30px -22px color-mix(in srgb,var(--st-text) 40%,transparent)}
-.tg-quote{font-size:16.5px;line-height:1.65}
-.tg-card:nth-child(3n+2){background:color-mix(in srgb,var(--st-brand) 6%,var(--st-surface))}
+/* Reviews Summary & Rating */
+.st-reviews-summary{padding:clamp(64px,8cqi,112px) 0}
+.rs{display:grid;grid-template-columns:minmax(260px,.42fr) minmax(0,1fr);gap:clamp(22px,3.4cqi,48px);align-items:start}
+.rs-sum{position:sticky;top:24px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:clamp(22px,2.6cqi,32px);border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent)}
+.rs-score{display:flex;align-items:baseline;gap:6px}
+.rs-avg{font:800 clamp(52px,6cqi,72px)/1 var(--st-font-heading);letter-spacing:-.03em}
+.rs-of{color:var(--st-muted);font-size:20px;font-weight:600}
+.rs-stars{--star:#f59e0b;--empty:color-mix(in srgb,var(--st-text) 18%,transparent);display:inline-block;font-size:18px;line-height:1;letter-spacing:1px;white-space:nowrap;background:linear-gradient(90deg,var(--star) calc(var(--r,0) / 5 * 100%),var(--empty) 0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rs-stars--big{font-size:26px}
+.rs-count{color:var(--st-muted);font-size:15px;margin-bottom:8px}
+.rs-count span:first-child{color:var(--st-text);font-weight:700}
+.rs-bars{list-style:none;display:grid;gap:4px;width:100%;margin-bottom:12px}
+.rs-barbtn{display:grid;grid-template-columns:34px 1fr 44px;align-items:center;gap:10px;width:100%;padding:7px 8px;border:1px solid transparent;border-radius:10px;background:transparent;color:inherit;font:inherit;font-size:14px;text-align:left;cursor:pointer;transition:background .15s ease,border-color .15s ease}
+.rs-barbtn:hover{background:color-mix(in srgb,var(--st-text) 6%,transparent)}
+.rs-barbtn:focus-visible{outline:3px solid color-mix(in srgb,var(--st-brand) 55%,transparent);outline-offset:1px}
+.rs-barbtn[aria-pressed=true]{background:color-mix(in srgb,var(--st-brand) 12%,transparent);border-color:color-mix(in srgb,var(--st-brand) 50%,transparent)}
+.rs-lab{font-weight:700;white-space:nowrap}
+.rs-lab::after{content:""}
+.rs-track{position:relative;height:9px;border-radius:99px;background:color-mix(in srgb,var(--st-text) 11%,transparent);overflow:hidden}
+.rs-fill{position:absolute;inset:0 auto 0 0;width:var(--w,0%);border-radius:99px;background:#f59e0b}
+.rs-n{color:var(--st-muted);text-align:right;font-variant-numeric:tabular-nums}
+.rs-status{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-bottom:14px;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,var(--st-brand) 10%,transparent);font-size:14.5px;font-weight:600}
+.rs-status[hidden]{display:none}
+.rs-clear{padding:0;border:0;background:none;color:var(--st-brand);font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.rs-list{list-style:none;display:grid;gap:clamp(12px,1.6cqi,18px)}
+.rs-card[hidden]{display:none}
+.rs-card{display:flex;flex-direction:column;gap:8px;padding:clamp(18px,2.2cqi,26px);border-radius:calc(var(--st-radius) * 1.1px);background:var(--st-bg);border:1px solid color-mix(in srgb,var(--st-text) 10%,transparent)}
+.rs-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.rs-date{color:var(--st-muted);font-size:13.5px}
+.rs-title{font-size:17.5px}
+.rs-text{color:var(--st-muted);font-size:15.5px;line-height:1.65}
+.rs-by{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:4px}
+.rs-av{width:38px;height:38px;border-radius:50%;object-fit:cover;background:var(--st-surface)}
+.rs-name{font-weight:700;font-size:15px}
+.rs-badge{color:#15803d;font-size:13px;font-weight:600}
+@container st (max-width:860px){.rs{grid-template-columns:1fr}.rs-sum{position:static}}
 /* Product Grid */
 .st-product-grid{padding:clamp(56px,7cqi,104px) 0}
 .pg-top{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:clamp(24px,3cqi,40px)}
@@ -966,6 +1071,41 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   });
 })();
 (function () {
+  document.querySelectorAll('.st [data-revfilter]').forEach(function (root) {
+    var btns = root.querySelectorAll('[data-filter-star]');
+    var cards = root.querySelectorAll('[data-rating]');
+    var status = root.querySelector('[data-filter-status]');
+    var msg = status && status.querySelector('[data-filter-message]');
+    var clear = status && status.querySelector('[data-filter-clear]');
+    if (!btns.length || !cards.length) return;
+    var tpl = root.getAttribute('data-filter-text') || 'Showing {n} of {t} reviews rated {s} stars';
+    if (clear) clear.textContent = root.getAttribute('data-clear-label') || 'Show all reviews';
+    Array.prototype.forEach.call(btns, function (b) {
+      var label = b.getAttribute('aria-label');
+      if (label) b.setAttribute('aria-label', label.replace('{s}', b.getAttribute('data-star')));
+    });
+    var current = '';
+    function apply(star) {
+      current = star;
+      var shown = 0;
+      Array.prototype.forEach.call(cards, function (c) {
+        var show = !star || String(Math.round(parseFloat(c.getAttribute('data-rating')) || 0)) === star;
+        c.hidden = !show;
+        if (show) shown++;
+      });
+      Array.prototype.forEach.call(btns, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-star') === star)); });
+      if (status) {
+        status.hidden = !star;
+        if (msg && star) msg.textContent = tpl.replace('{n}', shown).replace('{t}', cards.length).replace('{s}', star);
+      }
+    }
+    Array.prototype.forEach.call(btns, function (b) {
+      b.addEventListener('click', function () { var s = b.getAttribute('data-star'); apply(current === s ? '' : s); });
+    });
+    if (clear) clear.addEventListener('click', function () { apply(''); });
+  });
+})();
+(function () {
   if (window.gsap && window.Flip) gsap.registerPlugin(Flip);
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll('.st').forEach(function (sec) {
@@ -1335,10 +1475,10 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "role": "counters for units sold, rating and warranty years, the quick facts that reassure"
       },
       {
-        "id": "testimonials-grid",
-        "name": "Testimonial Wall",
-        "url": "/website-section-templates/testimonials-grid/",
-        "role": "customer reviews in a wall, ideally with photos and verified-buyer notes"
+        "id": "reviews-summary",
+        "name": "Reviews Summary & Rating",
+        "url": "/website-section-templates/reviews-summary/",
+        "role": "a reviews summary with the 4.8 average, a star breakdown that filters the review cards and Product rating data"
       },
       {
         "id": "product-grid",
@@ -1385,15 +1525,16 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "A Single-Product Landing Page That Sells: Hero, Proof, Buy Box and Objection Handling",
-      "description": "A one-product page works like a good salesperson: it shows the product, explains why it is better, answers doubts and asks for the order. The hero puts the product, price and rating up front. Alternating feature rows show what makes the product different, with an image for each, so a buyer sees the benefit instead of reading a list of specifications. A demo video shows it in use, and animated counters (units sold, rating, years of warranty) add evidence.\n\nReviews come next, followed by a product grid for accessories or bundles, and then the buy box, a single plan with the price, shipping and money-back guarantee next to the button, which is where doubt peaks. The FAQ clears the last objections (delivery, returns, sizing) and a closing banner and popup remind the visitor of any offer.\n\nReplace the sample product and keep the sequence. It is the layout of the [Product Landing Page Store template](/website-builder/templates/product-store/), which also comes with a Support page; open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
+      "description": "A one-product page works like a good salesperson: it shows the product, explains why it is better, answers doubts and asks for the order. The hero puts the product, price and rating up front. Alternating feature rows show what makes the product different, with an image for each, so a buyer sees the benefit instead of reading a list of specifications. A demo video shows it in use, and animated counters (units sold, rating, years of warranty) add evidence.\n\nReviews come next, followed by a product grid for accessories or bundles, and then the buy box, a single plan with the price, shipping and money-back guarantee next to the button, which is where doubt peaks. The FAQ clears the last objections (delivery, returns, sizing) and a closing banner and popup remind the visitor of any offer.\n\nReplace the sample product and keep the sequence. It is the layout of the [Product Landing Page Store template](/website-builder/templates/product-store/), which also comes with a Support page; open it in the [Website Builder](/website-builder/) to edit and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a reviews summary with the 4.8 average, a star breakdown that filters the review cards and Product rating data; and a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return. Each one has its own page in the Website Section Templates library ([Reviews Summary & Rating](/website-section-templates/reviews-summary/), [Back to Top Button](/website-section-templates/back-to-top/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
-      "13 ready-made website sections assembled into one finished product landing page store page: Navbar With Announcement Bar, App Product Hero, Alternating Feature Rows, Video Section with Poster, Animated Stats Counters, Testimonial Wall, Product Grid, Single Plan Pricing, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Multi-Column Footer, Back to Top Button",
+      "13 ready-made website sections assembled into one finished product landing page store page: Navbar With Announcement Bar, App Product Hero, Alternating Feature Rows, Video Section with Poster, Animated Stats Counters, Reviews Summary & Rating, Product Grid, Single Plan Pricing, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Multi-Column Footer, Back to Top Button",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 8-page website in the builder, sharing one navbar, footer and theme",
+      "A reviews summary with the average rating and a star breakdown that filters the review cards",
       "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
     ],
@@ -1454,11 +1595,11 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       },
       {
         "q": "What extras are built into the Product Landing Page Store template?",
-        "a": "It adds a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
+        "a": "It adds a reviews summary with a star breakdown and filter and a floating back to top button. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 13 templates in the free Website Section Templates library: Navbar With Announcement Bar, App Product Hero, Alternating Feature Rows, Video Section with Poster, Animated Stats Counters, Testimonial Wall, Product Grid, Single Plan Pricing, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Multi-Column Footer, Back to Top Button. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 13 templates in the free Website Section Templates library: Navbar With Announcement Bar, App Product Hero, Alternating Feature Rows, Video Section with Poster, Animated Stats Counters, Reviews Summary & Rating, Product Grid, Single Plan Pricing, FAQ Accordion, Gradient CTA Banner, Popup & Promo Modal, Multi-Column Footer, Back to Top Button. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1467,7 +1608,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Product Landing Page Store template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete product landing page store website for “Sona” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Navbar With Announcement Bar\n2. App Product Hero: “Quiet the world. Hear everything.”\n3. Alternating Feature Rows: “Made for long days”\n4. Video Section with Poster: “Sona One, in two minutes”\n5. Animated Stats Counters: “Numbers that speak”\n6. Testimonial Wall: “Loved by 3,200 listeners”\n7. Product Grid: “Pairs well with Sona One”\n8. Single Plan Pricing: “Get Sona One”\n9. FAQ Accordion: “Questions, answered”\n10. Gradient CTA Banner: “Hear the difference today”\n11. Popup & Promo Modal\n12. Multi-Column Footer\n13. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #0284c7, page background #ffffff, cards #f0f9ff, text #0f172a, muted text #475569. Corner radius 18px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable retail copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Sona One Wireless Headphones: 40-Hour Noise Cancelling”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a retail business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Support (support.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Journal (blog.html)\n- Article (article.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete product landing page store website for “Sona” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Navbar With Announcement Bar\n2. App Product Hero: “Quiet the world. Hear everything.”\n3. Alternating Feature Rows: “Made for long days”\n4. Video Section with Poster: “Sona One, in two minutes”\n5. Animated Stats Counters: “Numbers that speak”\n6. Reviews Summary & Rating: “Rated 4.8 out of 5 by 3,200 listeners”\n7. Product Grid: “Pairs well with Sona One”\n8. Single Plan Pricing: “Get Sona One”\n9. FAQ Accordion: “Questions, answered”\n10. Gradient CTA Banner: “Hear the difference today”\n11. Popup & Promo Modal\n12. Multi-Column Footer\n13. Back to Top Button\n\nLook and feel:\n- Colours as CSS custom properties: brand #0284c7, page background #ffffff, cards #f0f9ff, text #0f172a, muted text #475569. Corner radius 18px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable retail copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Sona One Wireless Headphones: 40-Hour Noise Cancelling”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a retail business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Support (support.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Journal (blog.html)\n- Article (article.html)\n- Privacy (privacy.html)"
     }
   },
 };

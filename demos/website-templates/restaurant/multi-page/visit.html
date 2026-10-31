@@ -10,10 +10,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"Restaurant","name":"Olive & Ember","address":{"@type":"PostalAddress","streetAddress":"Rua de São Miguel 24","addressLocality":"Lisbon","postalCode":"1100-544","addressCountry":"Portugal"},"telephone":"+351 21 000 1234","hasMap":"https://www.google.com/maps/search/?api=1&query=Rua%20de%20S%C3%A3o%20Miguel%2024%2C%201100-544%20Lisbon","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":"Tuesday","opens":"18:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Wednesday","opens":"18:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Thursday","opens":"18:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Friday","opens":"12:30","closes":"15:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Friday","opens":"18:00","closes":"23:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"12:30","closes":"15:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"18:00","closes":"23:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"12:30","closes":"16:00"}]}
+    </script>
     <link rel="stylesheet" href="styles.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
   </head>
   <body><!--ws-demo-bar--><div style="background:#0f172a;color:#e2e8f0;font:500 13px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;text-align:center;padding:8px 12px"><a href="https://webdevpuneet.com/website-builder/templates/restaurant/" style="color:#fff;text-decoration:none">Demo of the free <strong>Restaurant Website</strong> template. <span style="text-decoration:underline">View the template page &rarr;</span></a></div>
-    <section class="st st-navbar-simple" data-uid="smvuw5789tvyu">
+    <section class="st st-navbar-simple" data-uid="smvw6ut84kme9">
       <header class="st-wrap nb">
         <a class="st-brand" href="index.html">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg></span><span>Olive &amp; Ember</span></span>
@@ -33,7 +36,7 @@
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvuw57896eti">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvw6ut84lett">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -74,32 +77,94 @@
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvuw57895t4v">
-      <div class="st-wrap cm">
-        <div class="cm-info">
-          <header class="st-head st-head--left cm-head">
-            <p class="st-eyebrow" data-anim="item">Visit us</p>
-            <h2 class="st-h2" data-anim="item" data-anim-text>Find <span class="hl">our table</span></h2>
-            <p class="st-lead" data-anim="item">Walk-ins welcome at the bar. For dinner, booking is recommended.</p>
-          </header>
-          <ul class="cm-offices">
-            <li class="cm-office" data-anim="item">
-              <h3 class="cm-city">Olive &amp; Ember</h3>
-              <address class="cm-address">Rua de São Miguel 24<br>1100-544 Lisbon</address>
-              <p class="cm-hours">Tue–Sun, 6pm–11pm</p>
-              <p class="cm-contact">
-                <a href="tel:+351210001234"><span>+351 21 000 1234</span></a>
-                <a href="mailto:hello@oliveandember.pt"><span>hello@oliveandember.pt</span></a>
-              </p>
-            </li>
-          </ul>
-        </div>
-        <div class="cm-map" data-anim="media">
-          <iframe class="cm-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.openstreetmap.org/export/embed.html?bbox=-0.1135%2C51.5185%2C-0.0955%2C51.5265&amp;layer=mapnik&amp;marker=51.5225%2C-0.1045" title="Map showing Olive &amp; Ember in Lisbon"></iframe>
+    <section id="contact-2" class="st st-opening-hours" data-uid="smvw6ut8439n3">
+      <div class="st-wrap">
+        <header class="st-head">
+          <p class="st-eyebrow" data-anim="item">Visit us</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Find <span class="hl">our table</span></h2>
+          <p class="st-lead" data-anim="item">Walk-ins welcome at the bar. For dinner, booking is recommended.</p>
+        </header>
+        <div class="oh" data-opennow data-tz="Europe/Lisbon" data-open-label="Open now" data-closes-label="closes at" data-shut-label="Closed now" data-opens-label="opens">
+          <div class="oh-card oh-hours" data-anim="item">
+            <div class="oh-top">
+              <h3 class="oh-title">Opening hours</h3>
+              <p class="oh-badge" data-open-badge role="status" hidden><span class="oh-dot" aria-hidden="true"></span><span class="oh-badge-text"></span></p>
+            </div>
+            <ol class="oh-list">
+              <li class="oh-row" data-hours-row data-day="Monday" data-open="09:00" data-close="17:00" data-closed="closed">
+                <span class="oh-day">Monday</span>
+                <span class="oh-shut">Closed</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Tuesday" data-open="18:00" data-close="23:00" data-closed="">
+                <span class="oh-day">Tuesday</span>
+                <span class="oh-time"><time>18:00</time> <span aria-hidden="true">–</span> <time>23:00</time></span>
+                <span class="oh-note">Dinner</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Wednesday" data-open="18:00" data-close="23:00" data-closed="">
+                <span class="oh-day">Wednesday</span>
+                <span class="oh-time"><time>18:00</time> <span aria-hidden="true">–</span> <time>23:00</time></span>
+                <span class="oh-note">Dinner</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Thursday" data-open="18:00" data-close="23:00" data-closed="">
+                <span class="oh-day">Thursday</span>
+                <span class="oh-time"><time>18:00</time> <span aria-hidden="true">–</span> <time>23:00</time></span>
+                <span class="oh-note">Dinner</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Friday" data-open="12:30" data-close="15:00" data-closed="">
+                <span class="oh-day">Friday</span>
+                <span class="oh-time"><time>12:30</time> <span aria-hidden="true">–</span> <time>15:00</time></span>
+                <span class="oh-note">Lunch</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Friday" data-open="18:00" data-close="23:30" data-closed="">
+                <span class="oh-day">Friday</span>
+                <span class="oh-time"><time>18:00</time> <span aria-hidden="true">–</span> <time>23:30</time></span>
+                <span class="oh-note">Dinner</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Saturday" data-open="12:30" data-close="15:00" data-closed="">
+                <span class="oh-day">Saturday</span>
+                <span class="oh-time"><time>12:30</time> <span aria-hidden="true">–</span> <time>15:00</time></span>
+                <span class="oh-note">Lunch</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Saturday" data-open="18:00" data-close="23:30" data-closed="">
+                <span class="oh-day">Saturday</span>
+                <span class="oh-time"><time>18:00</time> <span aria-hidden="true">–</span> <time>23:30</time></span>
+                <span class="oh-note">Dinner</span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Sunday" data-open="12:30" data-close="16:00" data-closed="">
+                <span class="oh-day">Sunday</span>
+                <span class="oh-time"><time>12:30</time> <span aria-hidden="true">–</span> <time>16:00</time></span>
+                <span class="oh-note">Lunch only</span>
+              </li>
+            </ol>
+            <p class="oh-special">Tell us about allergies when you book and the kitchen will plan around them.</p>
+          </div>
+          <div class="oh-side">
+            <div class="oh-map" data-anim="media">
+              <iframe class="oh-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.openstreetmap.org/export/embed.html?bbox=-9.134%2C38.7085%2C-9.123999999999999%2C38.713499999999996&amp;layer=mapnik&amp;marker=38.711%2C-9.129" title="Map showing Olive &amp; Ember in Lisbon"></iframe>
+            </div>
+            <div class="oh-card oh-contact" data-anim="item">
+              <ul class="oh-info">
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg></span>
+                  <address class="oh-addr">
+                    <span class="oh-line oh-name">Olive &amp; Ember</span>
+                    <span class="oh-line">Rua de São Miguel 24</span>
+                    <span class="oh-line"><span>1100-544</span> <span>Lisbon</span></span>
+                    <span class="oh-line">Portugal</span>
+                  </address>
+                </li>
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg></span><a class="oh-link" href="tel:+351210001234">+351 21 000 1234</a></li>
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span><a class="oh-link" href="mailto:hello@oliveandember.pt">hello@oliveandember.pt</a></li>
+              </ul>
+              <div class="st-btns">
+                <a class="st-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Rua%20de%20S%C3%A3o%20Miguel%2024%2C%201100-544%20Lisbon"><span>Get directions</span></a>
+                <a class="st-btn st-btn--ghost" href="tel:+351210001234"><span>Book by phone</span></a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuw5789odey">
+    <section class="st st-footer-minimal" data-uid="smvw6ut84l21t">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="/">
@@ -115,7 +180,7 @@
         <p class="fm-copy">© 2026 Olive &amp; Ember</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuw5789ob7q">
+    <section class="st st-back-to-top" data-uid="smvw6ut84tz51">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>

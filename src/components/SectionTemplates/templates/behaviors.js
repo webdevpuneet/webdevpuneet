@@ -482,7 +482,7 @@ BEHAVIORS.hscroll = {
       // A sticky header stays on screen, so the section pins just below it instead of under it
       var head = function () { var h = 0; document.querySelectorAll('.st').forEach(function (n) { if (n !== sec && n.querySelector('[data-sticky-flag]')) h = Math.max(h, n.offsetHeight); }); return h; };
       var tw = G.to(row, { x: function () { return -dist(); }, ease: 'none', scrollTrigger: { trigger: sec, start: function () { return 'top ' + head(); }, end: function () { return '+=' + dist(); }, pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true } });
-      made.push(function () { tw.scrollTrigger.kill(); tw.kill(); G.set(row, { clearProps: 'transform' }); sec.classList.remove('is-hscroll'); });
+      made.push(function () { if (tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill(); G.set(row, { clearProps: 'transform' }); sec.classList.remove('is-hscroll'); });
     });
     return function () { made.forEach(function (f) { f(); }); };
   });
@@ -550,7 +550,7 @@ BEHAVIORS.stack = {
         var inner = card.firstElementChild || card;
         // fromTo: GSAP can't tween a filter from "none" (it would start at brightness 0)
         var tw = G.fromTo(inner, { scale: 1, filter: 'brightness(1)' }, { scale: 1 - (cards.length - 1 - i) * 0.04, filter: 'brightness(.82)', ease: 'none', scrollTrigger: { trigger: cards[i + 1], start: 'top bottom', end: 'top ' + top, scrub: true } });
-        made.push(function () { tw.scrollTrigger.kill(); tw.kill(); G.set(inner, { clearProps: 'transform,filter' }); });
+        made.push(function () { if (tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill(); G.set(inner, { clearProps: 'transform,filter' }); });
       });
     });
     return function () { made.forEach(function (f) { f(); }); };
@@ -2253,7 +2253,7 @@ BEHAVIORS.htimeline = {
         trigger = tw.scrollTrigger;
         return function () {
           pinned = false; trigger = null;
-          tw.scrollTrigger.kill(); tw.kill();
+          if (tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill();
           G.set(list, { clearProps: 'transform' });
           sec.classList.remove('is-tl-pinned');
           setActive(active > -1 ? active : 0, false);

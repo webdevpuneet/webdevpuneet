@@ -156,7 +156,7 @@ export default {
             <address class="oh-addr">
               <span class="oh-line oh-name" data-show-if="businessName" data-edit="businessName"></span>
               <span class="oh-line" data-show-if="street" data-edit="street"></span>
-              <span class="oh-line"><span data-edit="postcode"></span> <span data-edit="city"></span></span>
+              <span class="oh-line" data-show-if="city"><span data-edit="postcode"></span> <span data-edit="city"></span></span>
               <span class="oh-line" data-show-if="country" data-edit="country"></span>
             </address>
           </li>
@@ -195,7 +195,7 @@ export default {
 .oh-row.is-today .oh-day::before{content:"";display:inline-block;width:8px;height:8px;margin-right:9px;border-radius:50%;background:var(--st-brand)}
 .oh-special{margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--st-text) 9%,transparent);color:var(--st-muted);font-size:14.5px}
 .oh-side{display:flex;flex-direction:column;gap:clamp(14px,2cqi,20px);min-width:0}
-.oh-map{flex:1;min-height:280px;overflow:hidden;border-radius:calc(var(--st-radius) * 1.1px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent)}
+.oh-map{flex:1;min-height:280px;overflow:hidden;border-radius:calc(var(--st-radius) * 1.1px);background:var(--st-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 420' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='600' height='420' fill='%23e9eef0'/%3E%3Cpath d='M0 90H600M0 250H600M0 350H600M110 0V420M300 0V420M470 0V420' stroke='%23ffffff' stroke-width='16'/%3E%3Cpath d='M0 190L600 150M200 0L330 420' stroke='%23ffffff' stroke-width='10'/%3E%3Crect x='330' y='110' width='110' height='80' rx='8' fill='%23d9e6dc'/%3E%3Cpath d='M300 150c-28 0-50 22-50 50 0 36 50 82 50 82s50-46 50-82c0-28-22-50-50-50z' fill='%23ef4444'/%3E%3Ccircle cx='300' cy='200' r='17' fill='%23ffffff'/%3E%3C/svg%3E") center/cover no-repeat;border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent)}
 .oh-frame{display:block;width:100%;height:100%;min-height:280px;border:0}
 .oh-info{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:14px}
 .oh-item{display:flex;align-items:flex-start;gap:14px}

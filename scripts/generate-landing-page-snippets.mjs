@@ -23,7 +23,7 @@ const CONTENT = { ...BATCH_1, ...BATCH_2, ...BATCH_3, ...BATCH_4 };
 const SNIP_DIR = path.resolve('src/components/UiSnippetsTool/snippets');
 const REGISTRY = path.resolve('src/components/UiSnippetsTool/snippets.js');
 const CHECK = process.argv.includes('--check');
-const TODAY = '2026-10-30';
+const TODAY = '2026-10-31';
 const suffix = '-landing-page-template';
 const esc = s => s.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
 const camel = id => id.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
@@ -53,6 +53,9 @@ const ADDED_FEATURES = {
   'timeline-horizontal': 'A pinned horizontal timeline (GSAP ScrollTrigger) that slides along as you scroll, with a growing progress line',
   'scroll-zoom': 'A pinned stack of photographs that each start small and zoom up to full size as you scroll (GSAP ScrollTrigger)',
   'team-accordion': 'An interactive team accordion of grayscale image strips that expand on click',
+  'opening-hours': 'Opening hours with a live Open now badge in the business time zone, the address, a map and call buttons, plus LocalBusiness data for search engines',
+  'about-story': 'An About us section with a picture and badge, the story, the founder, key facts and values, plus Organization data for search engines',
+  'reviews-summary': 'A reviews summary with the average rating and a star breakdown that filters the review cards',
 };
 const addedFeatures = t => [...new Set(t.sections.map(s => s[0]))].filter(id => ADDED_FEATURES[id]).map(id => ADDED_FEATURES[id]);
 

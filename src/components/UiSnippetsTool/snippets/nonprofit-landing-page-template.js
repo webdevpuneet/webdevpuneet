@@ -3,7 +3,7 @@
 const nonprofitLandingPageTemplate = {
   id: 'nonprofit-landing-page-template',
   title: 'Nonprofit & Charity Website Template',
-  lastmod: '2026-10-30',
+  lastmod: '2026-10-31',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -11,7 +11,7 @@ const nonprofitLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuw56v53rz4">
+    <section class="st st-navbar-simple" data-uid="smvw6s7upnnag">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" /><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" /></svg></span><span>GreenRoots</span></span>
@@ -31,7 +31,7 @@ const nonprofitLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuw56v5ros5">
+    <section class="st st-image-background-hero" data-uid="smvw6s7upulf6">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-nature.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,7 +51,7 @@ const nonprofitLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvuw56v5oun6">
+    <section id="results" class="st st-stats-counters" data-uid="smvw6s7upjd83">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our impact</p>
@@ -82,7 +82,7 @@ const nonprofitLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvuw56v5odkn">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvw6s7upxqzy">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How your gift helps</p>
@@ -112,14 +112,14 @@ const nonprofitLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuw56v58h54">
+    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvw6s7upxujk">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our story</p>
           <h2 class="st-h2" data-anim="item" data-anim-text>Ten years of <span class="hl">planting forests</span></h2>
           <p class="st-lead" data-anim="item">Keep scrolling to follow GreenRoots from a single village nursery to millions of trees.</p>
         </header>
-        <div class="tlh" data-tlh data-layout="alternate" data-marker="icon" data-start="1" data-mode="pin">
+        <div class="tlh" data-tlh data-layout="alternate" data-marker="icon" data-width="contained" data-start="1" data-mode="pin">
           <button type="button" class="tlh-nav tlh-prev" data-tlh-prev disabled aria-label="Show earlier events"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
           <div class="tlh-track" data-tlh-track role="region" tabindex="0" aria-label="Company timeline">
             <ol class="tlh-list">
@@ -177,7 +177,7 @@ const nonprofitLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuw56v5lrdn">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvw6s7updxer">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our work</p>
@@ -203,7 +203,7 @@ const nonprofitLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuw56v5vwvq">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvw6s7upi5vo">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Stories</p>
@@ -238,7 +238,49 @@ const nonprofitLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvuw56v564e4">
+    <section id="about" class="st st-about-story" data-uid="smvw6s7upeu0b">
+      <div class="st-wrap">
+        <div class="ab">
+          <div class="ab-media" data-anim="media">
+            <img class="ab-img" src="https://webdevpuneet.com/images/section-templates/tpl-nature.jpg" alt="Green hills where GreenRoots trees are growing">
+            <p class="ab-badge"><strong>10</strong><span>years of planting</span></p>
+          </div>
+          <div class="ab-copy">
+            <p class="st-eyebrow" data-anim="item">About GreenRoots</p>
+            <h2 class="st-h2" data-anim="item" data-anim-text>Forests grow when <span class="hl">people lead</span></h2>
+            <p class="ab-story" data-anim="item">GreenRoots began in 2016 with a village nursery and a thousand native seedlings. Today local teams in 38 villages across 4 countries grow, plant and protect trees, and are paid fairly to do it.</p>
+            <p class="ab-story" data-anim="item">We are a small team in London and Nairobi. We work with local partners, publish our results every year and send 92% of every donation to projects.</p>
+            <ul class="ab-facts" data-anim="item">
+              <li class="ab-fact"><strong class="ab-num">2.4M</strong><span class="ab-label">trees planted</span></li>
+              <li class="ab-fact"><strong class="ab-num">38</strong><span class="ab-label">villages</span></li>
+              <li class="ab-fact"><strong class="ab-num">1,100</strong><span class="ab-label">local jobs</span></li>
+            </ul>
+            <div class="st-btns" data-anim="item">
+              <a class="st-btn" href="#results"><span>See our impact</span></a>
+              <a class="st-btn st-btn--ghost" href="#get-started"><span>Donate</span></a>
+            </div>
+          </div>
+        </div>
+        <ul class="ab-values">
+          <li class="ab-value" data-anim="item">
+            <span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg></span>
+            <h3 class="ab-vtitle">Led by communities</h3>
+            <p class="ab-vtext">Local teams choose the species, plant the trees and look after them for years.</p>
+          </li>
+          <li class="ab-value" data-anim="item">
+            <span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></svg></span>
+            <h3 class="ab-vtitle">Open about results</h3>
+            <p class="ab-vtext">We publish survival rates every season, the good news and the bad.</p>
+          </li>
+          <li class="ab-value" data-anim="item">
+            <span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" /><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" /></svg></span>
+            <h3 class="ab-vtitle">Planted to last</h3>
+            <p class="ab-vtext">We pay for care after planting, because a tree only counts once it survives.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <section id="team" class="st st-team-grid" data-uid="smvw6s7upb1ji">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our team</p>
@@ -295,7 +337,7 @@ const nonprofitLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuw56v6tjt4">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvw6s7upy70y">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Plant trees <span class="hl">today</span></h2>
@@ -308,7 +350,7 @@ const nonprofitLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuw56v62jsi">
+    <section class="st st-popup-modal" data-uid="smvw6s7upzs1m">
       <div class="pu" data-pu data-trigger="delay" data-delay="14" data-scroll="50" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="6vd216">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -329,7 +371,7 @@ const nonprofitLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvuw56v6crai">
+    <section class="st st-floating-social-share" data-uid="smvw6s7upd2rv">
       <div class="ss" data-ss data-side="right" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="facebook" data-share="https://www.facebook.com/sharer/sharer.php?u={url}" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer" style="--c:#1877F2" aria-label="Share on Facebook (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="ss-tip" aria-hidden="true">Facebook</span></a></li><li class="ss-item"><a class="ss-btn" data-net="x" data-share="https://x.com/intent/post?url={url}&amp;text={title}&amp;via={via}&amp;hashtags={tags}" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer" style="--c:#111111" aria-label="Share on X (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="ss-tip" aria-hidden="true">X</span></a></li><li class="ss-item"><a class="ss-btn" data-net="whatsapp" data-share="https://wa.me/?text={text}" href="https://wa.me/" target="_blank" rel="noopener noreferrer" style="--c:#128C7E" aria-label="Share on WhatsApp (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5.1A9 9 0 1 1 8.1 19.3z"/><path d="M9 8.5c0 3.300 2.700 6 6 6l1.300-1.500-2.200-1.100-.9.900c-.9-.4-1.700-1.200-2.100-2.100l.9-.9-1.100-2.200z"/></svg><span class="ss-tip" aria-hidden="true">WhatsApp</span></a></li><li class="ss-item"><a class="ss-btn" data-net="email" data-share="mailto:?subject={title}&amp;body={text}" href="mailto:" style="--c:#6B7280" aria-label="Share on Email"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.970 5.700a1.940 1.940 0 0 1-2.060 0L2 7"/></svg><span class="ss-tip" aria-hidden="true">Email</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -338,7 +380,7 @@ const nonprofitLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section class="st st-footer-newsletter" data-uid="smvuw56v61hrp">
+    <section class="st st-footer-newsletter" data-uid="smvw6s7uphqas">
       <footer class="st-wrap fn">
         <div class="fn-top">
           <div class="fn-news" data-anim="item">
@@ -379,7 +421,7 @@ const nonprofitLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuw56v6i795">
+    <section class="st st-back-to-top" data-uid="smvw6s7uqi8hm">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -388,7 +430,7 @@ const nonprofitLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-accessibility-toolbar" data-uid="smvuw56v6bap4">
+    <section class="st st-accessibility-toolbar" data-uid="smvw6s7uqwn14">
       <div class="a11y" data-a11y data-pos="left" data-remember="on">
         <button type="button" class="a11y-fab" aria-expanded="false" data-a11y-open aria-label="Open accessibility tools">
           <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="7.500" r="1.200" fill="currentColor"/><path d="M7 10.500l5 1 5-1M12 11.500v3.500M9.500 19l2.500-4 2.500 4"/></svg>
@@ -559,6 +601,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .tlh-dot:focus-visible{outline:3px solid var(--st-brand);outline-offset:3px}
 .tlh-num::before{content:counter(tl)}
 .tlh-ico{display:none;width:20px;height:20px}
+.tlh-dot .tlh-ico{background:none;border-radius:0;color:inherit}
 .tlh-ico svg{width:20px;height:20px}
 .tlh[data-marker=icon] .tlh-num{display:none}
 .tlh[data-marker=icon] .tlh-ico{display:inline-grid}
@@ -585,7 +628,14 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .is-tl-pinned .tlh-list{will-change:transform}
 .is-tl-pinned .tlh-list::after{transition:none}
 .tlh.is-fit .tlh-nav{display:none}
+.tlh[data-width=full]{width:100cqi;margin-inline:calc(50% - 50cqi);gap:0}
+.tlh[data-width=full] .tlh-track{border-radius:0}
+.tlh[data-width=full] .tlh-list{padding-inline:max(28px,var(--st-pad))}
+.tlh[data-width=full] .tlh-nav{position:absolute;top:50%;z-index:3;transform:translateY(-50%)}
+.tlh[data-width=full] .tlh-prev{left:12px}
+.tlh[data-width=full] .tlh-next{right:12px}
 @container st (max-width:640px){
+.tlh[data-width=full] .tlh-nav{top:22px}
 .tlh-list{--tl-item-w:230px;--tl-card-h:172px}
 .tlh-list::before,.tlh-list::after{top:22px}
 .tlh-item{height:calc(var(--tl-card-h) + 44px)}
@@ -619,6 +669,33 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .tg-card{break-inside:avoid;display:flex;flex-direction:column;gap:16px;margin:0 0 clamp(16px,2cqi,22px);padding:clamp(22px,2.4cqi,28px);border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 7%,transparent);box-shadow:0 10px 30px -22px color-mix(in srgb,var(--st-text) 40%,transparent)}
 .tg-quote{font-size:16.5px;line-height:1.65}
 .tg-card:nth-child(3n+2){background:color-mix(in srgb,var(--st-brand) 6%,var(--st-surface))}
+/* About Us & Our Story */
+.st-about-story{padding:clamp(64px,8cqi,112px) 0}
+.ab{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5cqi,76px);align-items:center}
+.ab-media{position:relative}
+.ab-img{width:100%;aspect-ratio:4 / 5;object-fit:cover;border-radius:calc(var(--st-radius) * 1.6px);background:var(--st-surface)}
+.ab-badge{position:absolute;left:clamp(12px,2cqi,22px);bottom:clamp(12px,2cqi,22px);display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px 20px;border-radius:calc(var(--st-radius) * 1px);background:var(--st-brand);color:var(--st-btn-text);box-shadow:0 18px 40px -16px color-mix(in srgb,var(--st-brand) 70%,#000)}
+.ab-badge strong{font:700 clamp(30px,3.6cqi,42px)/1 var(--st-font-heading)}
+.ab-badge span{font-size:14px;font-weight:600;opacity:.92}
+.ab-copy{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(12px,1.6cqi,18px)}
+.ab-copy .st-h2{text-align:left}
+.ab-story{color:var(--st-muted);font-size:clamp(16px,1.5cqi,18px);line-height:1.7}
+.ab-facts{list-style:none;display:flex;flex-wrap:wrap;gap:16px clamp(24px,4cqi,48px);margin:6px 0;padding:18px 0;width:100%;border-block:1px solid color-mix(in srgb,var(--st-text) 11%,transparent)}
+.ab-fact{display:flex;flex-direction:column;gap:2px}
+.ab-num{font:700 clamp(28px,3.2cqi,38px)/1.1 var(--st-font-heading);color:var(--st-brand)}
+.ab-label{color:var(--st-muted);font-size:14px}
+.ab-founder{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:4px 14px;width:100%}
+.ab-face{width:56px;height:56px;border-radius:50%;object-fit:cover;background:var(--st-surface)}
+.ab-founder figcaption{display:flex;flex-direction:column}
+.ab-who{font-size:16px}
+.ab-role{color:var(--st-muted);font-size:14px}
+.ab-quote{grid-column:1 / -1;margin-top:8px;padding-left:16px;border-left:3px solid var(--st-brand);color:var(--st-text);font:italic 500 clamp(17px,1.7cqi,20px)/1.5 var(--st-font-heading)}
+.ab-values{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(14px,1.8cqi,22px);margin-top:clamp(40px,6cqi,76px)}
+.ab-value{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:clamp(22px,2.4cqi,30px);border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 8%,transparent)}
+.ab-value .st-icon{background:color-mix(in srgb,var(--st-brand) 14%,transparent);margin-bottom:4px}
+.ab-vtitle{font-size:19px}
+.ab-vtext{color:var(--st-muted);font-size:15.5px}
+@container st (max-width:820px){.ab{grid-template-columns:1fr}.ab-img{aspect-ratio:5 / 4}}
 /* Team Grid */
 .st-team-grid{padding:clamp(64px,8cqi,112px) 0}
 .tm2-grid{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,2.4cqi,32px)}
@@ -1162,7 +1239,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         trigger = tw.scrollTrigger;
         return function () {
           pinned = false; trigger = null;
-          tw.scrollTrigger.kill(); tw.kill();
+          if (tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill();
           G.set(list, { clearProps: 'transform' });
           sec.classList.remove('is-tl-pinned');
           setActive(active > -1 ? active : 0, false);
@@ -1745,7 +1822,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   seo: {
     "title": "Nonprofit & Charity Website HTML Template — Free Snippet",
     "description": "A nonprofit and charity website in HTML, CSS and JS: mission hero, impact counters, how donations help, programmes, stories, team and a donate CTA. Edit live.",
-    "subtitle": "Nonprofit & Charity Website template · 14 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Nonprofit & Charity Website template · 15 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "nonprofit",
       "name": "Nonprofit & Charity Website",
@@ -1796,6 +1873,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "role": "stories from the people you support, the human side that statistics cannot give"
       },
       {
+        "id": "about-story",
+        "name": "About Us & Our Story",
+        "url": "/website-section-templates/about-story/",
+        "role": "an About us section with the charity's story, headline numbers and values"
+      },
+      {
         "id": "team-grid",
         "name": "Team Grid",
         "url": "/website-section-templates/team-grid/",
@@ -1840,16 +1923,17 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "about": {
       "title": "A Charity Website That Earns Donations: Mission, Impact, Transparency and a Clear Way to Give",
-      "description": "Donors give when they believe in the mission, can see the impact and trust how the money is used. The hero states the mission over a hopeful landscape, impact counters show what has been achieved, and a step list explains exactly how a donation becomes help, which is the transparency that distinguishes a trusted charity from an unknown one.\n\nProgrammes explain what you do day to day, and stories from the people you support show the human side that statistics cannot. The team grid shows the people accountable for the work, a gradient donate banner makes giving unmistakable and a popup can promote a campaign. Newsletter signup in the footer keeps supporters in touch between appeals, and a floating share bar helps your supporters spread the word.\n\nUse real numbers and a real story. It is the layout of the [Nonprofit & Charity Website template](/website-builder/templates/nonprofit/); open it in the [Website Builder](/website-builder/) to change copy and colours, link the donate buttons and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned horizontal timeline of the charity's decade of planting, from the first nursery to millions of trees; a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return; and a floating accessibility toolbar where visitors can enlarge text, raise contrast, hide images and pause animations. Each one has its own page in the Website Section Templates library ([Horizontal Timeline](/website-section-templates/timeline-horizontal/), [Back to Top Button](/website-section-templates/back-to-top/), [Accessibility Toolbar Widget](/website-section-templates/accessibility-toolbar/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
+      "description": "Donors give when they believe in the mission, can see the impact and trust how the money is used. The hero states the mission over a hopeful landscape, impact counters show what has been achieved, and a step list explains exactly how a donation becomes help, which is the transparency that distinguishes a trusted charity from an unknown one.\n\nProgrammes explain what you do day to day, and stories from the people you support show the human side that statistics cannot. The team grid shows the people accountable for the work, a gradient donate banner makes giving unmistakable and a popup can promote a campaign. Newsletter signup in the footer keeps supporters in touch between appeals, and a floating share bar helps your supporters spread the word.\n\nUse real numbers and a real story. It is the layout of the [Nonprofit & Charity Website template](/website-builder/templates/nonprofit/); open it in the [Website Builder](/website-builder/) to change copy and colours, link the donate buttons and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a pinned horizontal timeline of the charity's decade of planting, from the first nursery to millions of trees; an About us section with the charity's story, headline numbers and values; a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return; and a floating accessibility toolbar where visitors can enlarge text, raise contrast, hide images and pause animations. Each one has its own page in the Website Section Templates library ([Horizontal Timeline](/website-section-templates/timeline-horizontal/), [About Us & Our Story](/website-section-templates/about-story/), [Back to Top Button](/website-section-templates/back-to-top/), [Accessibility Toolbar Widget](/website-section-templates/accessibility-toolbar/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
-      "14 ready-made website sections assembled into one finished nonprofit & charity website page: Simple Sticky Navbar, Image Background Hero, Animated Stats Counters, How It Works Steps, Horizontal Timeline, Icon Grid Features, Testimonial Wall, Team Grid, Gradient CTA Banner, Popup & Promo Modal, Floating Social Share Bar, Footer With Newsletter, Back to Top Button, Accessibility Toolbar Widget",
+      "15 ready-made website sections assembled into one finished nonprofit & charity website page: Simple Sticky Navbar, Image Background Hero, Animated Stats Counters, How It Works Steps, Horizontal Timeline, Icon Grid Features, Testimonial Wall, About Us & Our Story, Team Grid, Gradient CTA Banner, Popup & Promo Modal, Floating Social Share Bar, Footer With Newsletter, Back to Top Button, Accessibility Toolbar Widget",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 4-page website in the builder, sharing one navbar, footer and theme",
       "A pinned horizontal timeline (GSAP ScrollTrigger) that slides along as you scroll, with a growing progress line",
+      "An About us section with a picture and badge, the story, the founder, key facts and values, plus Organization data for search engines",
       "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "A floating accessibility toolbar with bigger text, contrast, grayscale, hide images and pause animations",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
@@ -1911,11 +1995,11 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       },
       {
         "q": "What extras are built into the Nonprofit & Charity Website template?",
-        "a": "It adds a pinned horizontal timeline, a floating back to top button and an accessibility toolbar. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
+        "a": "It adds a pinned horizontal timeline, an About us section with the story, facts and values, a floating back to top button and an accessibility toolbar. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 14 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Animated Stats Counters, How It Works Steps, Horizontal Timeline, Icon Grid Features, Testimonial Wall, Team Grid, Gradient CTA Banner, Popup & Promo Modal, Floating Social Share Bar, Footer With Newsletter, Back to Top Button, Accessibility Toolbar Widget. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 15 templates in the free Website Section Templates library: Simple Sticky Navbar, Image Background Hero, Animated Stats Counters, How It Works Steps, Horizontal Timeline, Icon Grid Features, Testimonial Wall, About Us & Our Story, Team Grid, Gradient CTA Banner, Popup & Promo Modal, Floating Social Share Bar, Footer With Newsletter, Back to Top Button, Accessibility Toolbar Widget. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1924,7 +2008,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Nonprofit & Charity Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete nonprofit & charity website for “GreenRoots” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Every tree is a fresh start”\n3. Animated Stats Counters: “What your support has done”\n4. How It Works Steps: “From donation to forest”\n5. Horizontal Timeline: “Ten years of planting forests”\n6. Icon Grid Features: “Programmes that last”\n7. Testimonial Wall: “Voices from the field”\n8. Team Grid: “The people behind the trees”\n9. Gradient CTA Banner: “Plant trees today”\n10. Popup & Promo Modal\n11. Floating Social Share Bar\n12. Footer With Newsletter\n13. Back to Top Button\n14. Accessibility Toolbar Widget\n\nLook and feel:\n- Colours as CSS custom properties: brand #15803d, page background #ffffff, cards #f0f8f2, text #0f1f14, muted text #4b5f52. Corner radius 14px, content width 1200px.\n- Headings in Merriweather, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable community copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Nonprofit Website Template — Free Charity HTML Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a community business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- About (about.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete nonprofit & charity website for “GreenRoots” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Every tree is a fresh start”\n3. Animated Stats Counters: “What your support has done”\n4. How It Works Steps: “From donation to forest”\n5. Horizontal Timeline: “Ten years of planting forests”\n6. Icon Grid Features: “Programmes that last”\n7. Testimonial Wall: “Voices from the field”\n8. About Us & Our Story: “Forests grow when people lead”\n9. Team Grid: “The people behind the trees”\n10. Gradient CTA Banner: “Plant trees today”\n11. Popup & Promo Modal\n12. Floating Social Share Bar\n13. Footer With Newsletter\n14. Back to Top Button\n15. Accessibility Toolbar Widget\n\nLook and feel:\n- Colours as CSS custom properties: brand #15803d, page background #ffffff, cards #f0f8f2, text #0f1f14, muted text #4b5f52. Corner radius 14px, content width 1200px.\n- Headings in Merriweather, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable community copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Nonprofit Website Template — Free Charity HTML Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a community business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- About (about.html)\n- Privacy (privacy.html)"
     }
   },
 };

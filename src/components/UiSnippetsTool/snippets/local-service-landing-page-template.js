@@ -3,18 +3,16 @@
 const localServiceLandingPageTemplate = {
   id: 'local-service-landing-page-template',
   title: 'Local Service Business Website Template',
-  lastmod: '2026-10-30',
+  lastmod: '2026-10-31',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js",
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollToPlugin.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Draggable.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
+    "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuw56tngk5c">
+    <section class="st st-navbar-simple" data-uid="smvw6s7sy173f">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></svg></span><span>Sparkle &amp; Co</span></span>
@@ -34,7 +32,7 @@ const localServiceLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvuw56tn3cf1">
+    <section class="st st-saas-split-hero" data-uid="smvw6s7sy1uwq">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="#features"><span>Insured &amp; background-checked cleaners</span></a>
@@ -51,7 +49,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuw56tnukd8">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvw6s7syt324">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -92,7 +90,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvuw56tnsb2g">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvw6s7sy828u">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it works</p>
@@ -122,7 +120,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvuw56tnv2id">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvw6s7sydv3t">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The difference</p>
@@ -157,7 +155,7 @@ const localServiceLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvuw56toerio">
+    <section id="results" class="st st-stats-counters" data-uid="smvw6s7sy6ipj">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Trusted locally</p>
@@ -188,64 +186,125 @@ const localServiceLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuw56to7mg4">
+    <section id="customers" class="st st-reviews-summary" data-uid="smvw6s7syis0j">
       <div class="st-wrap">
-        <div class="tc-top">
-          <header class="st-head st-head--left tc-head">
-            <p class="st-eyebrow" data-anim="item">Reviews</p>
-            <h2 class="st-h2" data-anim="item" data-anim-text>Loved by <span class="hl">local families</span></h2>
-            <p class="st-lead" data-anim="item">Thousands of teams plan and ship with us every day. Here is what a few of them say.</p>
-          </header>
-          <div class="tc-arrows" data-anim="item">
-            <button type="button" class="tc-arrow" data-carousel-prev><span class="tc-sr">Previous testimonials</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
-            <button type="button" class="tc-arrow" data-carousel-next><span class="tc-sr">Next testimonials</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+        <header class="st-head">
+          <p class="st-eyebrow" data-anim="item">Reviews</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Rated <span class="hl">4.9 out of 5</span> by local families</h2>
+          <p class="st-lead" data-anim="item">Real reviews from customers across the city. Tap a bar to read only the reviews with that rating.</p>
+        </header>
+        <div class="rs" data-revfilter data-filter-text="Showing {n} of {t} reviews rated {s} stars" data-clear-label="Show all reviews">
+          <aside class="rs-sum" data-anim="item">
+            <p class="rs-score"><span class="rs-avg">4.9</span><span class="rs-of">/5</span></p>
+            <span class="rs-stars rs-stars--big" style="--r:4.9" role="img" aria-label="Rated 4.9 out of 5">★★★★★</span>
+            <p class="rs-count"><span>2,300</span> <span>customer reviews</span></p>
+            <ul class="rs-bars">
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="5" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>5</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:91%"></span></span>
+                  <span class="rs-n">2,100</span>
+                </button>
+              </li>
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="4" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>4</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:7%"></span></span>
+                  <span class="rs-n">150</span>
+                </button>
+              </li>
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="3" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>3</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:1%"></span></span>
+                  <span class="rs-n">30</span>
+                </button>
+              </li>
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="2" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>2</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:1%"></span></span>
+                  <span class="rs-n">12</span>
+                </button>
+              </li>
+              <li class="rs-bar">
+                <button type="button" class="rs-barbtn" data-filter-star aria-pressed="false" data-star="1" aria-label="Show only {s}-star reviews">
+                  <span class="rs-lab"><span>1</span>★</span>
+                  <span class="rs-track"><span class="rs-fill" style="--w:0%"></span></span>
+                  <span class="rs-n">8</span>
+                </button>
+              </li>
+            </ul>
+            <a class="st-btn" href="#contact"><span>Leave a review</span></a>
+          </aside>
+          <div class="rs-main">
+            <p class="rs-status" data-filter-status role="status" hidden><span data-filter-message></span> <button type="button" class="rs-clear" data-filter-clear></button></p>
+            <ul class="rs-list">
+              <li class="rs-card" data-anim="item" data-rating="5">
+                <div class="rs-top"><span class="rs-stars" style="--r:5" role="img" aria-label="Rated 5 out of 5">★★★★★</span><span class="rs-date">October 2026</span></div>
+                <h3 class="rs-title">Like walking into a new home</h3>
+                <p class="rs-text">The house looked like new when I got back from work. The cleaner was friendly and left everything tidy.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-3.jpg" alt="">
+                  <span class="rs-name">Rachel S.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified customer</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="5">
+                <div class="rs-top"><span class="rs-stars" style="--r:5" role="img" aria-label="Rated 5 out of 5">★★★★★</span><span class="rs-date">September 2026</span></div>
+                <h3 class="rs-title">Fixed price, no surprises</h3>
+                <p class="rs-text">The quote was fixed, the booking took a minute and the team arrived on time.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-4.jpg" alt="">
+                  <span class="rs-name">Imran A.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified customer</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="5">
+                <div class="rs-top"><span class="rs-stars" style="--r:5" role="img" aria-label="Rated 5 out of 5">★★★★★</span><span class="rs-date">September 2026</span></div>
+                <h3 class="rs-title">Perfect for our office</h3>
+                <p class="rs-text">We use Sparkle &amp; Co for the whole office every week. It is spotless on Monday mornings.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-6.jpg" alt="">
+                  <span class="rs-name">Joanne W.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified customer</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="4">
+                <div class="rs-top"><span class="rs-stars" style="--r:4" role="img" aria-label="Rated 4 out of 5">★★★★★</span><span class="rs-date">August 2026</span></div>
+                <p class="rs-text">Great clean and polite staff. I would have liked a reminder message the day before.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-1.jpg" alt="">
+                  <span class="rs-name">Paul G.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified customer</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="5">
+                <div class="rs-top"><span class="rs-stars" style="--r:5" role="img" aria-label="Rated 5 out of 5">★★★★★</span><span class="rs-date">August 2026</span></div>
+                <h3 class="rs-title">Eco-friendly and thorough</h3>
+                <p class="rs-text">I liked that they bring their own eco-friendly products. Nothing was missed, even behind the sofa.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-5.jpg" alt="">
+                  <span class="rs-name">Maria L.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified customer</span></span>
+                </div>
+              </li>
+              <li class="rs-card" data-anim="item" data-rating="3">
+                <div class="rs-top"><span class="rs-stars" style="--r:3" role="img" aria-label="Rated 3 out of 5">★★★★★</span><span class="rs-date">July 2026</span></div>
+                <h3 class="rs-title">Good, one missed spot</h3>
+                <p class="rs-text">A good clean overall, and they came back to fix a missed spot the next day without any fuss.</p>
+                <div class="rs-by">
+                  <img class="rs-av" src="https://webdevpuneet.com/images/section-templates/avatar-8.jpg" alt="">
+                  <span class="rs-name">Dev P.</span>
+                  <span class="rs-badge"><span aria-hidden="true">✓</span> <span>Verified customer</span></span>
+                </div>
+              </li>
+            </ul>
           </div>
-        </div>
-        <div class="tc-track" data-carousel tabindex="0" role="region" aria-label="Testimonials">
-          <figure class="tc-card" data-anim="item">
-            <p class="st-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">★★★★★</span></p>
-            <blockquote class="tc-quote"><p>Our launch checklist used to live in five places. Now it lives in one, and we haven’t missed a step since.</p></blockquote>
-            <figcaption><div class="st-person">
-                <img class="st-avatar" width="96" height="96" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-5.jpg" alt="">
-                <div><p class="st-person-name">Priya Raman</p><p class="st-person-role">Product Marketing, Orbit</p></div>
-              </div></figcaption>
-          </figure>
-          <figure class="tc-card" data-anim="item">
-            <p class="st-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">★★★★★</span></p>
-            <blockquote class="tc-quote"><p>The best onboarding I’ve seen. Our whole team was productive on day one without a single training session.</p></blockquote>
-            <figcaption><div class="st-person">
-                <img class="st-avatar" width="96" height="96" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-4.jpg" alt="">
-                <div><p class="st-person-name">Marcus Webb</p><p class="st-person-role">COO, Fernhill</p></div>
-              </div></figcaption>
-          </figure>
-          <figure class="tc-card" data-anim="item">
-            <p class="st-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">★★★★★</span></p>
-            <blockquote class="tc-quote"><p>Reports that used to take me Friday afternoon now build themselves. I got my Fridays back.</p></blockquote>
-            <figcaption><div class="st-person">
-                <img class="st-avatar" width="96" height="96" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-3.jpg" alt="">
-                <div><p class="st-person-name">Lena Fischer</p><p class="st-person-role">Project Lead, Alder &amp; Co</p></div>
-              </div></figcaption>
-          </figure>
-          <figure class="tc-card" data-anim="item">
-            <p class="st-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">★★★★★</span></p>
-            <blockquote class="tc-quote"><p>It scales with us. Twelve people last year, ninety this year, and it still feels fast and simple.</p></blockquote>
-            <figcaption><div class="st-person">
-                <img class="st-avatar" width="96" height="96" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-7.jpg" alt="">
-                <div><p class="st-person-name">Tom Alvarez</p><p class="st-person-role">VP Engineering, Quill</p></div>
-              </div></figcaption>
-          </figure>
-          <figure class="tc-card" data-anim="item">
-            <p class="st-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">★★★★★</span></p>
-            <blockquote class="tc-quote"><p>Clients can follow progress with a view-only link. Fewer status emails, happier clients.</p></blockquote>
-            <figcaption><div class="st-person">
-                <img class="st-avatar" width="96" height="96" loading="lazy" src="https://webdevpuneet.com/images/section-templates/avatar-8.jpg" alt="">
-                <div><p class="st-person-name">Grace Kim</p><p class="st-person-role">Agency Owner, Studio Kim</p></div>
-              </div></figcaption>
-          </figure>
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuw56towwby">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvw6s7syskcx">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -273,7 +332,7 @@ const localServiceLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvuw56to5yv1">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvw6s7syd0vz">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -322,7 +381,74 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvuw56todnn8">
+    <section id="contact-2" class="st st-opening-hours" data-uid="smvw6s7syl3dk">
+      <div class="st-wrap">
+        <header class="st-head">
+          <p class="st-eyebrow" data-anim="item">When we are here</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Open when <span class="hl">you need us</span></h2>
+          <p class="st-lead" data-anim="item">Book online at any time. Our team answers calls and messages during these hours.</p>
+        </header>
+        <div class="oh" data-opennow data-tz="Europe/London" data-open-label="Open now" data-closes-label="closes at" data-shut-label="Closed now" data-opens-label="opens">
+          <div class="oh-card oh-hours" data-anim="item">
+            <div class="oh-top">
+              <h3 class="oh-title">Opening hours</h3>
+              <p class="oh-badge" data-open-badge role="status" hidden><span class="oh-dot" aria-hidden="true"></span><span class="oh-badge-text"></span></p>
+            </div>
+            <ol class="oh-list">
+              <li class="oh-row" data-hours-row data-day="Monday" data-open="07:00" data-close="19:00" data-closed="">
+                <span class="oh-day">Monday</span>
+                <span class="oh-time"><time>07:00</time> <span aria-hidden="true">–</span> <time>19:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Tuesday" data-open="07:00" data-close="19:00" data-closed="">
+                <span class="oh-day">Tuesday</span>
+                <span class="oh-time"><time>07:00</time> <span aria-hidden="true">–</span> <time>19:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Wednesday" data-open="07:00" data-close="19:00" data-closed="">
+                <span class="oh-day">Wednesday</span>
+                <span class="oh-time"><time>07:00</time> <span aria-hidden="true">–</span> <time>19:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Thursday" data-open="07:00" data-close="19:00" data-closed="">
+                <span class="oh-day">Thursday</span>
+                <span class="oh-time"><time>07:00</time> <span aria-hidden="true">–</span> <time>19:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Friday" data-open="07:00" data-close="19:00" data-closed="">
+                <span class="oh-day">Friday</span>
+                <span class="oh-time"><time>07:00</time> <span aria-hidden="true">–</span> <time>19:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Saturday" data-open="08:00" data-close="16:00" data-closed="">
+                <span class="oh-day">Saturday</span>
+                <span class="oh-time"><time>08:00</time> <span aria-hidden="true">–</span> <time>16:00</time></span>
+              </li>
+              <li class="oh-row" data-hours-row data-day="Sunday" data-open="09:00" data-close="17:00" data-closed="closed">
+                <span class="oh-day">Sunday</span>
+                <span class="oh-shut">Closed</span>
+              </li>
+            </ol>
+            <p class="oh-special">We cover the whole city and towns within 15 miles. Online booking is open 24 hours a day.</p>
+          </div>
+          <div class="oh-side">
+            <div class="oh-card oh-contact" data-anim="item">
+              <ul class="oh-info">
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg></span>
+                  <address class="oh-addr">
+                    <span class="oh-line oh-name">Sparkle &amp; Co</span>
+                    <span class="oh-line">14 Mill Lane</span>
+                    <span class="oh-line"><span>BA1 1AA</span> <span>Bath</span></span>
+                    <span class="oh-line">United Kingdom</span>
+                  </address>
+                </li>
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg></span><a class="oh-link" href="tel:+448000001234">0800 000 1234</a></li>
+                <li class="oh-item"><span class="st-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span><a class="oh-link" href="mailto:hello@webdevpuneet.com">hello@webdevpuneet.com</a></li>
+              </ul>
+              <div class="st-btns">
+                <a class="st-btn st-btn--ghost" href="tel:+448000001234"><span>Call us free</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="st st-footer-columns" data-uid="smvw6s7sysukn">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -355,7 +481,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuw56torxxs">
+    <section class="st st-back-to-top" data-uid="smvw6s7sy7vp0">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -364,7 +490,7 @@ const localServiceLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-accessibility-toolbar" data-uid="smvuw56tocdps">
+    <section class="st st-accessibility-toolbar" data-uid="smvw6s7sybncs">
       <div class="a11y" data-a11y data-pos="left" data-remember="on">
         <button type="button" class="a11y-fab" aria-expanded="false" data-a11y-open aria-label="Open accessibility tools">
           <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="7.500" r="1.200" fill="currentColor"/><path d="M7 10.500l5 1 5-1M12 11.500v3.500M9.500 19l2.500-4 2.500 4"/></svg>
@@ -548,29 +674,42 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .sc-note{margin:0;color:var(--st-muted);font-size:14.5px}
 .sc-note:empty{display:none}
 @container st (max-width:720px){.sc-grid{grid-template-columns:1fr 1fr}.sc-stat + .sc-stat{border-left:0}.sc-stat:nth-child(even){border-left:1px solid color-mix(in srgb,var(--st-text) 8%,transparent)}.sc-stat:nth-child(n+3){border-top:1px solid color-mix(in srgb,var(--st-text) 8%,transparent)}}
-/* Testimonial Carousel */
-.st-testimonials-carousel{padding:clamp(64px,8cqi,112px) 0}
-.st-stars{color:#f59e0b;font-size:16px;letter-spacing:2px;line-height:1}
-.st-person{display:flex;align-items:center;gap:12px}
-.st-avatar{width:44px;height:44px;flex:none;border-radius:50%;object-fit:cover;background:var(--st-surface)}
-.st-person-name{font-weight:700;font-size:15.5px;line-height:1.3}
-.st-person-role{color:var(--st-muted);font-size:14px;line-height:1.4}
-.st-person-role:empty{display:none}
-.tc-top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(28px,3.4cqi,44px)}
-.tc-head{margin:0}
-.tc-arrows{display:flex;gap:10px;flex:none}
-.tc-arrow{position:relative;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;border:1px solid color-mix(in srgb,var(--st-text) 16%,transparent);background:var(--st-bg);color:var(--st-text);cursor:pointer;transition:background .2s ease,color .2s ease,opacity .2s ease}
-.tc-arrow:hover:not(:disabled){background:var(--st-brand);border-color:var(--st-brand);color:var(--st-btn-text)}
-.tc-arrow:disabled{opacity:.35;cursor:default}
-.tc-arrow:focus-visible,.tc-track:focus-visible{outline:3px solid color-mix(in srgb,var(--st-brand) 45%,transparent);outline-offset:3px}
-.tc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.tc-track{display:flex;gap:clamp(14px,1.8cqi,22px);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:4px 2px 16px;margin:0 -2px;overscroll-behavior-x:contain}
-.tc-track::-webkit-scrollbar{display:none}
-.tc-track.is-draggable{scroll-snap-type:none;cursor:grab}
-.tc-track.is-draggable:active{cursor:grabbing}
-.tc-card{flex:0 0 clamp(280px,32%,400px);scroll-snap-align:start;display:flex;flex-direction:column;gap:16px;margin:0;padding:clamp(24px,2.6cqi,32px);border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);user-select:none}
-.tc-quote{flex:1;font-size:17px;line-height:1.65}
-@container st (max-width:700px){.tc-top{flex-direction:column;align-items:flex-start}.tc-card{flex-basis:85%}}
+/* Reviews Summary & Rating */
+.st-reviews-summary{padding:clamp(64px,8cqi,112px) 0}
+.rs{display:grid;grid-template-columns:minmax(260px,.42fr) minmax(0,1fr);gap:clamp(22px,3.4cqi,48px);align-items:start}
+.rs-sum{position:sticky;top:24px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:clamp(22px,2.6cqi,32px);border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent)}
+.rs-score{display:flex;align-items:baseline;gap:6px}
+.rs-avg{font:800 clamp(52px,6cqi,72px)/1 var(--st-font-heading);letter-spacing:-.03em}
+.rs-of{color:var(--st-muted);font-size:20px;font-weight:600}
+.rs-stars{--star:#f59e0b;--empty:color-mix(in srgb,var(--st-text) 18%,transparent);display:inline-block;font-size:18px;line-height:1;letter-spacing:1px;white-space:nowrap;background:linear-gradient(90deg,var(--star) calc(var(--r,0) / 5 * 100%),var(--empty) 0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rs-stars--big{font-size:26px}
+.rs-count{color:var(--st-muted);font-size:15px;margin-bottom:8px}
+.rs-count span:first-child{color:var(--st-text);font-weight:700}
+.rs-bars{list-style:none;display:grid;gap:4px;width:100%;margin-bottom:12px}
+.rs-barbtn{display:grid;grid-template-columns:34px 1fr 44px;align-items:center;gap:10px;width:100%;padding:7px 8px;border:1px solid transparent;border-radius:10px;background:transparent;color:inherit;font:inherit;font-size:14px;text-align:left;cursor:pointer;transition:background .15s ease,border-color .15s ease}
+.rs-barbtn:hover{background:color-mix(in srgb,var(--st-text) 6%,transparent)}
+.rs-barbtn:focus-visible{outline:3px solid color-mix(in srgb,var(--st-brand) 55%,transparent);outline-offset:1px}
+.rs-barbtn[aria-pressed=true]{background:color-mix(in srgb,var(--st-brand) 12%,transparent);border-color:color-mix(in srgb,var(--st-brand) 50%,transparent)}
+.rs-lab{font-weight:700;white-space:nowrap}
+.rs-lab::after{content:""}
+.rs-track{position:relative;height:9px;border-radius:99px;background:color-mix(in srgb,var(--st-text) 11%,transparent);overflow:hidden}
+.rs-fill{position:absolute;inset:0 auto 0 0;width:var(--w,0%);border-radius:99px;background:#f59e0b}
+.rs-n{color:var(--st-muted);text-align:right;font-variant-numeric:tabular-nums}
+.rs-status{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-bottom:14px;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,var(--st-brand) 10%,transparent);font-size:14.5px;font-weight:600}
+.rs-status[hidden]{display:none}
+.rs-clear{padding:0;border:0;background:none;color:var(--st-brand);font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.rs-list{list-style:none;display:grid;gap:clamp(12px,1.6cqi,18px)}
+.rs-card[hidden]{display:none}
+.rs-card{display:flex;flex-direction:column;gap:8px;padding:clamp(18px,2.2cqi,26px);border-radius:calc(var(--st-radius) * 1.1px);background:var(--st-bg);border:1px solid color-mix(in srgb,var(--st-text) 10%,transparent)}
+.rs-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.rs-date{color:var(--st-muted);font-size:13.5px}
+.rs-title{font-size:17.5px}
+.rs-text{color:var(--st-muted);font-size:15.5px;line-height:1.65}
+.rs-by{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:4px}
+.rs-av{width:38px;height:38px;border-radius:50%;object-fit:cover;background:var(--st-surface)}
+.rs-name{font-weight:700;font-size:15px}
+.rs-badge{color:#15803d;font-size:13px;font-weight:600}
+@container st (max-width:860px){.rs{grid-template-columns:1fr}.rs-sum{position:static}}
 /* FAQ Accordion */
 .st-faq-accordion{padding:clamp(64px,8cqi,112px) 0}
 .st-acc{border-bottom:1px solid color-mix(in srgb,var(--st-text) 11%,transparent)}
@@ -618,6 +757,44 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 a.cs2-value:hover{color:var(--st-brand)}
 .cs2-card{padding:clamp(24px,3.4cqi,40px);border-radius:calc(var(--st-radius) * 1.3px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 7%,transparent);box-shadow:0 30px 70px -40px color-mix(in srgb,var(--st-brand) 45%,transparent)}
 @container st (max-width:860px){.cs2{grid-template-columns:1fr}}
+/* Opening Hours & Location */
+.st-opening-hours{padding:clamp(64px,8cqi,112px) 0}
+.oh{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(18px,2.6cqi,32px);align-items:stretch}
+.oh-card{padding:clamp(22px,2.8cqi,34px);border-radius:calc(var(--st-radius) * 1.1px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent);box-shadow:0 24px 60px -44px color-mix(in srgb,var(--st-text) 55%,transparent)}
+.oh-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-bottom:6px}
+.oh-title{font-size:clamp(21px,2.3cqi,26px)}
+.oh-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 13px;border-radius:999px;background:color-mix(in srgb,var(--st-text) 7%,transparent);color:var(--st-text);font-size:13.5px;font-weight:700}
+.oh-badge[hidden]{display:none}
+.oh-dot{width:9px;height:9px;border-radius:50%;background:#94a3b8}
+.oh-badge.is-open{background:rgba(34,197,94,.15);color:color-mix(in srgb,#16a34a 78%,var(--st-text))}
+.oh-badge.is-open .oh-dot{background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.25)}
+.oh-badge.is-shut{background:rgba(239,68,68,.12);color:color-mix(in srgb,#dc2626 78%,var(--st-text))}
+.oh-badge.is-shut .oh-dot{background:#ef4444}
+.oh-list{list-style:none;margin:0;padding:0}
+.oh-row{display:grid;grid-template-columns:minmax(96px,auto) 1fr;gap:3px 16px;align-items:baseline;padding:13px 12px;margin:0 -12px;border-bottom:1px dashed color-mix(in srgb,var(--st-text) 14%,transparent);font-size:16px}
+.oh-row:last-child{border-bottom:0}
+.oh-day{font-weight:700}
+.oh-time,.oh-shut{justify-self:end;font-variant-numeric:tabular-nums}
+.oh-shut{color:var(--st-muted)}
+.oh-note{grid-column:1 / -1;justify-self:end;color:var(--st-muted);font-size:13.5px}
+.oh-row.is-today{background:color-mix(in srgb,var(--st-brand) 10%,transparent);border-radius:10px;border-bottom-color:transparent}
+.oh-row.is-today .oh-day{color:var(--st-brand)}
+.oh-row.is-today .oh-day::before{content:"";display:inline-block;width:8px;height:8px;margin-right:9px;border-radius:50%;background:var(--st-brand)}
+.oh-special{margin-top:14px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--st-text) 9%,transparent);color:var(--st-muted);font-size:14.5px}
+.oh-side{display:flex;flex-direction:column;gap:clamp(14px,2cqi,20px);min-width:0}
+.oh-map{flex:1;min-height:280px;overflow:hidden;border-radius:calc(var(--st-radius) * 1.1px);background:var(--st-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 420' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='600' height='420' fill='%23e9eef0'/%3E%3Cpath d='M0 90H600M0 250H600M0 350H600M110 0V420M300 0V420M470 0V420' stroke='%23ffffff' stroke-width='16'/%3E%3Cpath d='M0 190L600 150M200 0L330 420' stroke='%23ffffff' stroke-width='10'/%3E%3Crect x='330' y='110' width='110' height='80' rx='8' fill='%23d9e6dc'/%3E%3Cpath d='M300 150c-28 0-50 22-50 50 0 36 50 82 50 82s50-46 50-82c0-28-22-50-50-50z' fill='%23ef4444'/%3E%3Ccircle cx='300' cy='200' r='17' fill='%23ffffff'/%3E%3C/svg%3E") center/cover no-repeat;border:1px solid color-mix(in srgb,var(--st-text) 9%,transparent)}
+.oh-frame{display:block;width:100%;height:100%;min-height:280px;border:0}
+.oh-info{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:14px}
+.oh-item{display:flex;align-items:flex-start;gap:14px}
+.oh-item .st-icon{width:42px;height:42px;background:color-mix(in srgb,var(--st-brand) 14%,transparent)}
+.oh-item .st-icon svg{width:20px;height:20px}
+.oh-addr{display:flex;flex-direction:column;font-style:normal;font-size:16px;line-height:1.5;padding-top:2px}
+.oh-name{font-weight:700}
+.oh-link{align-self:center;color:var(--st-text);font-size:16.5px;font-weight:600;text-decoration:none;word-break:break-word}
+.oh-link:hover{color:var(--st-brand);text-decoration:underline}
+.oh-contact .st-btns{display:flex;flex-wrap:wrap;gap:12px}
+@container st (max-width:860px){.oh{grid-template-columns:1fr}.oh-map,.oh-frame{min-height:260px}}
+@media (prefers-reduced-motion:reduce){.oh-dot{box-shadow:none!important}}
 /* Multi-Column Footer */
 .st-footer-columns{padding:clamp(56px,7cqi,88px) 0 28px;border-top:1px solid color-mix(in srgb,var(--st-text) 8%,transparent)}
 .st-brand{display:inline-flex;align-items:center;gap:10px;flex:none;text-decoration:none;color:var(--st-text)}
@@ -856,61 +1033,38 @@ a.cs2-value:hover{color:var(--st-brand)}
   });
 })();
 (function () {
-  var G = window.gsap;
-  if (G && window.Draggable) G.registerPlugin(Draggable);
-  if (G && window.InertiaPlugin) G.registerPlugin(InertiaPlugin);
-  if (G && window.ScrollToPlugin) G.registerPlugin(ScrollToPlugin);
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
-  document.querySelectorAll('.st').forEach(function (sec) {
-    var track = sec.querySelector('[data-carousel]');
-    if (!track) return;
-    var prev = sec.querySelector('[data-carousel-prev]');
-    var next = sec.querySelector('[data-carousel-next]');
-    var max = function () { return Math.max(0, track.scrollWidth - track.clientWidth); };
-    var points = function () {
-      var first = track.children[0];
-      if (!first) return [0];
-      return Array.prototype.map.call(track.children, function (c) { return Math.min(max(), c.offsetLeft - first.offsetLeft); });
-    };
-    var nearest = function (x) { return points().reduce(function (a, p) { return Math.abs(p - x) < Math.abs(a - x) ? p : a; }, 0); };
-    var update = function () {
-      var x = track.scrollLeft;
-      if (prev) prev.disabled = x <= 2;
-      if (next) next.disabled = x >= max() - 2;
-    };
-    var go = function (dir) {
-      var ps = points(), x = track.scrollLeft, target = x;
-      if (dir > 0) { for (var i = 0; i < ps.length; i++) if (ps[i] > x + 4) { target = ps[i]; break; } }
-      else { for (var j = ps.length - 1; j >= 0; j--) if (ps[j] < x - 4) { target = ps[j]; break; } }
-      if (G && window.ScrollToPlugin && !reduce) G.to(track, { scrollTo: { x: target }, duration: 0.6, ease: 'power3.out', onUpdate: update });
-      else track.scrollTo({ left: target, behavior: reduce ? 'auto' : 'smooth' });
-    };
-    if (prev) prev.addEventListener('click', function () { go(-1); });
-    if (next) next.addEventListener('click', function () { go(1); });
-    track.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
-    // Mouse drag with momentum on desktop; touch keeps native scrolling and snap.
-    // An invisible proxy is dragged and its x is mapped onto the track's native scrollLeft,
-    // so the slides' markup and layout never change.
-    if (G && window.Draggable && fine) {
-      track.classList.add('is-draggable');
-      var proxy = document.createElement('div');
-      var start = 0;
-      var apply = function () { track.scrollLeft = start - this.x; update(); };
-      Draggable.create(proxy, {
-        type: 'x',
-        trigger: track,
-        inertia: !!window.InertiaPlugin && !reduce,
-        dragClickables: false,
-        onPress: function () { G.killTweensOf(track); start = track.scrollLeft; G.set(proxy, { x: 0 }); this.update(); },
-        onDrag: apply,
-        onThrowUpdate: apply,
-        snap: { x: function (v) { return start - nearest(Math.max(0, Math.min(max(), start - v))); } },
-        onRelease: function () { if (!this.tween) { G.to(track, { scrollTo: window.ScrollToPlugin ? { x: nearest(track.scrollLeft) } : undefined, duration: 0.4, ease: 'power3.out', onUpdate: update }); } }
+  document.querySelectorAll('.st [data-revfilter]').forEach(function (root) {
+    var btns = root.querySelectorAll('[data-filter-star]');
+    var cards = root.querySelectorAll('[data-rating]');
+    var status = root.querySelector('[data-filter-status]');
+    var msg = status && status.querySelector('[data-filter-message]');
+    var clear = status && status.querySelector('[data-filter-clear]');
+    if (!btns.length || !cards.length) return;
+    var tpl = root.getAttribute('data-filter-text') || 'Showing {n} of {t} reviews rated {s} stars';
+    if (clear) clear.textContent = root.getAttribute('data-clear-label') || 'Show all reviews';
+    Array.prototype.forEach.call(btns, function (b) {
+      var label = b.getAttribute('aria-label');
+      if (label) b.setAttribute('aria-label', label.replace('{s}', b.getAttribute('data-star')));
+    });
+    var current = '';
+    function apply(star) {
+      current = star;
+      var shown = 0;
+      Array.prototype.forEach.call(cards, function (c) {
+        var show = !star || String(Math.round(parseFloat(c.getAttribute('data-rating')) || 0)) === star;
+        c.hidden = !show;
+        if (show) shown++;
       });
+      Array.prototype.forEach.call(btns, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-star') === star)); });
+      if (status) {
+        status.hidden = !star;
+        if (msg && star) msg.textContent = tpl.replace('{n}', shown).replace('{t}', cards.length).replace('{s}', star);
+      }
     }
+    Array.prototype.forEach.call(btns, function (b) {
+      b.addEventListener('click', function () { var s = b.getAttribute('data-star'); apply(current === s ? '' : s); });
+    });
+    if (clear) clear.addEventListener('click', function () { apply(''); });
   });
 })();
 (function () {
@@ -973,6 +1127,74 @@ a.cs2-value:hover{color:var(--st-brand)}
         .then(function (r) { finish(); if (r.ok) done(); else if (bad) bad.hidden = false; })
         .catch(function () { finish(); if (bad) bad.hidden = false; });
     });
+  });
+})();
+(function () {
+  var KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  function mins(v) {
+    var m = String(v || '').trim().toLowerCase().match(/^(\\d{1,2})(?::(\\d{2}))?\\s*(am|pm)?$/);
+    if (!m) return null;
+    var h = +m[1], mi = +(m[2] || 0);
+    if (m[3] === 'pm' && h < 12) h += 12;
+    if (m[3] === 'am' && h === 12) h = 0;
+    return h > 24 || mi > 59 ? null : h * 60 + mi;
+  }
+  function clock(total) {
+    var h = Math.floor(total / 60) % 24, mi = total % 60;
+    return (h < 10 ? '0' : '') + h + ':' + (mi < 10 ? '0' : '') + mi;
+  }
+  function nowIn(tz) {
+    var o = { weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' };
+    if (tz) o.timeZone = tz;
+    var parts;
+    try { parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    catch (e) { delete o.timeZone; parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    var p = {};
+    parts.forEach(function (x) { p[x.type] = x.value; });
+    return { day: KEYS.indexOf(String(p.weekday).slice(0, 3).toLowerCase()), min: (parseInt(p.hour, 10) % 24) * 60 + parseInt(p.minute, 10) };
+  }
+  document.querySelectorAll('.st').forEach(function (sec) {
+    var root = sec.querySelector('[data-opennow]');
+    if (!root) return;
+    var badge = root.querySelector('[data-open-badge]');
+    var text = badge && badge.querySelector('.oh-badge-text');
+    var rows = Array.prototype.map.call(root.querySelectorAll('[data-hours-row]'), function (r) {
+      var d = KEYS.indexOf(String(r.getAttribute('data-day') || '').slice(0, 3).toLowerCase());
+      var o = mins(r.getAttribute('data-open')), c = mins(r.getAttribute('data-close'));
+      var label = r.querySelector('.oh-day');
+      return { el: r, day: d, open: o, close: c, shut: r.getAttribute('data-closed') === 'closed' || o === null || c === null, name: label ? label.textContent : '' };
+    });
+    if (!rows.length) return;
+    var tz = root.getAttribute('data-tz') || '';
+    function attr(n, d) { return root.getAttribute(n) || d; }
+    function update() {
+      var n = nowIn(tz), prev = (n.day + 6) % 7, open = null;
+      rows.forEach(function (r) {
+        r.el.classList.toggle('is-today', r.day === n.day);
+        if (r.day === n.day) r.el.setAttribute('aria-current', 'date'); else r.el.removeAttribute('aria-current');
+        if (r.shut) return;
+        var over = r.close <= r.open;
+        if (r.day === n.day && n.min >= r.open && (over || n.min < r.close)) open = open || r;
+        if (r.day === prev && over && n.min < r.close) open = open || r;
+      });
+      if (!badge || !text) return;
+      badge.hidden = false;
+      badge.classList.toggle('is-open', !!open);
+      badge.classList.toggle('is-shut', !open);
+      if (open) { text.textContent = attr('data-open-label', 'Open now') + ' \\u00b7 ' + attr('data-closes-label', 'closes at') + ' ' + clock(open.close); return; }
+      var next = null;
+      for (var i = 0; i < 8 && !next; i++) {
+        var dd = (n.day + i) % 7;
+        rows.forEach(function (r) {
+          if (r.shut || r.day !== dd || (i === 0 && r.open <= n.min)) return;
+          if (!next || r.open < next.open) next = r;
+        });
+        if (next) next.when = i === 0 ? '' : next.name + ' ';
+      }
+      text.textContent = attr('data-shut-label', 'Closed now') + (next ? ' \\u00b7 ' + attr('data-opens-label', 'opens') + ' ' + next.when + clock(next.open) : '');
+    }
+    update();
+    setInterval(update, 60000);
   });
 })();
 (function () {
@@ -1252,7 +1474,7 @@ a.cs2-value:hover{color:var(--st-brand)}
   seo: {
     "title": "Local Service Business Website Template — Free Snippet",
     "description": "A trust-first local service website in HTML, CSS and JS: quote hero, services, how booking works, before/after, stats, reviews, FAQ and quote form. Edit live.",
-    "subtitle": "Local Service Business Website template · 12 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Local Service Business Website template · 13 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "local-service",
       "name": "Local Service Business Website",
@@ -1297,10 +1519,10 @@ a.cs2-value:hover{color:var(--st-brand)}
         "role": "counters for jobs completed, years trading and average rating, the numbers a stranger looks for"
       },
       {
-        "id": "testimonials-carousel",
-        "name": "Testimonial Carousel",
-        "url": "/website-section-templates/testimonials-carousel/",
-        "role": "reviews in a carousel, ideally with the job type and area so they feel local"
+        "id": "reviews-summary",
+        "name": "Reviews Summary & Rating",
+        "url": "/website-section-templates/reviews-summary/",
+        "role": "a reviews summary with the 4.9 average and a star breakdown that filters the customer reviews"
       },
       {
         "id": "faq-accordion",
@@ -1313,6 +1535,12 @@ a.cs2-value:hover{color:var(--st-brand)}
         "name": "Contact Form With Details",
         "url": "/website-section-templates/contact-split-form/",
         "role": "a quote form with job details, plus your phone number and service area"
+      },
+      {
+        "id": "opening-hours",
+        "name": "Opening Hours & Location",
+        "url": "/website-section-templates/opening-hours/",
+        "role": "opening hours with a live Open now badge and a free call button, for a business that comes to the customer"
       },
       {
         "id": "footer-columns",
@@ -1335,15 +1563,17 @@ a.cs2-value:hover{color:var(--st-brand)}
     ],
     "about": {
       "title": "A Local Service Website That Earns the Phone Call: Trust First, Quote Form Last",
-      "description": "Someone looking for a plumber, cleaner or gardener is often in a hurry and wary of strangers. This layout puts trust ahead of design. The hero makes one clear promise with a quote button, the services grid shows what you do, and a \"how booking works\" step list answers the next question: what happens after I contact you? Before-and-after images prove the quality of the work, and animated counters (jobs done, years trading, average rating) give the numbers a stranger looks for.\n\nReviews in a carousel and a FAQ remove the last doubts: are you insured, do you give fixed quotes, how quickly can you come? The page ends on a contact form built to get a quote request with enough detail to reply to, plus your phone number and service area.\n\nReplace the sample business with yours and keep the structure. It is the layout of the [Local Service Business Website template](/website-builder/templates/local-service/); open it in the [Website Builder](/website-builder/) to change copy, colours and photos and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return; and a floating accessibility toolbar where visitors can enlarge text, raise contrast, hide images and pause animations. Each one has its own page in the Website Section Templates library ([Back to Top Button](/website-section-templates/back-to-top/), [Accessibility Toolbar Widget](/website-section-templates/accessibility-toolbar/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
+      "description": "Someone looking for a plumber, cleaner or gardener is often in a hurry and wary of strangers. This layout puts trust ahead of design. The hero makes one clear promise with a quote button, the services grid shows what you do, and a \"how booking works\" step list answers the next question: what happens after I contact you? Before-and-after images prove the quality of the work, and animated counters (jobs done, years trading, average rating) give the numbers a stranger looks for.\n\nReviews in a carousel and a FAQ remove the last doubts: are you insured, do you give fixed quotes, how quickly can you come? The page ends on a contact form built to get a quote request with enough detail to reply to, plus your phone number and service area.\n\nReplace the sample business with yours and keep the structure. It is the layout of the [Local Service Business Website template](/website-builder/templates/local-service/); open it in the [Website Builder](/website-builder/) to change copy, colours and photos and export.\n\n**Interactive extras built in**\n\nBeyond the core sections, this template adds a reviews summary with the 4.9 average and a star breakdown that filters the customer reviews; opening hours with a live Open now badge and a free call button, for a business that comes to the customer; a floating back to top button that appears after the visitor scrolls, so a long page is easy to leave and return; and a floating accessibility toolbar where visitors can enlarge text, raise contrast, hide images and pause animations. Each one has its own page in the Website Section Templates library ([Reviews Summary & Rating](/website-section-templates/reviews-summary/), [Opening Hours & Location](/website-section-templates/opening-hours/), [Back to Top Button](/website-section-templates/back-to-top/), [Accessibility Toolbar Widget](/website-section-templates/accessibility-toolbar/)), where you can try its settings on their own, and you can edit, move or remove any of them in the Website Builder."
     },
     "features": [
-      "12 ready-made website sections assembled into one finished local service business website page: Simple Sticky Navbar, SaaS Split Hero, Icon Grid Features, How It Works Steps, Before & After Slider, Animated Stats Counters, Testimonial Carousel, FAQ Accordion, Contact Form With Details, Multi-Column Footer, Back to Top Button, Accessibility Toolbar Widget",
+      "13 ready-made website sections assembled into one finished local service business website page: Simple Sticky Navbar, SaaS Split Hero, Icon Grid Features, How It Works Steps, Before & After Slider, Animated Stats Counters, Reviews Summary & Rating, FAQ Accordion, Contact Form With Details, Opening Hours & Location, Multi-Column Footer, Back to Top Button, Accessibility Toolbar Widget",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
       "GSAP entrance animations and scroll effects load from a CDN, and switch off for visitors who prefer reduced motion",
       "Also available as a 5-page website in the builder, sharing one navbar, footer and theme",
+      "A reviews summary with the average rating and a star breakdown that filters the review cards",
+      "Opening hours with a live Open now badge in the business time zone, the address, a map and call buttons, plus LocalBusiness data for search engines",
       "A floating back to top button that appears as visitors scroll, on every page of the multi-page version",
       "A floating accessibility toolbar with bigger text, contrast, grayscale, hide images and pause animations",
       "Plain HTML, CSS and JavaScript: copy the code here or export it to React, Vue, Angular or Tailwind"
@@ -1405,11 +1635,11 @@ a.cs2-value:hover{color:var(--st-brand)}
       },
       {
         "q": "What extras are built into the Local Service Business Website template?",
-        "a": "It adds a floating back to top button and an accessibility toolbar. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
+        "a": "It adds a reviews summary with a star breakdown and filter, an opening hours section with a live Open now badge, a floating back to top button and an accessibility toolbar. Each is a section you can edit, move or remove in the Website Builder, and each has its own page in the Website Section Templates library."
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 12 templates in the free Website Section Templates library: Simple Sticky Navbar, SaaS Split Hero, Icon Grid Features, How It Works Steps, Before & After Slider, Animated Stats Counters, Testimonial Carousel, FAQ Accordion, Contact Form With Details, Multi-Column Footer, Back to Top Button, Accessibility Toolbar Widget. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 13 templates in the free Website Section Templates library: Simple Sticky Navbar, SaaS Split Hero, Icon Grid Features, How It Works Steps, Before & After Slider, Animated Stats Counters, Reviews Summary & Rating, FAQ Accordion, Contact Form With Details, Opening Hours & Location, Multi-Column Footer, Back to Top Button, Accessibility Toolbar Widget. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",
@@ -1418,7 +1648,7 @@ a.cs2-value:hover{color:var(--st-brand)}
     ],
     "aiPrompt": {
       "paragraph": "Give this prompt to an AI assistant to generate your own version of the Local Service Business Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
-      "prompt": "Build a complete local service business website for “Sparkle & Co” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. SaaS Split Hero: “A spotless home, without lifting a finger”\n3. Icon Grid Features: “Cleaning for every space”\n4. How It Works Steps: “Booked in three easy steps”\n5. Before & After Slider: “Spotless, every time”\n6. Animated Stats Counters: “Cleaning homes since 2015”\n7. Testimonial Carousel: “Loved by local families”\n8. FAQ Accordion: “Good to know”\n9. Contact Form With Details: “Get your fixed price”\n10. Multi-Column Footer\n11. Back to Top Button\n12. Accessibility Toolbar Widget\n\nLook and feel:\n- Colours as CSS custom properties: brand #ea580c, page background #ffffff, cards #fff6ef, text #1c1917, muted text #57534e. Corner radius 12px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable local business copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Local Business Website Template — Free HTML Service Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a local business business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- FAQ (faq.html)\n- Contact (contact.html)\n- Privacy (privacy.html)"
+      "prompt": "Build a complete local service business website for “Sparkle & Co” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. SaaS Split Hero: “A spotless home, without lifting a finger”\n3. Icon Grid Features: “Cleaning for every space”\n4. How It Works Steps: “Booked in three easy steps”\n5. Before & After Slider: “Spotless, every time”\n6. Animated Stats Counters: “Cleaning homes since 2015”\n7. Reviews Summary & Rating: “Rated 4.9 out of 5 by local families”\n8. FAQ Accordion: “Good to know”\n9. Contact Form With Details: “Get your fixed price”\n10. Opening Hours & Location: “Open when you need us”\n11. Multi-Column Footer\n12. Back to Top Button\n13. Accessibility Toolbar Widget\n\nLook and feel:\n- Colours as CSS custom properties: brand #ea580c, page background #ffffff, cards #fff6ef, text #1c1917, muted text #57534e. Corner radius 12px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable local business copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Local Business Website Template — Free HTML Service Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a local business business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- FAQ (faq.html)\n- Contact (contact.html)\n- Privacy (privacy.html)"
     }
   },
 };

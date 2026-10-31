@@ -313,3 +313,13 @@ a.cs2-value:hover{color:var(--st-brand)}
 .st-art--corner>svg{top:-12%;right:-8%;left:auto;width:min(58%,620px);height:auto}
 .st-art--corners>svg{top:0;right:0;left:auto;width:clamp(140px,22cqi,300px);height:auto}
 .st-art--corners>svg+svg{top:auto;right:auto;bottom:0;left:0;transform:rotate(180deg)}
+.st-art[data-pos=top]{inset:0 0 50% 0}
+.st-art[data-pos=bottom]{inset:50% 0 0 0}
+.st-art[data-pos=left]{inset:0 50% 0 0}
+.st-art[data-pos=right]{inset:0 0 0 50%}
+.st-art--corner[data-pos=c]>svg{top:var(--art-y,50%);left:var(--art-x,50%);right:auto;bottom:auto;translate:-50% -50%}
+.st-art--corner[data-pos=tl]>svg{right:auto;left:-8%}
+.st-art--corner[data-pos=br]>svg{top:auto;bottom:-12%}
+.st-art--corner[data-pos=bl]>svg{top:auto;right:auto;bottom:-12%;left:-8%}
+.st-art--corners[data-pos=tl]>svg{right:auto;left:0;transform:scaleX(-1)}
+.st-art--corners[data-pos=tl]>svg+svg{left:auto;right:0;transform:scaleY(-1)}

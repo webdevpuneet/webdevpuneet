@@ -3,7 +3,7 @@
 const launchLandingPageTemplate = {
   id: 'launch-landing-page-template',
   title: 'Startup Launch & Waitlist Template',
-  lastmod: '2026-10-30',
+  lastmod: '2026-10-31',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -11,7 +11,7 @@ const launchLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-announcement" data-uid="smvuw56qix4hv">
+    <section class="st st-navbar-announcement" data-uid="smvw6s7nz8zdd">
       <div class="na-bar" data-dismissable>
         <p class="st-wrap na-bar-in"><span>🚀 Launching on Product Hunt, 12 November</span> <a class="na-bar-link" href="#get-started"><span>Get notified</span> <span aria-hidden="true">→</span></a></p>
         <button type="button" class="na-close" data-dismiss aria-label="Dismiss announcement"><span aria-hidden="true">×</span></button>
@@ -40,7 +40,7 @@ const launchLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-centered-gradient-hero" data-uid="smvuw56qi710o">
+    <section class="st st-centered-gradient-hero" data-uid="smvw6s7o0zi7h">
       <div class="cg-glow" aria-hidden="true"></div>
       <div class="cg st-wrap">
         <span class="st-eyebrow cg-eyebrow" data-anim="item">Coming soon</span>
@@ -54,7 +54,7 @@ const launchLandingPageTemplate = {
         <div class="cg-media" data-anim="media"><img width="1200" height="820" src="https://webdevpuneet.com/images/section-templates/hero-dashboard.png" alt="Acme app dashboard"></div>
       </div>
     </section>
-    <section id="features" class="st st-features-bento" data-uid="smvuw56qiili4">
+    <section id="features" class="st st-features-bento" data-uid="smvw6s7o0s3z8">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">What’s inside</p>
@@ -101,14 +101,14 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuw56qi8niu">
+    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvw6s7o0w8wc">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Roadmap</p>
           <h2 class="st-h2" data-anim="item" data-anim-text>Where Lumina is <span class="hl">heading next</span></h2>
           <p class="st-lead" data-anim="item">We ship in small steps and share the plan. Keep scrolling to follow the roadmap from the beta to launch day.</p>
         </header>
-        <div class="tlh" data-tlh data-layout="alternate" data-marker="icon" data-start="1" data-mode="pin">
+        <div class="tlh" data-tlh data-layout="alternate" data-marker="icon" data-width="contained" data-start="1" data-mode="pin">
           <button type="button" class="tlh-nav tlh-prev" data-tlh-prev disabled aria-label="Show earlier events"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
           <div class="tlh-track" data-tlh-track role="region" tabindex="0" aria-label="Company timeline">
             <ol class="tlh-list">
@@ -158,7 +158,7 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuw56qig25z">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvw6s7o01fly">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -172,7 +172,7 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-newsletter" data-uid="smvuw56qi8qqv">
+    <section class="st st-footer-newsletter" data-uid="smvw6s7o049tr">
       <footer class="st-wrap fn">
         <div class="fn-top">
           <div class="fn-news" data-anim="item">
@@ -339,6 +339,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .tlh-dot:focus-visible{outline:3px solid var(--st-brand);outline-offset:3px}
 .tlh-num::before{content:counter(tl)}
 .tlh-ico{display:none;width:20px;height:20px}
+.tlh-dot .tlh-ico{background:none;border-radius:0;color:inherit}
 .tlh-ico svg{width:20px;height:20px}
 .tlh[data-marker=icon] .tlh-num{display:none}
 .tlh[data-marker=icon] .tlh-ico{display:inline-grid}
@@ -365,7 +366,14 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .is-tl-pinned .tlh-list{will-change:transform}
 .is-tl-pinned .tlh-list::after{transition:none}
 .tlh.is-fit .tlh-nav{display:none}
+.tlh[data-width=full]{width:100cqi;margin-inline:calc(50% - 50cqi);gap:0}
+.tlh[data-width=full] .tlh-track{border-radius:0}
+.tlh[data-width=full] .tlh-list{padding-inline:max(28px,var(--st-pad))}
+.tlh[data-width=full] .tlh-nav{position:absolute;top:50%;z-index:3;transform:translateY(-50%)}
+.tlh[data-width=full] .tlh-prev{left:12px}
+.tlh[data-width=full] .tlh-next{right:12px}
 @container st (max-width:640px){
+.tlh[data-width=full] .tlh-nav{top:22px}
 .tlh-list{--tl-item-w:230px;--tl-card-h:172px}
 .tlh-list::before,.tlh-list::after{top:22px}
 .tlh-item{height:calc(var(--tl-card-h) + 44px)}
@@ -618,7 +626,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         trigger = tw.scrollTrigger;
         return function () {
           pinned = false; trigger = null;
-          tw.scrollTrigger.kill(); tw.kill();
+          if (tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill();
           G.set(list, { clearProps: 'transform' });
           sec.classList.remove('is-tl-pinned');
           setActive(active > -1 ? active : 0, false);

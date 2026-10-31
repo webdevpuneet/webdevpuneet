@@ -3,7 +3,7 @@
 const schoolLandingPageTemplate = {
   id: 'school-landing-page-template',
   title: 'School Website Template',
-  lastmod: '2026-10-30',
+  lastmod: '2026-10-31',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -12,7 +12,7 @@ const schoolLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuw56xurx05">
+    <section class="st st-navbar-simple" data-uid="smvw6s7ynshbd">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /><path d="M22 10v6" /><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg></span><span>Brookfield Primary</span></span>
@@ -33,7 +33,7 @@ const schoolLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuw56xuzhz5">
+    <section class="st st-image-background-hero" data-uid="smvw6s7ynfnsg">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-school.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -53,7 +53,7 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvuw56xu4h8l">
+    <section id="results" class="st st-stats-counters" data-uid="smvw6s7yn7v6z">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Brookfield in numbers</p>
@@ -84,7 +84,7 @@ const schoolLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuw56xury2i">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvw6s7yngri5">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Learning</p>
@@ -125,14 +125,14 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuw56xui4ey">
+    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvw6s7ynzaao">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The school year</p>
           <h2 class="st-h2" data-anim="item" data-anim-text>A year at <span class="hl">Brookfield</span></h2>
           <p class="st-lead" data-anim="item">Keep scrolling to see the moments every child looks forward to, from the first day to the summer fair.</p>
         </header>
-        <div class="tlh" data-tlh data-layout="alternate" data-marker="icon" data-start="1" data-mode="pin">
+        <div class="tlh" data-tlh data-layout="alternate" data-marker="icon" data-width="contained" data-start="1" data-mode="pin">
           <button type="button" class="tlh-nav tlh-prev" data-tlh-prev disabled aria-label="Show earlier events"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
           <div class="tlh-track" data-tlh-track role="region" tabindex="0" aria-label="Company timeline">
             <ol class="tlh-list">
@@ -190,7 +190,7 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvuw56xuim79">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvw6s7ynzcub">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -222,7 +222,7 @@ const schoolLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="timetable" class="st st-class-timetable" data-uid="smvuw56xue87a">
+    <section id="timetable" class="st st-class-timetable" data-uid="smvw6s7ynv930">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The school day</p>
@@ -286,7 +286,7 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvuw56xuklzp">
+    <section id="team" class="st st-team-grid" data-uid="smvw6s7yn720f">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our staff</p>
@@ -337,7 +337,7 @@ const schoolLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="faq" class="st st-faq-grid" data-uid="smvuw56xu0hio">
+    <section id="faq" class="st st-faq-grid" data-uid="smvw6s7yniiht">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">For parents</p>
@@ -372,7 +372,7 @@ const schoolLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="contact" class="st st-contact-map" data-uid="smvuw56xuxhi6">
+    <section id="contact" class="st st-contact-map" data-uid="smvw6s7ynl667">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -397,7 +397,7 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvuw56xusq6k">
+    <section class="st st-footer-columns" data-uid="smvw6s7yoyhs1">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -434,7 +434,7 @@ const schoolLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuw56xugqqw">
+    <section class="st st-back-to-top" data-uid="smvw6s7yoxptw">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -443,7 +443,7 @@ const schoolLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-accessibility-toolbar" data-uid="smvuw56xuszvn">
+    <section class="st st-accessibility-toolbar" data-uid="smvw6s7yow31d">
       <div class="a11y" data-a11y data-pos="left" data-remember="on">
         <button type="button" class="a11y-fab" aria-expanded="false" data-a11y-open aria-label="Open accessibility tools">
           <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="7.500" r="1.200" fill="currentColor"/><path d="M7 10.500l5 1 5-1M12 11.500v3.500M9.500 19l2.500-4 2.500 4"/></svg>
@@ -611,6 +611,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .tlh-dot:focus-visible{outline:3px solid var(--st-brand);outline-offset:3px}
 .tlh-num::before{content:counter(tl)}
 .tlh-ico{display:none;width:20px;height:20px}
+.tlh-dot .tlh-ico{background:none;border-radius:0;color:inherit}
 .tlh-ico svg{width:20px;height:20px}
 .tlh[data-marker=icon] .tlh-num{display:none}
 .tlh[data-marker=icon] .tlh-ico{display:inline-grid}
@@ -637,7 +638,14 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .is-tl-pinned .tlh-list{will-change:transform}
 .is-tl-pinned .tlh-list::after{transition:none}
 .tlh.is-fit .tlh-nav{display:none}
+.tlh[data-width=full]{width:100cqi;margin-inline:calc(50% - 50cqi);gap:0}
+.tlh[data-width=full] .tlh-track{border-radius:0}
+.tlh[data-width=full] .tlh-list{padding-inline:max(28px,var(--st-pad))}
+.tlh[data-width=full] .tlh-nav{position:absolute;top:50%;z-index:3;transform:translateY(-50%)}
+.tlh[data-width=full] .tlh-prev{left:12px}
+.tlh[data-width=full] .tlh-next{right:12px}
 @container st (max-width:640px){
+.tlh[data-width=full] .tlh-nav{top:22px}
 .tlh-list{--tl-item-w:230px;--tl-card-h:172px}
 .tlh-list::before,.tlh-list::after{top:22px}
 .tlh-item{height:calc(var(--tl-card-h) + 44px)}
@@ -1075,7 +1083,7 @@ html.stg-open{overflow:hidden}
         trigger = tw.scrollTrigger;
         return function () {
           pinned = false; trigger = null;
-          tw.scrollTrigger.kill(); tw.kill();
+          if (tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill();
           G.set(list, { clearProps: 'transform' });
           sec.classList.remove('is-tl-pinned');
           setActive(active > -1 ? active : 0, false);
