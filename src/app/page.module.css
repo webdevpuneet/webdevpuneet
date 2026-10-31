@@ -253,6 +253,10 @@
 }
 .builderPoints li { display: flex; gap: 10px; }
 .builderPoints strong { color: #fff; }
+.builderPoints a { color: #fff; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255, 255, 255, 0.45); }
+.builderPoints a:hover { text-decoration-color: #fff; }
+.builder .btnSecondary { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.5); }
+.builder .btnSecondary:hover { border-color: #fff; color: #fff; }
 .builderCheck {
   flex-shrink: 0;
   display: grid;
@@ -266,7 +270,6 @@
 }
 .builderCtaRow { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 16px; }
 .builder .btnPrimary { background: #fff; border-color: #fff; color: #312e81; }
-.builderNote { color: #a5b4fc; font-size: 12.5px; }
 
 .builderVisual { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 .mockWindow {
@@ -348,8 +351,8 @@
 .mockStack { position: absolute; inset: 0; display: block; }
 .mockStack img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0; }
 
-/* ── Animated builder mock: one 14s loop = 4 templates x 3.5s = 7 sections x 2s = 5 swatches x 2.8s ── */
-.mockStack img { animation: mockTpl 14s ease-in-out infinite; animation-delay: calc(var(--t) * 3.5s); }
+/* ── Animated builder mock: one 14s loop = 7 sections x 2s = 5 swatches x 2.8s; the template image stays put ── */
+.mockStack img { opacity: 1; }
 .mockSections li { animation: mockSection 14s linear infinite; animation-delay: calc(var(--i) * 2s); }
 .mockSwatches i { animation: mockSwatch 14s linear infinite; animation-delay: calc(var(--i) * 2.8s); }
 .mockExport { animation: mockPress 14s ease-in-out infinite; }
@@ -377,9 +380,6 @@
   font-weight: 700;
   line-height: 16px;
   white-space: nowrap;
-  opacity: 0;
-  animation: mockTpl 14s ease-in-out infinite;
-  animation-delay: calc(var(--t) * 3.5s);
 }
 .mockToast {
   position: absolute;
@@ -404,7 +404,6 @@
   pointer-events: none;
   animation: mockCursor 14s ease-in-out infinite;
 }
-@keyframes mockTpl { 0% { opacity: 0; } 3% { opacity: 1; } 25% { opacity: 1; } 28%, 100% { opacity: 0; } }
 @keyframes mockSection {
   0%, 14.28% { border-color: #6366f1; background: #eef2ff; color: #4338ca; font-weight: 600; }
   14.29%, 100% { border-color: #e2e8f0; background: transparent; color: #334155; font-weight: 400; }

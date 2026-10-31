@@ -954,7 +954,11 @@ export default function WebsiteBuilder() {
   const [newPageLayout, setNewPageLayout] = useState('about');
   const [pageOpen, setPageOpen] = useState(null); // page whose settings are expanded in the Pages tab
   const addPage = () => {
-    const pg = pageFromLayout(site, newPageLayout, newPageName.trim() || undefined);
+    // A website started from scratch gets blank pages too; the chosen layout only names the page
+    const layoutName = PAGE_LAYOUTS.find(l => l.id === newPageLayout && l.id !== 'blank')?.name;
+    const pg = site.scratch
+      ? pageFromLayout(site, 'blank', newPageName.trim() || layoutName)
+      : pageFromLayout(site, newPageLayout, newPageName.trim() || undefined);
     setSite(st => addSitePage(st, pg));
     setNewPageName('');
     goToPage(pg.id);
@@ -1578,7 +1582,7 @@ ${pageCss(shown, { fontFaces })}`),
                       <button key={l.id} type="button" role="radio" aria-checked={newPageLayout === l.id} className={`${b.cat} ${newPageLayout === l.id ? b.catOn : ''}`} onClick={() => setNewPageLayout(l.id)} title={l.sections.map(id => sectionTemplateById(id)?.name).filter(Boolean).join(', ') || 'Only the shared header and footer'}>{l.name}</button>
                     ))}
                   </div>
-                  <p className={s.hint} style={{ margin: '8px 0' }}>{(() => { const l = PAGE_LAYOUTS.find(o => o.id === newPageLayout); return l?.sections.length ? `Starts with: ${l.sections.map(id => sectionTemplateById(id)?.name).filter(Boolean).join(', ')}.` : 'Starts with only the shared header and footer.'; })()}</p>
+                  <p className={s.hint} style={{ margin: '8px 0' }}>{site.scratch ? 'Starts blank with only the shared header and footer. Add sections to it from the Sections tab.' : (() => { const l = PAGE_LAYOUTS.find(o => o.id === newPageLayout); return l?.sections.length ? `Starts with: ${l.sections.map(id => sectionTemplateById(id)?.name).filter(Boolean).join(', ')}.` : 'Starts with only the shared header and footer.'; })()}</p>
                   <div className={b.addRow}>
                     <input className={s.input} value={newPageName} maxLength={80} placeholder={`Page name (${PAGE_LAYOUTS.find(o => o.id === newPageLayout)?.id === 'blank' ? 'New page' : PAGE_LAYOUTS.find(o => o.id === newPageLayout)?.name})`} aria-label="New page name" onChange={ev => setNewPageName(ev.target.value)} onKeyDown={ev => { if (ev.key === 'Enter') addPage(); }} />
                     <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={addPage}>+ Add page</button>

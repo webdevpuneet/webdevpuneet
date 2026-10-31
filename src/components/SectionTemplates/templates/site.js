@@ -114,7 +114,8 @@ export function siteFromPage(page) {
   };
 }
 
-export const emptySite = (name = 'Untitled website') => siteFromPage(emptyPage(name));
+// scratch: started from nothing, so pages added later start blank too (see pageFromLayout's callers)
+export const emptySite = (name = 'Untitled website') => ({ ...siteFromPage(emptyPage(name)), scratch: true });
 
 /* ── Website templates as one-page or multi-page sites ─────────────────────────────
    Every website template opens either way:
@@ -292,6 +293,7 @@ export function restoreSite(saved) {
     name: base.name, url: cleanBaseUrl(saved.url), favicon: cleanFavicon(saved.favicon),
     theme: base.theme, fonts: base.fonts, motion: base.motion,
     autoNav: saved.autoNav !== false,
+    ...(saved.scratch ? { scratch: true } : {}),
     header, footer, pages,
   };
 }

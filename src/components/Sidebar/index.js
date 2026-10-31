@@ -434,12 +434,11 @@ function SidebarLink({ href, icon, label, active }) {
 
 /* ─────────────────────────────────────────────────────────────
    UiSnippetsCategories - the UI Snippets link with every category under it, two per row.
-   Open by default (folded on the template pages); the chevron folds the list. The links stay in the page when it is folded
+   Folded by default (open on the UI snippets pages); the chevron opens the list. The links stay in the page when it is folded
    (height 0, hidden from keyboard and screen readers), so crawlers still see them everywhere.
 ───────────────────────────────────────────────────────────── */
-// Open everywhere except on the template pages (website builder, sections, email, social posts),
-// where those pages' own lists are the focus and the snippet categories start folded.
-const startsOpen = pathname => !/^\/(website-builder|website-section-templates|email-templates|social-post-templates)(\/|$)/.test(pathname || '');
+// Open only on /ui-snippets/ pages, where the categories are the navigation; folded everywhere else
+const startsOpen = pathname => /^\/ui-snippets(\/|$)/.test(pathname || '');
 
 function UiSnippetsCategories({ pathname }) {
   const [open, setOpen] = useState(() => startsOpen(pathname));

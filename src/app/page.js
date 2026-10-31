@@ -117,7 +117,8 @@ const HERO_BENEFITS = [
 
 const BUILDER_POINTS = [
   { title: 'Start with a ready-made template', text: `${WEBSITE_TEMPLATES.length} one-page websites for SaaS, restaurants, clinics, events and more, or a blank page.` },
-  { title: 'Customise sections, colours and type', text: `Mix ${SECTION_TEMPLATES.length} sections, click any text to edit it and set one theme for the whole page.` },
+  { title: 'Customise sections, colours and type', text: 'Mix and reorder sections, click any text to edit it and set one theme for the whole page.' },
+  { title: 'Or start from a single section', text: <>Pick from <a href="/website-section-templates/">{SECTION_TEMPLATES.length} website section templates</a> (hero, pricing, FAQ, footer and more), edit it and export HTML, React or Vue.</> },
   { title: 'Export your website code', text: 'Download clean HTML or a ZIP with every image, and host it anywhere.' },
 ];
 
@@ -140,7 +141,7 @@ const PROMOS = [
 const BUILDER_SECTIONS = ['Navbar', 'Hero', 'Features', 'Pricing', 'Testimonials', 'FAQ', 'Footer'];
 const BUILDER_SWATCHES = ['#4f46e5', '#059669', '#e11d48', '#d97706', '#0f172a'];
 // Templates the animated builder mock cycles through (4: the loop in page.module.css is 14s = 4 x 3.5s)
-const BUILDER_MOCK_TEMPLATES = ['saas', 'restaurant', 'fitness', 'portfolio'];
+const BUILDER_MOCK_TEMPLATES = ['saas']; // one fixed template (no crossfade)
 
 
 
@@ -254,9 +255,9 @@ export default async function Home() {
         {/* ── 3. Featured product: Website Builder ── */}
         <section className={styles.builder} aria-labelledby="h2-builder">
           <div className={styles.builderText}>
-            <p className={styles.builderTag}>Featured · Website Builder</p>
+            <p className={styles.builderTag}>Featured · Website Builder &amp; Section Templates</p>
             <h2 id="h2-builder" className={styles.builderTitle}>Build a Website Without Starting From Scratch</h2>
-            <p className={styles.builderDesc}>Choose a template, customise sections and styling, preview your design, and export the code.</p>
+            <p className={styles.builderDesc}>Choose a full website template or a single section, customise the content and styling, preview your design, and export the code.</p>
             <ul className={styles.builderPoints}>
               {BUILDER_POINTS.map(p => (
                 <li key={p.title}>
@@ -266,8 +267,8 @@ export default async function Home() {
               ))}
             </ul>
             <div className={styles.builderCtaRow}>
-              <a href="/website-builder/" className={styles.btnPrimary}>Start Building for Free <Arrow /></a>
-              <span className={styles.builderNote}>No signup · HTML or ZIP export</span>
+              <a href="/website-builder/" className={styles.btnPrimary}>Design your website <Arrow /></a>
+              <a href="/website-section-templates/" className={styles.btnSecondary}>Section templates <Arrow /></a>
             </div>
           </div>
 
