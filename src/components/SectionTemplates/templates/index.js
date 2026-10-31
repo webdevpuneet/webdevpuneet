@@ -46,6 +46,9 @@ import contactSplitForm from './contact-split-form.js';
 import contactCards from './contact-cards.js';
 import contactMap from './contact-map.js';
 import bookingForm from './booking-form.js';
+import openingHours from './opening-hours.js';
+import aboutStory from './about-story.js';
+import reviewsSummary from './reviews-summary.js';
 import blogCards from './blog-cards.js';
 import blogFeatured from './blog-featured.js';
 import blogList from './blog-list.js';
@@ -134,6 +137,9 @@ export const SECTION_TEMPLATES = [
   contactCards,
   contactMap,
   bookingForm,
+  openingHours,
+  aboutStory,
+  reviewsSummary,
   blogCards,
   blogFeatured,
   blogList,

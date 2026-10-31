@@ -84,6 +84,8 @@ New: the **[Pricing Comparison Table](/website-section-templates/pricing-compari
 
 With lots of short quotes, the **[Testimonial Wall](/website-section-templates/testimonials-grid/)** shows them all at once in a masonry layout, and the **[Testimonial Marquee](/website-section-templates/testimonials-marquee/)** keeps two rows gliding past endlessly. To save space, the **[Testimonial Carousel](/website-section-templates/testimonials-carousel/)** lets visitors drag or swipe through cards with momentum. And when one customer story says it all, the **[Testimonial Spotlight](/website-section-templates/testimonial-spotlight/)** gives it a big animated quote with result stats.
 
+For shops, apps and local businesses, the **[Reviews Summary & Rating](/website-section-templates/reviews-summary/)** shows the average star rating with a breakdown by stars that filters the review cards, plus AggregateRating and Review data.
+
 Every section stores testimonials as an editable list with quotes, names, roles, optional photos and star ratings. The interactions are built with GSAP (Draggable, Inertia, ScrollTo and an endless loop) on top of plain scrolling, so they stay accessible and work in HTML, React and Vue exports.
 
 New: the **[Case Study Showcase](/website-section-templates/case-study-showcase/)** gives each project a wide card with a result headline, key numbers and a client quote, for visitors who want proof they can measure.`,
@@ -173,6 +175,22 @@ Links are written one per line as "Label | URL", so even big footers are quick t
       { q: 'How do I edit footer links quickly?', a: 'In these footers, each links box takes one link per line as Label | URL, for example Pricing | /pricing/. Columns themselves can be added, reordered and removed.' },
     ],
   },
+  about: {
+    title: 'About Us Section Templates — Free Our Story HTML & React',
+    description: 'Free About us section templates: a picture with a badge, your story, the founder, key facts and a values grid, with Organization data. Edit online, export free.',
+    h1: 'About Us Section Templates',
+    keywords: ['about us section template', 'our story section html', 'about page design', 'company values section', 'about us html css'],
+    intro: `The About page is one of the most visited pages on any website, and one of the most often skipped when building one. Visitors use it to decide whether they trust you, so it needs a real story, a real face and a few facts they can check.
+
+The **[About Us & Our Story](/website-section-templates/about-story/)** section puts a large picture with a floating badge such as "10 years of craft" beside your heading and a two-paragraph story. Below the story are headline facts, the founder with a photo, role and quote, and a grid of values with icons. Every part can be switched off, so it fits a one-person studio as well as a company.
+
+It pairs well with the **[Team Grid](/website-section-templates/team-grid/)** to introduce everyone, the **[Horizontal Timeline](/website-section-templates/timeline-horizontal/)** for your history and **[Stats Counters](/website-section-templates/stats-counters/)** for bigger numbers. The organization name, founding year and founder are also written as schema.org Organization data. Everything is editable in your browser and exports to HTML, React or Vue.`,
+    faqs: [
+      { q: 'What should an About page include?', a: 'Who you are, why you started, who you help, a few proof points and a clear next step. Add a real photograph and the name of a real person, because visitors look for those first.' },
+      { q: 'How long should an About section be?', a: 'Short. Two paragraphs, three facts and three values are enough for the section; link to a longer page for the full history if you have one.' },
+      { q: 'Does an About section help SEO?', a: 'It gives search engines clear text about who is behind the site, and this template adds schema.org Organization data. It supports trust signals, but it does not by itself change your ranking.' },
+    ],
+  },
   team: {
     title: 'Team Section Templates — Free Meet the Team HTML & React',
     description: 'Free team section templates: a meet-the-team grid with hover social links, a draggable team carousel and a team section with a hiring card. GSAP animated.',
@@ -198,7 +216,7 @@ Team members are editable lists: add, reorder and remove people, and upload phot
     keywords: ['contact section template', 'contact form html', 'contact us page', 'formspree form', 'contact with map'],
     intro: `A contact section turns interest into conversations. It should make the next step obvious, set expectations about replies, and work reliably.
 
-**[Contact Form With Details](/website-section-templates/contact-split-form/)** pairs your email, phone, address and hours with a working form that sends to Formspree, Basin, Getform or your own endpoint, with animated success and error states. **[Contact Options Cards](/website-section-templates/contact-cards/)** route visitors to sales, support, partnerships or press with response times. **[Contact With Map](/website-section-templates/contact-map/)** shows your locations beside an embedded OpenStreetMap or Google Map, with no API key needed.
+**[Contact Form With Details](/website-section-templates/contact-split-form/)** pairs your email, phone, address and hours with a working form that sends to Formspree, Basin, Getform or your own endpoint, with animated success and error states. **[Contact Options Cards](/website-section-templates/contact-cards/)** route visitors to sales, support, partnerships or press with response times. **[Contact With Map](/website-section-templates/contact-map/)** shows your locations beside an embedded OpenStreetMap or Google Map, with no API key needed. **[Opening Hours & Location](/website-section-templates/opening-hours/)** adds a weekly hours table with a live Open now badge, the address, a map and call buttons, and writes LocalBusiness data for search engines.
 
 Forms send in the background with JavaScript and fall back to a normal post without it; in the editor they simulate success so nothing is sent while you design. Every section shares the library's theme and exports to HTML, React or Vue.
 

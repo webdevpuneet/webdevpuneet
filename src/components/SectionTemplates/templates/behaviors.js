@@ -2311,6 +2311,84 @@ BEHAVIORS.backtop = {
 })();`,
 };
 
+/* Opening hours: marks today's row and shows a live "Open now" / "Closed now" badge from the hours
+   table, in the business's own time zone. Markup: [data-opennow] (data-tz, data-open-label,
+   data-closes-label, data-shut-label, data-opens-label) holding rows [data-hours-row] with data-day
+   (Monday ...), data-open, data-close (09:00 or 9 am) and data-closed="closed", and a hidden
+   [data-open-badge] with .oh-badge-text. A close time earlier than the open time runs past midnight.
+   Without JavaScript the table is complete and the badge simply stays hidden. */
+BEHAVIORS.opennow = {
+  plugins: [],
+  js: `(function () {
+  var KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  function mins(v) {
+    var m = String(v || '').trim().toLowerCase().match(/^(\\d{1,2})(?::(\\d{2}))?\\s*(am|pm)?$/);
+    if (!m) return null;
+    var h = +m[1], mi = +(m[2] || 0);
+    if (m[3] === 'pm' && h < 12) h += 12;
+    if (m[3] === 'am' && h === 12) h = 0;
+    return h > 24 || mi > 59 ? null : h * 60 + mi;
+  }
+  function clock(total) {
+    var h = Math.floor(total / 60) % 24, mi = total % 60;
+    return (h < 10 ? '0' : '') + h + ':' + (mi < 10 ? '0' : '') + mi;
+  }
+  function nowIn(tz) {
+    var o = { weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' };
+    if (tz) o.timeZone = tz;
+    var parts;
+    try { parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    catch (e) { delete o.timeZone; parts = new Intl.DateTimeFormat('en-GB', o).formatToParts(new Date()); }
+    var p = {};
+    parts.forEach(function (x) { p[x.type] = x.value; });
+    return { day: KEYS.indexOf(String(p.weekday).slice(0, 3).toLowerCase()), min: (parseInt(p.hour, 10) % 24) * 60 + parseInt(p.minute, 10) };
+  }
+  document.querySelectorAll('.st').forEach(function (sec) {
+    var root = sec.querySelector('[data-opennow]');
+    if (!root) return;
+    var badge = root.querySelector('[data-open-badge]');
+    var text = badge && badge.querySelector('.oh-badge-text');
+    var rows = Array.prototype.map.call(root.querySelectorAll('[data-hours-row]'), function (r) {
+      var d = KEYS.indexOf(String(r.getAttribute('data-day') || '').slice(0, 3).toLowerCase());
+      var o = mins(r.getAttribute('data-open')), c = mins(r.getAttribute('data-close'));
+      var label = r.querySelector('.oh-day');
+      return { el: r, day: d, open: o, close: c, shut: r.getAttribute('data-closed') === 'closed' || o === null || c === null, name: label ? label.textContent : '' };
+    });
+    if (!rows.length) return;
+    var tz = root.getAttribute('data-tz') || '';
+    function attr(n, d) { return root.getAttribute(n) || d; }
+    function update() {
+      var n = nowIn(tz), prev = (n.day + 6) % 7, open = null;
+      rows.forEach(function (r) {
+        r.el.classList.toggle('is-today', r.day === n.day);
+        if (r.day === n.day) r.el.setAttribute('aria-current', 'date'); else r.el.removeAttribute('aria-current');
+        if (r.shut) return;
+        var over = r.close <= r.open;
+        if (r.day === n.day && n.min >= r.open && (over || n.min < r.close)) open = open || r;
+        if (r.day === prev && over && n.min < r.close) open = open || r;
+      });
+      if (!badge || !text) return;
+      badge.hidden = false;
+      badge.classList.toggle('is-open', !!open);
+      badge.classList.toggle('is-shut', !open);
+      if (open) { text.textContent = attr('data-open-label', 'Open now') + ' \\u00b7 ' + attr('data-closes-label', 'closes at') + ' ' + clock(open.close); return; }
+      var next = null;
+      for (var i = 0; i < 8 && !next; i++) {
+        var dd = (n.day + i) % 7;
+        rows.forEach(function (r) {
+          if (r.shut || r.day !== dd || (i === 0 && r.open <= n.min)) return;
+          if (!next || r.open < next.open) next = r;
+        });
+        if (next) next.when = i === 0 ? '' : next.name + ' ';
+      }
+      text.textContent = attr('data-shut-label', 'Closed now') + (next ? ' \\u00b7 ' + attr('data-opens-label', 'opens') + ' ' + next.when + clock(next.open) : '');
+    }
+    update();
+    setInterval(update, 60000);
+  });
+})();`,
+};
+
 export const behaviorPlugins = t => [...new Set((t.behaviors || []).flatMap(b => BEHAVIORS[b]?.plugins || []))];
 /** The behaviours' scripts for a template ('' when it has none) */
 export const behaviorScript = t => (t.behaviors || []).map(b => BEHAVIORS[b]?.js).filter(Boolean).join('\n');
@@ -2341,3 +2419,46 @@ export const billingFields = (group = 'billing') => [
   { key: 'perMonth', group, label: 'Price suffix (monthly)', type: 'text', value: '/month' },
   { key: 'perYear', group, label: 'Price suffix (yearly)', type: 'text', value: '/month, billed yearly' },
 ];
+
+/* Reviews summary: clicking a star bar shows only the reviews with that rating; clicking it again, or the
+   clear button, shows them all. Markup: [data-revfilter] (data-filter-text with {n} {t} {s}, data-clear-label)
+   holding buttons [data-filter-star] (data-star, aria-label with {s}), cards [data-rating], and a hidden
+   [data-filter-status] with [data-filter-message] and [data-filter-clear]. Without JavaScript every review shows. */
+BEHAVIORS.revfilter = {
+  plugins: [],
+  js: `(function () {
+  document.querySelectorAll('.st [data-revfilter]').forEach(function (root) {
+    var btns = root.querySelectorAll('[data-filter-star]');
+    var cards = root.querySelectorAll('[data-rating]');
+    var status = root.querySelector('[data-filter-status]');
+    var msg = status && status.querySelector('[data-filter-message]');
+    var clear = status && status.querySelector('[data-filter-clear]');
+    if (!btns.length || !cards.length) return;
+    var tpl = root.getAttribute('data-filter-text') || 'Showing {n} of {t} reviews rated {s} stars';
+    if (clear) clear.textContent = root.getAttribute('data-clear-label') || 'Show all reviews';
+    Array.prototype.forEach.call(btns, function (b) {
+      var label = b.getAttribute('aria-label');
+      if (label) b.setAttribute('aria-label', label.replace('{s}', b.getAttribute('data-star')));
+    });
+    var current = '';
+    function apply(star) {
+      current = star;
+      var shown = 0;
+      Array.prototype.forEach.call(cards, function (c) {
+        var show = !star || String(Math.round(parseFloat(c.getAttribute('data-rating')) || 0)) === star;
+        c.hidden = !show;
+        if (show) shown++;
+      });
+      Array.prototype.forEach.call(btns, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-star') === star)); });
+      if (status) {
+        status.hidden = !star;
+        if (msg && star) msg.textContent = tpl.replace('{n}', shown).replace('{t}', cards.length).replace('{s}', star);
+      }
+    }
+    Array.prototype.forEach.call(btns, function (b) {
+      b.addEventListener('click', function () { var s = b.getAttribute('data-star'); apply(current === s ? '' : s); });
+    });
+    if (clear) clear.addEventListener('click', function () { apply(''); });
+  });
+})();`,
+};

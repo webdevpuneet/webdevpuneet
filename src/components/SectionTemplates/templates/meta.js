@@ -16,6 +16,7 @@ export const SECTION_CATEGORIES = [
   { id: 'cta',          label: 'Call to action',  blurb: 'Closing call-to-action banners and sign-up blocks.' },
   { id: 'stats',        label: 'Stats & logos',   blurb: 'Social-proof numbers and customer logo strips.' },
   { id: 'team',         label: 'Team',            blurb: 'Team grids with photos, names and roles.' },
+  { id: 'about',        label: 'About us',        blurb: 'About us and our story sections: a picture, the story, the founder, key facts and company values.' },
   { id: 'contact',      label: 'Contact',         blurb: 'Contact sections with details, maps and forms.' },
   { id: 'blog',         label: 'Blog',            blurb: 'Blog and article grids with cover images.' },
   { id: 'gallery',      label: 'Gallery & media', blurb: 'Photo galleries with filters and a lightbox, video sections and before-and-after sliders.' },

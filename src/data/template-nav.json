@@ -332,7 +332,7 @@
   ]
  },
  "section": {
-  "total": 78,
+  "total": 81,
   "categories": [
    {
     "id": "hero",
@@ -453,6 +453,10 @@
      {
       "id": "case-study-showcase",
       "name": "Case Study Showcase"
+     },
+     {
+      "id": "reviews-summary",
+      "name": "Reviews Summary & Rating"
      }
     ]
    },
@@ -537,6 +541,16 @@
     ]
    },
    {
+    "id": "about",
+    "label": "About us",
+    "items": [
+     {
+      "id": "about-story",
+      "name": "About Us & Our Story"
+     }
+    ]
+   },
+   {
     "id": "contact",
     "label": "Contact",
     "items": [
@@ -555,6 +569,10 @@
      {
       "id": "booking-form",
       "name": "Booking Request Form"
+     },
+     {
+      "id": "opening-hours",
+      "name": "Opening Hours & Location"
      }
     ]
    },
