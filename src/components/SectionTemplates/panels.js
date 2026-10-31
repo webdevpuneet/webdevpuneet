@@ -18,12 +18,18 @@ import { putAsset } from './storage';
 import { ICON_SETS, loadIconSet } from './icon-sets';
 import { ARTWORKS, ART_COLORS, ART_STRENGTHS, ART_ANIMS, artworkById, cleanArt, newArt, artPreview, artMarkup, ART_CUSTOM_MAX, CUSTOM_ART_LAYOUTS, ART_POSITIONS } from './templates/art.js';
 import { parseHex, onColor } from '../OgImageGenerator/engine';
+import wb from '../WebsiteBuilder/styles.module.css';
+import {
+  SECTION_SCHEMES, SECTION_SPACING, SECTION_OVERLAYS, GRADIENT_ANGLES, SECTION_HIDE, TYPE_WEIGHTS, TYPE_CAPS, TYPE_TRACKS, CSS_MAX,
+  sectionPadding, cleanOwnCss,
+} from './templates/section-style.js';
 import {
   THEME_PRESETS, THEME_COLORS, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS,
   SCALE_CONTROLS, SCALE_MIN, SCALE_MAX, SCALE_STEP,
   ICONS, ICON_IDS, iconSvgAny, iconLabelAny, encodeIcon, listItem, newItemId, listImageKey,
 } from './templates/index.js';
 
+export const BUTTON_STYLES = [['', 'Solid'], ['outline', 'Outline'], ['soft', 'Soft']];
 export const RADII = [['0', 'Square'], ['8', 'Soft'], ['14', 'Rounded'], ['24', 'Extra'], ['999', 'Pill']];
 export const WIDTHS = ['1080', '1200', '1320', '1440'];
 
@@ -181,6 +187,14 @@ export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, 
     setState(p => ({ ...p, uploads: { ...(p.uploads || {}), [key]: rec } }));
   };
   const removeUpload = key => setState(p => { const u = { ...(p.uploads || {}) }; delete u[key]; return { ...p, uploads: u }; });
+  /* Focus point of an image (null puts it back in the middle); state.focus is left out when empty */
+  const setFocus = (key, pt) => setState(p => {
+    const { focus: old, ...rest } = p;
+    const focus = { ...(old || {}) };
+    if (pt) focus[key] = pt; else delete focus[key];
+    return Object.keys(focus).length ? { ...rest, focus } : rest;
+  });
+  const [focusOpen, setFocusOpen] = useState(null); // the image whose focus picker is open
 
   /* Repeatable lists: add, edit, duplicate, reorder and remove items */
   const setList = (key, fn) => setState(p => ({ ...p, lists: { ...p.lists, [key]: fn(p.lists?.[key] || []) } }));
@@ -199,7 +213,9 @@ export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, 
       const ups = { ...(p.uploads || {}) };
       // The copy shows the same uploaded images (the stored image is shared, not duplicated)
       for (const fd of l.fields) { const u = ups[listImageKey(l.key, it._id, fd.key)]; if (u) ups[listImageKey(l.key, copy._id, fd.key)] = u; }
-      return { ...p, uploads: ups, lists: { ...p.lists, [l.key]: [...items.slice(0, at + 1), copy, ...items.slice(at + 1)] } };
+      const foc = { ...(p.focus || {}) };
+      for (const fd of l.fields) { const u = foc[listImageKey(l.key, it._id, fd.key)]; if (u) foc[listImageKey(l.key, copy._id, fd.key)] = u; }
+      return { ...p, uploads: ups, ...(Object.keys(foc).length ? { focus: foc } : {}), lists: { ...p.lists, [l.key]: [...items.slice(0, at + 1), copy, ...items.slice(at + 1)] } };
     });
     setOpenItem(copy._id);
   };
@@ -214,7 +230,9 @@ export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, 
     const items = p.lists?.[l.key] || [];
     if (items.length <= (l.min ?? 1)) return p;
     const ups = Object.fromEntries(Object.entries(p.uploads || {}).filter(([k]) => !k.startsWith(`${l.key}.${it._id}.`)));
-    return { ...p, uploads: ups, lists: { ...p.lists, [l.key]: items.filter(o => o._id !== it._id) } };
+    const { focus: oldFocus, ...noFocus } = p;
+    const foc = Object.fromEntries(Object.entries(oldFocus || {}).filter(([k]) => !k.startsWith(`${l.key}.${it._id}.`)));
+    return { ...noFocus, ...(Object.keys(foc).length ? { focus: foc } : {}), uploads: ups, lists: { ...p.lists, [l.key]: items.filter(o => o._id !== it._id) } };
   });
 
   /* One editing control. ukey = where an uploaded image is stored in state.uploads */
@@ -243,6 +261,8 @@ export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, 
       );
     }
     const up = fd.type === 'image' ? uploads[ukey] : null;
+    // The picture the focus point is set on: the upload, or the typed link
+    const focusSrc = fd.type === 'image' ? (up ? blobUrls[up.id] : (/^https?:\/\//i.test(String(value ?? '').trim()) ? String(value).trim() : '')) : '';
     return (
       <div key={id} className={s.field} data-fieldwrap="">
         <label className={s.label} htmlFor={id}>{fd.label}</label>
@@ -266,8 +286,10 @@ export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, 
               <button type="button" className={s.miniBtn} onClick={() => onPickUpload(fd, ukey)}>↑ Upload image</button>
             )}
             <ImageLibraryPicker onPick={item => applyLibraryImage(ukey, item)} />
+            {focusSrc && <button type="button" className={`${s.miniBtn} ${state.focus?.[ukey] ? s.miniBtnAccent : ''}`} aria-expanded={focusOpen === ukey} onClick={() => setFocusOpen(o => (o === ukey ? null : ukey))}>◎ Focus point</button>}
           </div>
         )}
+        {fd.type === 'image' && focusSrc && focusOpen === ukey && <FocusPicker src={focusSrc} value={state.focus?.[ukey]} onChange={pt => setFocus(ukey, pt)} />}
         {(fd.hint || fd.type === 'lines' || fd.type === 'links') && <span className={s.hint}>{fd.hint || (fd.type === 'links' ? 'One link per line: Label | URL' : 'One item per line.')}</span>}
       </div>
     );
@@ -379,7 +401,7 @@ export function importArtSvg(text) {
 
 const ART_PAGE = 12; // artworks per page in the picker; Show more adds another page
 
-export function ArtworkPanel({ art, onChange, idPrefix = 'art' }) {
+export function ArtworkPanel({ art, onChange, onApplyAll, idPrefix = 'art' }) {
   const a = art ? cleanArt(art) : null;
   const custom = a?.id === 'custom';
   const def = a && (custom ? { layout: a.layout, anims: ['float', 'spin', 'parallax'] } : artworkById(a.id));
@@ -514,11 +536,158 @@ export function ArtworkPanel({ art, onChange, idPrefix = 'art' }) {
             </div>
           )}
           {def.layout === 'corners' && <p className={s.hint}>The same shape also sits in the opposite corner.</p>}
-          {ART_POSITIONS[def.layout]?.length === 5 && <p className={s.hint}>Top, Bottom, Left and Right place the artwork in that half of the section.</p>}
+          {def.layout === 'cover' && <p className={s.hint}>Top, Bottom, Left and Right place the artwork in that half of the section.</p>}
           {def.anims.length > 0 && seg('Animation', a.anim || '', [['', 'None'], ...def.anims.map(k => [k, ART_ANIMS[k]])], v => set({ anim: v }))}
+          {onApplyAll && <button type="button" className={`${s.miniBtn} ${x.applyAll}`} onClick={onApplyAll}>Apply this artwork to all sections</button>}
           {a.anim && <p className={s.hint}>Animation plays in your exports and when you press ▶ Play (↻ Refresh on scroll-driven sections); it switches off for people who prefer reduced motion.</p>}
         </>
       )}
+    </section>
+  );
+}
+
+/* Click (or drag, or use the arrow keys) on a photo to say which part must stay in view when the
+   section crops it. The point is saved as % from the left / top and becomes object-position
+   (or background-position) in the export. */
+function FocusPicker({ src, value, onChange }) {
+  const pt = value || { x: 50, y: 50 };
+  const clamp = v => Math.max(0, Math.min(100, Math.round(v)));
+  const at = ev => { const r = ev.currentTarget.getBoundingClientRect(); onChange({ x: clamp(((ev.clientX - r.left) / r.width) * 100), y: clamp(((ev.clientY - r.top) / r.height) * 100) }); };
+  const key = ev => {
+    const d = { ArrowLeft: [-5, 0], ArrowRight: [5, 0], ArrowUp: [0, -5], ArrowDown: [0, 5] }[ev.key];
+    if (!d) return;
+    ev.preventDefault();
+    onChange({ x: clamp(pt.x + d[0]), y: clamp(pt.y + d[1]) });
+  };
+  return (
+    <div className={x.focusBox}>
+      <div
+        className={x.focusImg} role="slider" tabIndex={0} aria-label="Focus point: click the part of the image that must stay visible"
+        aria-valuetext={`${pt.x}% from the left, ${pt.y}% from the top`}
+        onPointerDown={ev => { ev.currentTarget.setPointerCapture(ev.pointerId); at(ev); }}
+        onPointerMove={ev => { if (ev.buttons) at(ev); }}
+        onKeyDown={key}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt="" draggable={false} />
+        <span className={x.focusDot} style={{ left: `${pt.x}%`, top: `${pt.y}%` }} />
+      </div>
+      <div className={x.focusRow}>
+        <span className={s.hint}>Click or drag to the part that must stay visible when the photo is cropped (a face, a product). {value ? `Now ${pt.x}% from the left, ${pt.y}% from the top.` : 'Now: the middle.'}</span>
+        {value && <button type="button" className={s.miniBtn} onClick={() => onChange(null)}>Reset</button>}
+      </div>
+    </div>
+  );
+}
+
+/* The person's own CSS for a section. Typing keeps a draft; it is applied once it is valid (balanced
+   braces, nothing blocked), so half-typed rules never wipe the box. */
+function OwnCssField({ value, onCommit }) {
+  const [draft, setDraft] = useState(value || '');
+  useEffect(() => { setDraft(value || ''); }, [value]);
+  const bad = draft.trim() && cleanOwnCss(draft) !== draft.trim().slice(0, CSS_MAX);
+  return (
+    <div className={s.field}>
+      <span className={s.label}>Your own CSS for this section</span>
+      <textarea
+        className={s.textarea} rows={5} spellCheck={false} value={draft} maxLength={CSS_MAX}
+        placeholder={'.st-h2 { color: tomato; }\nbutton { border-radius: 0; }'}
+        aria-label="Your own CSS for this section"
+        onChange={ev => { setDraft(ev.target.value); if (!ev.target.value.trim() || cleanOwnCss(ev.target.value)) onCommit(ev.target.value.trim()); }}
+      />
+      {bad
+        ? <p className={s.hint} role="alert" style={{ color: '#dc2626' }}>Not applied yet: check that every {'{'} has a closing {'}'} and that there is no @import or script.</p>
+        : <p className={s.hint}>Rules apply inside this section only (they are nested in it). Use the section’s class names, e.g. <code>.st-h2</code>, <code>.st-lead</code>, <code>button</code>. It is part of your export.</p>}
+    </div>
+  );
+}
+
+/* The section's own look: colours or a gradient, spacing, a background photo, which screens show
+   it, heading typography and your own CSS. Shared by the Website Builder (a page section's style)
+   and the Website Sections editor; templates/section-style.js renders it everywhere. */
+export function SectionStylePanel({ style, tpl, theme, bgUrl, hasBg, onChange, onPickBg, onRemoveBg, onSurprise, onApplyAll, title = 'Section style', intro = 'Overrides the page theme for this section only.' }) {
+  const st = style || {};
+  const scheme = st.scheme || 'page';
+  const pad = sectionPadding(tpl);
+  const ty = st.type || {};
+  const grad = st.grad || { from: theme.brand, to: theme.text, angle: 135 };
+  const seg = (label, value, options, onPick) => (
+    <div className={s.field}>
+      <span className={s.label}>{label}</span>
+      <div className={`${s.seg} ${x.segSm}`} role="radiogroup" aria-label={label}>
+        {options.map(([v, l]) => <button key={v} type="button" role="radio" aria-checked={value === v} className={`${s.segBtn} ${value === v ? s.segBtnActive : ''}`} onClick={() => onPick(v)}>{l}</button>)}
+      </div>
+    </div>
+  );
+  return (
+    <section className={s.section}>
+      <div className={wb.styleHead}>
+        <h2 className={s.sectionTitle} style={{ margin: 0 }}>{title}</h2>
+        {style && <button type="button" className={wb.linkBtn} onClick={() => onChange(null)}>Reset</button>}
+      </div>
+      <p className={s.hint} style={{ margin: '4px 0 10px' }}>{intro}</p>
+      {onSurprise && (
+        <div className={x.surpriseRow}>
+          <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={onSurprise} title="Try a random combination. Undo (Ctrl+Z) brings your last design back.">🎲 Surprise me</button>
+          <span className={s.hint}>Tries a random look. Undo brings it back.</span>
+        </div>
+      )}
+      {seg('Colours', scheme, SECTION_SCHEMES.map(o => [o.id, o.label]), v => onChange(
+        v === 'gradient' ? { scheme: v, grad }
+          : { scheme: v, colors: v === 'custom' ? { bg: theme.surface, text: theme.text, brand: theme.brand, ...(st.colors || {}) } : st.colors },
+      ))}
+      {scheme === 'custom' && (
+        <div className={s.colorGrid}>
+          {[['bg', 'Background', theme.bg], ['text', 'Text', theme.text], ['brand', 'Buttons', theme.brand]].map(([k, l, d]) => (
+            <ColorField key={k} label={l} value={st.colors?.[k] || d} onChange={v => onChange({ colors: { ...(st.colors || {}), [k]: v } })} />
+          ))}
+        </div>
+      )}
+      {scheme === 'gradient' && (
+        <>
+          <div className={s.colorGrid}>
+            {[['from', 'From'], ['to', 'To']].map(([k, l]) => (
+              <ColorField key={k} label={l} value={grad[k]} onChange={v => onChange({ grad: { ...grad, [k]: v } })} />
+            ))}
+          </div>
+          {seg('Direction', String(grad.angle), GRADIENT_ANGLES, v => onChange({ grad: { ...grad, angle: Number(v) } }))}
+          <p className={s.hint}>Text and buttons switch to light or dark by themselves so they stay readable on the gradient.</p>
+        </>
+      )}
+      {pad ? (
+        <>
+          {seg('Space above', st.top || '100', SECTION_SPACING, v => onChange({ top: v }))}
+          {seg('Space below', st.bottom || '100', SECTION_SPACING, v => onChange({ bottom: v }))}
+        </>
+      ) : <p className={s.hint}>This section sets its own height, so it has no spacing options.</p>}
+      <div className={s.field}>
+        <span className={s.label}>Background image</span>
+        <div className={wb.bgRow}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {hasBg && bgUrl && <img src={bgUrl} alt="" className={wb.bgThumb} />}
+          <button type="button" className={s.miniBtn} onClick={onPickBg}>{hasBg ? 'Replace' : 'Upload'}</button>
+          {hasBg && <button type="button" className={s.miniBtn} onClick={onRemoveBg}>Remove</button>}
+        </div>
+      </div>
+      {hasBg && seg('Overlay', st.overlay || '0', SECTION_OVERLAYS, v => onChange({ overlay: v }))}
+      {hasBg && <p className={s.hint}>The overlay uses the section’s background colour, so text stays readable. Pair a photo with Inverted or Custom colours.</p>}
+      {onApplyAll && style && <button type="button" className={`${s.miniBtn} ${x.applyAll}`} onClick={onApplyAll}>Apply these colours, spacing and typography to all sections</button>}
+      {seg('Show on', st.hide || '', SECTION_HIDE, v => onChange({ hide: v }))}
+      {st.hide && <p className={s.hint}>{st.hide === 'phone' ? 'Hidden on screens up to 640px wide.' : 'Hidden on screens wider than 640px; phones still show it.'} The preview follows the Desktop / Tablet / Phone buttons.</p>}
+      <details className={x.moreOpts} open={!!(ty.weight || ty.caps || ty.track)}>
+        <summary>Heading typography</summary>
+        <div className={x.moreBody}>
+          {seg('Heading weight', ty.weight || '', TYPE_WEIGHTS, v => onChange({ type: { ...ty, weight: v } }))}
+          {seg('Small labels', ty.caps || '', TYPE_CAPS, v => onChange({ type: { ...ty, caps: v } }))}
+          {seg('Letter spacing', ty.track || '', TYPE_TRACKS, v => onChange({ type: { ...ty, track: v } }))}
+        </div>
+      </details>
+      <details className={x.moreOpts} open={!!st.css}>
+        <summary>Advanced: your own CSS</summary>
+        <div className={x.moreBody}>
+          <OwnCssField value={st.css} onCommit={v => onChange({ css: v })} />
+        </div>
+      </details>
     </section>
   );
 }
@@ -602,6 +771,12 @@ export function ThemePanel({ value, onChange, showTextEffect = true, idPrefix = 
           <span className={s.label}>Corner radius</span>
           <div className={s.seg} role="radiogroup" aria-label="Corner radius">
             {RADII.map(([v, l]) => <button key={v} type="button" role="radio" aria-checked={String(theme.radius) === v} className={`${s.segBtn} ${String(theme.radius) === v ? s.segBtnActive : ''}`} onClick={() => setTheme('radius', v)}>{l}</button>)}
+          </div>
+        </div>
+        <div className={s.field}>
+          <span className={s.label}>Button style</span>
+          <div className={s.seg} role="radiogroup" aria-label="Button style">
+            {BUTTON_STYLES.map(([v, l]) => <button key={v} type="button" role="radio" aria-checked={(theme.btnStyle || '') === v} className={`${s.segBtn} ${(theme.btnStyle || '') === v ? s.segBtnActive : ''}`} onClick={() => setTheme('btnStyle', v)}>{l}</button>)}
           </div>
         </div>
         <div className={s.field}>

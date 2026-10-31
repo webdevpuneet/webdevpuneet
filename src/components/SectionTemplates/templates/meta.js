@@ -42,6 +42,7 @@ export const DEFAULT_THEME = {
   text: '#0f172a',      // headings and body text
   muted: '#475569',     // secondary text
   radius: '14',         // corner radius in px
+  btnStyle: '',         // main buttons: '' solid | 'outline' | 'soft'
   maxWidth: '1200',     // content width in px
   textScale: '100',     // font sizes, % of the template's own
   spaceScale: '100',    // padding and margins, %

@@ -13,10 +13,11 @@
 import { sectionTemplateById, defaultSectionState, restoreSectionState, listItem } from './index.js';
 import { formatHtml } from './format.js';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from './starters.js';
-import { DEFAULT_THEME, DEFAULT_MOTION, BASE_CSS, esc, gsapCdn, THEME_PRESETS, THEME_COLORS, scaleCss, scaleOf, scaleLengths, SPACE_UNITS } from './meta.js';
+import { DEFAULT_THEME, DEFAULT_MOTION, BASE_CSS, esc, gsapCdn, THEME_PRESETS, THEME_COLORS, scaleCss } from './meta.js';
 import { BEHAVIORS } from './behaviors.js';
 import { cleanScroll, scrollAttr, SCROLL_RUNTIME } from './scroll.js';
 import { artMarkup, ART_CSS, ART_RUNTIME, cleanArt } from './art.js';
+import { cleanSectionStyle, sectionStyleCss, sectionStyleClass, sectionRules, HIDE_CSS } from './section-style.js';
 import { themeCss, googleFontsUrl, fillHtml, motionScript, motionPlugins, schemaTag } from './render.js';
 
 export const newUid = () => `s${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
@@ -41,91 +42,10 @@ export function defaultAnchor(tplId, sections = []) {
 }
 
 /* ── Per-section style overrides ──────────────────────────────────────────────────
-   A section on a page may override the page theme for itself only:
-     style: { scheme, colors: { bg, text, brand }, top, bottom, bg: { id, file, w, h }, overlay }
-   scheme   'page' (default) | 'surface' | 'inverted' | 'brand' | 'custom' (colors)
-   top / bottom  % of the section's own vertical padding (100 = as designed)
-   bg       an uploaded background image (resolved with imageSrc(uid, '@bg'))
-   overlay  % of the section background colour laid over that image, so text stays readable
-   It renders as an inline style on the <section>: colour tokens as --st-* variables (the
-   section's CSS already reads them), padding-top / -bottom, and the background image. */
-export const SECTION_SCHEMES = [
-  { id: 'page', label: 'Page' }, { id: 'surface', label: 'Soft' }, { id: 'inverted', label: 'Inverted' },
-  { id: 'brand', label: 'Brand' }, { id: 'custom', label: 'Custom' },
-];
-export const SECTION_SPACING = [['0', 'None'], ['50', 'S'], ['100', 'Default'], ['150', 'L'], ['200', 'XL']];
-export const SECTION_OVERLAYS = [['0', 'None'], ['30', 'Light'], ['55', 'Medium'], ['80', 'Strong']];
-export const BG_KEY = '@bg'; // imageSrc key of a section's background image
-
-const HEX = /^#[0-9a-f]{6}$/i;
-const PCT = new Set(SECTION_SPACING.map(([v]) => v));
-
-/** A saved style made safe, or undefined when it changes nothing */
-export function cleanSectionStyle(st) {
-  if (!st || typeof st !== 'object') return undefined;
-  const out = {};
-  if (SECTION_SCHEMES.some(x => x.id === st.scheme) && st.scheme !== 'page') out.scheme = st.scheme;
-  if (out.scheme === 'custom') out.colors = Object.fromEntries(['bg', 'text', 'brand'].map(k => [k, HEX.test(st.colors?.[k] || '') ? st.colors[k] : null]).filter(([, v]) => v));
-  for (const k of ['top', 'bottom']) if (PCT.has(String(st[k])) && String(st[k]) !== '100') out[k] = String(st[k]);
-  if (st.bg?.id && st.bg?.file) out.bg = { id: String(st.bg.id), file: String(st.bg.file), w: +st.bg.w || 0, h: +st.bg.h || 0 };
-  if (out.bg && SECTION_OVERLAYS.some(([v]) => v === String(st.overlay))) out.overlay = String(st.overlay);
-  return Object.keys(out).length ? out : undefined;
-}
-
-/** Split a CSS value on top-level spaces ("clamp(52px,4cqi + 22px,68px) 0" → 2 parts) */
-function cssTokens(v) {
-  const out = []; let depth = 0, cur = '';
-  for (const ch of v.trim()) {
-    if (ch === '(') depth++; else if (ch === ')') depth--;
-    if (ch === ' ' && depth === 0) { if (cur) out.push(cur); cur = ''; } else cur += ch;
-  }
-  if (cur) out.push(cur);
-  return out;
-}
-
-/** The section's own vertical padding { top, bottom } from its root rule, or null (navbars,
-    full-height heroes) */
-export function sectionPadding(t) {
-  const rule = (t?.css || '').match(new RegExp(`\\.st-${t?.id}\\{([^}]*)\\}`));
-  const v = rule?.[1].match(/(?:^|;)padding:([^;]+)/)?.[1];
-  if (!v) return null;
-  const p = cssTokens(v);
-  return { top: p[0], bottom: p[2] ?? p[0] };
-}
-
-const lum = hex => { const n = parseInt(hex.slice(1), 16); const c = [n >> 16, (n >> 8) & 255, n & 255].map(x => { x /= 255; return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
-const textOn = hex => (HEX.test(hex) && lum(hex) > 0.4 ? '#0f172a' : '#ffffff');
-
-/** CSS declarations for a section's style override ('' when it has none) */
-export function sectionStyleCss(page, s, imageSrc) {
-  const st = s.style;
-  if (!st) return '';
-  const th = { ...DEFAULT_THEME, ...(page.theme || {}) };
-  const out = [];
-  const vars = o => Object.entries(o).forEach(([k, v]) => out.push(`--st-${k}:${v}`));
-  const mix = (a, pct, b) => `color-mix(in srgb,${a} ${pct}%,${b})`;
-  if (st.scheme === 'surface') vars({ bg: th.surface, surface: th.bg });
-  else if (st.scheme === 'inverted') vars({ bg: th.text, text: th.bg, surface: mix(th.bg, 8, th.text), muted: mix(th.bg, 70, th.text) });
-  else if (st.scheme === 'brand') vars({ bg: th.brand, text: th.brandText, muted: mix(th.brandText, 80, th.brand), surface: mix(th.brandText, 12, th.brand), brand: th.brandText, 'btn-text': th.brand });
-  else if (st.scheme === 'custom') {
-    const bg = st.colors?.bg || th.bg, text = st.colors?.text || textOn(bg), brand = st.colors?.brand || th.brand;
-    vars({ bg, text, surface: mix(text, 6, bg), muted: mix(text, 72, bg), brand, 'btn-text': textOn(brand) });
-  }
-  const pad = (st.top || st.bottom) && sectionPadding(sectionTemplateById(s.tpl));
-  if (pad) {
-    const k = scaleOf(page.theme?.spaceScale);
-    for (const side of ['top', 'bottom']) if (st[side]) out.push(`padding-${side}:${st[side] === '0' ? '0' : scaleLengths(pad[side], k * Number(st[side]) / 100, SPACE_UNITS)}`);
-  }
-  // Only image sources the builder produces: preview blob:, embedded data:image, the ZIP's assets/…
-  const raw = st.bg && imageSrc ? String(imageSrc(s.uid, BG_KEY) || '') : '';
-  const src = /^(blob:|data:image\/(png|jpe?g|gif|webp|svg\+xml);base64,|https?:\/\/|\/|assets\/|images\/)/i.test(raw) ? raw.replace(/["()\\\s]/g, c => encodeURIComponent(c)) : '';
-  if (src) {
-    const o = Number(st.overlay || 0);
-    const veil = o ? `linear-gradient(${mix('var(--st-bg)', o, 'transparent')},${mix('var(--st-bg)', o, 'transparent')}),` : '';
-    out.push(`background-image:${veil}url("${src}")`, 'background-size:cover', 'background-position:center');
-  }
-  return out.join(';');
-}
+   A section on a page may override the page theme for itself only (colours, gradient, spacing,
+   background photo, hiding by screen size, typography, own CSS): see section-style.js, which
+   the Website Sections editor shares. */
+export { SECTION_SCHEMES, SECTION_SPACING, SECTION_OVERLAYS, BG_KEY, cleanSectionStyle, sectionPadding } from './section-style.js';
 
 /** A section instance for a page (default content of its template) */
 export function newPageSection(tplId, sections = []) {
@@ -209,6 +129,9 @@ export function pageCss(page, { fontFaces = '' } = {}) {
   const parts = [fontFaces, themeCss(THEME_HOLDER, { theme: page.theme, fonts: page.fonts }), scaleCss(BASE_CSS, page.theme)];
   for (const t of pageTemplates(page)) if (!seen.has(t.id)) { seen.add(t.id); parts.push(`/* ${t.name} */\n${scaleCss(t.css, page.theme)}`); }
   if (page.sections.some(s => s.state?.art)) parts.push(ART_CSS); // SVG artwork layers (art.js)
+  if (page.sections.some(s => s.style?.hide)) parts.push(HIDE_CSS); // sections hidden on phones / larger screens
+  // Per-section typography and own CSS, scoped to each section
+  for (const s of page.sections) { const r = sectionRules(s.style, `.st[data-uid="${String(s.uid).replace(/[^\w-]/g, '')}"]`); if (r) parts.push(r); }
   return parts.filter(Boolean).join('\n');
 }
 
@@ -219,9 +142,9 @@ export function pageMarkup(page, { imageSrc, clean = true } = {}) {
     if (!t) return '';
     const src = imageSrc ? k => imageSrc(s.uid, k) : undefined;
     const id = cleanAnchor(s.anchor);
-    const css = sectionStyleCss(page, s, imageSrc);
+    const css = sectionStyleCss(page.theme, t, s.style, k => imageSrc?.(s.uid, k));
     const sc = scrollAttr(s);
-    return `<section${id ? ` id="${id}"` : ''} class="st st-${t.id}"${css ? ` style="${esc(css)}"` : ''}${sc ? ` data-scroll="${esc(sc)}"` : ''} data-uid="${esc(s.uid)}">\n${artMarkup(s.state?.art, s.uid)}${fillHtml(t, sectionOnPage(page, s), { imageSrc: src, clean })}\n</section>`;
+    return `<section${id ? ` id="${id}"` : ''} class="st st-${t.id}${sectionStyleClass(s.style)}"${css ? ` style="${esc(css)}"` : ''}${sc ? ` data-scroll="${esc(sc)}"` : ''} data-uid="${esc(s.uid)}">\n${artMarkup(s.state?.art, s.uid)}${fillHtml(t, sectionOnPage(page, s), { imageSrc: src, clean })}\n</section>`;
   }).join('\n');
 }
 
@@ -253,7 +176,7 @@ export function scrollScript(m = {}) {
     });
     document.querySelectorAll('.st').forEach(function (sec) {
       var bg = sec.style.backgroundImage;
-      if (!bg || bg === 'none') return;
+      if (!bg || bg.indexOf('url(') < 0) return; // a photo only (a gradient section stays as it is)
       var layer = document.createElement('div');
       layer.setAttribute('aria-hidden', 'true');
       layer.style.cssText = 'position:absolute;left:0;right:0;top:-16%;bottom:-16%;z-index:-1;pointer-events:none;background-size:cover;background-position:center';

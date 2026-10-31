@@ -32,7 +32,7 @@ import { loadCustomFonts, onFontsChange, customFontFaceCss, exportCustomFonts, i
 import { sectionTemplateById, sectionCategoryById } from '@/components/SectionTemplates/templates/index.js';
 import {
   pageCss, pageMarkup, pageScript, pageCdn, newPageSection, newUid, pageDocumentHtml, STARTERS, cleanAnchor, defaultAnchor,
-  SECTION_SCHEMES, SECTION_SPACING, SECTION_OVERLAYS, BG_KEY, cleanSectionStyle, sectionPadding,
+  BG_KEY, cleanSectionStyle,
 } from '@/components/SectionTemplates/templates/page.js';
 import {
   emptySite, restoreSite, siteFromStarter, isSite, pageView, renderView, applyPageView, pageById, pageFile, pageTitle, isHomePage,
@@ -45,8 +45,9 @@ import { Draggable } from 'gsap/Draggable';
 import { Flip } from 'gsap/Flip';
 
 if (typeof window !== 'undefined') gsap.registerPlugin(Draggable, Flip);
-import { ContentPanel, ThemePanel, ColorField, ArtworkPanel, withKit } from '@/components/SectionTemplates/panels';
+import { ContentPanel, ThemePanel, ArtworkPanel, SectionStylePanel, withKit } from '@/components/SectionTemplates/panels';
 import CustomLayoutPanel from '@/components/SectionTemplates/CustomLayoutPanel';
+import { surpriseArt, surpriseScheme } from '@/components/SectionTemplates/templates/surprise.js';
 import {
   SCROLL_PRESETS, SCROLL_STARTS, SCROLL_MODES, SCROLL_PIN_LENGTHS, SCROLL_TARGETS, SCROLL_EASES, KEY_FIELDS, REVEALS,
   scrollPresetById, scrollFromPreset, scrollSummary, cleanScroll, addTrack, removeTrack, setTrack, addKey, removeKey, setKey, trackLabel,
@@ -383,56 +384,6 @@ function SectionList({ sections, selected, shared, onOpen, onMove, onReorder, on
   );
 }
 
-/* Per-section style: colours, top / bottom spacing and a background image for this section
-   only (templates/page.js sectionStyleCss renders it). */
-function SectionStylePanel({ sec, tpl, theme, bgUrl, onChange, onPickBg, onRemoveBg }) {
-  const st = sec.style || {};
-  const scheme = st.scheme || 'page';
-  const pad = sectionPadding(tpl);
-  const seg = (label, value, options, onPick) => (
-    <div className={s.field}>
-      <span className={s.label}>{label}</span>
-      <div className={`${s.seg} ${x.segSm}`} role="radiogroup" aria-label={label}>
-        {options.map(([v, l]) => <button key={v} type="button" role="radio" aria-checked={value === v} className={`${s.segBtn} ${value === v ? s.segBtnActive : ''}`} onClick={() => onPick(v)}>{l}</button>)}
-      </div>
-    </div>
-  );
-  return (
-    <section className={s.section}>
-      <div className={b.styleHead}>
-        <h2 className={s.sectionTitle} style={{ margin: 0 }}>Section style</h2>
-        {sec.style && <button type="button" className={b.linkBtn} onClick={() => onChange(null)}>Reset</button>}
-      </div>
-      <p className={s.hint} style={{ margin: '4px 0 10px' }}>Overrides the page theme for this section only.</p>
-      {seg('Colours', scheme, SECTION_SCHEMES.map(o => [o.id, o.label]), v => onChange({ scheme: v, colors: v === 'custom' ? { bg: theme.surface, text: theme.text, brand: theme.brand, ...(st.colors || {}) } : st.colors }))}
-      {scheme === 'custom' && (
-        <div className={s.colorGrid}>
-          {[['bg', 'Background', theme.bg], ['text', 'Text', theme.text], ['brand', 'Buttons', theme.brand]].map(([k, l, d]) => (
-            <ColorField key={k} label={l} value={st.colors?.[k] || d} onChange={v => onChange({ colors: { ...(st.colors || {}), [k]: v } })} />
-          ))}
-        </div>
-      )}
-      {pad ? (
-        <>
-          {seg('Space above', st.top || '100', SECTION_SPACING, v => onChange({ top: v }))}
-          {seg('Space below', st.bottom || '100', SECTION_SPACING, v => onChange({ bottom: v }))}
-        </>
-      ) : <p className={s.hint}>This section sets its own height, so it has no spacing options.</p>}
-      <div className={s.field}>
-        <span className={s.label}>Background image</span>
-        <div className={b.bgRow}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          {st.bg && bgUrl && <img src={bgUrl} alt="" className={b.bgThumb} />}
-          <button type="button" className={s.miniBtn} onClick={onPickBg}>{st.bg ? 'Replace' : 'Upload'}</button>
-          {st.bg && <button type="button" className={s.miniBtn} onClick={onRemoveBg}>Remove</button>}
-        </div>
-      </div>
-      {st.bg && seg('Overlay', st.overlay || '0', SECTION_OVERLAYS, v => onChange({ overlay: v }))}
-      {st.bg && <p className={s.hint}>The overlay uses the section’s background colour, so text stays readable. Pair a photo with Inverted or Custom colours.</p>}
-    </section>
-  );
-}
-
 /* A number input that commits only valid numbers (or empty = unset), so "-" or "0." can be
    typed without the value jumping */
 function NumField({ id, value, step, onCommit }) {
@@ -763,7 +714,11 @@ export default function WebsiteBuilder() {
         if (t) {
           // Appended to the chosen page (?to=, else the home page), above the shared footer; a
           // navbar or footer joins the shared ones
-          const sec = { uid: newUid(), tpl: t.id, anchor: '', state: restoreSectionState(t, incoming.state) };
+          // The editor keeps a section's own look in state.style (+ its photo in uploads['@bg']); a page section keeps it in .style
+          const { style: lookIn, ...inState } = restoreSectionState(t, incoming.state);
+          const { [BG_KEY]: lookBg, ...inUploads } = inState.uploads || {};
+          const look = cleanSectionStyle({ ...(lookIn || {}), ...(lookBg ? { bg: lookBg } : {}) });
+          const sec = { uid: newUid(), tpl: t.id, anchor: '', state: { ...inState, uploads: inUploads }, ...(look ? { style: look } : {}) };
           setSiteRaw(st => {
             const target = st.pages.find(p => p.id === addTo) || st.pages[0];
             const view = pageView(st, target.id);
@@ -1420,17 +1375,44 @@ ${pageCss(shown, { fontFaces })}`),
                   </div>
                 </section>
                 <SectionStylePanel
-                  sec={editSec}
+                  style={editSec.style}
                   tpl={editTpl}
                   theme={page.theme}
+                  hasBg={!!editSec.style?.bg}
                   bgUrl={editSec.style?.bg ? blobUrls[editSec.style.bg.id] : ''}
                   onChange={patch => setSectionStyle(editSec.uid, patch)}
                   onPickBg={() => pickUpload(editSec.uid, { key: 'background', upload: { name: 'background', maxW: 2400 } }, BG_KEY)}
                   onRemoveBg={() => setSectionStyle(editSec.uid, { bg: null, overlay: null })}
+                  onSurprise={() => {
+                    // This section only: the page theme stays, so the rest of the website is not touched
+                    const art = surpriseArt();
+                    setSectionState(editSec.uid, st => { const { art: _old, ...rest } = st; return art ? { ...rest, art } : rest; });
+                    setSectionStyle(editSec.uid, surpriseScheme(page.theme));
+                    if (art?.anim) setPlaying(n => n + 1);
+                  }}
+                  onApplyAll={() => {
+                    const { scheme, colors, grad, top, bottom, type } = editSec.style || {};
+                    const others = page.sections.filter(x => x.uid !== editSec.uid && !sharedIds.has(x.uid));
+                    setPage(p => ({
+                      ...p,
+                      sections: p.sections.map(x => {
+                        if (x.uid === editSec.uid || sharedIds.has(x.uid)) return x;
+                        const style = cleanSectionStyle({ ...(x.style || {}), scheme, colors, grad, top, bottom, type });
+                        const { style: _old, ...rest } = x;
+                        return style ? { ...rest, style } : rest;
+                      }),
+                    }));
+                    flash(`Applied these colours, spacing and typography to ${others.length} other section${others.length === 1 ? '' : 's'} on this page. Each keeps its own background photo, visibility and CSS.`);
+                  }}
                 />
                 <ArtworkPanel
                   art={editSec.state.art}
                   idPrefix={`wa-${editSec.uid}`}
+                  onApplyAll={editSec.state.art ? () => {
+                    const others = page.sections.filter(x => x.uid !== editSec.uid && !sharedIds.has(x.uid));
+                    setPage(p => ({ ...p, sections: p.sections.map(x => (x.uid === editSec.uid || sharedIds.has(x.uid) ? x : { ...x, state: { ...x.state, art: editSec.state.art } })) }));
+                    flash(`Applied this artwork to ${others.length} other section${others.length === 1 ? '' : 's'} on this page (the header and footer are left out).`);
+                  } : undefined}
                   onChange={next => {
                     setSectionState(editSec.uid, st => { const { art: _old, ...rest } = st; return next ? { ...rest, art: next } : rest; });
                     if (next?.anim && next.anim !== editSec.state.art?.anim) setPlaying(n => n + 1);

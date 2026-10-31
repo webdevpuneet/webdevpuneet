@@ -27,6 +27,7 @@ import { iconSvgAny as iconSvg } from './icon-lib.js';
 import { formatHtml } from './format.js';
 import { behaviorPlugins, behaviorScript } from './behaviors.js';
 import { artMarkup, ART_CSS, ART_RUNTIME } from './art.js';
+import { sectionStyleCss, sectionStyleClass, sectionRules, HIDE_CSS, BG_KEY } from './section-style.js';
 import { resolveFont, googleCssUrl } from '../../../lib/fonts.js';
 
 /* Neutral placeholder for an empty image slot (keeps the layout's shape) */
@@ -85,7 +86,13 @@ const stack = id => { const f = resolveFont(id); return f.family ? `"${f.family}
 export function themeCss(t, state) {
   const th = themeOf(t, state), fo = fontsOf(t, state);
   const num = (v, d) => (Number.isFinite(parseFloat(v)) ? parseFloat(v) : d);
-  return `.st{--st-brand:${th.brand};--st-btn-text:${th.brandText};--st-bg:${th.bg};--st-surface:${th.surface};--st-text:${th.text};--st-muted:${th.muted};--st-radius:${num(th.radius, 14)};--st-max:${num(th.maxWidth, 1200)};--st-font-heading:${stack(fo.heading)};--st-font-body:${stack(fo.body)}}`;
+  // Button style: the main buttons (.st-btn, not the ghost ones) as outline or soft instead of solid
+  const btn = th.btnStyle === 'outline'
+    ? '\n.st .st-btn:not(.st-btn--ghost){background:transparent;color:var(--st-brand);border-color:var(--st-brand)}\n.st .st-btn:not(.st-btn--ghost):hover{background:var(--st-brand);color:var(--st-btn-text)}'
+    : th.btnStyle === 'soft'
+      ? '\n.st .st-btn:not(.st-btn--ghost){background:color-mix(in srgb,var(--st-brand) 16%,transparent);color:var(--st-brand);border-color:transparent}\n.st .st-btn:not(.st-btn--ghost):hover{background:color-mix(in srgb,var(--st-brand) 26%,transparent)}'
+      : '';
+  return `.st{--st-brand:${th.brand};--st-btn-text:${th.brandText};--st-bg:${th.bg};--st-surface:${th.surface};--st-text:${th.text};--st-muted:${th.muted};--st-radius:${num(th.radius, 14)};--st-max:${num(th.maxWidth, 1200)};--st-font-heading:${stack(fo.heading)};--st-font-body:${stack(fo.body)}}${btn}`;
 }
 
 /** Google Fonts stylesheet URL for the section's fonts (null when none are Google fonts) */
@@ -123,6 +130,7 @@ export function fillHtml(t, state, { imageSrc, clean = false } = {}) {
     // An item reads its own fields first, then the section's (e.g. a shared price suffix)
     const rendered = items.map(it => fillFragment(itemTpl, { ...(state.fields || {}), ...it }, {
       src: k => (imageSrc ? imageSrc(`${key}.${it._id}.${k}`) : '') || String(it[k] ?? '').trim(),
+      focus: k => state.focus?.[`${key}.${it._id}.${k}`],
     })
       // Mark item bindings as done, so the section-level pass never refills an empty one
       .replace(/\sdata-(edit|href|image|bg|icon|lines|links|set|show-if|hide-if|optional)(?==|[\s>])/g, ' data-i-$1')
@@ -137,6 +145,7 @@ export function fillHtml(t, state, { imageSrc, clean = false } = {}) {
   const fieldOf = key => t.fields.find(x => x.key === key);
   html = fillFragment(html, f, {
     src: key => (imageSrc ? imageSrc(key, fieldOf(key)) : '') || String(f[key] ?? '').trim(),
+    focus: key => state.focus?.[key],
   });
 
   // A template can write part of its own markup (e.g. the social share bar's buttons)
@@ -149,7 +158,7 @@ export function fillHtml(t, state, { imageSrc, clean = false } = {}) {
 
 /* Fills every binding in a piece of HTML from one set of values (the section's fields, or
    one list item's fields). `src(key)` gives an image field's URL (upload or typed). */
-function fillFragment(html, f, { src }) {
+function fillFragment(html, f, { src, focus }) {
   html = removeWhere(html, /data-show-if="/, tag => !String(f[attr(tag, 'data-show-if')] ?? '').trim());
   html = removeWhere(html, /data-hide-if="/, tag => !!String(f[attr(tag, 'data-hide-if')] ?? '').trim());
   html = removeWhere(html, /data-optional/, tag => {
@@ -167,13 +176,20 @@ function fillFragment(html, f, { src }) {
   html = html.replace(/<img\b([^>]*\bdata-image="([^"]+)"[^>]*)>/gi, (m, attrs, key) => {
     const url = src(key);
     const alt = f[`${key}Alt`] ?? attr(m, 'alt') ?? '';
-    const rest = attrs.replace(/\s+(src|alt)="[^"]*"/g, '');
+    let rest = attrs.replace(/\s+(src|alt)="[^"]*"/g, '');
+    // Focus point (Content panel): the part of the photo that stays in view when it is cropped
+    const fp = focus?.(key);
+    if (fp) {
+      const pos = `object-position:${fp.x}% ${fp.y}%`;
+      rest = /\sstyle="/.test(rest) ? rest.replace(/\sstyle="([^"]*)"/, (s2, v) => ` style="${v};${pos}"`) : `${rest} style="${pos}"`;
+    }
     return `<img${rest} src="${esc(url ? safeUrl(url) : PLACEHOLDER_IMG)}" alt="${esc(alt)}">`;
   });
   // Background images
   html = html.replace(/<([a-z0-9]+)\b([^>]*\bdata-bg="([^"]+)"[^>]*)>/gi, (m, tag, attrs, key) => {
     const url = src(key);
-    const css = `background-image:url('${(url ? safeUrl(url) : PLACEHOLDER_IMG).replace(/'/g, '%27')}')`;
+    const fp = focus?.(key);
+    const css = `background-image:url('${(url ? safeUrl(url) : PLACEHOLDER_IMG).replace(/'/g, '%27')}')${fp ? `;background-position:${fp.x}% ${fp.y}%` : ''}`;
     const styled = /\sstyle="/.test(attrs) ? attrs.replace(/\sstyle="([^"]*)"/, (s, v) => ` style="${v};${css}"`) : `${attrs} style="${css}"`;
     return `<${tag}${styled}>`;
   });
@@ -298,13 +314,18 @@ export function sectionScriptTags(t, state, opts) {
 }
 
 /** The whole section element (what goes in a page) */
-export const sectionMarkup = (t, state, opts) => `<section class="st st-${t.id}">\n${artMarkup(state?.art, t.id)}${fillHtml(t, state, opts)}\n</section>`;
+export function sectionMarkup(t, state, opts) {
+  // The section's own style (Look panel): colours, spacing, background (its photo is state.uploads['@bg'])
+  const st = state?.style ? { ...state.style, ...(state.uploads?.[BG_KEY] ? { bg: state.uploads[BG_KEY] } : {}) } : null;
+  const css = st ? sectionStyleCss(themeOf(t, state), t, st, k => opts?.imageSrc?.(k)) : '';
+  return `<section class="st st-${t.id}${sectionStyleClass(st)}"${css ? ` style="${esc(css)}"` : ''}>\n${artMarkup(state?.art, t.id)}${fillHtml(t, state, opts)}\n</section>`;
+}
 
 /** Every CSS rule the section needs: theme tokens, base styles, the section's own CSS
     (sizes scaled by the theme's Sizes settings, see scaleCss in meta.js) */
 export const sectionCss = (t, state, { fontFaces = '' } = {}) => {
   const th = themeOf(t, state);
-  return [fontFaces, themeCss(t, state), scaleCss(BASE_CSS, th), scaleCss(t.css, th), state?.art ? ART_CSS : ''].filter(Boolean).join('\n');
+  return [fontFaces, themeCss(t, state), scaleCss(BASE_CSS, th), scaleCss(t.css, th), state?.art ? ART_CSS : '', state?.style?.hide ? HIDE_CSS : '', sectionRules(state?.style, `.st.st-${t.id}`)].filter(Boolean).join('\n');
 };
 
 /**

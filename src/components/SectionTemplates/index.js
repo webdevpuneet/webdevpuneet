@@ -24,10 +24,25 @@ import {
   SECTION_TEMPLATES, SECTION_CATEGORIES, sectionTemplateById, sectionCategoryById,
   defaultSectionState, restoreSectionState,
 } from './templates/index.js';
-import { ContentPanel, ThemePanel, ArtworkPanel, withKit } from './panels';
+import { ContentPanel, ThemePanel, ArtworkPanel, SectionStylePanel, withKit } from './panels';
+import { cleanSectionStyle, BG_KEY } from './templates/section-style.js';
+import { surpriseArt, surpriseColors } from './templates/surprise.js';
+
+/* The section's own look (state.style: colours, gradient, spacing, hiding, typography, own CSS).
+   Its background photo is state.uploads['@bg'], so uploads, previews and exports handle it like
+   any other image. A null patch resets the look and drops the photo. */
+const withLook = (p, patch) => {
+  const { style: _old, ...rest } = p;
+  const { [BG_KEY]: _photo, ...otherUploads } = p.uploads || {};
+  const style = patch === null ? undefined : cleanSectionStyle({ ...(p.style || {}), ...patch }, { keepOverlay: true });
+  const { bg: _bg, ...clean } = style || {};
+  const uploads = patch === null ? otherUploads : p.uploads;
+  return { ...rest, ...(uploads ? { uploads } : {}), ...(Object.keys(clean).length ? { style: clean } : {}) };
+};
+const withoutBg = p => { const { [BG_KEY]: _bg, ...uploads } = p.uploads || {}; return withLook({ ...p, uploads }, { overlay: '0' }); };
 import CustomLayoutPanel from './CustomLayoutPanel';
 import { bindInlineEdit, fieldOfTarget, applyEdit, useFrozenPreview } from './inline-edit';
-import { documentHtml, sectionCss, sectionMarkup, snippetParts, customFontIds, sectionScript, sectionCdn } from './templates/render.js';
+import { documentHtml, sectionCss, sectionMarkup, snippetParts, customFontIds, sectionScript, sectionCdn, themeOf } from './templates/render.js';
 import { sectionDesignStore as designStore, putAsset, getAsset } from './storage';
 import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from './upload';
 
@@ -486,7 +501,10 @@ export function SectionTemplateEditor({ id }) {
       const name = `${fd.upload?.name || fd.key}-${uid}.${EXT[out.type] || 'png'}`;
       await putAsset(key, { blob: out.blob, type: out.type, file: name, name, w: out.w, h: out.h, updatedAt: new Date().toISOString() });
       addToLibrary(out.blob, { file: name, w: out.w, h: out.h });
-      setState(p => ({ ...p, uploads: { ...p.uploads, [ukey]: { id: key, file: name, w: out.w, h: out.h } } }));
+      setState(p => {
+        const next = { ...p, uploads: { ...p.uploads, [ukey]: { id: key, file: name, w: out.w, h: out.h } } };
+        return ukey === BG_KEY ? withLook(next, { overlay: p.style?.overlay || '55' }) : next; // a new background photo starts with a readable overlay
+      });
       flash(`Uploaded ${file.name} (${out.w}×${out.h}). Saved in this browser.`);
     } catch (err) { flash(err.message || 'Upload failed'); }
   };
@@ -829,6 +847,24 @@ export function SectionTemplateEditor({ id }) {
                     const motionChanged = JSON.stringify(v.motion) !== JSON.stringify(state.motion);
                     setState(p => ({ ...p, theme: v.theme, fonts: v.fonts, motion: v.motion }));
                     if (motionChanged) setPlaying(n => n + 1);
+                  }}
+                />
+                <SectionStylePanel
+                  title="Look"
+                  intro="Colours, a gradient, spacing, a background photo, which screens show this section, heading typography and your own CSS. They are part of the HTML you export."
+                  style={state.style}
+                  tpl={t}
+                  theme={themeOf(t, state)}
+                  hasBg={!!state.uploads?.[BG_KEY]}
+                  bgUrl={blobUrls[state.uploads?.[BG_KEY]?.id] || ''}
+                  onChange={patch => setState(p => withLook(p, patch))}
+                  onPickBg={() => pickUpload({ key: 'background', upload: { name: 'background', maxW: 2400 } }, BG_KEY)}
+                  onRemoveBg={() => setState(withoutBg)}
+                  onSurprise={() => {
+                    const art = surpriseArt();
+                    setState(p => ({ ...p, theme: { ...p.theme, ...surpriseColors().colors }, ...(art ? { art } : {}) }));
+                    // After the "any other edit stops the replay" reset has run, so a surprise that animates plays
+                    setTimeout(() => setPlaying(art?.anim ? n => n + 1 : 0), 60);
                   }}
                 />
                 <ArtworkPanel

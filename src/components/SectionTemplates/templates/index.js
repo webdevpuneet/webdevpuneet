@@ -82,6 +82,7 @@ import registerForm from './register-form.js';
 import customSection, { defaultCustom, cleanCustom, customImageKeys } from './custom-section.js';
 import { DEFAULT_THEME, DEFAULT_MOTION } from './meta.js';
 import { cleanArt } from './art.js';
+import { cleanSectionStyle, BG_KEY } from './section-style.js';
 
 export { SECTION_CATEGORIES, sectionCategoryById, DEFAULT_THEME, THEME_PRESETS, THEME_COLORS, THEME_KEYS, BASE_CSS, IMG, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS, DEFAULT_MOTION, GSAP_CDN, GSAP_VERSION, SCALE_CONTROLS, SCALE_MIN, SCALE_MAX, SCALE_STEP, scaleCss } from './meta.js';
 export { ICONS, ICON_IDS, iconSvg } from './icons.js';
@@ -221,6 +222,12 @@ export function restoreSectionState(t, saved) {
   }
   const custom = t.custom ? cleanCustom(saved?.custom) : null;
   if (custom) for (const k of customImageKeys(custom)) imageKeys.add(k);
+  imageKeys.add(BG_KEY); // the section's own background photo (Look panel)
+  const style = cleanSectionStyle(saved?.style, { keepOverlay: true });
+  // Focus points: where each photo stays in view when cropped ({ x, y } as % from the left / top)
+  const focus = Object.fromEntries(Object.entries(saved?.focus || {})
+    .filter(([k, v]) => imageKeys.has(k) && Number.isFinite(+v?.x) && Number.isFinite(+v?.y) && (Math.round(v.x) !== 50 || Math.round(v.y) !== 50))
+    .map(([k, v]) => [k, { x: Math.max(0, Math.min(100, Math.round(v.x))), y: Math.max(0, Math.min(100, Math.round(v.y))) }]));
   const uploads = Object.fromEntries(Object.entries(saved?.uploads || {}).filter(([k, u]) => imageKeys.has(k) && u?.id));
   return {
     lists,
@@ -231,6 +238,8 @@ export function restoreSectionState(t, saved) {
     motion: pick(saved?.motion, d.motion),
     uploads,
     ...(cleanArt(saved?.art) ? { art: cleanArt(saved.art) } : {}), // SVG artwork layer (art.js)
+    ...(Object.keys(focus).length ? { focus } : {}),
+    ...(style && Object.keys(style).some(k => k !== 'bg') ? { style: (({ bg: _bg, ...rest }) => rest)(style) } : {}), // the section's own look (section-style.js)
     ...(custom ? { custom } : {}),
   };
 }
