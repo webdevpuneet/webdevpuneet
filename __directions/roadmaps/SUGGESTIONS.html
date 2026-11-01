@@ -49,7 +49,7 @@
 
 <header>
   <h1>Suggestions</h1>
-  <p>Good ideas for webdevpuneet.com, kept in one place. Newest first inside each group. Last updated: 2026-10-31.</p>
+  <p>Good ideas for webdevpuneet.com, kept in one place. Newest first inside each group. Last updated: 2026-11-01.</p>
 </header>
 
 <nav class="toc" aria-label="Contents">
@@ -220,7 +220,7 @@
       <li>Services List with Booking (idea 4), Donation selector (idea 3), Integrations Grid (idea 6), an ebook / lead-magnet download, webinar registration.</li>
     </ul>
 
-    <p><strong>What to skip:</strong> more heroes, pricing tables or testimonial layouts. They add choice, but each section above lets people build a page type that is hard to make today.</p>
+    <p><strong>What to skip:</strong> more heroes, pricing tables or testimonial layouts. They add choice, but each section above lets people build a page type that is hard to make today. (Revised 2026-11-01: heroes are the exception, one per trend style; see idea 15.)</p>
     <p class="muted">When building: follow the section checklist in <code>__directions/06-QUALITY-BARS.txt</code>; add each new section to its website template(s) where it fits (Opening Hours to restaurant, salon, dental and local-service; About to the multi-page templates); and give every section SEO text, a preview image and the new section options (Look panel, artwork, focus point) for free via the shared editor.</p>
   </div>
 
@@ -370,6 +370,54 @@
   <p class="muted">A running list of trendy things worth trying, added as ideas come up while building. Newest first. Each one says where it would go.</p>
 
   <div class="sug">
+    <div class="sug-head"><h3>15. Trend styles, hero gaps and AI / tech landing pages</h3><span class="pill todo">Suggested</span><span class="pill done">Top pick</span></div>
+    <p class="muted">Added 2026-11-01 · From a ChatGPT chat ("trendy landing page types"), checked against this document and the code. For the Website Builder, website templates and section templates. Already covered and not repeated here: the industry list (idea 13), bento and dark mode (idea 14), 3D (idea 8). Its main advice, "reusable sections + builder + HTML / React / Next.js export in one place", is already how the site works (<code>nextjs.js</code> export exists).</p>
+
+    <h3>A. Style packs: one template, several trend looks</h3>
+    <p>Rather than more templates, let each tech template (SaaS, AI, App, Startup, Agency) switch between trend looks through a theme preset plus section variants:</p>
+    <ul>
+      <li><strong>Dark glow:</strong> dark background, glowing accent borders and soft light spots (Pricing Dark Glow already has the look; spread it to heroes, features and CTA).</li>
+      <li><strong>Glass:</strong> frosted, translucent cards (<code>backdrop-filter</code>) over a mesh or animated gradient. Link to our Glassmorphism Generator and Mesh Gradient Generator from the section page.</li>
+      <li><strong>Typography first:</strong> oversized headline, very few images, lots of white space, a strong font pair.</li>
+      <li><strong>Bento:</strong> mixed-size tiles (Features Bento exists).</li>
+      <li><strong>Asymmetric / editorial:</strong> overlapping images and text, off-grid placement.</li>
+    </ul>
+    <p>Where: a "Style" choice next to the theme presets in both editors; "Surprise me" can pick one. Learning angle: each style's section page explains the CSS behind it (blur, glow shadows, clamp() type sizes, grid overlap).</p>
+
+    <h3>B. Heroes and navbars are thin (partly revises idea 11's "what to skip")</h3>
+    <p>Counted 2026-11-01: 6 heroes, 3 navbars, 4 footers, 4 CTAs, 5 features, 5 pricing, 4 testimonials. The hero is the first thing every page shows and "hero section template" is a big search on its own, so heroes are the exception to "skip more heroes". Add one hero per style, not to reach a number:</p>
+    <ul>
+      <li>Typography-first hero (giant headline, one line of text, two buttons).</li>
+      <li>Glass hero over a mesh / animated gradient.</li>
+      <li>AI product hero with a prompt box that types an example and shows a result (pure front end, no AI call).</li>
+      <li>3D object hero (CSS 3D or the <code>model-viewer</code> web component with a .glb file).</li>
+      <li>Asymmetric collage hero (overlapping images).</li>
+      <li>Navbars: glass sticky navbar, mega menu, centred logo, off-canvas side menu.</li>
+    </ul>
+    <p>Still skip: more pricing tables, testimonial layouts and footers. ChatGPT's target counts (15 heroes, 10 pricing, 10 testimonials and so on) are not adopted.</p>
+
+    <h3>C. Templates the chat ranked high that we don't have</h3>
+    <table>
+      <thead><tr><th>Template</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><strong>AI product / AI SaaS</strong> (top)</td><td>Variants: AI writing assistant, image generator, chatbot, automation tool. New or adapted sections: prompt / demo box, input → output comparison, "works with" models and tools (Integrations Grid, idea 6), use-case tabs (Feature tabs, idea 11), pricing with a credits / usage slider (an option on pricing), API code-snippet block, security and privacy badges.</td></tr>
+        <tr><td>Fintech / finance app</td><td>Fee or savings calculator, app screens in the 3D carousel (scroll-ring), security and regulation badges, comparison table against banks.</td></tr>
+        <tr><td>Creative studio</td><td>A style version of Agency (typography-first or asymmetric), not a new base.</td></tr>
+        <tr><td>Single product launch</td><td>A version of Product Landing Page Store + Startup Launch, with the countdown from idea 2 and scroll storytelling.</td></tr>
+        <tr><td>Travel / tourism</td><td>Already in idea 13's first wave (travel agency).</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Suggested order</h3>
+    <ol>
+      <li>AI product template + AI prompt-box hero + feature tabs (the tabs are already planned in idea 11).</li>
+      <li>Dark glow and Glass style packs, applied to the SaaS, AI and App templates first.</li>
+      <li>Typography-first hero and glass sticky navbar.</li>
+      <li>Fintech template.</li>
+    </ol>
+  </div>
+
+  <div class="sug">
     <div class="sug-head"><h3>14. Trendy features for templates and sections</h3><span class="pill todo">Suggested</span></div>
     <p class="muted">Added 2026-10-31 · Cross-cutting ideas, not tied to one section.</p>
     <ul>
@@ -396,6 +444,40 @@
 <section id="site">
   <h2>Site &amp; SEO</h2>
   <p class="muted">Ideas for the site as a whole (not section templates).</p>
+
+  <div class="sug">
+    <div class="sug-head"><h3>16. Optional accounts, cloud sync and paid templates</h3><span class="pill todo">Suggested</span></div>
+    <p class="muted">Added 2026-11-01 · From a chat about adding login to the browser-only tools, then making some templates paid. <strong>On hold until the site has good traffic</strong> (decided 2026-11-01); don't start it before then.</p>
+    <p><strong>The constraint:</strong> the site is a static export (<code>output: 'export'</code>), with no server of its own. Login and payments must come from hosted services called from the browser. Auth.js (in TECH-STACK-NOTES) needs a server, so it is out unless hosting moves to Vercel or Node.</p>
+    <h3>Accounts</h3>
+    <ul>
+      <li><strong>Supabase</strong> (recommended): login (email link, Google, GitHub), Postgres with row-level security, file storage, Edge Functions for webhooks. Same database as the backend tool notes.</li>
+      <li><strong>Optional, never required:</strong> every tool keeps working without an account ("no sign-up" stays a selling point). An account adds save to cloud, open on another device, share links and favourites.</li>
+      <li>Sync order: Website Builder pages first (most work to lose), then section designs, then social and email designs (today only in IndexedDB, <code>design-store.js</code>).</li>
+      <li>Before launch: privacy page update, delete-account button, export-my-data.</li>
+    </ul>
+    <h3>Paid templates</h3>
+    <ul>
+      <li><strong>What stays free:</strong> all section templates and most website templates (they drive search traffic and the learning angle). <strong>Paid candidates:</strong> premium multi-page kits (Online Store from idea 12, AI product from idea 15), style packs (idea 15), and industry bundles.</li>
+      <li><strong>Previews stay public:</strong> the template page, live demo and SEO text remain free to view, because they are the search landing pages. Only editing and exporting the full template is locked.</li>
+      <li><strong>Real locking:</strong> anything in the static JS bundle can be copied from the page source. Paid template data must be left out of the bundle and stored in Supabase (table or storage), readable only by users who own it (row-level security), and loaded into the editor after login.</li>
+      <li><strong>Payments:</strong> a merchant-of-record service (Lemon Squeezy or Paddle) handles worldwide VAT/GST and invoices, which is the simplest for a solo seller in India. Razorpay is an option for India-only pricing. The buyer pays on the hosted checkout; its webhook goes to a Supabase Edge Function, which records the purchase. No card data touches the site.</li>
+      <li><strong>Pricing ideas:</strong> one-off per template, plus an all-access pass (yearly or lifetime) that includes future templates. A personal / commercial licence page stating what buyers may do (client sites allowed, resale of the template itself not allowed).</li>
+      <li><strong>Leads:</strong> a buyer is the best Hire Me lead; add "Want it customised for you?" on the purchase thank-you page.</li>
+    </ul>
+    <h3>How it runs with no backend of our own</h3>
+    <ul>
+      <li>Supabase is the backend (hosted). The static site on the current hosting only calls it from the browser; no change to hosting or deploy.</li>
+      <li><strong>Login flow:</strong> "Sign in with Google / GitHub / email link" → provider → back to a static page such as <code>/auth/callback/</code> → <code>supabase-js</code> completes the login in the browser (PKCE) and keeps the session there.</li>
+      <li><strong>Data:</strong> save / load projects and read paid template data are browser calls straight to Supabase.</li>
+      <li><strong>Payment webhook:</strong> goes to a Supabase Edge Function (their servers), which records the purchase.</li>
+      <li><strong>Setup:</strong> HTTPS (have it); add <code>https://webdevpuneet.com/auth/callback/</code> and <code>http://localhost:3000/...</code> to Supabase's allowed redirect URLs; create Google and GitHub OAuth apps once.</li>
+      <li><strong>Security rules:</strong> the anon key in the front end is public by design; safety comes only from row-level security (RLS) on <em>every</em> table (own projects only; paid data only for buyers). A table without RLS is readable by anyone. The service-role key lives only in the Edge Function, never in the site.</li>
+      <li><strong>Limits:</strong> nothing is personalised at build time, so "My projects" and "My purchases" load after login with a loading state. The free tier pauses a project after about a week with no activity; the Pro plan (around $25 a month) removes that.</li>
+    </ul>
+    <p><strong>Build order:</strong> (1) Supabase login + Website Builder cloud save; (2) move one premium template's data out of the bundle and gate it; (3) checkout + webhook + "My purchases"; (4) all-access pass; (5) cloud sync for the other editors.</p>
+    <p class="muted">Check with an accountant about GST and export-of-services rules before selling; a merchant of record covers most of it but not income tax.</p>
+  </div>
 
   <div class="sug">
     <div class="sug-head"><h3>Add "Landing Pages" to the home page snippet cards</h3><span class="pill todo">Suggested</span></div>
@@ -432,6 +514,8 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-11-01</td><td>Idea 16 added (on hold until the site has good traffic), with how it runs without our own backend: optional accounts (Supabase, since the site is a static export), cloud sync for the editors, and paid templates (public previews, gated template data, merchant-of-record checkout, all-access pass).</td></tr>
+      <tr><td>2026-11-01</td><td>Idea 15 added from a ChatGPT chat on trendy landing pages: style packs (dark glow, glass, typography-first, bento, asymmetric), hero and navbar gaps (6 heroes, 3 navbars; heroes become the exception to idea 11's "skip more heroes"), and AI product / fintech templates. Most of the chat was already covered by ideas 8, 13 and 14.</td></tr>
       <tr><td>2026-10-31</td><td>Idea 11 added and expanded: the next wave of sections, with the reasons (first batch: Opening Hours &amp; Location, About / Our story, vertical timeline, reviews summary, feature tabs; second batch and later items listed).</td></tr>
       <tr><td>2026-10-31</td><td>Idea 10 built (all nine options): Look panel in the Website Sections editor (colours, gradient, spacing, background photo, hide on phones/larger screens, heading typography, own CSS) shared with the Website Builder; image focus point; Button style (Solid / Outline / Soft) in the Theme; Surprise me; Apply to all sections in the Website Builder. Also fixed Float on Concentric rings and Orbits (it had nothing to animate). Not yet deployed.</td></tr>
       <tr><td>2026-10-31</td><td>Idea 10 added: more options in the section editor (background and spacing first, then gradient, hide on phone/desktop, image focus point, button style, typography, Surprise me, apply to all, own CSS). Also built today, not suggestions: artwork picker with search, 31 new artworks, position with centre and % offsets, click-to-play animation, and a full-width option for the Horizontal Timeline.</td></tr>

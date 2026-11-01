@@ -63,8 +63,14 @@ export const newRow = (layout = '1-1', cols) => ({
   cols: cols || Array.from({ length: colsOf(layout) }, () => newCol([newBlock('text')])),
 });
 
-/** The starting layout: a centred intro row, then text + image in two columns */
+/** The starting layout: a centred intro row, then text + image in two columns. Its ids are
+    numbered (d0, d1 …), not random, so the server and browser render it the same (hydration). */
 export function defaultCustom() {
+  let n = 0;
+  const renumber = o => ({ ...o, id: `d${n++}`, ...(o.rows ? { rows: o.rows.map(renumber) } : {}), ...(o.cols ? { cols: o.cols.map(renumber) } : {}), ...(o.blocks ? { blocks: o.blocks.map(renumber) } : {}) });
+  return renumber(starterCustom());
+}
+function starterCustom() {
   return {
     id: newCustomId(), width: 'default', align: 'left', pt: 88, pb: 88, rowGap: 48, css: '', js: '',
     rows: [

@@ -1097,6 +1097,7 @@ ${pageCss(shown, { fontFaces })}`),
       css: `${gf ? `@import url('${gf}');\n` : ''}body{margin:0;background:${page.theme?.bg || '#fff'}}\nhtml{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}\n${pageCss(shown, { fontFaces })}`,
       js: js || '',
       cdnUrls: js ? pageCdn(shown) : [],
+      scopedCss: false, // the CSS is namespaced (.st-<id>), and scripts add styled markup at run time
     };
   };
   /* Next.js: the whole website (every page) as a Next.js App Router project (templates/nextjs.js),

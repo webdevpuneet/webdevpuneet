@@ -32,7 +32,7 @@ export default {
      review's stars, and gives each rating its accessible name. */
   finalize: (html, state) => {
     const { total, avg } = totals(state.lists?.bars);
-    const rated = String(state.fields?.ratedLabel || 'Rated {n} out of 5').replace(/"/g, '&quot;');
+    const rated = String(state.fields?.ratedLabel || 'Rated {n} out of 5').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     const shown = v => String(Math.round(Math.min(5, Math.max(0, parseFloat(v) || 0)) * 10) / 10);
     return html
       .replace(' data-avg></span>', `>${avg.toFixed(1)}</span>`)

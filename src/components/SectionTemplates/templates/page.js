@@ -137,6 +137,7 @@ export function pageCss(page, { fontFaces = '' } = {}) {
 
 /** Every section's markup, in order. imageSrc(uid, key) resolves uploaded images. */
 export function pageMarkup(page, { imageSrc, clean = true } = {}) {
+  const used = new Set(page.sections.map(s => cleanAnchor(s.anchor)).filter(Boolean));
   return page.sections.map(s => {
     const t = sectionTemplateById(s.tpl);
     if (!t) return '';
@@ -144,8 +145,29 @@ export function pageMarkup(page, { imageSrc, clean = true } = {}) {
     const id = cleanAnchor(s.anchor);
     const css = sectionStyleCss(page.theme, t, s.style, k => imageSrc?.(s.uid, k));
     const sc = scrollAttr(s);
-    return `<section${id ? ` id="${id}"` : ''} class="st st-${t.id}${sectionStyleClass(s.style)}"${css ? ` style="${esc(css)}"` : ''}${sc ? ` data-scroll="${esc(sc)}"` : ''} data-uid="${esc(s.uid)}">\n${artMarkup(s.state?.art, s.uid)}${fillHtml(t, sectionOnPage(page, s), { imageSrc: src, clean })}\n</section>`;
+    const inner = uniqueIds(fillHtml(t, sectionOnPage(page, s), { imageSrc: src, clean }), used);
+    return `<section${id ? ` id="${id}"` : ''} class="st st-${t.id}${sectionStyleClass(s.style)}"${css ? ` style="${esc(css)}"` : ''}${sc ? ` data-scroll="${esc(sc)}"` : ''} data-uid="${esc(s.uid)}">\n${artMarkup(s.state?.art, s.uid)}${inner}\n</section>`;
   }).join('\n');
+}
+
+/* A section used twice on a page (two popups, a login and a register form) would repeat its
+   fixed ids (pu-heading, au-email): later copies get -2, -3 …, and the labels and ARIA
+   references inside that section follow */
+function uniqueIds(html, used) {
+  const renamed = {};
+  html = html.replace(/(\sid=")([^"]+)"/g, (m, pre, v) => {
+    let next = v;
+    for (let n = 2; used.has(next); n++) next = `${v}-${n}`;
+    used.add(next);
+    if (next !== v) renamed[v] = next;
+    return `${pre}${next}"`;
+  });
+  if (!Object.keys(renamed).length) return html;
+  return html.replace(/(\s(?:for|aria-labelledby|aria-describedby|aria-controls|href)=")(#?)([^"]+)"/g, (m, pre, hash, v) => {
+    if (/href/.test(pre) && !hash) return m;
+    const out = v.split(' ').map(x => renamed[x] || x).join(' ');
+    return `${pre}${hash}${out}"`;
+  });
 }
 
 /* ── Page scroll effects (Theme tab → Animation, Website Builder only) ──────────────

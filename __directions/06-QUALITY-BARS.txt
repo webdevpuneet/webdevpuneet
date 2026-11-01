@@ -25,6 +25,10 @@ TEMPLATES
   - Real industry copy, fictional brands, example links/emails use webdevpuneet.com (never yoursite.com).
   - Email templates: icons must be PNG images, never SVG.
   - Demos are noindex and link back to their template page.
+  - Before deploying any section / builder / exporter change: node scripts/test-section-exports.mjs
+    (all sections × every content case, save/restore, React/Vue/Next exports; exits 1 on an issue).
+    For the React/Vue compile checks too, point SECTION_TEST_DEPS at a node_modules that has
+    esbuild and @vue/compiler-sfc. Added 2026-11-01 after the full export test (TEMPLATES-ROADMAP log).
 
 UI SNIPPET UPDATE CHECKLIST (every time a snippet in src/components/UiSnippetsTool/snippets/ is redesigned or changed)
   Do ALL of these in the same pass, not just the code:

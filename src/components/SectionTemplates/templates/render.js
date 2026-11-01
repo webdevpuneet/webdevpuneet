@@ -374,5 +374,6 @@ export function snippetParts(t, state, { imageSrc, fontFaces = '' } = {}) {
     css: `${gf ? `@import url('${gf}');\n` : ''}${sectionCss(t, state, { fontFaces })}`,
     js: sectionScript(t, state),
     cdnUrls: sectionCdn(t, state),
+    scopedCss: false, // the CSS is namespaced (.st-<id>), and scripts add styled markup at run time
   };
 }

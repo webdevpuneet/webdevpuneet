@@ -16,7 +16,8 @@ function run(mode, fn) {
   return openDb().then(db => new Promise((resolve, reject) => {
     const tx = db.transaction(STORE, mode);
     const out = fn(tx.objectStore(STORE));
-    tx.oncomplete = () => resolve(out?.result ?? out);
+    // A request resolves to its result, even when that is undefined (get() of a missing key)
+    tx.oncomplete = () => resolve(out instanceof IDBRequest ? out.result : out);
     tx.onerror = () => reject(tx.error);
   }));
 }

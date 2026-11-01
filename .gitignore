@@ -67,3 +67,4 @@ Thumbs.db
 
 # FTP/SFTP deploy credentials — never commit
 .vscode/sftp.json
+.section-export-test/

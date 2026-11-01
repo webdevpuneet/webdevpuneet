@@ -49,23 +49,53 @@ function selfCloseVoids(markup) {
 // so tag matching never trips over the `>` inside a converted `=>` arrow.
 //   • bare `checked`  → `defaultChecked` (uncontrolled — the user/JS can still toggle;
 //     a controlled `checked` with no React onChange is read-only).
-//   • bare `disabled` → `defaultDisabled` when the snippet's JS imperatively toggles it.
-//     This lets JS update the DOM property while React doesn't interfere with controlled props.
-function fixReactBooleanAttrs(html, sn) {
-  let out = html.replace(
+//   • bare `disabled` stays as it is: React only sets it on render, and these components never
+//     re-render, so JS can still toggle `.disabled` (`defaultDisabled` is not a React prop).
+function fixReactBooleanAttrs(html) {
+  return html.replace(
     /<(input|select|option|textarea)\b([^>]*?)\schecked\b(?!\s*=)([^>]*?)>/gi,
     (_, tag, pre, post) => `<${tag}${pre} defaultChecked${post}>`,
   );
-  // Convert disabled to defaultDisabled so JS can still imperatively toggle it
-  // without React treating it as a controlled prop
-  if (sn.js && /\.disabled\s*=/.test(sn.js)) {
-    out = out.replace(
-      /<([a-zA-Z][\w-]*)\b([^>]*?)\sdisabled\b(?!\s*=)([^>]*?)>/g,
-      (_, tag, pre, post) => `<${tag}${pre} defaultDisabled${post}>`,
-    );
-  }
-  return out;
 }
+
+// HTML / SVG attribute names React spells differently (class, for and style are handled later)
+const REACT_ATTRS = Object.fromEntries([
+  'accessKey', 'allowFullScreen', 'autoComplete', 'autoFocus', 'autoPlay', 'cellPadding', 'cellSpacing', 'charSet',
+  'colSpan', 'contentEditable', 'crossOrigin', 'dateTime', 'encType', 'enterKeyHint', 'fetchPriority', 'formAction',
+  'formNoValidate', 'frameBorder', 'hrefLang', 'inputMode', 'itemProp', 'itemScope', 'itemType', 'maxLength',
+  'minLength', 'noValidate', 'playsInline', 'popoverTarget', 'readOnly', 'referrerPolicy', 'rowSpan', 'spellCheck',
+  'srcLang', 'srcSet', 'tabIndex', 'useMap',
+].map(n => [n.toLowerCase(), n]).concat([
+  'accept-charset', 'http-equiv', 'alignment-baseline', 'baseline-shift', 'clip-path', 'clip-rule', 'color-interpolation',
+  'color-interpolation-filters', 'dominant-baseline', 'fill-opacity', 'fill-rule', 'flood-color', 'flood-opacity',
+  'font-family', 'font-size', 'font-style', 'font-weight', 'image-rendering', 'letter-spacing', 'lighting-color',
+  'marker-end', 'marker-mid', 'marker-start', 'paint-order', 'pointer-events', 'shape-rendering', 'stop-color',
+  'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit',
+  'stroke-opacity', 'stroke-width', 'text-anchor', 'text-decoration', 'text-rendering', 'vector-effect', 'word-spacing',
+  'writing-mode', 'xlink:href', 'xml:space', 'xmlns:xlink',
+].map(n => [n, n.replace(/[-:]([a-z])/g, (_, c) => c.toUpperCase())])));
+// Inputs whose `value` is the user's text, so React needs defaultValue (no onChange here)
+const VALUE_INPUT = /\stype\s*=\s*["']?(checkbox|radio|hidden|submit|button|reset|image)\b/i;
+
+// Renames attributes inside each tag (values are skipped, so text like alt="autoplay demo"
+// is never touched). Runs on RAW HTML, before handlers are converted.
+function reactAttrNames(markup) {
+  const ATTR = /(\s+)([^\s"'=<>/]+)(\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?/g;
+  return markup.replace(/<([a-zA-Z][\w-]*)((?:\s+[^\s"'=<>/]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?)*)(\s*\/?)>/g, (m, tag, attrs, end) => {
+    const t = tag.toLowerCase();
+    const uncontrolled = t === 'select' || t === 'textarea' || (t === 'input' && !VALUE_INPUT.test(attrs));
+    const out = attrs.replace(ATTR, (a, sp, name, val = '') => {
+      const lower = name.toLowerCase();
+      if (lower === 'value' && uncontrolled) return `${sp}defaultValue${val}`;
+      return `${sp}${REACT_ATTRS[lower] || name}${val}`;
+    });
+    return `<${tag}${out}${end}>`;
+  });
+}
+
+// Text placed inside a JS template literal: \ ` and ${ would end or change it
+// (e.g. CSS content:"\2022" is an invalid octal escape in a template literal)
+const inTemplateLiteral = s => String(s).replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
 
 // Convert inline on* attributes into React synthetic-event props.
 // Every handler receives `event`, so inline code referencing `event`/`this` keeps working.
@@ -132,29 +162,74 @@ function buildEffectHook(sn) {
       handlerNames.map(n => `    if (typeof ${n} === 'function') window.${n} = ${n};`).join('\n')
     : '';
 
-  // Wrap the JS to collect all event listeners so they can be cleaned up.
-  // This prevents memory leaks and duplicate handlers on re-renders.
-  const wrappedJs = `    const _listeners = [];
+  // Wrap the JS to collect the event listeners it adds, so unmount can remove them. Only
+  // while the snippet's own code runs: listeners the rest of the app adds are never touched.
+  const run = `    const _listeners = [];
     const _originalAddEventListener = EventTarget.prototype.addEventListener;
     EventTarget.prototype.addEventListener = function(type, listener, options) {
       _listeners.push({ target: this, type, listener, options });
       return _originalAddEventListener.call(this, type, listener, options);
     };
-${sn.js.split('\n').map(l => '    ' + l).join('\n')}
-    // Cleanup: restore addEventListener and remove all listeners
-    return () => {
+    try {
+${sn.js.split('\n').map(l => '      ' + l).join('\n')}${expose.replace(/\n {4}/g, '\n      ')}
+    } finally {
       EventTarget.prototype.addEventListener = _originalAddEventListener;
+    }
+    // Cleanup: remove the listeners the snippet added
+    return () => {
       for (const { target, type, listener, options } of _listeners) {
         target.removeEventListener(type, listener, options);
       }
     };`;
 
+  // CDN libraries (GSAP …) load first, so the component works without editing index.html
+  if (cdnScripts(sn).length) {
+    return `  // Auto-generated escape hatch: the original snippet's vanilla JS runs once
+  // after mount (and after its CDN libraries load) and queries the rendered DOM.
+  // For idiomatic React, lift this into state + handlers.
+  useEffect(() => {
+    let live = true;
+    let cleanup;
+    const run = () => {
+${run.replace(/^/gm, '  ')}
+    };
+    loadCdn(CDN).finally(() => { if (live) cleanup = run(); });
+    return () => { live = false; if (cleanup) cleanup(); };
+  }, []);\n\n`;
+  }
   return `  // Auto-generated escape hatch: the original snippet's vanilla JS runs once
   // after mount and queries the rendered DOM. For idiomatic React, lift this
   // into state + handlers.
   useEffect(() => {
-${wrappedJs}${expose}
+${run}
   }, []);\n\n`;
+}
+
+// The CDN files a snippet's JS needs (scripts, plus their stylesheets)
+const cdnScripts = sn => (sn.js ? (sn.cdnUrls || []).map(u => String(u || '').trim()).filter(u => /^https:\/\//.test(u)) : []);
+
+// Module-level helper written into React / Vue components that need CDN libraries: adds each
+// <script> / <link> once (in order), and resolves when they have loaded (or failed)
+function cdnLoaderSource(sn) {
+  const urls = cdnScripts(sn);
+  if (!urls.length) return '';
+  return `
+// Libraries this component needs (loaded once from the CDN; or install them from npm)
+const CDN = ${JSON.stringify(urls, null, 2)};
+function loadCdn(urls) {
+  return urls.reduce((ready, src) => ready.then(() => new Promise(resolve => {
+    const css = /\\.css(\\?|$)/.test(src) || src.includes('fonts.googleapis.com');
+    const found = document.querySelector(css ? \`link[href="\${src}"]\` : \`script[src="\${src}"]\`);
+    if (found && !found.dataset.loading) return resolve();
+    if (found) { found.addEventListener('load', () => resolve()); found.addEventListener('error', () => resolve()); return; }
+    const el = document.createElement(css ? 'link' : 'script');
+    if (css) { el.rel = 'stylesheet'; el.href = src; } else { el.src = src; el.async = false; }
+    el.dataset.loading = '1';
+    el.onload = el.onerror = () => { delete el.dataset.loading; resolve(); };
+    document.head.appendChild(el);
+  })), Promise.resolve());
+}
+`;
 }
 
 // ── Vanilla-JS analysis (for Vue / Angular conversion) ──────────────────────
@@ -375,7 +450,7 @@ ${body}${jsBlock}
 export function toReactComponent(sn) {
   const name = componentName(sn);
 
-  const jsx = convertInlineHandlers(selfCloseVoids(fixReactBooleanAttrs(sn.html, sn)))
+  const jsx = convertInlineHandlers(selfCloseVoids(reactAttrNames(fixReactBooleanAttrs(sn.html))))
     .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/\bclass=/g, 'className=')
     .replace(/\bfor=/g, 'htmlFor=')
@@ -390,11 +465,11 @@ export function toReactComponent(sn) {
 
   const jsBlock = buildEffectHook(sn);
 
-  return `${cdnComment(sn.cdnUrls)}import React${sn.js ? ', { useEffect }' : ''} from 'react';
-
+  return `${cdnScripts(sn).length ? '' : cdnComment(sn.cdnUrls)}import React${sn.js ? ', { useEffect }' : ''} from 'react';
+${cdnLoaderSource(sn)}
 // CSS — optionally move to ${name}.module.css
 const css = \`
-${sn.css}
+${inTemplateLiteral(sn.css)}
 \`;
 
 export default function ${name}() {
@@ -523,7 +598,7 @@ export function toTailwindComponent(sn) {
     while ((m = clRe.exec(sn.js)) !== null) preservedClasses.add(m[1]);
   }
 
-  const jsx = convertInlineHandlers(selfCloseVoids(fixReactBooleanAttrs(sn.html, sn)))
+  const jsx = convertInlineHandlers(selfCloseVoids(reactAttrNames(fixReactBooleanAttrs(sn.html))))
     .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/\bclass="([^"]*)"/g, (_, classStr) => {
       const tokens = classStr.trim().split(/\s+/).filter(Boolean);
@@ -574,13 +649,13 @@ export function toTailwindComponent(sn) {
     }
   }
   const styleTag = residualCssBlocks.length
-    ? `\n      <style>{\`\n${residualCssBlocks.join('\n\n')}\n      \`}</style>`
+    ? `\n      <style>{\`\n${inTemplateLiteral(residualCssBlocks.join('\n\n'))}\n      \`}</style>`
     : '';
 
   const jsBlock = buildEffectHook(sn);
 
-  return `${cdnComment(sn.cdnUrls)}import React${sn.js ? ', { useEffect }' : ''} from 'react';
-// Requires Tailwind CSS v3+ — https://tailwindcss.com/docs/installation
+  return `${cdnScripts(sn).length ? '' : cdnComment(sn.cdnUrls)}import React${sn.js ? ', { useEffect }' : ''} from 'react';
+${cdnLoaderSource(sn)}// Requires Tailwind CSS v3+ — https://tailwindcss.com/docs/installation
 // Arbitrary value classes (e.g. bg-[#0f172a]) are valid Tailwind v3+
 
 export default function ${name}() {
@@ -731,16 +806,24 @@ export function toVueSfc(sn) {
     // expose them so injected inline handlers work.
     const winExpose = collectHandlerNames(sn.js).map(n => `  if (typeof ${n} === 'function') window.${n} = ${n};`);
     // DOM refs + side-effects wait until the element tree exists.
+    // CDN libraries (GSAP …) load first, so the component works without editing index.html
+    const cdn = cdnScripts(sn).length > 0;
     if (mount.length || winExpose.length) {
-      parts.push('onMounted(() => {');
-      if (winExpose.length) parts.push(winExpose.join('\n'));
-      if (mount.length) parts.push(mount.map(s => s.split('\n').map(l => '  ' + l).join('\n')).join('\n'));
-      parts.push('});');
+      const pad = cdn ? '    ' : '  ';
+      parts.push(cdn ? 'onMounted(() => {\n  loadCdn(CDN).finally(() => {' : 'onMounted(() => {');
+      if (winExpose.length) parts.push(winExpose.map(l => l.replace(/^ {2}/, pad)).join('\n'));
+      if (mount.length) parts.push(mount.map(s => s.split('\n').map(l => pad + l).join('\n')).join('\n'));
+      parts.push(cdn ? '  });\n});' : '});');
     }
+    if (cdn) parts.splice(1, 0, cdnLoaderSource(sn).trim(), '');
     scriptBlock = '\n' + parts.join('\n').replace(/\n{3,}/g, '\n\n') + '\n';
   }
 
-  return `${cdnCommentHtml(sn.cdnUrls)}<template>\n${template.split('\n').map(l => '  ' + l).join('\n')}\n</template>\n\n<script setup>${scriptBlock}</script>\n\n<style scoped>\n${sn.css}\n</style>`;
+  // Scoped CSS only reaches elements Vue rendered, so markup the script creates later
+  // (carousel dots, captions) would be unstyled: sn.scopedCss = false for CSS that is
+  // already namespaced (website sections and pages)
+  const style = sn.scopedCss === false ? '<style>' : '<style scoped>';
+  return `${cdnScripts(sn).length ? '' : cdnCommentHtml(sn.cdnUrls)}<template>\n${template.split('\n').map(l => '  ' + l).join('\n')}\n</template>\n\n<script setup>${scriptBlock}</script>\n\n${style}\n${sn.css}\n</style>`;
 }
 
 // ── Angular standalone component ────────────────────────────────────────────

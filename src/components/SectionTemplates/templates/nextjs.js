@@ -18,7 +18,8 @@
    Plain JS (no React, no DOM), so it runs in Node tests and in the browser. */
 import { pageFile, isHomePage, cleanBaseUrl, siteExtraFiles, faviconFiles } from './site.js';
 
-export const NEXT_DEPENDENCIES = { next: '15.3.3', react: '19.1.0', 'react-dom': '19.1.0' };
+// Patched releases (15.3.3 / 19.1.0 have CVE-2025-66478 and npm warns on install)
+export const NEXT_DEPENDENCIES = { next: '15.5.28', react: '19.1.10', 'react-dom': '19.1.10' };
 
 /** A page's route path: '' for home, 'about/' otherwise (trailingSlash: true) */
 export const nextPath = (site, p) => (isHomePage(site, p) ? '' : `${p.slug}/`);
