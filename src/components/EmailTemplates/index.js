@@ -443,7 +443,7 @@ export function EmailTemplateEditor({ id }) {
   const [origin, setOrigin] = useState('');
   const [open, setOpen] = useState(() => new Set(['inbox', 'main']));
   const [panelTab, setPanelTab] = useState('edit'); // left panel: 'edit' | 'designs' | 'transfer'
-  const [sheetOpen, setSheetOpen] = useState(false); // phones: the panel as a bottom sheet
+  const [sheetOpen, setSheetOpen] = useState(true); // phones: the panel as a bottom sheet, open by default (no effect on desktop)
   const [designs, setDesigns] = useState([]);
   const [currentDesign, setCurrentDesign] = useState(null); // { id, name } while editing a saved design
   const [renaming, setRenaming] = useState(null);

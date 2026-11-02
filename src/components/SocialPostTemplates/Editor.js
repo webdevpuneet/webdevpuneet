@@ -179,7 +179,14 @@ export default function TemplateEditor({ id }) {
   const [currentDesign, setCurrentDesign] = useState(null); // { id, name } when editing a saved design
   const [renaming, setRenaming] = useState(null); // { id, name }
   const [panelTab, setPanelTab] = useState('edit'); // left panel: 'edit' | 'designs' | 'transfer'
-  const [sheetOpen, setSheetOpen] = useState(false); // phones: the panel as a bottom sheet
+  const [phone, setPhone] = useState(false); // phone layout: the mock-up frames (Instagram, Story...) are hidden, the plain design shows
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 860px)');
+    const on = () => setPhone(mq.matches);
+    on(); mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, []);
+  const [sheetOpen, setSheetOpen] = useState(true); // phones: the panel as a bottom sheet, open by default (no effect on desktop)
   const [designQuery, setDesignQuery] = useState('');
   const [designScope, setDesignScope] = useState('all'); // 'all' | 'this' (this template)
   const savedJson = useRef(null); // the open design as last saved or opened, to spot unsaved changes
@@ -1153,7 +1160,7 @@ export default function TemplateEditor({ id }) {
           )}
           <div ref={stageRef} className={s.stage}>
             <Mockup
-              mode={mockup}
+              mode={phone ? 'design' : mockup}
               box={box}
               size={z}
               profile={profile}

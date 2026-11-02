@@ -495,7 +495,7 @@
    editors share these rules. */
 @media (max-width: 860px) {
   .wrap { height: 100dvh; min-height: 0; }
-  .toolbar[data-scroll-toolbar] { padding: 5px 8px; gap: 6px; }
+  .toolbar[data-scroll-toolbar] { padding: 4px 8px; gap: 5px; }
   .toolbar[data-scroll-toolbar] .meta { gap: 6px; }
   .toolbar[data-scroll-toolbar] .metaName { max-width: 20vw; }
   .toolbar[data-scroll-toolbar] .meta > span:not([class]),
@@ -505,13 +505,18 @@
   .toolbar[data-scroll-toolbar] .toolbarRight { gap: 6px; }
   .viewBar { flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding: 4px 8px; scrollbar-width: none; }
   .viewBar > * { flex: none; }
+  .viewBar, .checksList { display: none; } /* the Instagram / Story / X mock-ups and the quality-check chip are for desktop */
   .sizeHint { display: none; }
   /* Two rows: name, Undo, Redo, Reset and Play; then Save, Share and Export side by side, full width */
-  .toolbar[data-scroll-toolbar] { flex-wrap: wrap; overflow: visible; row-gap: 5px; }
+  .toolbar[data-scroll-toolbar] { flex-wrap: wrap; overflow: visible; row-gap: 4px; }
   .toolbar[data-scroll-toolbar] > :first-child { flex: 1 1 100%; }
   .toolbar[data-scroll-toolbar] .toolbarRight { flex: 1 1 100%; margin-left: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
   .toolbar[data-scroll-toolbar] .toolbarRight > div { display: flex; min-width: 0; }
-  .toolbar[data-scroll-toolbar] .toolbarRight > div > button { height: 32px; justify-content: center; font-size: 13px; }
+  /* Every button in the bars is the same size on phones: 26px tall, 11.5px text */
+  .toolbar[data-scroll-toolbar] .meta > button, .toolbar[data-scroll-toolbar] .meta > div > button, .toolbar[data-scroll-toolbar] .toolbarRight > div > button { height: 26px; font-size: 11.5px; padding-top: 0; padding-bottom: 0; } /* not the rows inside the dropdown menus */
+  .toolbar[data-scroll-toolbar] .meta button[aria-label="Undo"], .toolbar[data-scroll-toolbar] .meta button[aria-label="Redo"] { width: 26px !important; }
+  .toolbar[data-scroll-toolbar] .toolbarRight > div > button { justify-content: center; }
+  .checksChip { padding: 0 12px; }
   .toolbar[data-scroll-toolbar] .toolbarRight > div > button:first-child { flex: 1; min-width: 0; }
-  .controls { max-height: max(190px, calc(50dvh - 112px)); overscroll-behavior: contain; }
+  .controls { max-height: max(190px, calc(50dvh - 66px)); overscroll-behavior: contain; }
 }

@@ -349,6 +349,7 @@ button.headerBrand {
 }
 
 .exportMenuHead {
+  flex-shrink: 0;
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
@@ -367,6 +368,7 @@ button.headerBrand {
 }
 
 .exportMenuItem {
+  flex-shrink: 0; /* a long menu scrolls (max-height) instead of squeezing its rows */
   display: flex;
   flex-direction: row;
   align-items: center;

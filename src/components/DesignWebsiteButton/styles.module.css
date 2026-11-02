@@ -110,9 +110,8 @@
   .btn { transition: none; }
 }
 
-/* Phones: smaller pill and tab, kept clear of the screen edge and the cookie banner */
-@media (max-width: 640px) {
-  .wrap { right: 12px; bottom: 14px; }
-  .btn { padding: 9px 15px; font-size: 12.5px; }
-  .tab { top: 50%; padding: 12px 6px; font-size: 11.5px; }
+/* Phones and small tablets: no floating button or side tab. It covered the editors' panel and the
+   page's own buttons, and the Website Builder is one tap away in the menu. */
+@media (max-width: 860px) {
+  .wrap, .tab { display: none; }
 }

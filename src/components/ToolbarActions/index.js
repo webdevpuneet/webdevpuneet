@@ -21,23 +21,32 @@ const EXPORT_ICON = {
 const EXPORT_TINT = { next: '#111827', react: '#61dafb', vue: '#41b883', html: '#e44d26', zip: '#6366f1', file: '#0ea5e9', text: '#059669', image: '#db2777', video: '#7c3aed' };
 
 /* Inside a toolbar that scrolls sideways ([data-scroll-toolbar], tablet width) an absolute menu
-   would be clipped by the scroller, so it is placed with position: fixed under its button
-   instead, and closes when the toolbar scrolls. Elsewhere it returns null (normal CSS). */
-export function useScrollToolbarMenu(open, setOpen, ref) {
+   would be clipped by the scroller, and on phones by the editor's own overflow (the preview and the
+   bottom sheet sit under it), so it is placed with position: fixed under its button instead, kept
+   inside the screen (sideways and in height), and closes when the toolbar scrolls. Elsewhere it
+   returns null (normal CSS). `width` = the menu's CSS width, used to keep it on screen. */
+export function useScrollToolbarMenu(open, setOpen, ref, width = 272) {
   const [pos, setPos] = useState(null);
   useLayoutEffect(() => {
     const sc = open && ref.current ? ref.current.closest('[data-scroll-toolbar]') : null;
-    // only while the toolbar really is a scroller (its CSS makes it one on tablets)
-    if (!sc || !/auto|scroll/.test(getComputedStyle(sc).overflowX)) { setPos(null); return undefined; }
+    // while the toolbar really is a scroller (tablets), or on a phone
+    const phone = typeof window !== 'undefined' && window.matchMedia('(max-width: 860px)').matches;
+    if (!sc || (!phone && !/auto|scroll/.test(getComputedStyle(sc).overflowX))) { setPos(null); return undefined; }
     const r = ref.current.getBoundingClientRect();
-    setPos({ position: 'fixed', top: r.bottom + 8, left: 'auto', right: Math.max(8, window.innerWidth - r.right), zIndex: 300 });
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const w = Math.min(width, vw - 16);
+    const top = r.bottom + 8;
+    setPos({
+      position: 'fixed', top, left: Math.max(8, Math.min(r.right - w, vw - w - 8)), right: 'auto',
+      maxWidth: vw - 16, maxHeight: Math.max(160, vh - top - 12), overflowY: 'auto', zIndex: 300,
+    });
     // Close only when the toolbar really scrolls sideways: opening the menu (autofocus, layout)
     // can fire a scroll event without moving it, which used to close the menu instantly.
     const left0 = sc.scrollLeft;
     const close = () => { if (Math.abs(sc.scrollLeft - left0) > 2) setOpen(false); };
     sc.addEventListener('scroll', close, { passive: true });
     return () => sc.removeEventListener('scroll', close);
-  }, [open, setOpen, ref]);
+  }, [open, setOpen, ref, width]);
   return pos;
 }
 
@@ -196,7 +205,7 @@ export function SaveButton({ onClick, busy = false, saved = false, dirty = false
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(null); // null = menu, string = naming a new design
   const ref = useRef(null);
-  const fixedPos = useScrollToolbarMenu(open, setOpen, ref);
+  const fixedPos = useScrollToolbarMenu(open, setOpen, ref, 260);
   useEffect(() => { if (!open) setName(null); }, [open]);
   const items = [...(saveAs ? [{ label: 'Save as new design', sub: 'Keep this version under a new name', keepOpen: true, onClick: () => setName(saveAs.defaultName || '') }] : []), ...menu];
   useEffect(() => {
