@@ -17,7 +17,9 @@ READ IN THIS ORDER
 REFERENCE MATERIAL (moved here 2026-10-28; this folder is now the ONLY copy)
   blog/                     blog drafts and published posts
   roadmaps/TEMPLATES-ROADMAP.html   section / website templates roadmap
-  roadmaps/SUGGESTIONS.html          idea list with status pills and change log
+  roadmaps/SUGGESTIONS.html          index of the idea lists (one file per area, status pills, change logs):
+                                     SUGGESTIONS-WEBSITE (sections, website templates, builder, site),
+                                     -EMAIL, -SOCIAL, -UI-SNIPPETS, -BLOG (also the index of all blog drafts)
   logs/MIGRATION-LOG.md     fwdtools -> webdevpuneet migration log
   logs/DEVLOG.md            development log
   audits/content-audit.md   content audit
@@ -29,6 +31,6 @@ REFERENCE MATERIAL (moved here 2026-10-28; this folder is now the ONLY copy)
   The originals in the project root were deleted on 2026-10-28. Edit these files here.
 
 HOW TO ADD SOMETHING
-  - A new idea: add it to roadmaps/SUGGESTIONS.html and mention it in 05-ADVISOR-LOG.txt.
+  - A new idea: add it to the matching roadmaps/SUGGESTIONS-<AREA>.html file (index: SUGGESTIONS.html) and mention it in 05-ADVISOR-LOG.txt.
   - A new rule: add it to 06-QUALITY-BARS.txt.
   - A change of direction: edit 01 or 02 and write one dated line in 05-ADVISOR-LOG.txt.

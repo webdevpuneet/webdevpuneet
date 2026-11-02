@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>webdevpuneet.com — Email Templates</title>
+<style>
+  :root {
+    --bg: #f7f7f4; --card: #ffffff; --text: #1c1b18; --muted: #6b675d; --line: #e4e0d5;
+    --accent: #0f766e; --accent-soft: #e6f4f1; --done: #15803d; --doing: #b45309; --todo: #64748b; --code: #f1efe8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14130f; --card: #1d1c18; --text: #ecebe4; --muted: #a8a397; --line: #34322b; --accent: #5eead4; --accent-soft: #10302c; --done: #4ade80; --doing: #fbbf24; --todo: #94a3b8; --code: #26241e; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+  header h1 { font-size: 30px; line-height: 1.2; margin: 0 0 6px; }
+  header p { margin: 0; color: var(--muted); }
+  nav.toc { margin: 22px 0 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+  nav.toc a { font-size: 13px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 99px; color: var(--text); text-decoration: none; background: var(--card); }
+  nav.toc a:hover { border-color: var(--accent); }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; margin: 18px 0; }
+  h2 { font-size: 21px; margin: 0 0 12px; }
+  h3 { font-size: 16px; margin: 18px 0 6px; }
+  p { margin: 0 0 10px; }
+  ul { margin: 0 0 10px; padding-left: 22px; }
+  li { margin: 3px 0; }
+  code { background: var(--code); padding: 1px 6px; border-radius: 5px; font-size: 13.5px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 6px 0 10px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .pill { display: inline-block; font-size: 11.5px; font-weight: 700; padding: 2px 9px; border-radius: 99px; letter-spacing: .03em; white-space: nowrap; }
+  .done { background: color-mix(in srgb, var(--done) 16%, transparent); color: var(--done); }
+  .doing { background: color-mix(in srgb, var(--doing) 18%, transparent); color: var(--doing); }
+  .todo { background: color-mix(in srgb, var(--todo) 16%, transparent); color: var(--todo); }
+  .callout { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: 12px 16px; border-radius: 8px; margin: 10px 0; }
+  .muted { color: var(--muted); font-size: 14px; }
+  .sug { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 16px; }
+  .sug:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
+  .sug-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+  .sug-head h3 { margin: 0; font-size: 17px; }
+  .top { border: 2px solid var(--accent); }
+  @media (max-width: 640px) { .wrap { padding: 20px 14px 60px; } section { padding: 18px 16px; } }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin: 14px 0; }
+  .card { display: block; border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; color: var(--text); text-decoration: none; background: var(--bg); }
+  .card:hover { border-color: var(--accent); }
+  .card h3 { margin: 0 0 6px; font-size: 17px; color: var(--accent); }
+  .card p { margin: 0 0 6px; font-size: 14px; color: var(--muted); }
+  .back { font-size: 13px; margin: 0 0 10px; }
+  .back a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="back"><a href="SUGGESTIONS.html">← All suggestions</a></p>
+<header>
+  <h1>Email Templates suggestions</h1>
+  <p>Next emails to build, based on gaps in the 27 built so far. Last updated: 2026-11-02.</p>
+</header>
+
+<nav class="toc" aria-label="Contents">
+  <a href="#how">How to use this</a>
+  <a href="#templates">Email templates</a>
+  <a href="#log">Change log</a>
+</nav>
+
+<section id="how">
+  <h2>How to use this</h2>
+  <p>Each idea has a status: <span class="pill todo">Suggested</span> (not started), <span class="pill doing">Building</span> (in progress) or <span class="pill done">Done</span> (shipped, kept here as a record). Newest first inside each group.</p>
+  <div class="callout"><strong>Rule for what gets added:</strong> an idea goes here only if it fills a real gap (something visitors look for that the site does not have, or a workaround a current template forces). Ideas for other areas live in their own files; start from the <a href="SUGGESTIONS.html">Suggestions index</a>.</div>
+</section>
+
+<section id="templates">
+  <h2>Email templates</h2>
+  <p class="muted">27 templates in 5 categories (Onboarding &amp; Lifecycle, Transactional, E-commerce, Marketing, Holidays &amp; Seasonal).</p>
+
+  <div class="sug">
+    <div class="sug-head"><h3>Next email templates</h3><span class="pill todo">Suggested</span></div>
+    <p class="muted">Added 2026-11-02 · gaps found by comparing the template list with what a small business or SaaS actually sends</p>
+    <p><strong>Build first (8):</strong></p>
+    <ol>
+      <li><strong>Booking confirmation</strong> (only the appointment reminder exists).</li>
+      <li><strong>Booking cancelled / rescheduled.</strong></li>
+      <li><strong>Team invitation.</strong></li>
+      <li><strong>Getting-started checklist</strong> (an onboarding step between welcome and trial ending).</li>
+      <li><strong>One-time code (OTP / 2FA).</strong></li>
+      <li><strong>Order delivered</strong> (e-commerce currently ends at shipping).</li>
+      <li><strong>Shipping delay.</strong></li>
+      <li><strong>Contact-form auto-reply</strong> (every small business site needs one).</li>
+    </ol>
+    <p><strong>Next wave:</strong></p>
+    <ul>
+      <li><strong>Transactional:</strong> failed payment / card expiring, subscription renewal notice, support ticket received.</li>
+      <li><strong>E-commerce:</strong> order cancelled, price drop / wishlist, gift card, loyalty points.</li>
+      <li><strong>Marketing:</strong> webinar follow-up (replay and slides), in-person event invitation, case study, company news, survey invitation, lead magnet delivery (your free guide is ready).</li>
+      <li><strong>Seasonal:</strong> Valentine's Day, Mother's / Father's Day, Easter, Halloween, Thanksgiving thank-you, Diwali, Eid. Only the holiday gift guide and holiday greetings exist today; build each a few weeks before its date.</li>
+    </ul>
+    <p><strong>For each template:</strong> SEO text within the limits in 06-QUALITY-BARS.txt, preview image, category page entry, sitemap and llms.txt (steps are in the Templates roadmap), PNG-only icons (never SVG). Check search demand first: "[type] email template".</p>
+  </div>
+</section>
+
+<section id="log">
+  <h2>Change log</h2>
+  <table>
+    <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
+    <tbody>
+      <tr><td>2026-11-02</td><td>Idea added: next next Email templates (gaps found against the 27 built so far and a suggested first batch of 8).</td></tr>
+      <tr><td>2026-11-02</td><td>Suggestions split into separate files (website, email, social, UI snippets, blog) with an index page; nothing removed.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</div>
+</body>
+</html>

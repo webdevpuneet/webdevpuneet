@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>webdevpuneet.com — Blog</title>
+<style>
+  :root {
+    --bg: #f7f7f4; --card: #ffffff; --text: #1c1b18; --muted: #6b675d; --line: #e4e0d5;
+    --accent: #0f766e; --accent-soft: #e6f4f1; --done: #15803d; --doing: #b45309; --todo: #64748b; --code: #f1efe8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14130f; --card: #1d1c18; --text: #ecebe4; --muted: #a8a397; --line: #34322b; --accent: #5eead4; --accent-soft: #10302c; --done: #4ade80; --doing: #fbbf24; --todo: #94a3b8; --code: #26241e; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+  header h1 { font-size: 30px; line-height: 1.2; margin: 0 0 6px; }
+  header p { margin: 0; color: var(--muted); }
+  nav.toc { margin: 22px 0 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+  nav.toc a { font-size: 13px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 99px; color: var(--text); text-decoration: none; background: var(--card); }
+  nav.toc a:hover { border-color: var(--accent); }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; margin: 18px 0; }
+  h2 { font-size: 21px; margin: 0 0 12px; }
+  h3 { font-size: 16px; margin: 18px 0 6px; }
+  p { margin: 0 0 10px; }
+  ul { margin: 0 0 10px; padding-left: 22px; }
+  li { margin: 3px 0; }
+  code { background: var(--code); padding: 1px 6px; border-radius: 5px; font-size: 13.5px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 6px 0 10px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .pill { display: inline-block; font-size: 11.5px; font-weight: 700; padding: 2px 9px; border-radius: 99px; letter-spacing: .03em; white-space: nowrap; }
+  .done { background: color-mix(in srgb, var(--done) 16%, transparent); color: var(--done); }
+  .doing { background: color-mix(in srgb, var(--doing) 18%, transparent); color: var(--doing); }
+  .todo { background: color-mix(in srgb, var(--todo) 16%, transparent); color: var(--todo); }
+  .callout { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: 12px 16px; border-radius: 8px; margin: 10px 0; }
+  .muted { color: var(--muted); font-size: 14px; }
+  .sug { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 16px; }
+  .sug:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
+  .sug-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+  .sug-head h3 { margin: 0; font-size: 17px; }
+  .top { border: 2px solid var(--accent); }
+  @media (max-width: 640px) { .wrap { padding: 20px 14px 60px; } section { padding: 18px 16px; } }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin: 14px 0; }
+  .card { display: block; border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; color: var(--text); text-decoration: none; background: var(--bg); }
+  .card:hover { border-color: var(--accent); }
+  .card h3 { margin: 0 0 6px; font-size: 17px; color: var(--accent); }
+  .card p { margin: 0 0 6px; font-size: 14px; color: var(--muted); }
+  .back { font-size: 13px; margin: 0 0 10px; }
+  .back a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="back"><a href="SUGGESTIONS.html">← All suggestions</a></p>
+<header>
+  <h1>Blog suggestions</h1>
+  <p>Index of every drafted post, the topic queues and blog ideas. Last updated: 2026-11-02.</p>
+</header>
+
+<nav class="toc" aria-label="Contents">
+  <a href="#how">How to use this</a>
+  <a href="#index">Blog index</a>
+  <a href="#queues">Topic queues</a>
+  <a href="#ideas">Blog ideas</a>
+  <a href="#log">Change log</a>
+</nav>
+
+<section id="how">
+  <h2>How to use this</h2>
+  <p>Each idea has a status: <span class="pill todo">Suggested</span> (not started), <span class="pill doing">Building</span> (in progress) or <span class="pill done">Done</span> (shipped, kept here as a record). Newest first inside each group.</p>
+  <div class="callout"><strong>Rule for what gets added:</strong> an idea goes here only if it fills a real gap (something visitors look for that the site does not have, or a workaround a current template forces). Ideas for other areas live in their own files; start from the <a href="SUGGESTIONS.html">Suggestions index</a>.</div>
+</section>
+
+<section id="index">
+  <h2>Blog index</h2>
+  <p class="muted">108 drafted posts. Built from the "POST TITLE" line in each file's header, so it needs refreshing when posts are added. The blog itself runs on WordPress at /blog; drafts are pasted into the WordPress Code editor.</p>
+  <h3>UI snippet roundups (46)</h3>
+  <p class="muted">Folder: <code>__directions/blog/blog-posts/ui-snippets/</code></p>
+  <table>
+    <thead><tr><th>#</th><th>Title</th><th>Status</th><th>File</th></tr></thead>
+    <tbody>
+<tr><td>1</td><td>8 Copy-Paste CSS Button Snippets You Can Drop Into Any Site</td><td>Published</td><td><code>blog1-done.txt</code></td></tr>
+<tr><td>2</td><td>8 Copy-Paste Hover Card Snippets That Make Any UI Feel Alive</td><td>Published</td><td><code>blog2-done.txt</code></td></tr>
+<tr><td>3</td><td>8 Copy-Paste Text Effect Snippets That Turn Headlines Into Hooks</td><td>Published</td><td><code>blog3-done.txt</code></td></tr>
+<tr><td>4</td><td>9 Free Browser-Based Developer Tools That Never Upload Your Data</td><td>Not done</td><td><code>blog4.-notdone.txt</code></td></tr>
+<tr><td>5</td><td>8 Copy-Paste Loading State Snippets That Make Waiting Feel Faster</td><td>Draft</td><td><code>blog5.txt</code></td></tr>
+<tr><td>6</td><td>8 Copy-Paste Form Input Snippets That Make Native Controls Feel Custom-Built</td><td>Draft</td><td><code>blog6.txt</code></td></tr>
+<tr><td>7</td><td>10 Copy-Paste Modal, Popover &amp; Toast Snippets That Don&#x27;t Feel Bolted On</td><td>Draft</td><td><code>blog7.txt</code></td></tr>
+<tr><td>8</td><td>8 Copy-Paste Navigation Snippets That Make Menus Feel Instant</td><td>Draft</td><td><code>blog8.txt</code></td></tr>
+<tr><td>9</td><td>Ditch the Charting Library: 8 Live CSS/SVG Charts You Can Copy Today</td><td>Draft</td><td><code>blog9.txt</code></td></tr>
+<tr><td>10</td><td>8 Copy-Paste Hero Section Snippets That Make Landing Pages Convert</td><td>Draft</td><td><code>blog10.txt</code></td></tr>
+<tr><td>11</td><td>10 Scroll Animation Snippets That Make Websites Feel Alive (Free, Copy-Paste)</td><td>Draft</td><td><code>blog11.txt</code></td></tr>
+<tr><td>12</td><td>10 Copy-Paste Pricing Snippets That Make Plans Easy to Choose</td><td>Draft</td><td><code>blog12.txt</code></td></tr>
+<tr><td>13</td><td>10 Copy-Paste Dashboard Snippets That Turn Data Into a Real Admin Panel</td><td>Draft</td><td><code>blog13.txt</code></td></tr>
+<tr><td>14</td><td>10 Copy-Paste Table Snippets That Replace a Data Grid Library</td><td>Draft</td><td><code>blog14.txt</code></td></tr>
+<tr><td>15</td><td>10 Copy-Paste AI UI Snippets That Make Your App Feel Like ChatGPT</td><td>Draft</td><td><code>blog15.txt</code></td></tr>
+<tr><td>16</td><td>10 Copy-Paste E-commerce Snippets That Take a Shopper From Browse to Buy</td><td>Draft</td><td><code>blog16.txt</code></td></tr>
+<tr><td>17</td><td>10 Copy-Paste Mobile App Screen Snippets That Feel Like a Real App</td><td>Draft</td><td><code>blog17.txt</code></td></tr>
+<tr><td>18</td><td>10 Copy-Paste Layout Snippets That Replace a CSS Grid Framework</td><td>Draft</td><td><code>blog18.txt</code></td></tr>
+<tr><td>19</td><td>9 Copy-Paste Testimonial &amp; Social Proof Snippets That Actually Build Trust</td><td>Draft</td><td><code>blog19.txt</code></td></tr>
+<tr><td>20</td><td>9 Copy-Paste Three.js Scroll Scenes That Turn Scrolling Into Cinema</td><td>Draft</td><td><code>blog20.txt</code></td></tr>
+<tr><td>21</td><td>9 Copy-Paste Mini-Game Snippets That Actually Play (Wordle, Simon, a 15-Puzzle &amp; More)</td><td>Draft</td><td><code>blog21.txt</code></td></tr>
+<tr><td>22</td><td>10 Copy-Paste Login &amp; Auth Snippets That Get Users In Without Friction</td><td>Draft</td><td><code>blog22.txt</code></td></tr>
+<tr><td>23</td><td>10 Copy-Paste Coding Game Snippets That Teach CSS, Regex &amp; the Terminal</td><td>Draft</td><td><code>blog23.txt</code></td></tr>
+<tr><td>24</td><td>9 Copy-Paste Mobile Games That Teach Touch Controls, Canvas Physics &amp; Game Loops</td><td>Draft</td><td><code>blog24.txt</code></td></tr>
+<tr><td>25</td><td>10 Copy-Paste Card Snippets: 3D Flips, Holographic Glare, Motion-Path Borders &amp; Container Queries</td><td>Draft</td><td><code>blog25.txt</code></td></tr>
+<tr><td>26</td><td>10 Copy-Paste Button Snippets That Do More Than Change Colour on Hover</td><td>Draft</td><td><code>blog26.txt</code></td></tr>
+<tr><td>27</td><td>10 Footer Snippets for Every Job a Footer Actually Has</td><td>Draft</td><td><code>blog27.txt</code></td></tr>
+<tr><td>28</td><td>10 Copy-Paste Chat &amp; Messaging Snippets That Actually Feel Alive</td><td>Draft</td><td><code>blog28.txt</code></td></tr>
+<tr><td>29</td><td>10 Copy-Paste Animation Snippets for the Scroll, Canvas &amp; GSAP Trends Everyone&#x27;s Chasing</td><td>Draft</td><td><code>blog29.txt</code></td></tr>
+<tr><td>30</td><td>10 More Copy-Paste Snippets: Real Physics on Canvas, Real 3D Models, and Scroll That Tells a Story</td><td>Draft</td><td><code>blog30.txt</code></td></tr>
+<tr><td>31</td><td>10 New Copy-Paste Snippets: The Everyday Patterns Every Site Still Needs</td><td>Draft</td><td><code>blog31.txt</code></td></tr>
+<tr><td>32</td><td>10 Canvas Snippets: Fractals, Physics, and Procedural Art From Scratch</td><td>Draft</td><td><code>blog32.txt</code></td></tr>
+<tr><td>33</td><td>10 Admin Table &amp; Modal Snippets: Sticky Columns, Bulk Edit, and Stacked Dialogs Done Right</td><td>Draft</td><td><code>blog33.txt</code></td></tr>
+<tr><td>34</td><td>10 New Developer-Tool Snippets: JWTs, Regex, Subnets, and Data Viz Built From Real Math</td><td>Draft</td><td><code>blog34.txt</code></td></tr>
+<tr><td>35</td><td>10 Scroll Animations Built on the New CSS animation-timeline API (8 With Zero JavaScript)</td><td>Draft</td><td><code>blog35.txt</code></td></tr>
+<tr><td>36</td><td>10 New Copy-Paste Dev Snippets: Real Formatters, a Semver Checker &amp; Two Dashboards That Fake Traffic Convincingly</td><td>Draft</td><td><code>blog36.txt</code></td></tr>
+<tr><td>37</td><td>10 New Copy-Paste Landing Page Snippets: A Working Command Palette, Three Pricing Calculators That Do Real Arithmetic &amp; Modals That Hold Real State</td><td>Draft</td><td><code>blog37.txt</code></td></tr>
+<tr><td>38</td><td>10 Free Bootstrap 5 Snippets: A Real Cart That Recalculates, a Signup Modal That Actually Validates &amp; a Sidebar That Collapses Two Different Ways</td><td>Draft</td><td><code>blog38.txt</code></td></tr>
+<tr><td>39</td><td>10 More Free Bootstrap 5 Snippets: A Kanban Board You Can Actually Drag, a Table That Sorts Dates Correctly &amp; Toasts That Clean Up After Themselves</td><td>Draft</td><td><code>blog39.txt</code></td></tr>
+<tr><td>40</td><td>10 More Free Bootstrap 5 Snippets: A Star Rating You Can Arrow-Key Through, an OTP Form With a Real Countdown &amp; a Price Slider Whose Thumbs Never Get Stuck</td><td>Draft</td><td><code>blog40.txt</code></td></tr>
+<tr><td>41</td><td>10 Free Bootstrap 5 Snippets for the Forms and Tables That Actually Ship: Autosave Status, Hold-to-Confirm Delete &amp; a Table That Handles Its Own Failures</td><td>Draft</td><td><code>blog41.txt</code></td></tr>
+<tr><td>42</td><td>10 Free Bootstrap 5 Snippets for Search, Command Palettes &amp; Developer Utilities: A Real Ctrl+K, Safe Regex Highlighting &amp; a Recursive JSON Viewer</td><td>Draft</td><td><code>blog42.txt</code></td></tr>
+<tr><td>43</td><td>10 Free Bootstrap 5 Snippets for File Uploads &amp; Account Security: A Real Pan-and-Zoom Cropper, Clipboard Paste &amp; a Session Timer That Actually Locks the Page</td><td>Draft</td><td><code>blog43.txt</code></td></tr>
+<tr><td>44</td><td>10 Free Bootstrap 5 Snippets for Smarter Forms &amp; Access Control: An Undo Toast, Nested Conditional Fields &amp; a Genuinely Locked Admin Permission</td><td>Draft</td><td><code>blog44.txt</code></td></tr>
+<tr><td>45</td><td>10 Free Bootstrap 5 Snippets for Dev Tools &amp; Data Tables: A Real LCS Diff Algorithm, Drag-and-Drop Reordering &amp; a Rate Limiter That Isn&#x27;t a Flat Cooldown</td><td>Draft</td><td><code>blog45.txt</code></td></tr>
+<tr><td>46</td><td>10 Free ECharts Data Visualization Snippets: A Synced Candlestick + Volume Panel, a Sankey Diagram That Actually Traces Drop-Off &amp; a Sliding-Window Realtime Chart</td><td>Draft</td><td><code>blog46.txt</code></td></tr>
+    </tbody>
+  </table>
+  <h3>General (CSS, JS, React, GSAP, UX) (37)</h3>
+  <p class="muted">Folder: <code>__directions/blog/blog-posts/general/</code></p>
+  <table>
+    <thead><tr><th>#</th><th>Title</th><th>File</th></tr></thead>
+    <tbody>
+<tr><td>1</td><td>How to Learn HTML, CSS, JavaScript and React in the Age of AI (Without Getting Left Behind)</td><td><code>general-blog1-wordpress.txt</code></td></tr>
+<tr><td>2</td><td>CSS clamp() Explained, with 10 Live Fluid-Sizing Demos You Can Drag</td><td><code>general-blog2-wordpress.txt</code></td></tr>
+<tr><td>3</td><td>CSS :has() Selector: 10 Practical Examples You Can Click and Edit</td><td><code>general-blog3-wordpress.txt</code></td></tr>
+<tr><td>4</td><td>CSS Container Queries: A Practical Guide with Real Examples</td><td><code>general-blog4-wordpress.txt</code></td></tr>
+<tr><td>5</td><td>CSS Grid vs Flexbox: When Should You Use Each?</td><td><code>general-blog5-wordpress.txt</code></td></tr>
+<tr><td>6</td><td>React useState vs useReducer: When Should You Use Each?</td><td><code>general-blog6-wordpress.txt</code></td></tr>
+<tr><td>7</td><td>JavaScript Debounce vs Throttle: When Should You Use Each?</td><td><code>general-blog7-wordpress.txt</code></td></tr>
+<tr><td>8</td><td>HTML Form Validation Without JavaScript: 10 Useful Techniques</td><td><code>general-blog8-wordpress.txt</code></td></tr>
+<tr><td>9</td><td>HTML &lt;input&gt; Types You Should Actually Use in Modern Forms</td><td><code>general-blog9-wordpress.txt</code></td></tr>
+<tr><td>10</td><td>How to Detect When an Element Enters the Viewport Without a Library</td><td><code>general-blog10-wordpress.txt</code></td></tr>
+<tr><td>11</td><td>How to Center Anything in CSS: 10 Modern Techniques</td><td><code>general-blog11-wordpress.txt</code></td></tr>
+<tr><td>12</td><td>GSAP Tutorial for Beginners: Animate Your First HTML Element</td><td><code>general-blog12-wordpress.txt</code></td></tr>
+<tr><td>13</td><td>How to Animate CSS Properties with GSAP (With Live Examples)</td><td><code>general-blog13-wordpress.txt</code></td></tr>
+<tr><td>14</td><td>React useRef Explained: 8 Practical Uses Beyond the DOM</td><td><code>general-blog14-wordpress.txt</code></td></tr>
+<tr><td>15</td><td>CSS Subgrid Explained: 8 Real Layout Problems It Solves</td><td><code>general-blog15-wordpress.txt</code></td></tr>
+<tr><td>16</td><td>JavaScript Event Delegation: 10 Practical Examples with closest() and Event Bubbling</td><td><code>general-blog16-wordpress.txt</code></td></tr>
+<tr><td>17</td><td>useEffect Explained: 8 Common Mistakes and How to Fix Them</td><td><code>general-blog17-wordpress.txt</code></td></tr>
+<tr><td>18</td><td>How to Detect Clicks Outside an Element in JavaScript: 9 Common Mistakes</td><td><code>general-blog18-wordpress.txt</code></td></tr>
+<tr><td>19</td><td>useMemo vs useCallback: What They Actually Do (8 Re-Render Demos)</td><td><code>general-blog19-wordpress.txt</code></td></tr>
+<tr><td>20</td><td>GSAP ScrollTrigger Tutorial: Animate Elements on Scroll (9 Live Demos)</td><td><code>general-blog20-wordpress.txt</code></td></tr>
+<tr><td>21</td><td>11 Loading State Examples You Can Copy</td><td><code>general-blog21-wordpress.txt</code></td></tr>
+<tr><td>22</td><td>Native CSS Nesting: A Practical Guide to 10 Rules You&#x27;ll Actually Use</td><td><code>general-blog22-wordpress.txt</code></td></tr>
+<tr><td>23</td><td>How to Copy Text to the Clipboard in JavaScript (and Handle It Failing): 9 Common Mistakes</td><td><code>general-blog23-wordpress.txt</code></td></tr>
+<tr><td>24</td><td>Why Your React Component Re-Renders (and How to Prove It)</td><td><code>general-blog24-wordpress.txt</code></td></tr>
+<tr><td>25</td><td>How to Create a Parallax Effect with GSAP ScrollTrigger (8 Live Demos)</td><td><code>general-blog25-wordpress.txt</code></td></tr>
+<tr><td>26</td><td>10 Empty State Examples with HTML and CSS</td><td><code>general-blog26-wordpress.txt</code></td></tr>
+<tr><td>27</td><td>CSS Cascade Layers (@layer) Explained with Practical Examples</td><td><code>general-blog27-wordpress.txt</code></td></tr>
+<tr><td>28</td><td>How to Build Accessible Tabs with Vanilla JavaScript</td><td><code>general-blog28-wordpress.txt</code></td></tr>
+<tr><td>29</td><td>React Keys Explained: Why Your List Breaks on Reorder</td><td><code>general-blog29-wordpress.txt</code></td></tr>
+<tr><td>30</td><td>GSAP Timeline vs ScrollTrigger: Understanding the Difference</td><td><code>general-blog30-wordpress.txt</code></td></tr>
+<tr><td>31</td><td>12 Form UX Patterns You Can Copy</td><td><code>general-blog31-wordpress.txt</code></td></tr>
+<tr><td>32</td><td>CSS @property Explained: Animatable Custom Properties with Live Demos</td><td><code>general-blog32-wordpress.txt</code></td></tr>
+<tr><td>33</td><td>How to Build an Accordion Without a JavaScript Library</td><td><code>general-blog33-wordpress.txt</code></td></tr>
+<tr><td>34</td><td>useLayoutEffect vs useEffect: When the Difference Actually Matters</td><td><code>general-blog34-wordpress.txt</code></td></tr>
+<tr><td>35</td><td>ScrollTrigger snap: Section-by-Section Scrolling (7 Live Demos)</td><td><code>general-blog35-wordpress.txt</code></td></tr>
+<tr><td>36</td><td>14 Microinteractions You Can Build with CSS Alone</td><td><code>general-blog36-wordpress.txt</code></td></tr>
+<tr><td>37</td><td>CSS Scroll-Driven Animations: The Complete Guide with Live Demos</td><td><code>general-blog37-wordpress.txt</code></td></tr>
+    </tbody>
+  </table>
+  <h3>Tools (7)</h3>
+  <p class="muted">Folder: <code>__directions/blog/blog-posts/tools/</code></p>
+  <table>
+    <thead><tr><th>#</th><th>Title</th><th>File</th></tr></thead>
+    <tbody>
+<tr><td>1</td><td>Responsive Navbar Builder: The Complete Guide to Dropdowns, Mobile Menus and Code Export</td><td><code>tools-blog1-wordpress.txt</code></td></tr>
+<tr><td>2</td><td>CSS Gradient Generator: Create Smooth, Layered &amp; Animated Gradients (Free Guide)</td><td><code>tools-blog2-wordpress.txt</code></td></tr>
+<tr><td>3</td><td>Carousel Builder: Make an HTML, CSS &amp; JavaScript Slider Without a Library (15 Live Demos)</td><td><code>tools-blog3-wordpress.txt</code></td></tr>
+<tr><td>4</td><td>Responsive Design Testing for Developers: 18 Real Devices, Breakpoints, Overflow Checks and Full-Page Screenshots</td><td><code>tools-blog4-wordpress.txt</code></td></tr>
+<tr><td>5</td><td>Free Social Media Post Templates in HTML: Design, Animate and Export Posts for Instagram, LinkedIn, X and Pinterest</td><td><code>tools-blog5-wordpress.txt</code></td></tr>
+<tr><td>6</td><td>Free HTML Email Templates: Edit Responsive, Dark Mode Emails Online and Copy the Code for Gmail, Outlook and Apple Mail</td><td><code>tools-blog6-wordpress.txt</code></td></tr>
+<tr><td>7</td><td>Free Website Builder and Website Templates: Build a Site From Ready-Made Sections, Add GSAP Scroll Animations and Export Clean HTML, React or Next.js</td><td><code>tools-blog7-wordpress.txt</code></td></tr>
+    </tbody>
+  </table>
+  <h3>Tutorials (18)</h3>
+  <p class="muted">Folder: <code>__directions/blog/blog-posts/tutorials/</code></p>
+  <table>
+    <thead><tr><th>#</th><th>Title</th><th>File</th></tr></thead>
+    <tbody>
+<tr><td>1</td><td>How I Built a Scroll-Scrubbed Typewriter Effect With GSAP ScrollTrigger (Full Breakdown)</td><td><code>tutorial1-wordpress.txt</code></td></tr>
+<tr><td>2</td><td>Building a Particle Text Effect With Canvas and Spring Physics</td><td><code>tutorial2-wordpress.txt</code></td></tr>
+<tr><td>3</td><td>Building an Airport-Style Split-Flap Display With CSS 3D Transforms</td><td><code>tutorial3-wordpress.txt</code></td></tr>
+<tr><td>4</td><td>Building a Scroll-Scrubbed Lottie Animation With lottie-web and GSAP ScrollTrigger</td><td><code>tutorial4-wordpress.txt</code></td></tr>
+<tr><td>5</td><td>Native Page Transitions Without a Library: A View Transitions API Walkthrough</td><td><code>tutorial5-wordpress.txt</code></td></tr>
+<tr><td>6</td><td>Building a Google-Calendar-Style Week View Scheduler With One Coordinate Transform</td><td><code>tutorial6-wordpress.txt</code></td></tr>
+<tr><td>7</td><td>Building a Pivot Table in Vanilla JavaScript: Cross-Tabs, Measures, and Totals That Don&#x27;t Lie</td><td><code>tutorial7-wordpress.txt</code></td></tr>
+<tr><td>8</td><td>Building an AI Streaming Response UI: How to Reveal Rich Text Without Breaking Your HTML</td><td><code>tutorial8-wordpress.txt</code></td></tr>
+<tr><td>9</td><td>Building a Three.js Product Viewer: Why Lighting, Not Geometry, Makes 3D Look Real</td><td><code>tutorial9-wordpress.txt</code></td></tr>
+<tr><td>10</td><td>Building a Canvas Physics Simulation: Gravity, Elastic Collisions, and the Momentum Math That Makes It Feel Real</td><td><code>tutorial10-wordpress.txt</code></td></tr>
+<tr><td>11</td><td>Building a Virtual Scroll List: 10,000 Rows, One Screenful of DOM</td><td><code>tutorial11-wordpress.txt</code></td></tr>
+<tr><td>12</td><td>Building a Cmd+K Command Palette: Global Shortcuts, Grouped Search, and Keyboard-Only Navigation</td><td><code>tutorial12-wordpress.txt</code></td></tr>
+<tr><td>13</td><td>Building Pong on Canvas: Angle-Reflection Bounce Physics and an AI Paddle That&#x27;s Meant to Lose Sometimes</td><td><code>tutorial13-wordpress.txt</code></td></tr>
+<tr><td>14</td><td>Building a Scroll-Hoisted Flag: Why clip-path Beats scaleX for Reveal Animations</td><td><code>tutorial14-wordpress.txt</code></td></tr>
+<tr><td>15</td><td>Building a Music Player Card: Why UI State Should Follow the &lt;audio&gt; Element, Not Guess Ahead of It</td><td><code>tutorial15-wordpress.txt</code></td></tr>
+<tr><td>16</td><td>Building an @Mention Autocomplete: The Caret-Scanning Trick Behind Every Trigger Popup</td><td><code>tutorial16-wordpress.txt</code></td></tr>
+<tr><td>17</td><td>Scrubbing a Real Skeletal Animation With Scroll: The mixer.setTime() Trick</td><td><code>tutorial17-wordpress.txt</code></td></tr>
+<tr><td>18</td><td>Animating a Linked List: Why deleteValue() Waits Before It Touches the Array</td><td><code>tutorial18-wordpress.txt</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="queues">
+  <h2>Topic queues</h2>
+  <p class="muted">What to write next. The queue files in <code>general/blog-ideas/</code> are the source of truth (mark done with [x] and the post file); this table only counts them.</p>
+  <table>
+    <thead><tr><th>Queue</th><th>Done</th><th>Partly</th><th>To write</th><th>File</th></tr></thead>
+    <tbody>
+<tr><td>CSS</td><td>10</td><td>2</td><td>63</td><td><code>blog-ideas/CSS.txt</code></td></tr>
+<tr><td>GSAP</td><td>6</td><td>14</td><td>50</td><td><code>blog-ideas/GSAP.txt</code></td></tr>
+<tr><td>JavaScript</td><td>7</td><td>2</td><td>62</td><td><code>blog-ideas/JavaScript.txt</code></td></tr>
+<tr><td>React</td><td>7</td><td>7</td><td>62</td><td><code>blog-ideas/React.txt</code></td></tr>
+<tr><td>UX</td><td>4</td><td>0</td><td>73</td><td><code>blog-ideas/UX.txt</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="ideas">
+  <h2>Blog ideas</h2>
+  <p class="muted">Ideas about the blog itself (categories, formats, the process).</p>
+
+  <div class="sug">
+    <div class="sug-head"><h3>Create a "UX" category in the WordPress blog</h3><span class="pill todo">Suggested</span></div>
+    <p class="muted">Added 2026-10-26</p>
+    <p>The blog-ideas queue has a UX topic (Form UX Patterns, Empty States, Loading States, Microinteractions) but WordPress has no UX category, so those posts get filed under "UI Snippets".</p>
+  </div>
+</section>
+
+<section id="log">
+  <h2>Change log</h2>
+  <table>
+    <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
+    <tbody>
+      <tr><td>2026-11-02</td><td>Blog index added (all drafted posts and the topic queue counts), and the "UX" category idea moved here.</td></tr>
+      <tr><td>2026-11-02</td><td>Suggestions split into separate files (website, email, social, UI snippets, blog) with an index page; nothing removed.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</div>
+</body>
+</html>
