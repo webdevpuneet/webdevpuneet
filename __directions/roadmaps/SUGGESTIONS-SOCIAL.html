@@ -110,6 +110,30 @@
       <li><strong>Check the video:</strong> export the animated video once per new template and watch it before calling the template done.</li>
     </ul>
     <p><strong>Idea to make exports feel richer:</strong> let a template mark decorative parts as animatable (a <code>data-anim</code> hook) so shapes, badges, ratings and bars move too: stars filling, a progress bar growing, numbers counting up, a countdown ticking, underlines drawing. Countdown, 5-star review, big stat, flash sale and pricing card would benefit first.</p>
+    <p><strong>Rule for every new social post template: animate each part in a way that fits its theme</strong> (decided 2026-11-02). Not a generic fade on everything: each moving part should do what that thing would do in real life. A flame flickers, a heart beats, a tick gets stamped, a number counts up.</p>
+    <ul>
+      <li><strong>How to build it:</strong> a decorative part is a real element with <code>data-anim="&lt;motion&gt;"</code> (see <code>render.js</code>). Motions that exist today: <code>flicker</code> (flames), <code>float</code> (hearts: drift and heartbeat), <code>tick</code> (pop in with overshoot, one after another), <code>drift</code> (confetti: slow wander). Add a new motion only when none fits, and reuse it afterwards.</li>
+      <li><strong>Built so far:</strong> Diwali (flickering diya flames), Valentine's Day (drifting, beating hearts), Pricing Card (ticks pop in), Thank You (floating confetti).</li>
+      <li><strong>Check each one:</strong> press Play in the editor, watch the whole loop at phone size, and confirm that nothing is clipped, nothing leaves its place for good and the post settles back to normal.</li>
+    </ul>
+    <p><strong>Planned motion per existing template</strong> (to add as they are revisited):</p>
+    <table>
+      <thead><tr><th style="width:190px">Template</th><th>Meaningful animation</th></tr></thead>
+      <tbody>
+        <tr><td>Checklist</td><td>Ticks get stamped one by one with a small tilt and a soft thud; the margin line draws down first.</td></tr>
+        <tr><td>How-To Steps</td><td>The glowing timeline line draws downward; each numbered circle lights up as the line reaches it.</td></tr>
+        <tr><td>Mistakes to Avoid</td><td>The hazard tape slides across; each mistake gets its strike-through drawn left to right, then the red cross stamps in, then the green fix slides in.</td></tr>
+        <tr><td>This or That</td><td>The two sides slide in from opposite edges and meet on the diagonal; the OR badge spins in; the A and B circles pop.</td></tr>
+        <tr><td>Hot Take</td><td>The sticker slaps on with a bounce; the glow at the bottom pulses like heat; the yellow word underlines itself.</td></tr>
+        <tr><td>Save the Date</td><td>The gold frame draws itself around the card; the date reveals line by line; the year fades in last.</td></tr>
+        <tr><td>New Blog Article</td><td>The cover slides up like a page turning; the headline writes in; the read time counts up.</td></tr>
+        <tr><td>Big Stat, Milestone, Countdown</td><td>The number counts up to its value; the countdown digits tick down; a ring or bar fills.</td></tr>
+        <tr><td>Testimonial, 5-star review</td><td>Stars fill one by one with a sparkle; the quote marks fade in before the text.</td></tr>
+        <tr><td>Giveaway, Discount Badge, Flash sale</td><td>The badge pops and wobbles; a shine sweeps across; the price tag swings.</td></tr>
+        <tr><td>Christmas, New Year, Halloween, Thanksgiving</td><td>Snow or sparkles fall, fireworks burst at midnight, bats flap across the moon, leaves drift down.</td></tr>
+        <tr><td>Weekly roundup, list posts</td><td>Rows slide in one by one in reading order, with the number flipping in before each line.</td></tr>
+      </tbody>
+    </table>
     <p><strong>WhatsApp sharing</strong> (added 2026-11-02):</p>
     <ul>
       <li><strong>Works today:</strong> download the PNG or JPG and send it in a chat, a group or a Channel, or post the Story size (1080×1920) as a WhatsApp Status. WhatsApp compresses photos, so for crisp text send the file as a document.</li>
@@ -126,6 +150,7 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-11-02</td><td>Rule added: every new social template animates each part in a way that fits its theme, with the motions built so far (flicker, float, tick, drift) and a planned animation per existing template.</td></tr>
       <tr><td>2026-11-02</td><td>WhatsApp sharing notes added (what works today, a Share button idea, MP4 versus WebM for Status, a WhatsApp Status label on the Story size).</td></tr>
       <tr><td>2026-11-02</td><td>First batch of 10 built, plus Diwali (11 new templates, 34 to 45, two new categories). Still to do: try the animated video export by hand for each, and the <code>data-anim</code> idea.</td></tr>
       <tr><td>2026-11-02</td><td>Design and animation bar added for new templates (creative layout, built for the animated video export, check the video), plus the idea of a <code>data-anim</code> hook so decorative parts animate too.</td></tr>

@@ -25,7 +25,7 @@ export default {
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
   ],
   html: `<div class="vd">
-  <div class="vd-hearts" aria-hidden="true"><i>&#9829;</i><i>&#9829;</i><i>&#9829;</i><i>&#9829;</i><i>&#9829;</i></div>
+  <div class="vd-hearts" aria-hidden="true"><i data-anim="float">&#9829;</i><i data-anim="float">&#9829;</i><i data-anim="float">&#9829;</i><i data-anim="float">&#9829;</i><i data-anim="float">&#9829;</i></div>
   <span class="vd-label" data-edit="label"></span>
   <div class="vd-body" data-fit-box>
     <h2 class="vd-title" data-edit="title" data-fit></h2>
@@ -36,10 +36,10 @@ export default {
 </div>`,
   css: `.vd{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(circle at 50% 0%,color-mix(in srgb,var(--accent) 30%,transparent),transparent 55%),linear-gradient(165deg,var(--bg) 0%,var(--bg2) 100%);overflow:hidden}
 .vd-hearts i{position:absolute;font-style:normal;color:var(--accent);opacity:.2}
-.vd-hearts i:nth-child(1){left:6%;top:9%;font-size:calc(var(--u)*14);transform:rotate(-14deg)}
-.vd-hearts i:nth-child(2){right:7%;top:20%;font-size:calc(var(--u)*8);transform:rotate(12deg);opacity:.3}
-.vd-hearts i:nth-child(3){left:10%;bottom:20%;font-size:calc(var(--u)*9);transform:rotate(10deg);opacity:.28}
-.vd-hearts i:nth-child(4){right:6%;bottom:9%;font-size:calc(var(--u)*17);transform:rotate(-10deg)}
+.vd-hearts i:nth-child(1){left:6%;top:9%;font-size:calc(var(--u)*14);rotate:-14deg}
+.vd-hearts i:nth-child(2){right:7%;top:20%;font-size:calc(var(--u)*8);rotate:12deg;opacity:.3}
+.vd-hearts i:nth-child(3){left:10%;bottom:20%;font-size:calc(var(--u)*9);rotate:10deg;opacity:.28}
+.vd-hearts i:nth-child(4){right:6%;bottom:9%;font-size:calc(var(--u)*17);rotate:-10deg}
 .vd-hearts i:nth-child(5){left:46%;top:3%;font-size:calc(var(--u)*5);opacity:.35}
 .vd>*:not(.vd-hearts){position:relative}
 .vd-label{font-size:calc(var(--u)*3);font-weight:700;text-transform:uppercase;letter-spacing:.38em;color:var(--accent);padding-left:.38em}

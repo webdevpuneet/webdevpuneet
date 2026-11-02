@@ -349,14 +349,22 @@ function animTiming(count) {
   const dur = 0.65, lead = 0.2;
   return { stagger, dur, lead, settle: lead + stagger * Math.max(0, count - 1) + dur };
 }
-/* `base` = [{ el, transform, opacity, transition }] captured before the first frame */
+/* What an animated element starts from, captured before the first frame. `transform` is its own inline
+   style (put back at the end); `css` is the transform it already has from the template's CSS (a centring
+   translateX(-50%), a tilt), which the animation must keep: setting an inline transform replaces it. */
+function animBase(el) {
+  const own = el.style.transform;
+  const computed = own || getComputedStyle(el).transform;
+  return { el, transform: own, css: computed && computed !== 'none' ? computed : '', opacity: el.style.opacity, transition: el.style.transition };
+}
+/* `base` = [animBase(el), ...] */
 function applyAnimFrame(base, time, style, u, { stagger, dur, lead }) {
   base.forEach((b, i) => {
     const it = b.el;
     const p = ease(Math.max(0, Math.min(1, (time - lead - i * stagger) / dur)));
     it.style.transition = 'none';
     it.style.opacity = String(p);
-    const base0 = b.transform && b.transform !== 'none' ? `${b.transform} ` : '';
+    const base0 = b.css ? `${b.css} ` : '';
     it.style.transform = style === 'fade' ? b.transform
       : style === 'pop' ? `${base0}scale(${(0.82 + 0.18 * p).toFixed(4)})`
       : `${base0}translateY(${((1 - p) * 5 * u).toFixed(2)}px)`;
@@ -368,9 +376,41 @@ const restoreAnim = base => base.forEach(b => { b.el.style.transform = b.transfo
    data-anim="flicker" (a flame). They are real elements (not ::before), because their style is set
    from here. A flame grows and narrows, sways a few degrees from its base and dims slightly, each
    one out of step with its neighbours. */
-const ambientItems = root => [...root.querySelectorAll('[data-anim]')].map(el => ({ el, kind: el.dataset.anim, transform: el.style.transform, opacity: el.style.opacity }));
-function applyAmbient(items, time) {
+const ambientItems = root => {
+  const seen = {}; // `rank`: the n-th visible element of its kind (ticks pop in one after another)
+  return [...root.querySelectorAll('[data-anim]')].map(el => {
+    const kind = el.dataset.anim;
+    const visible = el.getClientRects().length > 0;
+    const rank = visible ? (seen[kind] = (seen[kind] ?? -1) + 1) : 0;
+    return { el, kind, rank, transform: el.style.transform, opacity: el.style.opacity, baseOpacity: parseFloat(getComputedStyle(el).opacity) || 1 };
+  });
+};
+function applyAmbient(items, time, u = 10) {
   items.forEach((a, i) => {
+    if (a.kind === 'drift') { // a confetti dot: floats about slowly (distances in units of 1% of the post), swells and fades a little
+      const ph = i * 2.1;
+      const x = (1.6 * Math.sin(time * 0.8 + ph) + 0.6 * Math.sin(time * 1.9 + ph * 1.4)) * u;
+      const y = (2.8 * Math.sin(time * 0.7 + ph * 1.2) + 1.0 * Math.sin(time * 1.7 + ph)) * u;
+      a.el.style.transform = `${a.transform && a.transform !== 'none' ? `${a.transform} ` : ''}translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${(1 + 0.18 * Math.sin(time * 1.4 + ph)).toFixed(3)})`;
+      a.el.style.opacity = (0.8 + 0.2 * Math.sin(time * 1.1 + ph)).toFixed(3);
+      return;
+    }
+    if (a.kind === 'tick') { // a tick badge: pops in with a little overshoot, one after another, once its row has appeared
+      const p = Math.max(0, Math.min(1, (time - (0.9 + a.rank * 0.32)) / 0.5));
+      const c1 = 1.70158, c3 = c1 + 1;
+      const sc = p <= 0 ? 0 : p >= 1 ? 1 : 1 + c3 * (p - 1) ** 3 + c1 * (p - 1) ** 2;
+      a.el.style.transform = `${a.transform && a.transform !== 'none' ? `${a.transform} ` : ''}scale(${Math.max(0, sc).toFixed(3)})`;
+      return;
+    }
+    if (a.kind === 'float') { // a heart: drifts up and down and sideways (in % of its own size, so big ones travel further) and beats
+      const ph = i * 1.9;
+      const beat = Math.max(0, Math.sin(time * 3.4 + ph)) ** 3;
+      const y = 11 * Math.sin(time * 1.25 + ph) + 4 * Math.sin(time * 2.6 + ph * 1.7);
+      const x = 5 * Math.sin(time * 0.9 + ph * 1.3);
+      a.el.style.transform = `${a.transform && a.transform !== 'none' ? `${a.transform} ` : ''}translate(${x.toFixed(2)}%, ${y.toFixed(2)}%) scale(${(1 + 0.14 * beat).toFixed(3)})`;
+      a.el.style.opacity = Math.min(1, a.baseOpacity * (0.9 + 0.55 * beat)).toFixed(3);
+      return;
+    }
     if (a.kind !== 'flicker') return;
     const s = 1 + 0.08 * Math.sin(time * 9 + i * 1.7) + 0.05 * Math.sin(time * 17 + i * 3.1) + 0.03 * Math.sin(time * 29 + i * 0.7);
     const rot = 3.2 * Math.sin(time * 6.5 + i * 2.3) + 1.4 * Math.sin(time * 15 + i);
@@ -386,7 +426,7 @@ const restoreAmbient = items => items.forEach(a => { a.el.style.transform = a.tr
    decoration (flames) plays for `seconds`, like the video; any other stops after the reveal. */
 export function playPreviewAnimation(root, { style = 'rise', u = 10, seconds = 6, onDone } = {}) {
   const items = animItems(root);
-  const base = items.map(el => ({ el, transform: el.style.transform, opacity: el.style.opacity, transition: el.style.transition }));
+  const base = items.map(animBase);
   const amb = ambientItems(root);
   const timing = animTiming(items.length);
   const hold = 0.9; // the finished design stays visible for a moment
@@ -398,11 +438,11 @@ export function playPreviewAnimation(root, { style = 'rise', u = 10, seconds = 6
     if (stopped) return;
     const time = (now - t0) / 1000;
     applyAnimFrame(base, Math.min(time, timing.settle), style, u, timing);
-    applyAmbient(amb, time);
+    applyAmbient(amb, time, u);
     if (time >= length) finish(); else raf = requestAnimationFrame(tick);
   };
   applyAnimFrame(base, 0, style, u, timing);
-  applyAmbient(amb, 0);
+  applyAmbient(amb, 0, u);
   raf = requestAnimationFrame(tick);
   return finish;
 }
@@ -429,7 +469,7 @@ export async function renderVideo(t, state, { seconds = 6, fps = 30, style = 'ri
     layoutImages(root, state);
     const fontCss = await embeddedFontCss(usedFonts(t, state));
     const items = animItems(root);
-    const base = items.map(el => ({ el, transform: el.style.transform, opacity: el.style.opacity, transition: el.style.transition }));
+    const base = items.map(animBase);
     const amb = ambientItems(root);
     const timing = animTiming(items.length);
     const total = Math.round(seconds * fps);
@@ -445,7 +485,7 @@ export async function renderVideo(t, state, { seconds = 6, fps = 30, style = 'ri
         continue;
       }
       applyAnimFrame(base, f / fps, style, u, timing);
-      applyAmbient(amb, f / fps);
+      applyAmbient(amb, f / fps, u);
       frames.push(await toJpeg(await rasterize(root, t, z, fontCss)));
       onProgress?.({ phase: 'render', done: f + 1, total: animFrames });
     }

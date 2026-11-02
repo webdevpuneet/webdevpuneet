@@ -39,10 +39,10 @@ export default {
     </div>
     <div class="pc-price"><b data-edit="price"></b><span data-edit="period"></span></div>
     <div class="pc-feats" data-fit-box>
-      <p><i aria-hidden="true">&#10003;</i><span data-edit="f1"></span></p>
-      <p><i aria-hidden="true">&#10003;</i><span data-edit="f2"></span></p>
-      <p><i aria-hidden="true">&#10003;</i><span data-edit="f3"></span></p>
-      <p><i aria-hidden="true">&#10003;</i><span data-edit="f4"></span></p>
+      <p><i aria-hidden="true" data-anim="tick">&#10003;</i><span data-edit="f1"></span></p>
+      <p><i aria-hidden="true" data-anim="tick">&#10003;</i><span data-edit="f2"></span></p>
+      <p><i aria-hidden="true" data-anim="tick">&#10003;</i><span data-edit="f3"></span></p>
+      <p><i aria-hidden="true" data-anim="tick">&#10003;</i><span data-edit="f4"></span></p>
     </div>
     <span class="pc-cta" data-edit="cta"></span>
   </div>
@@ -57,7 +57,7 @@ export default {
 .pc-price{display:flex;align-items:baseline;gap:calc(var(--u)*2);padding-bottom:calc(var(--u)*3);border-bottom:calc(var(--u)*.35) dashed color-mix(in srgb,var(--text) 22%,transparent)}
 .pc-price b{font-family:var(--font-heading);font-size:calc(var(--u)*16);line-height:.9;font-weight:800;letter-spacing:-.04em}
 .pc-price span{font-size:calc(var(--u)*3.4);font-weight:600;opacity:.65}
-.pc-feats{flex:1;display:flex;flex-direction:column;justify-content:center;gap:calc(var(--u)*2.6)}
+.pc-feats{flex:1;display:flex;flex-direction:column;justify-content:center;gap:calc(var(--u)*2.6);margin:0 calc(var(--u)*-1.6);padding:calc(var(--u)*.8) calc(var(--u)*1.6)}/* room around the rows: the box clips (overflow hidden) and a tick overshoots when it pops */
 .pc-feats p{display:flex;align-items:center;gap:calc(var(--u)*2.6);font-size:calc(var(--u)*3.6);font-weight:600;line-height:1.2}
 .pc-feats p:has(> span:empty){display:none}
 .pc-feats i{flex:none;width:calc(var(--u)*5.4);height:calc(var(--u)*5.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:calc(var(--u)*2.8);font-weight:800;color:#fff;background:var(--accent)}

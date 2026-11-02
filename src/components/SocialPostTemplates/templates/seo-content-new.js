@@ -300,7 +300,7 @@ Pair it with a [Discount Badge](/social-post-templates/discount-badge/) for a la
       '"Most popular" ribbon in a gradient pill on the card edge',
       'Plan name and a short tagline for the right buyer',
       'Very large price with its billing period',
-      'Up to four tick-marked features; empty rows disappear',
+      'Up to four tick-marked features; empty rows disappear, and the ticks pop in one by one in Play and the video',
       'Full-width call-to-action button',
       'Soft background with an accent glow',
       'Two-column card on the 16:9 and LinkedIn sizes',
@@ -462,7 +462,7 @@ Use it after a milestone such as a follower count or a first year, at the end of
 Celebrate the number itself with [Milestone](/social-post-templates/milestone/), or share a customer's own words with [Testimonial](/social-post-templates/testimonial/).`,
     },
     features: [
-      'Warm gradient background with CSS confetti dots in three colours',
+      'Warm gradient background with CSS confetti dots in three colours that float in Play and the video',
       '"From all of us" label chip',
       'Huge headline with *asterisk* highlights in the accent colour',
       'Heartfelt message area that shrinks to fit',
@@ -518,7 +518,7 @@ Post it a few days early for an offer and on the day for a greeting. See also [C
     },
     features: [
       'Deep rose gradient with a soft glow at the top',
-      'Floating hearts at five sizes and angles',
+      'Floating hearts at five sizes and angles that drift and beat in Play and the video',
       'Flowing script headline with *asterisk* highlights in pale rose',
       '"With love" label and a warm message paragraph',
       'Optional offer chip that disappears when empty',

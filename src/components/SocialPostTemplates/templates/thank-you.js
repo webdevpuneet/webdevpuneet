@@ -25,7 +25,7 @@ export default {
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
   ],
   html: `<div class="ty">
-  <div class="ty-dots" aria-hidden="true"></div>
+  <div class="ty-dots" aria-hidden="true"><i data-anim="drift"></i><i data-anim="drift"></i><i data-anim="drift"></i><i data-anim="drift"></i><i data-anim="drift"></i><i data-anim="drift"></i><i data-anim="drift"></i><i data-anim="drift"></i></div>
   <span class="ty-label" data-edit="label"></span>
   <div class="ty-body" data-fit-box>
     <h2 class="ty-title" data-edit="title" data-fit></h2>
@@ -34,7 +34,16 @@ export default {
   <div class="ty-foot"><span class="ty-sign" data-edit="signoff"></span><span class="ty-handle" data-edit="handle"></span></div>
 </div>`,
   css: `.ty{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb);background:linear-gradient(160deg,var(--bg) 0%,var(--bg2) 100%);overflow:hidden}
-.ty-dots{position:absolute;inset:0;background-image:radial-gradient(circle at 12% 18%,var(--accent) 0 calc(var(--u)*1.1),transparent calc(var(--u)*1.2)),radial-gradient(circle at 86% 10%,#f59e0b 0 calc(var(--u)*1.4),transparent calc(var(--u)*1.5)),radial-gradient(circle at 63% 11%,#ec4899 0 calc(var(--u)*.9),transparent calc(var(--u)*1)),radial-gradient(circle at 92% 46%,var(--accent) 0 calc(var(--u)*1),transparent calc(var(--u)*1.1)),radial-gradient(circle at 95% 72%,#f59e0b 0 calc(var(--u)*1.2),transparent calc(var(--u)*1.3)),radial-gradient(circle at 24% 84%,#ec4899 0 calc(var(--u)*1.3),transparent calc(var(--u)*1.4)),radial-gradient(circle at 80% 88%,var(--accent) 0 calc(var(--u)*1.6),transparent calc(var(--u)*1.7)),radial-gradient(circle at 54% 8%,#f59e0b 0 calc(var(--u)*.8),transparent calc(var(--u)*.9));opacity:.75}
+.ty-dots{position:absolute;inset:0;opacity:.75}
+.ty-dots i{position:absolute;display:block;border-radius:50%}
+.ty-dots i:nth-child(1){left:12%;top:18%;width:calc(var(--u)*2.2);height:calc(var(--u)*2.2);margin:calc(var(--u)*-1.1);background:var(--accent)}
+.ty-dots i:nth-child(2){left:86%;top:10%;width:calc(var(--u)*2.8);height:calc(var(--u)*2.8);margin:calc(var(--u)*-1.4);background:#f59e0b}
+.ty-dots i:nth-child(3){left:63%;top:11%;width:calc(var(--u)*1.8);height:calc(var(--u)*1.8);margin:calc(var(--u)*-0.9);background:#ec4899}
+.ty-dots i:nth-child(4){left:92%;top:46%;width:calc(var(--u)*2);height:calc(var(--u)*2);margin:calc(var(--u)*-1);background:var(--accent)}
+.ty-dots i:nth-child(5){left:95%;top:72%;width:calc(var(--u)*2.4);height:calc(var(--u)*2.4);margin:calc(var(--u)*-1.2);background:#f59e0b}
+.ty-dots i:nth-child(6){left:24%;top:84%;width:calc(var(--u)*2.6);height:calc(var(--u)*2.6);margin:calc(var(--u)*-1.3);background:#ec4899}
+.ty-dots i:nth-child(7){left:80%;top:88%;width:calc(var(--u)*3.2);height:calc(var(--u)*3.2);margin:calc(var(--u)*-1.6);background:var(--accent)}
+.ty-dots i:nth-child(8){left:54%;top:8%;width:calc(var(--u)*1.6);height:calc(var(--u)*1.6);margin:calc(var(--u)*-0.8);background:#f59e0b}
 .ty>*:not(.ty-dots){position:relative}
 .ty-label{align-self:flex-start;font-size:calc(var(--u)*3);font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:var(--accent);background:color-mix(in srgb,var(--accent) 13%,#fff);padding:calc(var(--u)*1.3) calc(var(--u)*3.4);border-radius:99px}
 .ty-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:calc(var(--u)*4.4)}
