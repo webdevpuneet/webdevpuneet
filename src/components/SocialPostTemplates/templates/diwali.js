@@ -34,7 +34,7 @@ export default {
     <p class="dw-message" data-edit="message" data-fit></p>
     <span class="dw-offer" data-edit="offer"></span>
   </div>
-  <div class="dw-lamps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="dw-lamps" aria-hidden="true"><i><b data-anim="flicker"></b></i><i><b data-anim="flicker"></b></i><i><b data-anim="flicker"></b></i><i><b data-anim="flicker"></b></i><i><b data-anim="flicker"></b></i></div>
   <span class="dw-handle" data-edit="handle"></span>
 </div>`,
   css: `.dw{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:calc(var(--u)*3.4);padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(ellipse at 50% 100%,color-mix(in srgb,var(--accent) 38%,transparent),transparent 58%),linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);overflow:hidden}
@@ -50,7 +50,7 @@ export default {
 .dw-offer:empty{display:none}
 .dw-lamps{display:flex;align-items:flex-end;justify-content:center;gap:calc(var(--u)*5.6);height:calc(var(--u)*11)}
 .dw-lamps i{position:relative;display:block;width:calc(var(--u)*9);height:calc(var(--u)*4.2);border-radius:0 0 calc(var(--u)*9) calc(var(--u)*9)/0 0 calc(var(--u)*4.2) calc(var(--u)*4.2);background:linear-gradient(180deg,#f59e0b,#b45309)}
-.dw-lamps i::before{content:'';position:absolute;left:50%;bottom:calc(var(--u)*3.6);width:calc(var(--u)*2.8);height:calc(var(--u)*5.6);transform:translateX(-50%);border-radius:50% 50% 50% 50%/62% 62% 38% 38%;background:radial-gradient(ellipse at 50% 72%,#fff7d6 0 24%,#fcd34d 46%,#f97316 100%);box-shadow:0 0 calc(var(--u)*3.4) calc(var(--u)*1.2) rgba(251,191,36,.55)}
+.dw-lamps b{position:absolute;left:calc(50% - var(--u)*1.4);bottom:calc(var(--u)*3.6);width:calc(var(--u)*2.8);height:calc(var(--u)*5.6);transform-origin:50% 100%;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;background:radial-gradient(ellipse at 50% 72%,#fff7d6 0 24%,#fcd34d 46%,#f97316 100%);box-shadow:0 0 calc(var(--u)*3.4) calc(var(--u)*1.2) rgba(251,191,36,.55)}
 .dw-lamps i:nth-child(odd){transform:translateY(calc(var(--u)*1.4))}
 .dw-lamps i:nth-child(3){transform:scale(1.18)}
 .dw-handle{font-size:calc(var(--u)*3.2);font-weight:700;color:var(--accent);letter-spacing:.06em}

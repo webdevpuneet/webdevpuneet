@@ -10,10 +10,10 @@ import { revealInPanel } from '@/lib/reveal-in-panel';
 import { SIZES, sizeById, templateById } from './templates/index.js';
 import { PALETTES, parseHex } from '../OgImageGenerator/engine';
 import FontPicker from '@/components/FontPicker';
-import { ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
+import { ExportMenu, ForkButton, HistoryButtons, PlayButton, SaveButton } from '@/components/ToolbarActions';
 import Preview from './Preview';
 import FormatPopover from '@/components/EmailTemplates/FormatPopover';
-import { renderImage, standaloneHtml, snippetParts, renderVideo, videoSupport } from './render';
+import { renderImage, standaloneHtml, snippetParts, renderVideo, videoSupport, playPreviewAnimation } from './render';
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { jpegsToPdf } from '@/lib/images-to-pdf';
 import Mockup, { MOCKUPS } from './Mockup';
@@ -167,6 +167,9 @@ export default function TemplateEditor({ id }) {
   const videoAbort = useRef(null);
   const [canVideo, setCanVideo] = useState(null);
   useEffect(() => { setCanVideo(videoSupport()); }, []);
+  /* Play: the live preview runs the same animation as the video export (no recording) */
+  const [playing, setPlaying] = useState(false);
+  const stopPlay = useRef(null);
   const [box, setBox] = useState({ w: 600, h: 600 });
   const [mockup, setMockupRaw] = useState('design');
   const [checks, setChecks] = useState([]);
@@ -194,6 +197,22 @@ export default function TemplateEditor({ id }) {
   }, []);
   const [liveKit] = useBrandKit();
   const z = sizeById(state.size);
+  const togglePlay = () => {
+    if (stopPlay.current) { stopPlay.current(); return; }
+    const host = [...(stageRef.current?.querySelectorAll('div') || [])].find(d => d.shadowRoot);
+    const root = host?.shadowRoot?.querySelector('.spt');
+    if (!root) return;
+    setPlaying(true);
+    stopPlay.current = playPreviewAnimation(root, {
+      style: video.style,
+      u: Math.min(z.w, z.h) / 100,
+      seconds: video.seconds,
+      onDone: () => { stopPlay.current = null; setPlaying(false); },
+    });
+  };
+  // Editing, switching size or leaving the page stops the preview animation
+  useEffect(() => { stopPlay.current?.(); }, [state]);
+  useEffect(() => () => stopPlay.current?.(), []);
 
   /* Current slide and the flat design state the renderer works with */
   const active = Math.min(state.active, state.slides.length - 1);
@@ -987,6 +1006,15 @@ export default function TemplateEditor({ id }) {
               <span>{z.w}×{z.h}</span>
               <span className={s.toolbarSep} aria-hidden="true" />
               <HistoryButtons onUndo={undo} onRedo={redo} onReset={() => setState(editorDefault(t))} canUndo={canUndo} canRedo={canRedo} />
+              <PlayButton onClick={togglePlay} playing={playing} />
+            </div>
+            <div className={s.toolbarRight}>
+              {(state.size === 'story' || state.size === 'portrait') && (
+                <label className={s.check}>
+                  <input type="checkbox" checked={safe} onChange={e => setSafe(e.target.checked)} />
+                  {state.size === 'story' ? 'Story safe zones' : 'Grid crop guides'}
+                </label>
+              )}
               <SaveButton
                 onClick={quickSave}
                 busy={busy === 'save'}
@@ -1002,14 +1030,6 @@ export default function TemplateEditor({ id }) {
                   ...(currentDesign ? [{ label: 'Detach', sub: `Keep editing without changing “${currentDesign.name}”`, onClick: () => { setCurrentDesign(null); flash('Detached. Save now creates a new design.'); } }] : []),
                 ]}
               />
-            </div>
-            <div className={s.toolbarRight}>
-              {(state.size === 'story' || state.size === 'portrait') && (
-                <label className={s.check}>
-                  <input type="checkbox" checked={safe} onChange={e => setSafe(e.target.checked)} />
-                  {state.size === 'story' ? 'Story safe zones' : 'Grid crop guides'}
-                </label>
-              )}
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} title="Save this design as an editable HTML/CSS snippet in My Code (opens in a new tab)" />
               <ExportMenu
                 head={isCarousel ? 'Export this carousel as…' : 'Export this post as…'}

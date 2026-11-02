@@ -487,3 +487,26 @@
 .toolbar[data-scroll-toolbar] > :first-child > * { flex: none; }
 .toolbar[data-scroll-toolbar] .toolbarRight { margin-left: auto; }
 .toolbar[data-scroll-toolbar] .check { white-space: nowrap; }
+
+/* Phones: the preview gets at least half of the screen height. The editor fills the screen
+   (the page's mobile layout would otherwise shrink it to its content), the two bars above the
+   preview are one compact row each with Export always in view, and the open panel is capped at
+   (50% of the screen minus those bars) so the preview keeps its half. Social Post and Email
+   editors share these rules. */
+@media (max-width: 860px) {
+  .wrap { height: 100dvh; min-height: 0; }
+  .toolbar[data-scroll-toolbar] { padding: 5px 8px; gap: 6px; }
+  .toolbar[data-scroll-toolbar] .meta { gap: 6px; }
+  .toolbar[data-scroll-toolbar] .metaName { max-width: 20vw; }
+  .toolbar[data-scroll-toolbar] .meta > span:not([class]),
+  .toolbar[data-scroll-toolbar] .toolbarSep,
+  .toolbar[data-scroll-toolbar] .toolbarRight .check,
+  .toolbar[data-scroll-toolbar] .toolbarRight button[title^="Save this design as an editable"] { display: none; }
+  .toolbar[data-scroll-toolbar] .toolbarRight { gap: 6px; }
+  .toolbar[data-scroll-toolbar] button[aria-label$="animation preview"] { width: 28px; padding: 0; justify-content: center; }
+  .toolbar[data-scroll-toolbar] button[aria-label$="animation preview"] > span { display: none; }
+  .viewBar { flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding: 4px 8px; scrollbar-width: none; }
+  .viewBar > * { flex: none; }
+  .sizeHint { display: none; }
+  .controls { max-height: max(190px, calc(50dvh - 76px)); overscroll-behavior: contain; }
+}

@@ -72,3 +72,7 @@ Format: date · area · suggested / chosen / done · note
            timed out in headless Chromium, so it is still to be tried by hand.
 2026-11-02 · suggestions · done · Suggestions split into one file per area (index + Website, Email, Social, UI snippets, Blog) with a
            blog index; added ideas: Mega menu navbar, Ecommerce menu navbar, Accessibility Toolbar upgrades, floating sections.
+2026-11-02 · editors · done · Phone layout of the Social Post and Email editors: the editor fills the screen, the preview keeps at least half
+           of the screen height with the panel open (more when closed), and Export stays in view in the toolbar (the pixel size,
+           Fork and guides tick are hidden on phones). New Play button on the Social Post preview: runs the same animation as the
+           animated video export (shared timing code in render.js) without recording. Checked at 390x844 and 360x640.

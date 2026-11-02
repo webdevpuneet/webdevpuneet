@@ -176,6 +176,18 @@ export function HistoryButtons({ onUndo, onRedo, onReset, canUndo, canRedo }) {
   );
 }
 
+/* Play / stop: previews an animation. Same compact button as Fork / Export; the label drops away on phones. */
+export function PlayButton({ onClick, playing = false, title = 'Play animation: preview how the animated video will look', stopTitle = 'Stop the animation preview' }) {
+  return (
+    <button type="button" className={us.iconBtn} onClick={onClick} aria-pressed={playing} aria-label={playing ? stopTitle : 'Play the animation preview'} title={playing ? stopTitle : title}>
+      {playing
+        ? <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2" /></svg>
+        : <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z" /></svg>}
+      <span>{playing ? 'Stop' : 'Play'}</span>
+    </button>
+  );
+}
+
 /* Save (to My designs): same compact style; shows "Saved ✓" for a moment after saving.
    `menu`: optional [{ label, sub, onClick }] shown from a ▾ next to it (Detach, My designs…).
    `saveAs`: optional { defaultName, onSave(name) }: adds "Save as new design", which turns the

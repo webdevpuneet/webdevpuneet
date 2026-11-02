@@ -339,6 +339,73 @@ export function applyTextAlign(root, align) {
    frames at an exact frame rate into MediaRecorder: MP4 where the browser can record
    it (Chrome), otherwise WebM. */
 const ease = p => 1 - (1 - p) ** 3;
+
+/* The animation itself, shared by the video export and the live Play preview so what you see
+   when you press Play is what the video shows. */
+// What animates in, in reading order: text and photo slots that are actually shown
+const animItems = root => [...root.querySelectorAll('[data-edit], [data-image]')].filter(el => el.getClientRects().length && (el.dataset.image ? el.classList.contains('has-img') || !el.hasAttribute('data-optional') : el.textContent.trim()));
+function animTiming(count) {
+  const stagger = Math.min(0.14, 1.6 / Math.max(1, count));
+  const dur = 0.65, lead = 0.2;
+  return { stagger, dur, lead, settle: lead + stagger * Math.max(0, count - 1) + dur };
+}
+/* `base` = [{ el, transform, opacity, transition }] captured before the first frame */
+function applyAnimFrame(base, time, style, u, { stagger, dur, lead }) {
+  base.forEach((b, i) => {
+    const it = b.el;
+    const p = ease(Math.max(0, Math.min(1, (time - lead - i * stagger) / dur)));
+    it.style.transition = 'none';
+    it.style.opacity = String(p);
+    const base0 = b.transform && b.transform !== 'none' ? `${b.transform} ` : '';
+    it.style.transform = style === 'fade' ? b.transform
+      : style === 'pop' ? `${base0}scale(${(0.82 + 0.18 * p).toFixed(4)})`
+      : `${base0}translateY(${((1 - p) * 5 * u).toFixed(2)}px)`;
+  });
+}
+const restoreAnim = base => base.forEach(b => { b.el.style.transform = b.transform; b.el.style.opacity = b.opacity; b.el.style.transition = b.transition; });
+
+/* Decorative parts that keep moving while the post plays: any element a template marks with
+   data-anim="flicker" (a flame). They are real elements (not ::before), because their style is set
+   from here. A flame grows and narrows, sways a few degrees from its base and dims slightly, each
+   one out of step with its neighbours. */
+const ambientItems = root => [...root.querySelectorAll('[data-anim]')].map(el => ({ el, kind: el.dataset.anim, transform: el.style.transform, opacity: el.style.opacity }));
+function applyAmbient(items, time) {
+  items.forEach((a, i) => {
+    if (a.kind !== 'flicker') return;
+    const s = 1 + 0.08 * Math.sin(time * 9 + i * 1.7) + 0.05 * Math.sin(time * 17 + i * 3.1) + 0.03 * Math.sin(time * 29 + i * 0.7);
+    const rot = 3.2 * Math.sin(time * 6.5 + i * 2.3) + 1.4 * Math.sin(time * 15 + i);
+    a.el.style.transformOrigin = '50% 100%';
+    a.el.style.transform = `${a.transform && a.transform !== 'none' ? `${a.transform} ` : ''}rotate(${rot.toFixed(2)}deg) scale(${(1 - (s - 1) * 0.7).toFixed(3)}, ${s.toFixed(3)})`;
+    a.el.style.opacity = (0.9 + 0.1 * Math.sin(time * 13 + i * 2)).toFixed(3);
+  });
+}
+const restoreAmbient = items => items.forEach(a => { a.el.style.transform = a.transform; a.el.style.opacity = a.opacity; a.el.style.transformOrigin = ''; });
+
+/* Play the animation on the live preview (a shadow root's .spt element). Returns stop().
+   `u` = 1% of the shorter side of the post, in the post's own pixels. A post with moving
+   decoration (flames) plays for `seconds`, like the video; any other stops after the reveal. */
+export function playPreviewAnimation(root, { style = 'rise', u = 10, seconds = 6, onDone } = {}) {
+  const items = animItems(root);
+  const base = items.map(el => ({ el, transform: el.style.transform, opacity: el.style.opacity, transition: el.style.transition }));
+  const amb = ambientItems(root);
+  const timing = animTiming(items.length);
+  const hold = 0.9; // the finished design stays visible for a moment
+  const length = amb.length ? Math.max(seconds, timing.settle + hold) : timing.settle + hold;
+  const t0 = performance.now();
+  let raf = 0, stopped = false;
+  const finish = () => { if (stopped) return; stopped = true; cancelAnimationFrame(raf); restoreAnim(base); restoreAmbient(amb); onDone?.(); };
+  const tick = now => {
+    if (stopped) return;
+    const time = (now - t0) / 1000;
+    applyAnimFrame(base, Math.min(time, timing.settle), style, u, timing);
+    applyAmbient(amb, time);
+    if (time >= length) finish(); else raf = requestAnimationFrame(tick);
+  };
+  applyAnimFrame(base, 0, style, u, timing);
+  applyAmbient(amb, 0);
+  raf = requestAnimationFrame(tick);
+  return finish;
+}
 const VIDEO_TYPES = ['video/mp4;codecs=avc1.42E01E', 'video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'];
 export function videoSupport() {
   if (typeof window === 'undefined' || typeof MediaRecorder === 'undefined' || !HTMLCanvasElement.prototype.captureStream) return null;
@@ -361,31 +428,29 @@ export async function renderVideo(t, state, { seconds = 6, fps = 30, style = 'ri
     fitText(root);
     layoutImages(root, state);
     const fontCss = await embeddedFontCss(usedFonts(t, state));
-    // What animates in, in reading order: text and photo slots that are actually shown
-    const items = [...root.querySelectorAll('[data-edit], [data-image]')].filter(el => el.getClientRects().length && (el.dataset.image ? el.classList.contains('has-img') || !el.hasAttribute('data-optional') : el.textContent.trim()));
+    const items = animItems(root);
     const base = items.map(el => ({ el, transform: el.style.transform, opacity: el.style.opacity, transition: el.style.transition }));
-    const stagger = Math.min(0.14, 1.6 / Math.max(1, items.length));
-    const dur = 0.65, lead = 0.2;
-    const settle = lead + stagger * Math.max(0, items.length - 1) + dur;
+    const amb = ambientItems(root);
+    const timing = animTiming(items.length);
     const total = Math.round(seconds * fps);
-    const animFrames = Math.min(total, Math.ceil(settle * fps) + 1);
+    const settleFrames = Math.min(total, Math.ceil(timing.settle * fps) + 1);
+    // Moving decoration (flames) means every frame differs, so the whole length is rendered
+    const animFrames = amb.length ? total : settleFrames;
     const toJpeg = canvas => new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.92));
     for (let f = 0; f < animFrames; f++) {
       if (signal?.aborted) throw new DOMException('Cancelled', 'AbortError');
-      const time = f / fps;
-      items.forEach((it, i) => {
-        const p = ease(Math.max(0, Math.min(1, (time - lead - i * stagger) / dur)));
-        it.style.transition = 'none';
-        it.style.opacity = String(p);
-        const base0 = base[i].transform && base[i].transform !== 'none' ? `${base[i].transform} ` : '';
-        it.style.transform = style === 'fade' ? base[i].transform
-          : style === 'pop' ? `${base0}scale(${(0.82 + 0.18 * p).toFixed(4)})`
-          : `${base0}translateY(${((1 - p) * 5 * u).toFixed(2)}px)`;
-      });
+      if (f >= settleFrames && f % 2 === 1) { // after the reveal, flames move at half the frame rate (looks natural, halves the work)
+        frames.push(frames[frames.length - 1]);
+        onProgress?.({ phase: 'render', done: f + 1, total: animFrames });
+        continue;
+      }
+      applyAnimFrame(base, f / fps, style, u, timing);
+      applyAmbient(amb, f / fps);
       frames.push(await toJpeg(await rasterize(root, t, z, fontCss)));
       onProgress?.({ phase: 'render', done: f + 1, total: animFrames });
     }
-    base.forEach(b => { b.el.style.transform = b.transform; b.el.style.opacity = b.opacity; b.el.style.transition = b.transition; });
+    restoreAnim(base);
+    restoreAmbient(amb);
     while (frames.length < total) frames.push(frames[frames.length - 1]); // the settled design holds
   } finally {
     host.remove();
