@@ -511,6 +511,19 @@
     <div class="sug-head"><h3>Accessibility widget: "Hide widget" option</h3><span class="pill todo">Suggested</span></div>
     <p class="muted">Added 2026-11-02</p>
     <p>The Accessibility Toolbar section has Reset and Close but no way to hide the floating button. Other widgets add an eye-off icon in the panel header that asks "Hide accessibility widget for": only this session, 24 hours, or one week, then hides the button until that time passes (sessionStorage for the session, a timestamp in localStorage for the others). Add it as an on/off toggle, with the labels editable, in accessibility-toolbar.js and the <code>a11y</code> behaviour in behaviors.js.</p>
+    <p><strong>More ideas to make the Accessibility Toolbar great</strong> (added 2026-11-02, build order: 1, 2, 3, then 4 and 7):</p>
+    <ol>
+      <li><strong>Hide widget</strong> (session / 24 hours / one week), as above.</li>
+      <li><strong>Keyboard and screen-reader basics:</strong> Esc closes the panel and returns focus to the button, Tab stays inside the open panel, each toggle uses <code>aria-pressed</code>. Check what is already there.</li>
+      <li><strong>Levels, not just on/off:</strong> bigger text, line height and contrast step through levels (100% → 125% → 150%) with a dot indicator on each tile.</li>
+      <li><strong>More display options:</strong> big cursor, dyslexia-friendly font, letter spacing, keyboard focus highlight, contrast choices (high contrast, inverted, dark).</li>
+      <li><strong>Text-to-speech:</strong> read the selected text aloud with the browser's built-in speech (free, no server).</li>
+      <li><strong>Stop flashing and autoplay:</strong> pause videos and sliders, not just CSS animations.</li>
+      <li><strong>Respect system settings on first visit:</strong> start with reduced motion or higher contrast if the visitor's device already asks for it.</li>
+      <li><strong>Position and look options:</strong> more button positions (middle left/right, top), button colour and size.</li>
+      <li><strong>Accessibility statement link</strong> in the panel footer (many countries require a statement).</li>
+      <li><strong>Honest note:</strong> say on the section page that the widget helps but does not make a site legally compliant.</li>
+    </ol>
   </div>
 </section>
 
@@ -519,6 +532,7 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-11-02</td><td>Accessibility Toolbar ideas added: a "Hide widget" option (session / 24 hours / one week) plus nine more (keyboard and screen-reader basics, levels, more display options, text-to-speech, stop autoplay, system settings, position options, statement link, honest note).</td></tr>
       <tr><td>2026-11-01</td><td>Idea 16 added (on hold until the site has good traffic), with how it runs without our own backend: optional accounts (Supabase, since the site is a static export), cloud sync for the editors, and paid templates (public previews, gated template data, merchant-of-record checkout, all-access pass).</td></tr>
       <tr><td>2026-11-01</td><td>Idea 15 added from a ChatGPT chat on trendy landing pages: style packs (dark glow, glass, typography-first, bento, asymmetric), hero and navbar gaps (6 heroes, 3 navbars; heroes become the exception to idea 11's "skip more heroes"), and AI product / fintech templates. Most of the chat was already covered by ideas 8, 13 and 14.</td></tr>
       <tr><td>2026-10-31</td><td>Idea 11 added and expanded: the next wave of sections, with the reasons (first batch: Opening Hours &amp; Location, About / Our story, vertical timeline, reviews summary, feature tabs; second batch and later items listed).</td></tr>
