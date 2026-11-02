@@ -8,7 +8,7 @@
 export const CLARITY_ENABLED = false;
 
 // Statcounter (project 13361076, invisible counter). Enabled 2026-10-20, disabled 2026-10-29.
-export const STATCOUNTER_ENABLED = false;
+export const STATCOUNTER_ENABLED = true;
 
 /* Analytics services that are currently on, for policy pages and the cookie
    banner, so the wording always matches what actually runs */
