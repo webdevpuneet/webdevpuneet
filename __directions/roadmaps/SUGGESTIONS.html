@@ -526,6 +526,19 @@
       <li><strong>Honest note:</strong> say on the section page that the widget helps but does not make a site legally compliant.</li>
     </ol>
   </div>
+  <div class="sug">
+    <div class="sug-head"><h3>Floating sections (popups, cursor effects, widgets) should not take up space in the Website Builder</h3><span class="pill todo">Suggested</span></div>
+    <p class="muted">Added 2026-11-02</p>
+    <p>Some sections are not really a block in the page flow: popups, cookie banners, the accessibility toolbar, chat buttons, back-to-top buttons, custom cursors and anything that hovers over the page. In the Website Builder (and the Website Sections editor) they currently sit between two sections like any other block and leave a gap. They should behave the way they will on the live site.</p>
+    <ul>
+      <li><strong>Mark each section as "overlay"</strong> (a flag in its template definition) so the builder knows it floats instead of flowing.</li>
+      <li><strong>No space in the page:</strong> an overlay section takes no height between its neighbours. In the section list it still appears as an item (with a small "floating" badge) so it can be selected, edited, reordered and removed.</li>
+      <li><strong>Shown the way visitors see it:</strong> floating buttons and widgets sit in their corner of the preview, cursor effects follow the pointer in the preview, and so on.</li>
+      <li><strong>Popups appear only on their trigger:</strong> hidden by default; shown when the matching button is clicked in the preview (an "Open popup" link/button in the section's settings, plus a "Preview popup" button in the editor to open it without a trigger). Also a trigger choice: a button on the page, after a delay, on scroll, or on exit intent.</li>
+      <li><strong>Exports:</strong> check that the HTML export of these sections adds no wrapper with height, so the exported page matches the preview.</li>
+    </ul>
+    <p>First step: list which existing sections are overlays (Accessibility Toolbar and any popup, banner or cursor sections) and add the flag to them.</p>
+  </div>
 </section>
 
 <section id="log">
@@ -533,6 +546,7 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-11-02</td><td>Idea added: floating sections (popups, cursor effects, widgets) should not take space between sections in the Website Builder; shown as overlays, with popups only visible on their trigger button.</td></tr>
       <tr><td>2026-11-02</td><td>Accessibility Toolbar ideas added: a "Hide widget" option (session / 24 hours / one week) plus nine more (keyboard and screen-reader basics, levels, more display options, text-to-speech, stop autoplay, system settings, position options, statement link, honest note).</td></tr>
       <tr><td>2026-11-01</td><td>Idea 16 added (on hold until the site has good traffic), with how it runs without our own backend: optional accounts (Supabase, since the site is a static export), cloud sync for the editors, and paid templates (public previews, gated template data, merchant-of-record checkout, all-access pass).</td></tr>
       <tr><td>2026-11-01</td><td>Idea 15 added from a ChatGPT chat on trendy landing pages: style packs (dark glow, glass, typography-first, bento, asymmetric), hero and navbar gaps (6 heroes, 3 navbars; heroes become the exception to idea 11's "skip more heroes"), and AI product / fintech templates. Most of the chat was already covered by ideas 8, 13 and 14.</td></tr>
