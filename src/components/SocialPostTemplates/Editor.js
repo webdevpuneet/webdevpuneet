@@ -509,6 +509,53 @@ export default function TemplateEditor({ id }) {
     setVideoProg(null);
     setBusy('');
   };
+  /* Share to WhatsApp: the image or the animated video goes to the phone's share sheet (WhatsApp is in
+     the list). Desktop browsers can't attach files to WhatsApp, so the image is copied to the clipboard
+     and WhatsApp Web opens for a paste; if even that is blocked the file is downloaded. */
+  const shareToWhatsApp = async kind => {
+    setBusy('share');
+    try {
+      let file;
+      if (kind === 'video') {
+        const ctrl = new AbortController();
+        videoAbort.current = ctrl;
+        setVideoProg({ phase: 'render', pct: 0 });
+        const { blob, ext } = await renderVideo(st, design, {
+          seconds: video.seconds,
+          style: video.style,
+          signal: ctrl.signal,
+          onProgress: ({ phase, done, total }) => setVideoProg({ phase, pct: Math.round((done / total) * 100) }),
+        });
+        setVideoProg(null);
+        file = new File([blob], `${baseName}-${video.seconds}s.${ext}`, { type: blob.type || `video/${ext}` });
+      } else {
+        const blob = await renderImage(st, design, { format: 'png', quality: 0.92 });
+        file = new File([blob], `${baseName}.png`, { type: 'image/png' });
+      }
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file], text: state.caption || undefined });
+        } catch (err) {
+          if (err.name === 'AbortError') { setBusy(''); return; }
+          if (err.name !== 'NotAllowedError') throw err;
+          saveBlob(file, file.name); // the browser wanted a fresh tap: keep the file instead
+          flash('Saved to your device. Open WhatsApp and attach it from your gallery');
+        }
+      } else if (kind === 'image' && navigator.clipboard?.write && window.ClipboardItem) {
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': file })]);
+        window.open('https://web.whatsapp.com/', '_blank', 'noopener');
+        flash('Image copied. Open a chat in WhatsApp Web and paste it (Ctrl+V)');
+      } else {
+        saveBlob(file, file.name);
+        window.open('https://web.whatsapp.com/', '_blank', 'noopener');
+        flash(`Saved ${file.name}. Attach it in WhatsApp`);
+      }
+    } catch (err) {
+      flash(err.name === 'AbortError' ? 'Video cancelled' : `Share failed: ${err.message}`);
+    }
+    setVideoProg(null);
+    setBusy('');
+  };
   const copyHtml = async () => {
     try {
       await navigator.clipboard.writeText(standaloneHtml(st, design, { includeImages }));
@@ -1031,6 +1078,16 @@ export default function TemplateEditor({ id }) {
                 ]}
               />
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} title="Save this design as an editable HTML/CSS snippet in My Code (opens in a new tab)" />
+              <ExportMenu
+                label="Share"
+                title="Share to WhatsApp"
+                head="Share to WhatsApp"
+                icon={<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-4M8.6 13.5l6.8 4"/></svg>}
+                options={[
+                  { icon: 'image', label: isCarousel ? `Share slide ${active + 1} as an image` : 'Share image', sub: 'PNG, sent to WhatsApp or any app you pick', onClick: () => shareToWhatsApp('image'), disabled: !!busy },
+                  ...(canVideo ? [{ icon: 'video', label: `Share animated video (${canVideo.ext.toUpperCase()})`, sub: canVideo.ext === 'mp4' ? `${video.seconds}s · for WhatsApp Status and chats` : 'WhatsApp can\'t play WebM: use Chrome for MP4', onClick: () => shareToWhatsApp('video'), disabled: !!busy }] : []),
+                ]}
+              />
               <ExportMenu
                 head={isCarousel ? 'Export this carousel as…' : 'Export this post as…'}
                 options={[

@@ -503,10 +503,15 @@
   .toolbar[data-scroll-toolbar] .toolbarRight .check,
   .toolbar[data-scroll-toolbar] .toolbarRight button[title^="Save this design as an editable"] { display: none; }
   .toolbar[data-scroll-toolbar] .toolbarRight { gap: 6px; }
-  .toolbar[data-scroll-toolbar] button[aria-label$="animation preview"] { width: 28px; padding: 0; justify-content: center; }
-  .toolbar[data-scroll-toolbar] button[aria-label$="animation preview"] > span { display: none; }
   .viewBar { flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding: 4px 8px; scrollbar-width: none; }
   .viewBar > * { flex: none; }
   .sizeHint { display: none; }
-  .controls { max-height: max(190px, calc(50dvh - 76px)); overscroll-behavior: contain; }
+  /* Two rows: name, Undo, Redo, Reset and Play; then Save, Share and Export side by side, full width */
+  .toolbar[data-scroll-toolbar] { flex-wrap: wrap; overflow: visible; row-gap: 5px; }
+  .toolbar[data-scroll-toolbar] > :first-child { flex: 1 1 100%; }
+  .toolbar[data-scroll-toolbar] .toolbarRight { flex: 1 1 100%; margin-left: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .toolbar[data-scroll-toolbar] .toolbarRight > div { display: flex; min-width: 0; }
+  .toolbar[data-scroll-toolbar] .toolbarRight > div > button { height: 32px; justify-content: center; font-size: 13px; }
+  .toolbar[data-scroll-toolbar] .toolbarRight > div > button:first-child { flex: 1; min-width: 0; }
+  .controls { max-height: max(190px, calc(50dvh - 112px)); overscroll-behavior: contain; }
 }
