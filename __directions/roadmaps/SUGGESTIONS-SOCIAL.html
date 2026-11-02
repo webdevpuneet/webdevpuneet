@@ -74,24 +74,43 @@
 
 <section id="templates">
   <h2>Social post templates</h2>
-  <p class="muted">34 templates in 8 categories (Quotes &amp; Tips, Announcements, Promo &amp; Sales, Events, Social Proof, Carousel Slides, Stories, Holidays &amp; Seasonal).</p>
+  <p class="muted">45 templates in 10 categories (Quotes &amp; Tips, How-To &amp; Education, Engagement, Announcements, Promo &amp; Sales, Events, Social Proof, Carousel Slides, Stories, Holidays &amp; Seasonal).</p>
 
   <div class="sug">
-    <div class="sug-head"><h3>Next social post templates</h3><span class="pill todo">Suggested</span></div>
+    <div class="sug-head"><h3>Next social post templates</h3><span class="pill doing">Building</span></div>
     <p class="muted">Added 2026-11-02 · the library is strong on quotes and promos, with no education or engagement posts</p>
     <p><strong>Two new categories:</strong></p>
     <ul>
       <li><strong>How-to &amp; Education:</strong> checklist, step-by-step how-to, mistakes to avoid, cheat sheet, tool of the week.</li>
       <li><strong>Engagement:</strong> this-or-that, hot take, fill in the blank, quiz, ask-me-anything story, behind the scenes.</li>
     </ul>
-    <p><strong>Build first (10):</strong> checklist, how-to, mistakes to avoid, this-or-that, hot take, pricing / plan card, new blog article, save the date, thank you, Valentine's Day.</p>
-    <p><strong>Next wave:</strong></p>
+    <p><strong>Build first (10) <span class="pill done">Done 2026-11-02</span>:</strong> checklist, how-to steps, mistakes to avoid, this-or-that, hot take, pricing card, new blog article, save the date, thank you, Valentine's Day. Diwali was added the same day as an extra (Diwali is close in India).</p>
+    <p><strong>Second batch (10):</strong></p>
+    <ol>
+      <li><strong>Flash sale countdown</strong> (Promo &amp; Sales).</li>
+      <li><strong>Free resource / lead magnet</strong> (Promo &amp; Sales): a guide, template or checklist to download.</li>
+      <li><strong>5-star review</strong> (Social Proof): a rating with stars and a short quote.</li>
+      <li><strong>New arrival</strong> (Promo &amp; Sales).</li>
+      <li><strong>Referral offer</strong> (Promo &amp; Sales): "give 10, get 10".</li>
+      <li><strong>New video</strong> (Announcements): thumbnail-style post with a play button.</li>
+      <li><strong>New podcast episode</strong> (Announcements): cover, episode title and guest.</li>
+      <li><strong>Open for bookings / availability</strong> (Announcements): for freelancers and small businesses ("2 spots left this month").</li>
+      <li><strong>Weekly roundup / best of the week</strong> (Quotes &amp; Tips): a short list of links or lessons.</li>
+      <li><strong>Anniversary</strong> (Announcements): "1 year of ..." with a thank-you.</li>
+    </ol>
+    <p><strong>Later:</strong></p>
     <ul>
-      <li><strong>Promo:</strong> flash sale countdown, free resource (lead magnet), referral offer, 5-star review, new arrival, special of the day, services list.</li>
-      <li><strong>Content promotion:</strong> new video, new podcast episode (the formats creators post most).</li>
-      <li><strong>Moments:</strong> anniversary, Women's Day, Mother's / Father's Day, Easter, Diwali, Eid, Independence Day.</li>
+      <li><strong>Promo:</strong> special of the day, services list.</li>
+      <li><strong>Moments:</strong> Women's Day, Mother's / Father's Day, Easter, Diwali, Eid, Independence Day. Build each a few weeks before its date.</li>
     </ul>
-    <p><strong>For each template:</strong> SEO text within the limits in 06-QUALITY-BARS.txt, preview image, category page entry, sitemap and llms.txt. Check search demand first: "[type] instagram post template".</p>
+    <p><strong>Design and animation bar for every new template</strong> (decided 2026-11-02):</p>
+    <ul>
+      <li><strong>Creative, great-looking design:</strong> its own layout and a clear idea, not a recolour of an existing template. Check it at every post size (square, portrait, Story with its safe areas) and with long and short text.</li>
+      <li><strong>Built to animate on export:</strong> the video export (MP4 / WebM, in <code>render.js</code>) animates every <code>[data-edit]</code> text slot and <code>[data-image]</code> photo in reading order (rise, fade or pop). Anything meant to animate must be one of those slots, and the slots must be ordered so the reveal reads well (headline, then detail, then the call to action). Decorative shapes are not animated today.</li>
+      <li><strong>Check the video:</strong> export the animated video once per new template and watch it before calling the template done.</li>
+    </ul>
+    <p><strong>Idea to make exports feel richer:</strong> let a template mark decorative parts as animatable (a <code>data-anim</code> hook) so shapes, badges, ratings and bars move too: stars filling, a progress bar growing, numbers counting up, a countdown ticking, underlines drawing. Countdown, 5-star review, big stat, flash sale and pricing card would benefit first.</p>
+    <p><strong>For each template:</strong> curated, polished, non-generic SEO text (written for that one template, never a pattern with the name swapped; see 06-QUALITY-BARS.txt) within the length limits, preview image, category page entry, sitemap and llms.txt. Check search demand first: "[type] instagram post template".</p>
   </div>
 </section>
 
@@ -100,6 +119,9 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-11-02</td><td>First batch of 10 built, plus Diwali (11 new templates, 34 to 45, two new categories). Still to do: try the animated video export by hand for each, and the <code>data-anim</code> idea.</td></tr>
+      <tr><td>2026-11-02</td><td>Design and animation bar added for new templates (creative layout, built for the animated video export, check the video), plus the idea of a <code>data-anim</code> hook so decorative parts animate too.</td></tr>
+      <tr><td>2026-11-02</td><td>Second batch of 10 social posts added (flash sale countdown, lead magnet, 5-star review, new arrival, referral, new video, new podcast episode, open for bookings, weekly roundup, anniversary); the rest moved to "Later".</td></tr>
       <tr><td>2026-11-02</td><td>Idea added: next next Social Post templates (new categories How-to &amp; Education and Engagement, and a suggested first batch of 10 posts).</td></tr>
       <tr><td>2026-11-02</td><td>Suggestions split into separate files (website, email, social, UI snippets, blog) with an index page; nothing removed.</td></tr>
     </tbody>

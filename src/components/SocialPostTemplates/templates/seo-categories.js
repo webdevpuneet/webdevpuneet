@@ -17,6 +17,32 @@ Pick **Big Quote** for founder, customer or podcast quotes, **Tip of the Day** f
       { q: 'Can I make a daily series with these templates?', a: 'Yes. Your colours, fonts and logo are saved in your browser for each template, so each new post only needs new text. Tip of the Day also has a tip number for numbered series.' },
     ],
   },
+  'how-to': {
+    title: 'How-To & Checklist Post Templates — Free Instagram Maker',
+    description: 'Free how-to, checklist and mistakes-to-avoid post templates for Instagram and LinkedIn. Edit the text online and download every size as PNG or copy the HTML.',
+    h1: 'How-To, Checklist & Tips Post Templates',
+    keywords: ['checklist post template', 'how to post template instagram', 'step by step post template', 'mistakes to avoid post template', 'educational post templates', 'tutorial post template'],
+    intro: `Posts that teach something are the ones people save, and saves tell Instagram and LinkedIn to show your account to more people. These three templates are built for that. **Checklist Post** is a ruled-paper card with up to six tick-marked items, so a launch routine or a packing list looks like something you would pin to a wall. **How-To Steps** puts up to four numbered steps on a glowing vertical timeline, which keeps a process readable at a glance. **Mistakes to Avoid** pairs each wrong move, crossed out, with a "do this instead" fix, under a hazard-tape stripe that signals a warning before anyone reads a word.
+
+Each one has a single job and a clear shape, so you can fill it in a few minutes and keep the same look across a whole series. Empty rows disappear, so a three-item list never leaves a gap, and long text shrinks to fit instead of spilling out of the layout.`,
+    faqs: [
+      { q: 'Which template should I use for a step-by-step guide?', a: 'Use How-To Steps for a process with a clear order, such as a setup, a recipe or an onboarding flow. For a list where the order does not matter, such as things to check before launch, Checklist Post is the better fit.' },
+      { q: 'How many items fit on a checklist post?', a: 'Up to six on a single post. Leave the last rows empty and they disappear, so four or five items sit evenly. If you have more, split them into a carousel or make a second checklist.' },
+    ],
+  },
+  engagement: {
+    title: 'Engagement Post Templates — This or That & Hot Take Posts',
+    description: 'Free engagement post templates: a this-or-that vote and a hot take opinion card made to start comments. Edit online, then download every post size as PNG.',
+    h1: 'Engagement Post Templates',
+    keywords: ['this or that post template', 'hot take post template', 'engagement post templates instagram', 'opinion post template', 'poll post template', 'comment bait post template'],
+    intro: `Some posts are written to inform and others are written to get a reply. These two are the second kind. **This or That** splits the post on a bold diagonal, with two big options on contrasting colours and a round OR badge in the middle, and a prompt that tells people to answer with A or B in the comments. **Hot Take** sets one strong opinion in huge uppercase letters on a red-to-orange gradient, with agree and disagree chips underneath to make taking a side feel effortless.
+
+Both give the comment section something to do, which is what the feed algorithms reward. They work best when the question is easy to answer in one word and the opinion is one you can defend in the replies.`,
+    faqs: [
+      { q: 'How is This or That different from the Story poll template?', a: 'This or That is made for the feed: a large diagonal split that reads at a glance and asks for answers in the comments. The Story poll is a vertical layout built around Instagram\'s poll sticker, where votes are counted by the app.' },
+      { q: 'What makes a good hot take?', a: 'A specific claim in your own field that a reasonable person could disagree with, stated in one short line. "Most landing pages need fewer sections" starts a discussion; "marketing is important" does not.' },
+    ],
+  },
   announcements: {
     title: 'Announcement Post Templates — Launch, Hiring & Milestone',
     description: 'Free announcement post templates: product launch, coming soon teaser, milestone, hiring and meet the team posts. Edit online, download every size or copy HTML.',
@@ -102,7 +128,7 @@ Every other template in the library also exports at Story size, so your feed pos
     keywords: ['holiday post templates', 'halloween post template', 'christmas instagram post template', 'thanksgiving post template', 'new year post template'],
     intro: `The last quarter of the year is packed with moments your audience is already talking about: Halloween on October 31, Thanksgiving on November 26, Black Friday and Cyber Monday on November 27 and 30, Christmas on December 25 and New Year's Eve. Seasonal posts fit naturally into the feed and get more engagement than everyday promotions, as long as they look the part.
 
-Use **Halloween Sale** for spooky-season deals, **Thanksgiving Thank You** for a calm gratitude post before the sales start, **Christmas Greeting** for holiday wishes, shipping cut-offs and opening hours, and **Happy New Year** for a midnight 2027 post or year-in-review opener. Each is drawn entirely in CSS, with no stock photos, so it recolours to your brand, exports sharp at every size and works year after year.`,
+Use **Halloween Sale** for spooky-season deals, **Thanksgiving Thank You** for a calm gratitude post before the sales start, **Christmas Greeting** for holiday wishes, shipping cut-offs and opening hours, **Happy New Year** for a midnight 2027 post or year-in-review opener, and **Valentine's Day** for a romantic greeting or a date-night offer on a deep rose gradient with a flowing script headline. Each is drawn entirely in CSS, with no stock photos, so it recolours to your brand, exports sharp at every size and works year after year.`,
     faqs: [
       { q: 'Which holiday posts should a business plan for in Q4 2026?', a: 'Halloween (Oct 31), Thanksgiving (Nov 26), Black Friday (Nov 27), Cyber Monday (Nov 30), shipping cut-offs (mid-December), Christmas (Dec 25) and New Year\'s Eve (Dec 31). This library has a template for each.' },
       { q: 'Can I reuse these templates next year?', a: 'Yes. Dates and years are ordinary text fields, and your colours and fonts are saved in your browser, so next year each post takes a minute to update.' },

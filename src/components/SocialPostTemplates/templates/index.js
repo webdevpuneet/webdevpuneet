@@ -34,6 +34,17 @@ import qaPost from './qa-post.js';
 import usVsThem from './us-vs-them.js';
 import justListed from './just-listed.js';
 import eventRecap from './event-recap.js';
+import checklist from './checklist.js';
+import howToSteps from './how-to-steps.js';
+import mistakesToAvoid from './mistakes-to-avoid.js';
+import thisOrThat from './this-or-that.js';
+import hotTake from './hot-take.js';
+import pricingCard from './pricing-card.js';
+import newBlogArticle from './new-blog-article.js';
+import saveTheDate from './save-the-date.js';
+import thankYou from './thank-you.js';
+import valentinesDay from './valentines-day.js';
+import diwali from './diwali.js';
 export { SIZES, sizeById, TEMPLATE_CATEGORIES, categoryById, BASE_CSS, richText } from './meta.js';
 
 const ORDER = [
@@ -45,19 +56,28 @@ const ORDER = [
   bigStat,
   numberedList,
   qaPost,
+  checklist,
+  howToSteps,
+  mistakesToAvoid,
+  thisOrThat,
+  hotTake,
   productLaunch,
   milestone,
+  newBlogArticle,
+  thankYou,
   hiring,
   weAreLive,
   meetTheTeam,
   comingSoon,
   discountBadge,
+  pricingCard,
   holidaySale,
   productSpotlight,
   giveaway,
   usVsThem,
   justListed,
   webinarEvent,
+  saveTheDate,
   countdown,
   eventRecap,
   testimonial,
@@ -68,8 +88,10 @@ const ORDER = [
   storyPoll,
   storyLink,
   halloweenSale,
+  diwali,
   thanksgiving,
   christmasGreeting,
+  valentinesDay,
   newYear,
 ];
 

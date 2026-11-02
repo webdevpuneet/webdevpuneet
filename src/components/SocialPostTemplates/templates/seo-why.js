@@ -1,6 +1,8 @@
 /* "Why use this template" (three reasons per design) and "How it's different"
    (shared by every template page and the gallery). */
 
+import { TEMPLATE_WHY_NEW } from './seo-content-new.js';
+
 export const TEMPLATE_WHY = {
   'big-quote': [
     { icon: '◆', title: 'Quotes are made to be shared', desc: 'A strong line in big type is one of the easiest posts to repost. Your handle stays on the image, so shares keep pointing back to you.' },
@@ -175,6 +177,8 @@ export const TEMPLATE_WHY = {
     { icon: '📈', title: 'Numbers that sell next year', desc: 'Big attendee and talk counts make the event feel substantial, which is the best promotion for the next edition.' },
   ],
 };
+
+Object.assign(TEMPLATE_WHY, TEMPLATE_WHY_NEW);
 
 export const TEMPLATE_DIFFERENT = [
   { icon: '</>', title: 'Real HTML and CSS, not a locked image', desc: 'Canva-style templates only give you an image. These are plain HTML and CSS you can copy, download as a .html file or fork into My Code, then reuse on a website, in an email or in your own design system.' },

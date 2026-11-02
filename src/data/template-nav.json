@@ -143,7 +143,7 @@
   ]
  },
  "social": {
-  "total": 34,
+  "total": 45,
   "categories": [
    {
     "id": "quotes",
@@ -184,6 +184,38 @@
     ]
    },
    {
+    "id": "how-to",
+    "label": "How-To & Education",
+    "items": [
+     {
+      "id": "checklist",
+      "name": "Checklist Post"
+     },
+     {
+      "id": "how-to-steps",
+      "name": "How-To Steps"
+     },
+     {
+      "id": "mistakes-to-avoid",
+      "name": "Mistakes to Avoid"
+     }
+    ]
+   },
+   {
+    "id": "engagement",
+    "label": "Engagement",
+    "items": [
+     {
+      "id": "this-or-that",
+      "name": "This or That"
+     },
+     {
+      "id": "hot-take",
+      "name": "Hot Take"
+     }
+    ]
+   },
+   {
     "id": "announcements",
     "label": "Announcements",
     "items": [
@@ -194,6 +226,14 @@
      {
       "id": "milestone",
       "name": "Milestone"
+     },
+     {
+      "id": "new-blog-article",
+      "name": "New Blog Article"
+     },
+     {
+      "id": "thank-you",
+      "name": "Thank You"
      },
      {
       "id": "hiring",
@@ -220,6 +260,10 @@
      {
       "id": "discount-badge",
       "name": "Discount Badge"
+     },
+     {
+      "id": "pricing-card",
+      "name": "Pricing Card"
      },
      {
       "id": "holiday-sale",
@@ -250,6 +294,10 @@
      {
       "id": "webinar-event",
       "name": "Webinar Event"
+     },
+     {
+      "id": "save-the-date",
+      "name": "Save the Date"
      },
      {
       "id": "countdown",
@@ -316,12 +364,20 @@
       "name": "Halloween Sale"
      },
      {
+      "id": "diwali",
+      "name": "Diwali"
+     },
+     {
       "id": "thanksgiving",
       "name": "Thanksgiving Thank You"
      },
      {
       "id": "christmas-greeting",
       "name": "Christmas Greeting"
+     },
+     {
+      "id": "valentines-day",
+      "name": "Valentine's Day"
      },
      {
       "id": "new-year",

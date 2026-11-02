@@ -10,6 +10,22 @@ export const CATEGORY_MORE = {
       { q: 'Can I make a whole month of tip posts quickly?', a: 'Yes. Use Bulk create: paste a CSV with one tip per row and the editor fills the template for each, then downloads all of them as a ZIP of images ready to schedule.' },
     ],
   },
+  'how-to': {
+    intro: `Teaching posts earn their reach through saves and shares, so aim for something a reader will want to come back to: a checklist they can follow, steps they can repeat, a mistake they were about to make. Keep to one topic per post, use specific numbers and examples instead of general advice, and put your handle on the design so every share credits you. For longer guides, use the first post as a hook and continue in a carousel.`,
+    faqs: [
+      { q: 'Why do checklist and how-to posts get saved so often?', a: 'A reader saves a post when it will be useful later, and a short list of concrete steps is exactly that. Saves are a strong signal on Instagram and LinkedIn, so useful posts tend to reach more people than opinions or announcements.' },
+      { q: 'Can I turn a how-to post into a carousel?', a: 'Yes. Use the Carousel Cover for the first slide, one Carousel Step per step, and a Carousel Save slide at the end. How-To Steps works well as a single-image summary of the same guide.' },
+      { q: 'What size should a how-to post be?', a: 'The 4:5 portrait size (1080×1350) gives the most room for lists on the Instagram feed. The LinkedIn image size (1200×627) switches the layout to two columns so a list still reads clearly.' },
+    ],
+  },
+  engagement: {
+    intro: `An engagement post only works if answering is easier than scrolling past. Ask something your audience already has a view on, keep the choices short enough to type in a comment, and reply to the first few answers quickly so the thread keeps moving. Use these sparingly, one or two a week between your more useful posts, and keep the tone of your brand: a playful question suits a bakery, a sharp opinion suits a developer or founder.`,
+    faqs: [
+      { q: 'How often should I post an engagement post?', a: 'One or two a week is plenty. Mixed with teaching and announcement posts, they keep the comment section active without making the account feel like it is always asking for something.' },
+      { q: 'Where do I put the question in a hot take?', a: 'The statement is the post. Use the question line underneath, such as "Agree or disagree?", to tell people exactly what to do, and add your fuller reasoning in the caption.' },
+      { q: 'Can I use these templates for brand and product questions?', a: 'Yes. Replace the options with two products, two designs or two ideas for a feature. This or That is a quick way to gather opinions from followers before you decide.' },
+    ],
+  },
   announcements: {
     intro: `An announcement post should answer three questions in a glance: what is happening, why it matters and what to do next. Lead with the news in a big headline, add a date or a number if there is one, and finish with a single action such as "Read more" or "Apply today". Post it where the people who care are, and repeat it as a Story and a carousel cover so followers who miss the first post see it again. Add your logo and brand colours so the post is recognisable in the feed.`,
     faqs: [
@@ -62,7 +78,7 @@ export const CATEGORY_MORE = {
     intro: `Seasonal posts are best planned before the rush. Make a calendar for the main dates that matter to your audience, prepare the designs a few weeks ahead and save them to My designs so a few edits update them each year. Keep the message warm and simple, add your logo, and use the festive colour palettes the templates include. If you sell, pair a greeting post with a clear offer a few days earlier, and make a Story version for the day itself.`,
     faqs: [
       { q: 'Can I use the same holiday template every year?', a: 'Yes. Save your design to My designs and change the year, the offer and the wording each season. Because the templates are HTML, it is easy to change dates and colours without starting again.' },
-      { q: 'Are the holiday templates only for Christmas and Halloween?', a: 'No. They cover Halloween, Thanksgiving, Christmas and New Year, but you can change the colours, text and images to suit other occasions such as Diwali, Eid, Valentine\'s Day or a local festival.' },
+      { q: 'Are the holiday templates only for Christmas and Halloween?', a: 'No. They cover Diwali, Valentine\'s Day, Halloween, Thanksgiving, Christmas and New Year, but you can change the colours, text and images to suit other occasions such as Eid, Holi or a local festival. Diwali and Valentine\'s Day have their own templates.' },
       { q: 'What is a good holiday post for a business without a sale?', a: 'A thank-you or greeting post that credits your customers or team, with a short, personal line, works well. It builds goodwill without asking for anything and is easy to make into a Story as well.' },
     ],
   },

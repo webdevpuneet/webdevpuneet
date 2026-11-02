@@ -17,6 +17,8 @@ export const sizeById = id => SIZES.find(z => z.id === id) || SIZES[0];
 
 export const TEMPLATE_CATEGORIES = [
   { id: 'quotes',        label: 'Quotes & Tips',     blurb: 'Quote cards, tips, list posts, Q&As, facts, myth vs fact and statistic posts that people save and share.' },
+  { id: 'how-to',        label: 'How-To & Education', blurb: 'Checklists, step-by-step guides and mistakes-to-avoid posts that people save and come back to.' },
+  { id: 'engagement',    label: 'Engagement',        blurb: 'This-or-that votes and hot takes that get people commenting, sharing and arguing in the replies.' },
   { id: 'announcements', label: 'Announcements',     blurb: 'Launches, coming-soon teasers, milestones, hiring, meet-the-team and "we’re live" posts.' },
   { id: 'promo',         label: 'Promo & Sales',     blurb: 'Discount badges, holiday sales, product spotlights, giveaways, comparisons and real estate listings.' },
   { id: 'events',        label: 'Events',            blurb: 'Webinar, meetup and countdown posts with a clear date, plus event recaps.' },

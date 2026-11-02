@@ -292,6 +292,33 @@
 
 
   <div class="sug">
+    <div class="sug-head"><h3>Mega menu navbar</h3><span class="pill todo">Suggested</span></div>
+    <p class="muted">Added 2026-11-02 · the library has three navbars (see idea 15 B), none with a dropdown panel</p>
+    <p>A navbar whose menu items open a wide panel instead of a short list. Needed by SaaS, agency, university, marketplace and any site with more than about eight pages.</p>
+    <ul>
+      <li><strong>Panel layouts:</strong> multi-column link groups with headings; links with an icon and a one-line description; a tabbed version with categories on the left and links on the right; a featured card or image on the side ("New", a case study, a promotion").</li>
+      <li><strong>Behaviour:</strong> opens on hover on desktop (with a short close delay so the pointer can travel), on tap or Enter on touch and keyboard; Esc closes it; arrow keys move between links; focus stays visible and returns to the trigger. Works without JavaScript for the plain links.</li>
+      <li><strong>Phones:</strong> the panel becomes an accordion inside the slide-in menu, one group per row, so nothing is hidden behind hover.</li>
+      <li><strong>Editor:</strong> number of columns, links per column, icon per link, the featured card, and whether the bar sticks to the top while scrolling.</li>
+      <li><strong>Used by:</strong> the SaaS, agency, school, real estate and online store website templates, in place of the plain navbar when a site has many pages.</li>
+    </ul>
+  </div>
+
+  <div class="sug">
+    <div class="sug-head"><h3>Ecommerce menu navbar</h3><span class="pill todo">Suggested</span></div>
+    <p class="muted">Added 2026-11-02 · belongs with idea 12 (ecommerce kit) and the Online Store website template</p>
+    <p>The navigation a shop needs, as one section: a strip above the bar, then the main bar with search and the cart.</p>
+    <ul>
+      <li><strong>Top strip:</strong> a thin announcement bar ("Free delivery over 999", a sale countdown) with a close button, and optional currency and language pickers.</li>
+      <li><strong>Main bar:</strong> logo, a search field with suggestions (popular searches, matching categories), account, wishlist and a cart icon with a count badge.</li>
+      <li><strong>Category mega menu:</strong> categories with images and sub-categories, a "shop by" column (price, occasion, brand) and one promotional tile for the current campaign.</li>
+      <li><strong>Phones:</strong> a slide-in drawer with accordion categories, search at the top and the account and wishlist links at the bottom; a sticky bar that shrinks when scrolling down and returns on scroll up.</li>
+      <li><strong>Mini cart:</strong> clicking the cart icon opens a small side panel with items, subtotal and a checkout button (needs the cart logic from idea 12; until then a static preview).</li>
+    </ul>
+    <p><strong>Build order:</strong> the mega menu navbar first (the ecommerce menu is the same mechanics with shop extras), then the ecommerce version together with the product grid and cart sections.</p>
+  </div>
+
+  <div class="sug">
     <div class="sug-head"><h3>Accessibility widget: "Hide widget" option</h3><span class="pill todo">Suggested</span></div>
     <p class="muted">Added 2026-11-02</p>
     <p>The Accessibility Toolbar section has Reset and Close but no way to hide the floating button. Other widgets add an eye-off icon in the panel header that asks "Hide accessibility widget for": only this session, 24 hours, or one week, then hides the button until that time passes (sessionStorage for the session, a timestamp in localStorage for the others). Add it as an on/off toggle, with the labels editable, in accessibility-toolbar.js and the <code>a11y</code> behaviour in behaviors.js.</p>
@@ -551,6 +578,7 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-11-02</td><td>Ideas added: Mega menu navbar and Ecommerce menu navbar (section templates).</td></tr>
       <tr><td>2026-11-02</td><td>Suggestions split into separate files (website, email, social, UI snippets, blog) with an index page; nothing removed.</td></tr>
       <tr><td>2026-11-02</td><td>Idea added: floating sections (popups, cursor effects, widgets) should not take space between sections in the Website Builder; shown as overlays, with popups only visible on their trigger button.</td></tr>
       <tr><td>2026-11-02</td><td>Accessibility Toolbar ideas added: a "Hide widget" option (session / 24 hours / one week) plus nine more (keyboard and screen-reader basics, levels, more display options, text-to-speech, stop autoplay, system settings, position options, statement link, honest note).</td></tr>

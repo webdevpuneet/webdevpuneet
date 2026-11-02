@@ -3,6 +3,8 @@
    they feed the page copy, the FAQ wording, schema keywords and llms.txt.
    Use cases follow the snippet-library rules: 4 entries, 18-42 words each. */
 
+import { TEMPLATE_SEO_NEW } from './seo-content-new.js';
+
 export const TEMPLATE_SEO = {
   'big-quote': {
     keywords: ['instagram quote post template', 'quote card template', 'quote graphic maker', 'pull quote social media post', 'twitter quote image'],
@@ -1862,3 +1864,5 @@ On the 4:5 feed size the photos sit between the headline and the stats. On 16:9 
     },
   },
 };
+
+Object.assign(TEMPLATE_SEO, TEMPLATE_SEO_NEW);

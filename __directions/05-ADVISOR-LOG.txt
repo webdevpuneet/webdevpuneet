@@ -65,3 +65,10 @@ Format: date · area · suggested / chosen / done · note
            behaviours (timeline, horizontal scroll) that fired when the window crossed a breakpoint.
 2026-10-31 · editors · done · Look panel (colours, gradient, spacing, background, hide on phone/desktop, typography, own CSS),
            image focus point, button style, Surprise me, Apply to all, artwork picker with search and 46 artworks.
+2026-11-02 · social · done · 11 new social post templates (34 -> 45): Checklist, How-To Steps, Mistakes to Avoid (new How-To & Education
+           category), This or That, Hot Take (new Engagement category), Pricing Card, New Blog Article, Thank You, Save the Date,
+           Valentine's Day, Diwali. Hand-written SEO text for each, two new category pages, previews and OG images captured, checked
+           at all six sizes (square layouts fixed). Pages checked in the dev server. Not deployed. The animated-video export check
+           timed out in headless Chromium, so it is still to be tried by hand.
+2026-11-02 · suggestions · done · Suggestions split into one file per area (index + Website, Email, Social, UI snippets, Blog) with a
+           blog index; added ideas: Mega menu navbar, Ecommerce menu navbar, Accessibility Toolbar upgrades, floating sections.

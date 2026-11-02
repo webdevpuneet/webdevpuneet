@@ -13,6 +13,11 @@ A-GRADE SEO (every new or changed page)
   - Structured data that parses (FAQPage, BreadcrumbList, CreativeWork; MusicEvent where relevant).
   - Sitemap, llms.txt and static routes come from the registries (scripts/postbuild.js).
   - The audit script used on 2026-10-27 checked 385 points; re-run the same checks for new work.
+  - SEO text is curated, polished and NOT generic (decided 2026-11-02): written by hand for that one
+    template or snippet, never a pattern with the name swapped in. Say what is specific (the layout,
+    the real options, the situation it solves, who it is for); no filler such as "perfect for any
+    website", "high-quality" or "easy to use"; different openings and wording from its neighbours.
+    Re-read two sibling pages side by side; if they could swap names unnoticed, rewrite them.
 
 ACCESSIBILITY
   - Real buttons and links with labels; visible focus; reduced motion respected; content visible
