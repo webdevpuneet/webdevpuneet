@@ -24,8 +24,8 @@ export default {
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
   ],
   html: `<div class="ny">
-  <i class="ny-fw f1"></i><i class="ny-fw f2"></i><i class="ny-fw f3"></i>
-  <i class="ny-cf c1"></i><i class="ny-cf c2"></i><i class="ny-cf c3"></i><i class="ny-cf c4"></i><i class="ny-cf c5"></i><i class="ny-cf c6"></i>
+  <i class="ny-fw f1" data-anim="burst"></i><i class="ny-fw f2" data-anim="burst"></i><i class="ny-fw f3" data-anim="burst"></i>
+  <i class="ny-cf c1" data-anim="fall"></i><i class="ny-cf c2" data-anim="fall"></i><i class="ny-cf c3" data-anim="fall"></i><i class="ny-cf c4" data-anim="fall"></i><i class="ny-cf c5" data-anim="fall"></i><i class="ny-cf c6" data-anim="fall"></i>
   <div class="ny-body" data-fit-box>
     <span class="ny-kicker" data-edit="kicker"></span>
     <span class="ny-year" data-edit="year" data-fit></span>

@@ -34,11 +34,11 @@ export default {
   </div>
   <div class="mf-panels">
     <div class="mf-panel mf-myth" data-fit-box>
-      <span class="mf-label"><i aria-hidden="true">&#10005;</i><span data-edit="mythLabel"></span></span>
+      <span class="mf-label"><i aria-hidden="true" data-anim="stamp">&#10005;</i><span data-edit="mythLabel"></span></span>
       <p class="mf-text" data-edit="myth" data-fit></p>
     </div>
     <div class="mf-panel mf-fact" data-fit-box>
-      <span class="mf-label"><i aria-hidden="true">&#10003;</i><span data-edit="factLabel"></span></span>
+      <span class="mf-label"><i aria-hidden="true" data-anim="stamp">&#10003;</i><span data-edit="factLabel"></span></span>
       <p class="mf-text" data-edit="fact" data-fit></p>
     </div>
   </div>

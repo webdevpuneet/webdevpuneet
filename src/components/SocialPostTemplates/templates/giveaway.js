@@ -30,22 +30,22 @@ export default {
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
   ],
   html: `<div class="gw">
-  <div class="gw-confetti" aria-hidden="true"></div>
+  <div class="gw-confetti" aria-hidden="true" data-anim="drift"></div>
   <div class="gw-top">
     <div class="gw-head">
-      <span class="gw-badge" data-edit="badge"></span>
+      <span class="gw-badge" data-edit="badge" data-anim="wobble"></span>
       <div class="gw-body" data-fit-box><h2 class="gw-prize" data-edit="prize" data-fit></h2></div>
     </div>
     <div class="gw-photo" data-image="photo" data-optional></div>
   </div>
   <div class="gw-steps">
     <span class="gw-steps-title" data-edit="stepsTitle"></span>
-    <div class="gw-step"><b>1</b><span data-edit="step1"></span></div>
-    <div class="gw-step"><b>2</b><span data-edit="step2"></span></div>
-    <div class="gw-step"><b>3</b><span data-edit="step3"></span></div>
+    <div class="gw-step"><b data-anim="pop" data-at="1.0">1</b><span data-edit="step1"></span></div>
+    <div class="gw-step"><b data-anim="pop" data-at="1.35">2</b><span data-edit="step2"></span></div>
+    <div class="gw-step"><b data-anim="pop" data-at="1.7">3</b><span data-edit="step3"></span></div>
   </div>
   <div class="gw-foot">
-    <span class="gw-deadline" data-edit="deadline"></span>
+    <span class="gw-deadline" data-edit="deadline" data-anim="pulse"></span>
     <span class="gw-rules" data-edit="rules"></span>
   </div>
   <span class="gw-handle" data-edit="handle"></span>

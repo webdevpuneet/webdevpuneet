@@ -23,7 +23,7 @@ export default {
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
   ],
   html: `<div class="d">
-  <div class="d-q" aria-hidden="true">?</div>
+  <div class="d-q" aria-hidden="true" data-anim="wobble">?</div>
   <h3 class="d-head" data-edit="heading"></h3>
   <div class="d-body" data-fit-box><p class="d-fact" data-edit="fact" data-fit></p></div>
   <div class="d-foot"><span data-edit="source"></span><span class="d-handle" data-edit="handle"></span></div>

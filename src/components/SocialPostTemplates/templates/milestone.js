@@ -25,10 +25,10 @@ export default {
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
   ],
   html: `<div class="m">
-  <i class="m-c c1"></i><i class="m-c c2"></i><i class="m-c c3"></i><i class="m-c c4"></i><i class="m-c c5"></i><i class="m-c c6"></i>
+  <i class="m-c c1" data-anim="fall"></i><i class="m-c c2" data-anim="fall"></i><i class="m-c c3" data-anim="fall"></i><i class="m-c c4" data-anim="fall"></i><i class="m-c c5" data-anim="fall"></i><i class="m-c c6" data-anim="fall"></i>
   <div class="m-body" data-fit-box>
     <span class="m-kicker" data-edit="kicker"></span>
-    <span class="m-num" data-edit="number" data-fit></span>
+    <span class="m-num" data-edit="number" data-fit data-anim="count"></span>
     <span class="m-unit" data-edit="unit"></span>
     <p class="m-thanks" data-edit="thanks" data-fit></p>
   </div>

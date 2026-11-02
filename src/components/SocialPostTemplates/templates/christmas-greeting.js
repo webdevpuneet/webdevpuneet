@@ -26,7 +26,8 @@ export default {
   ],
   html: `<div class="xm">
   <i class="xm-snow"></i>
-  <i class="xm-orn o1"></i><i class="xm-orn o2"></i><i class="xm-orn o3"></i>
+  <i class="xm-flake" style="left:6%;top:8%;width:calc(var(--u)*1.6);height:calc(var(--u)*1.6)" data-anim="fall" aria-hidden="true"></i><i class="xm-flake" style="left:15%;top:52%;width:calc(var(--u)*1.1);height:calc(var(--u)*1.1)" data-anim="fall" aria-hidden="true"></i><i class="xm-flake" style="left:24%;top:22%;width:calc(var(--u)*2);height:calc(var(--u)*2)" data-anim="fall" aria-hidden="true"></i><i class="xm-flake" style="left:33%;top:70%;width:calc(var(--u)*1.3);height:calc(var(--u)*1.3)" data-anim="fall" aria-hidden="true"></i><i class="xm-flake" style="left:41%;top:38%;width:calc(var(--u)*1.8);height:calc(var(--u)*1.8)" data-anim="fall" aria-hidden="true"></i><i class="xm-flake" style="left:50%;top:12%;width:calc(var(--u)*1.0);height:calc(var(--u)*1.0)" data-anim="fall" aria-hidden="true"></i><i class="xm-flake" style="left:58%;top:78%;width:calc(var(--u)*1.6);height:calc(var(--u)*1.6)" data-anim="fall" aria-hidden="true"></i><i class="xm-flake" style="left:66%;top:30%;width:calc(var(--u)*1.2);height:calc(var(--u)*1.2)" data-anim="fall" aria-hidden="true"></i><i class="xm-flake" style="left:74%;top:60%;width:calc(var(--u)*2);height:calc(var(--u)*2)" data-anim="fall" aria-hidden="true"></i><i class="xm-flake" style="left:82%;top:18%;width:calc(var(--u)*1.4);height:calc(var(--u)*1.4)" data-anim="fall" aria-hidden="true"></i><i class="xm-flake" style="left:90%;top:46%;width:calc(var(--u)*1.1);height:calc(var(--u)*1.1)" data-anim="fall" aria-hidden="true"></i><i class="xm-flake" style="left:96%;top:84%;width:calc(var(--u)*1.8);height:calc(var(--u)*1.8)" data-anim="fall" aria-hidden="true"></i>
+  <i class="xm-orn o1" data-anim="sway"></i><i class="xm-orn o2" data-anim="sway"></i><i class="xm-orn o3" data-anim="sway"></i>
   <div class="xm-body" data-fit-box>
     <span class="xm-kicker" data-edit="kicker"></span>
     <h2 class="xm-title" data-edit="title" data-fit></h2>
@@ -52,5 +53,6 @@ export default {
 .xm-handle{position:relative;font-size:calc(var(--u)*3);font-weight:700;color:var(--accent)}
 .is-landscape .xm-body{padding-top:calc(var(--u)*4)}
 .is-landscape .xm-title{font-size:calc(var(--u)*14)}
-.is-story .xm-body{padding-top:calc(var(--u)*16)}`,
+.is-story .xm-body{padding-top:calc(var(--u)*16)}
+.xm-flake{position:absolute;border-radius:50%;background:#fff;opacity:.85;pointer-events:none}`,
 };

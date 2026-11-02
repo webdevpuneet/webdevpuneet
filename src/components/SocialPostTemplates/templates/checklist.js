@@ -34,12 +34,12 @@ export default {
     <h2 class="cl-title" data-edit="title" data-fit></h2>
   </div>
   <div class="cl-list" data-fit-box>
-    <p><i aria-hidden="true">&#10003;</i><span data-edit="item1"></span></p>
-    <p><i aria-hidden="true">&#10003;</i><span data-edit="item2"></span></p>
-    <p><i aria-hidden="true">&#10003;</i><span data-edit="item3"></span></p>
-    <p><i aria-hidden="true">&#10003;</i><span data-edit="item4"></span></p>
-    <p><i aria-hidden="true">&#10003;</i><span data-edit="item5"></span></p>
-    <p><i aria-hidden="true">&#10003;</i><span data-edit="item6"></span></p>
+    <p><i aria-hidden="true" data-anim="stamp">&#10003;</i><span data-edit="item1"></span></p>
+    <p><i aria-hidden="true" data-anim="stamp">&#10003;</i><span data-edit="item2"></span></p>
+    <p><i aria-hidden="true" data-anim="stamp">&#10003;</i><span data-edit="item3"></span></p>
+    <p><i aria-hidden="true" data-anim="stamp">&#10003;</i><span data-edit="item4"></span></p>
+    <p><i aria-hidden="true" data-anim="stamp">&#10003;</i><span data-edit="item5"></span></p>
+    <p><i aria-hidden="true" data-anim="stamp">&#10003;</i><span data-edit="item6"></span></p>
   </div>
   <div class="cl-foot"><span class="cl-note" data-edit="note"></span><span class="cl-handle" data-edit="handle"></span></div>
 </div>`,

@@ -29,12 +29,12 @@ export default {
   html: `<div class="qa">
   <span class="qa-label" data-edit="label"></span>
   <div class="qa-body" data-fit-box>
-    <div class="qa-q">
+    <div class="qa-q" data-anim="slide-l" data-at="0.4">
       <span class="qa-asker" data-edit="asker"></span>
       <p class="qa-qtext" data-edit="question" data-fit></p>
     </div>
-    <div class="qa-a">
-      <span class="qa-avatar" data-edit="initial"></span>
+    <div class="qa-a" data-anim="slide-r" data-at="1.1">
+      <span class="qa-avatar" data-edit="initial" data-anim="pop" data-at="1.4"></span>
       <p class="qa-atext" data-edit="answer" data-fit></p>
     </div>
   </div>

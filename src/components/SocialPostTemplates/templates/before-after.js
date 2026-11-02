@@ -28,7 +28,7 @@ export default {
   <div class="ba-head" data-fit-box><h2 class="ba-title" data-edit="title" data-fit></h2></div>
   <div class="ba-grid">
     <div class="ba-pane ba-b" data-image="before"><span data-edit="labelBefore"></span></div>
-    <div class="ba-pane ba-a" data-image="after"><span data-edit="labelAfter"></span></div>
+    <div class="ba-pane ba-a" data-image="after" data-anim="wipe-r" data-at="1.0" data-dur="1.3"><span data-edit="labelAfter"></span></div>
   </div>
   <span class="ba-handle" data-edit="handle"></span>
 </div>`,

@@ -25,7 +25,7 @@ export default {
   ],
   html: `<div class="cd">
   <span class="cd-kicker" data-edit="kicker"></span>
-  <div class="cd-ring"><span class="cd-num" data-edit="number"></span></div>
+  <div class="cd-ring" data-anim="pulse"><span class="cd-num" data-edit="number" data-anim="countdown"></span></div>
   <span class="cd-unit" data-edit="unit"></span>
   <div class="cd-body" data-fit-box><h2 class="cd-title" data-edit="title" data-fit></h2></div>
   <span class="cd-deadline" data-edit="deadline"></span>

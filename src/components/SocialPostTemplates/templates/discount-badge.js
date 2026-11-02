@@ -24,10 +24,10 @@ export default {
     { key: 'ends', label: 'End date', type: 'text', value: 'Ends Sunday at midnight' },
   ],
   html: `<div class="db">
-  <div class="db-badge"><span class="db-pct" data-edit="percent"></span><span class="db-off" data-edit="off"></span></div>
+  <div class="db-badge" data-anim="wobble"><span class="db-pct" data-edit="percent"></span><span class="db-off" data-edit="off"></span></div>
   <div class="db-copy" data-fit-box>
     <h2 class="db-title" data-edit="title" data-fit></h2>
-    <span class="db-code" data-edit="code"></span>
+    <span class="db-code" data-edit="code" data-anim="pulse"></span>
     <span class="db-ends" data-edit="ends"></span>
   </div>
 </div>`,

@@ -27,10 +27,10 @@ export default {
   ],
   html: `<div class="ts">
   <div class="ts-card" data-fit-box>
-    <span class="ts-stars" data-edit="stars"></span>
+    <span class="ts-stars" data-edit="stars" data-anim="type" data-at="0.6" data-dur="1.1"></span>
     <p class="ts-quote" data-edit="quote" data-fit></p>
     <div class="ts-foot">
-      <div class="ts-photo" data-image="photo"></div>
+      <div class="ts-photo" data-image="photo" data-ph="portrait"></div>
       <div class="ts-who"><span class="ts-name" data-edit="name"></span><span class="ts-co" data-edit="company"></span></div>
       <div class="ts-logo" data-image="logo" data-image-fit="contain"></div>
     </div>

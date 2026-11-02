@@ -27,9 +27,9 @@ export default {
   html: `<div class="tt">
   <div class="tt-top" aria-hidden="true"></div>
   <span class="tt-q" data-edit="question"></span>
-  <div class="tt-opt tt-a"><b aria-hidden="true">A</b><h2 data-edit="optionA" data-fit></h2></div>
-  <div class="tt-or" aria-hidden="true">OR</div>
-  <div class="tt-opt tt-b"><b aria-hidden="true">B</b><h2 data-edit="optionB" data-fit></h2></div>
+  <div class="tt-opt tt-a" data-anim="slide-t" data-at="0.3"><b aria-hidden="true" data-anim="pop" data-at="0.9">A</b><h2 data-edit="optionA" data-fit></h2></div>
+  <div class="tt-or" aria-hidden="true" data-anim="pop" data-at="1.1">OR</div>
+  <div class="tt-opt tt-b" data-anim="slide-b" data-at="0.3"><b aria-hidden="true" data-anim="pop" data-at="1.2">B</b><h2 data-edit="optionB" data-fit></h2></div>
   <div class="tt-foot"><span class="tt-cta" data-edit="cta"></span><span class="tt-handle" data-edit="handle"></span></div>
 </div>`,
   css: `.tt{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--pt) var(--pad) var(--pb);background:var(--colorB);color:var(--text)}

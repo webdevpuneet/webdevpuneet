@@ -35,10 +35,10 @@ export default {
     <h2 class="hs-title" data-edit="title" data-fit></h2>
   </div>
   <div class="hs-steps" data-fit-box>
-    <div class="hs-step"><b aria-hidden="true">1</b><div><h3 data-edit="s1t"></h3><p data-edit="s1d"></p></div></div>
-    <div class="hs-step"><b aria-hidden="true">2</b><div><h3 data-edit="s2t"></h3><p data-edit="s2d"></p></div></div>
-    <div class="hs-step"><b aria-hidden="true">3</b><div><h3 data-edit="s3t"></h3><p data-edit="s3d"></p></div></div>
-    <div class="hs-step"><b aria-hidden="true">4</b><div><h3 data-edit="s4t"></h3><p data-edit="s4d"></p></div></div>
+    <div class="hs-step"><b aria-hidden="true" data-anim="pop">1</b><div><h3 data-edit="s1t"></h3><p data-edit="s1d"></p></div></div>
+    <div class="hs-step"><b aria-hidden="true" data-anim="pop">2</b><div><h3 data-edit="s2t"></h3><p data-edit="s2d"></p></div></div>
+    <div class="hs-step"><b aria-hidden="true" data-anim="pop">3</b><div><h3 data-edit="s3t"></h3><p data-edit="s3d"></p></div></div>
+    <div class="hs-step"><b aria-hidden="true" data-anim="pop">4</b><div><h3 data-edit="s4t"></h3><p data-edit="s4d"></p></div></div>
   </div>
   <div class="hs-foot"><span class="hs-handle" data-edit="handle"></span></div>
 </div>`,
@@ -46,7 +46,7 @@ export default {
 .hs-head{display:flex;flex-direction:column;gap:calc(var(--u)*2)}
 .hs-label{align-self:flex-start;font-size:calc(var(--u)*2.8);font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:var(--accent);border:calc(var(--u)*.35) solid color-mix(in srgb,var(--accent) 60%,transparent);border-radius:99px;padding:calc(var(--u)*1) calc(var(--u)*2.8)}
 .hs-title{font-family:var(--font-heading);font-size:calc(var(--u)*9.6);line-height:1.02;font-weight:700;letter-spacing:-.03em}
-.hs-steps{flex:1;position:relative;display:flex;flex-direction:column;justify-content:center;gap:calc(var(--u)*4.6)}
+.hs-steps{flex:1;position:relative;display:flex;flex-direction:column;justify-content:center;gap:calc(var(--u)*4.6);margin:calc(var(--u)*-3) calc(var(--u)*-4);padding:calc(var(--u)*3) calc(var(--u)*4)}/* room for the glow of the circles: the box clips (overflow hidden) */
 .hs-step:has(+ .hs-step:not(:has(h3:empty)))::after{content:'';position:absolute;left:calc(var(--u)*4.2);top:calc(50% + var(--u)*4.5);bottom:calc(var(--u)*-4.6);width:calc(var(--u)*.6);background:linear-gradient(180deg,var(--accent),color-mix(in srgb,var(--accent) 35%,transparent));box-shadow:0 0 calc(var(--u)*2.4) color-mix(in srgb,var(--accent) 60%,transparent)}
 .hs-step{position:relative;display:flex;align-items:center;gap:calc(var(--u)*4.6)}
 .hs-step:has(h3:empty){display:none}

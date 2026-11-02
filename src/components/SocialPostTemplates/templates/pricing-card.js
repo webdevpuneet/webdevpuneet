@@ -32,7 +32,7 @@ export default {
   ],
   html: `<div class="pc">
   <div class="pc-card">
-    <span class="pc-badge" data-edit="badge"></span>
+    <span class="pc-badge" data-edit="badge" data-anim="wobble"></span>
     <div class="pc-head">
       <h2 class="pc-plan" data-edit="plan"></h2>
       <p class="pc-tag" data-edit="tagline"></p>
@@ -44,7 +44,7 @@ export default {
       <p><i aria-hidden="true" data-anim="tick">&#10003;</i><span data-edit="f3"></span></p>
       <p><i aria-hidden="true" data-anim="tick">&#10003;</i><span data-edit="f4"></span></p>
     </div>
-    <span class="pc-cta" data-edit="cta"></span>
+    <span class="pc-cta" data-edit="cta" data-anim="pulse"></span>
   </div>
   <span class="pc-handle" data-edit="handle"></span>
 </div>`,

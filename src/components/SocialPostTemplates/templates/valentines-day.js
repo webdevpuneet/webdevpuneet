@@ -30,7 +30,7 @@ export default {
   <div class="vd-body" data-fit-box>
     <h2 class="vd-title" data-edit="title" data-fit></h2>
     <p class="vd-message" data-edit="message" data-fit></p>
-    <span class="vd-offer" data-edit="offer"></span>
+    <span class="vd-offer" data-edit="offer" data-anim="pulse"></span>
   </div>
   <span class="vd-handle" data-edit="handle"></span>
 </div>`,

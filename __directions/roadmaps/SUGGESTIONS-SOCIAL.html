@@ -112,28 +112,52 @@
     <p><strong>Idea to make exports feel richer:</strong> let a template mark decorative parts as animatable (a <code>data-anim</code> hook) so shapes, badges, ratings and bars move too: stars filling, a progress bar growing, numbers counting up, a countdown ticking, underlines drawing. Countdown, 5-star review, big stat, flash sale and pricing card would benefit first.</p>
     <p><strong>Rule for every new social post template: animate each part in a way that fits its theme</strong> (decided 2026-11-02). Not a generic fade on everything: each moving part should do what that thing would do in real life. A flame flickers, a heart beats, a tick gets stamped, a number counts up.</p>
     <ul>
-      <li><strong>How to build it:</strong> a decorative part is a real element with <code>data-anim="&lt;motion&gt;"</code> (see <code>render.js</code>). Motions that exist today: <code>flicker</code> (flames), <code>float</code> (hearts: drift and heartbeat), <code>tick</code> (pop in with overshoot, one after another), <code>drift</code> (confetti: slow wander). Add a new motion only when none fits, and reuse it afterwards.</li>
-      <li><strong>Built so far:</strong> Diwali (flickering diya flames), Valentine's Day (drifting, beating hearts), Pricing Card (ticks pop in), Thank You (floating confetti).</li>
+      <li><strong>How to build it:</strong> mark the element with <code>data-anim="&lt;motion&gt;"</code> (optionally <code>data-at</code>, <code>data-dur</code>, <code>data-origin</code>); the motions live in <code>render.js</code>. Reveals, which play once in reading order: <code>pop</code> / <code>tick</code>, <code>stamp</code>, <code>draw-x</code>, <code>draw-y</code>, <code>wipe-r</code>, <code>wipe-u</code>, <code>slide-l/r/t/b</code>, <code>settle</code>, <code>count</code>, <code>countdown</code>, <code>type</code>. Loops: <code>pulse</code>, <code>breathe</code>, <code>wobble</code>, <code>sway</code>, <code>bob</code>, <code>nudge-x/y</code>, <code>twinkle</code>, <code>blink</code>, <code>spin</code>, <code>fly</code>, <code>burst</code>, <code>fall</code>, <code>scroll-bg</code>, <code>flicker</code>, <code>float</code>, <code>drift</code>. Add a new motion only when none fits. Motions use the individual CSS properties (translate, rotate, scale), so they do not fight a template's own transform or its text and photo reveal.</li>
+      <li><strong>Status:</strong> <span class="pill done">Done 2026-11-02</span> all 45 templates have theme motion (list below). Checked in the editor with Play on every template: each one moves, keeps moving as intended and returns to its normal state.</li>
       <li><strong>Check each one:</strong> press Play in the editor, watch the whole loop at phone size, and confirm that nothing is clipped, nothing leaves its place for good and the post settles back to normal.</li>
     </ul>
-    <p><strong>Planned motion per existing template</strong> (to add as they are revisited):</p>
+    <p><strong>Motion built for each template</strong> (the first table was the plan; this is what was built):</p>
     <table>
-      <thead><tr><th style="width:190px">Template</th><th>Meaningful animation</th></tr></thead>
+      <thead><tr><th style="width:210px">Template</th><th>Motion</th></tr></thead>
       <tbody>
-        <tr><td>Checklist</td><td>Ticks get stamped one by one with a small tilt and a soft thud; the margin line draws down first.</td></tr>
-        <tr><td>How-To Steps</td><td>The glowing timeline line draws downward; each numbered circle lights up as the line reaches it.</td></tr>
-        <tr><td>Mistakes to Avoid</td><td>The hazard tape slides across; each mistake gets its strike-through drawn left to right, then the red cross stamps in, then the green fix slides in.</td></tr>
-        <tr><td>This or That</td><td>The two sides slide in from opposite edges and meet on the diagonal; the OR badge spins in; the A and B circles pop.</td></tr>
-        <tr><td>Hot Take</td><td>The sticker slaps on with a bounce; the glow at the bottom pulses like heat; the yellow word underlines itself.</td></tr>
-        <tr><td>Save the Date</td><td>The gold frame draws itself around the card; the date reveals line by line; the year fades in last.</td></tr>
-        <tr><td>New Blog Article</td><td>The cover slides up like a page turning; the headline writes in; the read time counts up.</td></tr>
-        <tr><td>Big Stat, Milestone, Countdown</td><td>The number counts up to its value; the countdown digits tick down; a ring or bar fills.</td></tr>
-        <tr><td>Testimonial, 5-star review</td><td>Stars fill one by one with a sparkle; the quote marks fade in before the text.</td></tr>
-        <tr><td>Giveaway, Discount Badge, Flash sale</td><td>The badge pops and wobbles; a shine sweeps across; the price tag swings.</td></tr>
-        <tr><td>Christmas, New Year, Halloween, Thanksgiving</td><td>Snow or sparkles fall, fireworks burst at midnight, bats flap across the moon, leaves drift down.</td></tr>
-        <tr><td>Weekly roundup, list posts</td><td>Rows slide in one by one in reading order, with the number flipping in before each line.</td></tr>
+        <tr><td>Big Quote</td><td>The quote mark pops in first.</td></tr>
+        <tr><td>Tip of the Day</td><td>Two sparkles twinkle beside the tip.</td></tr>
+        <tr><td>Did You Know?</td><td>The big question mark wobbles now and then.</td></tr>
+        <tr><td>Code Tip</td><td>The three window lights come on, then the code types itself out.</td></tr>
+        <tr><td>Myth vs Fact</td><td>The cross is stamped on the myth, then the tick on the fact.</td></tr>
+        <tr><td>Big Stat</td><td>The number counts up and the bar fills from the left.</td></tr>
+        <tr><td>Numbered List</td><td>The numbers pop in one by one.</td></tr>
+        <tr><td>Q&amp;A</td><td>The question slides in from the left, the answer from the right, then the avatar pops.</td></tr>
+        <tr><td>Product Launch</td><td>The screenshot floats gently; the NEW badge pulses.</td></tr>
+        <tr><td>Milestone</td><td>Confetti falls and the number counts up.</td></tr>
+        <tr><td>Hiring</td><td>The three chips pop in; the apply line pulses.</td></tr>
+        <tr><td>We're Live</td><td>A red live dot blinks and the stripes scroll.</td></tr>
+        <tr><td>Coming Soon</td><td>The dark veil breathes, like a curtain about to open.</td></tr>
+        <tr><td>Discount Badge, Black Friday</td><td>The badge wobbles; the code and the deal pulse.</td></tr>
+        <tr><td>Product Spotlight, Giveaway</td><td>Price and deadline pulse; the prize badge wobbles; the steps pop in order; the confetti drifts.</td></tr>
+        <tr><td>Meet the Team</td><td>The three cards pop in one after another.</td></tr>
+        <tr><td>Us vs Them</td><td>Crosses and ticks pop in down each column; the VS badge pops first.</td></tr>
+        <tr><td>Pricing Card</td><td>Ticks pop in; the badge wobbles; the button pulses.</td></tr>
+        <tr><td>Just Listed</td><td>The ribbon swings like a sign; the price counts up.</td></tr>
+        <tr><td>Webinar, Countdown, Event Recap</td><td>The date tile pops; the countdown ring pulses and its number counts down; the recap stats count up.</td></tr>
+        <tr><td>Save the Date</td><td>The gold frame settles in; the two rules draw outwards from the centre.</td></tr>
+        <tr><td>Testimonial, Before/After</td><td>The stars fill one by one; the "after" picture is wiped in over the "before".</td></tr>
+        <tr><td>Carousel Cover, Step, Save</td><td>The swipe arrow nudges sideways; the step number pops; the four actions pop in turn.</td></tr>
+        <tr><td>Story Poll, Story Link</td><td>The two options slide in from opposite sides and VS pops; the link prompt bobs upward.</td></tr>
+        <tr><td>Checklist, How-To Steps, Mistakes to Avoid</td><td>Ticks are stamped; numbered circles light up in order; crosses are stamped and the hazard tape scrolls.</td></tr>
+        <tr><td>This or That, Hot Take</td><td>The two sides slide in from top and bottom and the OR badge pops; the sticker wobbles and the heat glow breathes.</td></tr>
+        <tr><td>New Blog Article</td><td>The cover is revealed upwards; the read time counts up.</td></tr>
+        <tr><td>Thank You, Valentine's Day, Diwali</td><td>Confetti drifts; hearts drift and beat; the diya flames flicker and the rangoli ring turns.</td></tr>
+        <tr><td>Halloween, Thanksgiving, Christmas, New Year</td><td>Bats fly and the moon glows; leaves fall; snow falls and the baubles swing; fireworks burst and confetti falls.</td></tr>
       </tbody>
     </table>
+    <p><strong>Dummy placeholder images instead of plain gradients</strong> (added 2026-11-02, from the New Blog Article cover):</p>
+    <ul>
+      <li><strong>Problem:</strong> an empty photo slot shows a plain colour gradient, so a template looks unfinished in the gallery, in previews and in exports until the user adds a photo.</li>
+      <li><strong>Idea:</strong> small illustrated SVG placeholders, drawn in white over the template's accent gradient so they keep its colours: a landscape (sun, hills, clouds), a portrait (head and shoulders), a product screenshot (a window with a sidebar and bars) and an article cover (chart and text bars). A template names the one it wants with <code>data-ph</code> on the slot; the default is the landscape.</li>
+      <li><strong>Rules:</strong> self-contained (data URI, no external files), never exported as if it were the user's photo, replaced the moment a photo is added, and optional slots stay hidden when empty.</li>
+      <li><strong>Later:</strong> a few more (food, building, team group, logo wall) and a "use sample photo" button that fills slots with free-to-use stock images for demos.</li>
+    </ul>
     <p><strong>WhatsApp sharing</strong> (added 2026-11-02):</p>
     <ul>
       <li><strong>Works today:</strong> download the PNG or JPG and send it in a chat, a group or a Channel, or post the Story size (1080×1920) as a WhatsApp Status. WhatsApp compresses photos, so for crisp text send the file as a document.</li>
@@ -150,6 +174,8 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-11-02</td><td>Theme motion built for all 45 templates (about 30 motions in render.js), and the dummy placeholder images built (landscape, portrait, product, cover).</td></tr>
+      <tr><td>2026-11-02</td><td>Idea added: dummy placeholder images (landscape, portrait, product screenshot, article cover) in empty photo slots, tinted by the template accent; built the same day.</td></tr>
       <tr><td>2026-11-02</td><td>Rule added: every new social template animates each part in a way that fits its theme, with the motions built so far (flicker, float, tick, drift) and a planned animation per existing template.</td></tr>
       <tr><td>2026-11-02</td><td>WhatsApp sharing notes added (what works today, a Share button idea, MP4 versus WebM for Status, a WhatsApp Status label on the Story size).</td></tr>
       <tr><td>2026-11-02</td><td>First batch of 10 built, plus Diwali (11 new templates, 34 to 45, two new categories). Still to do: try the animated video export by hand for each, and the <code>data-anim</code> idea.</td></tr>

@@ -32,16 +32,16 @@ export default {
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
   ],
   html: `<div class="mt">
-  <div class="mt-tape" aria-hidden="true"></div>
+  <div class="mt-tape" aria-hidden="true" data-anim="scroll-bg"></div>
   <div class="mt-head">
     <span class="mt-label" data-edit="label"></span>
     <h2 class="mt-title" data-edit="title" data-fit></h2>
   </div>
   <div class="mt-list" data-fit-box>
-    <div class="mt-card"><i aria-hidden="true">&#10005;</i><div><p class="mt-bad" data-edit="m1"></p><p class="mt-fix" data-edit="f1"></p></div></div>
-    <div class="mt-card"><i aria-hidden="true">&#10005;</i><div><p class="mt-bad" data-edit="m2"></p><p class="mt-fix" data-edit="f2"></p></div></div>
-    <div class="mt-card"><i aria-hidden="true">&#10005;</i><div><p class="mt-bad" data-edit="m3"></p><p class="mt-fix" data-edit="f3"></p></div></div>
-    <div class="mt-card"><i aria-hidden="true">&#10005;</i><div><p class="mt-bad" data-edit="m4"></p><p class="mt-fix" data-edit="f4"></p></div></div>
+    <div class="mt-card"><i aria-hidden="true" data-anim="stamp">&#10005;</i><div><p class="mt-bad" data-edit="m1"></p><p class="mt-fix" data-edit="f1"></p></div></div>
+    <div class="mt-card"><i aria-hidden="true" data-anim="stamp">&#10005;</i><div><p class="mt-bad" data-edit="m2"></p><p class="mt-fix" data-edit="f2"></p></div></div>
+    <div class="mt-card"><i aria-hidden="true" data-anim="stamp">&#10005;</i><div><p class="mt-bad" data-edit="m3"></p><p class="mt-fix" data-edit="f3"></p></div></div>
+    <div class="mt-card"><i aria-hidden="true" data-anim="stamp">&#10005;</i><div><p class="mt-bad" data-edit="m4"></p><p class="mt-fix" data-edit="f4"></p></div></div>
   </div>
   <div class="mt-foot"><span class="mt-handle" data-edit="handle"></span></div>
 </div>`,

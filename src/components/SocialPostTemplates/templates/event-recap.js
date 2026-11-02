@@ -42,9 +42,9 @@ export default {
     <div class="er-p3" data-image="photo3"></div>
   </div>
   <div class="er-stats">
-    <div><b data-edit="stat1"></b><span data-edit="stat1Label"></span></div>
-    <div><b data-edit="stat2"></b><span data-edit="stat2Label"></span></div>
-    <div><b data-edit="stat3"></b><span data-edit="stat3Label"></span></div>
+    <div><b data-edit="stat1" data-anim="count" data-at="0.8"></b><span data-edit="stat1Label"></span></div>
+    <div><b data-edit="stat2" data-anim="count" data-at="1.05"></b><span data-edit="stat2Label"></span></div>
+    <div><b data-edit="stat3" data-anim="count" data-at="1.3"></b><span data-edit="stat3Label"></span></div>
   </div>
   <div class="er-foot"><p class="er-thanks" data-edit="thanks"></p><span class="er-handle" data-edit="handle"></span></div>
 </div>`,

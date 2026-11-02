@@ -27,9 +27,9 @@ export default {
   <div class="bf-body" data-fit-box>
     <span class="bf-l1" data-edit="line1"></span>
     <span class="bf-l2" data-edit="line2"></span>
-    <span class="bf-deal" data-edit="deal" data-fit></span>
+    <span class="bf-deal" data-edit="deal" data-fit data-anim="pulse"></span>
   </div>
-  <div class="bf-foot"><span data-edit="dates"></span><span class="bf-code" data-edit="code"></span></div>
+  <div class="bf-foot"><span data-edit="dates"></span><span class="bf-code" data-edit="code" data-anim="pulse"></span></div>
 </div>`,
   css: `.bf{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--pt) var(--pad) var(--pb);background:linear-gradient(transparent 0 calc(100% - calc(var(--u)*1.6)),var(--accent) 0),var(--bg)}
 .bf-body{flex:1;display:flex;flex-direction:column;justify-content:center}

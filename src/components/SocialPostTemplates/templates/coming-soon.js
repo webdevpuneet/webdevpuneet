@@ -27,7 +27,7 @@ export default {
   ],
   html: `<div class="cs">
   <div class="cs-photo" data-image="photo" aria-hidden="true"></div>
-  <div class="cs-shade" aria-hidden="true"></div>
+  <div class="cs-shade" aria-hidden="true" data-anim="breathe"></div>
   <span class="cs-eyebrow" data-edit="eyebrow"></span>
   <h2 class="cs-headline" data-edit="headline"></h2>
   <div class="cs-body" data-fit-box><p class="cs-teaser" data-edit="teaser" data-fit></p></div>

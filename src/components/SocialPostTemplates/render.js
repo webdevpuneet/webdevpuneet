@@ -372,54 +372,177 @@ function applyAnimFrame(base, time, style, u, { stagger, dur, lead }) {
 }
 const restoreAnim = base => base.forEach(b => { b.el.style.transform = b.transform; b.el.style.opacity = b.opacity; b.el.style.transition = b.transition; });
 
-/* Decorative parts that keep moving while the post plays: any element a template marks with
-   data-anim="flicker" (a flame). They are real elements (not ::before), because their style is set
-   from here. A flame grows and narrows, sways a few degrees from its base and dims slightly, each
-   one out of step with its neighbours. */
-const ambientItems = root => {
+/* Theme motion. A template marks any element with data-anim="<motion>" and it moves the way that
+   thing would: a flame flickers, a heart beats, a tick is stamped, a number counts up. Optional
+   data-at (start, seconds), data-dur and data-origin tune a motion. Everything is a pure function of
+   the time, so the live Play preview and the video export show the same thing.
+   Motions use the individual CSS properties (translate, rotate, scale) wherever they can, so they
+   neither replace a template's own transform nor fight the slot reveal that text and photos get.
+   Reveals (play once, in reading order): pop, tick, stamp, draw-x, draw-y, wipe-r, wipe-u, slide-l,
+   slide-r, slide-t, slide-b, settle, count, countdown, type.
+   Loops: pulse, breathe, wobble, sway, bob, nudge-x, nudge-y, twinkle, blink, spin, fly, burst, fall,
+   scroll-bg, flicker, float, drift. */
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const easeOut = p => 1 - (1 - p) ** 3;
+const easeOutBack = p => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * (p - 1) ** 3 + c1 * (p - 1) ** 2; };
+const wrapRange = (v, lo, hi) => lo + ((((v - lo) % (hi - lo)) + (hi - lo)) % (hi - lo));
+const SAVED_PROPS = ['transform', 'transformOrigin', 'translate', 'rotate', 'scale', 'opacity', 'clipPath', 'backgroundPosition', 'display'];
+
+function parseNumber(str) {
+  const m = /(\d[\d,]*(?:\.\d+)?)/.exec(str);
+  if (!m) return null;
+  const raw = m[1];
+  return { start: m.index, end: m.index + raw.length, value: parseFloat(raw.replace(/,/g, '')), decimals: raw.includes('.') ? raw.split('.')[1].length : 0, commas: raw.includes(',') };
+}
+function formatNumber(v, decimals, commas) {
+  const [whole, frac] = v.toFixed(decimals).split('.');
+  return (commas ? whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : whole) + (frac ? `.${frac}` : '');
+}
+
+function ambientItems(root) {
+  const boxes = new Map(); // fit boxes clip their children (overflow hidden); a moving part that grows or swings must not be cut
   const seen = {}; // `rank`: the n-th visible element of its kind (ticks pop in one after another)
-  return [...root.querySelectorAll('[data-anim]')].map(el => {
+  const items = [...root.querySelectorAll('[data-anim]')].map((el, index) => {
     const kind = el.dataset.anim;
+    for (let n = el.parentElement; n && n !== root; n = n.parentElement) if (n.hasAttribute('data-fit-box') && !boxes.has(n)) boxes.set(n, n.style.overflow);
     const visible = el.getClientRects().length > 0;
     const rank = visible ? (seen[kind] = (seen[kind] ?? -1) + 1) : 0;
-    return { el, kind, rank, transform: el.style.transform, opacity: el.style.opacity, baseOpacity: parseFloat(getComputedStyle(el).opacity) || 1 };
+    const cs = getComputedStyle(el);
+    const saved = {};
+    SAVED_PROPS.forEach(k => { saved[k] = el.style[k]; });
+    if (cs.display === 'inline') el.style.display = 'inline-block'; // transforms don't apply to plain inline text
+    if (el.dataset.origin) el.style.transformOrigin = el.dataset.origin;
+    const nodes = [];
+    if (kind === 'count' || kind === 'countdown' || kind === 'type') {
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      for (let n = walker.nextNode(); n; n = walker.nextNode()) nodes.push({ node: n, text: n.nodeValue });
+    }
+    const num = (kind === 'count' || kind === 'countdown') ? (() => { const hit = nodes.find(n => /\d/.test(n.text)); return hit ? { hit, ...parseNumber(hit.text) } : null; })() : null;
+    return {
+      el, kind, rank, index, saved, nodes, num,
+      slot: el.hasAttribute('data-edit') || el.hasAttribute('data-image'),
+      at: el.dataset.at !== undefined ? parseFloat(el.dataset.at) : null,
+      dur: el.dataset.dur !== undefined ? parseFloat(el.dataset.dur) : null,
+      top: el.offsetTop, left: el.offsetLeft, W: root.offsetWidth, H: root.offsetHeight,
+      baseOpacity: parseFloat(cs.opacity) || 1,
+      chars: nodes.reduce((n, x) => n + x.text.length, 0),
+    };
   });
-};
+  boxes.forEach((_, n) => { n.style.overflow = 'visible'; });
+  items.boxes = boxes;
+  return items;
+}
+
 function applyAmbient(items, time, u = 10) {
-  items.forEach((a, i) => {
-    if (a.kind === 'drift') { // a confetti dot: floats about slowly (distances in units of 1% of the post), swells and fades a little
-      const ph = i * 2.1;
-      const x = (1.6 * Math.sin(time * 0.8 + ph) + 0.6 * Math.sin(time * 1.9 + ph * 1.4)) * u;
-      const y = (2.8 * Math.sin(time * 0.7 + ph * 1.2) + 1.0 * Math.sin(time * 1.7 + ph)) * u;
-      a.el.style.transform = `${a.transform && a.transform !== 'none' ? `${a.transform} ` : ''}translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${(1 + 0.18 * Math.sin(time * 1.4 + ph)).toFixed(3)})`;
-      a.el.style.opacity = (0.8 + 0.2 * Math.sin(time * 1.1 + ph)).toFixed(3);
-      return;
+  items.forEach(a => {
+    const st = a.el.style, ph = a.index * 2.1, r = a.rank, t = time;
+    const when = (defAt, perRank, defDur) => clamp01((t - (a.at ?? (defAt + r * perRank))) / (a.dur ?? defDur));
+    const opacity = v => { if (!a.slot) st.opacity = String(+v.toFixed(3)); };
+    switch (a.kind) {
+      // ---- reveals
+      case 'tick': case 'pop': { // pops in with a little overshoot
+        st.scale = String(+Math.max(0, easeOutBack(when(0.9, 0.32, 0.5))).toFixed(3));
+        break;
+      }
+      case 'stamp': { // lands like a rubber stamp: big, then pressed down
+        const p = easeOut(when(0.7, 0.35, 0.45));
+        st.scale = String(+(1 + (1 - p) * 0.9).toFixed(3)); st.rotate = `${((1 - p) * -14).toFixed(2)}deg`; opacity(clamp01(p * 4));
+        break;
+      }
+      case 'draw-x': { st.transformOrigin = a.el.dataset.origin || '0 50%'; st.scale = `${easeOut(when(0.5, 0.3, 0.6)).toFixed(3)} 1`; break; }
+      case 'draw-y': { st.transformOrigin = a.el.dataset.origin || '50% 0'; st.scale = `1 ${easeOut(when(0.5, 0.3, 0.6)).toFixed(3)}`; break; }
+      case 'wipe-r': { st.clipPath = `inset(0 ${((1 - easeOut(when(0.6, 0.3, 1.1))) * 100).toFixed(2)}% 0 0)`; break; }
+      case 'wipe-u': { st.clipPath = `inset(${((1 - easeOut(when(0.6, 0.3, 1.1))) * 100).toFixed(2)}% 0 0 0)`; break; }
+      case 'slide-l': case 'slide-r': case 'slide-t': case 'slide-b': {
+        const d = (1 - easeOut(when(0.5, 0.3, 0.7))) * 34 * u;
+        st.translate = a.kind === 'slide-l' ? `${-d}px 0` : a.kind === 'slide-r' ? `${d}px 0` : a.kind === 'slide-t' ? `0 ${-d}px` : `0 ${d}px`;
+        break;
+      }
+      case 'settle': { const p = easeOut(when(0.2, 0, 0.9)); st.scale = String(+(0.93 + 0.07 * p).toFixed(4)); opacity(p); break; }
+      case 'count': case 'countdown': {
+        if (!a.num) break;
+        const p = easeOut(when(a.kind === 'count' ? 0.5 : 0.4, 0, a.kind === 'count' ? 1.4 : 1.8));
+        const from = a.kind === 'count' ? 0 : a.num.value + Math.max(3, Math.round(a.num.value * 0.25));
+        const v = from + (a.num.value - from) * p;
+        const { hit, start, end, decimals, commas } = a.num;
+        hit.node.nodeValue = hit.text.slice(0, start) + formatNumber(v, decimals, commas) + hit.text.slice(end);
+        break;
+      }
+      case 'type': { // text types itself out, character by character (stars fill, code is written)
+        let left = Math.round(a.chars * easeOut(clamp01((t - (a.at ?? 0.4)) / (a.dur ?? Math.min(2.6, 0.4 + a.chars * 0.035)))));
+        a.nodes.forEach(n => { const k = Math.max(0, Math.min(n.text.length, left)); n.node.nodeValue = n.text.slice(0, k) + n.text.slice(k).replace(/[^\n]/g, '\u00a0'); left -= n.text.length; });
+        break;
+      }
+      // ---- loops
+      case 'pulse': { st.scale = String(+(1 + 0.05 * Math.sin(t * 4.4 + ph)).toFixed(4)); break; }
+      case 'breathe': { opacity(a.baseOpacity * (0.8 + 0.2 * Math.sin(t * 1.1 + ph))); break; }
+      case 'wobble': { // a wiggle every few seconds, like a sticker asking to be tapped
+        const tau = (t + ph) % 2.8;
+        st.rotate = tau < 0.8 ? `${(8 * Math.sin(tau * 30) * (1 - tau / 0.8)).toFixed(2)}deg` : '0deg';
+        st.scale = tau < 0.8 ? String(+(1 + 0.05 * Math.sin(tau * Math.PI / 0.8)).toFixed(3)) : '1';
+        break;
+      }
+      case 'sway': { st.transformOrigin = a.el.dataset.origin || '50% 0'; st.rotate = `${(7 * Math.sin(t * 1.5 + ph)).toFixed(2)}deg`; break; }
+      case 'bob': { st.translate = `0 ${(1.5 * u * Math.sin(t * 1.6 + ph)).toFixed(2)}px`; break; }
+      case 'nudge-x': { st.translate = `${(1.8 * u * Math.abs(Math.sin(t * 3.2 + ph))).toFixed(2)}px 0`; break; }
+      case 'nudge-y': { st.translate = `0 ${(-1.8 * u * Math.abs(Math.sin(t * 3.2 + ph))).toFixed(2)}px`; break; }
+      case 'twinkle': { const q = 0.5 + 0.5 * Math.sin(t * 2.6 + ph * 1.7); opacity(0.25 + 0.75 * q * q); st.scale = String(+(0.7 + 0.5 * q).toFixed(3)); break; }
+      case 'blink': { opacity(Math.sin(t * 5 + ph) > 0 ? 1 : 0.15); break; }
+      case 'spin': { st.rotate = `${(t * 40 + ph * 30).toFixed(1)}deg`; break; }
+      case 'fly': { // a bat: flaps while drifting across the sky and wrapping round
+        const x = wrapRange(a.left + t * 7 * u + ph * 25 * u, -16 * u, a.W + 16 * u) - a.left;
+        st.translate = `${x.toFixed(1)}px ${(2 * u * Math.sin(t * 2 + ph)).toFixed(1)}px`;
+        st.scale = `1 ${(0.65 + 0.35 * Math.abs(Math.sin(t * 13 + ph))).toFixed(3)}`;
+        break;
+      }
+      case 'burst': { // a firework: grows from a spark and fades, again and again
+        const cyc = ((t + ph * 0.7) % 2.4) / 2.4;
+        st.scale = String(+(0.15 + easeOut(cyc)).toFixed(3)); opacity(a.baseOpacity * (1 - cyc) ** 1.1);
+        break;
+      }
+      case 'fall': { // snow, leaves, confetti: falls, sways and turns, then comes back in at the top
+        const speed = (7 + (r % 3) * 2) * u;
+        const y = wrapRange(a.top + t * speed + ph * 30 * u, -12 * u, a.H + 12 * u) - a.top;
+        st.translate = `${(2 * u * Math.sin(t * 0.9 + ph)).toFixed(1)}px ${y.toFixed(1)}px`;
+        st.rotate = `${(t * 45 + ph * 50).toFixed(1)}deg`;
+        break;
+      }
+      case 'scroll-bg': { st.backgroundPosition = `${(t * 9 * u).toFixed(1)}px 0`; break; }
+      case 'flicker': { // a flame: grows and narrows, sways from its base, dims a little
+        const s = 1 + 0.08 * Math.sin(t * 9 + ph / 2.1 * 1.7) + 0.05 * Math.sin(t * 17 + ph / 2.1 * 3.1) + 0.03 * Math.sin(t * 29 + ph / 2.1 * 0.7);
+        const rot = 3.2 * Math.sin(t * 6.5 + ph / 2.1 * 2.3) + 1.4 * Math.sin(t * 15 + ph / 2.1);
+        st.transformOrigin = '50% 100%';
+        st.transform = `rotate(${rot.toFixed(2)}deg) scale(${(1 - (s - 1) * 0.7).toFixed(3)}, ${s.toFixed(3)})`;
+        opacity(0.9 + 0.1 * Math.sin(t * 13 + ph / 2.1 * 2));
+        break;
+      }
+      case 'float': { // a heart: drifts and beats (% of its own size, so big ones travel further)
+        const hp = ph / 2.1 * 1.9;
+        const beat = Math.max(0, Math.sin(t * 3.4 + hp)) ** 3;
+        const y = 11 * Math.sin(t * 1.25 + hp) + 4 * Math.sin(t * 2.6 + hp * 1.7);
+        const x = 5 * Math.sin(t * 0.9 + hp * 1.3);
+        st.transform = `translate(${x.toFixed(2)}%, ${y.toFixed(2)}%) scale(${(1 + 0.14 * beat).toFixed(3)})`;
+        opacity(Math.min(1, a.baseOpacity * (0.9 + 0.55 * beat)));
+        break;
+      }
+      case 'drift': { // a confetti dot: wanders slowly, swells and fades a little
+        const x = (1.6 * Math.sin(t * 0.8 + ph) + 0.6 * Math.sin(t * 1.9 + ph * 1.4)) * u;
+        const y = (2.8 * Math.sin(t * 0.7 + ph * 1.2) + 1.0 * Math.sin(t * 1.7 + ph)) * u;
+        st.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${(1 + 0.18 * Math.sin(t * 1.4 + ph)).toFixed(3)})`;
+        opacity(0.8 + 0.2 * Math.sin(t * 1.1 + ph));
+        break;
+      }
+      default: break;
     }
-    if (a.kind === 'tick') { // a tick badge: pops in with a little overshoot, one after another, once its row has appeared
-      const p = Math.max(0, Math.min(1, (time - (0.9 + a.rank * 0.32)) / 0.5));
-      const c1 = 1.70158, c3 = c1 + 1;
-      const sc = p <= 0 ? 0 : p >= 1 ? 1 : 1 + c3 * (p - 1) ** 3 + c1 * (p - 1) ** 2;
-      a.el.style.transform = `${a.transform && a.transform !== 'none' ? `${a.transform} ` : ''}scale(${Math.max(0, sc).toFixed(3)})`;
-      return;
-    }
-    if (a.kind === 'float') { // a heart: drifts up and down and sideways (in % of its own size, so big ones travel further) and beats
-      const ph = i * 1.9;
-      const beat = Math.max(0, Math.sin(time * 3.4 + ph)) ** 3;
-      const y = 11 * Math.sin(time * 1.25 + ph) + 4 * Math.sin(time * 2.6 + ph * 1.7);
-      const x = 5 * Math.sin(time * 0.9 + ph * 1.3);
-      a.el.style.transform = `${a.transform && a.transform !== 'none' ? `${a.transform} ` : ''}translate(${x.toFixed(2)}%, ${y.toFixed(2)}%) scale(${(1 + 0.14 * beat).toFixed(3)})`;
-      a.el.style.opacity = Math.min(1, a.baseOpacity * (0.9 + 0.55 * beat)).toFixed(3);
-      return;
-    }
-    if (a.kind !== 'flicker') return;
-    const s = 1 + 0.08 * Math.sin(time * 9 + i * 1.7) + 0.05 * Math.sin(time * 17 + i * 3.1) + 0.03 * Math.sin(time * 29 + i * 0.7);
-    const rot = 3.2 * Math.sin(time * 6.5 + i * 2.3) + 1.4 * Math.sin(time * 15 + i);
-    a.el.style.transformOrigin = '50% 100%';
-    a.el.style.transform = `${a.transform && a.transform !== 'none' ? `${a.transform} ` : ''}rotate(${rot.toFixed(2)}deg) scale(${(1 - (s - 1) * 0.7).toFixed(3)}, ${s.toFixed(3)})`;
-    a.el.style.opacity = (0.9 + 0.1 * Math.sin(time * 13 + i * 2)).toFixed(3);
   });
 }
-const restoreAmbient = items => items.forEach(a => { a.el.style.transform = a.transform; a.el.style.opacity = a.opacity; a.el.style.transformOrigin = ''; });
+const restoreAmbient = items => {
+  items.forEach(a => {
+    SAVED_PROPS.forEach(k => { a.el.style[k] = a.saved[k]; });
+    a.nodes.forEach(n => { n.node.nodeValue = n.text; });
+  });
+  items.boxes?.forEach((overflow, n) => { n.style.overflow = overflow; });
+};
 
 /* Play the animation on the live preview (a shadow root's .spt element). Returns stop().
    `u` = 1% of the shorter side of the post, in the post's own pixels. A post with moving

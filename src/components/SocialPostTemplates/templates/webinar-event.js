@@ -29,12 +29,12 @@ export default {
     { key: 'cta', label: 'Button', type: 'text', value: 'Register free →' },
   ],
   html: `<div class="w">
-  <div class="w-top"><div class="w-date"><span data-edit="month"></span><b data-edit="day"></b></div><span class="w-kicker" data-edit="kicker"></span></div>
+  <div class="w-top"><div class="w-date" data-anim="pop" data-at="0.3"><span data-edit="month"></span><b data-edit="day"></b></div><span class="w-kicker" data-edit="kicker"></span></div>
   <div class="w-body" data-fit-box><h2 class="w-title" data-edit="title" data-fit></h2><span class="w-time" data-edit="time"></span></div>
   <div class="w-foot">
-    <div class="w-photo" data-image="photo"></div>
+    <div class="w-photo" data-image="photo" data-ph="portrait"></div>
     <div class="w-who"><span class="w-name" data-edit="speaker"></span><span class="w-role" data-edit="role"></span></div>
-    <span class="w-cta" data-edit="cta"></span>
+    <span class="w-cta" data-edit="cta" data-anim="pulse"></span>
   </div>
 </div>`,
   css: `.w{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--pt) var(--pad) var(--pb);background:linear-gradient(150deg,var(--bg),var(--bg2))}

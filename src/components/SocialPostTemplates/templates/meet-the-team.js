@@ -39,9 +39,9 @@ export default {
     <p class="mt-intro" data-edit="intro"></p>
   </div>
   <div class="mt-grid">
-    <div class="mt-card"><div class="mt-photo" data-image="m1Photo"></div><div class="mt-who"><span class="mt-name" data-edit="m1Name"></span><span class="mt-role" data-edit="m1Role"></span></div></div>
-    <div class="mt-card"><div class="mt-photo" data-image="m2Photo"></div><div class="mt-who"><span class="mt-name" data-edit="m2Name"></span><span class="mt-role" data-edit="m2Role"></span></div></div>
-    <div class="mt-card"><div class="mt-photo" data-image="m3Photo"></div><div class="mt-who"><span class="mt-name" data-edit="m3Name"></span><span class="mt-role" data-edit="m3Role"></span></div></div>
+    <div class="mt-card" data-anim="pop" data-at="0.5"><div class="mt-photo" data-image="m1Photo" data-ph="portrait"></div><div class="mt-who"><span class="mt-name" data-edit="m1Name"></span><span class="mt-role" data-edit="m1Role"></span></div></div>
+    <div class="mt-card" data-anim="pop" data-at="0.85"><div class="mt-photo" data-image="m2Photo" data-ph="portrait"></div><div class="mt-who"><span class="mt-name" data-edit="m2Name"></span><span class="mt-role" data-edit="m2Role"></span></div></div>
+    <div class="mt-card" data-anim="pop" data-at="1.2"><div class="mt-photo" data-image="m3Photo" data-ph="portrait"></div><div class="mt-who"><span class="mt-name" data-edit="m3Name"></span><span class="mt-role" data-edit="m3Role"></span></div></div>
   </div>
   <span class="mt-handle" data-edit="handle"></span>
 </div>`,

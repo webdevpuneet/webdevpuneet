@@ -27,11 +27,11 @@ export default {
   ],
   html: `<div class="nb">
   <span class="nb-label" data-edit="label"></span>
-  <div class="nb-cover" data-image="cover"></div>
+  <div class="nb-cover" data-image="cover" data-ph="cover" data-anim="wipe-u" data-at="0.5"></div>
   <div class="nb-body" data-fit-box>
     <h2 class="nb-title" data-edit="title" data-fit></h2>
     <p class="nb-excerpt" data-edit="excerpt" data-fit></p>
-    <span class="nb-meta" data-edit="meta"></span>
+    <span class="nb-meta" data-edit="meta" data-anim="count"></span>
   </div>
   <div class="nb-foot"><span class="nb-cta" data-edit="cta"></span><span class="nb-handle" data-edit="handle"></span></div>
 </div>`,

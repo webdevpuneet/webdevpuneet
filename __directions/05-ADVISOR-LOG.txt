@@ -80,3 +80,7 @@ Format: date · area · suggested / chosen / done · note
            (image or animated video to the phone share sheet / WhatsApp; on desktop copies the image and opens WhatsApp Web).
            On phones the toolbar is two rows with Save, Share and Export side by side, full width. Diwali flames now flicker in
            Play and in the video export (data-anim="flicker" hook in render.js); a template with moving parts renders the whole length.
+2026-11-02 · social · done · Theme motion for all 45 templates (data-anim engine in render.js, ~30 motions: flames flicker, hearts beat, ticks and crosses
+           stamped, numbers count up, snow and leaves fall, bats fly, before/after wiped in...). Play checked on every template (0 problems).
+           Dummy placeholder pictures in empty photo slots (landscape, portrait, product screenshot, article cover). Not deployed.
+

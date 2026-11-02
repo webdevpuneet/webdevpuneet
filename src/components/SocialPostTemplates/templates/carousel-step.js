@@ -24,7 +24,7 @@ export default {
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
   ],
   html: `<div class="st">
-  <span class="st-num" data-edit="number"></span>
+  <span class="st-num" data-edit="number" data-anim="pop" data-at="0.1"></span>
   <div class="st-body" data-fit-box>
     <h2 class="st-title" data-edit="title" data-fit></h2>
     <p class="st-text" data-edit="body" data-fit></p>

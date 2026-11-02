@@ -30,10 +30,10 @@ export default {
     { key: 'contact', label: 'Agent contact', type: 'text', value: '(512) 555-0188 · elena@youragency.com' },
   ],
   html: `<div class="jl">
-  <div class="jl-photo" data-image="photo"><span class="jl-ribbon" data-edit="ribbon"></span></div>
+  <div class="jl-photo" data-image="photo"><span class="jl-ribbon" data-edit="ribbon" data-anim="sway" data-origin="0 0"></span></div>
   <div class="jl-info">
     <div class="jl-row">
-      <span class="jl-price" data-edit="price"></span>
+      <span class="jl-price" data-edit="price" data-anim="count"></span>
       <span class="jl-open" data-edit="openHouse"></span>
     </div>
     <p class="jl-address" data-edit="address"></p>

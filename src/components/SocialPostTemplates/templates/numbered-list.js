@@ -31,11 +31,11 @@ export default {
   <span class="nl-label" data-edit="label"></span>
   <h2 class="nl-title" data-edit="title"></h2>
   <ol class="nl-list" data-fit-box>
-    <li><b>01</b><span data-edit="item1" data-fit></span></li>
-    <li><b>02</b><span data-edit="item2" data-fit></span></li>
-    <li><b>03</b><span data-edit="item3" data-fit></span></li>
-    <li><b>04</b><span data-edit="item4" data-fit></span></li>
-    <li><b>05</b><span data-edit="item5" data-fit></span></li>
+    <li><b data-anim="pop">01</b><span data-edit="item1" data-fit></span></li>
+    <li><b data-anim="pop">02</b><span data-edit="item2" data-fit></span></li>
+    <li><b data-anim="pop">03</b><span data-edit="item3" data-fit></span></li>
+    <li><b data-anim="pop">04</b><span data-edit="item4" data-fit></span></li>
+    <li><b data-anim="pop">05</b><span data-edit="item5" data-fit></span></li>
   </ol>
   <div class="nl-foot"><span class="nl-save" data-edit="save"></span><span class="nl-handle" data-edit="handle"></span></div>
 </div>`,

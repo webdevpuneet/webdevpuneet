@@ -26,7 +26,7 @@ export default {
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
   ],
   html: `<div class="dw">
-  <div class="dw-ring" aria-hidden="true"></div>
+  <div class="dw-ring" aria-hidden="true" data-anim="spin"></div>
   <span class="dw-label" data-edit="label"></span>
   <div class="dw-body" data-fit-box>
     <p class="dw-hindi" data-edit="hindi"></p>

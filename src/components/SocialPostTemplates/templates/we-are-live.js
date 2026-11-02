@@ -23,7 +23,8 @@ export default {
     { key: 'ask', label: 'Ask', type: 'textarea', value: 'Your upvote helps us reach more makers ↑' },
   ],
   html: `<div class="l">
-  <div class="l-stripes"></div>
+  <div class="l-stripes" data-anim="scroll-bg"></div>
+  <i class="l-dot" data-anim="blink" aria-hidden="true"></i>
   <div class="l-body" data-fit-box>
     <span class="l-line1" data-edit="line1"></span>
     <span class="l-plat" data-edit="platform" data-fit></span>
@@ -37,5 +38,6 @@ export default {
 .l-plat{font-family:var(--font-heading);font-size:calc(var(--u)*25);line-height:.9;color:var(--accent);letter-spacing:.005em}
 .l-foot{position:relative;display:flex;flex-direction:column;gap:calc(var(--u)*1.6);padding-top:calc(var(--u)*4);border-top:calc(var(--u)*.6) solid var(--accent)}
 .l-date{font-size:calc(var(--u)*3.4);font-weight:800;text-transform:uppercase;letter-spacing:.12em}
-.l-ask{font-size:calc(var(--u)*3.6);line-height:1.4;opacity:.85}`,
+.l-ask{font-size:calc(var(--u)*3.6);line-height:1.4;opacity:.85}
+.l-dot{position:absolute;right:calc(var(--pad));top:calc(var(--pt));width:calc(var(--u)*4.4);height:calc(var(--u)*4.4);border-radius:50%;background:#ef4444;box-shadow:0 0 calc(var(--u)*3) rgba(239,68,68,.8)}`,
 };

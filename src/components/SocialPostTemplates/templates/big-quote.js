@@ -24,7 +24,7 @@ export default {
     { key: 'photo', label: 'Author photo (optional)', type: 'image' },
   ],
   html: `<div class="q">
-  <div class="q-mark">“</div>
+  <div class="q-mark" data-anim="tick" data-at="0.15">“</div>
   <div class="q-body" data-fit-box><p class="q-text" data-edit="quote" data-fit></p></div>
   <div class="q-foot">
     <div class="q-photo" data-image="photo" data-optional></div>

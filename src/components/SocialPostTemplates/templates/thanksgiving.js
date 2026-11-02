@@ -24,7 +24,7 @@ export default {
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
   ],
   html: `<div class="tg">
-  <i class="tg-leaf l1"></i><i class="tg-leaf l2"></i><i class="tg-leaf l3"></i><i class="tg-leaf l4"></i><i class="tg-leaf l5"></i><i class="tg-leaf l6"></i>
+  <i class="tg-leaf l1" data-anim="fall"></i><i class="tg-leaf l2" data-anim="fall"></i><i class="tg-leaf l3" data-anim="fall"></i><i class="tg-leaf l4" data-anim="fall"></i><i class="tg-leaf l5" data-anim="fall"></i><i class="tg-leaf l6" data-anim="fall"></i>
   <div class="tg-card">
     <span class="tg-kicker" data-edit="kicker"></span>
     <div class="tg-body" data-fit-box>

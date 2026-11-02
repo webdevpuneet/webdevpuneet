@@ -28,10 +28,10 @@ export default {
   html: `<div class="bs">
   <span class="bs-eyebrow" data-edit="eyebrow"></span>
   <div class="bs-main" data-fit-box>
-    <span class="bs-stat" data-edit="stat"></span>
+    <span class="bs-stat" data-edit="stat" data-anim="count"></span>
     <p class="bs-label" data-edit="statLabel" data-fit></p>
   </div>
-  <div class="bs-bar" aria-hidden="true"><div class="bs-fill" data-bar="percent"></div></div>
+  <div class="bs-bar" aria-hidden="true"><div class="bs-fill" data-bar="percent" data-anim="draw-x" data-at="0.7" data-dur="1.2"></div></div>
   <p class="bs-context" data-edit="context"></p>
   <div class="bs-foot"><span data-edit="source"></span><span class="bs-handle" data-edit="handle"></span></div>
 </div>`,

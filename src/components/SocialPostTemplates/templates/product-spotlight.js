@@ -25,11 +25,11 @@ export default {
     { key: 'cta', label: 'Button', type: 'text', value: 'Shop now →' },
   ],
   html: `<div class="ps">
-  <div class="ps-photo" data-image="photo"></div>
+  <div class="ps-photo" data-image="photo" data-ph="product"></div>
   <div class="ps-card" data-fit-box>
     <span class="ps-label" data-edit="label"></span>
     <h2 class="ps-name" data-edit="name" data-fit></h2>
-    <div class="ps-row"><span class="ps-price" data-edit="price"></span><span class="ps-cta" data-edit="cta"></span></div>
+    <div class="ps-row"><span class="ps-price" data-edit="price" data-anim="pulse"></span><span class="ps-cta" data-edit="cta" data-anim="nudge-x"></span></div>
   </div>
 </div>`,
   css: `.ps{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--pt) var(--pad) var(--pb);gap:calc(var(--u)*3);background:var(--bg)}

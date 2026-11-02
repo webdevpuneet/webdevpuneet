@@ -26,6 +26,7 @@ export default {
     { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="t">
+  <i class="t-spark s1" data-anim="twinkle" aria-hidden="true">&#10022;</i><i class="t-spark s2" data-anim="twinkle" aria-hidden="true">&#10022;</i>
   <div class="t-top"><span class="t-label" data-edit="label"></span><span class="t-num" data-edit="number"></span></div>
   <div class="t-body" data-fit-box>
     <h2 class="t-title" data-edit="title" data-fit></h2>
@@ -43,5 +44,8 @@ export default {
 .t-foot{display:flex;align-items:center;gap:calc(var(--u)*2.5)}
 .t-logo{width:calc(var(--u)*7);height:calc(var(--u)*7)}
 .t-handle{font-size:calc(var(--u)*3.2);font-weight:700}
-.is-landscape .t-title{font-size:calc(var(--u)*7.4)}`,
+.is-landscape .t-title{font-size:calc(var(--u)*7.4)}
+.t-spark{position:absolute;color:var(--accent);line-height:1;pointer-events:none}
+.t-spark.s1{right:11%;top:38%;font-size:calc(var(--u)*5.6)}
+.t-spark.s2{right:20%;top:32%;font-size:calc(var(--u)*3.2)}`,
 };

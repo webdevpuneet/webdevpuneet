@@ -26,12 +26,12 @@ export default {
   ],
   html: `<div class="pl">
   <div class="pl-copy" data-fit-box>
-    <span class="pl-badge" data-edit="badge"></span>
+    <span class="pl-badge" data-edit="badge" data-anim="pulse"></span>
     <h2 class="pl-title" data-edit="title" data-fit></h2>
     <p class="pl-tag" data-edit="tagline" data-fit></p>
     <span class="pl-cta" data-edit="cta"></span>
   </div>
-  <div class="pl-shot"><div class="pl-frame" data-image="shot"></div></div>
+  <div class="pl-shot" data-anim="bob"><div class="pl-frame" data-image="shot" data-ph="product"></div></div>
 </div>`,
   css: `.pl{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*6);padding:var(--pt) var(--pad) 0;background:radial-gradient(ellipse at 50% 110%,var(--bg2) 0%,transparent 60%),var(--bg);overflow:hidden}
 .pl-copy{display:flex;flex-direction:column;align-items:flex-start;gap:calc(var(--u)*3);flex:0 1 auto}

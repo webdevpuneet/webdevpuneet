@@ -27,8 +27,8 @@ export default {
   html: `<div class="c">
   <h2 class="c-title" data-edit="title"></h2>
   <div class="c-win" data-fit-box>
-    <div class="c-bar"><i></i><i></i><i></i><span data-edit="file"></span></div>
-    <pre class="c-code" data-edit="code" data-fit></pre>
+    <div class="c-bar"><i data-anim="pop" data-at="0.2"></i><i data-anim="pop" data-at="0.4"></i><i data-anim="pop" data-at="0.6"></i><span data-edit="file"></span></div>
+    <pre class="c-code" data-edit="code" data-fit data-anim="type" data-at="0.6"></pre>
   </div>
   <span class="c-handle" data-edit="handle"></span>
 </div>`,

@@ -28,9 +28,9 @@ export default {
   html: `<div class="h">
   <div class="h-top"><span class="h-kicker" data-edit="kicker"></span><div class="h-logo" data-image="logo" data-image-fit="contain"></div></div>
   <div class="h-body" data-fit-box><h2 class="h-role" data-edit="role" data-fit></h2>
-    <div class="h-chips"><span data-edit="chip1"></span><span data-edit="chip2"></span><span data-edit="chip3"></span></div>
+    <div class="h-chips"><span data-edit="chip1" data-anim="pop" data-at="0.9"></span><span data-edit="chip2" data-anim="pop" data-at="1.2"></span><span data-edit="chip3" data-anim="pop" data-at="1.5"></span></div>
   </div>
-  <span class="h-apply" data-edit="apply"></span>
+  <span class="h-apply" data-edit="apply" data-anim="pulse"></span>
 </div>`,
   css: `.h{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--pt) var(--pad) var(--pb);background:var(--bg);border:calc(var(--u)*1.6) solid var(--accent)}
 .h-top{display:flex;align-items:center;justify-content:space-between}

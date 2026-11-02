@@ -26,8 +26,8 @@ export default {
     { key: 'code', label: 'Code', type: 'text', value: 'Code: BOO31' },
   ],
   html: `<div class="hw">
-  <i class="hw-moon"></i>
-  <i class="hw-bat b1"></i><i class="hw-bat b2"></i><i class="hw-bat b3"></i>
+  <i class="hw-moon" data-anim="breathe"></i>
+  <i class="hw-bat b1" data-anim="fly"></i><i class="hw-bat b2" data-anim="fly"></i><i class="hw-bat b3" data-anim="fly"></i>
   <i class="hw-hill"></i>
   <div class="hw-body" data-fit-box>
     <span class="hw-kicker" data-edit="kicker"></span>

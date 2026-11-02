@@ -26,14 +26,14 @@ export default {
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
   ],
   html: `<div class="sd">
-  <div class="sd-frame" aria-hidden="true"></div>
+  <div class="sd-frame" aria-hidden="true" data-anim="settle"></div>
   <span class="sd-label" data-edit="label"></span>
   <h2 class="sd-title" data-edit="title" data-fit></h2>
   <div class="sd-when">
-    <span class="sd-rule" aria-hidden="true"></span>
+    <span class="sd-rule" aria-hidden="true" data-anim="draw-x" data-origin="50% 50%" data-at="1.0"></span>
     <b class="sd-date" data-edit="date"></b>
     <span class="sd-year" data-edit="year"></span>
-    <span class="sd-rule" aria-hidden="true"></span>
+    <span class="sd-rule" aria-hidden="true" data-anim="draw-x" data-origin="50% 50%" data-at="1.5"></span>
   </div>
   <p class="sd-details" data-edit="details"></p>
   <div class="sd-foot"><span class="sd-note" data-edit="note"></span><span class="sd-handle" data-edit="handle"></span></div>

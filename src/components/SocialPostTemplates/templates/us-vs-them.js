@@ -37,18 +37,18 @@ export default {
   <div class="vs-cols">
     <div class="vs-col vs-them">
       <span class="vs-head" data-edit="themLabel"></span>
-      <p><i aria-hidden="true">&#10005;</i><span data-edit="them1"></span></p>
-      <p><i aria-hidden="true">&#10005;</i><span data-edit="them2"></span></p>
-      <p><i aria-hidden="true">&#10005;</i><span data-edit="them3"></span></p>
-      <p><i aria-hidden="true">&#10005;</i><span data-edit="them4"></span></p>
+      <p><i aria-hidden="true" data-anim="pop">&#10005;</i><span data-edit="them1"></span></p>
+      <p><i aria-hidden="true" data-anim="pop">&#10005;</i><span data-edit="them2"></span></p>
+      <p><i aria-hidden="true" data-anim="pop">&#10005;</i><span data-edit="them3"></span></p>
+      <p><i aria-hidden="true" data-anim="pop">&#10005;</i><span data-edit="them4"></span></p>
     </div>
-    <div class="vs-badge" aria-hidden="true">VS</div>
+    <div class="vs-badge" aria-hidden="true" data-anim="pop" data-at="0.2">VS</div>
     <div class="vs-col vs-us">
       <span class="vs-head" data-edit="usLabel"></span>
-      <p><i aria-hidden="true">&#10003;</i><span data-edit="us1"></span></p>
-      <p><i aria-hidden="true">&#10003;</i><span data-edit="us2"></span></p>
-      <p><i aria-hidden="true">&#10003;</i><span data-edit="us3"></span></p>
-      <p><i aria-hidden="true">&#10003;</i><span data-edit="us4"></span></p>
+      <p><i aria-hidden="true" data-anim="pop">&#10003;</i><span data-edit="us1"></span></p>
+      <p><i aria-hidden="true" data-anim="pop">&#10003;</i><span data-edit="us2"></span></p>
+      <p><i aria-hidden="true" data-anim="pop">&#10003;</i><span data-edit="us3"></span></p>
+      <p><i aria-hidden="true" data-anim="pop">&#10003;</i><span data-edit="us4"></span></p>
     </div>
   </div>
   <div class="vs-foot"><span class="vs-cta" data-edit="cta"></span><span class="vs-handle" data-edit="handle"></span></div>

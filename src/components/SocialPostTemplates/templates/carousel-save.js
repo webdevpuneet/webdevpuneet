@@ -29,7 +29,7 @@ export default {
   html: `<div class="cs">
   <div class="cs-body" data-fit-box>
     <h2 class="cs-title" data-edit="title" data-fit></h2>
-    <div class="cs-acts"><span data-edit="a1"></span><span data-edit="a2"></span><span data-edit="a3"></span><span data-edit="a4"></span></div>
+    <div class="cs-acts"><span data-edit="a1" data-anim="pop" data-at="0.8"></span><span data-edit="a2" data-anim="pop" data-at="1.1"></span><span data-edit="a3" data-anim="pop" data-at="1.4"></span><span data-edit="a4" data-anim="pop" data-at="1.7"></span></div>
   </div>
   <div class="cs-foot"><div class="cs-logo" data-image="logo" data-image-fit="contain"></div><div><p class="cs-follow" data-edit="follow"></p><span class="cs-handle" data-edit="handle"></span></div></div>
 </div>`,

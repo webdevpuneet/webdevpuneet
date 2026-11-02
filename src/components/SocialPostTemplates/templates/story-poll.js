@@ -29,7 +29,7 @@ export default {
   html: `<div class="sp">
   <span class="sp-kicker" data-edit="kicker"></span>
   <div class="sp-q" data-fit-box><h2 class="sp-question" data-edit="question" data-fit></h2></div>
-  <div class="sp-opts"><span class="sp-a" data-edit="optA"></span><b class="sp-vs" data-edit="vs"></b><span class="sp-b" data-edit="optB"></span></div>
+  <div class="sp-opts"><span class="sp-a" data-edit="optA" data-anim="slide-l" data-at="0.4"></span><b class="sp-vs" data-edit="vs" data-anim="pop" data-at="1.0"></b><span class="sp-b" data-edit="optB" data-anim="slide-r" data-at="0.4"></span></div>
   <span class="sp-prompt" data-edit="prompt"></span>
 </div>`,
   css: `.sp{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb);background:linear-gradient(170deg,var(--bg),var(--bg2));text-align:center}

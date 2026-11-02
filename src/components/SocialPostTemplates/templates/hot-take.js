@@ -26,8 +26,8 @@ export default {
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
   ],
   html: `<div class="ht">
-  <div class="ht-glow" aria-hidden="true"></div>
-  <span class="ht-sticker" data-edit="label"></span>
+  <div class="ht-glow" aria-hidden="true" data-anim="breathe"></div>
+  <span class="ht-sticker" data-edit="label" data-anim="wobble"></span>
   <div class="ht-body" data-fit-box>
     <h2 class="ht-title" data-edit="title" data-fit></h2>
   </div>
