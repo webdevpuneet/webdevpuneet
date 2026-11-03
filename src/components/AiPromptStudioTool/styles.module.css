@@ -911,3 +911,10 @@
 .scoreStripBtn:hover { background: rgba(127, 127, 127, 0.07); }
 .scoreStripBtn:focus-visible { outline: 2px solid var(--accent, #6366f1); outline-offset: -2px; }
 
+/* Library: where each saved prompt came from */
+.sourceTag { flex: none; margin-left: 8px; padding: 1px 8px; border: 1px solid; border-radius: 999px; font-size: 10px; font-weight: 700; letter-spacing: 0.02em; white-space: nowrap; }
+.tagChips { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 12px; }
+.tagChip { padding: 3px 10px; border: 1px solid var(--border); border-radius: 999px; background: none; color: var(--text2); font: 600 11px var(--font-ui, inherit); cursor: pointer; }
+.tagChip:hover { border-color: var(--accent, #6366f1); color: var(--accent, #6366f1); }
+.tagChipOn { border-color: var(--accent, #6366f1); color: var(--accent, #6366f1); background: color-mix(in srgb, var(--accent, #6366f1) 10%, transparent); }
+

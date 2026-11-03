@@ -1993,3 +1993,13 @@ a.sortBtn { text-decoration: none; }
 
 /* count on a sidebar link (saved AI prompts) */
 .linkCount { margin-left: auto; flex: none; font-size: 9.5px; font-weight: 700; background: var(--accent-dim); color: var(--accent); border-radius: 20px; padding: 1px 6px; min-width: 16px; text-align: center; }
+
+/* the count on a sidebar link pops and flashes when it changes (a design was saved or deleted) */
+.linkCountPop { animation: linkCountPop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes linkCountPop {
+  0%   { transform: scale(1);   background: var(--accent); color: #fff; box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+  35%  { transform: scale(1.6); background: var(--accent); color: #fff; box-shadow: 0 0 0 7px color-mix(in srgb, var(--accent) 0%, transparent); }
+  100% { transform: scale(1);   box-shadow: 0 0 0 0 transparent; }
+}
+@media (prefers-reduced-motion: reduce) { .linkCountPop { animation: none; } }
+

@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
-import { loadPrompts, savePrompt, deletePrompt } from './storage';
+import { loadPrompts, savePrompt, deletePrompt, SOURCE_TAGS, tagById } from './storage';
 // ── Scoring Engine ──────────────────────────────────────────────────────────
 const DIMENSIONS = [
   { key: 'role',        label: 'Role / Persona',  color: '#818cf8' },
@@ -349,6 +349,7 @@ export default function AiPromptStudioTool() {
   const [templateCat, setTemplateCat]       = useState('All');
   const [templateSearch, setTemplateSearch] = useState('');
   const [libSearch, setLibSearch]           = useState('');
+  const [libTag, setLibTag]                 = useState('all');
   const [saved, setSaved]                   = useState([]);
   const [saveTitle, setSaveTitle]           = useState('');
   const [showSaveForm, setShowSaveForm]     = useState(false);
@@ -428,10 +429,15 @@ export default function AiPromptStudioTool() {
   ), [templateCat, templateSearch]);
 
   const filteredSaved = useMemo(() => {
-    if (!libSearch) return saved;
     const q = libSearch.toLowerCase();
-    return saved.filter(s => s.title.toLowerCase().includes(q) || s.prompt.toLowerCase().includes(q));
-  }, [saved, libSearch]);
+    return saved.filter(x => (libTag === 'all' || x.tag === libTag) && (!q || x.title.toLowerCase().includes(q) || x.prompt.toLowerCase().includes(q)));
+  }, [saved, libSearch, libTag]);
+  // the tags that exist in the library, with their counts, for the filter chips
+  const libTags = useMemo(() => {
+    const counts = {};
+    saved.forEach(x => { if (x.tag) counts[x.tag] = (counts[x.tag] || 0) + 1; });
+    return SOURCE_TAGS.filter(t => counts[t.id]).map(t => ({ ...t, count: counts[t.id] }));
+  }, [saved]);
 
   function copyText(text, setter) {
     navigator.clipboard.writeText(text).then(() => {
@@ -488,7 +494,7 @@ export default function AiPromptStudioTool() {
     if (!prompt.trim()) return;
     const title = saveTitle.trim() || `Prompt ${new Date().toLocaleTimeString()}`;
     try {
-      const entry = await savePrompt({ title, prompt, score: score.total });
+      const entry = await savePrompt({ title, prompt, score: score.total, tag: 'own' });
       setSaved(prev => [entry, ...prev]);
       setSaveMsg('Saved!');
     } catch {
@@ -872,6 +878,14 @@ export default function AiPromptStudioTool() {
                   value={libSearch}
                   onChange={e => setLibSearch(e.target.value)}
                 />
+                {libTags.length > 0 && (
+                  <div className={styles.tagChips} role="group" aria-label="Filter saved prompts by source">
+                    <button type="button" className={`${styles.tagChip} ${libTag === 'all' ? styles.tagChipOn : ''}`} onClick={() => setLibTag('all')}>All {saved.length}</button>
+                    {libTags.map(t => (
+                      <button key={t.id} type="button" className={`${styles.tagChip} ${libTag === t.id ? styles.tagChipOn : ''}`} style={libTag === t.id ? { borderColor: t.tint, color: t.tint } : undefined} onClick={() => setLibTag(t.id)}>{t.label} {t.count}</button>
+                    ))}
+                  </div>
+                )}
                 {filteredSaved.length === 0 ? (
                   <div className={styles.emptyState}>
                     <div className={styles.emptyIcon}>◫</div>
@@ -888,6 +902,7 @@ export default function AiPromptStudioTool() {
                       <div key={item.id} className={styles.savedCard}>
                         <div className={styles.savedTop}>
                           <span className={styles.savedTitle}>{item.title}</span>
+                          {tagById(item.tag) && <span className={styles.sourceTag} style={{ color: tagById(item.tag).tint, borderColor: tagById(item.tag).tint + '66', background: tagById(item.tag).tint + '14' }}>{tagById(item.tag).label}</span>}
                           <span
                             className={styles.savedScore}
                             style={{ color: item.score >= 7 ? '#4ade80' : item.score >= 4 ? '#f59e0b' : '#f87171' }}

@@ -417,6 +417,16 @@ function TemplatesGroup({ label, base, icon, nav, pathname, open, onToggle }) {
 
 // A plain link row styled like a group header, with an icon in front (no expandable list)
 function SidebarLink({ href, icon, label, active, count = 0 }) {
+  // the count pops when it changes after the first load (a save or delete), not when it first appears
+  const shown = useRef(null);
+  const born = useRef(0);
+  const [pop, setPop] = useState(0);
+  useEffect(() => {
+    if (!born.current) born.current = Date.now();
+    // counts start at 0 and fill in as the saved items load, so changes in the first 2 seconds are the load, not a save
+    if (shown.current !== null && shown.current !== count && Date.now() - born.current > 2000) setPop(n => n + 1);
+    shown.current = count;
+  }, [count]);
   return (
     <a
       href={href}
@@ -430,7 +440,7 @@ function SidebarLink({ href, icon, label, active, count = 0 }) {
         <img src={icon} alt="" width={16} height={16} />
       </span>
       <span className={styles.groupLabel}>{label}</span>
-      {count > 0 && <span className={styles.linkCount} aria-label={`${count} saved`}>{count}</span>}
+      {count > 0 && <span key={pop} className={`${styles.linkCount} ${pop > 0 ? styles.linkCountPop : ''}`} aria-label={`${count} saved`}>{count}</span>}
     </a>
   );
 }
@@ -441,7 +451,8 @@ function SidebarLink({ href, icon, label, active, count = 0 }) {
    (height 0, hidden from keyboard and screen readers), so crawlers still see them everywhere.
 ───────────────────────────────────────────────────────────── */
 // Open only on /ui-snippets/ pages, where the categories are the navigation; folded everywhere else
-const startsOpen = pathname => /^\/ui-snippets(\/|$)/.test(pathname || '');
+// The UI Snippets group starts collapsed on every page, UI snippet pages included (2026-11-03); the chevron opens it.
+const startsOpen = () => false;
 
 function UiSnippetsCategories({ pathname }) {
   const [open, setOpen] = useState(() => startsOpen(pathname));
@@ -1415,8 +1426,8 @@ export default function Sidebar() {
                     open={favOpen}
                     onToggle={() => setFavOpen(v => !v)}
                   />
-                  <SidebarLink href="/ui-snippets/mycode/" icon="/icons/my-code.svg" label="My Code" active={/^\/ui-snippets\/mycode(\/|$)/.test(pathname)} count={customSnippets.length} />
                   <UiSnippetsCategories pathname={pathname} />
+                  <SidebarLink href="/ui-snippets/mycode/" icon="/icons/my-code.svg" label="My Code" active={/^\/ui-snippets\/mycode(\/|$)/.test(pathname)} count={customSnippets.length} />
                   <SidebarLink href="/website-builder/" icon="/icons/website-builder.svg" label="Website Builder" active={/^\/website-builder(\/|$)/.test(pathname)} count={savedCount.website} />
                   <SidebarLink href="/website-section-templates/" icon="/icons/website-section-templates.svg" label="Website Sections" active={/^\/website-section-templates(\/|$)/.test(pathname)} count={savedCount.section} />
                   <SidebarLink href="/email-templates/" icon="/icons/email-templates.svg" label="Email Templates" active={/^\/email-templates(\/|$)/.test(pathname)} count={savedCount.email} />
