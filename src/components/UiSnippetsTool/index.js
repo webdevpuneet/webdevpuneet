@@ -13,6 +13,7 @@ import s from './styles.module.css';
 import { SNIPPET_INDEX as SNIPPETS, VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
 import { publishedTags } from '@/lib/snippet-tags';
 import { CATEGORIES } from './categories';
+import BookmarkButton from './BookmarkButton';
 import { loadSnippet as fetchSnippet, getLoadedSnippet } from './loadSnippet';
 
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
@@ -2128,6 +2129,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               }}
             />
           )}
+          {/* Bookmark — library snippets only; shows in the gallery's Bookmarked view and the sidebar */}
+          {showEditor && !activeIsCustom && activeSn && <BookmarkButton id={activeId} className={s.iconBtn} size={12} />}
           {/* Fork & Edit — save your own editable copy, only when a snippet is open */}
           {showEditor && <div className={`${s.popoverAnchor} ${s.forkAnchor}`} ref={savePopRef}>
             <button

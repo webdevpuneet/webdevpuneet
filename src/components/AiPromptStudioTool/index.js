@@ -903,7 +903,13 @@ export default function AiPromptStudioTool() {
                       <div key={item.id} className={styles.savedCard}>
                         <div className={styles.savedTop}>
                           <span className={styles.savedTitle}>{item.title}</span>
-                          {tagById(item.tag) && <span className={styles.sourceTag} style={{ color: tagById(item.tag).tint, borderColor: tagById(item.tag).tint + '66', background: tagById(item.tag).tint + '14' }}>{tagById(item.tag).label}</span>}
+                          {tagById(item.tag) && (() => {
+                            const t = tagById(item.tag);
+                            const tagStyle = { color: t.tint, borderColor: t.tint + '66', background: t.tint + '14' };
+                            return item.url
+                              ? <a href={item.url} target="_blank" rel="noopener" className={styles.sourceTag} style={{ ...tagStyle, cursor: 'pointer', textDecoration: 'none' }} title={`Open the source: ${item.title}`}>{t.label}</a>
+                              : <span className={styles.sourceTag} style={tagStyle}>{t.label}</span>;
+                          })()}
                           <span
                             className={styles.savedScore}
                             style={{ color: item.score >= 7 ? '#4ade80' : item.score >= 4 ? '#f59e0b' : '#f87171' }}

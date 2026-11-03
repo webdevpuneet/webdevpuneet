@@ -14,6 +14,7 @@ import CookieSettingsButton from '@/components/CookieSettingsButton';
 import { CATEGORIES as SNIPPET_CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import { SNIPPET_INDEX as SNIPPETS, VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
 import { dbGetAll as dbGetAllCustomSnippets } from '@/lib/uiSnippetsDb';
+import { useBookmarks, requestBookmarkedView } from '@/lib/snippet-bookmarks';
 import MyProjectsTab, { useProjects } from './MyProjects';
 import { promptStore, loadPrompts } from '@/components/AiPromptStudioTool/storage';
 import { publishedTags, tagsForSnippetId } from '@/lib/snippet-tags';
@@ -462,6 +463,8 @@ function UiSnippetsCategories({ pathname }) {
   const [open, setOpen] = useState(() => startsOpen(pathname));
   const bodyRef = useRef(null);
   const first = useRef(true);
+  // Only the count of bookmarked snippets shows, first under UI Snippets; the link opens the gallery's Bookmarked view
+  const bookmarked = useBookmarks();
 
   // A page change re-applies the default; a manual click wins until the next page change
   const lastPath = useRef(pathname);
@@ -503,6 +506,25 @@ function UiSnippetsCategories({ pathname }) {
         </button>
       </div>
       <div id="ui-snippet-categories" ref={bodyRef} className={`${styles.groupBody} ${open ? '' : styles.uiSnipClosed}`} style={{ height: open ? 'auto' : '0px' }}>
+        {bookmarked.length > 0 && (
+          <nav aria-label="Bookmarked UI snippets">
+            <ul className={`${styles.list} ${styles.compactList}`} style={{ padding: '2px 8px 6px 30px', margin: 0 }}>
+              <li className={styles.item}>
+                <a href="/ui-snippets/" title="Show all bookmarked snippets" onClick={requestBookmarkedView}>
+                  <span className={styles.itemInner} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', border: '1px solid rgba(245,158,11,0.45)', background: 'rgba(245,158,11,0.08)' }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ color: '#f59e0b', flex: 'none' }}>
+                      <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                    </svg>
+                    <span className={styles.info} style={{ flex: 1 }}>
+                      <span className={styles.name}>Bookmarked</span>
+                    </span>
+                    <span className={styles.linkCount} aria-label={`${bookmarked.length} bookmarked`}>{bookmarked.length}</span>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        )}
         <nav aria-label="UI snippet categories">
           <ul className={`${styles.list} ${styles.compactList} ${styles.snipCatList}`}>
             {UI_SNIPPET_CATEGORIES_SIDEBAR.map(cat => (

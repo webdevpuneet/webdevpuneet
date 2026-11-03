@@ -29,7 +29,7 @@ export const tagForPath = path => {
   return 'tool';
 };
 
-const toEntry = d => ({ id: d.id, title: d.name, prompt: d.state?.prompt || '', score: d.state?.score ?? null, tag: d.state?.tag || null, createdAt: d.created });
+const toEntry = d => ({ id: d.id, title: d.name, prompt: d.state?.prompt || '', score: d.state?.score ?? null, tag: d.state?.tag || null, url: d.state?.url || null, createdAt: d.created });
 const legacy = () => { try { return JSON.parse(localStorage.getItem(LEGACY_KEY) || '[]'); } catch { return []; } };
 
 /** Newest first, in the shape the studio uses: { id, title, prompt, score, createdAt } */
@@ -68,7 +68,7 @@ export async function saveFromPage(title, prompt) {
   if (!text) return 'empty';
   const all = await promptStore.listDesigns();
   if (all.some(d => (d.state?.prompt || '').trim() === text)) return 'exists';
-  await promptStore.saveDesign({ name: String(title || 'Saved prompt').slice(0, 120), tpl: 'prompt', state: { prompt: text, score: null, tag: tagForPath(typeof location !== 'undefined' ? location.pathname : '') } });
+  await promptStore.saveDesign({ name: String(title || 'Saved prompt').slice(0, 120), tpl: 'prompt', state: { prompt: text, score: null, tag: tagForPath(typeof location !== 'undefined' ? location.pathname : ''), url: typeof location !== 'undefined' ? location.pathname : null } });
   return 'saved';
 }
 

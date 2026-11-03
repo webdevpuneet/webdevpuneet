@@ -247,6 +247,18 @@
 
 .previewWrap { position: relative; height: 200px; overflow: hidden; background: #fff; }
 
+/* Bookmark icon on every card: click to bookmark, click the amber one to remove it */
+.bookmarkBtn {
+  position: absolute; top: 8px; right: 8px; width: 28px; height: 28px;
+  display: grid; place-items: center; border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.12); background: rgba(255,255,255,0.92); color: #475569;
+  cursor: pointer; z-index: 2; /* above the card's stretched link overlay (.cardLink::after, z-index 1) */
+}
+.bookmarkBtn.bookmarkOn { color: #f59e0b; }
+/* In the Bookmarked view the icon carries a "Remove" label, so the way to un-bookmark is obvious */
+.bookmarkBtn.bookmarkRemove { width: auto; padding: 0 10px; gap: 6px; grid-auto-flow: column; font-size: 12px; font-weight: 600; }
+.bookmarkBtn.bookmarkRemove:hover { color: #dc2626; border-color: rgba(220,38,38,0.45); }
+
 .preview {
   width: 100%; height: 100%;
   object-fit: scale-down;
