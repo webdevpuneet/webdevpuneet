@@ -412,6 +412,16 @@ function ambientItems(root) {
     SAVED_PROPS.forEach(k => { saved[k] = el.style[k]; });
     if (cs.display === 'inline') el.style.display = 'inline-block'; // transforms don't apply to plain inline text
     if (el.dataset.origin) el.style.transformOrigin = el.dataset.origin;
+    else if (cs.transform && cs.transform !== 'none') {
+      // The element is already moved by its own CSS transform (a centring translate(-50%, -50%)). The
+      // individual properties (rotate, scale) act around the transform origin of the UNmoved box, so turn
+      // the origin into the element's visual centre, or a rotation would swing it round a point off to the side.
+      const m = /^matrix\(([^)]+)\)$/.exec(cs.transform);
+      if (m) {
+        const v = m[1].split(',').map(Number);
+        if (v[4] || v[5]) el.style.transformOrigin = `${el.offsetWidth / 2 + v[4]}px ${el.offsetHeight / 2 + v[5]}px`;
+      }
+    }
     const nodes = [];
     if (kind === 'count' || kind === 'countdown' || kind === 'type') {
       const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);

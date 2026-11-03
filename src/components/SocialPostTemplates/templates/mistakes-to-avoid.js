@@ -46,7 +46,7 @@ export default {
   <div class="mt-foot"><span class="mt-handle" data-edit="handle"></span></div>
 </div>`,
   css: `.mt{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb);background:var(--bg)}
-.mt-tape{position:absolute;left:0;right:0;top:0;height:calc(var(--u)*2.6);background:repeating-linear-gradient(-45deg,var(--accent) 0,var(--accent) calc(var(--u)*2.6),var(--bg) calc(var(--u)*2.6),var(--bg) calc(var(--u)*5.2))}
+.mt-tape{position:absolute;left:0;right:0;top:0;height:calc(var(--u)*2.6);background:repeating-linear-gradient(-45deg,var(--accent) 0,var(--accent) calc(var(--u)*2.6),var(--bg) calc(var(--u)*2.6),var(--bg) calc(var(--u)*5.2));background-size:calc(var(--u)*7.35391) 100%}/* one tile = one horizontal period of the stripes, so scrolling it has no seam */
 .mt-head{display:flex;flex-direction:column;gap:calc(var(--u)*2);margin-top:calc(var(--u)*2.4)}
 .mt-label{align-self:flex-start;font-size:calc(var(--u)*2.8);font-weight:900;text-transform:uppercase;letter-spacing:.18em;background:var(--accent);color:#1a1405;padding:calc(var(--u)*1.1) calc(var(--u)*2.6);border-radius:calc(var(--u)*1);transform:rotate(-2deg)}
 .mt-title{font-family:var(--font-heading);font-size:calc(var(--u)*8.6);line-height:1.06;font-weight:800;letter-spacing:-.025em}

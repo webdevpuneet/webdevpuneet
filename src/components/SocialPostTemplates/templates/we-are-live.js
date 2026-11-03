@@ -32,7 +32,7 @@ export default {
   <div class="l-foot"><span class="l-date" data-edit="date"></span><p class="l-ask" data-edit="ask"></p></div>
 </div>`,
   css: `.l{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--pt) var(--pad) var(--pb);background:var(--bg)}
-.l-stripes{position:absolute;inset:0;background:repeating-linear-gradient(-45deg,color-mix(in srgb,var(--accent) 16%,transparent) 0 calc(var(--u)*2),transparent calc(var(--u)*2) calc(var(--u)*6))}
+.l-stripes{position:absolute;inset:0;background:repeating-linear-gradient(-45deg,color-mix(in srgb,var(--accent) 16%,transparent) 0 calc(var(--u)*2),transparent calc(var(--u)*2) calc(var(--u)*6));background-size:calc(var(--u)*8.48528) 100%}/* one tile = one horizontal period of the stripes, so scrolling it has no seam */
 .l-body{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center}
 .l-line1{font-family:var(--font-heading);font-size:calc(var(--u)*11);line-height:.95;letter-spacing:.01em}
 .l-plat{font-family:var(--font-heading);font-size:calc(var(--u)*25);line-height:.9;color:var(--accent);letter-spacing:.005em}

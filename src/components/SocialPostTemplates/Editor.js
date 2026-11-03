@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import s from './styles.module.css';
+import us from '../UiSnippetsTool/styles.module.css';
 import { BrandKitPanel, useBrandKit, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
 import { exportDesigns, importDesigns } from '@/lib/design-transfer';
 import { exportCustomFonts, importCustomFonts } from '@/lib/fonts';
@@ -411,6 +412,45 @@ export default function TemplateEditor({ id }) {
     const map = { bg: p.bg1, bg2: p.bg2, text: p.textColor, accent: p.accentColor };
     const vars = { ...prev.vars };
     Object.entries(map).forEach(([k, v]) => { if (k in vars) vars[k] = v; });
+    return { ...prev, vars };
+  });
+
+  /* Surprise me: a random but readable colour scheme. Half the time one of the ready palettes, otherwise a
+     made-up one (a random hue on a dark or a light background, with text that always contrasts). Only
+     the colours the template has are set; two-colour templates (colorA / colorB) get the accent and a
+     neighbouring hue. Undo (Ctrl+Z) brings the old colours back. */
+  const surpriseColours = () => setState(prev => {
+    const hsl = (h, sat, l) => {
+      const a = sat * Math.min(l, 1 - l);
+      const f = n => { const k = (n + h / 30) % 12; return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))).toString(16).padStart(2, '0'); };
+      return `#${f(0)}${f(8)}${f(4)}`;
+    };
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    const current = prev.vars.accent;
+    let pal;
+    const ready = PALETTES.filter(p => p.accentColor !== current);
+    if (Math.random() < 0.5 && ready.length) {
+      const p = ready[Math.floor(Math.random() * ready.length)];
+      pal = { bg: p.bg1, bg2: p.bg2, text: p.textColor, accent: p.accentColor, hue: null };
+    } else {
+      const hue = Math.floor(rnd(0, 360)), dark = Math.random() < 0.5;
+      pal = dark
+        ? { bg: hsl(hue, rnd(0.35, 0.6), rnd(0.07, 0.13)), bg2: hsl((hue + rnd(15, 40)) % 360, rnd(0.4, 0.65), rnd(0.16, 0.26)), text: hsl(hue, 0.4, 0.96), accent: hsl((hue + rnd(150, 210)) % 360, rnd(0.8, 1), rnd(0.55, 0.65)), hue }
+        : { bg: hsl(hue, rnd(0.6, 0.9), rnd(0.94, 0.97)), bg2: hsl((hue + rnd(10, 35)) % 360, rnd(0.6, 0.9), rnd(0.84, 0.9)), text: hsl(hue, rnd(0.35, 0.6), rnd(0.1, 0.16)), accent: hsl((hue + rnd(150, 210)) % 360, rnd(0.65, 0.9), rnd(0.38, 0.5)), hue };
+    }
+    const vars = { ...prev.vars };
+    const set = (k, v) => { if (k in vars) vars[k] = v; };
+    set('bg', pal.bg); set('bg2', pal.bg2); set('text', pal.text); set('accent', pal.accent);
+    const hueOf = hex => { const r = parseInt(hex.slice(1, 3), 16) / 255, g = parseInt(hex.slice(3, 5), 16) / 255, b = parseInt(hex.slice(5, 7), 16) / 255; const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; if (!d) return 0; const h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; return (h * 60 + 360) % 360; };
+    const ah = hueOf(pal.accent);
+    set('colorA', pal.accent);
+    set('colorB', hsl((ah + 150) % 360, 0.8, 0.5));
+    set('card', pal.bg2);
+    set('good', hsl((ah + 120) % 360, 0.65, 0.6));
+    // buttons follow the accent, with text that stays readable on it
+    const lum = hex => { const c = [1, 3, 5].map(i => { const v = parseInt(hex.slice(i, i + 2), 16) / 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+    set('btn', pal.accent);
+    set('btnText', lum(pal.accent) > 0.35 ? '#111111' : '#ffffff');
     return { ...prev, vars };
   });
 
@@ -984,6 +1024,7 @@ export default function TemplateEditor({ id }) {
 
           <section className={s.section}>
             <h2 className={s.sectionTitle}>Colours{isCarousel ? ' · all slides' : ''}</h2>
+            <button type="button" className={s.surpriseBtn} onClick={surpriseColours} title="Try a random colour scheme. Undo (Ctrl+Z) brings the old colours back.">🎲 Surprise me</button>
             <div className={s.palettes}>
               {PALETTES.map(p => (
                 <button key={p.name} type="button" className={s.palette} title={p.name} aria-label={`${p.name} palette`} onClick={() => applyPalette(p)}>
@@ -1059,10 +1100,12 @@ export default function TemplateEditor({ id }) {
                 : null}
               <span>{z.w}×{z.h}</span>
               <span className={s.toolbarSep} aria-hidden="true" />
-              <HistoryButtons onUndo={undo} onRedo={redo} onReset={() => setState(editorDefault(t))} canUndo={canUndo} canRedo={canRedo} />
+              {/* phones: Undo / Redo / Reset stay beside the name (on desktop they sit in the right-hand group) */}
+              <div className={s.historyPhone}><HistoryButtons onUndo={undo} onRedo={redo} onReset={() => setState(editorDefault(t))} canUndo={canUndo} canRedo={canRedo} /></div>
               <PlayButton onClick={togglePlay} playing={playing} />
             </div>
             <div className={s.toolbarRight}>
+              <div className={s.historyDesk}><HistoryButtons onUndo={undo} onRedo={redo} onReset={() => setState(editorDefault(t))} canUndo={canUndo} canRedo={canRedo} /></div>
               {(state.size === 'story' || state.size === 'portrait') && (
                 <label className={s.check}>
                   <input type="checkbox" checked={safe} onChange={e => setSafe(e.target.checked)} />

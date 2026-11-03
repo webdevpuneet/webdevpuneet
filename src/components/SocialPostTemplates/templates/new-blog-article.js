@@ -15,6 +15,8 @@ export default {
     { key: 'bg', label: 'Background', value: '#f6f1e7' },
     { key: 'text', label: 'Text', value: '#171717' },
     { key: 'accent', label: 'Accent', value: '#c2410c' },
+    { key: 'btn', label: 'Button', value: '#171717' },
+    { key: 'btnText', label: 'Button text', value: '#ffffff' },
   ],
   fields: [
     { key: 'label', label: 'Label', type: 'text', value: 'New on the blog' },
@@ -44,7 +46,7 @@ export default {
 .nb-excerpt{font-size:calc(var(--u)*3.6);line-height:1.45;opacity:.78}
 .nb-meta{font-size:calc(var(--u)*2.9);font-weight:700;letter-spacing:.04em;opacity:.6}
 .nb-foot{display:flex;justify-content:space-between;align-items:center;gap:calc(var(--u)*3)}
-.nb-cta{font-size:calc(var(--u)*3.2);font-weight:800;color:#fff;background:var(--text);padding:calc(var(--u)*2.2) calc(var(--u)*4);border-radius:99px}
+.nb-cta{font-size:calc(var(--u)*3.2);font-weight:800;color:var(--btnText);background:var(--btn);padding:calc(var(--u)*2.2) calc(var(--u)*4);border-radius:99px}
 .nb-handle{flex:none;font-size:calc(var(--u)*3.2);font-weight:800;color:var(--accent)}
 .is-story .nb-cover{height:30%}
 .is-landscape .nb{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto;column-gap:calc(var(--u)*6)}

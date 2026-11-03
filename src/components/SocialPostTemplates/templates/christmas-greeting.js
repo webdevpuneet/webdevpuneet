@@ -15,6 +15,8 @@ export default {
     { key: 'bg', label: 'Background', value: '#0f3d2e' },
     { key: 'text', label: 'Text', value: '#fffbeb' },
     { key: 'accent', label: 'Gold', value: '#fbbf24' },
+    { key: 'btn', label: 'Button', value: '#fbbf24' },
+    { key: 'btnText', label: 'Button text', value: '#0f3d2e' },
     { key: 'accent2', label: 'Ornament', value: '#dc2626' },
   ],
   fields: [
@@ -49,7 +51,7 @@ export default {
 .xm-title{font-family:var(--font-heading);font-size:calc(var(--u)*17);line-height:1;font-weight:400}
 .xm-title .hl{display:block}
 .xm-msg{font-size:calc(var(--u)*3.8);line-height:1.55;opacity:.88;max-width:84%}
-.xm-offer{margin-top:calc(var(--u)*1.4);font-size:calc(var(--u)*3.2);font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--bg);background:var(--accent);padding:calc(var(--u)*1.6) calc(var(--u)*3.4);border-radius:99px}
+.xm-offer{margin-top:calc(var(--u)*1.4);font-size:calc(var(--u)*3.2);font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--btnText);background:var(--btn);padding:calc(var(--u)*1.6) calc(var(--u)*3.4);border-radius:99px}
 .xm-handle{position:relative;font-size:calc(var(--u)*3);font-weight:700;color:var(--accent)}
 .is-landscape .xm-body{padding-top:calc(var(--u)*4)}
 .is-landscape .xm-title{font-size:calc(var(--u)*14)}

@@ -15,6 +15,8 @@ export default {
     { key: 'bg', label: 'Background', value: '#fff7ed' },
     { key: 'text', label: 'Text', value: '#431407' },
     { key: 'accent', label: 'Accent', value: '#ea580c' },
+    { key: 'btn', label: 'Button', value: '#ea580c' },
+    { key: 'btnText', label: 'Button text', value: '#ffffff' },
   ],
   fields: [
     { key: 'kicker', label: 'Kicker', type: 'text', value: 'We’re hiring' },
@@ -40,5 +42,5 @@ export default {
 .h-role{font-family:var(--font-heading);font-size:calc(var(--u)*11);line-height:1.02;font-weight:800;letter-spacing:-.03em}
 .h-chips{display:flex;flex-wrap:wrap;gap:calc(var(--u)*1.8)}
 .h-chips span{font-size:calc(var(--u)*3.2);font-weight:600;padding:calc(var(--u)*1.4) calc(var(--u)*3);border-radius:99px;border:calc(var(--u)*.3) solid color-mix(in srgb,var(--text) 30%,transparent)}
-.h-apply{align-self:flex-start;font-size:calc(var(--u)*3.4);font-weight:700;color:#fff;background:var(--accent);padding:calc(var(--u)*2.2) calc(var(--u)*4);border-radius:calc(var(--u)*1.6)}`,
+.h-apply{align-self:flex-start;font-size:calc(var(--u)*3.4);font-weight:700;color:var(--btnText);background:var(--btn);padding:calc(var(--u)*2.2) calc(var(--u)*4);border-radius:calc(var(--u)*1.6)}`,
 };

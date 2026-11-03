@@ -497,7 +497,9 @@
   .wrap { height: 100dvh; min-height: 0; }
   .toolbar[data-scroll-toolbar] { padding: 4px 8px; gap: 5px; }
   .toolbar[data-scroll-toolbar] .meta { gap: 6px; }
-  .toolbar[data-scroll-toolbar] .metaName { max-width: 20vw; }
+  /* the template name shows in full, using whatever width the buttons leave; only a name longer than that is cut with an ellipsis */
+  .toolbar[data-scroll-toolbar] > :first-child { min-width: 0; }
+  .toolbar[data-scroll-toolbar] .meta > .metaName { flex: 0 1 auto; min-width: 0; max-width: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .toolbar[data-scroll-toolbar] .meta > span:not([class]),
   .toolbar[data-scroll-toolbar] .toolbarSep,
   .toolbar[data-scroll-toolbar] .toolbarRight .check,
@@ -519,4 +521,16 @@
   .checksChip { padding: 0 12px; }
   .toolbar[data-scroll-toolbar] .toolbarRight > div > button:first-child { flex: 1; min-width: 0; }
   .controls { max-height: max(190px, calc(50dvh - 66px)); overscroll-behavior: contain; }
+}
+
+/* Surprise me (random colours) */
+.surpriseBtn { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin: 0 0 10px; padding: 8px 12px; border: 1px dashed var(--spt-accent, #6366f1); border-radius: 9px; background: color-mix(in srgb, var(--spt-accent, #6366f1) 8%, transparent); color: var(--spt-accent, #6366f1); font: 700 12.5px var(--font-ui); cursor: pointer; }
+.surpriseBtn:hover { background: color-mix(in srgb, var(--spt-accent, #6366f1) 16%, transparent); border-style: solid; }
+
+/* Undo / Redo / Reset: in the right-hand group on desktop, beside the template name on phones */
+.historyPhone { display: none !important; }
+.historyDesk { display: flex; }
+@media (max-width: 860px) {
+  .historyDesk { display: none !important; }
+  .historyPhone { display: flex !important; }
 }

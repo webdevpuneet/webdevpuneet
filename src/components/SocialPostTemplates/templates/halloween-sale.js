@@ -17,6 +17,8 @@ export default {
     { key: 'bg2', label: 'Horizon', value: '#4c1d95' },
     { key: 'text', label: 'Text', value: '#fff7ed' },
     { key: 'accent', label: 'Moon & accent', value: '#fb923c' },
+    { key: 'btn', label: 'Button', value: '#fb923c' },
+    { key: 'btnText', label: 'Button text', value: '#1a0b2e' },
   ],
   fields: [
     { key: 'kicker', label: 'Kicker', type: 'text', value: 'Happy Halloween' },
@@ -48,7 +50,7 @@ export default {
 .hw-title{font-family:var(--font-heading);font-size:calc(var(--u)*20);line-height:.9;font-weight:400;letter-spacing:.02em;text-shadow:0 calc(var(--u)*.8) 0 #0b0414}
 .hw-deal{font-size:calc(var(--u)*5.4);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
 .hw-foot{position:relative;display:flex;justify-content:space-between;align-items:center;gap:calc(var(--u)*3);width:100%;font-size:calc(var(--u)*3.4);font-weight:700;text-transform:uppercase;letter-spacing:.1em}
-.hw-code{color:#1a0b2e;background:var(--accent);padding:calc(var(--u)*1.6) calc(var(--u)*3);border-radius:calc(var(--u)*1)}
+.hw-code{color:var(--btnText);background:var(--btn);padding:calc(var(--u)*1.6) calc(var(--u)*3);border-radius:calc(var(--u)*1)}
 .is-landscape .hw-moon{width:calc(var(--u)*24);height:calc(var(--u)*24);top:10%;right:6%}
 .is-landscape .hw-body{padding-top:0;align-items:flex-start;text-align:left;max-width:64%;align-self:flex-start}
 .is-landscape .hw-title{font-size:calc(var(--u)*17)}

@@ -16,6 +16,8 @@ export default {
     { key: 'bg2', label: 'Sky (bottom)', value: '#6d1b43' },
     { key: 'text', label: 'Text', value: '#fff6dc' },
     { key: 'accent', label: 'Gold', value: '#fbbf24' },
+    { key: 'btn', label: 'Button', value: '#fbbf24' },
+    { key: 'btnText', label: 'Button text', value: '#2a0f00' },
   ],
   fields: [
     { key: 'label', label: 'Label', type: 'text', value: 'Festival of lights' },
@@ -46,7 +48,7 @@ export default {
 .dw-title{font-family:var(--font-heading);font-size:calc(var(--u)*15);line-height:1;font-weight:700;letter-spacing:-.015em;text-shadow:0 calc(var(--u)*.8) calc(var(--u)*3.6) rgba(0,0,0,.35)}
 .dw-title .hl{color:var(--accent)}
 .dw-message{font-size:calc(var(--u)*3.6);line-height:1.5;opacity:.92;max-width:84%}
-.dw-offer{font-size:calc(var(--u)*3.2);font-weight:700;color:#2a0f00;background:linear-gradient(90deg,#fbbf24,#fcd34d);padding:calc(var(--u)*1.9) calc(var(--u)*4.4);border-radius:99px;box-shadow:0 0 calc(var(--u)*4) color-mix(in srgb,var(--accent) 55%,transparent)}
+.dw-offer{font-size:calc(var(--u)*3.2);font-weight:700;color:var(--btnText);background:linear-gradient(90deg,var(--btn),color-mix(in srgb,var(--btn) 70%,#fff));padding:calc(var(--u)*1.9) calc(var(--u)*4.4);border-radius:99px;box-shadow:0 0 calc(var(--u)*4) color-mix(in srgb,var(--accent) 55%,transparent)}
 .dw-offer:empty{display:none}
 .dw-lamps{display:flex;align-items:flex-end;justify-content:center;gap:calc(var(--u)*5.6);height:calc(var(--u)*11)}
 .dw-lamps i{position:relative;display:block;width:calc(var(--u)*9);height:calc(var(--u)*4.2);border-radius:0 0 calc(var(--u)*9) calc(var(--u)*9)/0 0 calc(var(--u)*4.2) calc(var(--u)*4.2);background:linear-gradient(180deg,#f59e0b,#b45309)}

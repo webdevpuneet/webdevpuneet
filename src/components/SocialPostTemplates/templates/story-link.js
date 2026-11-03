@@ -16,6 +16,8 @@ export default {
     { key: 'bg', label: 'Background', value: '#fdf4ff' },
     { key: 'text', label: 'Text', value: '#3b0764' },
     { key: 'accent', label: 'Accent', value: '#a21caf' },
+    { key: 'btn', label: 'Button', value: '#a21caf' },
+    { key: 'btnText', label: 'Button text', value: '#ffffff' },
   ],
   fields: [
     { key: 'label', label: 'Label', type: 'text', value: 'New on the blog' },
@@ -36,7 +38,7 @@ export default {
 .sl-title{font-family:var(--font-heading);font-size:calc(var(--u)*8.6);line-height:1.1;font-weight:700;letter-spacing:-.01em}
 .sl-photo{flex:1;min-height:calc(var(--u)*20);border-radius:calc(var(--u)*3);box-shadow:0 calc(var(--u)*2) calc(var(--u)*6) rgba(59,7,100,.18)}
 .sl-foot{display:flex;justify-content:space-between;align-items:center;gap:calc(var(--u)*3)}
-.sl-cta{font-size:calc(var(--u)*3.6);font-weight:800;color:#fff;background:var(--accent);padding:calc(var(--u)*2.2) calc(var(--u)*4);border-radius:99px}
+.sl-cta{font-size:calc(var(--u)*3.6);font-weight:800;color:var(--btnText);background:var(--btn);padding:calc(var(--u)*2.2) calc(var(--u)*4);border-radius:99px}
 .sl-handle{font-size:calc(var(--u)*3);font-weight:700}
 .is-landscape .sl{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto;column-gap:var(--pad)}
 .is-landscape .sl-label{grid-column:1}

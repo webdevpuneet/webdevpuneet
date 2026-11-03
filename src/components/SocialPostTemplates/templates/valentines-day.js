@@ -16,6 +16,8 @@ export default {
     { key: 'bg2', label: 'Gradient end', value: '#be123c' },
     { key: 'text', label: 'Text', value: '#fff1f2' },
     { key: 'accent', label: 'Accent', value: '#fda4af' },
+    { key: 'btn', label: 'Button', value: '#fda4af' },
+    { key: 'btnText', label: 'Button text', value: '#4c0519' },
   ],
   fields: [
     { key: 'label', label: 'Label', type: 'text', value: 'With love' },
@@ -47,7 +49,7 @@ export default {
 .vd-title{font-family:var(--font-heading);font-size:calc(var(--u)*17);line-height:1;font-weight:400;text-shadow:0 calc(var(--u)*.8) calc(var(--u)*3.4) rgba(0,0,0,.28)}
 .vd-title .hl{color:var(--accent)}
 .vd-message{font-size:calc(var(--u)*3.8);line-height:1.5;opacity:.9;max-width:86%}
-.vd-offer{font-size:calc(var(--u)*3.3);font-weight:800;color:#4c0519;background:var(--accent);padding:calc(var(--u)*2) calc(var(--u)*4.4);border-radius:99px}
+.vd-offer{font-size:calc(var(--u)*3.3);font-weight:800;color:var(--btnText);background:var(--btn);padding:calc(var(--u)*2) calc(var(--u)*4.4);border-radius:99px}
 .vd-offer:empty{display:none}
 .vd-handle{font-size:calc(var(--u)*3.2);font-weight:800;color:var(--accent);letter-spacing:.06em}
 .is-landscape .vd-title{font-size:calc(var(--u)*13)}

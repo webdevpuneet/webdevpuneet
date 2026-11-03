@@ -173,7 +173,7 @@ export function ForkButton({ onClick, busy = false, disabled = false, title = 'S
 }
 
 /* Undo / Redo (icon-only, with tooltips) and Reset as a compact toolbar group (same 26px buttons as Fork / Export) */
-export function HistoryButtons({ onUndo, onRedo, onReset, canUndo, canRedo }) {
+export function HistoryButtons({ onUndo, onRedo, onReset, canUndo, canRedo, showReset = true }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 4 }} role="group" aria-label="Edit history">
       <button type="button" className={us.iconBtn} onClick={onUndo} disabled={!canUndo} title="Undo (Ctrl+Z)" aria-label="Undo" style={{ width: 28, padding: 0, justifyContent: 'center' }}>
@@ -182,7 +182,7 @@ export function HistoryButtons({ onUndo, onRedo, onReset, canUndo, canRedo }) {
       <button type="button" className={us.iconBtn} onClick={onRedo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)" aria-label="Redo" style={{ width: 28, padding: 0, justifyContent: 'center' }}>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 14l5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg>
       </button>
-      <button type="button" className={us.iconBtn} onClick={onReset} title="Back to the original (undo brings your edits back)">Reset</button>
+      {showReset && <button type="button" className={us.iconBtn} onClick={onReset} title="Back to the original (undo brings your edits back)">Reset</button>}
     </div>
   );
 }

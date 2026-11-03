@@ -16,6 +16,8 @@ export default {
     { key: 'colorB', label: 'Option B colour', value: '#e11d48' },
     { key: 'text', label: 'Text', value: '#ffffff' },
     { key: 'accent', label: 'OR badge', value: '#facc15' },
+    { key: 'btn', label: 'Button', value: '#000000' },
+    { key: 'btnText', label: 'Button text', value: '#ffffff' },
   ],
   fields: [
     { key: 'question', label: 'Question', type: 'text', value: 'Your coding setup?' },
@@ -45,7 +47,7 @@ export default {
 .tt-opt h2{font-family:var(--font-heading);font-size:calc(var(--u)*13);line-height:1;font-weight:800;letter-spacing:-.03em;text-shadow:0 calc(var(--u)*.6) calc(var(--u)*2) rgba(0,0,0,.22)}
 .tt-or{position:absolute!important;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-8deg);width:calc(var(--u)*12);height:calc(var(--u)*12);border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent);color:#1a1405;font-family:var(--font-heading);font-size:calc(var(--u)*4.6);font-weight:900;box-shadow:0 calc(var(--u)*1) calc(var(--u)*4) rgba(0,0,0,.35);z-index:2}
 .tt-foot{display:flex;justify-content:space-between;align-items:center;gap:calc(var(--u)*3);font-size:calc(var(--u)*3.2);font-weight:800}
-.tt-cta{background:rgba(0,0,0,.28);padding:calc(var(--u)*1.2) calc(var(--u)*3);border-radius:99px}
+.tt-cta{color:var(--btnText);background:color-mix(in srgb,var(--btn) 28%,transparent);padding:calc(var(--u)*1.2) calc(var(--u)*3);border-radius:99px}
 .tt-handle{flex:none}
 .is-landscape .tt-top{clip-path:polygon(0 0,52% 0,48% 100%,0 100%)}
 .is-landscape .tt{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto;column-gap:calc(var(--u)*4)}

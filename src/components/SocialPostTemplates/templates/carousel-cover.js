@@ -16,6 +16,8 @@ export default {
     { key: 'bg2', label: 'Gradient end', value: '#7c3aed' },
     { key: 'text', label: 'Text', value: '#ffffff' },
     { key: 'accent', label: 'Accent', value: '#fde047' },
+    { key: 'btn', label: 'Button', value: '#fde047' },
+    { key: 'btnText', label: 'Button text', value: '#312e81' },
   ],
   fields: [
     { key: 'kicker', label: 'Kicker', type: 'text', value: 'Save this ✨' },
@@ -37,5 +39,5 @@ export default {
 .cc-body{flex:1;display:flex;align-items:center}
 .cc-title{font-family:var(--font-heading);font-size:calc(var(--u)*12);line-height:1.02;font-weight:800;letter-spacing:-.035em}
 .cc-foot{display:flex;justify-content:space-between;align-items:center;font-size:calc(var(--u)*3.2);font-weight:700}
-.cc-swipe{color:var(--bg);background:var(--accent);padding:calc(var(--u)*1.8) calc(var(--u)*4);border-radius:99px;font-weight:800}`,
+.cc-swipe{color:var(--btnText);background:var(--btn);padding:calc(var(--u)*1.8) calc(var(--u)*4);border-radius:99px;font-weight:800}`,
 };

@@ -16,6 +16,8 @@ export default {
     { key: 'card', label: 'Card', value: '#ffffff' },
     { key: 'text', label: 'Text', value: '#1c1917' },
     { key: 'accent', label: 'Accent', value: '#16a34a' },
+    { key: 'btn', label: 'Button', value: '#16a34a' },
+    { key: 'btnText', label: 'Button text', value: '#ffffff' },
   ],
   fields: [
     { key: 'photo', label: 'Product photo', type: 'image' },
@@ -39,7 +41,7 @@ export default {
 .ps-name{font-family:var(--font-heading);font-size:calc(var(--u)*6.4);line-height:1.08;font-weight:700;letter-spacing:-.02em}
 .ps-row{display:flex;align-items:center;justify-content:space-between;gap:calc(var(--u)*3);margin-top:calc(var(--u)*1)}
 .ps-price{font-family:var(--font-heading);font-size:calc(var(--u)*7);font-weight:700}
-.ps-cta{font-size:calc(var(--u)*3.2);font-weight:700;color:#fff;background:var(--accent);padding:calc(var(--u)*2) calc(var(--u)*4);border-radius:99px}
+.ps-cta{font-size:calc(var(--u)*3.2);font-weight:700;color:var(--btnText);background:var(--btn);padding:calc(var(--u)*2) calc(var(--u)*4);border-radius:99px}
 .is-landscape .ps{flex-direction:row}
 .is-landscape .ps-card{flex:0 0 40%;justify-content:center}`,
 };

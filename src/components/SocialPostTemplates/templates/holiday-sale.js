@@ -15,6 +15,8 @@ export default {
     { key: 'bg', label: 'Background', value: '#000000' },
     { key: 'text', label: 'Text', value: '#ffffff' },
     { key: 'accent', label: 'Accent', value: '#facc15' },
+    { key: 'btn', label: 'Button', value: '#facc15' },
+    { key: 'btnText', label: 'Button text', value: '#000000' },
   ],
   fields: [
     { key: 'line1', label: 'Line 1', type: 'text', value: 'Black' },
@@ -38,6 +40,6 @@ export default {
 .bf-l2{color:var(--accent)}
 .bf-deal{margin-top:calc(var(--u)*4);font-family:var(--font-heading);font-size:calc(var(--u)*11);line-height:1;letter-spacing:.02em;text-transform:uppercase}
 .bf-foot{display:flex;justify-content:space-between;align-items:center;gap:calc(var(--u)*3);font-size:calc(var(--u)*3.4);font-weight:700;text-transform:uppercase;letter-spacing:.1em}
-.bf-code{color:var(--bg);background:var(--accent);padding:calc(var(--u)*1.6) calc(var(--u)*3);border-radius:calc(var(--u)*1)}
+.bf-code{color:var(--btnText);background:var(--btn);padding:calc(var(--u)*1.6) calc(var(--u)*3);border-radius:calc(var(--u)*1)}
 .is-landscape .bf-l1,.is-landscape .bf-l2{font-size:calc(var(--u)*24)}`,
 };

@@ -15,6 +15,8 @@ export default {
     { key: 'bg', label: 'Background', value: '#fdf2f8' },
     { key: 'text', label: 'Text', value: '#500724' },
     { key: 'accent', label: 'Accent', value: '#db2777' },
+    { key: 'btn', label: 'Button', value: '#ffffff' },
+    { key: 'btnText', label: 'Button text', value: '#db2777' },
   ],
   fields: [
     { key: 'percent', label: 'Discount', type: 'text', value: '50%' },
@@ -37,7 +39,7 @@ export default {
 .db-off{font-family:var(--font-heading);font-size:calc(var(--u)*7);font-weight:800;letter-spacing:.2em}
 .db-copy{display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*3);flex:0 1 auto;width:100%}
 .db-title{font-family:var(--font-heading);font-size:calc(var(--u)*7);line-height:1.12;font-weight:800;letter-spacing:-.02em;max-width:92%}
-.db-code{font-size:calc(var(--u)*3.6);font-weight:700;padding:calc(var(--u)*1.8) calc(var(--u)*4);border:calc(var(--u)*.45) dashed var(--accent);border-radius:calc(var(--u)*1.6);color:var(--accent);background:#fff}
+.db-code{font-size:calc(var(--u)*3.6);font-weight:700;padding:calc(var(--u)*1.8) calc(var(--u)*4);border:calc(var(--u)*.45) dashed var(--accent);border-radius:calc(var(--u)*1.6);color:var(--btnText);background:var(--btn)}
 .db-ends{font-size:calc(var(--u)*3);opacity:.75}
 .is-landscape .db{flex-direction:row;text-align:left}
 .is-landscape .db-copy{align-items:flex-start;flex:1}

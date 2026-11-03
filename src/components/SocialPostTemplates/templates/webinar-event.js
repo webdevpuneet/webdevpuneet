@@ -16,6 +16,8 @@ export default {
     { key: 'bg2', label: 'Gradient end', value: '#0369a1' },
     { key: 'text', label: 'Text', value: '#f0f9ff' },
     { key: 'accent', label: 'Accent', value: '#38bdf8' },
+    { key: 'btn', label: 'Button', value: '#38bdf8' },
+    { key: 'btnText', label: 'Button text', value: '#0c4a6e' },
   ],
   fields: [
     { key: 'kicker', label: 'Kicker', type: 'text', value: 'Free live webinar' },
@@ -51,5 +53,5 @@ export default {
 .w-who{display:flex;flex-direction:column;gap:calc(var(--u)*.4);min-width:0}
 .w-name{font-weight:700;font-size:calc(var(--u)*3.6)}
 .w-role{font-size:calc(var(--u)*2.8);opacity:.75}
-.w-cta{margin-left:auto;font-size:calc(var(--u)*3.2);font-weight:800;color:var(--bg);background:var(--accent);padding:calc(var(--u)*2.2) calc(var(--u)*3.6);border-radius:calc(var(--u)*1.6);white-space:nowrap}`,
+.w-cta{margin-left:auto;font-size:calc(var(--u)*3.2);font-weight:800;color:var(--btnText);background:var(--btn);padding:calc(var(--u)*2.2) calc(var(--u)*3.6);border-radius:calc(var(--u)*1.6);white-space:nowrap}`,
 };

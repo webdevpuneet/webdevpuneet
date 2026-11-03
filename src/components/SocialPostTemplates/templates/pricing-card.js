@@ -16,6 +16,8 @@ export default {
     { key: 'card', label: 'Card', value: '#ffffff' },
     { key: 'text', label: 'Text', value: '#14122b' },
     { key: 'accent', label: 'Accent', value: '#5b3df5' },
+    { key: 'btn', label: 'Button', value: '#5b3df5' },
+    { key: 'btnText', label: 'Button text', value: '#ffffff' },
   ],
   fields: [
     { key: 'badge', label: 'Ribbon', type: 'text', value: 'Most popular' },
@@ -61,7 +63,7 @@ export default {
 .pc-feats p{display:flex;align-items:center;gap:calc(var(--u)*2.6);font-size:calc(var(--u)*3.6);font-weight:600;line-height:1.2}
 .pc-feats p:has(> span:empty){display:none}
 .pc-feats i{flex:none;width:calc(var(--u)*5.4);height:calc(var(--u)*5.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:calc(var(--u)*2.8);font-weight:800;color:#fff;background:var(--accent)}
-.pc-cta{display:block;text-align:center;font-size:calc(var(--u)*3.8);font-weight:800;color:#fff;background:var(--accent);padding:calc(var(--u)*3.2) calc(var(--u)*4);border-radius:calc(var(--u)*3)}
+.pc-cta{display:block;text-align:center;font-size:calc(var(--u)*3.8);font-weight:800;color:var(--btnText);background:var(--btn);padding:calc(var(--u)*3.2) calc(var(--u)*4);border-radius:calc(var(--u)*3)}
 .pc-handle{font-size:calc(var(--u)*3.2);font-weight:800;color:var(--accent)}
 .is-landscape .pc-card{max-width:none;display:grid;grid-template-columns:1fr 1.1fr;grid-template-rows:auto auto 1fr;column-gap:calc(var(--u)*6);padding:calc(var(--u)*5) calc(var(--u)*6)}
 .is-landscape .pc-head{grid-column:1;grid-row:1}
