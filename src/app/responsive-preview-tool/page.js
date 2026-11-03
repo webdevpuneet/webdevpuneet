@@ -3,7 +3,6 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import styles from '../tool-page.module.css';
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 
 export const metadata = {
   title: 'Responsive Design Tester — Multi-Device View & Screenshots',
@@ -143,7 +142,6 @@ export default function ResponsivePreviewToolPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <PlaygroundTopAd />
       <div className={styles.toolSection}><ResponsivePreviewTool /></div>
       <AdSlot />
       <IndexOnly><SeoSection {...SEO} /></IndexOnly>
