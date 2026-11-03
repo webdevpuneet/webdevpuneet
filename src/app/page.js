@@ -142,6 +142,16 @@ const BUILDER_SECTIONS = ['Navbar', 'Hero', 'Features', 'Pricing', 'Testimonials
 const BUILDER_SWATCHES = ['#4f46e5', '#059669', '#e11d48', '#d97706', '#0f172a'];
 // Templates the animated builder mock cycles through (4: the loop in page.module.css is 14s = 4 x 3.5s)
 const BUILDER_MOCK_TEMPLATES = ['saas']; // one fixed template (no crossfade)
+// The elements the mock editor picks in turn, in % of the preview (left, top, width, height) and the second each is picked.
+// Each gets a dashed outline that wraps it, with a small label saying what it is.
+const MOCK_SELECTS = [
+  { label: 'Menu links', l: 28.6, t: 1.4, w: 35, h: 7.6, s: 0.2 },
+  { label: 'Heading', l: 5.6, t: 30.6, w: 36.6, h: 29.6, s: 1.9 },
+  { label: 'Text', l: 5.2, t: 60.2, w: 41, h: 17.6, s: 3.3 },
+  { label: 'Button', l: 6.9, t: 78.4, w: 14.2, h: 10, s: 4.7 },
+  { label: 'Button', l: 21.2, t: 78.4, w: 13.8, h: 10.6, s: 4.85 },
+  { label: 'Image', l: 50.4, t: 33.4, w: 42.2, h: 51.4, s: 6.1 },
+];
 
 
 
@@ -306,14 +316,18 @@ export default async function Home() {
                         style={{ '--t': i }}
                       />
                     ))}
-                    <span className={styles.mockFocus} aria-hidden="true" />
+                  </span>
+                  <span className={styles.mockSels} aria-hidden="true">
+                    {MOCK_SELECTS.map((m, i) => (
+                      <i key={i} className={styles.mockSel} style={{ '--l': `${m.l}%`, '--t': `${m.t}%`, '--w': `${m.w}%`, '--h': `${m.h}%`, '--s': `${m.s}s` }}><b>{m.label}</b></i>
+                    ))}
                   </span>
                   <span className={styles.mockChips} aria-hidden="true">
                     {mockTemplates.map((tpl, i) => <b key={tpl.id} style={{ '--t': i }}>{tpl.name}</b>)}
                   </span>
                   <span className={styles.mockToast} aria-hidden="true">✓ index.html exported</span>
+                  <svg className={styles.mockCursor} width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6 1.8L10.5 19z" fill="#0f172a" stroke="#fff" strokeWidth="1.6" strokeLinejoin="round"/></svg>
                 </a>
-                <svg className={styles.mockCursor} width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6 1.8L10.5 19z" fill="#0f172a" stroke="#fff" strokeWidth="1.6" strokeLinejoin="round"/></svg>
               </div>
             </div>
           </div>

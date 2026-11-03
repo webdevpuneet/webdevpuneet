@@ -214,9 +214,9 @@
   gap: 28px;
   padding: 22px 28px;
   border-radius: 16px;
-  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 55%, #4c1d95 100%);
+  background: linear-gradient(135deg, #312e81 0%, #4338ca 55%, #6d28d9 100%); /* a step lighter than the first version (#1e1b4b to #4c1d95) */
   color: #e0e7ff;
-  box-shadow: 0 20px 50px -24px rgba(49, 46, 129, .55);
+  box-shadow: 0 20px 50px -24px rgba(67, 56, 202, .5);
 }
 .builderTag {
   display: inline-block;
@@ -347,26 +347,42 @@
   font-weight: 700;
   text-align: center;
 }
-.mockPreview { position: relative; display: block; overflow: hidden; min-width: 0; aspect-ratio: 16 / 9; background: #fff; }
-.mockStack { position: absolute; inset: 0; display: block; }
+.mockPreview { position: relative; display: block; align-self: start; min-width: 0; aspect-ratio: 16 / 9; background: #fff; }
+.mockStack { position: absolute; inset: 0; display: block; overflow: hidden; }
 .mockStack img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0; }
 
 /* ── Animated builder mock: one 14s loop = 7 sections x 2s = 5 swatches x 2.8s; the template image stays put ── */
 .mockStack img { opacity: 1; }
-.mockSections li { animation: mockSection 14s linear infinite; animation-delay: calc(var(--i) * 2s); }
-.mockSwatches i { animation: mockSwatch 14s linear infinite; animation-delay: calc(var(--i) * 2.8s); }
-.mockExport { animation: mockPress 14s ease-in-out infinite; }
-/* Dashed box that jumps down the page, as if each section were being edited in turn */
-.mockFocus {
+/* The story (14s): Navbar is picked, then the Hero (heading, text, buttons, picture each get a dashed outline), then three theme
+   colours are tried (the page recolours), then Export HTML is pressed. All of it runs off the same 14s clock. */
+.mockSections li:nth-child(1) { animation: mockSecNav 14s linear infinite; }
+.mockSections li:nth-child(2) { animation: mockSecHero 14s linear infinite; }
+.mockSwatches i:nth-child(1) { animation: mockSw1 14s linear infinite; }
+.mockSwatches i:nth-child(2) { animation: mockSw2 14s linear infinite; }
+.mockSwatches i:nth-child(3) { animation: mockSw3 14s linear infinite; }
+.mockSwatches i:nth-child(4) { animation: mockSw4 14s linear infinite; }
+.mockStack img { animation: mockHue 14s ease-in-out infinite; }
+/* Dashed outlines that wrap the element being edited, each with a label under it */
+.mockSels { position: absolute; inset: 0; display: block; pointer-events: none; }
+.mockSel {
   position: absolute;
-  left: 3%;
-  right: 3%;
-  height: 13%;
+  left: var(--l);
+  top: var(--t);
+  width: var(--w);
+  height: var(--h);
+  box-sizing: border-box;
   border: 2px dashed #6366f1;
   border-radius: 6px;
-  background: rgba(99, 102, 241, .08);
-  animation: mockFocus 14s linear infinite;
+  background: rgba(99, 102, 241, .07);
+  opacity: 0;
+  animation: mockSel 14s linear infinite;
+  animation-delay: var(--s);
 }
+.mockSel::before, .mockSel::after { content: ''; position: absolute; width: 7px; height: 7px; border: 1.5px solid #6366f1; border-radius: 2px; background: #fff; }
+.mockSel::before { left: -5px; top: -5px; }
+.mockSel::after { right: -5px; bottom: -5px; }
+.mockSel b { position: absolute; left: -2px; top: calc(100% + 6px); padding: 1px 7px; border-radius: 4px; background: #4f46e5; color: #fff; font-size: 9.5px; font-weight: 700; line-height: 15px; white-space: nowrap; }
+.mockExport { animation: mockPress 14s ease-in-out infinite; }
 .mockChips { position: absolute; left: 10px; top: 10px; display: block; height: 22px; }
 .mockChips b {
   position: absolute;
@@ -398,28 +414,32 @@
 .mockCursor {
   position: absolute;
   z-index: 3;
-  left: 70px;
-  top: 22%;
+  left: 46%;
+  top: 5%;
   filter: drop-shadow(0 2px 3px rgba(15, 23, 42, .35));
   pointer-events: none;
   animation: mockCursor 14s ease-in-out infinite;
 }
-@keyframes mockSection {
-  0%, 14.28% { border-color: #6366f1; background: #eef2ff; color: #4338ca; font-weight: 600; }
-  14.29%, 100% { border-color: #e2e8f0; background: transparent; color: #334155; font-weight: 400; }
+@keyframes mockSecNav { 0%, 12.86% { border-color: #6366f1; background: #eef2ff; color: #4338ca; font-weight: 600; } 12.87%, 100% { border-color: #e2e8f0; background: transparent; color: #334155; font-weight: 400; } }
+@keyframes mockSecHero { 0%, 12.86% { border-color: #e2e8f0; background: transparent; color: #334155; font-weight: 400; } 12.87%, 52.86% { border-color: #6366f1; background: #eef2ff; color: #4338ca; font-weight: 600; } 52.87%, 100% { border-color: #e2e8f0; background: transparent; color: #334155; font-weight: 400; } }
+/* theme colours: the first (indigo) is the starting one, then emerald, rose and amber are tried */
+@keyframes mockSw1 { 0%, 52.8% { outline: 2px solid #6366f1; outline-offset: 2px; } 52.9%, 100% { outline: 2px solid transparent; outline-offset: 2px; } }
+@keyframes mockSw2 { 0%, 52.8% { outline: 2px solid transparent; outline-offset: 2px; } 52.9%, 62.8% { outline: 2px solid #059669; outline-offset: 2px; } 62.9%, 100% { outline: 2px solid transparent; outline-offset: 2px; } }
+@keyframes mockSw3 { 0%, 62.8% { outline: 2px solid transparent; outline-offset: 2px; } 62.9%, 72.8% { outline: 2px solid #e11d48; outline-offset: 2px; } 72.9%, 100% { outline: 2px solid transparent; outline-offset: 2px; } }
+@keyframes mockSw4 { 0%, 72.8% { outline: 2px solid transparent; outline-offset: 2px; } 72.9%, 96% { outline: 2px solid #d97706; outline-offset: 2px; } 96.1%, 100% { outline: 2px solid transparent; outline-offset: 2px; } }
+/* the page picture recolours with the chosen theme colour (hue turned from indigo) */
+@keyframes mockHue {
+  0%, 52.8% { filter: hue-rotate(0deg); }
+  55.5%, 62.8% { filter: hue-rotate(-95deg) saturate(1.1); }
+  65.5%, 72.8% { filter: hue-rotate(95deg); }
+  75.5%, 95% { filter: hue-rotate(155deg) saturate(1.1); }
+  99%, 100% { filter: hue-rotate(0deg); }
 }
-@keyframes mockSwatch {
-  0%, 20% { outline: 2px solid #6366f1; outline-offset: 2px; }
-  20.01%, 100% { outline: 2px solid transparent; outline-offset: 2px; }
-}
-@keyframes mockFocus {
-  0%, 14.28% { top: 2%; }
-  14.29%, 28.57% { top: 16%; }
-  28.58%, 42.85% { top: 30%; }
-  42.86%, 57.14% { top: 44%; }
-  57.15%, 71.42% { top: 58%; }
-  71.43%, 85.71% { top: 72%; }
-  85.72%, 100% { top: 85%; }
+/* an outline appears around the picked element (1.4s), holds, then goes */
+@keyframes mockSel {
+  0% { opacity: 0; transform: scale(1.05); }
+  1.6%, 8.4% { opacity: 1; transform: scale(1); }
+  10%, 100% { opacity: 0; transform: scale(1); }
 }
 @keyframes mockPress {
   0%, 88%, 100% { transform: scale(1); filter: none; }
@@ -427,23 +447,29 @@
   94% { transform: scale(1); filter: none; }
 }
 @keyframes mockToast { 0%, 91% { opacity: 0; transform: translateY(8px); } 94%, 98% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(8px); } }
-/* Cursor: picks sections in the panel, wanders over the page, then clicks Export HTML */
+/* Cursor (inside the preview: left/top are % of it, px values reach the panel on its left): points at the menu, heading, text, the
+   two buttons and the picture, then picks three theme colours and presses Export HTML */
 @keyframes mockCursor {
-  0%   { left: 70px;  top: 22%; }
-  20%  { left: 70px;  top: 36%; }
-  35%  { left: 58%;   top: 40%; }
-  55%  { left: 66%;   top: 62%; }
-  75%  { left: 40%;   top: 50%; }
-  88%  { left: 60px;  top: 80%; transform: scale(1); }
-  91%  { left: 60px;  top: 80%; transform: scale(.82); }
-  94%  { left: 60px;  top: 80%; transform: scale(1); }
-  100% { left: 70px;  top: 22%; }
+  0%, 10%   { left: 46%;    top: 5%; }
+  13.6%, 22.8% { left: 23.7%; top: 45%; }
+  24.5%, 32.8% { left: 25.6%; top: 69%; }
+  34%, 35.5% { left: 14%;    top: 83%; }
+  37%, 42.8% { left: 28%;    top: 83.5%; }
+  44%, 52%  { left: 71%;    top: 59%; }
+  53.8%, 62.6% { left: -93px;  top: 239px; }
+  63.8%, 72.6% { left: -72px;  top: 239px; }
+  74%, 74.5% { left: -51px;  top: 239px; }
+  85%       { left: -66px;  top: 333px; transform: scale(1); }
+  88%       { left: -66px;  top: 333px; transform: scale(1); }
+  91%       { left: -66px;  top: 333px; transform: scale(.82); }
+  94%       { left: -66px;  top: 333px; transform: scale(1); }
+  98%, 100% { left: 46%;    top: 5%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .mockStack img, .mockSections li, .mockSwatches i, .mockExport, .mockFocus, .mockChips b, .mockToast, .mockCursor { animation: none; }
+  .mockStack img, .mockSections li, .mockSwatches i, .mockExport, .mockSel, .mockChips b, .mockToast, .mockCursor { animation: none; }
   .mockStack img:first-child { opacity: 1; }
   .mockChips b:first-child { opacity: 1; }
-  .mockFocus, .mockCursor, .mockToast { display: none; }
+  .mockSels, .mockCursor, .mockToast { display: none; }
   .mockSections li:nth-child(2) { border-color: #6366f1; background: #eef2ff; color: #4338ca; font-weight: 600; }
   .mockSwatches i:first-child { outline: 2px solid #6366f1; outline-offset: 2px; }
 }
