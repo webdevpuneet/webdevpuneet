@@ -2,7 +2,6 @@ import LineUtilitiesTool from '@/components/LineUtilitiesTool';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import styles from '../tool-page.module.css';
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 
 const OG_IMAGE = 'https://webdevpuneet.com/images/line-utilities.png';
 
@@ -133,7 +132,6 @@ export default function LineUtilitiesPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <PlaygroundTopAd />
       <div className={styles.toolSection}><LineUtilitiesTool /></div>
       <IndexOnly><SeoSection {...SEO} /></IndexOnly>
 

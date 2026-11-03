@@ -3,7 +3,6 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import styles from '../tool-page.module.css';
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 
 export const metadata = {
   title: 'Meta Tag Generator: SEO, Open Graph & Twitter Card Tags',
@@ -155,7 +154,6 @@ export default function MetaTagGeneratorPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.page}>
-        <PlaygroundTopAd />
         <div className={styles.toolSection}>
           <MetaTagGeneratorTool />
         </div>
