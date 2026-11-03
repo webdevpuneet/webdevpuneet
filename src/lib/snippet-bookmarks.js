@@ -4,14 +4,13 @@
    state: {} }, newest bookmark first. A copy of the ids is held in memory so every button and the sidebar can read
    them at once; the database is read when the page loads. Bookmarks that were kept in localStorage (`uis_bookmarks`)
    are moved over the first time they load, and the old key is removed once they are safely in IndexedDB.
-   "Bookmarked" is a client-side view only: it has no URL of its own. The gallery shows it as a chip that filters its
-   grid, and the sidebar shows a link with the count. Everything that shows bookmarks listens for BOOKMARKS_EVENT,
+   "Bookmarked" is a view of the gallery, not a page: /ui-snippets/?filter=bookmarked filters the grid to the bookmarks,
+   and without the query the gallery shows every snippet. The chip in the gallery and the sidebar row link to it. Everything that shows bookmarks listens for BOOKMARKS_EVENT,
    fired in this tab on every change; a BroadcastChannel carries the change to other tabs. */
 import { useEffect, useState } from 'react';
 import { makeDesignStore } from '@/lib/design-store';
 
 const LEGACY_KEY = 'uis_bookmarks';
-const VIEW_KEY = 'uis_show_bookmarked';
 export const BOOKMARKS_EVENT = 'uis-bookmarks-changed';
 
 const store = makeDesignStore('wdp-ui-bookmarks');
@@ -75,18 +74,8 @@ export function toggleBookmark(id) {
   return !has;
 }
 
-/** A Bookmarked link calls this just before it navigates to the gallery, which opens on that view once */
-export function requestBookmarkedView() {
-  try { localStorage.setItem(VIEW_KEY, '1'); } catch {}
-}
-/** The gallery calls this on load: true once after a request, so a later plain visit opens on All */
-export function consumeBookmarkedView() {
-  try {
-    const on = localStorage.getItem(VIEW_KEY) === '1';
-    if (on) localStorage.removeItem(VIEW_KEY);
-    return on;
-  } catch { return false; }
-}
+/** The gallery address that opens on the Bookmarked view; the plain /ui-snippets/ always shows every snippet */
+export const BOOKMARKED_HREF = '/ui-snippets/?filter=bookmarked';
 
 /** The bookmarked ids, kept in step with every change (empty until the database has been read) */
 export function useBookmarks() {

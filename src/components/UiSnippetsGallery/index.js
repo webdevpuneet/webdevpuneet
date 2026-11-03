@@ -9,7 +9,7 @@ import { CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { publishedTags, tagsForSnippetId, TAG_BY_ID } from '@/lib/snippet-tags';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
-import { useBookmarks, toggleBookmark, requestBookmarkedView, consumeBookmarkedView } from '@/lib/snippet-bookmarks';
+import { useBookmarks, toggleBookmark, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
 import s from './styles.module.css';
 
 const PER_PAGE = 12; // 3 rows of 4
@@ -49,7 +49,7 @@ export function BrowsePanel({ activeCategory = 'all', activeTag = null, highligh
           <div className={s.browseChips}>
             {onBookmarked
               ? <button type="button" className={s.browseChip} style={{ cursor: 'pointer' }} aria-pressed={bookmarkedActive} aria-current={bookmarkedActive ? 'true' : undefined} onClick={onBookmarked}>{bookmarkLabel}</button>
-              : <a href="/ui-snippets/" className={s.browseChip} onClick={requestBookmarkedView}>{bookmarkLabel}</a>}
+              : <a href={BOOKMARKED_HREF} className={s.browseChip}>{bookmarkLabel}</a>}
             {CATEGORIES.filter(cat => !cat.devOnly)
               .slice()
               .sort((a, b) => (a.id === activeCategory ? -1 : b.id === activeCategory ? 1 : 0))
@@ -148,21 +148,24 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
   const [page, setPage] = useState(() => Math.max(0, (parseInt(searchParams.get('page'), 10) || 1) - 1));
   const [sortOrder, setSortOrder] = useState('newest');
   const gridRef = useRef(null);
-  // Bookmarked view: client-side only, no URL. Opens on it once when arriving from a Bookmarked link, and only
-  // on the plain gallery (a category or tag page is its own filter).
+  // Bookmarked view: /ui-snippets/?filter=bookmarked (the URL is the source of truth, so it survives a refresh and a
+  // shared link). Without ?filter the gallery shows every snippet. Only on the plain gallery: a category or tag page
+  // is its own filter.
   const bookmarks = useBookmarks();
-  const [bookmarkedView, setBookmarkedView] = useState(false);
   const canBookmarkView = !initialTag && initialCategory === 'all';
-  useEffect(() => { if (canBookmarkView && consumeBookmarkedView()) setBookmarkedView(true); }, [canBookmarkView]);
-  const bookmarkedOn = bookmarkedView && canBookmarkView;
+  const bookmarkedOn = canBookmarkView && searchParams.get('filter') === 'bookmarked';
 
   // Reflect the active page (?page=N, omitted on page 1) and/or search query
   // (?q=..., omitted when empty) in the URL — both real query params, not
   // just local state, so pagination on a search's page 2+ keeps the search
   // term instead of losing it (the pagination links below are real <a href>
   // navigations, so whatever isn't in the URL doesn't survive a click).
-  function syncToUrl({ page: p, q } = {}) {
+  function syncToUrl({ page: p, q, filter } = {}) {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
+    if (filter !== undefined) {
+      if (filter) params.set('filter', filter);
+      else params.delete('filter');
+    }
     if (p !== undefined) {
       if (p <= 0) params.delete('page');
       else params.set('page', String(p + 1));
@@ -296,7 +299,7 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
           activeCategory={category}
           activeTag={initialTag}
           bookmarkedActive={bookmarkedOn}
-          onBookmarked={canBookmarkView ? () => { setBookmarkedView(v => !v); setPage(0); } : undefined}
+          onBookmarked={canBookmarkView ? () => { setPage(0); syncToUrl({ page: 0, filter: bookmarkedOn ? '' : 'bookmarked' }); } : undefined}
         />
       </div>
 
@@ -323,11 +326,9 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
                     aria-label={bookmarks.includes(sn.id) ? `Remove bookmark: ${sn.title}` : `Bookmark: ${sn.title}`}
                     title={bookmarks.includes(sn.id) ? 'Remove from bookmarks' : 'Add to bookmarks'}
                     onClick={() => toggleBookmark(sn.id)}
-                    className={`${s.bookmarkBtn} ${bookmarks.includes(sn.id) ? s.bookmarkOn : ''} ${bookmarkedOn ? s.bookmarkRemove : ''}`}
+                    className={`${s.bookmarkBtn} ${bookmarks.includes(sn.id) ? s.bookmarkOn : ''}`}
                   >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill={bookmarks.includes(sn.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
-                    {bookmarkedOn && <span>Remove</span>}
-                  </button>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill={bookmarks.includes(sn.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>                  </button>
                 </div>
                 <div className={s.cardBody}>
                   <h3 className={s.cardTitle}>

@@ -10,16 +10,19 @@ import { useSearchParams } from 'next/navigation';
 // so it never repeats under a non-canonical view. The Suspense fallback
 // renders it: static export has no query string at build time, so the
 // canonical (query-free) URL always ships the full content in its HTML.
-function Gate({ children }) {
+// `keep` lists "key=value" pairs that are a view of the same page, not a different one (for example
+// 'filter=bookmarked'): the content stays when those are the only query params.
+function Gate({ children, keep }) {
   const searchParams = useSearchParams();
-  if (searchParams.toString()) return null;
+  const extra = Array.from(searchParams.entries()).filter(([k, v]) => !keep.includes(`${k}=${v}`));
+  if (extra.length) return null;
   return children;
 }
 
-export default function IndexOnly({ children }) {
+export default function IndexOnly({ children, keep = [] }) {
   return (
     <Suspense fallback={children}>
-      <Gate>{children}</Gate>
+      <Gate keep={keep}>{children}</Gate>
     </Suspense>
   );
 }

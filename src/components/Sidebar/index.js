@@ -14,7 +14,7 @@ import CookieSettingsButton from '@/components/CookieSettingsButton';
 import { CATEGORIES as SNIPPET_CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import { SNIPPET_INDEX as SNIPPETS, VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
 import { dbGetAll as dbGetAllCustomSnippets } from '@/lib/uiSnippetsDb';
-import { useBookmarks, requestBookmarkedView } from '@/lib/snippet-bookmarks';
+import { useBookmarks, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
 import MyProjectsTab, { useProjects } from './MyProjects';
 import { promptStore, loadPrompts } from '@/components/AiPromptStudioTool/storage';
 import { publishedTags, tagsForSnippetId } from '@/lib/snippet-tags';
@@ -456,8 +456,10 @@ function SidebarLink({ href, icon, label, active, count = 0 }) {
    (height 0, hidden from keyboard and screen readers), so crawlers still see them everywhere.
 ───────────────────────────────────────────────────────────── */
 // Open only on /ui-snippets/ pages, where the categories are the navigation; folded everywhere else
-// The UI Snippets group starts collapsed on every page, UI snippet pages included (2026-11-03); the chevron opens it.
+// The UI Snippets group starts collapsed on every page, UI snippet pages included (2026-11-03); the chevron opens it,
+// and once opened it stays open (remembered under SNIP_OPEN_KEY) until the chevron folds it.
 const startsOpen = () => false;
+const SNIP_OPEN_KEY = 'uis_sidebar_snippets_open';
 
 function UiSnippetsCategories({ pathname }) {
   const [open, setOpen] = useState(() => startsOpen(pathname));
@@ -466,13 +468,16 @@ function UiSnippetsCategories({ pathname }) {
   // Only the count of bookmarked snippets shows, first under UI Snippets; the link opens the gallery's Bookmarked view
   const bookmarked = useBookmarks();
 
-  // A page change re-applies the default; a manual click wins until the next page change
-  const lastPath = useRef(pathname);
+  // The group stays as the visitor left it: expanding it is remembered across pages and visits until they fold it
+  // again. Read after mount (not in the state initializer) so the server and first client render still match.
   useEffect(() => {
-    if (lastPath.current === pathname) return;
-    lastPath.current = pathname;
-    setOpen(startsOpen(pathname));
-  }, [pathname]);
+    try { if (localStorage.getItem(SNIP_OPEN_KEY) === '1') setOpen(true); } catch { /* storage blocked: stays folded */ }
+  }, []);
+  const toggleOpen = () => setOpen(v => {
+    const next = !v;
+    try { if (next) localStorage.setItem(SNIP_OPEN_KEY, '1'); else localStorage.removeItem(SNIP_OPEN_KEY); } catch { /* ignore */ }
+    return next;
+  });
 
   useEffect(() => {
     const el = bodyRef.current;
@@ -491,14 +496,14 @@ function UiSnippetsCategories({ pathname }) {
   return (
     <div className={styles.uiSnipGroup}>
       <div className={styles.uiSnipHead}>
-        <SidebarLink href="/ui-snippets/" icon="/icons/ui-snippets.svg" label="UI Snippets" active={/^\/ui-snippets(?!\/mycode(\/|$))(\/|$)/.test(pathname)} />
+        <SidebarLink href="/ui-snippets/" icon="/icons/ui-snippets.svg" label="UI Snippets" active={/^\/ui-snippets(?!\/mycode(\/|$))(\/|$)/.test(pathname)} count={bookmarked.length} />
         <button
           type="button"
           className={styles.uiSnipToggle}
           aria-expanded={open}
           aria-controls="ui-snippet-categories"
           aria-label={open ? 'Collapse UI snippet categories' : 'Expand UI snippet categories'}
-          onClick={() => setOpen(v => !v)}
+          onClick={toggleOpen}
         >
           <svg className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`} width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <polyline points="6,9 12,15 18,9" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
@@ -510,7 +515,7 @@ function UiSnippetsCategories({ pathname }) {
           <nav aria-label="Bookmarked UI snippets">
             <ul className={`${styles.list} ${styles.compactList}`} style={{ padding: '2px 8px 6px 30px', margin: 0 }}>
               <li className={styles.item}>
-                <a href="/ui-snippets/" title="Show all bookmarked snippets" onClick={requestBookmarkedView}>
+                <a href={BOOKMARKED_HREF} title="Show all bookmarked snippets">
                   <span className={styles.itemInner} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', border: '1px solid rgba(245,158,11,0.45)', background: 'rgba(245,158,11,0.08)' }}>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ color: '#f59e0b', flex: 'none' }}>
                       <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />

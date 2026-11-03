@@ -184,7 +184,7 @@ export default function UiSnippetsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <AdSlot adFirst related={false} />
-      <IndexOnly>
+      <IndexOnly keep={['filter=bookmarked']}>
         <SeoSection {...SEO} featuresAfterAbout />
       </IndexOnly>
     </>
