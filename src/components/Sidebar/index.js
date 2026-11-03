@@ -300,7 +300,7 @@ function UiSnippetsGroup({ pathname, open, onToggle }) {
   return (
     <div className={styles.playgroundsGroup}>
       <button
-        className={`${styles.playgroundsHeader} ${styles.plainLink} ${open ? styles.groupOpen : ''} ${/^\/ui-snippets(\/|$)/.test(pathname) ? styles.linkActive : ''}`}
+        className={`${styles.playgroundsHeader} ${styles.plainLink} ${open ? styles.groupOpen : ''} ${/^\/ui-snippets(?!\/mycode(\/|$))(\/|$)/.test(pathname) ? styles.linkActive : ''}`}
         onClick={onToggle}
         aria-expanded={open}
       >
@@ -484,7 +484,7 @@ function UiSnippetsCategories({ pathname }) {
   return (
     <div className={styles.uiSnipGroup}>
       <div className={styles.uiSnipHead}>
-        <SidebarLink href="/ui-snippets/" icon="/icons/ui-snippets.svg" label="UI Snippets" active={/^\/ui-snippets(\/|$)/.test(pathname)} />
+        <SidebarLink href="/ui-snippets/" icon="/icons/ui-snippets.svg" label="UI Snippets" active={/^\/ui-snippets(?!\/mycode(\/|$))(\/|$)/.test(pathname)} />
         <button
           type="button"
           className={styles.uiSnipToggle}
