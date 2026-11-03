@@ -661,14 +661,13 @@ function FreelancerGroup({ activeSlug, open, onToggle }) {
 ───────────────────────────────────────────────────────────── */
 function CategoryGroup({ category, open, onToggle, activeSlug, query, green = false }) {
   const bodyRef = useRef(null);
-  // The tool links are always in the page HTML (so search crawlers find them), collapsed to nothing until opened,
-  // like the UI Snippets categories.
-  const first = useRef(true);
+  // The tool links are drawn only after the group is first opened (not in the page HTML until then)
+  const [everOpened, setEverOpened] = useState(false);
 
   useEffect(() => {
+    if (open && !everOpened) setEverOpened(true);
     const el = bodyRef.current;
     if (!el) return;
-    if (first.current) { first.current = false; return; }
     if (open) {
       el.style.height = el.scrollHeight + 'px';
       const t = setTimeout(() => { el.style.height = 'auto'; }, 220);
@@ -677,7 +676,7 @@ function CategoryGroup({ category, open, onToggle, activeSlug, query, green = fa
       el.style.height = el.scrollHeight + 'px';
       requestAnimationFrame(() => { el.style.height = '0px'; });
     }
-  }, [open]);
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={green ? styles.playgroundsGroup : styles.group}>
@@ -706,8 +705,8 @@ function CategoryGroup({ category, open, onToggle, activeSlug, query, green = fa
             strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </button>
-      <div ref={bodyRef} className={`${styles.groupBody} ${open ? '' : styles.uiSnipClosed}`} style={{ height: open ? 'auto' : '0px' }}>
-        <nav aria-label={`${category.label} tools`}>
+      <div ref={bodyRef} className={styles.groupBody} style={{ height: open ? 'auto' : '0px' }}>
+        {everOpened && (
           <ul className={`${styles.list} ${styles.compactList}`}>
             {category.tools.map(t => (
               <ToolLink
@@ -720,7 +719,7 @@ function CategoryGroup({ category, open, onToggle, activeSlug, query, green = fa
               />
             ))}
           </ul>
-        </nav>
+        )}
       </div>
     </div>
   );
