@@ -3,6 +3,7 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import styles from '../tool-page.module.css';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 
 export const metadata = {
   title: "Text Case Converter: camelCase, snake_case and More",
@@ -226,6 +227,7 @@ export default function TextCaseConverterPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <PlaygroundTopAd />
       <div className={styles.toolSection}><TextCaseConverter /></div>
       <IndexOnly><AdSlot />
       <SeoSection heading="Free Text Case Converter — camelCase, snake_case, PascalCase, kebab-case & 14 Formats" {...SEO} /></IndexOnly>

@@ -10,8 +10,6 @@ import { tagsForSnippet, publishedTags } from '@/lib/snippet-tags';
 import { highlightCode } from '@/lib/shiki-highlight';
 import SnippetExportButton from '@/components/UiSnippetsTool/SnippetExportButton';
 import SourceCodeTabs from '@/components/UiSnippetsTool/SourceCodeTabs';
-import RelatedCarousel from '@/components/UiSnippetsTool/RelatedCarousel';
-import { getRelatedSnippets } from '@/lib/snippet-related';
 import NavbarBuilderPromo from '@/components/NavbarBuilderPromo';
 import styles from './styles.module.css';
 
@@ -845,7 +843,6 @@ export default async function UiSnippetSlugPage({ params }) {
   if (!sn) notFound();
 
   const categoryLabel = sn.category.charAt(0).toUpperCase() + sn.category.slice(1);
-  const related = getRelatedSnippets(sn.category);
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
@@ -1012,9 +1009,8 @@ Requirements:
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
-      {/* The ad (full width) first, then Related Snippets. */}
+      {/* The related snippets now live in the bar along the bottom of the editor (UiSnippetsTool). */}
       <AdSlot adFirst related={false} />
-      <RelatedCarousel items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
       <SeoSection
         {...SEO}
         titleExtra={(

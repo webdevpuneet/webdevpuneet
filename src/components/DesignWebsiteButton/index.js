@@ -32,7 +32,7 @@ export default function DesignWebsiteButton() {
   }
 
   return (
-    <div className={styles.wrap}>
+    <div className={`${styles.wrap} ${/^\/ui-snippets\/[^/]+/.test(pathname || '') ? styles.lift : ''}`}>
       <button type="button" className={styles.close} onClick={collapse} aria-label="Minimise to the side">×</button>
       <a className={styles.btn} href="/website-builder/editor/?starter=blank">Design your website</a>
     </div>

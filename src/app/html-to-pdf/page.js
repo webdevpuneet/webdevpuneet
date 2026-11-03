@@ -3,6 +3,7 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import styles from '../tool-page.module.css';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 
 export const metadata = {
   title: "HTML and Markdown to PDF Converter with Live Preview",
@@ -238,6 +239,7 @@ export default function HtmlToPdfPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
+      <PlaygroundTopAd />
       <div className={styles.toolSection}>
         <HtmlToPdf />
       </div>

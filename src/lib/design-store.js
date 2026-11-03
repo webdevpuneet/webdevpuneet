@@ -56,6 +56,9 @@ export function makeDesignStore(dbName) {
     async getAutosave(tpl) {
       try { return (await run('readonly', st => st.get(tpl), AUTOSAVE))?.state || null; } catch { return null; }
     },
+    async listAutosaves() {
+      try { return (await run('readonly', st => st.getAll(), AUTOSAVE)) || []; } catch { return []; }
+    },
     async putAutosave(tpl, state) {
       askPersist();
       await run('readwrite', st => st.put({ tpl, state, updated: new Date().toISOString() }), AUTOSAVE);

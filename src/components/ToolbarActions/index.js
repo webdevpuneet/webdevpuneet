@@ -36,8 +36,10 @@ export function useScrollToolbarMenu(open, setOpen, ref, width = 272) {
     const vw = window.innerWidth, vh = window.innerHeight;
     const w = Math.min(width, vw - 16);
     const top = r.bottom + 8;
+    // Right edge on the button's right edge (whatever the menu's real width is); only when the button sits so
+    // far left that a menu of `width` would run off the screen is it pushed back in.
     setPos({
-      position: 'fixed', top, left: Math.max(8, Math.min(r.right - w, vw - w - 8)), right: 'auto',
+      position: 'fixed', top, left: 'auto', right: Math.min(Math.max(8, vw - r.right), Math.max(8, vw - w - 8)),
       maxWidth: vw - 16, maxHeight: Math.max(160, vh - top - 12), overflowY: 'auto', zIndex: 300,
     });
     // Close only when the toolbar really scrolls sideways: opening the menu (autofocus, layout)

@@ -28,11 +28,11 @@ import {
 } from '@/lib/snippet-exporters';
 import { navStart } from '@/lib/navStart';
 import GistSyncButton from '@/components/GistSyncButton';
-import { ADS_ENABLED } from '@/lib/ads-config';
+import { ADS_ENABLED, SNIPPET_TOP_AD_ENABLED } from '@/lib/ads-config';
 import ExportTester from './ExportTester';
 import EmbedModal from './EmbedModal';
 import SnippetSearch from './SnippetSearch';
-import { CategoryStrip } from './RelatedCarousel';
+import { CategoryStrip, usePeek, PeekPopup } from './RelatedCarousel';
 import { dbGetAll, dbPut, dbDelete, dbClear } from '@/lib/uiSnippetsDb';
 const SNIPPET_BY_ID = new Map(SNIPPETS.map(sn => [sn.id, sn]));
 
@@ -1054,6 +1054,126 @@ const CATEGORY_LABELS = new Map(CATEGORIES.map(c => [c.id, c.label]));
 const VISIBLE_SNIPPETS_NEWEST = [...VISIBLE_SNIPPETS].reverse();
 // Header tag list for the strip's drop-down (same set the gallery's Tags column shows).
 const HEADER_TAGS = publishedTags(SNIPPETS).map(t => ({ id: t.id, label: t.label }));
+
+/* — Related snippets bar: a 90px strip along the bottom of the preview pane (library snippets, desktop).
+   Same category as the open snippet, the ones that follow it first (newest-first, like the gallery), then
+   the ones before it, ending with a "see all" card. Real links with thumbnails, so each one is also a
+   crawlable internal link. Hover shows a bigger preview (like the site's other snippet strips); the row
+   scrolls with the wheel, by dragging, with the arrows, and the arrows switch off at the ends. — */
+const NEWEST_FIRST_SNIPPETS = [...VISIBLE_SNIPPETS].reverse();
+function RelatedSnippetsBar({ activeId, category }) {
+  const scrollRef = useRef(null);
+  const drag = useRef({ down: false, x: 0, left: 0, moved: false });
+  const [edge, setEdge] = useState({ start: true, end: false });
+  const [peek, onPeek] = usePeek(300);
+  const pool = useMemo(() => NEWEST_FIRST_SNIPPETS.filter(sn => sn.category === category), [category]);
+  // The row is in gallery order around the open snippet: the previous ones to its left, the open one marked,
+  // the next ones to its right. It opens scrolled past the open snippet, so the next ones show first and the
+  // open one and the previous ones are a scroll to the left away.
+  const items = useMemo(() => {
+    const at = pool.findIndex(sn => sn.id === activeId);
+    return at < 0 ? pool.slice(0, 30) : pool.slice(Math.max(0, at - 12), at + 1 + 24);
+  }, [activeId, pool]);
+  const label = CATEGORIES.find(c => c.id === category)?.label || '';
+  const measure = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setEdge({ start: el.scrollLeft <= 2, end: el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 });
+  }, []);
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) {
+      const current = el.querySelector('[aria-current="page"]');
+      // start just past the open snippet: it and the previous ones are off to the left, the next ones are showing
+      el.scrollLeft = current ? current.offsetLeft + current.offsetWidth + 8 : 0;
+    }
+    measure();
+  }, [activeId, items.length, measure]);
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return undefined;
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : null;
+    ro?.observe(el);
+    // the mouse wheel scrolls the row sideways while the pointer is over it
+    const onWheel = e => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && el.scrollWidth > el.clientWidth) { e.preventDefault(); el.scrollLeft += e.deltaY; }
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => { ro?.disconnect(); el.removeEventListener('wheel', onWheel); };
+  }, [measure, items.length]);
+  if (!items.length) return null;
+
+  const by = dir => scrollRef.current?.scrollBy({ left: dir * 480, behavior: 'smooth' });
+  // drag the row with the mouse (touch screens already scroll it natively)
+  const onMouseDown = e => {
+    if (e.button !== 0) return;
+    const el = scrollRef.current;
+    drag.current = { down: true, x: e.clientX, left: el.scrollLeft, moved: false };
+    const move = ev => {
+      const d = ev.clientX - drag.current.x;
+      if (Math.abs(d) > 4) { drag.current.moved = true; onPeek(null); }
+      if (drag.current.moved) el.scrollLeft = drag.current.left - d;
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+      setTimeout(() => { drag.current.down = false; drag.current.moved = false; }, 0);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+  const onClickCapture = e => { if (drag.current.moved) { e.preventDefault(); e.stopPropagation(); } }; // a drag is not a click
+
+  return (
+    <nav className={s.relatedBar} aria-label="Related snippets">
+      <div className={s.relatedHead}>
+        <span className={s.relatedTitle}>Related snippets</span>
+        {label && <span className={s.relatedCat}>{Math.max(0, pool.length - 1)} in {label}</span>}
+      </div>
+      <button type="button" className={s.relatedArrow} onClick={() => by(-1)} disabled={edge.start} aria-label="Scroll related snippets left">‹</button>
+      <div className={s.relatedTrack}>
+        <div className={s.relatedScroll} ref={scrollRef} onScroll={measure} onMouseDown={onMouseDown} onClickCapture={onClickCapture}>
+          {items.map(sn => sn.id === activeId ? (
+            <span key={sn.id} className={`${s.relatedCard} ${s.relatedCardCurrent}`} aria-current="page" title={`${sn.title} (open now)`}>
+              <img className={s.relatedThumb} src={`/images/ui-snippets/previews/${sn.id}.png`} alt="" draggable={false} decoding="async" onError={e => { e.currentTarget.style.visibility = 'hidden'; }} />
+              <span className={s.relatedName}>{sn.title}</span>
+              <span className={s.relatedNow}>Open now</span>
+            </span>
+          ) : (
+            <a
+              key={sn.id}
+              href={`/ui-snippets/${sn.id}/`}
+              className={s.relatedCard}
+              draggable={false}
+              onClick={() => { onPeek(null); navStart(); }}
+              onMouseEnter={e => { if (!drag.current.down) onPeek({ src: `/images/ui-snippets/previews/${sn.id}.png`, title: sn.title }, e.currentTarget.getBoundingClientRect()); }}
+              onMouseLeave={() => onPeek(null)}
+            >
+              <img
+                className={s.relatedThumb}
+                src={`/images/ui-snippets/previews/${sn.id}.png`}
+                alt=""
+                draggable={false}
+                loading="lazy"
+                decoding="async"
+                onError={e => { e.currentTarget.style.visibility = 'hidden'; }}
+              />
+              <span className={s.relatedName}>{sn.title}</span>
+            </a>
+          ))}
+          <a href={`/ui-snippets/${category}/`} className={s.relatedAll} draggable={false} onClick={() => navStart()}>
+            <span>See all {pool.length}</span>
+            <span className={s.relatedAllCat}>in {label || 'this category'} →</span>
+          </a>
+        </div>
+        {!edge.start && <span className={`${s.relatedFade} ${s.relatedFadeL}`} aria-hidden="true" />}
+        {!edge.end && <span className={`${s.relatedFade} ${s.relatedFadeR}`} aria-hidden="true" />}
+      </div>
+      <button type="button" className={s.relatedArrow} onClick={() => by(1)} disabled={edge.end} aria-label="Scroll related snippets right">›</button>
+      <PeekPopup peek={peek} />
+    </nav>
+  );
+}
 
 export default function UiSnippetsTool({ initialSnippetId, isHome = false, initialCategory = 'all', initialTag = null, initialView = null } = {}) {
   const router       = useRouter();
@@ -2272,8 +2392,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           {/* AdSense leaderboard (slot 7360198340) directly above the Preview toolbar, 970x90 /
               728x90 / 468x60 / 320x50 by available width. Library snippets only: My Code snippets,
               a new snippet being created and the My Code gallery have no leaderboard. Collapses
-              when unfilled (.adBar:has(ins[data-ad-status="unfilled"])). */}
-          {showEditor && !inMyCode && (
+              when unfilled (.adBar:has(ins[data-ad-status="unfilled"])). Switched off with
+              SNIPPET_TOP_AD_ENABLED in lib/ads-config.js. */}
+          {showEditor && !inMyCode && SNIPPET_TOP_AD_ENABLED && (
             <div className={s.adBar} aria-label="Advertisement">
               {ADS_ENABLED ? <SnippetTopAd key={activeId || 'none'} /> : (
                 <div className={s.adBarSlot}>
@@ -2530,6 +2651,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             );
           })()}
           </div>}
+          {showEditor && !inMyCode && !isMobile && activeSn?.category && <RelatedSnippetsBar activeId={activeId} category={activeSn.category} />}
         </div>
 
       </div>

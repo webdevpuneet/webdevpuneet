@@ -122,9 +122,10 @@ function UiSnippetsToolSection() {
 export default function UiSnippetsLayout({ children }) {
   const pathname = usePathname();
 
-  // Playground top nav on every UI Snippets page — gallery, categories, tags, snippet
-  // pages and My Code (grid and editor). Embeds return early below and get none.
-  const showNav = true;  // top nav shows on every ui-snippets page, individual snippets included
+  // Playground top nav (UI Snippets | Website Builder | ... | Bootstrap): switched off on every UI
+  // Snippets page (2026-11-03), so the editor gets the full height. Set to true to bring it back
+  // on every page (gallery, categories, tags, snippet pages and My Code). Embeds get none either way.
+  const showNav = false;
 
   // The snippet editor fills the screen BELOW the nav, so it needs the nav's real
   // height (a hard-coded number breaks the moment the nav wraps or its font changes,

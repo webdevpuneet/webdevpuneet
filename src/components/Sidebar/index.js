@@ -13,7 +13,8 @@ import CookieSettingsButton from '@/components/CookieSettingsButton';
 // The lightweight index + categories, not UiSnippetsTool/snippets (which bundles every snippet's source).
 import { CATEGORIES as SNIPPET_CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import { SNIPPET_INDEX as SNIPPETS, VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
-import { dbGetAll as dbGetAllCustomSnippets, dbDelete as dbDeleteCustomSnippet } from '@/lib/uiSnippetsDb';
+import { dbGetAll as dbGetAllCustomSnippets } from '@/lib/uiSnippetsDb';
+import MyProjectsTab, { useProjects } from './MyProjects';
 import { publishedTags, tagsForSnippetId } from '@/lib/snippet-tags';
 // Snapshot of fwdtools' sidebar groups — regenerate with scripts/sync-fwdtools-sidebar.mjs
 import FWD_SIDEBAR from '@/data/fwdtools-sidebar.json';
@@ -832,13 +833,6 @@ function MoreTools({ activeSlug, query }) {
   );
 }
 
-/* ─────────────────────────────────────────────────────────────
-   LibraryTab — UI Snippets library search + category filter
-───────────────────────────────────────────────────────────── */
-const LIB_CATEGORIES = SNIPPET_CATEGORIES.filter(cat => !cat.devOnly || process.env.NODE_ENV !== 'production');
-const LIB_TAGS = publishedTags(VISIBLE_SNIPPETS);
-const LIB_PAGE_SIZE = 20;
-
 // Home-icon link placed after the sort button: the gallery for the panel it sits in.
 function GalleryBtn({ href, label }) {
   return (
@@ -864,565 +858,15 @@ function SortBtn({ order, onToggle }) {
   );
 }
 
-const LIB_CATEGORY_KEY = 'uis_sidebar_category';
-const LIB_TAG_KEY = 'uis_sidebar_tag';
-const LIB_QUERY_KEY = 'uis_sidebar_query';
-const LIB_SORT_KEY = 'uis_sidebar_sort';
 // Shared with UiSnippetsGallery (the main /ui-snippets/ page content) — see
 // that file for why a plain localStorage write alone isn't enough to keep
 // the two in sync live: this sidebar never remounts on a client navigation,
 // so it needs an explicit same-tab signal to know a key changed underneath it.
-const SYNC_EVENT = 'uis-filters-changed';
 // Related on/off + sort order, read by UiSnippetsTool's Prev / Next / Random.
-const SIDEBAR_NAV_EVENT = 'uis-sidebar-nav';
-
-function LibraryTab({ pathname }) {
-  // Persisted so the search text (and the filters below) survive a hard
-  // navigation — e.g. clicking a snippet reloads the whole page, remounting
-  // the sidebar from scratch, which would otherwise silently clear whatever
-  // the reader had just typed.
-  const [libQuery, setLibQueryState] = useState('');
-  const [libCategory, setLibCategoryState] = useState('all');
-  const [libTag, setLibTagState] = useState(null);
-  function loadFromStorage() {
-    try {
-      const savedQuery = localStorage.getItem(LIB_QUERY_KEY);
-      setLibQueryState(savedQuery || '');
-      const savedTag = localStorage.getItem(LIB_TAG_KEY);
-      if (savedTag) {
-        setLibTagState(savedTag);
-        setLibCategoryState('all');
-      } else {
-        setLibTagState(null);
-        setLibCategoryState(localStorage.getItem(LIB_CATEGORY_KEY) || 'all');
-      }
-    } catch {}
-  }
-  useEffect(() => {
-    loadFromStorage();
-    // The gallery page (UiSnippetsGallery) writes the same three keys and
-    // fires this same event on every search keystroke and on every
-    // category/tag route it renders — since this sidebar lives in the root
-    // layout and never remounts on that kind of navigation, this listener is
-    // what actually picks the change up live instead of only on next mount.
-    window.addEventListener(SYNC_EVENT, loadFromStorage);
-    return () => window.removeEventListener(SYNC_EVENT, loadFromStorage);
-  }, []);
-  function setLibQuery(value) {
-    setLibQueryState(value);
-    try {
-      if (value) localStorage.setItem(LIB_QUERY_KEY, value);
-      else localStorage.removeItem(LIB_QUERY_KEY);
-    } catch {}
-    window.dispatchEvent(new Event(SYNC_EVENT));
-  }
-  // Category and tag are mutually exclusive — picking one clears the other,
-  // so only one filter is ever the active one.
-  function setLibCategory(id) {
-    setLibCategoryState(id);
-    try { localStorage.setItem(LIB_CATEGORY_KEY, id); } catch {}
-    setLibTagState(null);
-    try { localStorage.removeItem(LIB_TAG_KEY); } catch {}
-    window.dispatchEvent(new Event(SYNC_EVENT));
-  }
-  function setLibTag(id) {
-    setLibTagState(id);
-    // Selecting a tag resets category back to "All categories" — so it
-    // sorts first and shows active, matching how the two stay mutually
-    // exclusive in the other direction.
-    setLibCategoryState('all');
-    try { localStorage.setItem(LIB_CATEGORY_KEY, 'all'); } catch {}
-    try {
-      if (id) localStorage.setItem(LIB_TAG_KEY, id);
-      else localStorage.removeItem(LIB_TAG_KEY);
-    } catch {}
-    window.dispatchEvent(new Event(SYNC_EVENT));
-  }
-  const [libStart, setLibStart] = useState(0);
-  const [libVisible, setLibVisible] = useState(LIB_PAGE_SIZE);
-  // Persisted like the other filters above, so newest-first/oldest-first
-  // survives a hard navigation instead of silently resetting to newest.
-  const [sortOrder, setSortOrderState] = useState('newest');
-  useEffect(() => {
-    try { setSortOrderState(localStorage.getItem(LIB_SORT_KEY) || 'newest'); } catch {}
-  }, []);
-  function setSortOrder(updater) {
-    setSortOrderState(prev => {
-      const next = typeof updater === 'function' ? updater(prev) : updater;
-      try { localStorage.setItem(LIB_SORT_KEY, next); } catch {}
-      return next;
-    });
-  }
-  // "Related" is OFF by default: a snippet page opens the sidebar on the normal full
-  // library, and Prev / Next / Random (which follow the sidebar's list) step through
-  // that same normal order. The Related chip is an opt-in: turning it on scopes the
-  // sidebar and Prev / Next / Random to the open snippet's category, as long as no
-  // search, category or tag filter is set (canShowRelated below; a filter always wins).
-  // It only lasts for the current page: the next snippet page starts off again
-  // (reset in the effect under activeId). Not persisted.
-  const [relatedOn, setRelatedOn] = useState(false);
-  const snippetListRef = useRef(null);
-  const loadMoreBtnRef = useRef(null);
-
-  // The current /ui-snippets/[id]/ page, if any — resolves to null (and the
-  // effect below no-ops) on every other route, category gallery, or /mycode/.
-  const activeId = pathname?.match(/^\/ui-snippets\/([^/]+)\/?$/)?.[1] || null;
-  // Landing on a (new) snippet page starts with Related off.
-  useEffect(() => { if (activeId) setRelatedOn(false); }, [activeId]);
-
-  const snippetById = useMemo(() => new Map(VISIBLE_SNIPPETS.map(sn => [sn.id, sn])), []);
-
-  // Whether the "Related" toggle can even show — only on an individual
-  // snippet page, and only while the reader hasn't already narrowed the list
-  // with a search term or a category/tag filter (those two ways of slicing
-  // the library don't mix). Gallery, tag, category, and My Code pages never
-  // set activeId, so this — and related mode itself — is always off there.
-  const canShowRelated = !!activeId && !libQuery.trim() && libCategory === 'all' && !libTag;
-  const showRelated = canShowRelated && relatedOn;
-
-  // The preview toolbar's Prev / Next / Random (UiSnippetsTool, a separate
-  // tree with no shared state) follow this list while Related is on. Publish
-  // it on window as well as via an event, since either side may mount first.
-  // (The publishing effect lives below, right after `filtered` is defined.)
-  // Library tab closed (Tools / My Code / Blog tab): its Related list is gone, so stop scoping.
-  useEffect(() => () => {
-    const detail = { related: false, sort: 'newest', ids: null };
-    window.__uisSidebarNav = detail;
-    window.dispatchEvent(new CustomEvent(SIDEBAR_NAV_EVENT, { detail }));
-  }, []);
-
-  // "Related" is just the active snippet's own category, browsed the exact
-  // same way a real category filter is — same list, same sort, same active
-  // snippet visible in place. It reuses the existing "keep the open snippet
-  // in view with Load previous/next" effect below rather than a bespoke pool,
-  // so it behaves identically to clicking that category chip.
-  const filtered = useMemo(() => {
-    const activeSn = showRelated ? snippetById.get(activeId) : null;
-    const effectiveCategory = activeSn ? activeSn.category : libCategory;
-    const q = libQuery.trim().toLowerCase();
-    const isDev = effectiveCategory === 'dev';
-    const pool = isDev ? SNIPPETS : VISIBLE_SNIPPETS;
-    // A tag is a cross-cutting filter — when one is active it replaces the
-    // category filter entirely, same as the /ui-snippets/tag/ pages do.
-    const matchOk = sn => libTag
-      ? tagsForSnippetId(sn.id).includes(libTag)
-      : (isDev ? sn.noindex === true : (effectiveCategory === 'all' || sn.category === effectiveCategory));
-    const list = pool.filter(sn => matchOk(sn) && (!q || sn.title.toLowerCase().includes(q) || sn.category.toLowerCase().includes(q)));
-    return sortOrder === 'newest' ? [...list].reverse() : list;
-  }, [libQuery, libCategory, libTag, sortOrder, showRelated, activeId, snippetById]);
-
-  // `ids` is the exact ordered list the sidebar is showing (search, category,
-  // tag, Related and sort all applied), so Prev / Next / Random stay inside
-  // whatever filtered stack the reader is looking at — including a filter that
-  // was restored automatically from storage. Must come after `filtered`.
-  useEffect(() => {
-    const detail = { related: showRelated, sort: sortOrder, ids: filtered.map(sn => sn.id) };
-    window.__uisSidebarNav = detail;
-    window.dispatchEvent(new CustomEvent(SIDEBAR_NAV_EVENT, { detail }));
-  }, [showRelated, sortOrder, filtered]);
-
-  useEffect(() => { setLibStart(0); setLibVisible(LIB_PAGE_SIZE); }, [libQuery, libCategory, libTag, sortOrder, showRelated]);
-
-  // Infinite scroll at the bottom only (not "Load previous" at the top) —
-  // once the "Load next" button scrolls into view, click it for real
-  // rather than duplicating its logic, so there's a single source of truth
-  // for what happens on click vs. auto-trigger.
-  const hasMore = libVisible < filtered.length;
-  useEffect(() => {
-    const btn = loadMoreBtnRef.current;
-    const root = snippetListRef.current;
-    if (!hasMore || !btn || !root) return;
-    const io = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) btn.click();
-    }, { root, rootMargin: '150px' });
-    io.observe(btn);
-    return () => io.disconnect();
-  }, [hasMore, filtered.length]);
-
-
-  // Whenever the open snippet changes, make sure it falls inside the visible
-  // window and scroll it into view — so the panel always shows the current
-  // snippet as active even if it sits on a later page. Only reacts to
-  // activeId/list changes, so it never fights manual Load previous/next clicks.
-  useEffect(() => {
-    if (!activeId) return;
-    const idx = filtered.findIndex(sn => sn.id === activeId);
-    if (idx < 0) return;
-    let start = idx;
-    let end = start + LIB_PAGE_SIZE;
-    if (end > filtered.length) {
-      end = filtered.length;
-      start = Math.max(0, end - LIB_PAGE_SIZE);
-    }
-    setLibStart(start);
-    setLibVisible(end);
-    requestAnimationFrame(() => {
-      const el = snippetListRef.current?.querySelector(`[data-snip-id="${activeId}"]`);
-      if (el) el.scrollIntoView({ block: 'nearest' });
-    });
-  }, [activeId, filtered]);
-
-  // Hover preview: a larger copy of the snippet's thumbnail floating beside the
-  // sidebar. Fixed-positioned from the row's rect so the list's own scroll
-  // container can't clip it.
-  const [hoverPreview, setHoverPreview] = useState(null);
-  const hoverTimer = useRef(null);
-  // The preview rides along with the pointer vertically (max 300x300): the stage's `top`
-  // is set straight on the element, so moving the mouse never re-renders anything.
-  const hoverStageRef = useRef(null);
-  const hoverYRef = useRef(0);
-  function placeHoverStage(y) {
-    const el = hoverStageRef.current;
-    if (!el) return;
-    const h = el.offsetHeight;
-    el.style.top = `${Math.min(Math.max(12, y - h / 2), window.innerHeight - h - 12)}px`;
-  }
-  function showHoverPreview(e, id, title) {
-    const r = e.currentTarget.getBoundingClientRect();
-    // The dim + preview start at the sidebar's own right edge (not the row's, which
-    // sits a few pixels inside it), so the sidebar itself is never darkened.
-    const edge = e.currentTarget.closest('aside')?.getBoundingClientRect().right ?? r.right;
-    const next = { id, title, left: edge + 12 };
-    hoverYRef.current = r.top + r.height / 2;
-    clearTimeout(hoverTimer.current);
-    if (hoverPreview) {
-      // Already showing: just swap to this row's image, no fade or delay.
-      setHoverPreview(next);
-    } else {
-      // First show gets a short delay so a quick sweep down the list doesn't flash.
-      hoverTimer.current = setTimeout(() => setHoverPreview(next), 120);
-    }
-  }
-  function hideHoverPreview() {
-    // Deferred a beat so moving to the next row swaps instead of hide-then-show.
-    clearTimeout(hoverTimer.current);
-    hoverTimer.current = setTimeout(() => setHoverPreview(null), 80);
-  }
-  function closeHoverPreview() {
-    clearTimeout(hoverTimer.current);
-    setHoverPreview(null);
-  }
-  useEffect(() => () => clearTimeout(hoverTimer.current), []);
-  // Watchdog: row mouseleave alone is not reliable — it never fires when the
-  // list scrolls under a still pointer, when a row re-renders or unmounts
-  // (click → navigation), or when the pointer exits the window fast. While a
-  // preview is open, every pointer move checks what is actually under the
-  // pointer, and anything that means "not hovering" closes it.
-  // Escape, hovering the preview image and a click anywhere also close it.
-  const hoverOpen = !!hoverPreview;
-  useEffect(() => {
-    if (!hoverOpen) return;
-    const stillHovering = el =>
-      !!(el && el.closest && el.closest('aside [data-snip-id]'));
-    // One-shot grace timer (not re-armed on every move, or constant motion
-    // would postpone the close forever); crossing the gap between two rows
-    // cancels it.
-    let leaveTimer = null;
-    const onMove = e => {
-      hoverYRef.current = e.clientY;
-      placeHoverStage(e.clientY);
-      if (stillHovering(e.target)) { clearTimeout(leaveTimer); leaveTimer = null; return; }
-      if (!leaveTimer) leaveTimer = setTimeout(closeHoverPreview, 100);
-    };
-    const onScroll = () => closeHoverPreview();          // the row under the pointer just changed
-    const onOut = e => { if (!e.relatedTarget) closeHoverPreview(); };   // pointer left the window
-    const onKey = e => { if (e.key === 'Escape') closeHoverPreview(); };
-    const onDown = () => closeHoverPreview();
-    window.addEventListener('pointermove', onMove, { passive: true });
-    window.addEventListener('scroll', onScroll, { passive: true, capture: true });
-    window.addEventListener('wheel', onScroll, { passive: true });
-    document.addEventListener('mouseout', onOut);
-    window.addEventListener('blur', closeHoverPreview);
-    document.addEventListener('visibilitychange', closeHoverPreview);
-    window.addEventListener('keydown', onKey);
-    window.addEventListener('pointerdown', onDown, true);
-    return () => {
-      clearTimeout(leaveTimer);
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('scroll', onScroll, { capture: true });
-      window.removeEventListener('wheel', onScroll);
-      document.removeEventListener('mouseout', onOut);
-      window.removeEventListener('blur', closeHoverPreview);
-      document.removeEventListener('visibilitychange', closeHoverPreview);
-      window.removeEventListener('keydown', onKey);
-      window.removeEventListener('pointerdown', onDown, true);
-    };
-  }, [hoverOpen]); // eslint-disable-line react-hooks/exhaustive-deps
-  // Navigating to another snippet always dismisses it.
-  useEffect(() => { closeHoverPreview(); }, [activeId]); // eslint-disable-line react-hooks/exhaustive-deps
-  // A newly shown / swapped preview is placed beside the pointer straight away.
-  useEffect(() => { if (hoverPreview) placeHoverStage(hoverYRef.current); }, [hoverPreview?.id]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  return (
-    <>
-      <div className={styles.libSearchWrap}>
-        <div className={styles.libSearchBox}>
-          <svg className={styles.libSearchIcon} width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input
-            type="search"
-            className={styles.libSearchInput}
-            placeholder={`Search ${VISIBLE_SNIPPETS.length} snippets...`}
-            value={libQuery}
-            onChange={e => setLibQuery(e.target.value)}
-            aria-label="Search UI snippets"
-          />
-          {canShowRelated && (
-            <button
-              type="button"
-              className={`${styles.relatedChip} ${showRelated ? styles.relatedChipActive : ''}`}
-              onClick={() => setRelatedOn(!relatedOn)}
-              title={showRelated ? 'Showing snippets related to this one — click to show the full library' : 'Show snippets related to this one'}
-              aria-pressed={showRelated}
-            >
-              Related
-            </button>
-          )}
-        </div>
-        <SortBtn order={sortOrder} onToggle={() => setSortOrder(o => o === 'newest' ? 'oldest' : 'newest')} />
-        <GalleryBtn href="/ui-snippets/" label="All snippets" />
-      </div>
-
-
-      {(libTag || libCategory !== 'all') && (
-        <div className={styles.activeFilterBar}>
-          <span className={styles.activeFilterLabel}>
-            Filter: {libTag ? LIB_TAGS.find(t => t.id === libTag)?.label : LIB_CATEGORIES.find(c => c.id === libCategory)?.label}
-          </span>
-          <button className={styles.activeFilterClear} onClick={() => setLibCategory('all')} aria-label="Clear filter" title="Clear filter">
-            ✕
-          </button>
-        </div>
-      )}
-
-      <div className={styles.filterColsWrap}>
-        <div className={styles.filterCols}>
-          {/* Category (left) and Tag (right) — mutually exclusive filters.
-              Selected item sorts first in each column so it's visible in the
-              collapsed 50px strip; hovering either side reveals both columns
-              in full, overlaid on top of the snippet list below. */}
-          <div className={styles.filterCol}>
-            {[...LIB_CATEGORIES].sort((a, b) => (a.id === libCategory ? -1 : b.id === libCategory ? 1 : 0)).map(cat => (
-              <button
-                key={cat.id}
-                className={`${styles.chip} ${libCategory === cat.id ? styles.chipActive : ''}`}
-                onClick={() => setLibCategory(cat.id)}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-          <div className={styles.filterCol}>
-            {[{ id: null, label: 'All tags' }, ...LIB_TAGS]
-              .sort((a, b) => (a.id === libTag ? -1 : b.id === libTag ? 1 : 0))
-              .map(tag => (
-              <button
-                key={tag.id ?? 'all'}
-                className={`${styles.chip} ${libTag === tag.id ? styles.chipActive : ''}`}
-                onClick={() => setLibTag(tag.id)}
-              >
-                {tag.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.snippetList} ref={snippetListRef} aria-label="UI snippet library">
-        {filtered.length === 0 && <div className={styles.noResults}>No snippets match</div>}
-        {libStart > 0 && (
-          <button className={styles.loadMoreSidebar} onClick={() => setLibStart(v => Math.max(0, v - LIB_PAGE_SIZE))}>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="18 15 12 9 6 15"/></svg>
-            Load {Math.min(LIB_PAGE_SIZE, libStart)} previous
-          </button>
-        )}
-        {filtered.slice(libStart, libVisible).map(sn => (
-          <a
-            key={sn.id}
-            href={`/ui-snippets/${sn.id}/`}
-            data-snip-id={sn.id}
-            onMouseEnter={e => showHoverPreview(e, sn.id, sn.title)}
-            onMouseLeave={hideHoverPreview}
-            className={`${styles.snippetItem} ${sn.id === activeId ? styles.snippetItemActive : ''}`}
-          >
-            <img className={styles.snippetThumb} src={`/images/ui-snippets/previews/${sn.id}.png`} alt="" loading="lazy" />
-            <span className={styles.snippetBody}>
-              <span className={styles.snippetTitle}>{sn.title}</span>
-              <span className={styles.snippetSub}>{sn.category}</span>
-            </span>
-            {sn.noindex && <span className={styles.devPill} title="Not live yet — visible only in dev">dev</span>}
-          </a>
-        ))}
-        {hoverPreview && (
-          // Starts at the sidebar's right edge and follows the pointer up and down; the image is
-          // capped at 300×300 and only scales down, never up. Image only, no title.
-          <div ref={hoverStageRef} className={styles.hoverStage} style={{ left: hoverPreview.left - 12 }}>
-            {/* The preview is a peek, not a destination: pointing at it closes it. */}
-            <div className={styles.hoverFrame} onMouseEnter={closeHoverPreview}>
-              <div className={styles.hoverBox}>
-                <img
-                  className={styles.hoverPreview}
-                  src={`/images/ui-snippets/previews/${hoverPreview.id}.png`}
-                  alt=""
-                  onLoad={() => placeHoverStage(hoverYRef.current)}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-        {libVisible < filtered.length && (
-          <button ref={loadMoreBtnRef} className={styles.loadMoreSidebar} onClick={() => setLibVisible(v => v + LIB_PAGE_SIZE)}>
-            Load {Math.min(LIB_PAGE_SIZE, filtered.length - libVisible)} next
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-        )}
-        {filtered.length > 0 && (
-          <div className={styles.snippetListCount}>
-            {Math.min(libStart + 1, filtered.length)}–{Math.min(libVisible, filtered.length)} of {filtered.length}
-          </div>
-        )}
-      </div>
-    </>
-  );
-}
 
 /* ─────────────────────────────────────────────────────────────
-   MyCodeTab — saved custom snippets (IndexedDB), read-only browse
+   My Projects (MyProjects.js) — a log of everything saved in this browser: code, websites, sections, emails, posts
 ───────────────────────────────────────────────────────────── */
-function MyCodeTab({ pathname, snippets }) {
-  const [mcQuery, setMcQuery] = useState('');
-  const [sortOrder, setSortOrder] = useState('newest');
-  const [activeId, setActiveId] = useState(null);
-  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
-  const [deleting, setDeleting] = useState(false);
-
-  async function handleConfirmDelete(id) {
-    setDeleting(true);
-    try { await dbDeleteCustomSnippet(id); } catch {}
-    setDeleting(false);
-    setConfirmDeleteId(null);
-  }
-
-  // Read the active ?id= client-side only — avoids requiring a Suspense
-  // boundary around the whole app just to highlight the open snippet.
-  // The ?id= can change without the pathname changing (forking a snippet, or
-  // clicking another saved one), so also follow pushState/replaceState and
-  // back/forward — Next's router uses the History API for those.
-  useEffect(() => {
-    const read = () => {
-      try { setActiveId(new URLSearchParams(window.location.search).get('id')); } catch { setActiveId(null); }
-    };
-    read();
-    const origPush = window.history.pushState;
-    const origReplace = window.history.replaceState;
-    // Deferred so Next has committed the new URL before it is read.
-    const patched = orig => function () {
-      const ret = orig.apply(this, arguments);
-      setTimeout(read, 0);
-      return ret;
-    };
-    window.history.pushState = patched(origPush);
-    window.history.replaceState = patched(origReplace);
-    window.addEventListener('popstate', read);
-    return () => {
-      window.history.pushState = origPush;
-      window.history.replaceState = origReplace;
-      window.removeEventListener('popstate', read);
-    };
-  }, [pathname]);
-
-  const filtered = useMemo(() => {
-    const q = mcQuery.trim().toLowerCase();
-    const list = q ? snippets.filter(sn => (sn.name || '').toLowerCase().includes(q)) : snippets;
-    return sortOrder === 'newest' ? list : [...list].reverse();
-  }, [snippets, mcQuery, sortOrder]);
-
-  return (
-    <>
-      <div className={styles.libSearchWrap}>
-        <div className={styles.libSearchBox}>
-          <svg className={styles.libSearchIcon} width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input
-            type="search"
-            className={styles.libSearchInput}
-            placeholder="Search saved..."
-            value={mcQuery}
-            onChange={e => setMcQuery(e.target.value)}
-            aria-label="Search saved snippets"
-          />
-        </div>
-        <SortBtn order={sortOrder} onToggle={() => setSortOrder(o => o === 'newest' ? 'oldest' : 'newest')} />
-        <GalleryBtn href="/ui-snippets/mycode/" label="All My Code snippets" />
-      </div>
-
-      <div className={styles.snippetList} aria-label="My saved snippets">
-        {/* Same destination as the Create button in the snippet header: a blank editor */}
-        <a href="/ui-snippets/mycode/?new=1" className={styles.createNewRow}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Create new
-        </a>
-        {filtered.length === 0 && (
-          <div className={styles.noResults}>
-            {snippets.length === 0
-              ? 'No saved snippets yet — open a library snippet and click "Save as".'
-              : 'No results'
-            }
-          </div>
-        )}
-        {filtered.map(sn => (
-          confirmDeleteId === sn.id ? (
-            <div key={sn.id} className={styles.snippetItem} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-              <span style={{ fontSize: 12, color: 'var(--text2)' }}>Delete &ldquo;{sn.name || 'Untitled'}&rdquo;?</span>
-              <span style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-                <button
-                  type="button"
-                  onClick={() => setConfirmDeleteId(null)}
-                  disabled={deleting}
-                  style={{ fontSize: 11, fontWeight: 600, padding: '3px 8px', borderRadius: 6, border: '1px solid var(--border2)', background: 'none', color: 'var(--text2)', cursor: 'pointer' }}
-                >Cancel</button>
-                <button
-                  type="button"
-                  onClick={() => handleConfirmDelete(sn.id)}
-                  disabled={deleting}
-                  style={{ fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 6, border: 'none', background: '#dc2626', color: '#fff', cursor: 'pointer' }}
-                >{deleting ? '...' : 'Delete'}</button>
-              </span>
-            </div>
-          ) : (
-            <div key={sn.id} className={styles.myCodeRow}>
-              <a
-                href={`/ui-snippets/mycode/?id=${sn.id}`}
-                className={`${styles.snippetItem} ${pathname === '/ui-snippets/mycode/' && activeId === sn.id ? styles.snippetItemActive : ''}`}
-                style={{ flex: 1, minWidth: 0 }}
-              >
-                <span className={styles.myCodeText}>
-                  <span className={styles.snippetTitle}>{sn.name || 'Untitled'}</span>
-                  {sn.tags?.length > 0 && (
-                    <span className={styles.myCodeTags}>
-                      {sn.tags.map(tag => <span key={tag} className={styles.myCodeTag}>{tag}</span>)}
-                    </span>
-                  )}
-                </span>
-              </a>
-              <button
-                type="button"
-                onClick={() => setConfirmDeleteId(sn.id)}
-                aria-label={`Delete "${sn.name || 'Untitled'}"`}
-                title="Delete"
-                className={styles.myCodeDeleteBtn}
-                style={{ flexShrink: 0, width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', borderRadius: 5 }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#dc2626'; e.currentTarget.style.background = 'var(--surface2)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = 'var(--text3)'; e.currentTarget.style.background = 'none'; }}
-              >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-              </button>
-            </div>
-          )
-        ))}
-      </div>
-    </>
-  );
-}
-
 /* ─────────────────────────────────────────────────────────────
    BlogTab — latest posts from the WordPress blog (webdevpuneet.com/blog/)
 ───────────────────────────────────────────────────────────── */
@@ -1567,15 +1011,8 @@ function BlogTicker() {
 /* ─────────────────────────────────────────────────────────────
    Sidebar
 ───────────────────────────────────────────────────────────── */
-// Which sidebar tab a route should default to: any /ui-snippets/mycode page →
-// My Code, any other /ui-snippets page (gallery, category, tag, snippet) →
-// Library, and the home page and every tool page → Tools (the home page also opens
-// the UI Snippets group).
-function defaultSidebarViewFor(pathname) {
-  if (pathname?.startsWith('/ui-snippets/mycode')) return 'mycode';
-  if (pathname?.startsWith('/ui-snippets')) return 'library';
-  return 'tools';
-}
+const SIDEBAR_VIEW_KEY = 'wdp-sidebar-view';
+const SIDEBAR_VIEWS = ['tools', 'blog', 'mycode'];
 
 /* Sidebar top ad — AdSense (slot 6939815965) at a fixed size, never "auto", so the
    sidebar doesn't shift while a creative loads: 300x250 medium rectangle on desktop,
@@ -1638,17 +1075,26 @@ export default function Sidebar() {
   // client render must match to avoid a hydration mismatch) and is corrected
   // from localStorage in an effect immediately after mount.
   const [collapsed, setCollapsed] = useState(false);
-  const [sidebarView, setSidebarView] = useState(() => defaultSidebarViewFor(pathname));
-
-  // Re-derive the default tab whenever the route changes (client-side nav keeps
-  // the sidebar mounted) — /ui-snippets pages open on Library, My Code on My Code,
-  // and every other page (Home, a tool page) on Tools. A manual tab click
-  // still wins until the next navigation changes the page type.
+  // Tools by default on every page. The tab a visitor clicks is remembered in this browser, so My Code (or
+  // Blog) stays open on the next page load. Starts on Tools for the server render and the first client render
+  // (they must match), then switches to the remembered tab in an effect.
+  const [sidebarView, setSidebarView] = useState('tools');
   useEffect(() => {
-    setSidebarView(defaultSidebarViewFor(pathname));
-  }, [pathname]);
+    try {
+      const saved = localStorage.getItem(SIDEBAR_VIEW_KEY);
+      if (SIDEBAR_VIEWS.includes(saved)) setSidebarView(saved);
+    } catch { /* storage blocked: stay on Tools */ }
+  }, []);
+  const chooseSidebarView = view => {
+    setSidebarView(view);
+    try { localStorage.setItem(SIDEBAR_VIEW_KEY, view); } catch { /* ignore */ }
+  };
+
+  // The sidebar opens on Tools on every page. A tab the visitor clicks stays selected while they
+  // move between pages (client-side navigation keeps the sidebar mounted); a fresh page load opens on Tools again.
 
   const [customSnippets, setCustomSnippets] = useState([]);
+  const projects = useProjects(); // saved websites, sections, emails and posts, for the My Projects tab
 
   // Loaded on mount (for the My Code tab badge), refreshed whenever the My Code
   // tab is opened, and refreshed live on every save/delete/clear anywhere on the
@@ -1859,32 +1305,27 @@ export default function Sidebar() {
         {/* Latest blog posts, one at a time, right under the ad. */}
         <BlogTicker />
 
-        {/* View tabs — all four only switch the panel; the My Code panel has Create new / All Snippets links for navigating */}
+        {/* View tabs (Tools, Tips (the blog), My Code) — they only switch the panel; the My Code panel has Create new / All Snippets links for navigating */}
         <div className={styles.viewTabs}>
           <button
-            className={`${styles.viewTab} ${sidebarView === 'library' ? styles.viewTabActive : ''}`}
-            onClick={() => setSidebarView('library')}
-          >Library</button>
-          <button
             className={`${styles.viewTab} ${sidebarView === 'tools' ? styles.viewTabActive : ''}`}
-            onClick={() => setSidebarView('tools')}
+            onClick={() => chooseSidebarView('tools')}
           >Tools</button>
           <button
             className={`${styles.viewTab} ${sidebarView === 'blog' ? styles.viewTabActive : ''}`}
-            onClick={() => setSidebarView('blog')}
-          >Blog</button>
+            onClick={() => chooseSidebarView('blog')}
+          >Tips</button>
           <button
             className={`${styles.viewTab} ${sidebarView === 'mycode' ? styles.viewTabActive : ''}`}
-            onClick={() => setSidebarView('mycode')}
+            onClick={() => chooseSidebarView('mycode')}
           >
-            My Code
-            {customSnippets.length > 0 && <span className={styles.savedCount}>{customSnippets.length}</span>}
+            My Projects
+            {customSnippets.length + projects.length > 0 && <span className={styles.savedCount}>{customSnippets.length + projects.length}</span>}
           </button>
         </div>
 
-        {sidebarView === 'library' && <LibraryTab pathname={pathname} />}
         {sidebarView === 'blog' && <BlogTab />}
-        {sidebarView === 'mycode' && <MyCodeTab pathname={pathname} snippets={customSnippets} />}
+        {sidebarView === 'mycode' && <MyProjectsTab snippets={customSnippets} projects={projects} />}
 
         {sidebarView === 'tools' && (
           <>

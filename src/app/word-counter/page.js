@@ -3,6 +3,7 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import styles from '../tool-page.module.css';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 
 export const metadata = {
   title: "Word Counter: Count Words, Characters and Reading Time",
@@ -220,6 +221,7 @@ export default function WordCounterPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <PlaygroundTopAd />
       <div className={styles.toolSection}><WordCounterTool /></div>
       <IndexOnly><AdSlot />
       <SeoSection heading="Free Online Word Counter — Words, Characters, Reading Time & Readability" {...SEO} /></IndexOnly>

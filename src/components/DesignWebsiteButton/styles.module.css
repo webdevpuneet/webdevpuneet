@@ -62,6 +62,8 @@
   cursor: pointer;
 }
 @media print { .wrap { display: none; } }
+/* UI snippet pages have a 90px related-snippets bar along the bottom: sit above it */
+.lift { bottom: 110px; }
 
 /* Folded state: a slim vertical tab on the right edge, below the share bar */
 .tab {

@@ -5,6 +5,8 @@
 
 export const ADS_ENABLED = true;
 export const SIDEBAR_AD_ENABLED = true;
+// The leaderboard above the preview on individual UI snippet pages (slot 7360198340). Off since 2026-11-03.
+export const SNIPPET_TOP_AD_ENABLED = false;
 
 // Ads run on every page, My Code included. My Code must keep its full-height editor:
 // AdSense *auto* ads once injected a "Discover more" block into the code column and
@@ -14,8 +16,7 @@ export const SIDEBAR_AD_ENABLED = true;
 export function adsAllowedOnPath() {
   return true;
 }
-/** Pages whose layout auto-placed ads would break: the whole UI Snippets area (the editor
-    panels, My Code, and the "Discover more" strip AdSense inserted above the preview) */
+/** Pages whose layout auto-placed ads would break */
 export function noAutoAdsOnPath(pathname) {
-  return /^\/ui-snippets(\/|$)/.test(pathname || '');
+  return /^\/ui-snippets\/mycode(\/|$)/.test(pathname || '');
 }

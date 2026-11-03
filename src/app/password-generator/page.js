@@ -3,6 +3,7 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import styles from '../tool-page.module.css';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 
 export const metadata = {
   title: "Password Generator: Strong Random Passwords and PINs",
@@ -215,6 +216,7 @@ export default function PasswordGeneratorPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
+      <PlaygroundTopAd />
       <div className={styles.toolSection}><PasswordGeneratorTool /></div>
       <IndexOnly><AdSlot />
       <SeoSection {...seoData} /></IndexOnly>

@@ -3,6 +3,7 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import styles from '../tool-page.module.css';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 
 const OG_IMAGE = 'https://webdevpuneet.com/images/schema-markup-generator.png';
 
@@ -149,6 +150,7 @@ export default function SchemaMarkupGeneratorPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <PlaygroundTopAd />
       <div className={styles.toolSection}><SchemaMarkupGeneratorTool /></div>
       <AdSlot />
       <IndexOnly><SeoSection {...SEO} /></IndexOnly>
