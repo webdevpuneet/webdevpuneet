@@ -7,7 +7,7 @@
 .h1 { font-size: clamp(28px, 4vw, 42px); line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 12px; color: var(--text); }
 .lead { max-width: 760px; font-size: 17px; line-height: 1.65; color: var(--text2); margin: 0 0 22px; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
-.btn { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 20px; border-radius: 10px; background: var(--accent); color: #fff; font-weight: 700; font-size: 15px; text-decoration: none; border: 2px solid var(--accent); }
+.btn { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 20px; border-radius: 10px; background: var(--accent); color: #fff; font-weight: 700; font-size: 15px; text-decoration: none; border: 2px solid var(--accent); cursor: pointer; }
 .btn:hover { filter: brightness(1.08); }
 .btnGhost { background: transparent; color: var(--text); border-color: var(--border2); }
 .btnGhost:hover { border-color: var(--accent); filter: none; }

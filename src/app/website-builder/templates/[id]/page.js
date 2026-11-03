@@ -6,6 +6,7 @@ import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import { websiteAiPrompt } from '@/components/SectionTemplates/templates/ai-prompts.js';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import AiPromptPanel from '@/components/WebsiteBuilder/AiPromptPanel';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from '@/components/SectionTemplates/templates/starters.js';
 import { starterPageList } from '@/components/SectionTemplates/templates/site.js';
@@ -190,6 +191,7 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
                 </section>
               )}
               <a className={`${st.btn} ${st.btnGhost} ${st.allBtn}`} href="/website-builder/"><span aria-hidden="true">←</span> All website templates</a>
+              <AiPromptPanel prompt={ai?.prompt} title={`${t.name} website template`} />
             </div>
             {multi && (
               <div className={st.box}>
