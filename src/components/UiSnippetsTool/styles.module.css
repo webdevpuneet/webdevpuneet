@@ -1912,7 +1912,7 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
   transition: border-color 0.12s, transform 0.12s;
 }
 .relatedCard:hover { border-color: #6366f1; transform: translateY(-1px); }
-.relatedThumb { flex: none; width: 132px; height: 100%; object-fit: cover; object-position: top; border-radius: 0; background: var(--surface3); }
+.relatedThumb { flex: none; width: 132px; height: 100%; object-fit: contain; object-position: center; border-radius: 0; background: var(--surface3); } /* the whole preview picture, never cropped */
 .relatedName {
   min-width: 0;
   font-size: 12px;
