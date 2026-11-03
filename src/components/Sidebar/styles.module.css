@@ -1991,3 +1991,5 @@ a.sortBtn { text-decoration: none; }
 .projThumb { flex: none; width: 34px; height: 34px; border-radius: 7px; object-fit: cover; object-position: top; display: flex; align-items: center; justify-content: center; font: 800 12px var(--font-ui); background: var(--surface2); }
 .projMeta { font-size: 10.5px; line-height: 1.3; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+/* count on a sidebar link (saved AI prompts) */
+.linkCount { margin-left: auto; flex: none; font-size: 9.5px; font-weight: 700; background: var(--accent-dim); color: var(--accent); border-radius: 20px; padding: 1px 6px; min-width: 16px; text-align: center; }

@@ -610,11 +610,9 @@
   white-space: pre-wrap;
   word-break: break-word;
 }
+.promptBtns { position: absolute; top: 10px; right: 14px; z-index: 1; display: flex; gap: 6px; }
 .promptCopyBtn {
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  z-index: 1;
+  position: static;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 6px;

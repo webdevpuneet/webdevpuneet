@@ -15,6 +15,7 @@ import { CATEGORIES as SNIPPET_CATEGORIES } from '@/components/UiSnippetsTool/ca
 import { SNIPPET_INDEX as SNIPPETS, VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
 import { dbGetAll as dbGetAllCustomSnippets } from '@/lib/uiSnippetsDb';
 import MyProjectsTab, { useProjects } from './MyProjects';
+import { promptStore, loadPrompts } from '@/components/AiPromptStudioTool/storage';
 import { publishedTags, tagsForSnippetId } from '@/lib/snippet-tags';
 // Snapshot of fwdtools' sidebar groups — regenerate with scripts/sync-fwdtools-sidebar.mjs
 import FWD_SIDEBAR from '@/data/fwdtools-sidebar.json';
@@ -415,7 +416,7 @@ function TemplatesGroup({ label, base, icon, nav, pathname, open, onToggle }) {
 }
 
 // A plain link row styled like a group header, with an icon in front (no expandable list)
-function SidebarLink({ href, icon, label, active }) {
+function SidebarLink({ href, icon, label, active, count = 0 }) {
   return (
     <a
       href={href}
@@ -429,6 +430,7 @@ function SidebarLink({ href, icon, label, active }) {
         <img src={icon} alt="" width={16} height={16} />
       </span>
       <span className={styles.groupLabel}>{label}</span>
+      {count > 0 && <span className={styles.linkCount} aria-label={`${count} saved`}>{count}</span>}
     </a>
   );
 }
@@ -1095,6 +1097,24 @@ export default function Sidebar() {
 
   const [customSnippets, setCustomSnippets] = useState([]);
   const projects = useProjects(); // saved websites, sections, emails and posts, for the My Projects tab
+  // saved items per tool, shown on each tool's link (the website in progress is not a saved one, so it is not counted)
+  const savedCount = useMemo(() => {
+    const c = { website: 0, section: 0, email: 0, social: 0 };
+    projects.forEach(p => { if (p.id !== 'draft' && p.type in c) c[p.type] += 1; });
+    return c;
+  }, [projects]);
+  // number of saved AI prompts, shown on the AI Prompts link; follows saves and deletes live (this tab and other tabs)
+  const [promptCount, setPromptCount] = useState(0);
+  useEffect(() => {
+    let live = true;
+    const load = () => loadPrompts().then(l => { if (live) setPromptCount(l.length); }).catch(() => {});
+    load();
+    const off = promptStore.onDesignsChange(load);
+    // loadPrompts also moves an older localStorage library into IndexedDB; look again when the tab regains focus
+    const onVis = () => { if (document.visibilityState === 'visible') load(); };
+    document.addEventListener('visibilitychange', onVis);
+    return () => { live = false; off(); document.removeEventListener('visibilitychange', onVis); };
+  }, []);
 
   // Loaded on mount (for the My Code tab badge), refreshed whenever the My Code
   // tab is opened, and refreshed live on every save/delete/clear anywhere on the
@@ -1157,7 +1177,7 @@ export default function Sidebar() {
   const [favOpen, setFavOpen] = useState(true);
 
   // No "Add to favourites" button on the sections that are plain links in this sidebar
-  const NO_FAV_SLUGS = ['website-builder', 'website-section-templates', 'email-templates', 'social-post-templates', 'ui-snippets'];
+  const NO_FAV_SLUGS = ['website-builder', 'website-section-templates', 'email-templates', 'social-post-templates', 'ui-snippets', 'ai-prompt-studio'];
   const activeTool = NO_FAV_SLUGS.includes(activeSlug) ? null : (TOOL_MAP[activeSlug] || null);
   const isFav = favourites.includes(activeSlug);
 
@@ -1395,11 +1415,13 @@ export default function Sidebar() {
                     open={favOpen}
                     onToggle={() => setFavOpen(v => !v)}
                   />
+                  <SidebarLink href="/ui-snippets/mycode/" icon="/icons/my-code.svg" label="My Code" active={/^\/ui-snippets\/mycode(\/|$)/.test(pathname)} count={customSnippets.length} />
                   <UiSnippetsCategories pathname={pathname} />
-                  <SidebarLink href="/website-builder/" icon="/icons/website-builder.svg" label="Website Builder &amp; Templates" active={/^\/website-builder(\/|$)/.test(pathname)} />
-                  <SidebarLink href="/website-section-templates/" icon="/icons/website-section-templates.svg" label="Website Sections" active={/^\/website-section-templates(\/|$)/.test(pathname)} />
-                  <SidebarLink href="/email-templates/" icon="/icons/email-templates.svg" label="Email Templates" active={/^\/email-templates(\/|$)/.test(pathname)} />
-                  <SidebarLink href="/social-post-templates/" icon="/icons/social-post-templates.svg" label="Social Post Templates" active={/^\/social-post-templates(\/|$)/.test(pathname)} />
+                  <SidebarLink href="/website-builder/" icon="/icons/website-builder.svg" label="Website Builder" active={/^\/website-builder(\/|$)/.test(pathname)} count={savedCount.website} />
+                  <SidebarLink href="/website-section-templates/" icon="/icons/website-section-templates.svg" label="Website Sections" active={/^\/website-section-templates(\/|$)/.test(pathname)} count={savedCount.section} />
+                  <SidebarLink href="/email-templates/" icon="/icons/email-templates.svg" label="Email Templates" active={/^\/email-templates(\/|$)/.test(pathname)} count={savedCount.email} />
+                  <SidebarLink href="/social-post-templates/" icon="/icons/social-post-templates.svg" label="Social Post Templates" active={/^\/social-post-templates(\/|$)/.test(pathname)} count={savedCount.social} />
+                  <SidebarLink href="/ai-prompt-studio/" icon="/icons/ai-prompt-studio.svg" label="AI Prompts" active={/^\/ai-prompt-studio(\/|$)/.test(pathname)} count={promptCount} />
                   <PlaygroundsGroup
                     activeSlug={activeSlug}
                     open={playgroundsOpen}

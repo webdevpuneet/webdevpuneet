@@ -996,9 +996,10 @@ Requirements:
 
 /* AI Prompt: dropdown with the snippet's AI prompt (hand-written, else the generic one the
    "Extend with AI" section shows) and a Copy button. */
-function AiPromptMenu({ prompt }) {
+function AiPromptMenu({ prompt, title }) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [saveState, setSaveState] = useState(''); // '', 'saved', 'exists', 'error'
   const ref = useRef(null);
   const fixedPos = useScrollToolbarMenu(open, setOpen, ref);
 
@@ -1011,7 +1012,16 @@ function AiPromptMenu({ prompt }) {
     return () => { document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey); };
   }, [open]);
 
-  useEffect(() => { setCopied(false); }, [prompt]);
+  useEffect(() => { setCopied(false); setSaveState(''); }, [prompt]);
+
+  // keep this prompt in the AI Prompt Studio library (IndexedDB); the module loads only on click
+  async function saveToStudio() {
+    try {
+      const { saveFromPage } = await import('@/components/AiPromptStudioTool/storage');
+      setSaveState(await saveFromPage(title || 'Snippet prompt', prompt));
+    } catch { setSaveState('error'); }
+    setTimeout(() => setSaveState(''), 2600);
+  }
 
   function copy() {
     navigator.clipboard.writeText(prompt).then(() => {
@@ -1031,7 +1041,10 @@ function AiPromptMenu({ prompt }) {
         <div className={`${s.exportMenu} ${s.aiPromptMenu}`} style={fixedPos || undefined}>
           <div className={s.aiPromptHead}>
             <span className={s.exportMenuHead} style={{ border: 'none', padding: 0, margin: 0 }}>Extend with AI</span>
-            <button className={s.saveConfirmBtn} onClick={copy}>{copied ? '✓ Copied' : 'Copy'}</button>
+            <span style={{ display: 'flex', gap: 6 }}>
+              <button className={s.saveConfirmBtn} onClick={saveToStudio} title="Keep this prompt in your AI Prompt Studio library">{saveState === 'saved' ? '✓ Saved' : saveState === 'exists' ? 'Already saved' : saveState === 'error' ? 'Storage blocked' : 'Save to AI Prompts'}</button>
+              <button className={s.saveConfirmBtn} onClick={copy}>{copied ? '✓ Copied' : 'Copy'}</button>
+            </span>
           </div>
           <pre className={s.aiPromptBody}>{prompt}</pre>
         </div>
@@ -2236,7 +2249,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           </div>}
 
           {showEditor && !isMobile && !activeIsCustom && libAiPrompt && libAiPrompt.id === activeId && (
-            <AiPromptMenu prompt={libAiPrompt.prompt} />
+            <AiPromptMenu prompt={libAiPrompt.prompt} title={activeSn?.title || activeSn?.name} />
           )}
 
           {!isMobile && showEditor && (

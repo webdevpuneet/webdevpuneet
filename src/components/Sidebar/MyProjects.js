@@ -3,7 +3,7 @@
 /* "My Projects" tab of the left sidebar: a log of what this visitor has built, newest first, grouped by
    day, where one click carries on. Everything is read from this browser's own storage (IndexedDB):
    - My Code snippets (lib/uiSnippetsDb)
-   - saved websites (Website Builder), website sections, emails and social posts ("My designs" of each tool)
+   - saved websites (Website Builder), website sections, emails, social posts and AI prompts ("My designs" of each tool)
    - the website being built right now (the Website Builder's autosave), until it is saved */
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -17,6 +17,7 @@ const SOURCES = [
   { type: 'section', db: 'wdp-section-designs', href: d => `/website-section-templates/${d.tpl}/?design=${enc(d.id)}` },
   { type: 'email', db: 'wdp-email-designs', href: d => `/email-templates/${d.tpl}/?design=${enc(d.id)}` },
   { type: 'social', db: 'wdp-spt-designs', href: d => `/social-post-templates/${d.tpl}/?design=${enc(d.id)}` },
+  { type: 'prompt', db: 'wdp-ai-prompts', href: d => `/ai-prompt-studio/?prompt=${enc(d.id)}` },
 ];
 export const TYPES = {
   code: { label: 'Code', plural: 'Code', tint: '#6366f1', icon: '</>' },
@@ -24,6 +25,7 @@ export const TYPES = {
   section: { label: 'Section', plural: 'Sections', tint: '#10b981', icon: 'S' },
   email: { label: 'Email', plural: 'Emails', tint: '#f59e0b', icon: '@' },
   social: { label: 'Post', plural: 'Posts', tint: '#ec4899', icon: 'P' },
+  prompt: { label: 'Prompt', plural: 'Prompts', tint: '#8b5cf6', icon: 'AI' },
 };
 const WEBSITE_DB = 'wdp-website-pages';
 const WEBSITE_DRAFT = 'page';
@@ -46,7 +48,7 @@ export function useProjects() {
       const lists = await Promise.all(getStores().map(async src => {
         const all = await src.store.listDesigns();
         return all.map(d => ({
-          key: `${src.type}:${d.id}`, type: src.type, id: d.id, name: d.name || 'Untitled', sub: src.type === 'website' ? '' : pretty(d.tpl),
+          key: `${src.type}:${d.id}`, type: src.type, id: d.id, name: d.name || 'Untitled', sub: src.type === 'website' || src.type === 'prompt' ? '' : pretty(d.tpl),
           updated: d.updated, thumb: d.thumb || null, href: src.href(d), remove: () => src.store.deleteDesign(d.id),
         }));
       }));

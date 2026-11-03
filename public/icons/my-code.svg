@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <!-- Folder holding code brackets: the snippets you saved -->
+  <path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" stroke="#6366f1" stroke-width="1.6" stroke-linejoin="round" opacity="0.4"/>
+  <path d="M9.5 11.5L7.5 13.5L9.5 15.5" stroke="#6366f1" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M14.5 11.5L16.5 13.5L14.5 15.5" stroke="#6366f1" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12.6 11L11.4 16" stroke="#a78bfa" stroke-width="1.6" stroke-linecap="round"/>
+</svg>

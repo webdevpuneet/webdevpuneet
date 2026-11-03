@@ -1189,10 +1189,19 @@ function CardsSection({ heading, headingSize = 'h2', label, columns = 3, items =
 /** Copy-paste code box with a macOS-style title bar and Copy button */
 function PromptCodeBox({ text }) {
   const [copied, setCopied] = useState(false);
+  const [saveState, setSaveState] = useState(''); // '', 'saved', 'exists', 'error'
   const copy = () => {
     navigator.clipboard.writeText(text || '')
       .then(() => { setCopied(true); setTimeout(() => setCopied(false), 1600); })
       .catch(() => {});
+  };
+  // "Save to AI Prompts": keeps this prompt in the visitor's AI Prompt Studio library (IndexedDB), loaded only on click
+  const save = async () => {
+    try {
+      const { saveFromPage, pageTitle } = await import('@/components/AiPromptStudioTool/storage');
+      setSaveState(await saveFromPage(pageTitle(), text));
+    } catch { setSaveState('error'); }
+    setTimeout(() => setSaveState(''), 2600);
   };
   return (
     <div className={styles.promptWindow}>
@@ -1205,9 +1214,19 @@ function PromptCodeBox({ text }) {
         <span className={styles.promptLangLabel}>text</span>
       </div>
       <div className={styles.promptBody}>
-        <button className={`${styles.promptCopyBtn} ${copied ? styles.promptCopyBtnOk : ''}`} onClick={copy} type="button">
-          {copied ? 'Copied!' : 'Copy'}
-        </button>
+        <div className={styles.promptBtns}>
+          <button
+            className={`${styles.promptCopyBtn} ${saveState === 'saved' || saveState === 'exists' ? styles.promptCopyBtnOk : ''}`}
+            onClick={save}
+            type="button"
+            title="Keep this prompt in your AI Prompt Studio library"
+          >
+            {saveState === 'saved' ? 'Saved ✓' : saveState === 'exists' ? 'Already saved' : saveState === 'error' ? 'Storage blocked' : 'Save to AI Prompts'}
+          </button>
+          <button className={`${styles.promptCopyBtn} ${copied ? styles.promptCopyBtnOk : ''}`} onClick={copy} type="button">
+            {copied ? 'Copied!' : 'Copy'}
+          </button>
+        </div>
         <pre><code>{text}</code></pre>
       </div>
     </div>

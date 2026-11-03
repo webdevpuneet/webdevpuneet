@@ -4,6 +4,7 @@ import styles from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import { loadPrompts, savePrompt, deletePrompt } from './storage';
 // ── Scoring Engine ──────────────────────────────────────────────────────────
 const DIMENSIONS = [
   { key: 'role',        label: 'Role / Persona',  color: '#818cf8' },
@@ -338,19 +339,13 @@ Constraints:
 - Avoid generic marketing content — every piece must provide specific technical value
 - Focus only on written content for now`;
 
-// ── LocalStorage ────────────────────────────────────────────────────────────
-const LS_KEY    = 'apt_saved_prompts';
+// ── Draft (localStorage: the text being written) ─────────────
 const DRAFT_KEY = 'apt_draft_v1';
-
-function loadSaved() {
-  try { return JSON.parse(localStorage.getItem(LS_KEY) || '[]'); }
-  catch { return []; }
-}
 
 // ── Component ───────────────────────────────────────────────────────────────
 export default function AiPromptStudioTool() {
   const [prompt, setPrompt]                 = useState('');
-  const [tab, setTab]                       = useState('analyze');
+  const [tab, setTab]                       = useState('library'); // Library first and open by default
   const [templateCat, setTemplateCat]       = useState('All');
   const [templateSearch, setTemplateSearch] = useState('');
   const [libSearch, setLibSearch]           = useState('');
@@ -374,18 +369,24 @@ export default function AiPromptStudioTool() {
   useEffect(() => {
     const p = new URLSearchParams(window.location.search).get('p');
     if (p) {
-      try { setPrompt(decodeURIComponent(atob(p))); } catch {}
+      try { setPrompt(decodeURIComponent(atob(p))); setTab('analyze'); } catch {} // a shared prompt opens ready to analyse
     } else {
       try {
         const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || '{}');
-        setPrompt(d.prompt ?? SAMPLE_PROMPT);
-        if (d.tab) setTab(d.tab);
+        setPrompt(d.prompt ?? ''); // empty editor for a first visit (no sample text)
         if (d.optimizeModel) setOptimizeModel(d.optimizeModel);
       } catch {
-        setPrompt(SAMPLE_PROMPT);
+        setPrompt('');
       }
     }
-    setSaved(loadSaved());
+    loadPrompts().then(raw => {
+      const list = raw.map(x => (x.score == null ? { ...x, score: scorePrompt(x.prompt).total } : x)); // prompts saved from other pages have no score yet
+      setSaved(list);
+      // /ai-prompt-studio/?prompt=<id> (from My Projects) opens that saved prompt
+      const want = new URLSearchParams(window.location.search).get('prompt');
+      const hit = want && list.find(x => x.id === want);
+      if (hit) { setPrompt(hit.prompt); setTab('analyze'); }
+    });
     hydrated.current = true;
   }, []);
 
@@ -483,23 +484,24 @@ export default function AiPromptStudioTool() {
     textareaRef.current?.focus();
   }
 
-  function handleSave() {
+  async function handleSave() {
     if (!prompt.trim()) return;
     const title = saveTitle.trim() || `Prompt ${new Date().toLocaleTimeString()}`;
-    const entry = { id: Date.now().toString(), title, prompt, score: score.total, createdAt: new Date().toISOString() };
-    const updated = [entry, ...saved];
-    setSaved(updated);
-    localStorage.setItem(LS_KEY, JSON.stringify(updated));
+    try {
+      const entry = await savePrompt({ title, prompt, score: score.total });
+      setSaved(prev => [entry, ...prev]);
+      setSaveMsg('Saved!');
+    } catch {
+      setSaveMsg('Could not save: browser storage is blocked');
+    }
     setSaveTitle('');
     setShowSaveForm(false);
-    setSaveMsg('Saved!');
     setTimeout(() => setSaveMsg(''), 2000);
   }
 
-  function handleDelete(id) {
-    const updated = saved.filter(s => s.id !== id);
-    setSaved(updated);
-    localStorage.setItem(LS_KEY, JSON.stringify(updated));
+  async function handleDelete(id) {
+    setSaved(prev => prev.filter(x => x.id !== id));
+    try { await deletePrompt(id); } catch { /* the list already dropped it; a reload would show it again */ }
   }
 
   function handleLibCopy(id, text) {
@@ -605,7 +607,7 @@ export default function AiPromptStudioTool() {
 
           {/* Score strip */}
           {hasPrompt && (
-            <div className={styles.scoreStrip}>
+            <div className={`${styles.scoreStrip} ${styles.scoreStripBtn}`} role="button" tabIndex={0} title="Open the full analysis" onClick={() => setTab('analyze')} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTab('analyze'); } }}>
               <div className={styles.scorePill} style={{ background: scoreColor + '18', borderColor: scoreColor + '55' }}>
                 <span className={styles.scorePillNum} style={{ color: scoreColor }}>{score.total}</span>
                 <span className={styles.scorePillSep} style={{ color: scoreColor + '80' }}>/10</span>
@@ -639,10 +641,10 @@ export default function AiPromptStudioTool() {
         <div className={styles.rightCol}>
           <div className={styles.tabs}>
             {[
-              { id: 'analyze',   label: 'Analyze'  },
-              { id: 'templates', label: 'Templates' },
-              { id: 'optimize',  label: 'Optimize'  },
               { id: 'library',   label: 'Library'   },
+              { id: 'analyze',   label: 'Analyze'  },
+              { id: 'optimize',  label: 'Optimize'  },
+              { id: 'templates', label: 'Templates' },
             ].map(t => (
               <button
                 key={t.id}

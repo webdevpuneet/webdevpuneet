@@ -4,12 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.css';
 import { LIVE_TOOLS } from '@/lib/tools-registry';
 
+// UI Snippets, Website Builder, Website Sections, Email Templates, Social Posts and AI Prompts were taken out of the
+// top nav on 2026-11-03 (they are in the left sidebar). Add an item back here to show it again.
 const NAV_ITEMS = [
-  { slug: 'ui-snippets',                 short: 'UI Snippets',  icon: '/icons/ui-snippets.svg' },
-  { slug: 'website-builder',             short: 'Website Builder', icon: '/icons/website-builder.svg' },
-  { slug: 'website-section-templates',   short: 'Website Sections', icon: '/icons/website-section-templates.svg' },
-  { slug: 'email-templates',             short: 'Email Templates', icon: '/icons/email-templates.svg' },
-  { slug: 'social-post-templates',       short: 'Social Posts', icon: '/icons/social-post-templates.svg' },
   { slug: 'html-playground',             short: 'HTML',         icon: '/icons/html-playground.svg' },
   { slug: 'css-playground',              short: 'CSS',          icon: '/icons/css-playground.svg' },
   { slug: 'js-playground',               short: 'JavaScript',   icon: '/icons/js-playground.svg' },
@@ -24,7 +21,6 @@ const NAV_ITEMS = [
   { slug: 'tailwind-playground',         short: 'Tailwind',     icon: '/icons/tailwind-playground.svg' },
   { slug: 'bootstrap5-playground',       short: 'Bootstrap',    icon: '/icons/bootstrap5-playground.svg' },
   { slug: 'nextjs-playground',           short: 'Next.js',      icon: '/icons/nextjs-playground.svg' },
-  { slug: 'ai-prompt-studio',            short: 'AI Prompts',   icon: '/icons/ai-prompt-studio.svg' },
 ];
 
 export default function PlaygroundTopNav({ active }) {
