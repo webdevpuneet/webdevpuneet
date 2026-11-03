@@ -1,0 +1,31 @@
+WEEKEND TO-DO
+Last updated 2026-11-03
+
+Rule: these are for weekends, not weekdays (decided 2026-11-02 / 2026-11-03). Do not start them
+on a weekday unless asked. Ideas and the full detail live in roadmaps/SUGGESTIONS-*.html.
+
+[ ] 1. "My projects" in the left sidebar, with a welcome message
+       What: anything started in the Website Builder, website templates, Social Post Templates or
+       Email Templates shows in the left sidebar (name, thumbnail, tool, last edited, one click to
+       continue), plus a welcome message ("Welcome back. You were working on ...").
+       Data is already in the browser: lib/design-store.js (social, email), the wdp-website-pages
+       store (Website Builder), SectionTemplates/storage.js.
+       Detail and steps: roadmaps/SUGGESTIONS-WEBSITE.html, "My projects" idea (Site & SEO).
+
+[ ] 2. Accessibility Toolbar upgrades
+       Hide widget (this session / 24 hours / one week), keyboard and screen-reader basics, levels,
+       more display options, text-to-speech, and more (10 items).
+       Detail: roadmaps/SUGGESTIONS-WEBSITE.html, "Accessibility widget" idea.
+
+[ ] 3. Floating sections (popups, cursor effects, widgets) take no space in the Website Builder
+       Shown as overlays; popups appear only on their trigger button.
+       Detail: roadmaps/SUGGESTIONS-WEBSITE.html, "Floating sections" idea.
+
+Also waiting (not weekend-only, just not done yet)
+[ ] Try the animated video export by hand on a few social templates (Diwali, Valentine's Day,
+    Thank You, Hot Take) and watch the result; the automated check could not record video.
+[ ] Phone editor follow-ups: hide the bottom share strip on editor pages, text fields first in the
+    Edit panel (or jump chips), test the on-screen keyboard on a real phone.
+[ ] Share button: try on a real phone with WhatsApp.
+[ ] Mega menu navbar and Ecommerce menu navbar (section templates), next email templates, UI snippet
+    gap check: see the SUGGESTIONS files.

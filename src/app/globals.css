@@ -282,7 +282,8 @@ body:has([data-not-found-page]) :has(> ins.adsbygoogle) {
    via :has() rules in their own CSS modules. */
 ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }
 
-/* My Code (html.no-auto-ads): AdSense auto-placed ads would push into the code editor and
-   collapse its height, so they're hidden there; our own ad units are unaffected. */
+/* UI Snippets pages (html.no-auto-ads): AdSense auto-placed ads (the "Discover more" strip above the
+   preview, ads inside the code column) push into the editor and collapse its height, so they're hidden
+   there; our own ad units are unaffected. */
 html.no-auto-ads .google-auto-placed,
 html.no-auto-ads ins.adsbygoogle[data-ad-format="autorelaxed"] { display: none !important; }

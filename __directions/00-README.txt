@@ -17,6 +17,7 @@ READ IN THIS ORDER
 REFERENCE MATERIAL (moved here 2026-10-28; this folder is now the ONLY copy)
   blog/                     blog drafts and published posts
   roadmaps/TEMPLATES-ROADMAP.html   section / website templates roadmap
+  WEEKEND-TODO.txt                   what is planned for weekends (read it on a weekend session)
   roadmaps/SUGGESTIONS.html          index of the idea lists (one file per area, status pills, change logs):
                                      SUGGESTIONS-WEBSITE (sections, website templates, builder, site),
                                      -EMAIL, -SOCIAL, -UI-SNIPPETS, -BLOG (also the index of all blog drafts)

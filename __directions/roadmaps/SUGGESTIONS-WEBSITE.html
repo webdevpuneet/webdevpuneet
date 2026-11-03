@@ -556,6 +556,21 @@
   <p class="muted">Ideas for the site as a whole (not templates).</p>
 
   <div class="sug">
+    <div class="sug-head"><h3>"My projects" in the left sidebar, with a welcome message</h3><span class="pill todo">Suggested</span></div>
+    <p class="muted">Added 2026-11-03 · <strong>planned for a weekend</strong></p>
+    <p>Anything a visitor has started in the Website Builder, the website templates, Social Post Templates or Email Templates should be waiting for them in the left sidebar, so they can pick up where they left off from any page. Everything is already stored in the browser (IndexedDB), so this needs no accounts or server.</p>
+    <ul>
+      <li><strong>What it shows:</strong> a "My projects" group in the sidebar with the latest items first: name, a small thumbnail, the tool it belongs to (icon and label) and when it was last edited. One click opens it in its tool. Show about five, with "See all" for the rest.</li>
+      <li><strong>Where the data is:</strong> Social Post and Email designs and their autosave use <code>lib/design-store.js</code> (<code>makeDesignStore</code>); the Website Builder pages use the <code>wdp-website-pages</code> store; the section templates have their own <code>storage.js</code>. Add one small read-only module that lists the newest items across all of them, and refreshes when a design is saved (the stores already have change listeners).</li>
+      <li><strong>Welcome message:</strong> first visit: a short friendly line ("Welcome. Your designs are saved on this device, so you can leave and come back."). Returning visitor with projects: "Welcome back. You were working on <em>Diwali post</em>, 2 hours ago" with a Continue button. Returning visitor with none: an invitation to start one. Dismissible, and not shown again the same day.</li>
+      <li><strong>Privacy and honesty:</strong> say that projects live in this browser only (clearing site data or using another device loses them) and offer the existing export and import. This also connects to idea 16 (accounts and cloud sync) as the natural next step.</li>
+      <li><strong>Phones:</strong> the sidebar is a slide-in menu there, so the same group appears at the top of it, and "Continue" is the first thing visible.</li>
+      <li><strong>Check:</strong> works with an empty database, with storage blocked (private window), with hundreds of items (limit and sort), and never slows page load (read after the page is interactive).</li>
+    </ul>
+    <p><strong>Steps:</strong> (1) a <code>listRecentProjects()</code> helper over the four stores; (2) the sidebar group and its empty state; (3) the welcome message and its dismiss memory; (4) refresh on save; (5) test on phone size; (6) mention it on the Website Builder start screen.</p>
+  </div>
+
+  <div class="sug">
     <div class="sug-head"><h3>Update the home page share image</h3><span class="pill todo">Suggested</span></div>
     <p class="muted">Added 2026-10-26</p>
     <p><code>home-og.jpg</code> says "25 coding playgrounds" and "90+ developer tools"; the site now has 14 playgrounds and 84 tools.</p>
@@ -578,6 +593,7 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-11-03</td><td>Idea added (weekend): "My projects" group in the left sidebar showing work started in the Website Builder, website templates, social posts and email templates, with a welcome message.</td></tr>
       <tr><td>2026-11-02</td><td>Ideas added: Mega menu navbar and Ecommerce menu navbar (section templates).</td></tr>
       <tr><td>2026-11-02</td><td>Suggestions split into separate files (website, email, social, UI snippets, blog) with an index page; nothing removed.</td></tr>
       <tr><td>2026-11-02</td><td>Idea added: floating sections (popups, cursor effects, widgets) should not take space between sections in the Website Builder; shown as overlays, with popups only visible on their trigger button.</td></tr>

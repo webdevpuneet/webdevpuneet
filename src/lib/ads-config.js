@@ -14,7 +14,8 @@ export const SIDEBAR_AD_ENABLED = true;
 export function adsAllowedOnPath() {
   return true;
 }
-/** Pages whose layout auto-placed ads would break */
+/** Pages whose layout auto-placed ads would break: the whole UI Snippets area (the editor
+    panels, My Code, and the "Discover more" strip AdSense inserted above the preview) */
 export function noAutoAdsOnPath(pathname) {
-  return /^\/ui-snippets\/mycode(\/|$)/.test(pathname || '');
+  return /^\/ui-snippets(\/|$)/.test(pathname || '');
 }
