@@ -268,7 +268,11 @@ function ToolOfDay({ activeSlug, favourites }) {
    PlaygroundsGroup — pinned learn-to-code section
 ───────────────────────────────────────────────────────────── */
 // Only playgrounds that live on webdevpuneet.
+// UI Snippets Library and AI Prompt Studio are not listed here: they have their own links in the sidebar
+// (the snapshot in data/fwdtools-sidebar.json still has them, so they are filtered out).
+const NOT_IN_LEARN_TO_CODE = ['ui-snippets', 'ai-prompt-studio'];
 const PLAYGROUND_TOOLS = FWD_SIDEBAR.playgrounds
+  .filter(p => !NOT_IN_LEARN_TO_CODE.includes(p.slug))
   .map(p => TOOL_MAP[p.slug])
   .filter(Boolean);
 
@@ -521,12 +525,14 @@ function UiSnippetsCategories({ pathname }) {
 
 function PlaygroundsGroup({ activeSlug, open, onToggle }) {
   const bodyRef = useRef(null);
-  const [everOpened, setEverOpened] = useState(open);
+  // The playground links are always in the page HTML (so search crawlers find them), collapsed to nothing
+  // until opened, like the UI Snippets categories.
+  const first = useRef(true);
 
   useEffect(() => {
-    if (open && !everOpened) setEverOpened(true);
     const el = bodyRef.current;
     if (!el) return;
+    if (first.current) { first.current = false; return; }
     if (open) {
       el.style.height = el.scrollHeight + 'px';
       const t = setTimeout(() => { el.style.height = 'auto'; }, 220);
@@ -535,7 +541,7 @@ function PlaygroundsGroup({ activeSlug, open, onToggle }) {
       el.style.height = el.scrollHeight + 'px';
       requestAnimationFrame(() => { el.style.height = '0px'; });
     }
-  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [open]);
 
   return (
     <div className={styles.playgroundsGroup}>
@@ -543,6 +549,7 @@ function PlaygroundsGroup({ activeSlug, open, onToggle }) {
         className={`${styles.playgroundsHeader} ${styles.plainLink} ${open ? styles.groupOpen : ''}`}
         onClick={onToggle}
         aria-expanded={open}
+        aria-controls="learn-to-code-links"
       >
         <span className={styles.railIcon}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -562,8 +569,8 @@ function PlaygroundsGroup({ activeSlug, open, onToggle }) {
           <polyline points="6,9 12,15 18,9" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </button>
-      <div ref={bodyRef} className={styles.groupBody} style={{ height: open ? 'auto' : '0px' }}>
-        {everOpened && (
+      <div ref={bodyRef} id="learn-to-code-links" className={`${styles.groupBody} ${open ? '' : styles.uiSnipClosed}`} style={{ height: open ? 'auto' : '0px' }}>
+        <nav aria-label="Learn to code playgrounds">
           <ul className={`${styles.list} ${styles.compactList}`}>
             {PLAYGROUND_TOOLS.map(t => (
               <li key={t.slug} className={`${styles.item} ${activeSlug === t.slug ? styles.active : ''}`}>
@@ -580,7 +587,7 @@ function PlaygroundsGroup({ activeSlug, open, onToggle }) {
               </li>
             ))}
           </ul>
-        )}
+        </nav>
       </div>
     </div>
   );
@@ -654,12 +661,14 @@ function FreelancerGroup({ activeSlug, open, onToggle }) {
 ───────────────────────────────────────────────────────────── */
 function CategoryGroup({ category, open, onToggle, activeSlug, query, green = false }) {
   const bodyRef = useRef(null);
-  const [everOpened, setEverOpened] = useState(false);
+  // The tool links are always in the page HTML (so search crawlers find them), collapsed to nothing until opened,
+  // like the UI Snippets categories.
+  const first = useRef(true);
 
   useEffect(() => {
-    if (open && !everOpened) setEverOpened(true);
     const el = bodyRef.current;
     if (!el) return;
+    if (first.current) { first.current = false; return; }
     if (open) {
       el.style.height = el.scrollHeight + 'px';
       const t = setTimeout(() => { el.style.height = 'auto'; }, 220);
@@ -668,7 +677,7 @@ function CategoryGroup({ category, open, onToggle, activeSlug, query, green = fa
       el.style.height = el.scrollHeight + 'px';
       requestAnimationFrame(() => { el.style.height = '0px'; });
     }
-  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [open]);
 
   return (
     <div className={green ? styles.playgroundsGroup : styles.group}>
@@ -697,8 +706,8 @@ function CategoryGroup({ category, open, onToggle, activeSlug, query, green = fa
             strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </button>
-      <div ref={bodyRef} className={styles.groupBody} style={{ height: open ? 'auto' : '0px' }}>
-        {everOpened && (
+      <div ref={bodyRef} className={`${styles.groupBody} ${open ? '' : styles.uiSnipClosed}`} style={{ height: open ? 'auto' : '0px' }}>
+        <nav aria-label={`${category.label} tools`}>
           <ul className={`${styles.list} ${styles.compactList}`}>
             {category.tools.map(t => (
               <ToolLink
@@ -711,7 +720,7 @@ function CategoryGroup({ category, open, onToggle, activeSlug, query, green = fa
               />
             ))}
           </ul>
-        )}
+        </nav>
       </div>
     </div>
   );
