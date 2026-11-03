@@ -9,6 +9,8 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   if (isEmbedRoute(pathname)) return null;
+  // The Website Builder editor fills the screen; a footer under it would only add a scroll
+  if (/^\/website-builder\/editor(\/|$)/.test(pathname || '')) return null;
 
   return (
     <footer className={styles.footer}>
