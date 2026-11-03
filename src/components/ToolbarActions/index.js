@@ -187,6 +187,65 @@ export function HistoryButtons({ onUndo, onRedo, onReset, canUndo, canRedo, show
   );
 }
 
+/* AI Prompt: a toolbar dropdown with the page's AI prompt, a Save to AI Prompts button (the visitor's AI Prompt Studio
+   library, IndexedDB) and a Copy button. Shared by the UI snippet editor and the template editors. */
+export function AiPromptButton({ prompt, title }) {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [saveState, setSaveState] = useState(''); // '', 'saved', 'exists', 'error'
+  const ref = useRef(null);
+  const fixedPos = useScrollToolbarMenu(open, setOpen, ref);
+
+  useEffect(() => {
+    if (!open) return;
+    function onDoc(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
+    function onKey(e) { if (e.key === 'Escape') setOpen(false); }
+    document.addEventListener('mousedown', onDoc);
+    document.addEventListener('keydown', onKey);
+    return () => { document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey); };
+  }, [open]);
+
+  useEffect(() => { setCopied(false); setSaveState(''); }, [prompt]);
+
+  // keep this prompt in the AI Prompt Studio library (IndexedDB); the module loads only on click
+  async function saveToStudio() {
+    try {
+      const { saveFromPage } = await import('@/components/AiPromptStudioTool/storage');
+      setSaveState(await saveFromPage(title || 'Snippet prompt', prompt));
+    } catch { setSaveState('error'); }
+    setTimeout(() => setSaveState(''), 2600);
+  }
+
+  function copy() {
+    navigator.clipboard.writeText(prompt).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    }).catch(() => {});
+  }
+
+  return (
+    <div className={`${us.popoverAnchor} ${us.forkAnchor}`} ref={ref}>
+      <button className={us.iconBtn} onClick={() => setOpen(v => !v)} title="Extend with AI — copy a prompt to take this snippet further" aria-label="Extend with AI" aria-haspopup="true" aria-expanded={open}>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3v4M17 5h4"/></svg>
+        <span className={us.exportLabel}>AI</span>
+      </button>
+      {open && <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 299 }} />}
+      {open && (
+        <div className={`${us.exportMenu} ${us.aiPromptMenu}`} style={fixedPos || undefined}>
+          <div className={us.aiPromptHead}>
+            <span className={us.exportMenuHead} style={{ border: 'none', padding: 0, margin: 0 }}>Extend with AI</span>
+            <span style={{ display: 'flex', gap: 6 }}>
+              <button className={us.saveConfirmBtn} onClick={saveToStudio} title="Keep this prompt in your AI Prompt Studio library">{saveState === 'saved' ? '✓ Saved' : saveState === 'exists' ? 'Already saved' : saveState === 'error' ? 'Storage blocked' : 'Save to AI Prompts'}</button>
+              <button className={us.saveConfirmBtn} onClick={copy}>{copied ? '✓ Copied' : 'Copy'}</button>
+            </span>
+          </div>
+          <pre className={us.aiPromptBody}>{prompt}</pre>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* Play / stop: previews an animation. Same compact button as Fork / Export; the label drops away on phones. */
 export function PlayButton({ onClick, playing = false, title = 'Play animation: preview how the animated video will look', stopTitle = 'Stop the animation preview' }) {
   return (

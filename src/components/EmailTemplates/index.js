@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import InViewImg from '@/components/InViewImg';
 import s from '../SocialPostTemplates/styles.module.css';
 import e from './styles.module.css';
-import { ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
+import { AiPromptButton, ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import { emailDesignStore } from './designs';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
@@ -431,7 +431,7 @@ function withKit(prev, kit) {
   return { ...prev, vars, fields, fonts: { heading: fontFor(kit.headingFont), body: fontFor(kit.bodyFont) } };
 }
 
-export function EmailTemplateEditor({ id }) {
+export function EmailTemplateEditor({ id, aiPrompt = '' }) {
   const t = emailTemplateById(id);
   const [state, setState] = useState(() => defaultEmailState(t));
   const [hydrated, setHydrated] = useState(false);
@@ -1682,6 +1682,7 @@ export function EmailTemplateEditor({ id }) {
               />
               <span className={s.toolbarSep} aria-hidden="true" />
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
+              {aiPrompt && <AiPromptButton prompt={aiPrompt} title={t.name} />}
               <ExportMenu
                 head="Export this email as…"
                 options={[

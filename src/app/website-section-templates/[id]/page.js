@@ -165,7 +165,7 @@ export default async function WebsiteSectionTemplatePage({ params }) {
       {[workSchema, faqSchema, breadcrumbSchema].map((sc, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />
       ))}
-      <div className={styles.toolSection}><SectionTemplateEditor id={t.id} /></div>
+      <div className={styles.toolSection}><SectionTemplateEditor id={t.id} aiPrompt={seo.aiPrompt?.prompt || ''} /></div>
       <AdSlot
         adFirst
         related={(

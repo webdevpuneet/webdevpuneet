@@ -175,7 +175,7 @@ export default async function SocialPostTemplatePage({ params }) {
       {[softwareSchema, articleSchema, faqSchema, breadcrumbSchema].map((sc, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />
       ))}
-      <div className={styles.toolSection}><TemplateEditor id={t.id} /></div>
+      <div className={styles.toolSection}><TemplateEditor id={t.id} aiPrompt={socialAi?.prompt || ''} /></div>
       <AdSlot
           adFirst
           related={relatedItems.length ? (

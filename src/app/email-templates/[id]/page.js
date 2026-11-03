@@ -155,7 +155,7 @@ export default async function EmailTemplatePage({ params }) {
       {[workSchema, faqSchema, breadcrumbSchema].map((sc, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />
       ))}
-      <div className={styles.toolSection}><EmailTemplateEditor id={t.id} /></div>
+      <div className={styles.toolSection}><EmailTemplateEditor id={t.id} aiPrompt={emailAi?.prompt || ''} /></div>
       <AdSlot
           adFirst
           related={(

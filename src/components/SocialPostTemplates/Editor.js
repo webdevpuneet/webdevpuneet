@@ -11,7 +11,7 @@ import { revealInPanel } from '@/lib/reveal-in-panel';
 import { SIZES, sizeById, templateById } from './templates/index.js';
 import { PALETTES, parseHex } from '../OgImageGenerator/engine';
 import FontPicker from '@/components/FontPicker';
-import { ExportMenu, ForkButton, HistoryButtons, PlayButton, SaveButton } from '@/components/ToolbarActions';
+import { AiPromptButton, ExportMenu, ForkButton, HistoryButtons, PlayButton, SaveButton } from '@/components/ToolbarActions';
 import Preview from './Preview';
 import FormatPopover from '@/components/EmailTemplates/FormatPopover';
 import { renderImage, standaloneHtml, snippetParts, renderVideo, videoSupport, playPreviewAnimation } from './render';
@@ -154,7 +154,7 @@ function ColorField({ label, value, onChange }) {
   );
 }
 
-export default function TemplateEditor({ id }) {
+export default function TemplateEditor({ id, aiPrompt = '' }) {
   const t = templateById(id);
   const isCarousel = CAROUSEL.includes(t.id);
   const [state, setState] = useState(() => editorDefault(t));
@@ -1138,6 +1138,7 @@ export default function TemplateEditor({ id }) {
                   ...(canVideo ? [{ icon: 'video', label: `Share animated video (${canVideo.ext.toUpperCase()})`, sub: canVideo.ext === 'mp4' ? `${video.seconds}s · for WhatsApp Status and chats` : 'WhatsApp can\'t play WebM: use Chrome for MP4', onClick: () => shareToWhatsApp('video'), disabled: !!busy }] : []),
                 ]}
               />
+              {aiPrompt && !isCarousel && <AiPromptButton prompt={aiPrompt} title={t.name} />}
               <ExportMenu
                 head={isCarousel ? 'Export this carousel as…' : 'Export this post as…'}
                 options={[

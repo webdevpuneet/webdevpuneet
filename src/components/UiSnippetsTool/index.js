@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { useScrollToolbarMenu } from '@/components/ToolbarActions';
+import { useScrollToolbarMenu, AiPromptButton } from '@/components/ToolbarActions';
 import { useRouter, useSearchParams } from 'next/navigation';
 import UiSnippetsGallery, { LoadMore } from '@/components/UiSnippetsGallery';
 import gs from '@/components/UiSnippetsGallery/styles.module.css';
@@ -994,64 +994,6 @@ Requirements:
 - Make it easy to restyle via CSS custom properties or class overrides so it can be dropped into a real project.`;
 }
 
-/* AI Prompt: dropdown with the snippet's AI prompt (hand-written, else the generic one the
-   "Extend with AI" section shows) and a Copy button. */
-function AiPromptMenu({ prompt, title }) {
-  const [open, setOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [saveState, setSaveState] = useState(''); // '', 'saved', 'exists', 'error'
-  const ref = useRef(null);
-  const fixedPos = useScrollToolbarMenu(open, setOpen, ref);
-
-  useEffect(() => {
-    if (!open) return;
-    function onDoc(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
-    function onKey(e) { if (e.key === 'Escape') setOpen(false); }
-    document.addEventListener('mousedown', onDoc);
-    document.addEventListener('keydown', onKey);
-    return () => { document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey); };
-  }, [open]);
-
-  useEffect(() => { setCopied(false); setSaveState(''); }, [prompt]);
-
-  // keep this prompt in the AI Prompt Studio library (IndexedDB); the module loads only on click
-  async function saveToStudio() {
-    try {
-      const { saveFromPage } = await import('@/components/AiPromptStudioTool/storage');
-      setSaveState(await saveFromPage(title || 'Snippet prompt', prompt));
-    } catch { setSaveState('error'); }
-    setTimeout(() => setSaveState(''), 2600);
-  }
-
-  function copy() {
-    navigator.clipboard.writeText(prompt).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    }).catch(() => {});
-  }
-
-  return (
-    <div className={`${s.popoverAnchor} ${s.forkAnchor}`} ref={ref}>
-      <button className={s.iconBtn} onClick={() => setOpen(v => !v)} title="Extend with AI — copy a prompt to take this snippet further" aria-label="Extend with AI" aria-haspopup="true" aria-expanded={open}>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3v4M17 5h4"/></svg>
-        <span className={s.exportLabel}>AI</span>
-      </button>
-      {open && <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 299 }} />}
-      {open && (
-        <div className={`${s.exportMenu} ${s.aiPromptMenu}`} style={fixedPos || undefined}>
-          <div className={s.aiPromptHead}>
-            <span className={s.exportMenuHead} style={{ border: 'none', padding: 0, margin: 0 }}>Extend with AI</span>
-            <span style={{ display: 'flex', gap: 6 }}>
-              <button className={s.saveConfirmBtn} onClick={saveToStudio} title="Keep this prompt in your AI Prompt Studio library">{saveState === 'saved' ? '✓ Saved' : saveState === 'exists' ? 'Already saved' : saveState === 'error' ? 'Storage blocked' : 'Save to AI Prompts'}</button>
-              <button className={s.saveConfirmBtn} onClick={copy}>{copied ? '✓ Copied' : 'Copy'}</button>
-            </span>
-          </div>
-          <pre className={s.aiPromptBody}>{prompt}</pre>
-        </div>
-      )}
-    </div>
-  );
-}
 
 /* — Main component ------------------------------------------------------------ */
 // id -> {id, title, category} for every library snippet.
@@ -2249,7 +2191,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           </div>}
 
           {showEditor && !isMobile && !activeIsCustom && libAiPrompt && libAiPrompt.id === activeId && (
-            <AiPromptMenu prompt={libAiPrompt.prompt} title={activeSn?.title || activeSn?.name} />
+            <AiPromptButton prompt={libAiPrompt.prompt} title={activeSn?.title || activeSn?.name} />
           )}
 
           {!isMobile && showEditor && (

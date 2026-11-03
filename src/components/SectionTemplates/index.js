@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import InViewImg from '@/components/InViewImg';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from './styles.module.css';
-import { AddToPageMenu, ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
+import { AddToPageMenu, ExportMenu, ForkButton, HistoryButtons, SaveButton, AiPromptButton } from '@/components/ToolbarActions';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
@@ -285,7 +285,7 @@ export function SectionCategoryPage({ category, h1, lead, previews = [] }) {
 }
 
 /* ── Editor ──────────────────────────────────────────────────────────────────── */
-export function SectionTemplateEditor({ id }) {
+export function SectionTemplateEditor({ id, aiPrompt = '' }) {
   const t = sectionTemplateById(id);
   const [state, setStateRaw] = useState(() => defaultSectionState(t));
   const [hydrated, setHydrated] = useState(false);
@@ -920,6 +920,7 @@ export function SectionTemplateEditor({ id }) {
               <span className={s.toolbarSep} aria-hidden="true" />
               <AddToPageMenu loadPages={loadBuilderPages} onPick={addToBuilder} />
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
+              {aiPrompt && <AiPromptButton prompt={aiPrompt} title={t.name} />}
               <ExportMenu
                 head="Export this section as…"
                 options={[

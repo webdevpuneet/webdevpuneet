@@ -350,6 +350,8 @@ export default function AiPromptStudioTool() {
   const [templateSearch, setTemplateSearch] = useState('');
   const [libSearch, setLibSearch]           = useState('');
   const [libTag, setLibTag]                 = useState('all');
+  const [libShown, setLibShown]             = useState(10); // the library lists 10 at first; Load more adds 10 a time
+  useEffect(() => { setLibShown(10); }, [libSearch, libTag]);
   const [saved, setSaved]                   = useState([]);
   const [saveTitle, setSaveTitle]           = useState('');
   const [showSaveForm, setShowSaveForm]     = useState(false);
@@ -579,7 +581,6 @@ export default function AiPromptStudioTool() {
                 {improved ? '✓ Improved!' : '✦ Improve'}
               </button>
               <button className={`${styles.btn} ${styles.btnGhost}`} onClick={() => setShowSaveForm(v => !v)} disabled={!hasPrompt}>Save</button>
-              <button className={`${styles.btn} ${styles.btnGhost}`} onClick={handleShare} disabled={!hasPrompt}>{shared ? 'Link copied!' : 'Share'}</button>
               <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={() => copyText(prompt, setCopied)} disabled={!hasPrompt}>{copied ? 'Copied!' : 'Copy'}</button>
             </div>
           </div>
@@ -898,7 +899,7 @@ export default function AiPromptStudioTool() {
                   </div>
                 ) : (
                   <div className={styles.savedList}>
-                    {filteredSaved.map(item => (
+                    {filteredSaved.slice(0, libShown).map(item => (
                       <div key={item.id} className={styles.savedCard}>
                         <div className={styles.savedTop}>
                           <span className={styles.savedTitle}>{item.title}</span>
@@ -928,6 +929,11 @@ export default function AiPromptStudioTool() {
                         </div>
                       </div>
                     ))}
+                    {filteredSaved.length > libShown && (
+                      <button type="button" className={styles.loadMoreBtn} onClick={() => setLibShown(n => n + 10)}>
+                        Load more <span>{filteredSaved.length - libShown} more</span>
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
