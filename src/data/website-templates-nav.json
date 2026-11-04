@@ -118,5 +118,10 @@
   "id": "music",
   "name": "Music Artist & Band Website",
   "industry": "Music"
+ },
+ {
+  "id": "corporate",
+  "name": "Corporate & Consulting Website",
+  "industry": "Business"
  }
 ]
