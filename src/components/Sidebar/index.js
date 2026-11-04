@@ -458,7 +458,7 @@ function SidebarLink({ href, icon, label, active, count = 0 }) {
 // Open only on /ui-snippets/ pages, where the categories are the navigation; folded everywhere else
 // The UI Snippets group starts collapsed on every page, UI snippet pages included (2026-11-03); the chevron opens it,
 // and once opened it stays open (remembered under SNIP_OPEN_KEY) until the chevron folds it.
-const startsOpen = () => false;
+const startsOpen = () => false; // the effect below opens it on /ui-snippets/ pages (after mount, so the server render matches)
 const SNIP_OPEN_KEY = 'uis_sidebar_snippets_open';
 
 function UiSnippetsCategories({ pathname }) {
@@ -473,6 +473,15 @@ function UiSnippetsCategories({ pathname }) {
   useEffect(() => {
     try { if (localStorage.getItem(SNIP_OPEN_KEY) === '1') setOpen(true); } catch { /* storage blocked: stays folded */ }
   }, []);
+  // On every UI snippets page (My Code included) the group opens, so the categories are always at hand; the chevron
+  // can still fold it until the next page.
+  // My Code is the exception: the group stays folded there and the My Code row is the active one.
+  const onSnippets = /^\/ui-snippets(?!\/mycode(\/|$))(\/|$)/.test(pathname || '');
+  const onMyCode = /^\/ui-snippets\/mycode(\/|$)/.test(pathname || '');
+  useEffect(() => {
+    if (onSnippets) setOpen(true);
+    else if (onMyCode) setOpen(false);
+  }, [onSnippets, onMyCode, pathname]);
   const toggleOpen = () => setOpen(v => {
     const next = !v;
     try { if (next) localStorage.setItem(SNIP_OPEN_KEY, '1'); else localStorage.removeItem(SNIP_OPEN_KEY); } catch { /* ignore */ }
