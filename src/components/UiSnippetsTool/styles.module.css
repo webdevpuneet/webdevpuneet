@@ -2055,7 +2055,7 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
 .coMoreBtn:hover { background: color-mix(in srgb, #6366f1 14%, var(--surface)); }
 .coMoreBtn:focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }
 .coPeek { position: fixed; z-index: 1000; pointer-events: none; border-radius: 12px; overflow: hidden; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 18px 50px rgba(15, 23, 42, 0.35); animation: coPeekIn 0.15s ease-out both; }
-.coPeek img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: contain; background: var(--surface3); }
+.coPeek img { display: block; width: 100%; height: auto; max-height: min(480px, 70vh); object-fit: contain; background: var(--surface3); }
 .coPeek p { margin: 0; padding: 10px 14px; font: 700 13px var(--font-ui); color: var(--text); }
 @keyframes coPeekIn { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .coPeek { animation: none; } }
