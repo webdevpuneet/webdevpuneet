@@ -466,11 +466,10 @@ function SidebarLink({ href, icon, label, active, count = 0 }) {
    Folded by default (open on the UI snippets pages); the chevron opens the list. The links stay in the page when it is folded
    (height 0, hidden from keyboard and screen readers), so crawlers still see them everywhere.
 ───────────────────────────────────────────────────────────── */
-// Open only on /ui-snippets/ pages, where the categories are the navigation; folded everywhere else
-// The UI Snippets group starts collapsed on every page, UI snippet pages included (2026-11-03); the chevron opens it,
-// and once opened it stays open (remembered under SNIP_OPEN_KEY) until the chevron folds it.
+// The UI Snippets group is open on the UI snippet pages, where the categories are the navigation, and folded on every
+// other page, My Code included (the My Code row is the active one there). The chevron can fold or open it for the
+// page being viewed; nothing is remembered, so the next page starts from these rules again.
 const startsOpen = () => false; // the effect below opens it on /ui-snippets/ pages (after mount, so the server render matches)
-const SNIP_OPEN_KEY = 'uis_sidebar_snippets_open';
 
 function UiSnippetsCategories({ pathname }) {
   const [open, setOpen] = useState(() => startsOpen(pathname));
@@ -479,25 +478,9 @@ function UiSnippetsCategories({ pathname }) {
   // Only the count of bookmarked snippets shows, first under UI Snippets; the link opens the gallery's Bookmarked view
   const bookmarked = useBookmarks();
 
-  // The group stays as the visitor left it: expanding it is remembered across pages and visits until they fold it
-  // again. Read after mount (not in the state initializer) so the server and first client render still match.
-  useEffect(() => {
-    try { if (localStorage.getItem(SNIP_OPEN_KEY) === '1') setOpen(true); } catch { /* storage blocked: stays folded */ }
-  }, []);
-  // On every UI snippets page (My Code included) the group opens, so the categories are always at hand; the chevron
-  // can still fold it until the next page.
-  // My Code is the exception: the group stays folded there and the My Code row is the active one.
   const onSnippets = /^\/ui-snippets(?!\/mycode(\/|$))(\/|$)/.test(pathname || '');
-  const onMyCode = /^\/ui-snippets\/mycode(\/|$)/.test(pathname || '');
-  useEffect(() => {
-    if (onSnippets) setOpen(true);
-    else if (onMyCode) setOpen(false);
-  }, [onSnippets, onMyCode, pathname]);
-  const toggleOpen = () => setOpen(v => {
-    const next = !v;
-    try { if (next) localStorage.setItem(SNIP_OPEN_KEY, '1'); else localStorage.removeItem(SNIP_OPEN_KEY); } catch { /* ignore */ }
-    return next;
-  });
+  useEffect(() => { setOpen(onSnippets); }, [onSnippets, pathname]);
+  const toggleOpen = () => setOpen(v => !v);
 
   useEffect(() => {
     const el = bodyRef.current;
