@@ -23,6 +23,7 @@ export default {
     { key: 'unit', label: 'What it counts', type: 'text', value: 'happy users' },
     { key: 'thanks', label: 'Message', type: 'textarea', value: 'Thank you for building with us. The next 10K starts today.' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="m">
   <i class="m-c c1" data-anim="fall"></i><i class="m-c c2" data-anim="fall"></i><i class="m-c c3" data-anim="fall"></i><i class="m-c c4" data-anim="fall"></i><i class="m-c c5" data-anim="fall"></i><i class="m-c c6" data-anim="fall"></i>
@@ -32,7 +33,7 @@ export default {
     <span class="m-unit" data-edit="unit"></span>
     <p class="m-thanks" data-edit="thanks" data-fit></p>
   </div>
-  <span class="m-handle" data-edit="handle"></span>
+  <span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="m-handle" data-edit="handle"></span></span>
 </div>`,
   css: `.m{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:var(--pt) var(--pad) var(--pb);background:var(--bg);text-align:center}
 .m-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*2);width:100%}

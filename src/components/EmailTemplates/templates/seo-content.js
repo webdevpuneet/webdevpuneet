@@ -1,5 +1,8 @@
 /* Hand-written SEO content per email template, keyed by id, plus the shared
-   "how it's different" list. Use cases follow the library rules (4 x 18-42 words). */
+   "how it's different" list. Use cases follow the library rules (4 x 18-42 words).
+   Templates added later keep their text in seo-content-more.js, merged in below. */
+
+import { EMAIL_SEO_MORE } from './seo-content-more.js';
 
 export const EMAIL_SEO = {
   welcome: {
@@ -1398,6 +1401,8 @@ Copy the HTML into Stripe, Chargebee, Recurly, Paddle or your own billing emails
     ],
   },
 };
+
+Object.assign(EMAIL_SEO, EMAIL_SEO_MORE);
 
 export const EMAIL_DIFFERENT = [
   { icon: '</>', title: 'Real email HTML you own', desc: 'Not a locked design inside a sending platform. Copy production-ready HTML, download a .html file or fork it into My Code, and use it with any email service or your own code.' },

@@ -22,6 +22,7 @@ export default {
     { key: 'body', label: 'Explanation', type: 'textarea', value: 'font-size: clamp(1rem, 2.5vw, 2rem) scales smoothly between a minimum and maximum, with no media queries.' },
     { key: 'progress', label: 'Progress', type: 'text', value: '2 / 7' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="st">
   <span class="st-num" data-edit="number" data-anim="pop" data-at="0.1"></span>
@@ -29,7 +30,7 @@ export default {
     <h2 class="st-title" data-edit="title" data-fit></h2>
     <p class="st-text" data-edit="body" data-fit></p>
   </div>
-  <div class="st-foot"><span data-edit="handle"></span><span class="st-prog" data-edit="progress"></span></div>
+  <div class="st-foot"><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span data-edit="handle"></span></span><span class="st-prog" data-edit="progress"></span></div>
 </div>`,
   css: `.st{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--pt) var(--pad) var(--pb);background:var(--bg);border-left:calc(var(--u)*2) solid var(--accent)}
 .st-num{font-family:var(--font-heading);font-size:calc(var(--u)*30);font-weight:900;line-height:.9;color:transparent;-webkit-text-stroke:calc(var(--u)*.5) var(--accent);letter-spacing:-.04em}

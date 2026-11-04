@@ -25,6 +25,7 @@ export default {
     { key: 'message', label: 'Message', type: 'textarea', value: 'To everyone who makes ordinary days feel a little more special. Thank you for being part of ours.' },
     { key: 'offer', label: 'Offer (optional)', type: 'text', value: 'Dinner for two · 20% off on 14 Feb' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="vd">
   <div class="vd-hearts" aria-hidden="true"><i data-anim="float">&#9829;</i><i data-anim="float">&#9829;</i><i data-anim="float">&#9829;</i><i data-anim="float">&#9829;</i><i data-anim="float">&#9829;</i></div>
@@ -34,7 +35,7 @@ export default {
     <p class="vd-message" data-edit="message" data-fit></p>
     <span class="vd-offer" data-edit="offer" data-anim="pulse"></span>
   </div>
-  <span class="vd-handle" data-edit="handle"></span>
+  <span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="vd-handle" data-edit="handle"></span></span>
 </div>`,
   css: `.vd{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(circle at 50% 0%,color-mix(in srgb,var(--accent) 30%,transparent),transparent 55%),linear-gradient(165deg,var(--bg) 0%,var(--bg2) 100%);overflow:hidden}
 .vd-hearts i{position:absolute;font-style:normal;color:var(--accent);opacity:.2}

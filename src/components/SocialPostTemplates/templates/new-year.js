@@ -22,6 +22,7 @@ export default {
     { key: 'year', label: 'Year', type: 'text', value: '2027' },
     { key: 'message', label: 'Message', type: 'textarea', value: 'Thank you for an incredible 2026. Here’s to new ideas, bigger goals and *more good days* together.' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="ny">
   <i class="ny-fw f1" data-anim="burst"></i><i class="ny-fw f2" data-anim="burst"></i><i class="ny-fw f3" data-anim="burst"></i>
@@ -31,7 +32,7 @@ export default {
     <span class="ny-year" data-edit="year" data-fit></span>
     <p class="ny-msg" data-edit="message" data-fit></p>
   </div>
-  <span class="ny-handle" data-edit="handle"></span>
+  <span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="ny-handle" data-edit="handle"></span></span>
 </div>`,
   css: `.ny{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(ellipse at 50% 110%,color-mix(in srgb,var(--accent2) 28%,transparent),transparent 60%),var(--bg);text-align:center;overflow:hidden}
 .ny-fw{position:absolute;width:calc(var(--u)*26);height:calc(var(--u)*26);border-radius:50%;background:repeating-conic-gradient(from 0deg,var(--accent2) 0deg 2deg,transparent 2deg 15deg);-webkit-mask:radial-gradient(circle,transparent 18%,#000 20%,#000 46%,transparent 50%);mask:radial-gradient(circle,transparent 18%,#000 20%,#000 46%,transparent 50%);opacity:.85}

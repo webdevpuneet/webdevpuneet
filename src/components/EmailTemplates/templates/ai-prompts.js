@@ -28,7 +28,7 @@ export function emailAiPrompt(t) {
 Purpose: ${t.description}
 
 Inbox text:
-- Subject line: “${plain(t.defaultSubject)}”${pre ? `\n- Preheader (hidden preview text): “${pre}”` : ''}
+- Subject line: “${plain(t.defaultSubject) || fieldValue(t, 'subject')}”${pre ? `\n- Preheader (hidden preview text): “${pre}”` : ''}
 
 Content, top to bottom:
 ${blocks.length ? blocks.map(b => `- ${b}`).join('\n') : '- Header with logo, message, call to action, footer'}${headline ? `\n\nHeadline: “${headline}”.` : ''}${cta ? ` Main button: “${cta}”.` : ''}

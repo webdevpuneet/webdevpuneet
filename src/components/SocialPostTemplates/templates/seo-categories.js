@@ -58,7 +58,7 @@ Used together, they form a launch-week kit with matching sizes for the Instagram
   },
   promo: {
     title: 'Sale & Promo Post Templates — Free Black Friday & Discount',
-    description: 'Free sale and promo post templates: discount badges, Black Friday sales, product spotlights and Instagram giveaway posts. Edit online, download or copy HTML.',
+    description: 'Free sale and promo post templates: Black Friday, Cyber Monday, advent calendar deals, discount badges, product spotlights and giveaways. Edit and download.',
     h1: 'Sale & Promo Post Templates',
     keywords: ['sale post template', 'black friday post template', 'discount post template', 'product post template instagram', 'instagram giveaway post template', 'comparison post template', 'just listed post template'],
     intro: `Promotional posts need to communicate the offer in under a second. These templates are built around that: **Discount Badge** puts the percentage in a tilted sticker badge with a coupon-style code chip, **Black Friday Sale** uses huge outlined and filled type for Black Friday (November 27, 2026) and Cyber Monday (November 30, 2026), **Product Spotlight** lets a product photo sell with a clean card for the name, price and shop button, **Giveaway Contest** lays out the prize, three entry steps, the deadline and the rules line Instagram expects, **Us vs Them Comparison** shows why customers choose you, and **Just Listed** gives real estate agents a listing post with price, specs and contact details.
@@ -84,7 +84,7 @@ Both templates work for virtual webinars, workshops, meetups, conference talks, 
   },
   'social-proof': {
     title: 'Testimonial & Before/After Post Templates — Free Designs',
-    description: 'Free social proof post templates: customer testimonials with star ratings and before and after comparisons for Instagram, Facebook and X. Download or copy HTML.',
+    description: 'Free social proof post templates: 5-star Google review posts, customer testimonials and before and after comparisons for Instagram, Facebook, LinkedIn and X.',
     h1: 'Testimonial & Before/After Post Templates',
     keywords: ['testimonial post template', 'customer review post', 'before and after post template', 'social proof post'],
     intro: `Social proof sells better than any claim you can make yourself. **Customer Testimonial** turns a review into a credible card, with stars, the quote, a real person's photo, role and company, and an optional company logo. **Before & After** shows a transformation with two equal photo panels that stack on tall sizes and sit side by side on wide ones, labelled so the improvement is obvious.
@@ -122,8 +122,8 @@ Every other template in the library also exports at Story size, so your feed pos
     ],
   },
   holidays: {
-    title: 'Holiday Post Templates — Halloween, Christmas & New Year',
-    description: 'Free holiday social post templates for Halloween, Thanksgiving, Christmas and New Year 2027. Edit online, then download Story, LinkedIn and Pinterest sizes.',
+    title: 'Holiday Post Templates — Christmas, Diwali, Eid & More',
+    description: 'Free holiday post templates: Christmas, Hanukkah, Diwali, Lunar New Year, Ramadan and Eid, national days, Halloween and more. Animated, every size, no sign-up.',
     h1: 'Holiday & Seasonal Post Templates',
     keywords: ['holiday post templates', 'halloween post template', 'christmas instagram post template', 'thanksgiving post template', 'new year post template'],
     intro: `The last quarter of the year is packed with moments your audience is already talking about: Halloween on October 31, Thanksgiving on November 26, Black Friday and Cyber Monday on November 27 and 30, Christmas on December 25 and New Year's Eve. Seasonal posts fit naturally into the feed and get more engagement than everyday promotions, as long as they look the part.

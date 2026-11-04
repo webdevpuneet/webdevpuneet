@@ -4,9 +4,9 @@
    fallbacks (Outlook on Windows ignores web fonts and flexbox/grid entirely). */
 
 export const EMAIL_CATEGORIES = [
-  { id: 'onboarding',    label: 'Onboarding & Lifecycle', blurb: 'Welcome, trial-ending, birthday, win-back, NPS survey and cancellation emails that turn sign-ups into loyal customers.' },
-  { id: 'transactional', label: 'Transactional',          blurb: 'Account and billing emails people wait for: verification, password reset, magic links, security alerts, receipts and reminders.' },
-  { id: 'ecommerce',     label: 'E-commerce',             blurb: 'Store emails from cart to doorstep: abandoned cart, back in stock, order and shipping confirmations, refunds and review requests.' },
+  { id: 'onboarding',    label: 'Onboarding & Lifecycle', blurb: 'Welcome, getting-started checklist, team invitation, trial-ending, birthday, win-back, NPS survey and cancellation emails that turn sign-ups into loyal customers.' },
+  { id: 'transactional', label: 'Transactional',          blurb: 'Account, billing and booking emails people wait for: verification, one-time codes, password reset, magic links, security alerts, receipts, failed payments, booking confirmations and contact-form replies.' },
+  { id: 'ecommerce',     label: 'E-commerce',             blurb: 'Store emails from cart to doorstep: abandoned cart, back in stock, order confirmation and cancellation, shipping, delays, delivery, refunds and review requests.' },
   { id: 'marketing',     label: 'Marketing',              blurb: 'Newsletters, product updates, sales, last-chance reminders, webinar invitations and referral emails.' },
   { id: 'holidays',      label: 'Holidays & Seasonal',    blurb: 'Holiday gift guides and season’s greetings for Christmas, the holidays and the New Year.' },
 ];

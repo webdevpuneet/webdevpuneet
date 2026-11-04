@@ -23,6 +23,7 @@ export default {
     { key: 'message', label: 'Message', type: 'textarea', value: 'A year ago this was a one-person project. Today it is a community, and every order, review and kind message got us here.' },
     { key: 'signoff', label: 'Sign-off', type: 'text', value: 'With love, the Acme team' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="ty">
   <div class="ty-dots" aria-hidden="true"><i data-anim="drift"></i><i data-anim="drift"></i><i data-anim="drift"></i><i data-anim="drift"></i><i data-anim="drift"></i><i data-anim="drift"></i><i data-anim="drift"></i><i data-anim="drift"></i></div>
@@ -31,7 +32,7 @@ export default {
     <h2 class="ty-title" data-edit="title" data-fit></h2>
     <p class="ty-message" data-edit="message" data-fit></p>
   </div>
-  <div class="ty-foot"><span class="ty-sign" data-edit="signoff"></span><span class="ty-handle" data-edit="handle"></span></div>
+  <div class="ty-foot"><span class="ty-sign" data-edit="signoff"></span><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="ty-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.ty{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb);background:linear-gradient(160deg,var(--bg) 0%,var(--bg2) 100%);overflow:hidden}
 .ty-dots{position:absolute;inset:0;opacity:.75}

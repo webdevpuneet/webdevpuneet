@@ -25,6 +25,7 @@ export default {
     { key: 'answer', label: 'Answer', type: 'textarea', value: 'Consistency beats volume. *Two to three thoughtful posts a week*, plus genuine comments on other people\'s posts, will grow you faster than posting every day.' },
     { key: 'cta', label: 'Call to action', type: 'text', value: 'Got a question? Drop it in the comments 👇' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="qa">
   <span class="qa-label" data-edit="label"></span>
@@ -38,7 +39,7 @@ export default {
       <p class="qa-atext" data-edit="answer" data-fit></p>
     </div>
   </div>
-  <div class="qa-foot"><span data-edit="cta"></span><span class="qa-handle" data-edit="handle"></span></div>
+  <div class="qa-foot"><span data-edit="cta"></span><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="qa-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.qa{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(circle at 0% 100%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 50%),var(--bg)}
 .qa-label{font-family:var(--font-heading);font-size:calc(var(--u)*5);font-weight:800;letter-spacing:-.01em;color:var(--accent)}

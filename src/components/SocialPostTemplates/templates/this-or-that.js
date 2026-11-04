@@ -25,6 +25,7 @@ export default {
     { key: 'optionB', label: 'Option B', type: 'textarea', value: 'Light mode' },
     { key: 'cta', label: 'Vote prompt', type: 'text', value: 'Comment A or B' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="tt">
   <div class="tt-top" aria-hidden="true"></div>
@@ -32,7 +33,7 @@ export default {
   <div class="tt-opt tt-a" data-anim="slide-t" data-at="0.3"><b aria-hidden="true" data-anim="pop" data-at="0.9">A</b><h2 data-edit="optionA" data-fit></h2></div>
   <div class="tt-or" aria-hidden="true" data-anim="pop" data-at="1.1">OR</div>
   <div class="tt-opt tt-b" data-anim="slide-b" data-at="0.3"><b aria-hidden="true" data-anim="pop" data-at="1.2">B</b><h2 data-edit="optionB" data-fit></h2></div>
-  <div class="tt-foot"><span class="tt-cta" data-edit="cta"></span><span class="tt-handle" data-edit="handle"></span></div>
+  <div class="tt-foot"><span class="tt-cta" data-edit="cta"></span><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="tt-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.tt{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--pt) var(--pad) var(--pb);background:var(--colorB);color:var(--text)}
 .tt-top{position:absolute;inset:0;background:var(--colorA);clip-path:polygon(0 0,100% 0,100% 40%,0 60%)}

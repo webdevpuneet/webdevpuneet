@@ -26,8 +26,10 @@ export default {
     { key: 'deal', label: 'Deal', type: 'text', value: '31% off everything' },
     { key: 'dates', label: 'Dates', type: 'text', value: 'Oct 29 – Oct 31' },
     { key: 'code', label: 'Code', type: 'text', value: 'Code: BOO31' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="hw">
+  <div class="spt-logo spt-logo-tl" data-image="logo" data-image-fit="contain"></div>
   <i class="hw-moon" data-anim="breathe"></i>
   <i class="hw-bat b1" data-anim="fly"></i><i class="hw-bat b2" data-anim="fly"></i><i class="hw-bat b3" data-anim="fly"></i>
   <i class="hw-hill"></i>

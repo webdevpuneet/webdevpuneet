@@ -25,10 +25,12 @@ export default {
     { key: 'name', label: 'Product name', type: 'textarea', value: 'Everyday Canvas Tote' },
     { key: 'price', label: 'Price', type: 'text', value: '$48' },
     { key: 'cta', label: 'Button', type: 'text', value: 'Shop now →' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="ps">
   <div class="ps-photo" data-image="photo" data-ph="product"></div>
   <div class="ps-card" data-fit-box>
+    <div class="spt-logo ps-logo" data-image="logo" data-image-fit="contain"></div>
     <span class="ps-label" data-edit="label"></span>
     <h2 class="ps-name" data-edit="name" data-fit></h2>
     <div class="ps-row"><span class="ps-price" data-edit="price" data-anim="pulse"></span><span class="ps-cta" data-edit="cta" data-anim="nudge-x"></span></div>
@@ -43,5 +45,6 @@ export default {
 .ps-price{font-family:var(--font-heading);font-size:calc(var(--u)*7);font-weight:700}
 .ps-cta{font-size:calc(var(--u)*3.2);font-weight:700;color:var(--btnText);background:var(--btn);padding:calc(var(--u)*2) calc(var(--u)*4);border-radius:99px}
 .is-landscape .ps{flex-direction:row}
-.is-landscape .ps-card{flex:0 0 40%;justify-content:center}`,
+.is-landscape .ps-card{flex:0 0 40%;justify-content:center}
+.spt .ps-logo{position:absolute;top:calc(var(--u)*3);right:calc(var(--u)*3.4);width:calc(var(--u)*13);height:calc(var(--u)*6);background-position:right center}`,
 };

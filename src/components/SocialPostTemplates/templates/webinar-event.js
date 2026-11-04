@@ -29,8 +29,10 @@ export default {
     { key: 'role', label: 'Speaker role', type: 'text', value: 'Staff Engineer, Acme' },
     { key: 'photo', label: 'Speaker photo', type: 'image' },
     { key: 'cta', label: 'Button', type: 'text', value: 'Register free →' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="w">
+  <div class="spt-logo spt-logo-tr" data-image="logo" data-image-fit="contain"></div>
   <div class="w-top"><div class="w-date" data-anim="pop" data-at="0.3"><span data-edit="month"></span><b data-edit="day"></b></div><span class="w-kicker" data-edit="kicker"></span></div>
   <div class="w-body" data-fit-box><h2 class="w-title" data-edit="title" data-fit></h2><span class="w-time" data-edit="time"></span></div>
   <div class="w-foot">

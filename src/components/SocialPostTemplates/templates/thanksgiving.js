@@ -22,6 +22,7 @@ export default {
     { key: 'title', label: 'Headline', type: 'textarea', value: 'Grateful for *you*' },
     { key: 'message', label: 'Message', type: 'textarea', value: 'Thank you for being part of our story this year. Wishing you a table full of good food and good people.' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="tg">
   <i class="tg-leaf l1" data-anim="fall"></i><i class="tg-leaf l2" data-anim="fall"></i><i class="tg-leaf l3" data-anim="fall"></i><i class="tg-leaf l4" data-anim="fall"></i><i class="tg-leaf l5" data-anim="fall"></i><i class="tg-leaf l6" data-anim="fall"></i>
@@ -32,7 +33,7 @@ export default {
       <p class="tg-msg" data-edit="message" data-fit></p>
     </div>
     <span class="tg-rule"></span>
-    <span class="tg-handle" data-edit="handle"></span>
+    <span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="tg-handle" data-edit="handle"></span></span>
   </div>
 </div>`,
   css: `.tg{position:absolute;inset:0;display:flex;padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(circle at 50% 120%,color-mix(in srgb,var(--accent2) 22%,transparent),transparent 60%),var(--bg);overflow:hidden}

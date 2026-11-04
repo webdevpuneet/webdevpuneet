@@ -24,8 +24,10 @@ export default {
     { key: 'title', label: 'Offer', type: 'textarea', value: 'Everything in the store, *this weekend only*' },
     { key: 'code', label: 'Promo code', type: 'text', value: 'Code: SAVE50' },
     { key: 'ends', label: 'End date', type: 'text', value: 'Ends Sunday at midnight' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="db">
+  <div class="spt-logo spt-logo-tr" data-image="logo" data-image-fit="contain"></div>
   <div class="db-badge" data-anim="wobble"><span class="db-pct" data-edit="percent"></span><span class="db-off" data-edit="off"></span></div>
   <div class="db-copy" data-fit-box>
     <h2 class="db-title" data-edit="title" data-fit></h2>

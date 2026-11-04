@@ -21,12 +21,13 @@ export default {
     { key: 'fact', label: 'Fact', type: 'textarea', value: 'The first website ever made is *still online* at info.cern.ch.' },
     { key: 'source', label: 'Source', type: 'text', value: 'Source: CERN, 1991' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="d">
   <div class="d-q" aria-hidden="true" data-anim="wobble">?</div>
   <h3 class="d-head" data-edit="heading"></h3>
   <div class="d-body" data-fit-box><p class="d-fact" data-edit="fact" data-fit></p></div>
-  <div class="d-foot"><span data-edit="source"></span><span class="d-handle" data-edit="handle"></span></div>
+  <div class="d-foot"><span data-edit="source"></span><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="d-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.d{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--pt) var(--pad) var(--pb);background:var(--bg)}
 .d-q{position:absolute;right:calc(var(--u)*-6);bottom:calc(var(--u)*-14 + var(--safe-bottom,0px));font-family:var(--font-heading);font-weight:900;font-size:calc(var(--u)*95);line-height:1;color:color-mix(in srgb,var(--accent) 22%,transparent)}

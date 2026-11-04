@@ -19,13 +19,13 @@ export const TEMPLATE_CATEGORIES = [
   { id: 'quotes',        label: 'Quotes & Tips',     blurb: 'Quote cards, tips, list posts, Q&As, facts, myth vs fact and statistic posts that people save and share.' },
   { id: 'how-to',        label: 'How-To & Education', blurb: 'Checklists, step-by-step guides and mistakes-to-avoid posts that people save and come back to.' },
   { id: 'engagement',    label: 'Engagement',        blurb: 'This-or-that votes and hot takes that get people commenting, sharing and arguing in the replies.' },
-  { id: 'announcements', label: 'Announcements',     blurb: 'Launches, coming-soon teasers, milestones, hiring, meet-the-team and "we’re live" posts.' },
-  { id: 'promo',         label: 'Promo & Sales',     blurb: 'Discount badges, holiday sales, product spotlights, giveaways, comparisons and real estate listings.' },
+  { id: 'announcements', label: 'Announcements',     blurb: 'Launches, coming-soon teasers, milestones, hiring, meet-the-team, holiday hours, year-in-review and "we’re live" posts.' },
+  { id: 'promo',         label: 'Promo & Sales',     blurb: 'Discount badges, Black Friday and Cyber Monday sales, advent calendar deals, product spotlights, giveaways, comparisons and real estate listings.' },
   { id: 'events',        label: 'Events',            blurb: 'Webinar, meetup and countdown posts with a clear date, plus event recaps.' },
-  { id: 'social-proof',  label: 'Social Proof',      blurb: 'Customer testimonials and before/after results.' },
+  { id: 'social-proof',  label: 'Social Proof',      blurb: 'Customer testimonials, 5-star review posts and before/after results.' },
   { id: 'carousel',      label: 'Carousel Slides',   blurb: 'Cover, step and final slides for swipeable carousel posts.' },
   { id: 'stories',       label: 'Stories',           blurb: 'Story-first designs: polls, questions and link-in-bio prompts.' },
-  { id: 'holidays',      label: 'Holidays & Seasonal', blurb: 'Halloween, Thanksgiving, Christmas and New Year posts, ready for the season.' },
+  { id: 'holidays',      label: 'Holidays & Seasonal', blurb: 'Christmas, Hanukkah, Diwali, Lunar New Year, Ramadan and Eid, Giving Tuesday, national days, Halloween, Thanksgiving and New Year posts.' },
 ];
 export const categoryById = id => TEMPLATE_CATEGORIES.find(c => c.id === id);
 
@@ -59,6 +59,14 @@ export const BASE_CSS = `
 .spt [data-image][data-ph="cover"]:not(.has-img){background-image:${PLACEHOLDER_ART.cover},${PLACEHOLDER_GRADIENT}}
 .spt [data-image][data-optional]:not(.has-img),.spt [data-image][data-image-fit="contain"]:not(.has-img){display:none}
 .spt [data-fit-box]{min-height:0;overflow:hidden}
+/* Optional logo next to the handle (hidden until a logo is added) */
+.spt .spt-brand{position:relative;display:inline-flex;align-items:center;gap:calc(var(--u)*1.4);max-width:100%;vertical-align:middle}
+.spt .spt-logo{flex:none;width:calc(var(--u)*11);height:calc(var(--u)*5.5)}
+/* Logo on templates without a handle: in a corner, or in the flow under the text */
+.spt .spt-logo-tr,.spt .spt-logo-tl{position:absolute;z-index:3;top:var(--pt);width:calc(var(--u)*15);height:calc(var(--u)*7)}
+.spt .spt-logo-tr{right:var(--pad);background-position:right center}
+.spt .spt-logo-tl{left:var(--pad);background-position:left center}
+.spt .spt-logo-flow{position:relative;flex:none;width:calc(var(--u)*16);height:calc(var(--u)*6.5)}
 .spt.v-top [data-fit-box]{justify-content:flex-start!important}
 .spt.v-middle [data-fit-box]{justify-content:center!important}
 .spt.v-bottom [data-fit-box]{justify-content:flex-end!important}

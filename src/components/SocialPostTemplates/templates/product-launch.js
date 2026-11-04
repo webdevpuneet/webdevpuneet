@@ -23,8 +23,10 @@ export default {
     { key: 'tagline', label: 'Tagline', type: 'textarea', value: 'Plan, ship and report in one calm workspace.' },
     { key: 'cta', label: 'Call to action', type: 'text', value: 'Try it free →' },
     { key: 'shot', label: 'Product screenshot', type: 'image' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="pl">
+  <div class="spt-logo spt-logo-tr" data-image="logo" data-image-fit="contain"></div>
   <div class="pl-copy" data-fit-box>
     <span class="pl-badge" data-edit="badge" data-anim="pulse"></span>
     <h2 class="pl-title" data-edit="title" data-fit></h2>

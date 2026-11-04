@@ -45,6 +45,16 @@ import saveTheDate from './save-the-date.js';
 import thankYou from './thank-you.js';
 import valentinesDay from './valentines-day.js';
 import diwali from './diwali.js';
+import cyberMonday from './cyber-monday.js';
+import givingTuesday from './giving-tuesday.js';
+import adventCalendar from './advent-calendar.js';
+import hanukkah from './hanukkah.js';
+import holidayHours from './holiday-hours.js';
+import yearInReview from './year-in-review.js';
+import lunarNewYear from './lunar-new-year.js';
+import ramadanEid from './ramadan-eid.js';
+import nationalDay from './national-day.js';
+import fiveStarReview from './five-star-review.js';
 export { SIZES, sizeById, TEMPLATE_CATEGORIES, categoryById, BASE_CSS, richText } from './meta.js';
 
 const ORDER = [
@@ -63,15 +73,19 @@ const ORDER = [
   hotTake,
   productLaunch,
   milestone,
+  yearInReview,
   newBlogArticle,
   thankYou,
   hiring,
   weAreLive,
   meetTheTeam,
   comingSoon,
+  holidayHours,
   discountBadge,
   pricingCard,
   holidaySale,
+  cyberMonday,
+  adventCalendar,
   productSpotlight,
   giveaway,
   usVsThem,
@@ -81,6 +95,7 @@ const ORDER = [
   countdown,
   eventRecap,
   testimonial,
+  fiveStarReview,
   beforeAfter,
   carouselCover,
   carouselStep,
@@ -89,10 +104,15 @@ const ORDER = [
   storyLink,
   halloweenSale,
   diwali,
+  ramadanEid,
   thanksgiving,
+  givingTuesday,
+  hanukkah,
   christmasGreeting,
   valentinesDay,
   newYear,
+  lunarNewYear,
+  nationalDay,
 ];
 
 export const TEMPLATES = ORDER;

@@ -84,3 +84,14 @@ Format: date · area · suggested / chosen / done · note
            stamped, numbers count up, snow and leaves fall, bats fly, before/after wiped in...). Play checked on every template (0 problems).
            Dummy placeholder pictures in empty photo slots (landscape, portrait, product screenshot, article cover). Not deployed.
 
+2026-11-03 · email · done · 10 new email templates (27 → 37): booking confirmation, booking rescheduled, team invitation, getting started
+           checklist, one-time code (2FA), contact form auto-reply, failed payment, order delivered, shipping delay, order cancellation.
+           Hand-written SEO per template (seo-content-more.js), category pages and hub links updated, previews/OG captured, checked at
+           375 px and in dark mode. Next: batch 2 in SUGGESTIONS-EMAIL.html (booking cancelled, card expiring, seasonal). Not deployed.
+2026-11-03 · social · done · 10 occasion templates (45 → 55): Cyber Monday, Giving Tuesday, Advent Calendar Deal, Hanukkah,
+           Holiday Hours, Year in Review, Lunar New Year, Ramadan & Eid, National Day (any striped flag), 5-Star Review. Optional logo
+           on each; new motions scroll-y and wave in render.js; hand-written SEO (seo-content-occasions.js); category pages, blurbs and
+           email<->social pairs updated; previews/OG captured; motion checked frame by frame. Next: logo slot on the 42 older templates.
+2026-11-03 · social · done · Optional logo on all 55 social templates (brand kit fills it). 31 next to the handle (.spt-brand), 10
+           without a handle in a corner or under the text; Event Recap and Giveaway footers adjusted when a logo is present. Checked with a
+           sample logo (overlap / outside checks) and without (no change). Pre-existing fit problems logged in SUGGESTIONS-SOCIAL.html.

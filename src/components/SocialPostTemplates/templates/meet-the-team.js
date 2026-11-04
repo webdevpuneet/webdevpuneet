@@ -31,6 +31,7 @@ export default {
     { key: 'm3Name', label: 'Member 3 name', type: 'text', value: 'Leo Martins' },
     { key: 'm3Role', label: 'Member 3 role', type: 'text', value: 'Customer Success' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="mt">
   <div class="mt-head">
@@ -43,7 +44,7 @@ export default {
     <div class="mt-card" data-anim="pop" data-at="0.85"><div class="mt-photo" data-image="m2Photo" data-ph="portrait"></div><div class="mt-who"><span class="mt-name" data-edit="m2Name"></span><span class="mt-role" data-edit="m2Role"></span></div></div>
     <div class="mt-card" data-anim="pop" data-at="1.2"><div class="mt-photo" data-image="m3Photo" data-ph="portrait"></div><div class="mt-who"><span class="mt-name" data-edit="m3Name"></span><span class="mt-role" data-edit="m3Role"></span></div></div>
   </div>
-  <span class="mt-handle" data-edit="handle"></span>
+  <span class="spt-brand mt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="mt-handle" data-edit="handle"></span></span>
 </div>`,
   css: `.mt{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*5);padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(circle at 100% 0%,color-mix(in srgb,var(--accent) 18%,transparent),transparent 42%),var(--bg)}
 .mt-head{display:flex;flex-direction:column;gap:calc(var(--u)*2)}
@@ -63,5 +64,6 @@ export default {
 .is-landscape .mt{display:grid;grid-template-columns:.9fr 1.6fr;grid-template-rows:1fr auto;column-gap:calc(var(--u)*6)}
 .is-landscape .mt-head{justify-content:center}
 .is-landscape .mt-grid{grid-row:1/3}
-.is-landscape .mt-title{font-size:calc(var(--u)*10)}`,
+.is-landscape .mt-title{font-size:calc(var(--u)*10)}
+.mt-brand{align-self:flex-end}`,
 };

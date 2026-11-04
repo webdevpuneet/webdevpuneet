@@ -24,6 +24,7 @@ export default {
     { key: 'date', label: 'Launch date', type: 'text', value: '11 · 12 · 2026' },
     { key: 'cta', label: 'Call to action', type: 'text', value: '🔔 Turn on post notifications' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="cs">
   <div class="cs-photo" data-image="photo" aria-hidden="true"></div>
@@ -35,7 +36,7 @@ export default {
     <span class="cs-date" data-edit="date"></span>
     <span class="cs-cta" data-edit="cta"></span>
   </div>
-  <span class="cs-handle" data-edit="handle"></span>
+  <span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="cs-handle" data-edit="handle"></span></span>
 </div>`,
   css: `.cs{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*3.6);padding:var(--pt) var(--pad) var(--pb);background:var(--bg);text-align:center}
 .cs-photo{position:absolute;inset:calc(var(--u)*-8);filter:blur(calc(var(--u)*3)) saturate(1.2);opacity:.55;transform:scale(1.05)}

@@ -2,6 +2,7 @@
    (shared by every template page and the gallery). */
 
 import { TEMPLATE_WHY_NEW } from './seo-content-new.js';
+import { TEMPLATE_WHY_OCC } from './seo-content-occasions.js';
 
 export const TEMPLATE_WHY = {
   'big-quote': [
@@ -178,7 +179,7 @@ export const TEMPLATE_WHY = {
   ],
 };
 
-Object.assign(TEMPLATE_WHY, TEMPLATE_WHY_NEW);
+Object.assign(TEMPLATE_WHY, TEMPLATE_WHY_NEW, TEMPLATE_WHY_OCC);
 
 export const TEMPLATE_DIFFERENT = [
   { icon: '</>', title: 'Real HTML and CSS, not a locked image', desc: 'Canva-style templates only give you an image. These are plain HTML and CSS you can copy, download as a .html file or fork into My Code, then reuse on a website, in an email or in your own design system.' },

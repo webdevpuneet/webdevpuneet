@@ -24,6 +24,7 @@ export default {
     { key: 'context', label: 'Context line', type: 'textarea', value: 'A simple reminder email can win a share of those sales back.' },
     { key: 'source', label: 'Source', type: 'text', value: 'Source: Baymard Institute, cart abandonment research' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="bs">
   <span class="bs-eyebrow" data-edit="eyebrow"></span>
@@ -33,7 +34,7 @@ export default {
   </div>
   <div class="bs-bar" aria-hidden="true"><div class="bs-fill" data-bar="percent" data-anim="draw-x" data-at="0.7" data-dur="1.2"></div></div>
   <p class="bs-context" data-edit="context"></p>
-  <div class="bs-foot"><span data-edit="source"></span><span class="bs-handle" data-edit="handle"></span></div>
+  <div class="bs-foot"><span data-edit="source"></span><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="bs-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.bs{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*3.4);padding:var(--pt) var(--pad) var(--pb);background:linear-gradient(color-mix(in srgb,var(--text) 5%,transparent) 1px,transparent 1px) 0 0/100% calc(var(--u)*8),radial-gradient(circle at 0% 0%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 50%),var(--bg)}
 .bs-eyebrow{font-size:calc(var(--u)*3.2);font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent)}

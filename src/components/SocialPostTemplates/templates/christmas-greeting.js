@@ -25,6 +25,7 @@ export default {
     { key: 'message', label: 'Message', type: 'textarea', value: 'Thank you for an amazing 2026. Wishing you warmth, joy and a little magic this holiday season.' },
     { key: 'offer', label: 'Offer (optional)', type: 'text', value: 'Free shipping until Dec 20' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="xm">
   <i class="xm-snow"></i>
@@ -36,7 +37,7 @@ export default {
     <p class="xm-msg" data-edit="message" data-fit></p>
     <span class="xm-offer" data-edit="offer"></span>
   </div>
-  <span class="xm-handle" data-edit="handle"></span>
+  <span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="xm-handle" data-edit="handle"></span></span>
 </div>`,
   css: `.xm{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--bg) 70%,#fff 8%),var(--bg) 70%);text-align:center;overflow:hidden}
 .xm-snow{position:absolute;inset:0;opacity:.55;background-image:radial-gradient(circle,#fff 0 calc(var(--u)*.45),transparent calc(var(--u)*.55)),radial-gradient(circle,#fff 0 calc(var(--u)*.3),transparent calc(var(--u)*.4)),radial-gradient(circle,#fff 0 calc(var(--u)*.6),transparent calc(var(--u)*.7));background-size:calc(var(--u)*13) calc(var(--u)*11),calc(var(--u)*9) calc(var(--u)*8),calc(var(--u)*21) calc(var(--u)*19);background-position:0 0,calc(var(--u)*4) calc(var(--u)*3),calc(var(--u)*8) calc(var(--u)*6)}

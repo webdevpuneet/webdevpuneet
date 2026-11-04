@@ -28,6 +28,7 @@ export default {
     { key: 's4t', label: 'Step 4 title (optional)', type: 'text', value: 'Check the live site' },
     { key: 's4d', label: 'Step 4 detail', type: 'text', value: 'Open it in a private window.' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="hs">
   <div class="hs-head">
@@ -40,7 +41,7 @@ export default {
     <div class="hs-step"><b aria-hidden="true" data-anim="pop">3</b><div><h3 data-edit="s3t"></h3><p data-edit="s3d"></p></div></div>
     <div class="hs-step"><b aria-hidden="true" data-anim="pop">4</b><div><h3 data-edit="s4t"></h3><p data-edit="s4d"></p></div></div>
   </div>
-  <div class="hs-foot"><span class="hs-handle" data-edit="handle"></span></div>
+  <div class="hs-foot"><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="hs-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.hs{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*4.4);padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(circle at 0% 100%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 55%),var(--bg)}
 .hs-head{display:flex;flex-direction:column;gap:calc(var(--u)*2)}

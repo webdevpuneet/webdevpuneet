@@ -28,6 +28,7 @@ export default {
     { key: 'agentPhoto', label: 'Agent photo (optional)', type: 'image' },
     { key: 'agent', label: 'Agent name', type: 'text', value: 'Elena Torres, Realtor®' },
     { key: 'contact', label: 'Agent contact', type: 'text', value: '(512) 555-0188 · elena@youragency.com' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="jl">
   <div class="jl-photo" data-image="photo"><span class="jl-ribbon" data-edit="ribbon" data-anim="sway" data-origin="0 0"></span></div>
@@ -40,7 +41,7 @@ export default {
     <div class="jl-specs"><span data-edit="beds"></span><span data-edit="baths"></span><span data-edit="area"></span></div>
     <div class="jl-agent">
       <div class="jl-agent-photo" data-image="agentPhoto" data-optional></div>
-      <div class="jl-agent-who"><span class="jl-agent-name" data-edit="agent"></span><span class="jl-contact" data-edit="contact"></span></div>
+      <div class="jl-agent-who"><span class="jl-agent-name" data-edit="agent"></span><span class="jl-contact" data-edit="contact"></span></div><div class="spt-logo jl-logo" data-image="logo" data-image-fit="contain"></div>
     </div>
   </div>
 </div>`,
@@ -64,5 +65,6 @@ export default {
 .is-landscape .jl-photo{flex:1.3}
 .is-landscape .jl-info{flex:1;justify-content:center;padding:var(--pt) var(--pad) var(--pb)}
 .is-landscape .jl-price{font-size:calc(var(--u)*8)}
-.is-story .jl-photo{flex:1.6}`,
+.is-story .jl-photo{flex:1.6}
+.jl-logo{margin-left:auto;flex:none;width:calc(var(--u)*16);height:calc(var(--u)*7);background-position:right center}`,
 };

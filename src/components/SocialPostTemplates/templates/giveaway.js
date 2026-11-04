@@ -28,6 +28,7 @@ export default {
     { key: 'deadline', label: 'Deadline', type: 'text', value: 'Ends Friday, Nov 6 · Winner announced Monday' },
     { key: 'rules', label: 'Rules line', type: 'text', value: 'US residents 18+. Not sponsored by or affiliated with Instagram.' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="gw">
   <div class="gw-confetti" aria-hidden="true" data-anim="drift"></div>
@@ -48,7 +49,7 @@ export default {
     <span class="gw-deadline" data-edit="deadline" data-anim="pulse"></span>
     <span class="gw-rules" data-edit="rules"></span>
   </div>
-  <span class="gw-handle" data-edit="handle"></span>
+  <span class="spt-brand gw-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="gw-handle" data-edit="handle"></span></span>
 </div>`,
   css: `.gw{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(circle at 85% 10%,color-mix(in srgb,var(--pop) 35%,transparent),transparent 45%),radial-gradient(circle at 0% 100%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 50%),var(--bg)}
 .gw-confetti{position:absolute;inset:0;pointer-events:none;opacity:.42;background:
@@ -76,5 +77,8 @@ radial-gradient(circle,#fff 0 calc(var(--u)*.45),transparent calc(var(--u)*.55))
 .is-landscape .gw-prize{font-size:calc(var(--u)*9)}
 .is-landscape .gw-photo{width:calc(var(--u)*26);height:calc(var(--u)*26)}
 .is-story .gw-top{flex-direction:column;align-items:flex-start}
-.is-story .gw-photo{align-self:center;width:calc(var(--u)*52);height:calc(var(--u)*52)}`,
+.is-story .gw-photo{align-self:center;width:calc(var(--u)*52);height:calc(var(--u)*52)}
+.spt .gw-brand{position:absolute;right:var(--pad);bottom:var(--pb)}
+.gw-brand .gw-handle{position:static}
+.gw:has(.spt-logo.has-img) .gw-foot{padding-right:calc(var(--u)*40)}`,
 };

@@ -24,8 +24,10 @@ export default {
     { key: 'deal', label: 'Deal', type: 'text', value: 'Up to 60% off' },
     { key: 'dates', label: 'Dates', type: 'text', value: 'Nov 27 – Nov 30' },
     { key: 'code', label: 'Code', type: 'text', value: 'Use code BF60' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="bf">
+  <div class="spt-logo spt-logo-tr" data-image="logo" data-image-fit="contain"></div>
   <div class="bf-body" data-fit-box>
     <span class="bf-l1" data-edit="line1"></span>
     <span class="bf-l2" data-edit="line2"></span>

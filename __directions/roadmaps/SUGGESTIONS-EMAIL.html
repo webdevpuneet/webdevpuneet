@@ -57,7 +57,7 @@
 <p class="back"><a href="SUGGESTIONS.html">← All suggestions</a></p>
 <header>
   <h1>Email Templates suggestions</h1>
-  <p>Next emails to build, based on gaps in the 27 built so far. Last updated: 2026-11-02.</p>
+  <p>Next emails to build, based on gaps in the 37 built so far. Last updated: 2026-11-03.</p>
 </header>
 
 <nav class="toc" aria-label="Contents">
@@ -74,30 +74,36 @@
 
 <section id="templates">
   <h2>Email templates</h2>
-  <p class="muted">27 templates in 5 categories (Onboarding &amp; Lifecycle, Transactional, E-commerce, Marketing, Holidays &amp; Seasonal).</p>
+  <p class="muted">37 templates in 5 categories (Onboarding &amp; Lifecycle, Transactional, E-commerce, Marketing, Holidays &amp; Seasonal).</p>
 
   <div class="sug">
-    <div class="sug-head"><h3>Next email templates</h3><span class="pill todo">Suggested</span></div>
-    <p class="muted">Added 2026-11-02 · gaps found by comparing the template list with what a small business or SaaS actually sends</p>
-    <p><strong>Build first (8):</strong></p>
-    <ol>
-      <li><strong>Booking confirmation</strong> (only the appointment reminder exists).</li>
-      <li><strong>Booking cancelled / rescheduled.</strong></li>
-      <li><strong>Team invitation.</strong></li>
-      <li><strong>Getting-started checklist</strong> (an onboarding step between welcome and trial ending).</li>
-      <li><strong>One-time code (OTP / 2FA).</strong></li>
-      <li><strong>Order delivered</strong> (e-commerce currently ends at shipping).</li>
-      <li><strong>Shipping delay.</strong></li>
-      <li><strong>Contact-form auto-reply</strong> (every small business site needs one).</li>
-    </ol>
-    <p><strong>Next wave:</strong></p>
+    <div class="sug-head"><h3>Next email templates: batch 2</h3><span class="pill todo">Suggested</span></div>
+    <p class="muted">Left over from the 2026-11-02 list after batch 1 shipped</p>
     <ul>
-      <li><strong>Transactional:</strong> failed payment / card expiring, subscription renewal notice, support ticket received.</li>
-      <li><strong>E-commerce:</strong> order cancelled, price drop / wishlist, gift card, loyalty points.</li>
+      <li><strong>Booking cancelled</strong> (Booking Rescheduled covers a new time; a cancellation with "book again" is still missing).</li>
+      <li><strong>Transactional:</strong> card expiring soon (Failed Payment can be adapted, but a dedicated pre-renewal email is better), subscription renewal notice, support ticket received.</li>
+      <li><strong>E-commerce:</strong> price drop / wishlist, gift card, loyalty points.</li>
       <li><strong>Marketing:</strong> webinar follow-up (replay and slides), in-person event invitation, case study, company news, survey invitation, lead magnet delivery (your free guide is ready).</li>
-      <li><strong>Seasonal:</strong> Valentine's Day, Mother's / Father's Day, Easter, Halloween, Thanksgiving thank-you, Diwali, Eid. Only the holiday gift guide and holiday greetings exist today; build each a few weeks before its date.</li>
+      <li><strong>Seasonal:</strong> Giving Tuesday (Dec 1), Hanukkah, Lunar New Year (Feb 6, 2027), Ramadan / Eid, Valentine's Day, Mother's / Father's Day, Easter, Halloween, Thanksgiving thank-you, Diwali. Matches the social occasions list in SUGGESTIONS-SOCIAL.html. Only the holiday gift guide and holiday greetings exist today; build each a few weeks before its date.</li>
     </ul>
-    <p><strong>For each template:</strong> curated, polished, non-generic SEO text (written for that one template, never a pattern with the name swapped; see 06-QUALITY-BARS.txt) within the length limits, preview image, category page entry, sitemap and llms.txt (steps are in the Templates roadmap), PNG-only icons (never SVG). Check search demand first: "[type] email template".</p>
+    <p><strong>For each template:</strong> curated, polished, non-generic SEO text (written for that one template, never a pattern with the name swapped; see 06-QUALITY-BARS.txt) within the length limits, preview image, category page entry, sitemap and llms.txt (steps are in the Templates roadmap), PNG-only icons (never SVG). Check search demand first: "[type] email template". New SEO text goes in <code>templates/seo-content-more.js</code>.</p>
+  </div>
+
+  <div class="sug">
+    <div class="sug-head"><h3>Next email templates: batch 1</h3><span class="pill done">Done</span></div>
+    <p class="muted">Suggested 2026-11-02 · built 2026-11-03 (27 → 37)</p>
+    <ol>
+      <li><strong>Booking Confirmation</strong> (<code>booking-confirmation</code>): date tile ticket, deposit line, Google / Outlook / .ics buttons, what to bring.</li>
+      <li><strong>Booking Rescheduled</strong> (<code>booking-rescheduled</code>): old time struck through above the new one, who changed it and why. Cancellation is still open (batch 2).</li>
+      <li><strong>Team Invitation</strong> (<code>team-invitation</code>): inviter first, personal message, workspace card with role and teammate initials.</li>
+      <li><strong>Getting Started Checklist</strong> (<code>getting-started-checklist</code>): progress bar driven by one "steps done" number, next step highlighted.</li>
+      <li><strong>One-Time Passcode (2FA)</strong> (<code>one-time-code</code>): one box per digit, never-share warning, request details, no button.</li>
+      <li><strong>Order Delivered</strong> (<code>order-delivered</code>): completed tracking bar, where it was left, product photos with a review link each, report a problem.</li>
+      <li><strong>Shipping Delay</strong> (<code>shipping-delay</code>): old vs new date, honest reason, wait / split / cancel options, apology code.</li>
+      <li><strong>Contact Form Auto-Reply</strong> (<code>contact-form-auto-reply</code>): reply-time badge, copy of their message, hours, while-you-wait links.</li>
+      <li><strong>Failed Payment</strong> (<code>failed-payment</code>, from the next wave): amount, card, decline reason, retry / pause timeline.</li>
+      <li><strong>Order Cancellation</strong> (<code>order-cancelled</code>, from the next wave): cancelled stamp, struck-through items, refund panel.</li>
+    </ol>
   </div>
 </section>
 
@@ -106,6 +112,7 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-11-03</td><td>Batch 1 built: 10 templates (the 8 "build first" plus Failed Payment and Order Cancelled), 27 → 37. Remaining ideas moved to "batch 2", with Booking cancelled added because Booking Rescheduled only covers a new time.</td></tr>
       <tr><td>2026-11-02</td><td>Idea added: next next Email templates (gaps found against the 27 built so far and a suggested first batch of 8).</td></tr>
       <tr><td>2026-11-02</td><td>Suggestions split into separate files (website, email, social, UI snippets, blog) with an index page; nothing removed.</td></tr>
     </tbody>

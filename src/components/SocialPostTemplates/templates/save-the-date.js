@@ -24,6 +24,7 @@ export default {
     { key: 'details', label: 'Time and place', type: 'textarea', value: '7 pm · The Glasshouse, Lisbon' },
     { key: 'note', label: 'Note', type: 'text', value: 'Formal invitation to follow' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="sd">
   <div class="sd-frame" aria-hidden="true" data-anim="settle"></div>
@@ -36,7 +37,7 @@ export default {
     <span class="sd-rule" aria-hidden="true" data-anim="draw-x" data-origin="50% 50%" data-at="1.5"></span>
   </div>
   <p class="sd-details" data-edit="details"></p>
-  <div class="sd-foot"><span class="sd-note" data-edit="note"></span><span class="sd-handle" data-edit="handle"></span></div>
+  <div class="sd-foot"><span class="sd-note" data-edit="note"></span><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="sd-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.sd{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*3.4);padding:calc(var(--pt) + var(--u)*5) calc(var(--pad) + var(--u)*3) calc(var(--pb) + var(--u)*5);background:var(--bg);text-align:center}
 .sd-frame{position:absolute;inset:calc(var(--u)*3.4);border:calc(var(--u)*.45) solid var(--accent);box-shadow:inset 0 0 0 calc(var(--u)*1.1) var(--bg),inset 0 0 0 calc(var(--u)*1.5) color-mix(in srgb,var(--accent) 55%,transparent);pointer-events:none}

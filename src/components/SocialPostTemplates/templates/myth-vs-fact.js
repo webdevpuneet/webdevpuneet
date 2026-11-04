@@ -26,6 +26,7 @@ export default {
     { key: 'fact', label: 'Fact', type: 'textarea', value: 'Email still returns more per dollar than *almost any other channel*, and welcome emails are among the most-opened messages people get.' },
     { key: 'source', label: 'Source', type: 'text', value: 'Source: add your study or report here' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="mf">
   <div class="mf-top">
@@ -42,7 +43,7 @@ export default {
       <p class="mf-text" data-edit="fact" data-fit></p>
     </div>
   </div>
-  <div class="mf-foot"><span data-edit="source"></span><span class="mf-handle" data-edit="handle"></span></div>
+  <div class="mf-foot"><span data-edit="source"></span><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="mf-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.mf{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb);background:var(--bg)}
 .mf-top{display:flex;flex-direction:column;gap:calc(var(--u)*1.4)}

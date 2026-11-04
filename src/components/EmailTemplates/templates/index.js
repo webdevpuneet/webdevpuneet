@@ -28,13 +28,25 @@ import refundConfirmation from './refund-confirmation.js';
 import securityAlert from './security-alert.js';
 import referAFriend from './refer-a-friend.js';
 import subscriptionCancelled from './subscription-cancelled.js';
+import bookingConfirmation from './booking-confirmation.js';
+import bookingRescheduled from './booking-rescheduled.js';
+import teamInvitation from './team-invitation.js';
+import gettingStartedChecklist from './getting-started-checklist.js';
+import oneTimeCode from './one-time-code.js';
+import contactFormAutoReply from './contact-form-auto-reply.js';
+import failedPayment from './failed-payment.js';
+import orderDelivered from './order-delivered.js';
+import shippingDelay from './shipping-delay.js';
+import orderCancelled from './order-cancelled.js';
 
 export { EMAIL_CATEGORIES, emailCategoryById, FONT_STACKS, fontStackById } from './meta.js';
 
 export const EMAIL_TEMPLATES = [
-  welcome, trialEnding, reEngagement, birthdayEmail, npsSurvey, subscriptionCancelled,
-  verifyEmail, passwordReset, magicLink, securityAlert, receipt, paymentReminder, appointmentReminder,
-  abandonedCart, backInStock, orderConfirmation, shippingConfirmation, refundConfirmation, reviewRequest,
+  welcome, gettingStartedChecklist, teamInvitation, trialEnding, reEngagement, birthdayEmail, npsSurvey, subscriptionCancelled,
+  verifyEmail, oneTimeCode, passwordReset, magicLink, securityAlert, receipt, paymentReminder, failedPayment,
+  bookingConfirmation, appointmentReminder, bookingRescheduled, contactFormAutoReply,
+  abandonedCart, backInStock, orderConfirmation, orderCancelled, shippingConfirmation, shippingDelay, orderDelivered,
+  refundConfirmation, reviewRequest,
   newsletter, productUpdate, webinarInvitation, referAFriend, blackFridaySale, lastChanceSale,
   holidayGiftGuide, holidayGreetings,
 ];

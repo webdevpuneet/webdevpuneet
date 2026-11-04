@@ -23,6 +23,7 @@ export default {
     { key: 'labelBefore', label: 'Before label', type: 'text', value: 'Before' },
     { key: 'labelAfter', label: 'After label', type: 'text', value: 'After' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="ba">
   <div class="ba-head" data-fit-box><h2 class="ba-title" data-edit="title" data-fit></h2></div>
@@ -30,7 +31,7 @@ export default {
     <div class="ba-pane ba-b" data-image="before"><span data-edit="labelBefore"></span></div>
     <div class="ba-pane ba-a" data-image="after" data-anim="wipe-r" data-at="1.0" data-dur="1.3"><span data-edit="labelAfter"></span></div>
   </div>
-  <span class="ba-handle" data-edit="handle"></span>
+  <span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="ba-handle" data-edit="handle"></span></span>
 </div>`,
   css: `.ba{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb);background:var(--bg)}
 .ba-head{flex:none;max-height:28%}

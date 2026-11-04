@@ -23,6 +23,7 @@ export default {
     { key: 'file', label: 'File name', type: 'text', value: 'copy.js' },
     { key: 'code', label: 'Code', type: 'textarea', value: "await navigator.clipboard\n  .writeText('Hello!');\n\n// Works in every modern\n// browser on HTTPS" },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="c">
   <h2 class="c-title" data-edit="title"></h2>
@@ -30,7 +31,7 @@ export default {
     <div class="c-bar"><i data-anim="pop" data-at="0.2"></i><i data-anim="pop" data-at="0.4"></i><i data-anim="pop" data-at="0.6"></i><span data-edit="file"></span></div>
     <pre class="c-code" data-edit="code" data-fit data-anim="type" data-at="0.6"></pre>
   </div>
-  <span class="c-handle" data-edit="handle"></span>
+  <span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="c-handle" data-edit="handle"></span></span>
 </div>`,
   css: `.c{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*5);padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(circle at 0% 0%,color-mix(in srgb,var(--accent) 18%,transparent),transparent 50%),var(--bg)}
 .c-title{font-family:var(--font-heading);font-size:calc(var(--u)*7);line-height:1.12;font-weight:700;letter-spacing:-.02em}

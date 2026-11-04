@@ -26,6 +26,7 @@ export default {
     { key: 'item5', label: 'Point 5 (optional)', type: 'text', value: 'Clean inactive contacts every quarter' },
     { key: 'save', label: 'Save prompt', type: 'text', value: '🔖 Save this for your next send' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="nl">
   <span class="nl-label" data-edit="label"></span>
@@ -37,7 +38,7 @@ export default {
     <li><b data-anim="pop">04</b><span data-edit="item4" data-fit></span></li>
     <li><b data-anim="pop">05</b><span data-edit="item5" data-fit></span></li>
   </ol>
-  <div class="nl-foot"><span class="nl-save" data-edit="save"></span><span class="nl-handle" data-edit="handle"></span></div>
+  <div class="nl-foot"><span class="nl-save" data-edit="save"></span><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="nl-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.nl{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*3.4);padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(circle at 100% 0%,color-mix(in srgb,var(--accent) 20%,transparent),transparent 45%),var(--bg)}
 .nl-label{align-self:flex-start;padding:calc(var(--u)*1) calc(var(--u)*2.8);border-radius:99px;background:var(--accent);color:var(--bg);font-size:calc(var(--u)*2.8);font-weight:800;text-transform:uppercase;letter-spacing:.12em}

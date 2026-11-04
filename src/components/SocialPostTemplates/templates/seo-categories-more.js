@@ -27,7 +27,9 @@ export const CATEGORY_MORE = {
     ],
   },
   announcements: {
-    intro: `An announcement post should answer three questions in a glance: what is happening, why it matters and what to do next. Lead with the news in a big headline, add a date or a number if there is one, and finish with a single action such as "Read more" or "Apply today". Post it where the people who care are, and repeat it as a Story and a carousel cover so followers who miss the first post see it again. Add your logo and brand colours so the post is recognisable in the feed.`,
+    intro: `Two end-of-year posts every business needs: **[Holiday Hours](/social-post-templates/holiday-hours/)**, a hanging shop sign with your dates, opening times and a "back on" stamp, and **[Year in Review](/social-post-templates/year-in-review/)**, a wrapped-style recap with a giant year and three stat tiles that count up.
+
+An announcement post should answer three questions in a glance: what is happening, why it matters and what to do next. Lead with the news in a big headline, add a date or a number if there is one, and finish with a single action such as "Read more" or "Apply today". Post it where the people who care are, and repeat it as a Story and a carousel cover so followers who miss the first post see it again. Add your logo and brand colours so the post is recognisable in the feed.`,
     faqs: [
       { q: 'How often can I post the same announcement?', a: 'Post the main announcement once, then add follow-ups with a new angle, such as a behind-the-scenes Story, a countdown, a customer reaction or a thank-you after launch. The same news with a fresh visual does not feel repetitive.' },
       { q: 'Can I use these templates for hiring posts?', a: 'Yes. The hiring template has fields for the role, up to three detail chips (such as location, type and salary), an apply link and an optional logo, and exports in the LinkedIn size (1200×627) as well as the Instagram sizes. Link to the full job description in the caption, because text inside an image cannot be clicked.' },
@@ -35,7 +37,9 @@ export const CATEGORY_MORE = {
     ],
   },
   promo: {
-    intro: `Promotion posts work when the offer is obvious in under a second: the discount or deal in the largest type, a clear deadline and one short line on what it covers. Use contrasting brand colours for the badge so it stands out in the feed, and add an end date to create urgency without shouting. Put the offer code or link in the caption, not only in the image, and make a Story version for the last day of the sale. Run a series of two or three posts so people who miss the first still catch the offer.`,
+    intro: `Two sale formats suit the busiest weeks of the year. **[Cyber Monday](/social-post-templates/cyber-monday/)** dresses the deal as a neon command line over a synthwave grid, so your Monday post looks nothing like Friday's, and **[Advent Calendar Deal](/social-post-templates/advent-calendar/)** gives you one door a day from 1 to 24 December, with Bulk create turning a spreadsheet of offers into the whole month.
+
+Promotion posts work when the offer is obvious in under a second: the discount or deal in the largest type, a clear deadline and one short line on what it covers. Use contrasting brand colours for the badge so it stands out in the feed, and add an end date to create urgency without shouting. Put the offer code or link in the caption, not only in the image, and make a Story version for the last day of the sale. Run a series of two or three posts so people who miss the first still catch the offer.`,
     faqs: [
       { q: 'Should the discount code be inside the image?', a: 'Put the headline offer in the image and the code and link in the caption, where it can be copied. If you want the code visible in the artwork, also repeat it in the caption so people can paste it at checkout.' },
       { q: 'How can I create posts for several products or offers at once?', a: 'Use Bulk create with a CSV: one row per product or offer with the headline, price and image. The editor fills the template for each row and downloads all the posts as a ZIP.' },
@@ -51,7 +55,9 @@ export const CATEGORY_MORE = {
     ],
   },
   'social-proof': {
-    intro: `Proof posts turn customers into your best marketing, but they only work when they are believable. Use real names, roles or businesses and photographs where you have permission, quote the customer's own words and add a number or a result where one exists. Before-and-after posts need the same framing and lighting on both sides so the difference is the point. Rotate proof posts with other content, and link to the full case study in the caption to give interested people a place to go next.`,
+    intro: `For local businesses and online shops, **[5-Star Review](/social-post-templates/five-star-review/)** leads with what customers check first: five big stars, your average rating counting up and the number of reviews, then one customer's words in a speech bubble with a verified tick.
+
+Proof posts turn customers into your best marketing, but they only work when they are believable. Use real names, roles or businesses and photographs where you have permission, quote the customer's own words and add a number or a result where one exists. Before-and-after posts need the same framing and lighting on both sides so the difference is the point. Rotate proof posts with other content, and link to the full case study in the caption to give interested people a place to go next.`,
     faqs: [
       { q: 'How do I get permission to post customer reviews?', a: 'Ask before you post, in writing, and say where the review will appear. Many businesses add a line to the review request, and a short message such as "Can we feature this on our social channels?" is enough for most customers.' },
       { q: 'What makes a good before and after post?', a: 'Use identical framing, lighting and angle for both photos, label them clearly and add a short caption that explains what changed and how long it took. Avoid claims you cannot support and follow the rules of your industry.' },
@@ -75,10 +81,12 @@ export const CATEGORY_MORE = {
     ],
   },
   holidays: {
-    intro: `Seasonal posts are best planned before the rush. Make a calendar for the main dates that matter to your audience, prepare the designs a few weeks ahead and save them to My designs so a few edits update them each year. Keep the message warm and simple, add your logo, and use the festive colour palettes the templates include. If you sell, pair a greeting post with a clear offer a few days earlier, and make a Story version for the day itself.`,
+    intro: `The calendar does not stop at Christmas. **[Hanukkah](/social-post-templates/hanukkah/)** lights a menorah candle by candle, **[Giving Tuesday](/social-post-templates/giving-tuesday/)** fills a heart as donations come in, **[Lunar New Year](/social-post-templates/lunar-new-year/)** swings red lanterns under gold fireworks for 6 February 2027, **[Ramadan & Eid](/social-post-templates/ramadan-eid/)** frames an Arabic greeting in a pointed arch under a crescent moon, and **[National Day](/social-post-templates/national-day/)** waves a three-stripe flag in any country's colours for independence and republic days. Each has its own moving detail in the animated export, so a greeting can double as a Reel.
+
+Seasonal posts are best planned before the rush. Make a calendar for the main dates that matter to your audience, prepare the designs a few weeks ahead and save them to My designs so a few edits update them each year. Keep the message warm and simple, add your logo, and use the festive colour palettes the templates include. If you sell, pair a greeting post with a clear offer a few days earlier, and make a Story version for the day itself.`,
     faqs: [
       { q: 'Can I use the same holiday template every year?', a: 'Yes. Save your design to My designs and change the year, the offer and the wording each season. Because the templates are HTML, it is easy to change dates and colours without starting again.' },
-      { q: 'Are the holiday templates only for Christmas and Halloween?', a: 'No. They cover Diwali, Valentine\'s Day, Halloween, Thanksgiving, Christmas and New Year, but you can change the colours, text and images to suit other occasions such as Eid, Holi or a local festival. Diwali and Valentine\'s Day have their own templates.' },
+      { q: 'Are the holiday templates only for Christmas and Halloween?', a: 'No. There are templates for Diwali, Hanukkah, Lunar New Year, Ramadan and Eid, Giving Tuesday, national and independence days, Valentine\'s Day, Halloween, Thanksgiving, Christmas and New Year. Change the colours and words for Holi or a local festival.' },
       { q: 'What is a good holiday post for a business without a sale?', a: 'A thank-you or greeting post that credits your customers or team, with a short, personal line, works well. It builds goodwill without asking for anything and is easy to make into a Story as well.' },
     ],
   },

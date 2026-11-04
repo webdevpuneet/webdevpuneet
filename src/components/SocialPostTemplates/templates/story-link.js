@@ -25,12 +25,13 @@ export default {
     { key: 'photo', label: 'Cover photo', type: 'image' },
     { key: 'cta', label: 'Call to action', type: 'text', value: 'Read it — link in bio ↑' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="sl">
   <span class="sl-label" data-edit="label"></span>
   <div class="sl-head" data-fit-box><h2 class="sl-title" data-edit="title" data-fit></h2></div>
   <div class="sl-photo" data-image="photo" data-ph="cover"></div>
-  <div class="sl-foot"><span class="sl-cta" data-edit="cta" data-anim="nudge-y"></span><span class="sl-handle" data-edit="handle"></span></div>
+  <div class="sl-foot"><span class="sl-cta" data-edit="cta" data-anim="nudge-y"></span><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="sl-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.sl{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb);background:var(--bg)}
 .sl-label{align-self:flex-start;font-size:calc(var(--u)*3);font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);border-bottom:calc(var(--u)*.5) solid var(--accent);padding-bottom:calc(var(--u)*1)}

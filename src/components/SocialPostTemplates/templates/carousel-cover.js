@@ -25,11 +25,12 @@ export default {
     { key: 'count', label: 'Slide counter', type: 'text', value: '1/7' },
     { key: 'swipe', label: 'Swipe text', type: 'text', value: 'Swipe →' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="cc">
   <div class="cc-top"><span class="cc-kicker" data-edit="kicker"></span><span class="cc-count" data-edit="count"></span></div>
   <div class="cc-body" data-fit-box><h2 class="cc-title" data-edit="title" data-fit></h2></div>
-  <div class="cc-foot"><span data-edit="handle"></span><span class="cc-swipe" data-edit="swipe" data-anim="nudge-x"></span></div>
+  <div class="cc-foot"><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span data-edit="handle"></span></span><span class="cc-swipe" data-edit="swipe" data-anim="nudge-x"></span></div>
 </div>`,
   css: `.cc{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--pt) var(--pad) var(--pb);background:linear-gradient(145deg,var(--bg),var(--bg2))}
 .cc::after{content:'';position:absolute;right:calc(var(--u)*-18);top:calc(var(--u)*-18);width:calc(var(--u)*60);height:calc(var(--u)*60);border-radius:50%;background:color-mix(in srgb,var(--accent) 22%,transparent)}

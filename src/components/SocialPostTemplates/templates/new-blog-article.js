@@ -26,6 +26,7 @@ export default {
     { key: 'meta', label: 'Read time / date', type: 'text', value: '7 min read · 2 Nov' },
     { key: 'cta', label: 'Button', type: 'text', value: 'Read it · link in bio' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="nb">
   <span class="nb-label" data-edit="label"></span>
@@ -35,7 +36,7 @@ export default {
     <p class="nb-excerpt" data-edit="excerpt" data-fit></p>
     <span class="nb-meta" data-edit="meta" data-anim="count"></span>
   </div>
-  <div class="nb-foot"><span class="nb-cta" data-edit="cta"></span><span class="nb-handle" data-edit="handle"></span></div>
+  <div class="nb-foot"><span class="nb-cta" data-edit="cta"></span><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="nb-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.nb{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*3.6);padding:var(--pt) var(--pad) var(--pb);background:var(--bg)}
 .nb-label{align-self:flex-start;display:inline-flex;align-items:center;gap:calc(var(--u)*1.6);font-size:calc(var(--u)*2.8);font-weight:800;text-transform:uppercase;letter-spacing:.18em;color:var(--accent)}

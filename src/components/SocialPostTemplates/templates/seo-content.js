@@ -4,6 +4,7 @@
    Use cases follow the snippet-library rules: 4 entries, 18-42 words each. */
 
 import { TEMPLATE_SEO_NEW } from './seo-content-new.js';
+import { TEMPLATE_SEO_OCC } from './seo-content-occasions.js';
 
 export const TEMPLATE_SEO = {
   'big-quote': {
@@ -1865,4 +1866,4 @@ On the 4:5 feed size the photos sit between the headline and the stats. On 16:9 
   },
 };
 
-Object.assign(TEMPLATE_SEO, TEMPLATE_SEO_NEW);
+Object.assign(TEMPLATE_SEO, TEMPLATE_SEO_NEW, TEMPLATE_SEO_OCC);

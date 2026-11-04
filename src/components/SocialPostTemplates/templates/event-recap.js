@@ -30,6 +30,7 @@ export default {
     { key: 'stat3Label', label: 'Stat 3 label', type: 'text', value: 'unforgettable days' },
     { key: 'thanks', label: 'Thank-you line', type: 'textarea', value: 'Thank you to every speaker, sponsor and attendee. See you next year!' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="er">
   <div class="er-head">
@@ -46,7 +47,7 @@ export default {
     <div><b data-edit="stat2" data-anim="count" data-at="1.05"></b><span data-edit="stat2Label"></span></div>
     <div><b data-edit="stat3" data-anim="count" data-at="1.3"></b><span data-edit="stat3Label"></span></div>
   </div>
-  <div class="er-foot"><p class="er-thanks" data-edit="thanks"></p><span class="er-handle" data-edit="handle"></span></div>
+  <div class="er-foot"><p class="er-thanks" data-edit="thanks"></p><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="er-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.er{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*3.6);padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(circle at 100% 0%,color-mix(in srgb,var(--accent) 28%,transparent),transparent 45%),var(--bg)}
 .er-head{display:flex;flex-direction:column;gap:calc(var(--u)*1)}
@@ -62,12 +63,18 @@ export default {
 .er-stats b{font-family:var(--font-heading);font-size:calc(var(--u)*6.4);line-height:1;color:var(--accent)}
 .er-stats span{font-size:calc(var(--u)*2.7);opacity:.75}
 .er-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:calc(var(--u)*4)}
-.er-thanks{font-size:calc(var(--u)*3.2);line-height:1.35;opacity:.85;max-width:72%}
+.er-thanks{flex:1;min-width:0;font-size:calc(var(--u)*3.2);line-height:1.35;opacity:.85;max-width:72%}
+.er-foot .spt-brand{flex:none}
 .er-handle{flex:none;font-size:calc(var(--u)*3.2);font-weight:800;color:var(--accent)}
 .is-landscape .er{display:grid;grid-template-columns:1fr 1.25fr;grid-template-rows:auto 1fr auto;column-gap:calc(var(--u)*5)}
 .is-landscape .er-head{grid-column:1}
 .is-landscape .er-stats{grid-column:1;grid-row:2;align-self:center;grid-template-columns:1fr}
 .is-landscape .er-grid{grid-column:2;grid-row:1/4}
-.is-landscape .er-foot{grid-column:1;grid-row:3;flex-direction:column;align-items:flex-start;gap:calc(var(--u)*1.6)}
-.is-landscape .er-thanks{max-width:none}`,
+.is-landscape .er-foot{grid-column:1;grid-row:3;flex-direction:column;align-items:flex-start;gap:calc(var(--u)*1)}
+.is-landscape .er-foot:has(.spt-logo.has-img) .er-thanks{font-size:calc(var(--u)*2.7)}
+.is-landscape .er-foot .spt-logo{height:calc(var(--u)*4.4)}
+.is-landscape .er-thanks{max-width:none}
+.is-landscape .er:has(.spt-logo.has-img) .er-stats{gap:calc(var(--u)*1.2)}
+.is-landscape .er:has(.spt-logo.has-img) .er-stats div{padding:calc(var(--u)*1.4) calc(var(--u)*2.4)}
+.is-landscape .er:has(.spt-logo.has-img) .er-stats b{font-size:calc(var(--u)*5.2)}`,
 };

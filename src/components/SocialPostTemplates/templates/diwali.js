@@ -26,6 +26,7 @@ export default {
     { key: 'message', label: 'Message', type: 'textarea', value: 'May the lamps you light bring joy, health and prosperity to your home and everyone you love.' },
     { key: 'offer', label: 'Offer (optional)', type: 'text', value: 'Festive offer · Up to 30% off' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="dw">
   <div class="dw-ring" aria-hidden="true" data-anim="spin"></div>
@@ -37,7 +38,7 @@ export default {
     <span class="dw-offer" data-edit="offer"></span>
   </div>
   <div class="dw-lamps" aria-hidden="true"><i><b data-anim="flicker"></b></i><i><b data-anim="flicker"></b></i><i><b data-anim="flicker"></b></i><i><b data-anim="flicker"></b></i><i><b data-anim="flicker"></b></i></div>
-  <span class="dw-handle" data-edit="handle"></span>
+  <span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="dw-handle" data-edit="handle"></span></span>
 </div>`,
   css: `.dw{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:calc(var(--u)*3.4);padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(ellipse at 50% 100%,color-mix(in srgb,var(--accent) 38%,transparent),transparent 58%),linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);overflow:hidden}
 .dw>*:not(.dw-ring){position:relative}

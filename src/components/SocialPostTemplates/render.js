@@ -381,7 +381,7 @@ const restoreAnim = base => base.forEach(b => { b.el.style.transform = b.transfo
    Reveals (play once, in reading order): pop, tick, stamp, draw-x, draw-y, wipe-r, wipe-u, slide-l,
    slide-r, slide-t, slide-b, settle, count, countdown, type.
    Loops: pulse, breathe, wobble, sway, bob, nudge-x, nudge-y, twinkle, blink, spin, fly, burst, fall,
-   scroll-bg, flicker, float, drift. */
+   scroll-bg, scroll-y, wave, flicker, float, drift. */
 const clamp01 = x => Math.max(0, Math.min(1, x));
 const easeOut = p => 1 - (1 - p) ** 3;
 const easeOutBack = p => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * (p - 1) ** 3 + c1 * (p - 1) ** 2; };
@@ -518,6 +518,12 @@ function applyAmbient(items, time, u = 10) {
         break;
       }
       case 'scroll-bg': { st.backgroundPosition = `${(t * 9 * u).toFixed(1)}px 0`; break; }
+      case 'wave': { // a flag slice: rises and falls with its neighbours, so a ripple runs from the pole to the tip
+        const k = a.left / (9 * u);
+        st.translate = `0 ${(1.4 * u * Math.sin(t * 3 - k)).toFixed(2)}px`;
+        break;
+      }
+      case 'scroll-y': { st.backgroundPosition = `0 ${(t * 9 * u).toFixed(1)}px`; break; } // a floor or road rolling towards the viewer
       case 'flicker': { // a flame: grows and narrows, sways from its base, dims a little
         const s = 1 + 0.08 * Math.sin(t * 9 + ph / 2.1 * 1.7) + 0.05 * Math.sin(t * 17 + ph / 2.1 * 3.1) + 0.03 * Math.sin(t * 29 + ph / 2.1 * 0.7);
         const rot = 3.2 * Math.sin(t * 6.5 + ph / 2.1 * 2.3) + 1.4 * Math.sin(t * 15 + ph / 2.1);

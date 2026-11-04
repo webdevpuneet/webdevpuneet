@@ -31,6 +31,7 @@ export default {
     { key: 'us4', label: 'Right point 4', type: 'text', value: 'Reports included' },
     { key: 'cta', label: 'Call to action', type: 'text', value: 'Try it free for 14 days · link in bio' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="vs">
   <h2 class="vs-title" data-edit="title"></h2>
@@ -51,7 +52,7 @@ export default {
       <p><i aria-hidden="true" data-anim="pop">&#10003;</i><span data-edit="us4"></span></p>
     </div>
   </div>
-  <div class="vs-foot"><span class="vs-cta" data-edit="cta"></span><span class="vs-handle" data-edit="handle"></span></div>
+  <div class="vs-foot"><span class="vs-cta" data-edit="cta"></span><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="vs-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.vs{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*5);padding:var(--pt) var(--pad) var(--pb);background:var(--bg)}
 .vs-title{font-family:var(--font-heading);font-size:calc(var(--u)*9);line-height:1.04;font-weight:800;letter-spacing:-.025em;text-align:center}

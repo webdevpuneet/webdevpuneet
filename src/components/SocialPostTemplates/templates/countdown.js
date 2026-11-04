@@ -22,6 +22,7 @@ export default {
     { key: 'unit', label: 'Unit', type: 'text', value: 'days left' },
     { key: 'title', label: 'Event or offer', type: 'textarea', value: 'Early-bird tickets for *DevSummit 2026*' },
     { key: 'deadline', label: 'Deadline', type: 'text', value: 'Ends Friday, 11:59 PM ET' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="cd">
   <span class="cd-kicker" data-edit="kicker"></span>
@@ -29,6 +30,7 @@ export default {
   <span class="cd-unit" data-edit="unit"></span>
   <div class="cd-body" data-fit-box><h2 class="cd-title" data-edit="title" data-fit></h2></div>
   <span class="cd-deadline" data-edit="deadline"></span>
+  <div class="spt-logo spt-logo-flow" data-image="logo" data-image-fit="contain"></div>
 </div>`,
   css: `.cd{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*2.4);padding:var(--pt) var(--pad) var(--pb);background:radial-gradient(circle at 50% 38%,color-mix(in srgb,var(--accent) 30%,transparent),transparent 55%),var(--bg);text-align:center}
 .cd-kicker{font-size:calc(var(--u)*3.6);font-weight:700;text-transform:uppercase;letter-spacing:.2em;opacity:.8}

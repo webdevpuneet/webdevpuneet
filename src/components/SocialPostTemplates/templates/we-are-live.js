@@ -21,8 +21,10 @@ export default {
     { key: 'platform', label: 'Platform', type: 'text', value: 'Product Hunt' },
     { key: 'date', label: 'Date', type: 'text', value: 'Today · Nov 18' },
     { key: 'ask', label: 'Ask', type: 'textarea', value: 'Your upvote helps us reach more makers ↑' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="l">
+  <div class="spt-logo spt-logo-tl" data-image="logo" data-image-fit="contain"></div>
   <div class="l-stripes" data-anim="scroll-bg"></div>
   <i class="l-dot" data-anim="blink" aria-hidden="true"></i>
   <div class="l-body" data-fit-box>

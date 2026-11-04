@@ -30,6 +30,7 @@ export default {
     { key: 'm4', label: 'Mistake 4 (optional)', type: 'text', value: '' },
     { key: 'f4', label: 'Fix 4', type: 'text', value: '' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="mt">
   <div class="mt-tape" aria-hidden="true" data-anim="scroll-bg"></div>
@@ -43,7 +44,7 @@ export default {
     <div class="mt-card"><i aria-hidden="true" data-anim="stamp">&#10005;</i><div><p class="mt-bad" data-edit="m3"></p><p class="mt-fix" data-edit="f3"></p></div></div>
     <div class="mt-card"><i aria-hidden="true" data-anim="stamp">&#10005;</i><div><p class="mt-bad" data-edit="m4"></p><p class="mt-fix" data-edit="f4"></p></div></div>
   </div>
-  <div class="mt-foot"><span class="mt-handle" data-edit="handle"></span></div>
+  <div class="mt-foot"><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="mt-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.mt{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb);background:var(--bg)}
 .mt-tape{position:absolute;left:0;right:0;top:0;height:calc(var(--u)*2.6);background:repeating-linear-gradient(-45deg,var(--accent) 0,var(--accent) calc(var(--u)*2.6),var(--bg) calc(var(--u)*2.6),var(--bg) calc(var(--u)*5.2));background-size:calc(var(--u)*7.35391) 100%}/* one tile = one horizontal period of the stripes, so scrolling it has no seam */

@@ -21,6 +21,7 @@ export default {
     { key: 'author', label: 'Author', type: 'text', value: 'Austin Freeman' },
     { key: 'role', label: 'Role / source', type: 'text', value: 'Novelist' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
     { key: 'photo', label: 'Author photo (optional)', type: 'image' },
   ],
   html: `<div class="q">
@@ -29,7 +30,7 @@ export default {
   <div class="q-foot">
     <div class="q-photo" data-image="photo" data-optional></div>
     <div class="q-who"><span class="q-author" data-edit="author"></span><span class="q-role" data-edit="role"></span></div>
-    <span class="q-handle" data-edit="handle"></span>
+    <span class="spt-brand q-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="q-handle" data-edit="handle"></span></span>
   </div>
 </div>`,
   css: `.q{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--pt) calc(var(--u)*9) var(--pb);background:radial-gradient(circle at 88% 0%,color-mix(in srgb,var(--accent) 24%,transparent),transparent 55%),var(--bg)}
@@ -43,5 +44,7 @@ export default {
 .q-role{font-size:calc(var(--u)*2.8);opacity:.7}
 .q-handle{margin-left:auto;font-size:calc(var(--u)*3);font-weight:600;color:var(--accent)}
 .is-landscape .q-text{font-size:calc(var(--u)*7.6)}
-.is-landscape .q-mark{height:calc(var(--u)*13)}`,
+.is-landscape .q-mark{height:calc(var(--u)*13)}
+.q-brand{margin-left:auto}
+.q-brand .q-handle{margin-left:0}`,
 };

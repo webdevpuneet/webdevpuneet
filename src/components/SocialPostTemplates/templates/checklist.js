@@ -27,6 +27,7 @@ export default {
     { key: 'item6', label: 'Item 6 (optional)', type: 'text', value: 'Analytics event firing' },
     { key: 'note', label: 'Note', type: 'text', value: 'Save this for launch day' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="cl">
   <div class="cl-head">
@@ -41,7 +42,7 @@ export default {
     <p><i aria-hidden="true" data-anim="stamp">&#10003;</i><span data-edit="item5"></span></p>
     <p><i aria-hidden="true" data-anim="stamp">&#10003;</i><span data-edit="item6"></span></p>
   </div>
-  <div class="cl-foot"><span class="cl-note" data-edit="note"></span><span class="cl-handle" data-edit="handle"></span></div>
+  <div class="cl-foot"><span class="cl-note" data-edit="note"></span><span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="cl-handle" data-edit="handle"></span></span></div>
 </div>`,
   css: `.cl{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb) calc(var(--pad) + var(--u)*7);background-color:var(--bg);background-image:linear-gradient(90deg,transparent calc(var(--u)*9.4),color-mix(in srgb,#e11d48 55%,transparent) calc(var(--u)*9.4),color-mix(in srgb,#e11d48 55%,transparent) calc(var(--u)*9.8),transparent calc(var(--u)*9.8)),repeating-linear-gradient(180deg,transparent 0,transparent calc(var(--u)*6.9),color-mix(in srgb,#2563eb 22%,transparent) calc(var(--u)*6.9),color-mix(in srgb,#2563eb 22%,transparent) calc(var(--u)*7.1))}
 .cl-head{display:flex;flex-direction:column;gap:calc(var(--u)*2)}

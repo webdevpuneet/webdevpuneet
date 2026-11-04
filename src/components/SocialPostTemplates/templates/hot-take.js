@@ -24,6 +24,7 @@ export default {
     { key: 'agree', label: 'Chip 1', type: 'text', value: 'Agree' },
     { key: 'disagree', label: 'Chip 2', type: 'text', value: 'Disagree' },
     { key: 'handle', label: 'Handle', type: 'text', value: '@yourbrand' },
+    { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="ht">
   <div class="ht-glow" aria-hidden="true" data-anim="breathe"></div>
@@ -33,7 +34,7 @@ export default {
   </div>
   <div class="ht-foot">
     <div class="ht-ask"><span class="ht-q" data-edit="question"></span><span class="ht-chips"><b data-edit="agree"></b><b data-edit="disagree"></b></span></div>
-    <span class="ht-handle" data-edit="handle"></span>
+    <span class="spt-brand"><span class="spt-logo" data-image="logo" data-image-fit="contain"></span><span class="ht-handle" data-edit="handle"></span></span>
   </div>
 </div>`,
   css: `.ht{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(var(--u)*4);padding:var(--pt) var(--pad) var(--pb);background:linear-gradient(155deg,var(--bg) 0%,var(--bg2) 100%);overflow:hidden}
