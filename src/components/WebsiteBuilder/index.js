@@ -52,7 +52,7 @@ import {
   SCROLL_PRESETS, SCROLL_STARTS, SCROLL_MODES, SCROLL_PIN_LENGTHS, SCROLL_TARGETS, SCROLL_EASES, KEY_FIELDS, REVEALS,
   scrollPresetById, scrollFromPreset, scrollSummary, cleanScroll, addTrack, removeTrack, setTrack, addKey, removeKey, setKey, trackLabel,
 } from '@/components/SectionTemplates/templates/scroll.js';
-import { bindInlineEdit, fieldOfTarget, applyEdit, useFrozenPreview } from '@/components/SectionTemplates/inline-edit';
+import { bindInlineEdit, fieldOfTarget, applyEdit, applyFocus, useFrozenPreview } from '@/components/SectionTemplates/inline-edit';
 import { analyse, livePatch } from '@/components/SectionTemplates/live-patch';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { putAsset, getAsset } from '@/components/SectionTemplates/storage';
@@ -113,7 +113,9 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDo
   const cb = useRef({});
   cb.current = { onSelect, onKey, onNavigate, onInsert, onRemove, canRemove };
   const scrollY = useRef(0);
-  useEffect(() => { if (topKey) scrollY.current = 0; }, [topKey]); // ▶ Play starts from the top
+  const replay = useRef(false); // the next reload is a ▶ Play: its animations should be seen
+  useEffect(() => { if (topKey) { scrollY.current = 0; replay.current = true; } }, [topKey]); // ▶ Play starts from the top
+  const quiet = useRef(false); // the reload being loaded was caused by an edit: its entrance animations are skipped (see onLoad)
   const hashRef = useRef(hash); // a section to scroll to once, after another page's link opened this one
 
   const analysisRef = useRef(null); // the text and structure of the page now showing (see live-patch.js)
@@ -128,6 +130,7 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDo
     if (patch.patched) return;
     const back = 1 - frontRef.current;
     pending.current = back;
+    quiet.current = !replay.current; replay.current = false; // only ▶ Play (and a new page or device) replays the animations
     // A unique trailer forces a reload even when this frame already holds identical html (e.g.
     // toggling something off and on), otherwise no load event fires and the swap never happens
     seq.current += 1;
@@ -233,9 +236,15 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDo
     }
     onDocRef.current?.(doc);
     if (pending.current === i) {
-      pending.current = -1;
-      frontRef.current = i;
-      setFront(i);
+      const show = () => { pending.current = -1; frontRef.current = i; setFront(i); };
+      // An edit rebuilds the page, which would play every entrance animation again. Run them at high speed in the hidden
+      // frame first, so the page is swapped in already finished (scroll-driven effects follow the scroll as usual).
+      const tl = quiet.current ? win.gsap?.globalTimeline : null;
+      if (tl) {
+        const mine = seq.current;
+        tl.timeScale(80);
+        setTimeout(() => { tl.timeScale(1); if (pending.current === i && seq.current === mine) show(); }, 200);
+      } else show();
     }
   };
 
@@ -1030,6 +1039,7 @@ export default function WebsiteBuilder() {
       return sec ? fieldOfTarget(sectionTemplateById(sec.tpl), tg) : null;
     },
     onInput: (tg, v) => setSectionState(tg.uid, p => applyEdit(p, tg, v)),
+    onFocus: (tg, pt) => setSectionState(tg.uid, p => applyFocus(p, tg, pt)),
     onReveal: (tg, focus) => { setReveal({ ...tg, focus, n: Date.now() }); openSection(tg.uid); },
     onStart: editStart,
     onEnd: editEnd,

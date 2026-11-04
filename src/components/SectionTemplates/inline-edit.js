@@ -56,6 +56,12 @@ export function fieldOfTarget(t, target) {
   return fd ? { fd, target: { ...target, list: null, item: null } } : null;
 }
 
+/** The state after an image is dragged to a new focus point in the preview (the key matches state.focus in the Content panel) */
+export function applyFocus(p, tg, pt) {
+  const key = tg.list ? `${tg.list}.${tg.item}.${tg.key}` : tg.key;
+  return { ...p, focus: { ...(p.focus || {}), [key]: pt } };
+}
+
 /** The state after text typed in the preview: a section field, a list item field or a Custom Section block */
 export function applyEdit(p, tg, v) {
   if (tg.csBlock) return setBlockProp(p, tg.csBlock, tg.key, v);
@@ -160,16 +166,61 @@ function selectionBar(doc, el, onChange) {
  * @param resolve  target => { fd, target } | null     (fieldOfTarget with the right template)
  * @param onInput  (target, value) => void             text typed in the preview
  * @param onReveal (target, focus) => void             show that field's input in the panel
+ * @param onFocus  (target, { x, y }) => void             a cropped photo was dragged to show another part of it
  * @param onStart / onEnd                              an inline text edit begins / ends
  */
-export function bindInlineEdit(doc, { resolve, onInput, onReveal, onStart, onEnd }) {
+export function bindInlineEdit(doc, { resolve, onInput, onReveal, onFocus, onStart, onEnd }) {
   if (!doc?.head || doc.__stInline) return;
   doc.__stInline = true;
   const style = doc.createElement('style');
   style.textContent = INLINE_EDIT_CSS;
   doc.head.appendChild(style);
 
+  // Drag a cropped photo (object-fit: cover) to choose which part of it shows: its focus point, as in the Content panel.
+  // The photo moves live while dragging; the new point is saved on release, and that release does not count as a click.
+  let swallowClick = false;
+  if (onFocus) {
+    const win = doc.defaultView;
+    style.textContent += '\nimg[data-image][data-st-drag],img[data-i-image][data-st-drag]{cursor:grabbing !important}';
+    doc.addEventListener('pointerdown', ev => {
+      if (ev.button !== 0 || !ev.isPrimary) return;
+      const img = ev.target.closest?.('img[data-image],img[data-i-image]');
+      if (!img || !img.naturalWidth || win.getComputedStyle(img).objectFit !== 'cover') return;
+      const hit = resolve(targetOf(img));
+      if (!hit || hit.fd.type !== 'image') return;
+      const bw = img.clientWidth, bh = img.clientHeight, sc = Math.max(bw / img.naturalWidth, bh / img.naturalHeight);
+      const ox = img.naturalWidth * sc - bw, oy = img.naturalHeight * sc - bh; // how far the photo overflows its box
+      if (ox < 2 && oy < 2) return;
+      const pos = win.getComputedStyle(img).objectPosition.split(' ').map(v => (v.endsWith('%') ? parseFloat(v) : 50));
+      const from = { x: pos[0] ?? 50, y: pos[1] ?? 50 }, x0 = ev.clientX, y0 = ev.clientY;
+      let now = from, moved = false;
+      ev.preventDefault();
+      const move = m => {
+        const dx = m.clientX - x0, dy = m.clientY - y0;
+        if (!moved && Math.hypot(dx, dy) < 4) return;
+        moved = true;
+        img.setAttribute('data-st-drag', '');
+        now = { x: ox > 2 ? Math.max(0, Math.min(100, from.x - (dx / ox) * 100)) : from.x, y: oy > 2 ? Math.max(0, Math.min(100, from.y - (dy / oy) * 100)) : from.y };
+        img.style.objectPosition = `${now.x}% ${now.y}%`;
+      };
+      const up = () => {
+        doc.removeEventListener('pointermove', move, true);
+        doc.removeEventListener('pointerup', up, true);
+        doc.removeEventListener('pointercancel', up, true);
+        img.removeAttribute('data-st-drag');
+        if (!moved) return;
+        swallowClick = true;
+        setTimeout(() => { swallowClick = false; }, 0);
+        onFocus(hit.target, { x: Math.round(now.x), y: Math.round(now.y) });
+      };
+      doc.addEventListener('pointermove', move, true);
+      doc.addEventListener('pointerup', up, true);
+      doc.addEventListener('pointercancel', up, true);
+    }, true);
+  }
+
   doc.addEventListener('click', ev => {
+    if (swallowClick) { ev.preventDefault(); ev.stopImmediatePropagation(); return; }
     const el = ev.target.closest?.(SEL);
     if (!el || el.isContentEditable) return;
     const hit = resolve(targetOf(el));

@@ -114,7 +114,7 @@ export default {
 .ta-item{position:relative;display:flex;flex:1 1 0;min-width:0;overflow:hidden;border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);transition:flex-grow .65s cubic-bezier(.4,0,.2,1)}
 .ta-item.is-open,.ta:not([data-ta-ready]) .ta-item:first-child{flex-grow:7}
 .ta-trigger{position:absolute;inset:0;z-index:1;padding:0;border:0;background:transparent;cursor:pointer;border-radius:inherit}
-.ta-item.is-open .ta-trigger{cursor:default}
+.ta-item.is-open .ta-trigger{cursor:default;pointer-events:none}
 .ta-trigger:focus-visible{outline:3px solid var(--st-brand);outline-offset:-4px}
 .ta-info{position:relative;z-index:2;flex:0 1 0;min-width:0;overflow:hidden;visibility:hidden;opacity:0;transition:flex-grow .65s cubic-bezier(.4,0,.2,1),opacity .35s ease,visibility 0s .65s}
 .ta-item.is-open .ta-info,.ta:not([data-ta-ready]) .ta-item:first-child .ta-info{flex-grow:1.15;visibility:visible;opacity:1;transition:flex-grow .65s cubic-bezier(.4,0,.2,1),opacity .45s ease .2s,visibility 0s}

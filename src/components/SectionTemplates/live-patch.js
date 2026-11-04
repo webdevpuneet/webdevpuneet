@@ -11,9 +11,29 @@
    what the page was built with: one that scripts have changed (a counter that has counted) makes the whole update
    fall back to the normal reload, so the result is always right. Headline text effects are the exception: GSAP
    SplitText wraps the words (data-anim-text), which is fine as long as the words are still the same; the heading
-   is then replaced with the new text as plain text, already in its final place, so nothing plays again. */
+   is then replaced with the new text as plain text, already in its final place, so nothing plays again.
+
+   The same goes for photos: a replaced picture, its alt text and its focus point (dragged in the preview or set in the
+   panel) are written into the live photo or background, so nothing reloads and nothing animates again. */
 
 const TEXT_SEL = '[data-edit],[data-i-edit],[data-cs-edit]';
+// Photos and backgrounds: the picture itself (src / background-image), its alt text and its focus point (object-position /
+// background-position) are patched in place
+const POS_SEL = 'img[data-image],img[data-i-image],[data-bg],[data-i-bg]';
+const posKey = el => el.getAttribute('data-image') ?? el.getAttribute('data-i-image') ?? el.getAttribute('data-bg') ?? el.getAttribute('data-i-bg');
+const posSig = el => {
+  const uid = el.closest('section[data-uid]')?.getAttribute('data-uid') || '';
+  const item = el.closest('[data-item]')?.getAttribute('data-item') || '';
+  return `${uid}|${item}||p|${posKey(el)}`;
+};
+const posOf = el => JSON.stringify(el.tagName === 'IMG'
+  ? [el.style.objectPosition, el.getAttribute('src') || '', el.getAttribute('alt') || '']
+  : [el.style.backgroundPosition, el.style.getPropertyValue('background-image'), '']);
+const writePos = (el, json) => {
+  const [pos, pic, alt] = JSON.parse(json);
+  const set = (prop, v) => { if (v) el.style.setProperty(prop, v); else el.style.removeProperty(prop); };
+  if (el.tagName === 'IMG') { set('object-position', pos); if (pic) el.setAttribute('src', pic); el.setAttribute('alt', alt); } else { set('background-position', pos); set('background-image', pic); }
+};
 const squash = t => String(t).replace(/\s+/g, ' ').trim();
 const textOfHtml = html => { const d = document.createElement('div'); d.innerHTML = html; return squash(d.textContent); };
 /** The live element still shows what the page was built with (`was`), apart from words wrapped by a headline text effect */
@@ -41,6 +61,19 @@ export function analyse(html) {
     else groups.set(sig, inner);
   });
   els.forEach(el => { el.innerHTML = ''; });
+  // The focus point of every photo is its own group and is taken out of the structure, so dragging a photo to a new
+  // position patches that one style instead of reloading the page (which would play every entrance animation again)
+  doc.querySelectorAll(POS_SEL).forEach(el => {
+    const sig = posSig(el);
+    if (groups.has(sig)) { conflict = true; return; }
+    groups.set(sig, posOf(el));
+    el.style.removeProperty('object-position');
+    el.style.removeProperty('background-position');
+    el.style.removeProperty('background-image');
+    if (el.tagName === 'IMG') { el.setAttribute('src', ''); el.setAttribute('alt', ''); }
+    // The style is written out again either way, so a page with the property and one without come out identical
+    if (el.style.cssText) el.setAttribute('style', el.style.cssText); else el.removeAttribute('style');
+  });
   return { skeleton: doc.documentElement.outerHTML, groups, conflict };
 }
 
@@ -54,19 +87,20 @@ export function livePatch(prev, nextHtml, liveDoc) {
   const changed = [...next.groups].filter(([sig, inner]) => prev.groups.get(sig) !== inner);
   if (!changed.length) { result.patched = true; return result; }
   const live = new Map();
-  liveDoc.querySelectorAll(TEXT_SEL).forEach(el => {
-    const sig = sigOf(el);
-    if (!live.has(sig)) live.set(sig, []);
-    live.get(sig).push(el);
-  });
+  const add = (sig, el) => { if (!live.has(sig)) live.set(sig, []); live.get(sig).push(el); };
+  liveDoc.querySelectorAll(TEXT_SEL).forEach(el => add(sigOf(el), el));
+  liveDoc.querySelectorAll(POS_SEL).forEach(el => add(posSig(el), el));
+  const isPos = sig => sig.includes('||p|');
   for (const [sig] of changed) {
     const els = live.get(sig);
     if (!els?.length) return result;
+    if (isPos(sig)) continue;
     const was = prev.groups.get(sig);
     if (els.some(el => el.hasAttribute('data-st-editing') || !stillSame(el, was))) return result;
   }
   for (const [sig, inner] of changed) {
     live.get(sig).forEach(el => {
+      if (isPos(sig)) { writePos(el, inner); return; }
       el.innerHTML = inner;
       if (el.hasAttribute('data-anim-text')) el.removeAttribute('aria-label'); // SplitText set it from the old words
     });

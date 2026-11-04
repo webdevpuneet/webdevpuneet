@@ -41,7 +41,7 @@ const withLook = (p, patch) => {
 };
 const withoutBg = p => { const { [BG_KEY]: _bg, ...uploads } = p.uploads || {}; return withLook({ ...p, uploads }, { overlay: '0' }); };
 import CustomLayoutPanel from './CustomLayoutPanel';
-import { bindInlineEdit, fieldOfTarget, applyEdit, useFrozenPreview } from './inline-edit';
+import { bindInlineEdit, fieldOfTarget, applyEdit, applyFocus, useFrozenPreview } from './inline-edit';
 import { documentHtml, sectionCss, sectionMarkup, snippetParts, customFontIds, sectionScript, sectionCdn, themeOf } from './templates/render.js';
 import { sectionDesignStore as designStore, putAsset, getAsset } from './storage';
 import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from './upload';
@@ -470,6 +470,7 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
   const onPreviewDoc = useCallback(doc => bindInlineEdit(doc, {
     resolve: tg => fieldOfTarget(t, tg),
     onInput: (tg, v) => setState(p => applyEdit(p, tg, v)),
+    onFocus: (tg, pt) => setState(p => applyFocus(p, tg, pt)),
     onReveal: (tg, focus) => {
       setPanelTab('edit');
       if (focus) setSheetOpen(true);
