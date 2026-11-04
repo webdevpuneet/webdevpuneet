@@ -68,9 +68,22 @@ function AdUnit() {
 
 // `inline` sits the strip inside a tool's title row (title left, ad filling the rest).
 // `className` lets a padded main column pull the strip out to its edges (HTML playground).
-export default function PlaygroundTopAd({ className = '', inline = false }) {
+// `desktopOnly`: for the editors (Website Builder, Section / Email / Social Post Templates), whose phone layout is a
+// fixed-height column: AdSense rewrites the ancestors' heights to `auto !important` there and the preview collapses
+// (seen 2026-11-04: Social preview 68px instead of 369px). So no strip and no ad request below 900px.
+export default function PlaygroundTopAd({ className = '', inline = false, desktopOnly = false }) {
   const notFound = useIsNotFound();
+  const [wide, setWide] = useState(false);
+  useEffect(() => {
+    if (!desktopOnly) return undefined;
+    const mq = window.matchMedia('(min-width: 900px)');
+    const sync = () => setWide(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, [desktopOnly]);
   if (!ADS_ENABLED || notFound) return null;
+  if (desktopOnly && !wide) return null;
   return (
     <div className={`${s.bar} ${inline ? s.inline : ''} ${className}`} aria-label="Advertisement">
       <AdUnit />

@@ -53,9 +53,9 @@ import {
   scrollPresetById, scrollFromPreset, scrollSummary, cleanScroll, addTrack, removeTrack, setTrack, addKey, removeKey, setKey, trackLabel,
 } from '@/components/SectionTemplates/templates/scroll.js';
 import { bindInlineEdit, fieldOfTarget, applyEdit, useFrozenPreview } from '@/components/SectionTemplates/inline-edit';
+import { analyse, livePatch } from '@/components/SectionTemplates/live-patch';
 import { putAsset, getAsset } from '@/components/SectionTemplates/storage';
 import { addToLibrary } from '@/lib/image-library';
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from '@/components/SectionTemplates/upload';
 
 const TOOL = 'website-builder';
@@ -115,9 +115,16 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDo
   useEffect(() => { if (topKey) scrollY.current = 0; }, [topKey]); // ▶ Play starts from the top
   const hashRef = useRef(hash); // a section to scroll to once, after another page's link opened this one
 
+  const analysisRef = useRef(null); // the text and structure of the page now showing (see live-patch.js)
   useEffect(() => {
     if (html === lastHtml.current) return;
+    const prevHtml = lastHtml.current;
     lastHtml.current = html;
+    // A text-only edit is written straight into the page that is showing: no reload, no animations replaying.
+    // (Not while another page is still loading into the back frame: that one would miss the edit.)
+    const patch = livePatch(pending.current === -1 ? (analysisRef.current ?? analyse(prevHtml)) : null, html, refs[frontRef.current].current?.contentDocument);
+    analysisRef.current = patch.analysis;
+    if (patch.patched) return;
     const back = 1 - frontRef.current;
     pending.current = back;
     // A unique trailer forces a reload even when this frame already holds identical html (e.g.
@@ -1647,8 +1654,6 @@ ${pageCss(shown, { fontFaces })}`),
         </aside>
 
         <div className={s.main} style={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
-          {/* Leaderboard ad (max 90px) above the toolbar: the same unit as the UI snippet editor and playgrounds */}
-          <PlaygroundTopAd />
           <div className={s.toolbar} data-scroll-toolbar>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', minWidth: 0 }}>
               <h1 className={s.metaName} title={site.name}>{site.name}</h1>

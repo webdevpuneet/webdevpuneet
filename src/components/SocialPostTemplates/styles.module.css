@@ -135,7 +135,7 @@
 .check input { accent-color: var(--spt-accent); }
 
 /* ── Right panel ───────────────────────────────────────────────────────────── */
-.main { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
+.main { position: relative; flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
 .toolbar {
   display: flex;
   align-items: center;
@@ -160,7 +160,10 @@
   overflow: hidden;
 }
 .stage > div { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.22); border-radius: 4px; }
-.stageHint { margin: 0; padding: 6px 16px 10px; text-align: center; font-size: 11.5px; color: var(--text2); background: var(--bg); }
+/* Floats over the bottom of the preview, so it takes no space; the cross hides it */
+.stageHint { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); z-index: 6; display: flex; align-items: center; gap: 8px; max-width: calc(100% - 28px); padding: 6px 6px 6px 14px; border: 1px solid var(--border); border-radius: 999px; background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(6px); box-shadow: 0 6px 20px rgba(15, 23, 42, 0.18); font-size: 11.5px; line-height: 1.3; color: var(--text2); }
+.stageHintX { flex: none; width: 20px; height: 20px; border: 0; border-radius: 50%; background: var(--surface3); color: var(--text2); font: 700 14px/20px system-ui, sans-serif; padding: 0; cursor: pointer; }
+.stageHintX:hover { background: var(--text2); color: var(--surface); }
 
 .safe { position: absolute; inset: 0; pointer-events: none; }
 .safe span { position: absolute; left: 50%; transform: translateX(-50%); font-size: 10px; font-weight: 700; white-space: nowrap; padding: 2px 6px; border-radius: 4px; }
@@ -367,17 +370,21 @@
 .captionOver { color: #dc2626; font-weight: 700; }
 
 /* ── View bar: platform mock-ups + quality checks ───────────────────────────── */
-.viewBar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 6px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
-.viewSeg { display: flex; padding: 2px; gap: 2px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); }
-.viewSeg button { padding: 3px 10px; border: 0; border-radius: 4px; background: none; color: var(--text2); font-size: 11px; font-weight: 600; line-height: 16px; cursor: pointer; font-family: var(--font-ui); }
+.viewBar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 3px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
+.viewSeg { display: flex; padding: 1px; gap: 1px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); }
+.viewSeg button { padding: 1px 10px; border: 0; border-radius: 4px; background: none; color: var(--text2); font-size: 11px; font-weight: 600; line-height: 16px; cursor: pointer; font-family: var(--font-ui); }
 .viewSeg button:hover { color: var(--text); }
 .viewSeg .viewSegOn, .viewSeg .viewSegOn:hover { background: var(--surface); color: var(--spt-accent, #6366f1); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
-.checksChip { height: 24px; padding: 0 10px; border-radius: 99px; border: 1px solid transparent; font-size: 11px; font-weight: 700; cursor: pointer; font-family: var(--font-ui); }
+.checksChip { height: 20px; padding: 0 10px; border-radius: 99px; border: 1px solid transparent; font-size: 11px; font-weight: 700; cursor: pointer; font-family: var(--font-ui); }
 .checksChip:disabled { cursor: default; }
 .checksGood { background: rgba(22, 163, 74, 0.1); color: #15803d; }
 .checksWarn { background: rgba(245, 158, 11, 0.14); color: #b45309; border-color: rgba(245, 158, 11, 0.4); }
 .checksBad { background: rgba(239, 68, 68, 0.12); color: #b91c1c; border-color: rgba(239, 68, 68, 0.4); }
-.checksList { list-style: none; margin: 0; padding: 6px 16px 8px; display: flex; flex-direction: column; gap: 3px; border-bottom: 1px solid var(--border); background: var(--surface); max-height: 30vh; overflow-y: auto; }
+.checksWrap { position: relative; display: inline-flex; }
+.checksPop { position: absolute; z-index: 40; top: calc(100% + 8px); right: 0; width: max-content; min-width: 260px; max-width: min(420px, 80vw); padding: 10px 14px 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); box-shadow: 0 14px 40px rgba(15, 23, 42, 0.25); }
+.checksPop::before { content: ''; position: absolute; top: -6px; right: 22px; width: 10px; height: 10px; border-left: 1px solid var(--border); border-top: 1px solid var(--border); background: var(--surface); transform: rotate(45deg); }
+.checksPopTitle { margin: 0 0 6px; font: 800 12px var(--font-ui); color: var(--text); }
+.checksList { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; max-height: 40vh; overflow-y: auto; }
 .checksList li { font-size: 12px; line-height: 1.45; padding-left: 16px; position: relative; }
 .checksList li::before { position: absolute; left: 0; top: 0; }
 .checkBad { color: #b91c1c; }
@@ -507,7 +514,7 @@
   .toolbar[data-scroll-toolbar] .toolbarRight { gap: 6px; }
   .viewBar { flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding: 4px 8px; scrollbar-width: none; }
   .viewBar > * { flex: none; }
-  .viewBar, .checksList { display: none; } /* the Instagram / Story / X mock-ups and the quality-check chip are for desktop */
+  .viewBar, .checksList, .checksPop { display: none; } /* the Instagram / Story / X mock-ups and the quality-check chip are for desktop */
   .sizeHint { display: none; }
   /* Two rows: name, Undo, Redo, Reset and Play; then Save, Share and Export side by side, full width */
   .toolbar[data-scroll-toolbar] { flex-wrap: wrap; overflow: visible; row-gap: 4px; }

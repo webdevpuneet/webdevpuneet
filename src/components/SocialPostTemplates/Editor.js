@@ -160,6 +160,10 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
   const isCarousel = CAROUSEL.includes(t.id);
   const [state, setState] = useState(() => editorDefault(t));
   const [hydrated, setHydrated] = useState(false);
+  // The editing tip floats over the bottom of the preview (no space of its own); the cross hides it for good
+  const [hintOpen, setHintOpen] = useState(false);
+  useEffect(() => { try { setHintOpen(localStorage.getItem('spt-stage-hint-closed') !== '1'); } catch { setHintOpen(true); } }, []);
+  const closeHint = () => { setHintOpen(false); try { localStorage.setItem('spt-stage-hint-closed', '1'); } catch { /* ignore */ } };
   const [safe, setSafe] = useState(false);
   const [busy, setBusy] = useState('');
   const [toast, setToast] = useState('');
@@ -176,6 +180,15 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
   const [mockup, setMockupRaw] = useState('design');
   const [checks, setChecks] = useState([]);
   const [checksOpen, setChecksOpen] = useState(false);
+  const checksRef = useRef(null);
+  useEffect(() => {
+    if (!checksOpen) return undefined;
+    const away = e => { if (checksRef.current && !checksRef.current.contains(e.target)) setChecksOpen(false); };
+    const esc = e => { if (e.key === 'Escape') setChecksOpen(false); };
+    document.addEventListener('mousedown', away);
+    document.addEventListener('keydown', esc);
+    return () => { document.removeEventListener('mousedown', away); document.removeEventListener('keydown', esc); };
+  }, [checksOpen]);
   const [bulkOpen, setBulkOpen] = useState(false);
   const [designs, setDesigns] = useState([]);
   const [currentDesign, setCurrentDesign] = useState(null); // { id, name } when editing a saved design
@@ -1085,8 +1098,8 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
         </aside>
 
         <div className={s.main}>
-          {/* Leaderboard ad (max 90px) above the toolbar: the same unit as the UI snippet editor and playgrounds */}
-          <PlaygroundTopAd />
+          {/* Leaderboard ad (max 90px) above the toolbar: the same unit as the UI snippet editor and playgrounds (desktop only) */}
+          <PlaygroundTopAd desktopOnly />
           <div className={s.toolbar} data-scroll-toolbar>
             <div className={s.meta}>
               {/* The page's H1: the template name, or the saved design's name once it's saved */}
@@ -1185,26 +1198,33 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                 </span>
               );
             })()}
-            <button
-              type="button"
-              className={`${s.checksChip} ${bad ? s.checksBad : checks.length ? s.checksWarn : s.checksGood}`}
-              onClick={() => setChecksOpen(o => !o)}
-              aria-expanded={checksOpen}
-              disabled={!checks.length}
-              title="Quality checks: contrast, text size, safe zones, fit and photo resolution"
-            >
-              {checks.length ? `⚠ ${checks.length} check${checks.length > 1 ? 's' : ''} to review` : '✓ Quality checks passed'}
-            </button>
+            {/* The checks open in a popover under the chip (no row of their own); click outside or Esc closes it */}
+            <span className={s.checksWrap} ref={checksRef}>
+              <button
+                type="button"
+                className={`${s.checksChip} ${bad ? s.checksBad : checks.length ? s.checksWarn : s.checksGood}`}
+                onClick={() => setChecksOpen(o => !o)}
+                aria-expanded={checksOpen}
+                aria-haspopup="true"
+                disabled={!checks.length}
+                title="Quality checks: contrast, text size, safe zones, fit and photo resolution"
+              >
+                {checks.length ? `⚠ ${checks.length} check${checks.length > 1 ? 's' : ''} to review` : '✓ Quality checks passed'}
+              </button>
+              {checksOpen && checks.length > 0 && (
+                <div className={s.checksPop} role="dialog" aria-label="Quality checks">
+                  <p className={s.checksPopTitle}>{checks.length} thing{checks.length > 1 ? 's' : ''} to review</p>
+                  <ul className={s.checksList}>
+                    {checks.map(c => (
+                      <li key={`${c.key}|${c.text}`} className={c.level === 'bad' ? s.checkBad : s.checkWarn}>
+                        {c.key ? <button type="button" onClick={() => { revealField(c.key); setChecksOpen(false); }}>{c.text}</button> : c.text}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </span>
           </div>
-          {checksOpen && checks.length > 0 && (
-            <ul className={s.checksList}>
-              {checks.map(c => (
-                <li key={`${c.key}|${c.text}`} className={c.level === 'bad' ? s.checkBad : s.checkWarn}>
-                  {c.key ? <button type="button" onClick={() => revealField(c.key)}>{c.text}</button> : c.text}
-                </li>
-              ))}
-            </ul>
-          )}
           <div ref={stageRef} className={s.stage}>
             <Mockup
               mode={phone ? 'design' : mockup}
@@ -1230,7 +1250,12 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
               )}
             />
           </div>
-          <p className={s.stageHint}>Click any text to edit it · drag a photo to reposition it, scroll to zoom, click to replace</p>
+          {hintOpen && (
+            <div className={s.stageHint} role="note">
+              <span>Click any text to edit it · drag a photo to reposition it, scroll to zoom, click to replace</span>
+              <button type="button" className={s.stageHintX} onClick={closeHint} aria-label="Hide this tip" title="Hide this tip">×</button>
+            </div>
+          )}
         </div>
       </div>
       {confirm && (
