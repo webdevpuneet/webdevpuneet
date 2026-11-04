@@ -1579,25 +1579,10 @@ export default function Sidebar() {
             onClick={() => { if (!adFree) setUnlockOpen(true); }}
             title={adFree ? 'Thank you for supporting the site on Patreon: ads are off' : 'Patreon supporters: enter the passcode to remove all ads'}
             aria-label={adFree ? 'Ads are off, thank you for supporting the site' : 'Remove ads: enter the Patreon supporter passcode'}
-            style={adFree ? { cursor: 'default' } : undefined}
+            style={{ whiteSpace: 'nowrap', ...(adFree ? { cursor: 'default' } : null) }}
           >
             <span>{adFree ? 'Ad-free \u2713' : 'Ad-free'}</span>
           </button>
-          <a
-            className={styles.supportHeartBtn}
-            href="https://paypal.me/webdevpuneet/5"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Please consider donating $5 if this site has helped you — thank you!"
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#ec4899" aria-hidden="true" className={styles.supportHeart}>
-              <path d="M12 21s-7.2-4.35-9.55-8.42C.66 9.47 1.43 5.75 4.55 4.2 7.02 2.97 9.46 3.76 12 6.32c2.54-2.56 4.98-3.35 7.45-2.12 3.12 1.55 3.89 5.27 2.1 8.38C19.2 16.65 12 21 12 21Z" />
-            </svg>
-            <span>Support</span>
-            <span className={styles.supportTooltip} role="tooltip">
-              Please consider donating $5 if this site has helped you — thank you!
-            </span>
-          </a>
           <a
             href="/puneet/"
             className={styles.hireLine}

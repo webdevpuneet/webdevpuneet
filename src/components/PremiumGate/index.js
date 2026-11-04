@@ -28,9 +28,9 @@ export function PremiumBadge({ corner = false }) {
 }
 
 /** Passcode dialog: opens the Patreon page to get the code, or checks the one typed in */
-export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked }) {
+export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, reload = true }) {
   const [code, setCode] = useState('');
-  const [state, setState] = useState(''); // '', 'checking', 'wrong'
+  const [state, setState] = useState(''); // '', 'checking', 'wrong', 'done'
   const input = useRef(null);
   useEffect(() => { if (open) { setCode(''); setState(''); setTimeout(() => input.current?.focus(), 50); } }, [open]);
   useEffect(() => {
@@ -43,7 +43,11 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked }) {
   const submit = async e => {
     e.preventDefault();
     setState('checking');
-    if (await tryUnlock(code)) { setState(''); onUnlocked?.(); onClose(); } else setState('wrong');
+    if (await tryUnlock(code)) {
+      onUnlocked?.();
+      // The page reloads so every ad that was already on it is gone (the editor passes reload={false}: it updates by itself and keeps unsaved work)
+      if (reload) { setState('done'); setTimeout(() => window.location.reload(), 700); } else { setState(''); onClose(); }
+    } else setState('wrong');
   };
   return createPortal(
     <div className={s.backdrop} onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}>
@@ -55,8 +59,9 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked }) {
         <label className={s.label} htmlFor="prem-code">Already a supporter? Enter the passcode</label>
         <div className={s.row}>
           <input id="prem-code" ref={input} className={s.input} value={code} onChange={e => { setCode(e.target.value); setState(''); }} placeholder="Passcode" autoComplete="off" spellCheck={false} aria-invalid={state === 'wrong'} />
-          <button type="submit" className={s.go} disabled={!code.trim() || state === 'checking'}>{state === 'checking' ? 'Checking…' : 'Unlock'}</button>
+          <button type="submit" className={s.go} disabled={!code.trim() || state === 'checking' || state === 'done'}>{state === 'checking' ? 'Checking…' : 'Unlock'}</button>
         </div>
+        {state === 'done' && <p className={s.ok} role="status">Unlocked. Thank you for supporting the site! Refreshing the page…</p>}
         {state === 'wrong' && <p className={s.error} role="alert">That passcode is not right. Copy it from the latest supporter post on Patreon.</p>}
         <button type="button" className={s.close} onClick={onClose}>Not now</button>
       </form>

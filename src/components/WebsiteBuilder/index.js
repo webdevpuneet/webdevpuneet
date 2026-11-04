@@ -1756,7 +1756,7 @@ ${pageCss(shown, { fontFaces })}`),
           </div>
         </div>
       </div>
-      <PremiumUnlockDialog open={unlockOpen} onClose={() => setUnlockOpen(false)} name={`the ${site.name || 'template'}`} onUnlocked={() => flash('Unlocked. Export and Fork are on for this browser.')} />
+      <PremiumUnlockDialog reload={false} open={unlockOpen} onClose={() => setUnlockOpen(false)} name={`the ${site.name || 'template'}`} onUnlocked={() => flash('Unlocked. Export and Fork are on for this browser.')} />
       {confirm && (
         <ConfirmDialog {...confirm} onCancel={() => setConfirm(null)} onOk={() => { const go = confirm.onOk; setConfirm(null); go(); }} />
       )}
