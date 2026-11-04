@@ -1080,19 +1080,27 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
     g.scrollTop += g.scrollHeight - a;
   }, [range.from]);
 
-  // Infinite scroll both ways: 10 more when near the bottom or the top, until the ends
+  // 10 more below / 10 newer above. Used by the buttons, by scrolling near either end, and automatically while
+  // the list is too short to scroll at all (so it can never get stuck).
+  const loadMore = () => setRange(r => (r.to < pool.length ? { ...r, to: Math.min(pool.length, r.to + CODE_OVERLAY_PAGE) } : r));
+  const loadNewer = () => {
+    const g = gridRef.current;
+    if (!g || range.from <= 0 || anchor.current !== null) return;
+    anchor.current = g.scrollHeight;
+    setRange(r => ({ ...r, from: Math.max(0, r.from - CODE_OVERLAY_PAGE) }));
+  };
   const onScroll = () => {
     setPeek(null);
     const g = gridRef.current;
     if (!g) return;
-    if (range.to < pool.length && g.scrollTop + g.clientHeight > g.scrollHeight - 240) {
-      setRange(r => ({ ...r, to: Math.min(pool.length, r.to + CODE_OVERLAY_PAGE) }));
-    }
-    if (range.from > 0 && g.scrollTop < 120 && anchor.current === null) {
-      anchor.current = g.scrollHeight;
-      setRange(r => ({ ...r, from: Math.max(0, r.from - CODE_OVERLAY_PAGE) }));
-    }
+    if (range.to < pool.length && g.scrollTop + g.clientHeight > g.scrollHeight - 240) loadMore();
+    if (range.from > 0 && g.scrollTop < 120) loadNewer();
   };
+  useEffect(() => {
+    // Not enough cards to fill the list (nothing to scroll): keep adding until it fills or the category ends
+    const g = gridRef.current;
+    if (open && g && range.to < pool.length && g.scrollHeight <= g.clientHeight + 200) loadMore();
+  }, [open, range.to, pool.length]); // eslint-disable-line react-hooks/exhaustive-deps
   // Large preview to the right of the overlay, level with the hovered card
   const showPeek = (sn, el) => {
     const r = el.getBoundingClientRect();
@@ -1121,7 +1129,11 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
         </button>
       </div>
       <div className={s.coGrid} ref={gridRef} onScroll={onScroll}>
-        {range.from > 0 && <p className={s.coMore}>Scroll up for {range.from} newer</p>}
+        {range.from > 0 && (
+          <button type="button" className={s.coMoreBtn} onClick={loadNewer}>
+            ↑ Show {Math.min(CODE_OVERLAY_PAGE, range.from)} newer <span>({range.from} above)</span>
+          </button>
+        )}
         {shown.map(sn => {
           const current = sn.id === activeId;
           const inner = (
@@ -1136,7 +1148,11 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
             : <a key={sn.id} href={`/ui-snippets/${sn.id}/`} className={s.coCard} onClick={() => { setPeek(null); navStart(); }} {...hover}>{inner}</a>;
         })}
         {range.to < pool.length
-          ? <p className={s.coMore}>Loading more…</p>
+          ? (
+            <button type="button" className={s.coMoreBtn} onClick={loadMore}>
+              ↓ Load {Math.min(CODE_OVERLAY_PAGE, pool.length - range.to)} more <span>({pool.length - range.to} left)</span>
+            </button>
+          )
           : (
             <a href={`/ui-snippets/${category}/`} className={s.coAll} onClick={() => navStart()}>
               <span>See all {pool.length}</span>
