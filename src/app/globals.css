@@ -278,6 +278,13 @@ body:has([data-not-found-page]) :has(> ins.adsbygoogle) {
   display: none !important;
 }
 
+/* Patreon supporters (html.ad-free, set from the passcode in localStorage): no ad or ad frame anywhere */
+html.ad-free ins.adsbygoogle,
+html.ad-free [aria-label="Advertisement"],
+html.ad-free .google-auto-placed,
+html.ad-free iframe[id^="aswift"],
+html.ad-free :has(> ins.adsbygoogle) { display: none !important; }
+
 /* Google's documented way to hide AdSense slots that got no ad. Wrappers collapse
    via :has() rules in their own CSS modules. */
 ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }

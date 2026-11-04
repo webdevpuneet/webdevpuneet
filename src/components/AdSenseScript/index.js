@@ -5,10 +5,13 @@ import { usePathname } from 'next/navigation';
 import { ADS_ENABLED, adsAllowedOnPath, noAutoAdsOnPath } from '@/lib/ads-config';
 import { useIsNotFound } from '@/lib/not-found-state';
 import { isEmbedRoute } from '@/lib/is-embed-route';
+import { useAdFree } from '@/lib/use-ad-free';
 
 export default function AdSenseScript() {
   const isNotFoundPage = useIsNotFound();
   const pathname = usePathname();
+  const adFree = useAdFree(); // Patreon supporters: the ad script is not even requested
+  useEffect(() => { if (adFree) document.documentElement.classList.add('ad-free'); }, [adFree]); // (never removed here: the head script set it before the first paint)
 
   // The 404 page flags itself in an effect, which runs after this component's
   // first render (it sits earlier in the tree). Wait one tick so a hard load
@@ -27,7 +30,7 @@ export default function AdSenseScript() {
   // Never load AdSense on an embed page — it's meant to be dropped into a
   // third-party iframe (WordPress, etc.) and must show nothing but the
   // snippet preview, with zero ad scripts or requests. Same for the 404 page.
-  if (!ADS_ENABLED || !ready || isNotFoundPage || isEmbedRoute(pathname) || !adsAllowedOnPath(pathname)) return null;
+  if (!ADS_ENABLED || !ready || adFree || document.documentElement.classList.contains('ad-free') || isNotFoundPage || isEmbedRoute(pathname) || !adsAllowedOnPath(pathname)) return null;
 
   return (
     <Script

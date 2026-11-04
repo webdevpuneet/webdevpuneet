@@ -4,6 +4,8 @@ import { loadContentIndex, searchContent, GROUP_META } from '@/lib/site-search';
 import { usePathname, useRouter } from 'next/navigation';
 import { isEmbedRoute } from '@/lib/is-embed-route';
 import { ADS_ENABLED, SIDEBAR_AD_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
+import { useAdFree } from '@/lib/use-ad-free';
+import { PremiumUnlockDialog } from '@/components/PremiumGate';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import styles from './styles.module.css';
@@ -1109,6 +1111,8 @@ function SidebarTopAd() {
 export default function Sidebar() {
   const pathname = usePathname();
   const isNotFoundPage = useIsNotFound();
+  const adFree = useAdFree(); // Patreon supporters (passcode in localStorage): no ads
+  const [unlockOpen, setUnlockOpen] = useState(false);
   const router = useRouter();
   const activeSlug = pathname.replace(/^\//, '').split('/')[0] || '';
 
@@ -1377,7 +1381,7 @@ export default function Sidebar() {
 
         {/* Sidebar top ad. Keyed by pathname so every page mounts a fresh slot.
             Shown on every URL (query strings included); never on the 404 page. */}
-        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !isNotFoundPage && !isEmbedRoute(pathname) && adsAllowedOnPath(pathname) && (
+        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !adFree && !isNotFoundPage && !isEmbedRoute(pathname) && adsAllowedOnPath(pathname) && (
           <SidebarTopAd key={pathname} />
         )}
 
@@ -1569,6 +1573,16 @@ export default function Sidebar() {
             </svg>
             <span>Follow</span>
           </a>
+          <button
+            type="button"
+            className={styles.followBtn}
+            onClick={() => { if (!adFree) setUnlockOpen(true); }}
+            title={adFree ? 'Thank you for supporting the site on Patreon: ads are off' : 'Patreon supporters: enter the passcode to remove all ads'}
+            aria-label={adFree ? 'Ads are off, thank you for supporting the site' : 'Remove ads: enter the Patreon supporter passcode'}
+            style={adFree ? { cursor: 'default' } : undefined}
+          >
+            <span>{adFree ? 'Ad-free \u2713' : 'Ad-free'}</span>
+          </button>
           <a
             className={styles.supportHeartBtn}
             href="https://paypal.me/webdevpuneet/5"
@@ -1597,6 +1611,7 @@ export default function Sidebar() {
           </a>
         </div>
       </aside>
+      <PremiumUnlockDialog open={unlockOpen} onClose={() => setUnlockOpen(false)} />
     </>
   );
 }

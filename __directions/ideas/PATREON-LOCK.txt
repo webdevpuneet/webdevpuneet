@@ -1,0 +1,40 @@
+PATREON SUPPORTERS: AD-FREE SITE + PATREON-ONLY TEMPLATES (soft lock), built 2026-11-04
+
+PATREON PAGE: https://www.patreon.com/c/webdevpuneet   JOIN LINK (used by the buttons): https://www.patreon.com/17076973/join   TIER: $5 a month
+
+WHAT A SUPPORTER GETS (after entering the passcode once; it is remembered in localStorage, key wdp_premium_unlock_v1)
+  1. No ads anywhere on the site: the AdSense script is not even loaded, every ad component returns nothing, and html.ad-free
+     (set by a script in <head> before the first paint) hides any ad box in globals.css.
+  2. Export and Fork on the Patreon-only website templates (corporate so far). Everyone can still preview and edit them.
+  Where to enter the passcode: the "Ad-free" button in the sidebar footer (any page), or "Unlock export" in the Website Builder.
+
+THE ONE FILE TO EDIT: src/lib/patreon-settings.js
+  PATREON_URL, PATREON_PRICE, PASSCODE_SHA256 (the hash of the current passcode) and PREMIUM_TEMPLATE_IDS.
+
+MONTHLY PASSCODE CHANGE
+  1. node scripts/set-patreon-passcode.mjs your-new-passcode      (writes the new hash into patreon-settings.js; min 8 characters)
+  2. Deploy, then post the new passcode in the supporter post on Patreon (a post visible to the paid tier only; pin it).
+  After the new build is live the old passcode, and every browser that stored it, stops being a supporter (ads come back,
+  Export locks again) until the new passcode is entered. The starting passcode was "meridian-nov26": CHANGE IT before going public.
+
+SETTING UP PATREON
+  Create the $5 tier, describe the benefits ("no ads on webdevpuneet.com, export the premium website templates"), make a
+  post for paid members only that holds the passcode. Tell new patrons where to find it (the tier's welcome message is a good place).
+
+IT IS A SOFT LOCK (be honest about it)
+  The site is static: the template code is in the public JavaScript and the check runs in the browser. It stops casual use, not
+  someone reading the source or clearing the ad script themselves. Known gaps: the live demo pages in
+  /demos/website-templates/corporate/ are public; the Backup tab downloads every saved site as JSON, premium ones included.
+  A real lock needs a server (Patreon OAuth + a function that sends the template only to patrons): not built, on hold with the
+  accounts idea (SUGGESTIONS idea 16).
+
+FILES
+  src/lib/patreon-settings.js   the settings (above)           src/lib/premium.js        tryUnlock / isUnlocked / onUnlockChange
+  src/lib/use-ad-free.js        hook used by the ad components  src/components/PremiumGate/  dialog, badge, notice, locked button
+  app/layout.js                 head script adds html.ad-free    app/globals.css           hides ad boxes for html.ad-free
+  AdSenseScript, AdSlot, PlaygroundTopAd, Sidebar, UiSnippetsTool   all stop showing ads for supporters
+  site.js                       siteFromStarter marks the site { premium: id }, restoreSite keeps it
+  WebsiteBuilder/index.js, TemplateGallery.js, app/website-builder/templates/[id]/page.js   lock, badge and notice
+  scripts/set-patreon-passcode.mjs   the monthly command
+
+ADDING ANOTHER PATREON-ONLY TEMPLATE: add its id to PREMIUM_TEMPLATE_IDS in patreon-settings.js.

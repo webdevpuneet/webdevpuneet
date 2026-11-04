@@ -14,6 +14,8 @@ import InViewImg from '@/components/InViewImg';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import hs from '@/components/HomeTemplatesCarousel/styles.module.css';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import { PremiumBadge } from '@/components/PremiumGate';
+import { isPremiumTemplate } from '@/lib/premium';
 
 const PAGE = 10; // 2 rows of 5
 
@@ -82,7 +84,8 @@ export default function TemplateGallery({ templates, industries }) {
               {list.slice(0, shownCount - (withCreate ? 1 : 0)).map(t => (
                 // Tall card with the whole page: the preview scrolls top to bottom while hovered
                 <a key={t.id} className={s.card} href={`/website-builder/templates/${t.id}/`} title={t.blurb} {...panHandlers}>
-                  <div className={s.cardPreview}>
+                  <div className={s.cardPreview} style={isPremiumTemplate(t.id) ? { position: 'relative' } : undefined}>
+                    {isPremiumTemplate(t.id) && <PremiumBadge corner />}
                     <InViewImg className={`${s.cardImg} ${hs.scrollImg}`} src={`/images/website-templates/full/${t.id}.jpg`} alt={`${t.name} template preview`} />
                   </div>
                   <div className={s.cardBody}>

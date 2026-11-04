@@ -95,3 +95,11 @@ Format: date · area · suggested / chosen / done · note
 2026-11-03 · social · done · Optional logo on all 55 social templates (brand kit fills it). 31 next to the handle (.spt-brand), 10
            without a handle in a corner or under the text; Event Recap and Giveaway footers adjusted when a logo is present. Checked with a
            sample logo (overlap / outside checks) and without (no change). Pre-existing fit problems logged in SUGGESTIONS-SOCIAL.html.
+2026-11-04 · ui snippets · done · CSS Loader Gallery (/ui-snippets/css-loader-gallery/) rebuilt: 8 -> 36 loaders in six families (spinners,
+           dots, bars, shapes, skeletons, text) with filter chips and a Dark/Light preview switch. Clicking a card now copies the HTML AND
+           the CSS (a <style> block, pretty-printed), not only the CSS. Every loader is one self-contained object with --c / --track
+           custom properties; staggered ones use an --i index with calc(). SEO text, AI prompt and preview image redone; title 55 chars,
+           description 151. Not deployed yet (live keeps the old image until the next deploy).
+2026-11-04 · website templates · done · Patreon-only template lock (soft, browser-side passcode) built and switched on for the Corporate
+           template: Export + Fork locked until the supporter passcode is entered; badge on the gallery card, notice on the template
+           page. Details, Patreon setup steps and the known gaps (public demo, Backup tab) in ideas/PATREON-LOCK.txt. Not deployed.

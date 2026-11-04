@@ -4,13 +4,15 @@ import { usePathname } from 'next/navigation';
 import { ADS_ENABLED as ADS_CONFIG_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import RelatedStrip from '@/components/RelatedStrip';
+import { useAdFree } from '@/lib/use-ad-free';
 import styles from './styles.module.css';
 
 // Ads are never shown on the 404 page or on My Code.
 function useAdsEnabled() {
   const pathname = usePathname();
   const notFound = useIsNotFound();
-  return ADS_CONFIG_ENABLED && !notFound && adsAllowedOnPath(pathname);
+  const adFree = useAdFree();
+  return ADS_CONFIG_ENABLED && !adFree && !notFound && adsAllowedOnPath(pathname);
 }
 
 function pushAd() {

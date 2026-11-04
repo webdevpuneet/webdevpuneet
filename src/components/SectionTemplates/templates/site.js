@@ -20,6 +20,7 @@
 import { sectionTemplateById, listItem } from './index.js';
 import { newUid, emptyPage, restorePage, pageFromStarter, starterSections, newPageSection, pageCss, pageScript, pageCdn, pageBaseCss, pageDocumentHtml } from './page.js';
 import { websiteTemplateById } from './starters.js';
+import { isPremiumTemplate } from '../../../lib/premium.js';
 import { STARTER_PAGES } from './starters-more.js';
 import { WEBSITE_TEMPLATE_SEO } from './seo-website-templates.js';
 import { WEBSITE_PAGE_SEO } from './seo-website-pages.js';
@@ -226,7 +227,12 @@ function addStarterPages(site, starterId) {
  * A site from a website template.
  * @param multi  false: the template as one page; true: its multi-page version
  */
-export function siteFromStarter(starterId, { multi = false } = {}) {
+export function siteFromStarter(starterId, opts = {}) {
+  const site = buildSiteFromStarter(starterId, opts);
+  // A Patreon-only template marks its site, so Export and Fork stay locked in the builder (src/lib/premium.js)
+  return isPremiumTemplate(starterId) ? { ...site, premium: starterId } : site;
+}
+function buildSiteFromStarter(starterId, { multi = false } = {}) {
   let site = siteFromPage(pageFromStarter(starterId));
   const st = websiteTemplateById(starterId);
   const home = { title: st?.homeTitle || WEBSITE_TEMPLATE_SEO[starterId]?.home?.title || '', description: st?.homeDescription || WEBSITE_TEMPLATE_SEO[starterId]?.home?.description || '' };
@@ -294,6 +300,7 @@ export function restoreSite(saved) {
     theme: base.theme, fonts: base.fonts, motion: base.motion,
     autoNav: saved.autoNav !== false,
     ...(saved.scratch ? { scratch: true } : {}),
+    ...(isPremiumTemplate(saved.premium) ? { premium: saved.premium } : {}),
     header, footer, pages,
   };
 }

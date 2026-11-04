@@ -11,6 +11,7 @@ import GoogleAnalytics from '@/components/GoogleAnalytics';
 import MicrosoftClarity from '@/components/MicrosoftClarity';
 import Statcounter from '@/components/Statcounter';
 import { CLARITY_ENABLED, STATCOUNTER_ENABLED } from '@/lib/tracking-config';
+import { PASSCODE_SHA256 } from '@/lib/premium';
 
 export const metadata = {
   title: {
@@ -82,6 +83,8 @@ export default function RootLayout({ children }) {
       <body>
         <meta name="theme-color" content="#dde0e8" />
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();` }} />
+        {/* Patreon supporters (the passcode is stored in this browser) get no ads: the class hides every ad before the first paint */}
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{if(localStorage.getItem('wdp_premium_unlock_v1')==='${PASSCODE_SHA256}')document.documentElement.classList.add('ad-free');}catch(e){}})();` }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         <GoogleAnalytics />
         {CLARITY_ENABLED && <MicrosoftClarity />}

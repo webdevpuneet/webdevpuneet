@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { ADS_ENABLED } from '@/lib/ads-config';
+import { useAdFree } from '@/lib/use-ad-free';
 import { useIsNotFound } from '@/lib/not-found-state';
 import s from './styles.module.css';
 
@@ -74,6 +75,7 @@ function AdUnit() {
 export default function PlaygroundTopAd({ className = '', inline = false, desktopOnly = false }) {
   const notFound = useIsNotFound();
   const [wide, setWide] = useState(false);
+  const adFree = useAdFree();
   useEffect(() => {
     if (!desktopOnly) return undefined;
     const mq = window.matchMedia('(min-width: 900px)');
@@ -82,7 +84,7 @@ export default function PlaygroundTopAd({ className = '', inline = false, deskto
     mq.addEventListener('change', sync);
     return () => mq.removeEventListener('change', sync);
   }, [desktopOnly]);
-  if (!ADS_ENABLED || notFound) return null;
+  if (!ADS_ENABLED || notFound || adFree) return null;
   if (desktopOnly && !wide) return null;
   return (
     <div className={`${s.bar} ${inline ? s.inline : ''} ${className}`} aria-label="Advertisement">

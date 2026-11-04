@@ -14,6 +14,8 @@ import { addedSectionsOf, joinList } from '@/components/SectionTemplates/templat
 import { sectionTemplateById, sectionCategoryById, THEME_PRESETS } from '@/components/SectionTemplates/templates/index.js';
 import { WEBSITE_TEMPLATE_SEO } from '@/components/SectionTemplates/templates/seo-website-templates.js';
 import { resolveFont } from '@/lib/fonts';
+import { PremiumNotice } from '@/components/PremiumGate';
+import { isPremiumTemplate } from '@/lib/premium';
 import st from '../templates.module.css';
 
 const BASE = 'https://webdevpuneet.com/website-builder/templates/';
@@ -171,6 +173,7 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
             </div>
           </div>
           <aside className={st.side}>
+            {isPremiumTemplate(t.id) && <PremiumNotice name={t.name} />}
             <div className={st.versions}>
               <section className={st.version} aria-labelledby="ver-one">
                 <h2 id="ver-one" className={st.versionTitle}>One page</h2>

@@ -55,6 +55,7 @@ import {
 import { bindInlineEdit, fieldOfTarget, applyEdit, applyFocus, useFrozenPreview } from '@/components/SectionTemplates/inline-edit';
 import { analyse, livePatch } from '@/components/SectionTemplates/live-patch';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
 import { putAsset, getAsset } from '@/components/SectionTemplates/storage';
 import { addToLibrary } from '@/lib/image-library';
 import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from '@/components/SectionTemplates/upload';
@@ -594,6 +595,10 @@ function ScrollAnimPanel({ sec, onChange, onPreview, hasNumbers, hasMedia, later
 
 export default function WebsiteBuilder() {
   const [site, setSiteRaw] = useState(emptySite);
+  // Patreon-only templates: Export and Fork stay locked until the supporter passcode is entered (src/lib/premium.js)
+  const premiumUnlocked = usePremiumUnlocked();
+  const [unlockOpen, setUnlockOpen] = useState(false);
+  const exportLocked = !!site.premium && !premiumUnlocked;
   const [pageId, setPageIdRaw] = useState(null); // the page being edited (null = home)
   const [navHash, setNavHash] = useState(''); // section to scroll to after a page link
   const [hydrated, setHydrated] = useState(false);
@@ -1706,8 +1711,9 @@ ${pageCss(shown, { fontFaces })}`),
               />
               <span className={s.toolbarSep} aria-hidden="true" />
               <FullscreenButton />
-              <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy || !page.sections.length} />
-              <ExportMenu
+              {exportLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
+              {!exportLocked && <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy || !page.sections.length} />}
+              {!exportLocked && <ExportMenu
                 head={multi ? 'Export this website as…' : 'Export this page as…'}
                 options={[
                   multi
@@ -1717,7 +1723,7 @@ ${pageCss(shown, { fontFaces })}`),
                   { icon: 'react', label: busy === 'reactzip' ? 'Zipping…' : 'Download React ZIP', sub: `The .jsx component${multi ? ` of this page (${activePage.name})` : ''} plus an assets folder with every image`, onClick: () => downloadFrameworkZip('react'), disabled: !!busy || !page.sections.length },
                   { icon: 'vue', label: busy === 'vuezip' ? 'Zipping…' : 'Download Vue ZIP', sub: `The .vue component${multi ? ` of this page (${activePage.name})` : ''} plus an assets folder with every image`, onClick: () => downloadFrameworkZip('vue'), disabled: !!busy || !page.sections.length },
                 ]}
-              />
+              />}
             </div>
           </div>
 
@@ -1750,6 +1756,7 @@ ${pageCss(shown, { fontFaces })}`),
           </div>
         </div>
       </div>
+      <PremiumUnlockDialog open={unlockOpen} onClose={() => setUnlockOpen(false)} name={`the ${site.name || 'template'}`} onUnlocked={() => flash('Unlocked. Export and Fork are on for this browser.')} />
       {confirm && (
         <ConfirmDialog {...confirm} onCancel={() => setConfirm(null)} onOk={() => { const go = confirm.onOk; setConfirm(null); go(); }} />
       )}

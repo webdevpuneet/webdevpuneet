@@ -30,6 +30,7 @@ import {
 import { navStart } from '@/lib/navStart';
 import GistSyncButton from '@/components/GistSyncButton';
 import { ADS_ENABLED, SNIPPET_TOP_AD_ENABLED } from '@/lib/ads-config';
+import { useAdFree } from '@/lib/use-ad-free';
 import ExportTester from './ExportTester';
 import EmbedModal from './EmbedModal';
 import SnippetSearch from './SnippetSearch';
@@ -1174,6 +1175,7 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
 export default function UiSnippetsTool({ initialSnippetId, isHome = false, initialCategory = 'all', initialTag = null, initialView = null } = {}) {
   const router       = useRouter();
   const searchParams = useSearchParams();
+  const adFree = useAdFree(); // Patreon supporters see no ads
   // Only the id is known synchronously: the snippet's code is fetched on
   // demand (openLibSnippet below), so the editors start empty.
   const _initId      = (initialSnippetId && SNIPPET_META.has(initialSnippetId)) ? initialSnippetId : SNIPPETS[0].id;
@@ -2417,7 +2419,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               a new snippet being created and the My Code gallery have no leaderboard. Collapses
               when unfilled (.adBar:has(ins[data-ad-status="unfilled"])). Switched off with
               SNIPPET_TOP_AD_ENABLED in lib/ads-config.js. */}
-          {showEditor && !inMyCode && SNIPPET_TOP_AD_ENABLED && (
+          {showEditor && !inMyCode && SNIPPET_TOP_AD_ENABLED && !adFree && (
             <div className={s.adBar} aria-label="Advertisement">
               {ADS_ENABLED ? <SnippetTopAd key={activeId || 'none'} /> : (
                 <div className={s.adBarSlot}>
