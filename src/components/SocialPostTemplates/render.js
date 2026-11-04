@@ -8,6 +8,7 @@
 
 import { BASE_CSS, sizeById, richText } from './templates/index.js';
 import { canvasToBlob } from '../OgImageGenerator/utils';
+import { flagFrame, flagRest } from './flag-cloth.js';
 import { resolveFont, fontStack as anyFontStack, ensureFont, googleCssUrl, customFontFaceCss } from '../../lib/fonts';
 
 // Built-in, any Google Font ('g:…') or an uploaded font ('c:…'): see src/lib/fonts.js
@@ -381,7 +382,7 @@ const restoreAnim = base => base.forEach(b => { b.el.style.transform = b.transfo
    Reveals (play once, in reading order): pop, tick, stamp, draw-x, draw-y, wipe-r, wipe-u, slide-l,
    slide-r, slide-t, slide-b, settle, count, countdown, type.
    Loops: pulse, breathe, wobble, sway, bob, nudge-x, nudge-y, twinkle, blink, spin, fly, burst, fall,
-   scroll-bg, scroll-y, wave, flicker, float, drift. */
+   scroll-bg, scroll-y, wave, flag, flicker, float, drift. */
 const clamp01 = x => Math.max(0, Math.min(1, x));
 const easeOut = p => 1 - (1 - p) ** 3;
 const easeOutBack = p => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * (p - 1) ** 3 + c1 * (p - 1) ** 2; };
@@ -523,6 +524,7 @@ function applyAmbient(items, time, u = 10) {
         st.translate = `0 ${(1.4 * u * Math.sin(t * 3 - k)).toFixed(2)}px`;
         break;
       }
+      case 'flag': { flagFrame(a.el, t, a.flag ??= {}); break; } // the National Day flag: one piece of cloth, redrawn every frame
       case 'scroll-y': { st.backgroundPosition = `0 ${(t * 9 * u).toFixed(1)}px`; break; } // a floor or road rolling towards the viewer
       case 'flicker': { // a flame: grows and narrows, sways from its base, dims a little
         const s = 1 + 0.08 * Math.sin(t * 9 + ph / 2.1 * 1.7) + 0.05 * Math.sin(t * 17 + ph / 2.1 * 3.1) + 0.03 * Math.sin(t * 29 + ph / 2.1 * 0.7);
@@ -556,6 +558,7 @@ const restoreAmbient = items => {
   items.forEach(a => {
     SAVED_PROPS.forEach(k => { a.el.style[k] = a.saved[k]; });
     a.nodes.forEach(n => { n.node.nodeValue = n.text; });
+    if (a.flag) flagRest(a.el, a.flag);
   });
   items.boxes?.forEach((overflow, n) => { n.style.overflow = overflow; });
 };

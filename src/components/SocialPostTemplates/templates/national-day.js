@@ -1,6 +1,6 @@
-// The flag is cut into vertical slices; each one rises and falls with its neighbours (data-anim="wave"),
-// so the cloth ripples from the pole to the tip. The stripes come from the three colour settings.
-const SLICES = Array.from({ length: 18 }, () => '<i data-anim="wave"></i>').join('');
+// The flag is one piece of SVG cloth (flag-cloth.js): the stripes bend with a ripple that runs from the pole to the tip,
+// shaded by the wave (data-anim="flag" redraws it in the live preview and the video). The colours come from the settings.
+import { flagMarkup } from '../flag-cloth.js';
 
 export default {
   id: 'national-day',
@@ -37,7 +37,7 @@ export default {
   <span class="nd-label" data-edit="label"></span>
   <div class="nd-flagwrap" aria-hidden="true">
     <div class="nd-pole"><b></b></div>
-    <div class="nd-flag">${SLICES}<span class="nd-chakra" data-anim="wave"></span><div class="nd-emblem" data-image="emblemImg" data-image-fit="contain" data-anim="wave"></div></div>
+    <div class="nd-flag" data-anim="flag">${flagMarkup()}<div class="nd-emblem" data-image="emblemImg" data-image-fit="contain"></div></div>
   </div>
   <div class="nd-body" data-fit-box>
     <h2 class="nd-title" data-edit="title" data-fit></h2>
@@ -56,14 +56,13 @@ export default {
 .nd-flagwrap{display:flex;align-items:flex-start;margin-top:calc(var(--u)*2)}
 .nd-pole{position:relative;width:calc(var(--u)*1.6);height:calc(var(--u)*50);border-radius:99px;background:linear-gradient(90deg,#8c8c96,#f2f2f5 45%,#a1a1aa)}
 .nd-pole b{position:absolute;left:50%;top:calc(var(--u)*-3.4);width:calc(var(--u)*3.8);height:calc(var(--u)*3.8);margin-left:calc(var(--u)*-1.9);border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff3c4,#d4a017 60%,#8a6508)}
-.nd-flag{position:relative;display:flex;width:calc(var(--u)*57);height:calc(var(--u)*38);margin-top:calc(var(--u)*1);filter:drop-shadow(0 calc(var(--u)*1.4) calc(var(--u)*2.4) rgba(0,0,0,.35))}
-.nd-flag i{flex:1;height:100%;background:linear-gradient(180deg,var(--stripe1) 0 33.4%,var(--stripe2) 33.4% 66.7%,var(--stripe3) 66.7% 100%)}
-.nd-flag i:nth-child(odd){box-shadow:inset 0 0 0 100vmax rgba(0,0,0,.05)}
-.nd-flag i:nth-child(3n){box-shadow:inset 0 0 0 100vmax rgba(255,255,255,.06)}
-.nd-flag i:last-of-type{border-radius:0 calc(var(--u)*.6) calc(var(--u)*.6) 0}
-.nd-chakra{position:absolute;left:50%;top:50%;width:calc(var(--u)*12);height:calc(var(--u)*12);margin:calc(var(--u)*-6) 0 0 calc(var(--u)*-6);border-radius:50%;border:calc(var(--u)*.7) solid var(--emblem);background:radial-gradient(circle,var(--emblem) 0 12%,transparent 13%),repeating-conic-gradient(var(--emblem) 0 2deg,transparent 2deg 15deg);-webkit-mask:radial-gradient(circle,#000 0 90%,transparent 91%);mask:radial-gradient(circle,#000 0 90%,transparent 91%)}
+.nd-flag{--fw:calc(var(--u)*57);position:relative;width:var(--fw);margin-top:calc(var(--fw)*-.0526 + var(--u));filter:drop-shadow(0 calc(var(--u)*1.4) calc(var(--u)*2.4) rgba(0,0,0,.35))}
+.nd-cloth{display:block;width:100%;height:auto;overflow:visible}
+.nd-s1{fill:var(--stripe1)}.nd-s2{fill:var(--stripe2)}.nd-s3{fill:var(--stripe3)}
+.nd-wheel{stroke:var(--emblem);fill:var(--emblem);stroke-linecap:round;stroke-width:3.6}
+.nd-wheel circle:first-child{fill:none}
 .nd-emblem{position:absolute;left:50%;top:50%;width:calc(var(--u)*16);height:calc(var(--u)*16);margin:calc(var(--u)*-8) 0 0 calc(var(--u)*-8)}
-.nd-flag:has(.nd-emblem.has-img) .nd-chakra{display:none}
+.nd-flag:has(.nd-emblem.has-img) .nd-wheel{display:none}
 .nd-body{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*2.6)}
 .nd-title{font-family:var(--font-heading);font-size:calc(var(--u)*12);line-height:1.02;font-weight:700;letter-spacing:-.015em}
 .nd-title .hl{color:var(--accent)}
@@ -72,22 +71,19 @@ export default {
 .nd-logo{width:calc(var(--u)*12);height:calc(var(--u)*6)}
 .is-square .nd{gap:calc(var(--u)*2.4)}
 .is-square .nd-pole{height:calc(var(--u)*44)}
-.is-square .nd-flag{width:calc(var(--u)*48);height:calc(var(--u)*32)}
-.is-square .nd-chakra{width:calc(var(--u)*10);height:calc(var(--u)*10);margin:calc(var(--u)*-5) 0 0 calc(var(--u)*-5)}
+.is-square .nd-flag{--fw:calc(var(--u)*48)}
 .is-square .nd-title{font-size:calc(var(--u)*9.4)}
 .is-story .nd-pole{height:calc(var(--u)*46)}
 .is-story .nd-title{font-size:calc(var(--u)*11)}
 .is-story .nd-message{font-size:calc(var(--u)*3.8)}
-.is-story .nd-flag{width:calc(var(--u)*60);height:calc(var(--u)*40)}
-.is-story .nd-chakra{width:calc(var(--u)*14);height:calc(var(--u)*14);margin:calc(var(--u)*-7) 0 0 calc(var(--u)*-7)}
+.is-story .nd-flag{--fw:calc(var(--u)*60)}
 .is-landscape .nd{display:grid;grid-template-columns:auto 1fr;grid-template-rows:1fr auto auto auto 1fr;column-gap:calc(var(--u)*7);row-gap:calc(var(--u)*2.4);align-items:center;text-align:left}
 .is-landscape .nd-label{grid-column:2;grid-row:2;justify-self:start;padding-left:0}
 .is-landscape .nd-flagwrap{grid-column:1;grid-row:1 / span 5;margin:0}
 .is-landscape .nd-body{grid-column:2;grid-row:3;align-items:flex-start;flex:none}
 .is-landscape .nd-foot{grid-column:2;grid-row:4;justify-self:start}
 .is-landscape .nd-pole{height:calc(var(--u)*62)}
-.is-landscape .nd-flag{width:calc(var(--u)*66);height:calc(var(--u)*44)}
-.is-landscape .nd-chakra{width:calc(var(--u)*13);height:calc(var(--u)*13);margin:calc(var(--u)*-6.5) 0 0 calc(var(--u)*-6.5)}
+.is-landscape .nd-flag{--fw:calc(var(--u)*66)}
 .is-landscape .nd-message{max-width:100%}
 .is-landscape .nd-title{font-size:calc(var(--u)*10)}`,
 };
