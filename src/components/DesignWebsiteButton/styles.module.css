@@ -62,8 +62,9 @@
   cursor: pointer;
 }
 @media print { .wrap { display: none; } }
-/* UI snippet pages have a 90px related-snippets bar along the bottom: sit above it */
-.lift { bottom: 110px; }
+/* UI snippet pages: the Console tab sits at the bottom right of the preview, so stay just above it
+   (it used to be 110px, to clear the related-snippets bar, which is gone) */
+.lift { bottom: 54px; }
 
 /* Folded state: a slim vertical tab on the right edge, below the share bar */
 .tab {

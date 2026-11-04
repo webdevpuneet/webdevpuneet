@@ -1,6 +1,6 @@
 {
  "email": {
-  "total": 27,
+  "total": 37,
   "categories": [
    {
     "id": "onboarding",
@@ -9,6 +9,14 @@
      {
       "id": "welcome",
       "name": "Welcome Email"
+     },
+     {
+      "id": "getting-started-checklist",
+      "name": "Getting Started Checklist Email"
+     },
+     {
+      "id": "team-invitation",
+      "name": "Team Invitation Email"
      },
      {
       "id": "trial-ending",
@@ -41,6 +49,10 @@
       "name": "Verify Email Address"
      },
      {
+      "id": "one-time-code",
+      "name": "One-Time Passcode (2FA) Email"
+     },
+     {
       "id": "password-reset",
       "name": "Password Reset Email"
      },
@@ -61,8 +73,24 @@
       "name": "Payment Reminder Email"
      },
      {
+      "id": "failed-payment",
+      "name": "Failed Payment Email"
+     },
+     {
+      "id": "booking-confirmation",
+      "name": "Booking Confirmation Email"
+     },
+     {
       "id": "appointment-reminder",
       "name": "Appointment Reminder Email"
+     },
+     {
+      "id": "booking-rescheduled",
+      "name": "Booking Rescheduled Email"
+     },
+     {
+      "id": "contact-form-auto-reply",
+      "name": "Contact Form Auto-Reply Email"
      }
     ]
    },
@@ -83,8 +111,20 @@
       "name": "Order Confirmation Email"
      },
      {
+      "id": "order-cancelled",
+      "name": "Order Cancellation Email"
+     },
+     {
       "id": "shipping-confirmation",
       "name": "Shipping Confirmation Email"
+     },
+     {
+      "id": "shipping-delay",
+      "name": "Shipping Delay Email"
+     },
+     {
+      "id": "order-delivered",
+      "name": "Order Delivered Email"
      },
      {
       "id": "refund-confirmation",
@@ -143,7 +183,7 @@
   ]
  },
  "social": {
-  "total": 45,
+  "total": 55,
   "categories": [
    {
     "id": "quotes",
@@ -228,6 +268,10 @@
       "name": "Milestone"
      },
      {
+      "id": "year-in-review",
+      "name": "Year in Review"
+     },
+     {
       "id": "new-blog-article",
       "name": "New Blog Article"
      },
@@ -250,6 +294,10 @@
      {
       "id": "coming-soon",
       "name": "Coming Soon Teaser"
+     },
+     {
+      "id": "holiday-hours",
+      "name": "Holiday Hours"
      }
     ]
    },
@@ -268,6 +316,14 @@
      {
       "id": "holiday-sale",
       "name": "Black Friday Sale"
+     },
+     {
+      "id": "cyber-monday",
+      "name": "Cyber Monday"
+     },
+     {
+      "id": "advent-calendar",
+      "name": "Advent Calendar Deal"
      },
      {
       "id": "product-spotlight",
@@ -316,6 +372,10 @@
      {
       "id": "testimonial",
       "name": "Customer Testimonial"
+     },
+     {
+      "id": "five-star-review",
+      "name": "5-Star Review"
      },
      {
       "id": "before-after",
@@ -368,8 +428,20 @@
       "name": "Diwali"
      },
      {
+      "id": "ramadan-eid",
+      "name": "Ramadan & Eid"
+     },
+     {
       "id": "thanksgiving",
       "name": "Thanksgiving Thank You"
+     },
+     {
+      "id": "giving-tuesday",
+      "name": "Giving Tuesday"
+     },
+     {
+      "id": "hanukkah",
+      "name": "Hanukkah"
      },
      {
       "id": "christmas-greeting",
@@ -382,6 +454,14 @@
      {
       "id": "new-year",
       "name": "Happy New Year"
+     },
+     {
+      "id": "lunar-new-year",
+      "name": "Lunar New Year"
+     },
+     {
+      "id": "national-day",
+      "name": "National Day"
      }
     ]
    }

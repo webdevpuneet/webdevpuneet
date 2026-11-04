@@ -1642,6 +1642,8 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
         </aside>
 
         <div className={s.main} style={{ position: 'relative' }}>
+          {/* Leaderboard ad (max 90px) above the toolbar: the same unit as the UI snippet editor and playgrounds */}
+          <PlaygroundTopAd />
           <div className={s.toolbar} data-scroll-toolbar>
             <div className={e.toolbarLeft}>
               {/* The page's H1: template name and version lead the preview toolbar */}

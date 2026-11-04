@@ -5,8 +5,8 @@
 
 export const ADS_ENABLED = true;
 export const SIDEBAR_AD_ENABLED = true;
-// The leaderboard above the preview on individual UI snippet pages (slot 7360198340). Off since 2026-11-03.
-export const SNIPPET_TOP_AD_ENABLED = false;
+// The leaderboard above the preview on individual UI snippet pages (slot 7360198340). Off 2026-11-03, back on 2026-11-04.
+export const SNIPPET_TOP_AD_ENABLED = true;
 
 // Ads run on every page, My Code included. My Code must keep its full-height editor:
 // AdSense *auto* ads once injected a "Discover more" block into the code column and

@@ -11,6 +11,8 @@ import { highlightCode } from '@/lib/shiki-highlight';
 import SnippetExportButton from '@/components/UiSnippetsTool/SnippetExportButton';
 import SourceCodeTabs from '@/components/UiSnippetsTool/SourceCodeTabs';
 import NavbarBuilderPromo from '@/components/NavbarBuilderPromo';
+import RelatedCarousel from '@/components/UiSnippetsTool/RelatedCarousel';
+import { getRelatedSnippets } from '@/lib/snippet-related';
 import styles from './styles.module.css';
 
 // Navbar-like snippets outside the Navigation category that also get the Navbar Builder call-out.
@@ -843,6 +845,7 @@ export default async function UiSnippetSlugPage({ params }) {
   if (!sn) notFound();
 
   const categoryLabel = sn.category.charAt(0).toUpperCase() + sn.category.slice(1);
+  const related = getRelatedSnippets(sn.category);
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
@@ -1009,8 +1012,9 @@ Requirements:
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
-      {/* The related snippets now live in the bar along the bottom of the editor (UiSnippetsTool). */}
+      {/* Related snippets in the editor's bottom bar, and again here as a carousel under the ad */}
       <AdSlot adFirst related={false} />
+      <RelatedCarousel items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
       <SeoSection
         {...SEO}
         titleExtra={(

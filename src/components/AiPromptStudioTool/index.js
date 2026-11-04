@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import styles from './styles.module.css';
-import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { loadPrompts, savePrompt, deletePrompt, SOURCE_TAGS, tagById } from './storage';
@@ -528,7 +527,7 @@ export default function AiPromptStudioTool() {
 
   return (
     <div className={styles.wrap}>
-      <PlaygroundTopNav active="ai-prompt-studio" />
+      {/* Top nav (HTML / CSS / JavaScript … strip) removed 2026-11-04 */}
       <PlaygroundTopAd />
       {/* Header */}
       <div className={styles.header}>

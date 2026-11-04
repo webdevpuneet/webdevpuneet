@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useScrollToolbarMenu, AiPromptButton } from '@/components/ToolbarActions';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -33,7 +33,7 @@ import { ADS_ENABLED, SNIPPET_TOP_AD_ENABLED } from '@/lib/ads-config';
 import ExportTester from './ExportTester';
 import EmbedModal from './EmbedModal';
 import SnippetSearch from './SnippetSearch';
-import { CategoryStrip, usePeek, PeekPopup } from './RelatedCarousel';
+import { CategoryStrip } from './RelatedCarousel';
 import { dbGetAll, dbPut, dbDelete, dbClear } from '@/lib/uiSnippetsDb';
 const SNIPPET_BY_ID = new Map(SNIPPETS.map(sn => [sn.id, sn]));
 
@@ -1011,123 +1011,147 @@ const VISIBLE_SNIPPETS_NEWEST = [...VISIBLE_SNIPPETS].reverse();
 // Header tag list for the strip's drop-down (same set the gallery's Tags column shows).
 const HEADER_TAGS = publishedTags(SNIPPETS).map(t => ({ id: t.id, label: t.label }));
 
-/* — Related snippets bar: a 90px strip along the bottom of the preview pane (library snippets, desktop).
-   Same category as the open snippet, the ones that follow it first (newest-first, like the gallery), then
-   the ones before it, ending with a "see all" card. Real links with thumbnails, so each one is also a
-   crawlable internal link. Hover shows a bigger preview (like the site's other snippet strips); the row
-   scrolls with the wheel, by dragging, with the arrows, and the arrows switch off at the ends. — */
+/* — Related snippets overlay: covers only the code panels (HTML / CSS / JS), never the preview or the
+   header. Library snippets, desktop only (it lives in the desktop editor pane; phones never get it). It
+   fades in 3 seconds after every page load or snippet change; "View code" closes it for this page and the
+   "Related" button in the code header brings it back. The list is the whole category in gallery order
+   (newest first): it opens on the open snippet (marked) with a few previous ones above, shows 10 at a time
+   and loads 10 more as you scroll, down and up, until the ends ("see all" card at the bottom). Hovering a
+   card shows a large preview beside the overlay. Real links with thumbnails, so each is a crawlable link. — */
 const NEWEST_FIRST_SNIPPETS = [...VISIBLE_SNIPPETS].reverse();
-function RelatedSnippetsBar({ activeId, category }) {
-  const scrollRef = useRef(null);
-  const drag = useRef({ down: false, x: 0, left: 0, moved: false });
-  const [edge, setEdge] = useState({ start: true, end: false });
-  const [peek, onPeek] = usePeek(300);
+const CODE_OVERLAY_DELAY = 3000;
+const CODE_OVERLAY_PAGE = 10;
+const TOGGLE_RELATED_EVENT = 'uis-toggle-related'; // the "Related" button in the code header toggles the overlay
+const RELATED_STATE_EVENT = 'uis-related-state'; // detail: true while the overlay is open (the button shows active)
+const previewSrc = id => `/images/ui-snippets/previews/${id}.png`;
+function RelatedCodeOverlay({ activeId, category, paneRef }) {
+  const [open, setOpen] = useState(false);
+  const [top, setTop] = useState(0);
   const pool = useMemo(() => NEWEST_FIRST_SNIPPETS.filter(sn => sn.category === category), [category]);
-  // The row is in gallery order around the open snippet: the previous ones to its left, the open one marked,
-  // the next ones to its right. It opens scrolled past the open snippet, so the next ones show first and the
-  // open one and the previous ones are a scroll to the left away.
-  const items = useMemo(() => {
-    const at = pool.findIndex(sn => sn.id === activeId);
-    return at < 0 ? pool.slice(0, 30) : pool.slice(Math.max(0, at - 12), at + 1 + 24);
-  }, [activeId, pool]);
+  const at = Math.max(0, pool.findIndex(sn => sn.id === activeId));
+  // The loaded window [from, to) of the pool: starts with 2 previous ones, the open one and the next ones
+  const initial = useMemo(() => {
+    const from = Math.max(0, at - 2);
+    return { from, to: Math.min(pool.length, from + CODE_OVERLAY_PAGE) };
+  }, [at, pool.length]);
+  const [range, setRange] = useState(initial);
+  const gridRef = useRef(null);
+  const anchor = useRef(null); // keeps the view still when earlier cards are added above
+  const [peek, setPeek] = useState(null);
   const label = CATEGORIES.find(c => c.id === category)?.label || '';
-  const measure = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setEdge({ start: el.scrollLeft <= 2, end: el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 });
-  }, []);
+
+  const reveal = useCallback(() => {
+    const first = paneRef.current?.querySelector('[data-panel="html"]');
+    // start a little below the top of the HTML panel, so its header and first lines of code peek out above
+    setTop((first ? first.offsetTop : 0) + 64);
+    setRange(initial);
+    setOpen(true);
+  }, [paneRef, initial]);
+
   useEffect(() => {
-    const el = scrollRef.current;
-    if (el) {
-      const current = el.querySelector('[aria-current="page"]');
-      // start just past the open snippet: it and the previous ones are off to the left, the next ones are showing
-      el.scrollLeft = current ? current.offsetLeft + current.offsetWidth + 8 : 0;
+    setOpen(false);
+    if (!pool.length) return undefined;
+    const t = setTimeout(reveal, CODE_OVERLAY_DELAY);
+    return () => clearTimeout(t);
+  }, [activeId, pool.length, reveal]);
+  const openRef = useRef(false);
+  useEffect(() => {
+    openRef.current = open;
+    window.dispatchEvent(new CustomEvent(RELATED_STATE_EVENT, { detail: open }));
+  }, [open]);
+  useEffect(() => () => { window.dispatchEvent(new CustomEvent(RELATED_STATE_EVENT, { detail: false })); }, []);
+  useEffect(() => {
+    const toggle = () => { if (openRef.current) { setOpen(false); setPeek(null); } else reveal(); };
+    window.addEventListener(TOGGLE_RELATED_EVENT, toggle);
+    return () => window.removeEventListener(TOGGLE_RELATED_EVENT, toggle);
+  }, [reveal]);
+
+  // On open, scroll so the open snippet sits near the top (the previous ones are a short scroll up)
+  useEffect(() => {
+    if (!open) return;
+    const g = gridRef.current, cur = g?.querySelector('[aria-current="page"]');
+    if (g && cur) g.scrollTop = Math.max(0, cur.offsetTop - g.offsetTop - 12);
+  }, [open]);
+  // After earlier cards are added above, put the view back where it was
+  useLayoutEffect(() => {
+    const g = gridRef.current, a = anchor.current;
+    if (!g || a === null) return;
+    anchor.current = null;
+    g.scrollTop += g.scrollHeight - a;
+  }, [range.from]);
+
+  // Infinite scroll both ways: 10 more when near the bottom or the top, until the ends
+  const onScroll = () => {
+    setPeek(null);
+    const g = gridRef.current;
+    if (!g) return;
+    if (range.to < pool.length && g.scrollTop + g.clientHeight > g.scrollHeight - 240) {
+      setRange(r => ({ ...r, to: Math.min(pool.length, r.to + CODE_OVERLAY_PAGE) }));
     }
-    measure();
-  }, [activeId, items.length, measure]);
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return undefined;
-    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : null;
-    ro?.observe(el);
-    // the mouse wheel scrolls the row sideways while the pointer is over it
-    const onWheel = e => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && el.scrollWidth > el.clientWidth) { e.preventDefault(); el.scrollLeft += e.deltaY; }
-    };
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => { ro?.disconnect(); el.removeEventListener('wheel', onWheel); };
-  }, [measure, items.length]);
-  if (!items.length) return null;
-
-  const by = dir => scrollRef.current?.scrollBy({ left: dir * 480, behavior: 'smooth' });
-  // drag the row with the mouse (touch screens already scroll it natively)
-  const onMouseDown = e => {
-    if (e.button !== 0) return;
-    const el = scrollRef.current;
-    drag.current = { down: true, x: e.clientX, left: el.scrollLeft, moved: false };
-    const move = ev => {
-      const d = ev.clientX - drag.current.x;
-      if (Math.abs(d) > 4) { drag.current.moved = true; onPeek(null); }
-      if (drag.current.moved) el.scrollLeft = drag.current.left - d;
-    };
-    const up = () => {
-      window.removeEventListener('mousemove', move);
-      window.removeEventListener('mouseup', up);
-      setTimeout(() => { drag.current.down = false; drag.current.moved = false; }, 0);
-    };
-    window.addEventListener('mousemove', move);
-    window.addEventListener('mouseup', up);
+    if (range.from > 0 && g.scrollTop < 120 && anchor.current === null) {
+      anchor.current = g.scrollHeight;
+      setRange(r => ({ ...r, from: Math.max(0, r.from - CODE_OVERLAY_PAGE) }));
+    }
   };
-  const onClickCapture = e => { if (drag.current.moved) { e.preventDefault(); e.stopPropagation(); } }; // a drag is not a click
+  // Large preview to the right of the overlay, level with the hovered card
+  const showPeek = (sn, el) => {
+    const r = el.getBoundingClientRect();
+    const box = el.closest('aside')?.getBoundingClientRect();
+    const left = (box ? box.right : r.right) + 14;
+    const w = Math.min(460, window.innerWidth - left - 12);
+    if (w < 200) return;
+    const h = Math.round(w * 0.75) + 40;
+    const topPx = Math.min(Math.max(12, r.top + r.height / 2 - h / 2), window.innerHeight - h - 12);
+    setPeek({ src: previewSrc(sn.id), title: sn.title, left, top: topPx, width: w });
+  };
 
+  if (!open) return null;
+  const close = () => { setOpen(false); setPeek(null); };
+  const shown = pool.slice(range.from, range.to);
   return (
-    <nav className={s.relatedBar} aria-label="Related snippets">
-      <div className={s.relatedHead}>
-        <span className={s.relatedTitle}>Related snippets</span>
-        {label && <span className={s.relatedCat}>{Math.max(0, pool.length - 1)} in {label}</span>}
-      </div>
-      <button type="button" className={s.relatedArrow} onClick={() => by(-1)} disabled={edge.start} aria-label="Scroll related snippets left">‹</button>
-      <div className={s.relatedTrack}>
-        <div className={s.relatedScroll} ref={scrollRef} onScroll={measure} onMouseDown={onMouseDown} onClickCapture={onClickCapture}>
-          {items.map(sn => sn.id === activeId ? (
-            <span key={sn.id} className={`${s.relatedCard} ${s.relatedCardCurrent}`} aria-current="page" title={`${sn.title} (open now)`}>
-              <img className={s.relatedThumb} src={`/images/ui-snippets/previews/${sn.id}.png`} alt="" draggable={false} decoding="async" onError={e => { e.currentTarget.style.visibility = 'hidden'; }} />
-              <span className={s.relatedName}>{sn.title}</span>
-              <span className={s.relatedNow}>Open now</span>
-            </span>
-          ) : (
-            <a
-              key={sn.id}
-              href={`/ui-snippets/${sn.id}/`}
-              className={s.relatedCard}
-              draggable={false}
-              onClick={() => { onPeek(null); navStart(); }}
-              onMouseEnter={e => { if (!drag.current.down) onPeek({ src: `/images/ui-snippets/previews/${sn.id}.png`, title: sn.title }, e.currentTarget.getBoundingClientRect()); }}
-              onMouseLeave={() => onPeek(null)}
-            >
-              <img
-                className={s.relatedThumb}
-                src={`/images/ui-snippets/previews/${sn.id}.png`}
-                alt=""
-                draggable={false}
-                loading="lazy"
-                decoding="async"
-                onError={e => { e.currentTarget.style.visibility = 'hidden'; }}
-              />
-              <span className={s.relatedName}>{sn.title}</span>
-            </a>
-          ))}
-          <a href={`/ui-snippets/${category}/`} className={s.relatedAll} draggable={false} onClick={() => navStart()}>
-            <span>See all {pool.length}</span>
-            <span className={s.relatedAllCat}>in {label || 'this category'} →</span>
-          </a>
+    <aside className={s.codeOverlay} style={{ top }} aria-label="Related snippets" onMouseLeave={() => setPeek(null)}>
+      <span className={s.coGrip} aria-hidden="true" />
+      <div className={s.coHead}>
+        <div className={s.coHeadText}>
+          <p className={s.coTitle}>More like this{label ? <span className={s.coSub}> · {pool.length} in {label}</span> : null}</p>
         </div>
-        {!edge.start && <span className={`${s.relatedFade} ${s.relatedFadeL}`} aria-hidden="true" />}
-        {!edge.end && <span className={`${s.relatedFade} ${s.relatedFadeR}`} aria-hidden="true" />}
+        <button type="button" className={s.coClose} onClick={close} title="Close and view the full code">
+          View code
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
-      <button type="button" className={s.relatedArrow} onClick={() => by(1)} disabled={edge.end} aria-label="Scroll related snippets right">›</button>
-      <PeekPopup peek={peek} />
-    </nav>
+      <div className={s.coGrid} ref={gridRef} onScroll={onScroll}>
+        {range.from > 0 && <p className={s.coMore}>Scroll up for {range.from} newer</p>}
+        {shown.map(sn => {
+          const current = sn.id === activeId;
+          const inner = (
+            <>
+              <img className={s.coThumb} src={previewSrc(sn.id)} alt="" loading="lazy" decoding="async" onError={e => { e.currentTarget.style.visibility = 'hidden'; }} />
+              <span className={s.coName}><span className={s.coNameText}>{sn.title}</span>{current && <span className={s.coNow}>Open now</span>}</span>
+            </>
+          );
+          const hover = { onMouseEnter: e => showPeek(sn, e.currentTarget), onMouseLeave: () => setPeek(null) };
+          return current
+            ? <span key={sn.id} className={`${s.coCard} ${s.coCardCurrent}`} aria-current="page" {...hover}>{inner}</span>
+            : <a key={sn.id} href={`/ui-snippets/${sn.id}/`} className={s.coCard} onClick={() => { setPeek(null); navStart(); }} {...hover}>{inner}</a>;
+        })}
+        {range.to < pool.length
+          ? <p className={s.coMore}>Loading more…</p>
+          : (
+            <a href={`/ui-snippets/${category}/`} className={s.coAll} onClick={() => navStart()}>
+              <span>See all {pool.length}</span>
+              <span className={s.coAllCat}>in {label || 'this category'} →</span>
+            </a>
+          )}
+      </div>
+      {peek && typeof document !== 'undefined' && createPortal(
+        <div className={s.coPeek} style={{ left: peek.left, top: peek.top, width: peek.width }} aria-hidden="true">
+          <img src={peek.src} alt="" />
+          <p>{peek.title}</p>
+        </div>,
+        document.body
+      )}
+    </aside>
   );
 }
 
@@ -2077,6 +2101,13 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   const galleryMode = !showEditor;
   // Which header section is current: My Code (its gallery, its snippets, a new blank one) or the library.
   const inMyCode = initialView === 'saved' || activeIsCustom || isNewBlank || wantsNew;
+  // Whether the related-snippets overlay over the code is showing (the "Related" button is active while it is)
+  const [relatedOpen, setRelatedOpen] = useState(false);
+  useEffect(() => {
+    const on = e => setRelatedOpen(!!e.detail);
+    window.addEventListener(RELATED_STATE_EVENT, on);
+    return () => window.removeEventListener(RELATED_STATE_EVENT, on);
+  }, []);
   // Code panel stays on the left everywhere, same as My Code.
   const codeRight = false;
 
@@ -2235,6 +2266,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
           )}
+          <div className={s.createRow}>
           <button
             className={s.headerBrand}
             onClick={() => {
@@ -2260,6 +2292,21 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             <span className={s.headerTitle}>{headerInCode ? 'Create snippet' : 'Create'}</span>
           </button>
+          {/* Toggles the related-snippets overlay over the code (library snippets, desktop); active while it shows */}
+          {headerInCode && !inMyCode && activeSn?.category && (
+            <button
+              type="button"
+              className={`${s.headerBrand} ${s.relatedOpenBtn} ${relatedOpen ? s.relatedOpenBtnOn : ''}`}
+              onClick={() => window.dispatchEvent(new Event(TOGGLE_RELATED_EVENT))}
+              aria-pressed={relatedOpen}
+              title={relatedOpen ? 'Hide related snippets' : 'Show related snippets'}
+              aria-label="Related snippets"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+              <span className={s.headerTitle}>Related</span>
+            </button>
+          )}
+          </div>
         </div>
         {/* One row of categories; hover opens a two-column Categories | Tags panel.
             Hidden on the library gallery / category / tag pages, which show their own
@@ -2295,7 +2342,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             <div
               className={s.editorPane}
               ref={editorRef}
-              style={{ flex: editorVisible ? `0 0 ${editorWidth}px` : undefined, minWidth: editorVisible ? 300 : undefined, display: editorVisible ? 'flex' : 'none' }}
+              style={{ position: 'relative', flex: editorVisible ? `0 0 ${editorWidth}px` : undefined, minWidth: editorVisible ? 300 : undefined, display: editorVisible ? 'flex' : 'none' }}
             >
               {headerInCode && headerEl}
               <EditorPanel lang="html" data-panel="html" code={htmlCode} highlight={highlightHTML} onChange={onHtml} onReset={resetHtml} collapsed={htmlCollapsed} onToggle={toggleHtmlPanel} className={`${sidebarTab === 'saved' ? s.panelTopBorder : ''} ${htmlCollapsed ? '' : s.panelFlex}`} flexVal={htmlCollapsed ? undefined : htmlFlex} />
@@ -2303,6 +2350,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               <EditorPanel lang="css"  data-panel="css"  code={cssCode}  highlight={highlightCSS}  onChange={onCss}  onReset={resetCss} collapsed={cssCollapsed}  onToggle={toggleCssPanel}  className={cssCollapsed  ? '' : s.panelFlex} flexVal={cssCollapsed  ? undefined : cssFlex} headerExtra={cssHeaderExtra} />
               {!cssCollapsed && !jsCollapsed && <div className={s.vDragHandle} onMouseDown={onCssJsDragStart} title="Drag to resize" />}
               <EditorPanel lang="js"   data-panel="js"   code={jsCode}   highlight={highlightJS}   onChange={onJs}   onReset={resetJs} collapsed={jsCollapsed}   onToggle={toggleJsPanel}   className={jsCollapsed   ? '' : s.panelFlex} flexVal={jsCollapsed   ? undefined : jsFlex} headerExtra={jsHeaderExtra} />
+              {editorVisible && !inMyCode && activeSn?.category && <RelatedCodeOverlay key={activeId} activeId={activeId} category={activeSn.category} paneRef={editorRef} />}
             </div>
             {editorVisible && <div className={s.dragHandle} onMouseDown={onSplitDragStart} title="Drag to resize" />}
           </>
@@ -2609,7 +2657,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             );
           })()}
           </div>}
-          {showEditor && !inMyCode && !isMobile && activeSn?.category && <RelatedSnippetsBar activeId={activeId} category={activeSn.category} />}
+          {/* Related snippets bar under the preview: removed 2026-11-04 (the carousel below the editor shows them) */}
         </div>
 
       </div>
