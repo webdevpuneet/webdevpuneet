@@ -76,6 +76,7 @@ export function starterSections(list = []) {
     const sec = newPageSection(id, out);
     if (!sec) continue;
     if (o && typeof o.anchor === 'string') sec.anchor = cleanAnchor(o.anchor); // a template can name a section's anchor
+    if (o && o.style) sec.style = cleanSectionStyle(o.style); // ...and give it a look of its own, e.g. { scheme: 'inverted' } for a dark band
     sec.state = withOverrides(sectionTemplateById(id), sec.state, o);
     out.push(sec);
   }

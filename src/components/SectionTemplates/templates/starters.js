@@ -8,6 +8,7 @@ import { IMG } from './meta.js';
 import { MORE_WEBSITE_TEMPLATES } from './starters-2.js';
 import { EVEN_MORE_WEBSITE_TEMPLATES } from './starters-3.js';
 import { MUSIC_WEBSITE_TEMPLATES } from './starters-4.js';
+import { CORPORATE_WEBSITE_TEMPLATES } from './starters-5.js';
 import { applyExtras } from './starters-extras.js';
 
 const av = n => IMG(`avatar-${n}.jpg`);
@@ -544,6 +545,8 @@ const BASE_TEMPLATES = [
   // Podcast, product store, school and church (starters-3.js)
   ...EVEN_MORE_WEBSITE_TEMPLATES,
   ...MUSIC_WEBSITE_TEMPLATES,
+  // Corporate and consulting (starters-5.js)
+  ...CORPORATE_WEBSITE_TEMPLATES,
 ];
 
 // The sections added later (gallery, video, before / after, booking form, case studies, product grid)
