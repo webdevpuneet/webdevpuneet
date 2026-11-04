@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import InViewImg from '@/components/InViewImg';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from './styles.module.css';
-import { AddToPageMenu, ExportMenu, ForkButton, HistoryButtons, SaveButton, AiPromptButton } from '@/components/ToolbarActions';
+import { AddToPageMenu, ExportMenu, ForkButton, FullscreenButton, HistoryButtons, SaveButton, AiPromptButton } from '@/components/ToolbarActions';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
@@ -921,6 +921,7 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
               />
               <span className={s.toolbarSep} aria-hidden="true" />
               <AddToPageMenu loadPages={loadBuilderPages} onPick={addToBuilder} />
+              <FullscreenButton />
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
               {aiPrompt && <AiPromptButton prompt={aiPrompt} title={t.name} />}
               <ExportMenu

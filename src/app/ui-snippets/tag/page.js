@@ -67,7 +67,7 @@ export default function TagIndexPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(listSchema) }} />
       <AdSlot adFirst related={false} />
-      <IndexOnly>
+      <IndexOnly always>
       <SeoSection
         slug="ui-snippets/tag"
         title="UI Snippet Tags — Browse by Library, API and Technique"

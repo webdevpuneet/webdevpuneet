@@ -19,7 +19,10 @@ function Gate({ children, keep }) {
   return children;
 }
 
-export default function IndexOnly({ children, keep = [] }) {
+// `always`: for pages whose query views (?design=…, ?filter=…) carry the same canonical URL as the page itself, so the
+// content stays under every query string.
+export default function IndexOnly({ children, keep = [], always = false }) {
+  if (always) return children;
   return (
     <Suspense fallback={children}>
       <Gate keep={keep}>{children}</Gate>

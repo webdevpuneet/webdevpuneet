@@ -18,7 +18,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import s from '../SocialPostTemplates/styles.module.css';
 import b from './styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
-import { ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
+import { ExportMenu, ForkButton, FullscreenButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import { toReactComponent, toVueSfc, componentName } from '@/lib/snippet-exporters';
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
@@ -1695,6 +1695,7 @@ ${pageCss(shown, { fontFaces })}`),
                 menu={current ? [{ label: 'Detach', sub: `Keep editing without changing “${current.name}”`, onClick: () => { setCurrent(null); savedJson.current = null; flash('Detached. Save now creates a new website.'); } }] : []}
               />
               <span className={s.toolbarSep} aria-hidden="true" />
+              <FullscreenButton />
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy || !page.sections.length} />
               <ExportMenu
                 head={multi ? 'Export this website as…' : 'Export this page as…'}

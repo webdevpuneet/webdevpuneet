@@ -108,7 +108,7 @@ export default async function TemplateCategoryRoute({ params }) {
         <TemplateCategoryPage category={cat} h1={c.h1} lead={lead} previews={previewIds()} />
       </div>
       <AdSlot related={false} />
-      <IndexOnly>
+      <IndexOnly always>
         <SeoSection slug="social-post-templates" title={c.h1} subtitle={`${list.length} templates · Instagram, Facebook & X · PNG, JPEG & HTML`} sections={sections} />
       </IndexOnly>
     </div>

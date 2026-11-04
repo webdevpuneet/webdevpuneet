@@ -173,7 +173,7 @@ export default function WebsiteBuilderPage() {
         <TemplateGallery templates={[...STARTERS].reverse().map(t => ({ id: t.id, name: t.name, industry: t.industry, blurb: t.blurb, n: t.sections.length, p: starterPageList(t.id).length }))} industries={TEMPLATE_INDUSTRIES} />
       </div>
       <AdSlot related={false} />
-      <IndexOnly>
+      <IndexOnly always>
         <SeoSection slug="website-builder" title="Free Website Builder &amp; Templates — Build a Page, Export HTML" subtitle={`${N} sections · ${STARTERS.length} website templates · One theme · GSAP animation · Export HTML or ZIP`} sections={SECTIONS} />
       </IndexOnly>
     </div>

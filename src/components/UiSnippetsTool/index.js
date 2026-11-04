@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { useScrollToolbarMenu, AiPromptButton } from '@/components/ToolbarActions';
+import { useScrollToolbarMenu, AiPromptButton, FullscreenButton } from '@/components/ToolbarActions';
 import { useRouter, useSearchParams } from 'next/navigation';
 import UiSnippetsGallery, { LoadMore } from '@/components/UiSnippetsGallery';
 import gs from '@/components/UiSnippetsGallery/styles.module.css';
@@ -2176,6 +2176,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               }}
             />
           )}
+          {showEditor && !isMobile && <FullscreenButton />}
           {/* Bookmark — library snippets only; shows in the gallery's Bookmarked view and the sidebar */}
           {showEditor && !activeIsCustom && activeSn && <BookmarkButton id={activeId} className={s.iconBtn} size={12} />}
           {/* Fork & Edit — save your own editable copy, only when a snippet is open */}

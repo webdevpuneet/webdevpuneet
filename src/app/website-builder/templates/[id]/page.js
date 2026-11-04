@@ -235,7 +235,7 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
           />
         </div>
       </div>
-      <IndexOnly>
+      <IndexOnly always>
         <SeoSection slug="website-builder" title={`${t.name} Template — Free, Editable, Export HTML`} subtitle={`${t.industry} · ${multi ? `One page or ${pages.length} pages · ` : ''}${parts.length} sections · ${fonts[0]} + ${fonts[1]} · Responsive · GSAP animation`} sections={SECTIONS} />
       </IndexOnly>
     </div>

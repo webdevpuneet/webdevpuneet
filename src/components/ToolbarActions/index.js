@@ -172,6 +172,32 @@ export function ForkButton({ onClick, busy = false, disabled = false, title = 'S
   );
 }
 
+/* Full screen: like F11, the whole page goes full screen (the browser's own exit hint and Esc apply). The icon follows the
+   real state, so leaving with Esc or F11 updates it. Hidden where the browser has no Fullscreen API (iPhone Safari). */
+export function FullscreenButton() {
+  const [on, setOn] = useState(false);
+  const [can, setCan] = useState(false);
+  useEffect(() => {
+    setCan(!!document.documentElement.requestFullscreen);
+    const sync = () => setOn(!!document.fullscreenElement);
+    sync();
+    document.addEventListener('fullscreenchange', sync);
+    return () => document.removeEventListener('fullscreenchange', sync);
+  }, []);
+  if (!can) return null;
+  const toggle = () => {
+    const p = document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+    p?.catch?.(() => {});
+  };
+  return (
+    <button type="button" className={us.iconBtn} onClick={toggle} title={on ? 'Exit full screen (Esc)' : 'Full screen (like F11)'} aria-label={on ? 'Exit full screen' : 'Full screen'} aria-pressed={on} style={{ width: 28, padding: 0, justifyContent: 'center' }}>
+      {on
+        ? <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
+        : <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>}
+    </button>
+  );
+}
+
 /* Undo / Redo (icon-only, with tooltips) and Reset as a compact toolbar group (same 26px buttons as Fork / Export) */
 export function HistoryButtons({ onUndo, onRedo, onReset, canUndo, canRedo, showReset = true }) {
   return (

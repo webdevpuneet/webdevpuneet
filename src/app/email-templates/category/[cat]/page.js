@@ -122,7 +122,7 @@ export default async function EmailCategoryRoute({ params }) {
         <EmailCategoryPage category={cat} h1={c.h1} lead={lead} previews={emailPreviewIds()} />
       </div>
       <AdSlot related={false} />
-      <IndexOnly>
+      <IndexOnly always>
         <SeoSection slug="email-templates" title={c.h1} subtitle={`${n} template${n > 1 ? 's' : ''} · Gmail, Outlook & Apple Mail · Dark mode · Copy HTML`} sections={sections} />
       </IndexOnly>
     </div>

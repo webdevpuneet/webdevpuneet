@@ -11,7 +11,7 @@ import { revealInPanel } from '@/lib/reveal-in-panel';
 import { SIZES, sizeById, templateById } from './templates/index.js';
 import { PALETTES, parseHex } from '../OgImageGenerator/engine';
 import FontPicker from '@/components/FontPicker';
-import { AiPromptButton, ExportMenu, ForkButton, HistoryButtons, PlayButton, SaveButton } from '@/components/ToolbarActions';
+import { AiPromptButton, ExportMenu, ForkButton, FullscreenButton, HistoryButtons, PlayButton, SaveButton } from '@/components/ToolbarActions';
 import Preview from './Preview';
 import FormatPopover from '@/components/EmailTemplates/FormatPopover';
 import { renderImage, standaloneHtml, snippetParts, renderVideo, videoSupport, playPreviewAnimation } from './render';
@@ -1143,6 +1143,7 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                   ...(currentDesign ? [{ label: 'Detach', sub: `Keep editing without changing “${currentDesign.name}”`, onClick: () => { setCurrentDesign(null); flash('Detached. Save now creates a new design.'); } }] : []),
                 ]}
               />
+              <FullscreenButton />
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} title="Save this design as an editable HTML/CSS snippet in My Code (opens in a new tab)" />
               <ExportMenu
                 label="Share"

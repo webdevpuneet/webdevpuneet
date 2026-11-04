@@ -170,7 +170,7 @@ export default async function EmailTemplatePage({ params }) {
             />
           )}
         />
-      <IndexOnly>
+      <IndexOnly always>
         <SeoSection
           slug="email-templates"
           title={`${t.name} — Free Responsive HTML Email Template`}

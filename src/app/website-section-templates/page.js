@@ -135,7 +135,7 @@ export default function WebsiteSectionTemplatesPage() {
       ))}
       <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}><SectionGalleryPage previews={sectionPreviewIds()} /></div>
       <AdSlot related={false} />
-      <IndexOnly>
+      <IndexOnly always>
         <SeoSection slug="website-section-templates" title="Website Section Templates — Free, Editable, Animated" subtitle={`${SECTION_TEMPLATES.length} sections in ${new Set(SECTION_TEMPLATES.map(t => t.category)).size} categories · Navbars to footers · Shared theme · GSAP animation · Container queries · HTML, React & Vue`} sections={SECTIONS} />
       </IndexOnly>
     </div>

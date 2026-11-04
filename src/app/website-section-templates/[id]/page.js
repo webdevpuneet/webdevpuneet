@@ -181,7 +181,7 @@ export default async function WebsiteSectionTemplatePage({ params }) {
           />
         )}
       />
-      <IndexOnly>
+      <IndexOnly always>
         <SeoSection
           slug="website-section-templates"
           title={`${t.name} — Free Website Section Template`}

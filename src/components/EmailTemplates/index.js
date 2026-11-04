@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import InViewImg from '@/components/InViewImg';
 import s from '../SocialPostTemplates/styles.module.css';
 import e from './styles.module.css';
-import { AiPromptButton, ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
+import { AiPromptButton, ExportMenu, ForkButton, FullscreenButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import { emailDesignStore } from './designs';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
@@ -1683,6 +1683,7 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
                 menu={currentDesign ? [{ label: 'Detach', sub: `Keep editing without changing “${currentDesign.name}”`, onClick: () => { setCurrentDesign(null); flash('Detached. Save now creates a new design.'); } }] : []}
               />
               <span className={s.toolbarSep} aria-hidden="true" />
+              <FullscreenButton />
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
               {aiPrompt && <AiPromptButton prompt={aiPrompt} title={t.name} />}
               <ExportMenu

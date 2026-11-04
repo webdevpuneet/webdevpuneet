@@ -189,7 +189,7 @@ export default async function SocialPostTemplatePage({ params }) {
             />
           ) : false}
         />
-      <IndexOnly>
+      <IndexOnly always>
         <SeoSection
           slug="social-post-templates"
           title={`${t.name} — Free ${cat.label} Social Post Template`}
