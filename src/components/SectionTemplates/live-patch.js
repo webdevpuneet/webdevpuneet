@@ -8,10 +8,16 @@
    data-cs-edit) are emptied. If everything else is identical, only text changed. Each text element is identified
    by a signature (its section, list item, block and field key), so the matching elements in the live page are
    found even if scripts have cloned some of them (marquees). A live element is only patched while it still holds
-   exactly the text the page was built with: one that scripts have changed (split into letters for an animation,
-   a counter that has counted) makes the whole update fall back to the normal reload, so the result is always right. */
+   what the page was built with: one that scripts have changed (a counter that has counted) makes the whole update
+   fall back to the normal reload, so the result is always right. Headline text effects are the exception: GSAP
+   SplitText wraps the words (data-anim-text), which is fine as long as the words are still the same; the heading
+   is then replaced with the new text as plain text, already in its final place, so nothing plays again. */
 
 const TEXT_SEL = '[data-edit],[data-i-edit],[data-cs-edit]';
+const squash = t => String(t).replace(/\s+/g, ' ').trim();
+const textOfHtml = html => { const d = document.createElement('div'); d.innerHTML = html; return squash(d.textContent); };
+/** The live element still shows what the page was built with (`was`), apart from words wrapped by a headline text effect */
+const stillSame = (el, was) => el.innerHTML === was || (!!el.closest('[data-anim-text]') && squash(el.textContent) === textOfHtml(was));
 
 function sigOf(el) {
   const uid = el.closest('section[data-uid]')?.getAttribute('data-uid') || '';
@@ -57,9 +63,14 @@ export function livePatch(prev, nextHtml, liveDoc) {
     const els = live.get(sig);
     if (!els?.length) return result;
     const was = prev.groups.get(sig);
-    if (els.some(el => el.hasAttribute('data-st-editing') || el.innerHTML !== was)) return result;
+    if (els.some(el => el.hasAttribute('data-st-editing') || !stillSame(el, was))) return result;
   }
-  for (const [sig, inner] of changed) live.get(sig).forEach(el => { el.innerHTML = inner; });
+  for (const [sig, inner] of changed) {
+    live.get(sig).forEach(el => {
+      el.innerHTML = inner;
+      if (el.hasAttribute('data-anim-text')) el.removeAttribute('aria-label'); // SplitText set it from the old words
+    });
+  }
   result.patched = true;
   return result;
 }
