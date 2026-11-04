@@ -1,5 +1,6 @@
 'use client';
 
+import { loadContentIndex, searchContent, GROUP_META } from '@/lib/site-search';
 import { usePathname, useRouter } from 'next/navigation';
 import { isEmbedRoute } from '@/lib/is-embed-route';
 import { ADS_ENABLED, SIDEBAR_AD_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
@@ -192,6 +193,16 @@ function FavouritesGroup({ slugs, onRemove, onReorder, activeSlug, open, onToggl
 /* ─────────────────────────────────────────────────────────────
    ToolLink — shared by accordion + more tools list
 ───────────────────────────────────────────────────────────── */
+/* The part of `text` that matches the search (the first matching word), highlighted */
+function markMatch(text, query) {
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+  const lower = text.toLowerCase();
+  let at = -1, len = 0;
+  for (const w of words) { const i = lower.indexOf(w); if (i !== -1 && (at === -1 || i < at)) { at = i; len = w.length; } }
+  if (at === -1) return text;
+  return (<>{text.slice(0, at)}<mark className={styles.mark}>{text.slice(at, at + len)}</mark>{text.slice(at + len)}</>);
+}
+
 function ToolLink({ slug, name, sub, active, query, soon }) {
   function highlight(text) {
     if (!query) return text;
@@ -1261,6 +1272,16 @@ export default function Sidebar() {
 
   const searchRef = useRef(null);
 
+  /* The same search also finds UI snippets and templates: their name lists load on the first search */
+  const [contentIndex, setContentIndex] = useState(null);
+  const contentLoading = useRef(false);
+  useEffect(() => {
+    if (!query.trim() || contentLoading.current) return;
+    contentLoading.current = true;
+    loadContentIndex().then(setContentIndex).catch(() => { contentLoading.current = false; });
+  }, [query]);
+  const contentGroups = useMemo(() => (query.trim() ? searchContent(contentIndex, query.trim()) : []), [contentIndex, query]);
+
   function toggleCategory(id) {
     setOpenIds(prev => {
       const next = new Set(prev);
@@ -1416,10 +1437,10 @@ export default function Sidebar() {
                 ref={searchRef}
                 type="search"
                 className={styles.searchInput}
-                placeholder="Search tools…"
+                placeholder="Search tools, snippets, templates…"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
-                aria-label="Search tools"
+                aria-label="Search tools, UI snippets and templates"
               />
               {query
                 ? <button className={styles.searchClear} onClick={() => setQuery('')} aria-label="Clear search">✕</button>
@@ -1435,29 +1456,64 @@ export default function Sidebar() {
             {/* Nav */}
             <nav className={styles.nav} aria-label="Tools">
               {searchResults !== null ? (
-                searchResults.length > 0 ? (
+                searchResults.length > 0 || contentGroups.length > 0 ? (
                   <>
-                    <div className={styles.searchMeta}>
-                      {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
-                    </div>
-                    <ul className={`${styles.list} ${styles.compactList}`}>
-                      {searchResults.map(t => (
-                        <ToolLink
-                          key={t.slug}
-                          slug={t.slug}
-                          name={t.name}
-                          sub={t.sub}
-                          active={activeSlug === t.slug}
-                          query={query}
-                          soon={t.soon}
-                        />
-                      ))}
-                    </ul>
+                    {searchResults.length > 0 && (
+                      <>
+                        <div className={styles.searchMeta}>
+                          {searchResults.length} tool{searchResults.length !== 1 ? 's' : ''}
+                        </div>
+                        <ul className={`${styles.list} ${styles.compactList}`}>
+                          {searchResults.map(t => (
+                            <ToolLink
+                              key={t.slug}
+                              slug={t.slug}
+                              name={t.name}
+                              sub={t.sub}
+                              active={activeSlug === t.slug}
+                              query={query}
+                              soon={t.soon}
+                            />
+                          ))}
+                        </ul>
+                      </>
+                    )}
+                    {contentGroups.map(g => (
+                      <section key={g.lib} className={styles.srGroup} aria-label={g.lib}>
+                        <div className={styles.srHead}>
+                          <img src={GROUP_META[g.lib].icon} alt="" width={14} height={14} />
+                          <span className={styles.srLabel}>{g.lib}</span>
+                          <span className={styles.srCount}>{g.total}</span>
+                        </div>
+                        <ul className={styles.srList}>
+                          {g.items.map(it => (
+                            <li key={it.href}>
+                              <a href={it.href} className={styles.srRow} title={`${it.name} · ${it.cat}`}>
+                                <span className={styles.srThumb}>
+                                  {it.thumb
+                                    ? <img src={it.thumb} alt="" loading="lazy" decoding="async" onError={e => { e.currentTarget.style.display = 'none'; }} />
+                                    : <img src={GROUP_META[g.lib].icon} alt="" width={14} height={14} className={styles.srThumbIcon} />}
+                                </span>
+                                <span className={styles.srText}>
+                                  <span className={styles.srName}>{markMatch(it.name, query)}</span>
+                                  <span className={styles.srCat}>{it.cat}</span>
+                                </span>
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                        {g.total > g.items.length && (
+                          <a href={GROUP_META[g.lib].all} className={styles.srAll}>See all {g.total} {g.lib.toLowerCase()} →</a>
+                        )}
+                      </section>
+                    ))}
                   </>
+                ) : !contentIndex ? (
+                  <div className={styles.searchMeta}>Searching…</div>
                 ) : (
                   <div className={styles.noResults}>
                     <div className={styles.noResultsIcon}>⌕</div>
-                    <div>No tools match<br /><strong>"{query}"</strong></div>
+                    <div>Nothing matches<br /><strong>"{query}"</strong></div>
                   </div>
                 )
               ) : (
