@@ -1063,9 +1063,9 @@ const SIDEBAR_VIEW_KEY = 'wdp-sidebar-view';
 const SIDEBAR_VIEWS = ['tools', 'blog', 'mycode'];
 
 /* Sidebar top ad — AdSense (slot 6939815965) at a fixed size, never "auto", so the
-   sidebar doesn't shift while a creative loads: 300x250 medium rectangle on desktop,
-   200x200 small square on mobile (≤768px, where the sidebar is a 240px drawer that a
-   300px unit would overflow). Changing size remounts the <ins> (key) for a fresh ad.
+   sidebar doesn't shift while a creative loads: 300x250 medium rectangle on desktop.
+   Not shown on mobile (≤768px, where the sidebar is a 240px drawer): no strip and no ad request
+   there (2026-11-04). Changing between the two remounts the <ins> for a fresh ad.
    The adsbygoogle.js loader lives once site-wide in AdSenseScript; each mount requests
    an ad for its own fresh <ins>. Delayed so the <ins> is laid out first. */
 const SIDEBAR_AD_MOBILE = '(max-width: 768px)';
@@ -1095,10 +1095,10 @@ function SidebarTopAd() {
     mq.addEventListener('change', sync);
     return () => mq.removeEventListener('change', sync);
   }, []);
-  const size = mobile ? { w: 200, h: 200 } : { w: 300, h: 250 };
+  if (mobile !== false) return null; // phones (and before the first measure): no sidebar ad
   return (
     <div className={styles.sidebarTopAd}>
-      {mobile !== null && <SidebarTopAdIns key={size.w} w={size.w} h={size.h} />}
+      <SidebarTopAdIns w={300} h={250} />
     </div>
   );
 }
