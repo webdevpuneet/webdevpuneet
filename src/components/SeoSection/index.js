@@ -1296,7 +1296,7 @@ function ImageSection({ src, alt, caption, width, height, rounded = true }) {
  * columns: string[] (header row)
  * rows: string[][] (data rows)
  */
-function TableSection({ heading, headingSize = 'h2', label, columns, rows = [], boxed = false }) {
+export function TableSection({ heading, headingSize = 'h2', label, columns, rows = [], boxed = false }) {
   const Tag = headingSize === 'h3' ? 'h3' : 'h2';
   const headingClass = headingSize === 'h3' ? styles.sectionH3 : styles.sectionH2;
   return (

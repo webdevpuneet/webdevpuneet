@@ -11,6 +11,7 @@ import { publishedTags, tagsForSnippetId, TAG_BY_ID } from '@/lib/snippet-tags';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { useBookmarks, toggleBookmark, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
 import s from './styles.module.css';
+import g from '../WebsiteBuilder/TemplateGallery.module.css';
 
 const PER_PAGE = 12; // 3 rows of 4
 
@@ -97,6 +98,17 @@ export function BrowsePanel({ activeCategory = 'all', activeTag = null, highligh
   );
 }
 
+function Check({ checked, onChange, label, count }) {
+  return (
+    <label className={g.check}>
+      <input type="checkbox" checked={checked} onChange={onChange} />
+      <span className={g.checkLabel}>{label}</span>
+      {count != null && <span className={g.checkCount}>{count}</span>}
+    </label>
+  );
+}
+const TAGS_SHOWN = 12; // the biggest tags first; "Show all" lists the rest
+
 // "Load more" under a snippet grid: each click appends the next page below the
 // cards already shown (nothing is replaced). With `href` it renders a real link
 // to that page (?page=N, which loads pages 1..N) so crawlers can still reach
@@ -147,6 +159,25 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
   // or the crawlable Load-more href opens with pages 1..N already loaded.
   const [page, setPage] = useState(() => Math.max(0, (parseInt(searchParams.get('page'), 10) || 1) - 1));
   const [sortOrder, setSortOrder] = useState('newest');
+  // The main gallery (/ui-snippets/) is a filterable library: categories and tags as checkboxes with counts, active
+  // filters as chips, Ctrl/⌘ K for search. Category and tag pages keep their plain layout (they are their own filter).
+  const isMain = !initialTag && initialCategory === 'all';
+  const [cats, setCats] = useState([]);
+  const [tagSel, setTagSel] = useState([]);
+  const [panelOpen, setPanelOpen] = useState(true);
+  const [allTags, setAllTags] = useState(false);
+  const [mac, setMac] = useState(false);
+  const searchRef = useRef(null);
+  useEffect(() => {
+    if (window.matchMedia('(max-width: 900px)').matches) setPanelOpen(false);
+    setMac(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || ''));
+  }, []);
+  useEffect(() => {
+    if (!isMain) return undefined;
+    const onKey = e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); searchRef.current?.focus(); } };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isMain]);
   const gridRef = useRef(null);
   // Bookmarked view: /ui-snippets/?filter=bookmarked (the URL is the source of truth, so it survives a refresh and a
   // shared link). Without ?filter the gallery shows every snippet. Only on the plain gallery: a category or tag page
@@ -218,17 +249,26 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
 
   // On a tag page the tag is the filter — the category chips below stay as
   // navigation to the category pages rather than narrowing the tag further.
+  // `skip` leaves one facet out, so the count beside each of its options shows what picking it would give
+  const q = search.trim().toLowerCase();
+  const passes = (sn, skip) => {
+    if (initialTag && !tagsForSnippetId(sn.id).includes(initialTag)) return false;
+    if (!initialTag && category !== 'all' && sn.category !== category) return false;
+    if (q && !sn.title.toLowerCase().includes(q) && !sn.category.toLowerCase().includes(q)) return false;
+    if (bookmarkedOn && !bookmarks.includes(sn.id)) return false;
+    if (isMain && skip !== 'cat' && cats.length && !cats.includes(sn.category)) return false;
+    if (isMain && skip !== 'tag' && tagSel.length && !tagSel.some(t => tagsForSnippetId(sn.id).includes(t))) return false;
+    return true;
+  };
   const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    const list = SNIPPETS.filter(sn => {
-      const matchTag = !initialTag || tagsForSnippetId(sn.id).includes(initialTag);
-      const matchCat = initialTag || category === 'all' || sn.category === category;
-      const matchSearch = !q || sn.title.toLowerCase().includes(q) || sn.category.toLowerCase().includes(q);
-      const matchMark = !bookmarkedOn || bookmarks.includes(sn.id);
-      return matchTag && matchCat && matchSearch && matchMark;
-    });
+    const list = SNIPPETS.filter(sn => passes(sn));
+    if (sortOrder === 'az') return [...list].sort((a, b) => a.title.localeCompare(b.title));
     return sortOrder === 'newest' ? [...list].reverse() : list;
-  }, [search, category, sortOrder, initialTag, bookmarkedOn, bookmarks]);
+  }, [q, category, sortOrder, initialTag, bookmarkedOn, bookmarks, cats, tagSel]); // eslint-disable-line react-hooks/exhaustive-deps
+  const catOptions = useMemo(() => (isMain ? CATEGORIES.filter(c => c.id !== 'all' && !c.devOnly).map(c => ({ ...c, n: SNIPPETS.filter(sn => sn.category === c.id && passes(sn, 'cat')).length })) : []),
+    [isMain, q, bookmarkedOn, bookmarks, tagSel]); // eslint-disable-line react-hooks/exhaustive-deps
+  const tagOptions = useMemo(() => (isMain ? TAG_LINKS.map(t => ({ ...t, n: SNIPPETS.filter(sn => tagsForSnippetId(sn.id).includes(t.id) && passes(sn, 'tag')).length })) : []),
+    [isMain, q, bookmarkedOn, bookmarks, cats]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const activeTag = initialTag ? TAG_BY_ID.get(initialTag) : null;
 
@@ -253,6 +293,130 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
     syncToUrl({ page: 0, q: value });
   }
 
+  const toggleBookmarkedView = () => { setPage(0); syncToUrl({ page: 0, filter: bookmarkedOn ? '' : 'bookmarked' }); };
+  const setSort = v => { setSortOrder(v); try { localStorage.setItem('uis_sort', v); } catch {} };
+
+  const results = filtered.length === 0 ? (
+    <div className={s.empty}>
+      {search
+        ? <>No snippets match &ldquo;{search}&rdquo;</>
+        : bookmarkedOn
+          ? <>No bookmarked snippets yet — click the bookmark icon on any snippet to save it here.</>
+          : activeTag
+          ? <>No snippets tagged {activeTag.label} yet — check back soon.</>
+          : cats.length || tagSel.length
+          ? <>No snippets match these filters.</>
+          : <>No snippets in this category yet — check back soon.</>}
+    </div>
+  ) : (
+    <>
+      <div className={s.grid} ref={gridRef}>
+        {shown.map((sn) => (
+          <article key={sn.id} className={s.card}>
+            <div className={s.previewWrap}>
+              <InViewImg className={s.preview} src={`/images/ui-snippets/previews/${sn.id}.png`} alt="" />
+              <button
+                type="button"
+                aria-pressed={bookmarks.includes(sn.id)}
+                aria-label={bookmarks.includes(sn.id) ? `Remove bookmark: ${sn.title}` : `Bookmark: ${sn.title}`}
+                title={bookmarks.includes(sn.id) ? 'Remove from bookmarks' : 'Add to bookmarks'}
+                onClick={() => toggleBookmark(sn.id)}
+                className={`${s.bookmarkBtn} ${bookmarks.includes(sn.id) ? s.bookmarkOn : ''}`}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill={bookmarks.includes(sn.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
+              </button>
+            </div>
+            <div className={s.cardBody}>
+              <h3 className={s.cardTitle}>
+                <a href={`/ui-snippets/${sn.id}/`} className={s.cardLink}>{sn.title}</a>
+              </h3>
+              <span className={s.catBadge}>{sn.category}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+      <LoadMore shown={shown.length} total={filtered.length} onLoadMore={loadMore} href={pageHref(page + 1)} />
+    </>
+  );
+
+  // ── Main gallery: the filterable library ──
+  if (isMain) {
+    const chips = [
+      ...cats.map(id => ({ key: `c:${id}`, label: CATEGORIES.find(c => c.id === id)?.label || id, clear: () => setCats(v => v.filter(x => x !== id)) })),
+      ...tagSel.map(id => ({ key: `t:${id}`, label: TAG_BY_ID.get(id)?.label || id, clear: () => setTagSel(v => v.filter(x => x !== id)) })),
+      ...(bookmarkedOn ? [{ key: 'bm', label: 'Bookmarked', clear: toggleBookmarkedView }] : []),
+    ];
+    const clearAll = () => { setCats([]); setTagSel([]); if (bookmarkedOn) toggleBookmarkedView(); };
+    const tagsList = allTags ? tagOptions : tagOptions.slice(0, TAGS_SHOWN);
+    return (
+      <div className={s.wrap}>
+        <div className={s.layout}>
+          <div className={s.main}>
+            <PlaygroundTopAd className={s.topAd} />
+            <div className={g.toolbar}>
+              <div className={g.searchBox}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><line x1="16.5" y1="16.5" x2="21" y2="21" /></svg>
+                <input ref={searchRef} type="search" value={search} onChange={handleSearch} placeholder={`Search ${SNIPPET_COUNT} snippets`} aria-label="Search UI snippets" />
+                <kbd className={g.kbd} aria-hidden="true">{mac ? '⌘ K' : 'Ctrl K'}</kbd>
+              </div>
+              <button type="button" className={`${g.toolBtn} ${panelOpen ? g.toolBtnOn : ''}`} onClick={() => setPanelOpen(v => !v)} aria-expanded={panelOpen} aria-controls="uis-filters">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="17" x2="20" y2="17" /><circle cx="9" cy="7" r="2.4" fill="var(--surface)" /><circle cx="15" cy="17" r="2.4" fill="var(--surface)" /></svg>
+                Filters{chips.length > 0 && <span className={g.toolCount}>{chips.length}</span>}
+              </button>
+              <label className={g.sortWrap}>
+                <select className={g.sort} value={sortOrder} onChange={ev => setSort(ev.target.value)} aria-label="Sort snippets">
+                  <option value="newest">Newest</option>
+                  <option value="oldest">Oldest</option>
+                  <option value="az">Name A–Z</option>
+                </select>
+              </label>
+            </div>
+
+            <div className={g.chipsRow}>
+              <div className={g.chips}>
+                {chips.map(c => <button key={c.key} type="button" className={g.chip} onClick={c.clear} aria-label={`Remove filter: ${c.label}`}>{c.label} <span aria-hidden="true">×</span></button>)}
+                {chips.length > 0 && <button type="button" className={g.clearAll} onClick={clearAll}>Clear all</button>}
+              </div>
+              <span className={g.resultCount}>{filtered.length.toLocaleString('en-US')} {filtered.length === 1 ? 'result' : 'results'}</span>
+            </div>
+
+            <div className={`${g.layout} ${panelOpen ? '' : g.layoutClosed}`}>
+              {panelOpen && (
+                <aside id="uis-filters" className={g.panel} aria-label="Filter snippets">
+                  <fieldset className={g.group}>
+                    <legend>Yours</legend>
+                    <Check checked={bookmarkedOn} onChange={toggleBookmarkedView} label="Bookmarked" count={bookmarks.length} />
+                  </fieldset>
+                  <fieldset className={g.group}>
+                    <legend>Category</legend>
+                    {catOptions.map(c => (c.n || cats.includes(c.id)
+                      ? <Check key={c.id} checked={cats.includes(c.id)} onChange={() => { setPage(0); setCats(v => (v.includes(c.id) ? v.filter(x => x !== c.id) : [...v, c.id])); }} label={c.label} count={c.n} />
+                      : null))}
+                  </fieldset>
+                  <fieldset className={g.group}>
+                    <legend>Tags</legend>
+                    {tagsList.map(t => (t.n || tagSel.includes(t.id)
+                      ? <Check key={t.id} checked={tagSel.includes(t.id)} onChange={() => { setPage(0); setTagSel(v => (v.includes(t.id) ? v.filter(x => x !== t.id) : [...v, t.id])); }} label={t.label} count={t.n} />
+                      : null))}
+                    {tagOptions.length > TAGS_SHOWN && (
+                      <button type="button" className={g.linkBtn} style={{ alignSelf: 'flex-start', margin: '4px 6px 0', fontSize: 12 }} onClick={() => setAllTags(v => !v)}>
+                        {allTags ? 'Show fewer tags' : `Show all ${tagOptions.length} tags`}
+                      </button>
+                    )}
+                  </fieldset>
+                </aside>
+              )}
+              <div className={g.results}>{results}</div>
+            </div>
+
+            {/* Every category and tag page is linked from the tables in the SEO section below (app/ui-snippets/page.js) */}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Category and tag pages: the plain layout ──
   return (
     <div className={s.wrap}>
       <div className={s.layout}>
@@ -280,11 +444,7 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
           </div>
           <button
             className={s.gallerySortBtn}
-            onClick={() => setSortOrder(o => {
-              const next = o === 'newest' ? 'oldest' : 'newest';
-              try { localStorage.setItem('uis_sort', next); } catch {}
-              return next;
-            })}
+            onClick={() => setSort(sortOrder === 'newest' ? 'oldest' : 'newest')}
             title={sortOrder === 'newest' ? 'Newest first — click for oldest first' : 'Oldest first — click for newest first'}
             aria-label={sortOrder === 'newest' ? 'Sort: newest first' : 'Sort: oldest first'}
           >
@@ -299,60 +459,11 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
           activeCategory={category}
           activeTag={initialTag}
           bookmarkedActive={bookmarkedOn}
-          onBookmarked={canBookmarkView ? () => { setPage(0); syncToUrl({ page: 0, filter: bookmarkedOn ? '' : 'bookmarked' }); } : undefined}
+          onBookmarked={canBookmarkView ? toggleBookmarkedView : undefined}
         />
       </div>
 
-      {filtered.length === 0 ? (
-        <div className={s.empty}>
-          {search
-            ? <>No snippets match &ldquo;{search}&rdquo;</>
-            : bookmarkedOn
-              ? <>No bookmarked snippets yet — click the bookmark icon on any snippet to save it here.</>
-              : activeTag
-              ? <>No snippets tagged {activeTag.label} yet — check back soon.</>
-              : <>No snippets in this category yet — check back soon.</>}
-        </div>
-      ) : (
-        <>
-          <div className={s.grid} ref={gridRef}>
-            {shown.map((sn) => (
-              <article key={sn.id} className={s.card}>
-                <div className={s.previewWrap}>
-                  <InViewImg className={s.preview} src={`/images/ui-snippets/previews/${sn.id}.png`} alt="" />
-                  <button
-                    type="button"
-                    aria-pressed={bookmarks.includes(sn.id)}
-                    aria-label={bookmarks.includes(sn.id) ? `Remove bookmark: ${sn.title}` : `Bookmark: ${sn.title}`}
-                    title={bookmarks.includes(sn.id) ? 'Remove from bookmarks' : 'Add to bookmarks'}
-                    onClick={() => toggleBookmark(sn.id)}
-                    className={`${s.bookmarkBtn} ${bookmarks.includes(sn.id) ? s.bookmarkOn : ''}`}
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill={bookmarks.includes(sn.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>                  </button>
-                </div>
-                <div className={s.cardBody}>
-                  <h3 className={s.cardTitle}>
-                    <a
-                      href={`/ui-snippets/${sn.id}/`}
-                      className={s.cardLink}
-                    >
-                      {sn.title}
-                    </a>
-                  </h3>
-                  <span className={s.catBadge}>{sn.category}</span>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <LoadMore
-            shown={shown.length}
-            total={filtered.length}
-            onLoadMore={loadMore}
-            href={pageHref(page + 1)}
-          />
-        </>
-      )}
+      {results}
       </div>
       </div>
     </div>

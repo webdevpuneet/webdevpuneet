@@ -3,6 +3,10 @@ import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { CATEGORIES as SNIPPET_CATEGORIES } from '@/components/UiSnippetsTool/categories';
+import { TableSection } from '@/components/SeoSection';
+import { VISIBLE_SNIPPET_INDEX } from '@/lib/snippet-index';
+import { publishedTags, tagsForSnippetId } from '@/lib/snippet-tags';
+import { CATEGORY_SEO } from '@/lib/snippet-category-seo';
 // The categories a visitor can browse (the sidebar shows the same set): counted, never typed
 const SNIPPET_CATEGORY_COUNT = SNIPPET_CATEGORIES.filter(c => c.id !== 'all' && !c.devOnly).length;
 
@@ -179,6 +183,42 @@ const breadcrumbSchema = {
   ],
 };
 
+/* Every category and every tag page, as two tables of real links with their snippet counts (worked out from the
+   library, never typed), so readers and crawlers can reach all of them from the main gallery's text */
+const VISIBLE_CATEGORIES = SNIPPET_CATEGORIES.filter(c => c.id !== 'all' && !c.devOnly);
+const PUBLISHED_TAGS = publishedTags(VISIBLE_SNIPPET_INDEX);
+/* "What you will find" in a category: the list from its page's own description ("Free HTML CSS JS button snippets —
+   primary, ghost, loading … and more. Copy-paste ready …" gives "Primary, ghost, loading … and more.") */
+const findIn = (id, n) => {
+  const d = (CATEGORY_SEO[id]?.description || '').replace('{n}', n);
+  const list = (d.split(' — ')[1] || d).split(/\.\s/)[0].replace(/\.$/, '').trim();
+  return list ? `${list.charAt(0).toUpperCase()}${list.slice(1)}.` : '';
+};
+const CATEGORY_ROWS = VISIBLE_CATEGORIES.map(c => {
+  const n = VISIBLE_SNIPPET_INDEX.filter(sn => sn.category === c.id).length;
+  return { n, row: [`[${c.label}](/ui-snippets/${c.id}/)`, String(n), findIn(c.id, n) || '—'] };
+}).filter(r => r.n > 0).map(r => r.row);
+const TAG_ROWS = PUBLISHED_TAGS.map(t => [`[${t.label}](/ui-snippets/tag/${t.id}/)`, String(t.count), t.blurb || '']);
+
+function BrowseTables() {
+  return (
+    <>
+      <TableSection
+        label="Browse by category"
+        heading={`All ${CATEGORY_ROWS.length} UI Snippet Categories`}
+        columns={['Category', 'Snippets', 'What you will find']}
+        rows={CATEGORY_ROWS}
+      />
+      <TableSection
+        label="Browse by tag"
+        heading={`All ${TAG_ROWS.length} UI Snippet Tags`}
+        columns={['Tag', 'Snippets', 'What you will find']}
+        rows={TAG_ROWS}
+      />
+    </>
+  );
+}
+
 export default function UiSnippetsPage() {
   return (
     <>
@@ -188,7 +228,7 @@ export default function UiSnippetsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <AdSlot adFirst related={false} />
       <IndexOnly always keep={['filter=bookmarked']}>
-        <SeoSection {...SEO} featuresAfterAbout />
+        <SeoSection {...SEO} featuresAfterAbout injectAfterAiPrompt={<BrowseTables />} />
       </IndexOnly>
     </>
   );
