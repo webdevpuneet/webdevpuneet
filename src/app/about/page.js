@@ -1,4 +1,5 @@
 import styles from '../privacy-policy/styles.module.css';
+import { PATREON_URL, PATREON_PRICE } from '@/lib/premium';
 import aboutStyles from './styles.module.css';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { LIVE_TOOLS } from '@/lib/tools-registry';
@@ -127,7 +128,7 @@ export default function AboutPage() {
           <section className={styles.section}>
             <h2>What's Next</h2>
             <p>webdevpuneet.com is a living project. New tools get added regularly — driven by what's actually needed when working on real projects. The focus will always stay the same: tools that work in the browser, tools that respect your privacy, and tools that don't ask for anything in return.</p>
-            <p>If you use webdevpuneet.com regularly and want to support it, the best things you can do are share a tool with someone who needs it, follow <a href="https://x.com/webdevpuneet" target="_blank" rel="noopener noreferrer">@webdevpuneet</a> on X, or leave a small tip via PayPal — <a href="https://paypal.me/webdevpuneet/3" target="_blank" rel="noopener noreferrer">$3</a>, <a href="https://paypal.me/webdevpuneet/5" target="_blank" rel="noopener noreferrer">$5</a>, or <a href="https://paypal.me/webdevpuneet/10" target="_blank" rel="noopener noreferrer">$10</a> <span className={aboutStyles.heart}>♥</span> — it helps keep the project running.</p>
+            <p>If you use webdevpuneet.com regularly and want to support it, the best things you can do are share a tool with someone who needs it, follow <a href="https://x.com/webdevpuneet" target="_blank" rel="noopener noreferrer">@webdevpuneet</a> on X, or become a supporter on <a href={PATREON_URL} target="_blank" rel="noopener noreferrer">Patreon</a> ({PATREON_PRICE}) <span className={aboutStyles.heart}>♥</span>. Supporters see no ads anywhere on the site and can export the premium website, email and social post templates. It helps keep the project running.</p>
           </section>
 
           <div className={styles.footer}>
