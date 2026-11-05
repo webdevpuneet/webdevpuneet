@@ -6,6 +6,7 @@
    opens the design in its editor. Renders nothing until something is saved. */
 
 import { useEffect, useRef, useState } from 'react';
+import { PremiumBadge } from '@/components/PremiumGate';
 import InViewImg from '@/components/InViewImg';
 import rs from '../UiSnippetsTool/RelatedCarousel.module.css';
 import gs from '../SocialPostTemplates/styles.module.css';
@@ -49,7 +50,7 @@ function LiveBox({ children, className }) {
 // gridClass: any other column class from the gallery stylesheet (e.g. grid5 for social posts)
 // previewClass: the card's preview box (default: the gallery's portrait box; sections pass 16:10)
 // leadCard: an element shown as the first card (e.g. "Create custom section"); the strip then shows even with no designs
-export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, renderPreview = null, scroll = false, query = '', maxFour = false, gridClass = '', previewClass = '', deletable = false, leadCard = null }) {
+export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, renderPreview = null, scroll = false, query = '', maxFour = false, gridClass = '', previewClass = '', deletable = false, leadCard = null, isPremium = null }) {
   const [designs, setDesigns] = useState(null);
   const [confirm, setConfirm] = useState(null);
   const [rows, setRows] = useState(1);
@@ -89,7 +90,8 @@ export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, ren
         {leadCard}
         {visible.map(d => {
           const card = (
-            <a key={d.id} href={`${basePath}${d.tpl}/?design=${encodeURIComponent(d.id)}`} className={gs.card} title={`Open “${d.name}”`} {...(scroll && !renderPreview ? panHandlers : {})}>
+            <a key={d.id} href={`${basePath}${d.tpl}/?design=${encodeURIComponent(d.id)}`} className={gs.card} style={isPremium?.(d.tpl) ? { position: 'relative' } : undefined} title={`Open “${d.name}”`} {...(scroll && !renderPreview ? panHandlers : {})}>
+              {isPremium?.(d.tpl) && <PremiumBadge corner />}
               {renderPreview
                 // The design itself, rendered live from its template code
                 ? <LiveBox className={previewClass || gs.cardPreview}>{w => renderPreview(d, w)}</LiveBox>

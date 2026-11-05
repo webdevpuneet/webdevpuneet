@@ -104,6 +104,7 @@ export function TemplateGalleryPage({ previews = [] }) {
             basePath="/social-post-templates/"
             nameOf={id => templateById(id)?.name || id}
             imgFor={d => d.thumb || `/images/social-post-templates/previews/${d.tpl}.png`}
+            isPremium={isPremiumSocialTemplate}
             renderPreview={(d, w) => <SavedDesignPreview design={d} width={w} />}
             query={q}
             deletable

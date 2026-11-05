@@ -24,6 +24,21 @@ export const PREMIUM_TEMPLATE_IDS = ['corporate'];
 /* Social post templates that are Patreon-only (ids). Their Fork, Share and Export need the passcode. */
 export const PREMIUM_SOCIAL_TEMPLATE_IDS = ['cyber-monday'];
 
+/* Email templates that are Patreon-only (ids): the revenue-driving campaign emails. Their Fork, Export and AI button need the passcode.
+   The everyday and account emails (welcome, password reset, receipts, newsletters ...) stay free, they are what brings visitors in. */
+export const PREMIUM_EMAIL_TEMPLATE_IDS = [
+  'abandoned-cart',
+  'black-friday-sale',
+  'last-chance-sale',
+  'back-in-stock',
+  'refer-a-friend',
+  'webinar-invitation',
+  're-engagement',
+  'trial-ending',
+  'review-request',
+  'holiday-gift-guide',
+];
+
 /* true: in the Website Section Templates editor (every section template, and the Custom Section builder) Fork and Export need
    the passcode too. Previewing, editing, Save and Add to page stay free. */
 export const LOCK_SECTION_EXPORT = true;

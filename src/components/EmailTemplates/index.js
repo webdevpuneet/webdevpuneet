@@ -9,8 +9,8 @@ import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import { emailDesignStore } from './designs';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
-import { usePremiumUnlocked, PremiumUnlockDialog } from '@/components/PremiumGate';
-import { LOCK_BACKUP } from '@/lib/premium';
+import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton, PremiumBadge } from '@/components/PremiumGate';
+import { LOCK_BACKUP, isPremiumEmailTemplate } from '@/lib/premium';
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
@@ -135,7 +135,8 @@ function GalleryCard({ t, preview }) {
   const html = useMemo(() => (preview || !visible ? '' : previewImages(sampleMergePlain(t.build(defaultEmailState(t))), origin)), [t, origin, preview, visible]);
   return (
     <a className={s.card} href={`/email-templates/${t.id}/`} {...panHandlers}>
-      <div ref={ref} className={e.cardPreview}>
+      <div ref={ref} className={e.cardPreview} style={isPremiumEmailTemplate(t.id) ? { position: 'relative' } : undefined}>
+        {isPremiumEmailTemplate(t.id) && <PremiumBadge corner />}
         {preview
           // Captured screenshot when available: lighter than a live email preview
           // eslint-disable-next-line @next/next/no-img-element
@@ -275,6 +276,7 @@ export function EmailGalleryPage({ previews = [] }) {
             basePath="/email-templates/"
             nameOf={id => emailTemplateById(id)?.name || id}
             imgFor={d => `/images/email-templates/previews/${d.tpl}.png`}
+            isPremium={isPremiumEmailTemplate}
             renderPreview={(d, w) => <SavedEmailPreview design={d} width={w} />}
             query={q}
             deletable
@@ -446,6 +448,7 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
   const premiumUnlocked = usePremiumUnlocked();
   const [unlockOpen, setUnlockOpen] = useState(false);
   const backupLocked = LOCK_BACKUP && !premiumUnlocked;
+  const emailLocked = isPremiumEmailTemplate(t.id) && !premiumUnlocked; // Patreon-only template: Fork, Export and AI are locked
   const [origin, setOrigin] = useState('');
   const [open, setOpen] = useState(() => new Set(['inbox', 'main']));
   const [panelTab, setPanelTab] = useState('edit'); // left panel: 'edit' | 'designs' | 'transfer'
@@ -1693,6 +1696,9 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
               />
               <span className={s.toolbarSep} aria-hidden="true" />
               <FullscreenButton />
+              {emailLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
+              {!emailLocked && (
+              <>
               {aiPrompt && <AiPromptButton prompt={aiPrompt} title={t.name} />}
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
               <ExportMenu
@@ -1704,6 +1710,8 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
                   { icon: 'text', label: 'Copy plain text', sub: 'The text version for multipart email', onClick: () => copy(text, 'Plain-text version') },
                 ]}
               />
+              </>
+              )}
             </div>
           </div>
 
