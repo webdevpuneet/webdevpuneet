@@ -469,10 +469,9 @@ function SidebarLink({ href, icon, label, active, count = 0 }) {
    Folded by default (open on the UI snippets pages); the chevron opens the list. The links stay in the page when it is folded
    (height 0, hidden from keyboard and screen readers), so crawlers still see them everywhere.
 ───────────────────────────────────────────────────────────── */
-// The UI Snippets group is open on the UI snippet pages, where the categories are the navigation, and folded on every
-// other page, My Code included (the My Code row is the active one there). The chevron can fold or open it for the
-// page being viewed; nothing is remembered, so the next page starts from these rules again.
-const startsOpen = () => false; // the effect below opens it on /ui-snippets/ pages (after mount, so the server render matches)
+// The UI Snippets group is folded on every page, the UI snippet pages and My Code included; the chevron opens it. Nothing is
+// remembered: the next page load starts folded again. (The links stay in the page when folded, so crawlers still see them.)
+const startsOpen = () => false;
 
 function UiSnippetsCategories({ pathname }) {
   const [open, setOpen] = useState(() => startsOpen(pathname));
@@ -481,8 +480,6 @@ function UiSnippetsCategories({ pathname }) {
   // Only the count of bookmarked snippets shows, first under UI Snippets; the link opens the gallery's Bookmarked view
   const bookmarked = useBookmarks();
 
-  const onSnippets = /^\/ui-snippets(?!\/mycode(\/|$))(\/|$)/.test(pathname || '');
-  useEffect(() => { setOpen(onSnippets); }, [onSnippets, pathname]);
   const toggleOpen = () => setOpen(v => !v);
 
   useEffect(() => {
