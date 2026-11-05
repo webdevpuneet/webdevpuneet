@@ -6,7 +6,7 @@ import { isEmbedRoute } from '@/lib/is-embed-route';
 import { ADS_ENABLED, SIDEBAR_AD_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
 import { useAdFree, useAdFreeOnLoad } from '@/lib/use-ad-free';
 import { PremiumUnlockDialog } from '@/components/PremiumGate';
-import { lockAgain, PATREON_PRICE } from '@/lib/premium';
+import { lockAgain, PATREON_URL, PATREON_PRICE } from '@/lib/premium';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import styles from './styles.module.css';
@@ -1388,6 +1388,7 @@ export default function Sidebar() {
                 <li>Backup and restore all your saved designs</li>
                 <li>A new passcode every month in the supporter post</li>
               </ul>
+              <a className={styles.supporterPopJoin} href={PATREON_URL} target="_blank" rel="noopener noreferrer">Join on Patreon</a>
               <span className={styles.supporterPopNote}>Already a supporter? Click Sign in and enter the passcode.</span>
             </div>
           </div>
