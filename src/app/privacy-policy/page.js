@@ -15,7 +15,7 @@ export default function PrivacyPolicy() {
     <div className={styles.page}>
       <div className={styles.inner}>
         <h1 className={styles.title}>Privacy Policy</h1>
-        <p className={styles.updated}>Last updated: October 29, 2026</p>
+        <p className={styles.updated}>Last updated: November 5, 2026</p>
 
         <section className={styles.section}>
           <h2>1. Introduction & Acceptance</h2>
@@ -34,6 +34,8 @@ export default function PrivacyPolicy() {
           </ul>
           <h3>Local storage & IndexedDB</h3>
           <p>Some tools save your work-in-progress or preferences directly on your device using your browser's <strong>localStorage</strong> or <strong>IndexedDB</strong> — for example, a productivity or bookmarking tool remembering your saved items between visits, or a settings toggle remembering your preferred theme. This data stays on your device, is never transmitted to us, and can be permanently erased at any time by clearing your browser's site data for webdevpuneet.com. Where a tool offers an optional cloud-sync feature (such as syncing to your own GitHub Gist), that connection is made directly from your browser to the third-party service using credentials you supply and control — we do not act as an intermediary and cannot see the synced content.</p>
+          <h3>Patreon supporters</h3>
+          <p>Supporting the site on <strong>Patreon</strong> is optional. Patreon is a separate service with its own account, payment and privacy practices, and we receive no information about your Patreon account from it. Supporters are given a passcode in a members-only post on Patreon. When you enter it on webdevpuneet.com, your browser stores a small marker in <strong>localStorage</strong> (a hash of the passcode, not the passcode itself and nothing about you) so that ads stay switched off and the Patreon-only exports stay unlocked. We do not collect your name, email address or payment details for this, and the marker is never sent to us. Use <strong>Sign out</strong> in the sidebar, or clear your site data, to remove it. The passcode changes from time to time; an older marker simply stops working.</p>
           <h3>Log data</h3>
           <p>Like most websites, our hosting infrastructure automatically records limited technical information for every request — such as IP address, browser type, referring page, and timestamp — for security, abuse prevention, and basic server operation. This is standard web-server log data, is not linked to any tool input, and is not used to build advertising profiles by us directly.</p>
         </section>
@@ -52,6 +54,12 @@ export default function PrivacyPolicy() {
                   <td>Remembers UI preferences such as theme (light/dark) and sidebar state; not used for tracking</td>
                   <td>webdevpuneet.com (localStorage, not a traditional cookie)</td>
                   <td>Clear site data in your browser at any time</td>
+                </tr>
+                <tr>
+                  <td>Supporter status (functional)</td>
+                  <td>Remembers that the Patreon supporter passcode was accepted, so ads stay off and Patreon-only exports stay unlocked; contains no personal data</td>
+                  <td>webdevpuneet.com (localStorage, not a traditional cookie)</td>
+                  <td>Use Sign out in the sidebar, or clear site data in your browser</td>
                 </tr>
                 <tr>
                   <td>Analytics</td>
@@ -148,6 +156,7 @@ export default function PrivacyPolicy() {
             <li><strong>Google Analytics</strong> — anonymous traffic analytics</li>
             {CLARITY_ENABLED && <li><strong>Microsoft Clarity</strong> — heatmaps and session replays for usability analysis; see the <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener noreferrer">Microsoft Privacy Statement</a></li>}
             {STATCOUNTER_ENABLED && <li><strong>Statcounter</strong> — visit and page-view counting; see <a href="https://statcounter.com/about/legal/" target="_blank" rel="noopener noreferrer">Statcounter's legal and privacy information</a></li>}
+            <li><strong>Patreon (optional)</strong> — supporter memberships and the monthly passcode post; we link to Patreon and do not receive your Patreon account data; see <a href="https://www.patreon.com/policy/privacy" target="_blank" rel="noopener noreferrer">Patreon's Privacy Policy</a></li>
             <li><strong>Google Fonts</strong> — font delivery (your IP address may be logged by Google when a font loads)</li>
             <li><strong>GitHub (optional, tool-specific)</strong> — some tools offer an optional sync feature to your own GitHub Gist using a token you generate and control; this connection is made directly from your browser to GitHub, and is entirely optional</li>
           </ul>

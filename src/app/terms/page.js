@@ -14,7 +14,7 @@ export default function Terms() {
     <div className={styles.page}>
       <div className={styles.inner}>
         <h1 className={styles.title}>Terms &amp; Conditions</h1>
-        <p className={styles.updated}>Last updated: October 29, 2026</p>
+        <p className={styles.updated}>Last updated: November 5, 2026</p>
 
         <section className={styles.section}>
           <h2>1. Acceptance of Terms</h2>
@@ -43,6 +43,12 @@ export default function Terms() {
         <section className={styles.section}>
           <h2>4. Advertising & Third-Party Content</h2>
           <p>The Service displays advertising served by <strong>Google AdSense</strong> and may display content from other third-party advertising networks. We do not control the specific content of individual ads and are not responsible for the products, services, or claims made in third-party advertisements. Your interactions with any advertiser are solely between you and that advertiser. See our <a href="/privacy-policy/">Privacy Policy</a> for details on advertising cookies and how to opt out of personalized advertising.</p>
+        </section>
+
+        <section className={styles.section}>
+          <h2>4a. Patreon Supporters</h2>
+          <p>The Service is free to use. Supporting webdevpuneet.com on <strong>Patreon</strong> is optional. Supporters receive a passcode in a members-only post. Entering it on the site removes advertising from the site and unlocks the Export, Fork and backup features of the templates marked as Patreon-only. Anyone can preview and edit those templates without it. The passcode is for your own use: please do not share it or publish it. It changes from time to time, and an old passcode stops working when it does.</p>
+          <p>Memberships, payments, billing and refunds are handled entirely by Patreon under Patreon's own terms; we are not affiliated with Patreon. Which templates and features are included may change over time, and we may stop or change the supporter benefits with reasonable notice on our Patreon page. A membership does not change the disclaimers, the limitation of liability or the rest of these Terms.</p>
         </section>
 
         <section className={styles.section}>

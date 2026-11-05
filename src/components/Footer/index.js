@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { PATREON_URL } from '@/lib/premium';
 import styles from './styles.module.css';
 import { isEmbedRoute } from '@/lib/is-embed-route';
 
@@ -34,6 +35,8 @@ export default function Footer() {
         <a href="/privacy-policy/" className={styles.link}>Privacy Policy</a>
         <span className={styles.sep}>|</span>
         <a href="/terms/" className={styles.link}>Terms</a>
+        <span className={styles.sep}>|</span>
+        <a href={PATREON_URL} className={styles.link} target="_blank" rel="noopener noreferrer">Patreon</a>
         <span className={styles.sep}>|</span>
         <span className={styles.disclaimer}>
           Disclaimer

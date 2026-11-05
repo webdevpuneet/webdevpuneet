@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { PATREON_URL } from '@/lib/premium';
 import { usePathname } from 'next/navigation';
 import styles from './styles.module.css';
 import { isEmbedRoute } from '@/lib/is-embed-route';
@@ -126,7 +127,9 @@ export default function CookieConsent() {
             advertising — they keep webdevpuneet.com fast, relevant, and free for everyone. By continuing to use this site, you agree
             to our{' '}
             <a className={styles.link} href="/terms/">Terms of Use</a> and{' '}
-            <a className={styles.link} href="/privacy-policy/">Privacy Policy</a>.
+            <a className={styles.link} href="/privacy-policy/">Privacy Policy</a>. Prefer no ads?{' '}
+            <a className={styles.link} href={PATREON_URL} target="_blank" rel="noopener noreferrer">Support the site on Patreon</a>{' '}
+            and enter the supporter passcode; it is remembered in this browser.
           </p>
 
           {/* Single acknowledge action — notice-only banner */}
