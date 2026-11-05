@@ -1,4 +1,5 @@
 import HomeOmniSearch from '@/components/HomeOmniSearch';
+import HomeWorkspace from '@/components/HomeWorkspace';
 import HomeToolSearch from '@/components/HomeToolSearch';
 import ProfileHeroCard from '@/components/ProfileHeroCard';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
@@ -223,6 +224,8 @@ export default async function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* ── 1. Hero ── */}
+      {/* Returning visitors who have saved something: their workspace first (renders nothing for everyone else) */}
+      <HomeWorkspace />
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
@@ -231,7 +234,7 @@ export default async function Home() {
             Web design ideas you can <span className={styles.heroGrad}>see, edit and learn from.</span>
           </h1>
           <p className={styles.heroText}>
-            Start from a professional website, section, email or UI snippet, use it as it is, or take it into AI. Then learn how it works in {PLAYGROUND_COUNT} free coding playgrounds. No sign-up, nothing to install.
+            Pick a ready-made website, section, email or UI snippet, edit it in your browser and export clean code, or hand it to your own AI. Then see how it works in {PLAYGROUND_COUNT} free coding playgrounds. No sign-up, nothing to install.
           </p>
           <div className={styles.heroCtas}>
             <a href="/ui-snippets/" className={styles.btnPrimary}>Explore UI snippets <Arrow /></a>
