@@ -4,8 +4,9 @@ import { loadContentIndex, searchContent, GROUP_META } from '@/lib/site-search';
 import { usePathname, useRouter } from 'next/navigation';
 import { isEmbedRoute } from '@/lib/is-embed-route';
 import { ADS_ENABLED, SIDEBAR_AD_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
-import { useAdFree } from '@/lib/use-ad-free';
+import { useAdFree, useAdFreeOnLoad } from '@/lib/use-ad-free';
 import { PremiumUnlockDialog } from '@/components/PremiumGate';
+import { lockAgain } from '@/lib/premium';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import styles from './styles.module.css';
@@ -1109,7 +1110,8 @@ function SidebarTopAd() {
 export default function Sidebar() {
   const pathname = usePathname();
   const isNotFoundPage = useIsNotFound();
-  const adFree = useAdFree(); // Patreon supporters (passcode in localStorage): no ads
+  const adFree = useAdFree(); // Patreon supporters (passcode in localStorage): the button's label
+  const adFreeOnLoad = useAdFreeOnLoad(); // ...and no sidebar ad on pages loaded as a supporter
   const [unlockOpen, setUnlockOpen] = useState(false);
   const router = useRouter();
   const activeSlug = pathname.replace(/^\//, '').split('/')[0] || '';
@@ -1364,12 +1366,21 @@ export default function Sidebar() {
 
         {/* Sidebar top ad. Keyed by pathname so every page mounts a fresh slot.
             Shown on every URL (query strings included); never on the 404 page. */}
-        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !adFree && !isNotFoundPage && !isEmbedRoute(pathname) && adsAllowedOnPath(pathname) && (
+        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !adFreeOnLoad && !isNotFoundPage && !isEmbedRoute(pathname) && adsAllowedOnPath(pathname) && (
           <SidebarTopAd key={pathname} />
         )}
 
         {/* Latest blog posts, one at a time, right under the ad. */}
         <BlogTicker />
+
+        {/* Shown once the Patreon passcode has been accepted in this browser */}
+        {adFree && (
+          <div className={styles.supporterBar} role="status">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.2-4.35-9.55-8.42C.66 9.47 1.43 5.75 4.55 4.2 7.02 2.97 9.46 3.76 12 6.32c2.54-2.56 4.98-3.35 7.45-2.12 3.12 1.55 3.89 5.27 2.1 8.38C19.2 16.65 12 21 12 21Z" /></svg>
+            <span className={styles.supporterText}>Patreon supporter: thank you!</span>
+            <button type="button" className={styles.supporterOut} onClick={() => { lockAgain(); window.location.reload(); }} title="Forget the passcode in this browser (ads come back)">Sign out</button>
+          </div>
+        )}
 
         <>
             {/* Search, with a home button before it that opens the full tools hub */}

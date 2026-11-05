@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { ADS_ENABLED } from '@/lib/ads-config';
-import { useAdFree } from '@/lib/use-ad-free';
+import { useAdFreeOnLoad } from '@/lib/use-ad-free';
 import { useIsNotFound } from '@/lib/not-found-state';
 import s from './styles.module.css';
 
@@ -75,7 +75,7 @@ function AdUnit() {
 export default function PlaygroundTopAd({ className = '', inline = false, desktopOnly = false }) {
   const notFound = useIsNotFound();
   const [wide, setWide] = useState(false);
-  const adFree = useAdFree();
+  const adFree = useAdFreeOnLoad();
   useEffect(() => {
     if (!desktopOnly) return undefined;
     const mq = window.matchMedia('(min-width: 900px)');

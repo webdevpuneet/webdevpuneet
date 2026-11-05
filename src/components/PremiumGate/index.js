@@ -43,9 +43,10 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
   const submit = async e => {
     e.preventDefault();
     setState('checking');
-    if (await tryUnlock(code)) {
+    if (await tryUnlock(code, { notify: !reload })) {
       onUnlocked?.();
-      // The page reloads so every ad that was already on it is gone (the editor passes reload={false}: it updates by itself and keeps unsaved work)
+      // The page reloads, so every ad already on it is gone. The unlock is stored without notifying the page, so nothing
+      // re-renders (or unmounts a live ad) in the moment before the reload. The Website Builder restores its autosave.
       if (reload) { setState('done'); setTimeout(() => window.location.reload(), 700); } else { setState(''); onClose(); }
     } else setState('wrong');
   };

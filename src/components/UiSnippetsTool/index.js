@@ -30,7 +30,7 @@ import {
 import { navStart } from '@/lib/navStart';
 import GistSyncButton from '@/components/GistSyncButton';
 import { ADS_ENABLED, SNIPPET_TOP_AD_ENABLED } from '@/lib/ads-config';
-import { useAdFree } from '@/lib/use-ad-free';
+import { useAdFreeOnLoad } from '@/lib/use-ad-free';
 import ExportTester from './ExportTester';
 import EmbedModal from './EmbedModal';
 import SnippetSearch from './SnippetSearch';
@@ -1175,7 +1175,7 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
 export default function UiSnippetsTool({ initialSnippetId, isHome = false, initialCategory = 'all', initialTag = null, initialView = null } = {}) {
   const router       = useRouter();
   const searchParams = useSearchParams();
-  const adFree = useAdFree(); // Patreon supporters see no ads
+  const adFree = useAdFreeOnLoad(); // Patreon supporters see no ads (decided at page load, see lib/use-ad-free.js)
   // Only the id is known synchronously: the snippet's code is fetched on
   // demand (openLibSnippet below), so the editors start empty.
   const _initId      = (initialSnippetId && SNIPPET_META.has(initialSnippetId)) ? initialSnippetId : SNIPPETS[0].id;

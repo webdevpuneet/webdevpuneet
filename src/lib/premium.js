@@ -33,14 +33,15 @@ export function isUnlocked() {
   try { return localStorage.getItem(KEY) === PASSCODE_SHA256; } catch { return false; }
 }
 
-/** Checks the passcode; remembers it in this browser (localStorage) when it is right. Resolves true / false. */
-export async function tryUnlock(code) {
+/** Checks the passcode; remembers it in this browser (localStorage) when it is right. Resolves true / false.
+    `notify: false` stores it without telling the open page (nothing re-renders; the caller reloads right after). */
+export async function tryUnlock(code, { notify = true } = {}) {
   try {
     if (!code || !String(code).trim() || !crypto?.subtle) return false;
     if ((await hashOf(code)) !== PASSCODE_SHA256) return false;
     unlockedNow = true;
     try { localStorage.setItem(KEY, PASSCODE_SHA256); } catch { /* storage blocked: unlocked for this visit only */ }
-    window.dispatchEvent(new Event(EVENT));
+    if (notify) window.dispatchEvent(new Event(EVENT));
     return true;
   } catch { return false; }
 }

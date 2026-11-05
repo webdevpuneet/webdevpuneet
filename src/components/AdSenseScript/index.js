@@ -11,7 +11,12 @@ export default function AdSenseScript() {
   const isNotFoundPage = useIsNotFound();
   const pathname = usePathname();
   const adFree = useAdFree(); // Patreon supporters: the ad script is not even requested
-  useEffect(() => { if (adFree) document.documentElement.classList.add('ad-free'); }, [adFree]); // (never removed here: the head script set it before the first paint)
+  // The class hides every ad box at once; ad requests already queued are paused. Nothing is unmounted: see lib/use-ad-free.js.
+  useEffect(() => {
+    if (!adFree) return;
+    document.documentElement.classList.add('ad-free');
+    try { (window.adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1; } catch { /* ignore */ }
+  }, [adFree]);
 
   // The 404 page flags itself in an effect, which runs after this component's
   // first render (it sits earlier in the tree). Wait one tick so a hard load
