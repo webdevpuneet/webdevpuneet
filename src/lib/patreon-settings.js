@@ -19,7 +19,9 @@ export const PATREON_PRICE = '$5 a month';
 export const PASSCODE_SHA256 = '7821824c1d41f265545f86184234ad7583250a859afb9bd575abbedcbbc3051c';
 
 /* Website templates that are Patreon-only (ids). Their Export and Fork need the passcode. */
-export const PREMIUM_TEMPLATE_IDS = ['corporate'];
+export const PREMIUM_TEMPLATE_IDS = [
+  'corporate', 'saas', 'agency', 'law-firm', 'real-estate', 'hotel', 'dental', 'product-store',
+];
 
 /* Social post templates that are Patreon-only (ids). Their Fork, Share and Export need the passcode. */
 export const PREMIUM_SOCIAL_TEMPLATE_IDS = [

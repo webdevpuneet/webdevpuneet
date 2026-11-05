@@ -11,6 +11,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
 import b from '../SavedDesignsStrip/styles.module.css';
+import { PremiumBadge } from '@/components/PremiumGate';
 import w from './styles.module.css';
 import { TRASH } from '@/components/SavedDesignsStrip';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
@@ -134,7 +135,8 @@ function PageCard({ href, page, cat, title, meta, onDelete }) {
   }, []);
   return (
     <div className={b.cardWrap}>
-      <a ref={ref} className={s.card} href={href} {...panProps}>
+      <a ref={ref} className={s.card} href={href} style={page?.premium ? { position: 'relative' } : undefined} {...panProps}>
+        {page?.premium && <PremiumBadge corner />}
         <div className={s.cardPreview} data-stack="">
           <div className={x.pageStack}>{show && <LivePage page={page} />}</div>
         </div>

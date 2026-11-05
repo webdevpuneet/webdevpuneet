@@ -45,6 +45,7 @@ function SavedCard({ d, onOpen }) {
   return (
     <button ref={ref} type="button" className={`${b.modalCard} ${b.tplCard}`} onClick={() => onOpen(d)} {...panProps}>
       <span className={b.tplPreview} data-stack="">
+        {d.state?.premium && <PremiumBadge corner />}
         <span className={x.pageStack}>{seen && <LivePage page={d.state} />}</span>
       </span>
       <span className={b.modalCardCat}>My pages</span>

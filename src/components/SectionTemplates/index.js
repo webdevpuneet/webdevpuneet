@@ -261,6 +261,7 @@ export function SectionGalleryPage({ previews = [] }) {
             basePath={BASE}
             nameOf={id => sectionTemplateById(id)?.name || id}
             imgFor={d => `/images/section-templates/previews/${d.tpl}.png`}
+            isPremium={() => LOCK_SECTION_EXPORT}
             renderPreview={(d, w) => <SavedSectionPreview design={d} width={w} />}
             query={q}
             deletable
