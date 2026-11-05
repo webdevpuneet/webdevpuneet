@@ -76,7 +76,7 @@ export function PremiumNotice({ name }) {
   return (
     <div className={s.notice}>
       <PremiumBadge />
-      <p>{name} is a Patreon supporter template. Preview it, open it in the builder and edit everything for free. Exporting it (HTML, ZIP, React, Vue, Next.js) and forking it to My Code need the supporter passcode, posted for patrons on Patreon. Supporters ({PATREON_PRICE}) also get a site with no ads.</p>
+      <p>{name} is a Patreon supporter template. Preview it and edit everything for free. Exporting it (HTML, ZIP and the other formats) and forking it to My Code need the supporter passcode, posted for patrons on Patreon. Supporters ({PATREON_PRICE}) also get a site with no ads.</p>
       <a href={PATREON_URL} target="_blank" rel="noopener noreferrer">Get the passcode on Patreon →</a>
     </div>
   );

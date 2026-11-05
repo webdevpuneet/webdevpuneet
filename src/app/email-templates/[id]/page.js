@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { PremiumNotice } from '@/components/PremiumGate';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
@@ -174,10 +175,11 @@ export default async function EmailTemplatePage({ params }) {
       <IndexOnly always>
         <SeoSection
           slug="email-templates"
-          title={`${t.name} — Free Responsive HTML Email Template`}
+          title={`${t.name} — ${isPremiumEmailTemplate(t.id) ? 'Patreon' : 'Free'} Responsive HTML Email Template`}
           subtitle={`${cat?.label} · v${t.version} · Updated ${t.updated} · Gmail, Outlook & Apple Mail · Dark mode`}
           titleExtra={(
             <>
+              {isPremiumEmailTemplate(t.id) && <PremiumNotice name={t.name} />}
               <div className={snip.snippetTagRow}>
                 <span className={snip.snippetTagLabel}>Category</span>
                 <a href={`/email-templates/category/${t.category}/`} className={snip.tagChipLink}>{cat?.label}</a>

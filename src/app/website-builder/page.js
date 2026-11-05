@@ -7,6 +7,14 @@ import { SECTION_TEMPLATES, SECTION_CATEGORIES } from '@/components/SectionTempl
 import { WEBSITE_TEMPLATES as STARTERS, TEMPLATE_INDUSTRIES } from '@/components/SectionTemplates/templates/starters.js';
 import { starterPageList } from '@/components/SectionTemplates/templates/site.js';
 import styles from '../tool-page.module.css';
+import fs from 'node:fs';
+import path from 'node:path';
+import { sectionTemplateById } from '@/components/SectionTemplates/templates/index.js';
+
+/* For the template library's filters: the section categories a template uses (home page and its other pages), and
+   whether its live demo has been exported (demos/website-templates/<id>/one-page/) */
+const includesOf = t => [...new Set([...t.sections, ...(t.pages || []).flatMap(p => p.sections)].map(([id]) => sectionTemplateById(id)?.category).filter(Boolean))];
+const hasDemo = id => fs.existsSync(path.join(process.cwd(), 'demos', 'website-templates', id, 'one-page', 'index.html'));
 
 /* /website-builder/: the landing page. Website templates first (plus "Start from scratch"
    and the visitor's saved pages), then the SEO content. The builder itself lives at
@@ -171,7 +179,7 @@ export default function WebsiteBuilderPage() {
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />
       ))}
       <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}>
-        <TemplateGallery templates={[...STARTERS].reverse().map(t => ({ id: t.id, name: t.name, industry: t.industry, blurb: t.blurb, n: t.sections.length, p: starterPageList(t.id).length }))} industries={TEMPLATE_INDUSTRIES} />
+        <TemplateGallery templates={[...STARTERS].reverse().map(t => ({ id: t.id, name: t.name, industry: t.industry, blurb: t.blurb, n: t.sections.length, p: starterPageList(t.id).length, inc: includesOf(t), demo: hasDemo(t.id) }))} industries={TEMPLATE_INDUSTRIES} />
       </div>
       <AdSlot related={false} />
       <IndexOnly always>

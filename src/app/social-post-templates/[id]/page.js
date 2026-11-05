@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { PremiumNotice } from '@/components/PremiumGate';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
@@ -193,10 +194,11 @@ export default async function SocialPostTemplatePage({ params }) {
       <IndexOnly always>
         <SeoSection
           slug="social-post-templates"
-          title={`${t.name} — Free ${cat.label} Social Post Template`}
+          title={`${t.name} — ${isPremiumSocialTemplate(t.id) ? 'Patreon' : 'Free'} ${cat.label} Social Post Template`}
           subtitle={`${cat.label} · v${t.version} · Updated ${t.updated} · Instagram, Facebook & X · HTML + CSS`}
           titleExtra={(
             <>
+              {isPremiumSocialTemplate(t.id) && <PremiumNotice name={t.name} />}
               <div className={snip.snippetTagRow}>
                 <span className={snip.snippetTagLabel}>Category</span>
                 <a href={`/social-post-templates/category/${cat.id}/`} className={snip.tagChipLink}>{cat.label}</a>
