@@ -19,7 +19,9 @@ import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { PremiumBadge } from '@/components/PremiumGate';
 import { isPremiumTemplate } from '@/lib/premium';
 
-const PAGE = 12;
+const PAGE = 8; // two rows of four
+// The live demos are uploaded to the real site only (they are not part of the build), so the link is absolute and works from localhost too
+const DEMOS = 'https://webdevpuneet.com/demos/website-templates/';
 const FAV_KEY = 'wb_tpl_favourites';
 const RECENT_KEY = 'wb_tpl_recent';
 const RECENT_MAX = 6;
@@ -234,15 +236,11 @@ export default function TemplateGallery({ templates, industries }) {
                             <span className={s.cardMeta}>{t.n} sections · Export HTML</span>
                           </div>
                         </a>
-                        <button type="button" className={`${g.heart} ${fav ? g.heartOn : ''}`} onClick={() => toggleFav(t.id)} aria-pressed={fav} aria-label={fav ? `Remove ${t.name} from favourites` : `Add ${t.name} to favourites`} title={fav ? 'In your favourites' : 'Add to favourites'}>{HEART(fav)}</button>
-                        <div className={g.actions}>
-                          <a className={g.previewBtn} href={t.demo ? `/demos/website-templates/${t.id}/one-page/` : page} target={t.demo ? '_blank' : undefined} rel={t.demo ? 'noopener' : undefined} onClick={() => remember(t.id)}>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" /><circle cx="12" cy="12" r="3" /></svg>
-                            Preview
-                          </a>
-                          <a className={g.customizeBtn} href={`${EDITOR}?starter=${t.id}`} onClick={() => remember(t.id)}>
-                            Customize
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
+                        {/* Small tools on the card: favourite and live preview (new tab) */}
+                        <div className={g.libTools}>
+                          <button type="button" className={`${g.heart} ${g.libTool} ${fav ? g.heartOn : ''}`} onClick={() => toggleFav(t.id)} aria-pressed={fav} aria-label={fav ? `Remove ${t.name} from favourites` : `Add ${t.name} to favourites`} title={fav ? 'In your favourites' : 'Add to favourites'}>{HEART(fav)}</button>
+                          <a className={`${g.heart} ${g.libTool}`} href={t.demo ? `${DEMOS}${t.id}/one-page/` : page} target={t.demo ? '_blank' : undefined} rel={t.demo ? 'noopener' : undefined} onClick={() => remember(t.id)} aria-label={`Live preview of ${t.name}`} title="Live preview">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" /><circle cx="12" cy="12" r="3" /></svg>
                           </a>
                         </div>
                       </div>

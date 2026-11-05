@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import TemplateLibrary from '@/components/TemplateLibrary';
 import InViewImg from '@/components/InViewImg';
 import s from '../SocialPostTemplates/styles.module.css';
 import e from './styles.module.css';
@@ -153,7 +154,29 @@ function GalleryCard({ t, preview }) {
 }
 
 // savedStrip(query): the "My designs" row, shown under the search with a Templates heading
-export function EmailTemplateGallery({ excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, chips = true, savedStrip = null }) {
+/* The full gallery page gets the template library (search, filters, favourites, large preview); category pages and
+   the small strips keep the plain grid below */
+const EMAIL_ITEMS = newestFirst(EMAIL_TEMPLATES);
+const EMAIL_FACETS = [
+  { key: 'cat', label: 'Category', options: EMAIL_CATEGORIES.map(c => ({ id: c.id, label: c.label, test: t => t.category === c.id })) },
+  { key: 'access', label: 'Access', options: [{ id: 'free', label: 'Free to export', test: t => !isPremiumEmailTemplate(t.id) }, { id: 'patreon', label: 'Patreon', test: t => isPremiumEmailTemplate(t.id) }] },
+];
+export function EmailTemplateGallery(props) {
+  const { excludeId = null, limit = null, previews = [], hideControls = false, savedStrip = null } = props;
+  if (hideControls || limit || excludeId) return <EmailPlainGallery {...props} />;
+  return (
+    <TemplateLibrary
+      items={EMAIL_ITEMS} facets={EMAIL_FACETS} storageKey="email" savedStrip={savedStrip}
+      nameOf={t => t.name} hrefOf={t => `/email-templates/${t.id}/`}
+      searchOf={t => `${t.name} ${t.tags.join(' ')} ${emailCategoryById(t.category)?.label} ${t.description}`}
+      previewOf={t => (previews.includes(t.id) ? `/images/email-templates/previews/${t.id}.png` : null)}
+      renderCard={t => <GalleryCard t={t} preview={previews.includes(t.id)} />}
+      searchPlaceholder={`Search ${EMAIL_TEMPLATES.length} email templates`}
+    />
+  );
+}
+
+function EmailPlainGallery({ excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, chips = true, savedStrip = null }) {
   const [cat, setCat] = useState(initialCategory);
   const [q, setQ] = useState('');
   const [shownCount, setShownCount] = useState(GALLERY_PAGE);

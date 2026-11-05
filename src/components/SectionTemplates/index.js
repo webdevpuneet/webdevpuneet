@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import TemplateLibrary from '@/components/TemplateLibrary';
 import InViewImg from '@/components/InViewImg';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from './styles.module.css';
@@ -159,7 +160,29 @@ function CreateCustomCard() {
   );
 }
 
-export function SectionTemplateGallery({ excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, savedStrip = null }) {
+/* The full gallery page gets the template library (search, filters, favourites, large preview), with the Create card
+   first; category pages and the small strips keep the plain grid below */
+const SECTION_ITEMS = newestFirst(SECTION_TEMPLATES);
+const SECTION_FACETS = [
+  { key: 'cat', label: 'Category', options: SECTION_CATEGORIES.map(c => ({ id: c.id, label: c.label, test: t => t.category === c.id })) },
+];
+export function SectionTemplateGallery(props) {
+  const { excludeId = null, limit = null, previews = [], hideControls = false, savedStrip = null } = props;
+  if (hideControls || limit || excludeId) return <SectionPlainGallery {...props} />;
+  return (
+    <TemplateLibrary
+      items={SECTION_ITEMS} facets={SECTION_FACETS} storageKey="section" savedStrip={savedStrip}
+      title="All Sections" leadCard={savedStrip ? <CreateCustomCard /> : null}
+      nameOf={t => t.name} hrefOf={t => `${BASE}${t.id}/`}
+      searchOf={t => `${t.name} ${t.tags.join(' ')} ${sectionCategoryById(t.category)?.label} ${t.description}`}
+      previewOf={t => (previews.includes(t.id) ? `/images/section-templates/previews/${t.id}.png` : null)}
+      renderCard={t => <GalleryCard t={t} preview={previews.includes(t.id)} />}
+      searchPlaceholder={`Search ${SECTION_TEMPLATES.length} section templates`}
+    />
+  );
+}
+
+function SectionPlainGallery({ excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, savedStrip = null }) {
   const [cat] = useState(initialCategory);
   const [q, setQ] = useState('');
   const [shownCount, setShownCount] = useState(GALLERY_PAGE);

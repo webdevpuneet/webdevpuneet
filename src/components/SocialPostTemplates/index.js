@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import TemplateLibrary from '@/components/TemplateLibrary';
 import InViewImg from '@/components/InViewImg';
 import s from './styles.module.css';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
@@ -19,7 +20,29 @@ const GALLERY_PAGE = 10; // cards per "Load more": 2 rows of 5
 
 /* ── Gallery ─────────────────────────────────────────────────────────────────── */
 // savedStrip(query): the "My designs" row, shown under the search with a Templates heading
-export function TemplateGallery({ compact = false, excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, chips = true, savedStrip = null }) {
+/* The full gallery page gets the template library (search, filters, favourites, large preview); category pages and
+   the small strips keep the plain grid below. #events in the address still picks that category. */
+const SOCIAL_ITEMS = newestFirst(TEMPLATES);
+const SOCIAL_FACETS = [
+  { key: 'cat', label: 'Category', options: TEMPLATE_CATEGORIES.map(c => ({ id: c.id, label: c.label, test: t => t.category === c.id })) },
+  { key: 'access', label: 'Access', options: [{ id: 'free', label: 'Free to export', test: t => !isPremiumSocialTemplate(t.id) }, { id: 'patreon', label: 'Patreon', test: t => isPremiumSocialTemplate(t.id) }] },
+];
+export function TemplateGallery(props) {
+  const { compact = false, excludeId = null, limit = null, previews = [], hideControls = false, savedStrip = null } = props;
+  if (compact || hideControls || limit || excludeId) return <SocialPlainGallery {...props} />;
+  return (
+    <TemplateLibrary
+      items={SOCIAL_ITEMS} facets={SOCIAL_FACETS} storageKey="social" savedStrip={savedStrip} hashFacet="cat"
+      nameOf={t => t.name} hrefOf={t => `/social-post-templates/${t.id}/`}
+      searchOf={t => `${t.name} ${t.tags.join(' ')} ${categoryById(t.category)?.label}`}
+      previewOf={t => (previews.includes(t.id) ? `/images/social-post-templates/previews/${t.id}.png` : null)}
+      renderCard={t => <GalleryCard t={t} preview={previews.includes(t.id)} />}
+      searchPlaceholder={`Search ${TEMPLATES.length} social post templates`}
+    />
+  );
+}
+
+function SocialPlainGallery({ compact = false, excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, chips = true, savedStrip = null }) {
   const [cat, setCat] = useState(initialCategory);
   const [q, setQ] = useState('');
   const [shownCount, setShownCount] = useState(GALLERY_PAGE);
