@@ -231,7 +231,7 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
             title="More Templates"
             label={`${related.length} more website templates`}
             viewAllHref="/website-builder/"
-            items={related.map(r => ({ id: r.id, title: r.name, href: `/website-builder/templates/${r.id}/`, img: `/images/website-templates/full/${r.id}.jpg`, cat: r.industry, meta: `${r.sections.length} sections · One page or ${starterPageList(r.id).length} pages` }))}
+            items={related.map(r => ({ premium: isPremiumTemplate(r.id), id: r.id, title: r.name, href: `/website-builder/templates/${r.id}/`, img: `/images/website-templates/full/${r.id}.jpg`, cat: r.industry, meta: `${r.sections.length} sections · One page or ${starterPageList(r.id).length} pages` }))}
             scroll
             cols={4}
             flush

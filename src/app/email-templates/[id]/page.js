@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
+import { isPremiumEmailTemplate } from '@/lib/premium';
 import { emailAiPrompt } from '@/components/EmailTemplates/templates/ai-prompts.js';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { EmailTemplateEditor, EmailShot } from '@/components/EmailTemplates';
@@ -61,7 +62,7 @@ export default async function EmailTemplatePage({ params }) {
   const shots = new Set(emailPreviewIds());
   const relatedItems = relatedAll.filter(x => shots.has(x.id)).map(x => ({
     id: x.id, title: x.name, href: `/email-templates/${x.id}/`, img: `/images/email-templates/previews/${x.id}.png`,
-    cat: emailCategoryById(x.category)?.label, meta: 'Responsive · Dark mode',
+    cat: emailCategoryById(x.category)?.label, meta: 'Responsive · Dark mode', premium: isPremiumEmailTemplate(x.id),
   }));
 
   const socialMatches = socialForEmail(t.id).map(id => SOCIAL_TEMPLATES.find(x => x.id === id)).filter(Boolean);

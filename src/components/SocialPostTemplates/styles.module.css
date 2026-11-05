@@ -256,12 +256,14 @@
 .sheetHandle { display: none; }
 @media (max-width: 860px) {
   .body { flex-direction: column; overflow: hidden; }
-  .main { order: 0; flex: 1; min-height: 0; overflow: hidden; }
-  .stage { min-height: 0; flex: 1; }
+  /* The preview is never smaller than half the screen, even when ads or a tall toolbar take room: the bottom sheet gives way
+     (it shrinks and scrolls inside) before the preview does */
+  .main { order: 0; flex: 1 0 auto; min-height: 0; overflow: hidden; }
+  .stage { flex: 1 0 50vh; flex-basis: 50dvh; min-height: 50vh; min-height: 50dvh; }
   .stageHint { display: none; }
   .toolbar { padding: 6px 10px; gap: 6px; }
   .controls {
-    order: 1; width: 100%; flex: none; max-height: 60vh;
+    order: 1; width: 100%; flex: 0 1 auto; min-height: 82px; max-height: 60vh;
     border-right: none; border-top: 1px solid var(--border);
     border-radius: 14px 14px 0 0; box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.14);
     transition: max-height 0.25s ease;

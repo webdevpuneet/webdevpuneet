@@ -5,6 +5,7 @@ import AdSlot from '@/components/AdSlot';
 import { SOCIAL_EXTRA_PROMPTS } from '@/components/SocialPostTemplates/templates/ai-prompts-extra.js';
 import { TemplateEditor } from '@/components/SocialPostTemplates';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
+import { isPremiumSocialTemplate } from '@/lib/premium';
 import TemplateShot from '@/components/SocialPostTemplates/Shot';
 import { previewIds, hasOg, ogUrl, previewUrl } from '@/components/SocialPostTemplates/assets';
 import { TEMPLATES, SIZES, templateById, categoryById } from '@/components/SocialPostTemplates/templates/index.js';
@@ -73,7 +74,7 @@ export default async function SocialPostTemplatePage({ params }) {
     .map(r => r.x);
   const relatedItems = [t, ...others].filter(x => previews.includes(x.id)).map(x => ({
     id: x.id, title: x.name, href: `/social-post-templates/${x.id}/`, img: previewUrl(x.id),
-    cat: categoryById(x.category)?.label, meta: `${SIZES.length} sizes`,
+    cat: categoryById(x.category)?.label, meta: `${SIZES.length} sizes`, premium: isPremiumSocialTemplate(x.id),
   }));
 
   const emailMatches = emailsForSocial(t.id).map(id => EMAIL_TEMPLATES.find(x => x.id === id)).filter(Boolean);

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { PremiumBadge } from '@/components/PremiumGate';
 import InViewImg from '../InViewImg';
 import rs from '../UiSnippetsTool/RelatedCarousel.module.css';
 import gs from '../SocialPostTemplates/styles.module.css';
@@ -79,7 +80,8 @@ export default function HomeTemplatesCarousel({ title, items, viewAllHref, viewA
       <div className={`${hs.grid} ${wide ? hs.gridWide : ''}`} style={cols ? { '--home-cols': cols } : undefined}>
         {shown.map(it => (
           <a key={it.id} href={it.href} className={`${gs.card} ${it.id === activeId ? hs.cardActive : ''}`} aria-current={it.id === activeId ? 'page' : undefined} {...(scroll ? panHandlers : {})}>
-            <div className={`${gs.cardPreview} ${wide ? hs.previewWide : ''}`}>
+            <div className={`${gs.cardPreview} ${wide ? hs.previewWide : ''}`} style={it.premium ? { position: 'relative' } : undefined}>
+              {it.premium && <PremiumBadge corner />}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <InViewImg className={`${gs.cardImg} ${scroll ? hs.scrollImg : ''}`} src={it.img} alt={`${it.title} template preview`} />
             </div>
