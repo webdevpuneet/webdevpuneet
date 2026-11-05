@@ -8,6 +8,8 @@ import { AddToPageMenu, ExportMenu, ForkButton, FullscreenButton, HistoryButtons
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
+import { LOCK_SECTION_EXPORT, LOCK_BACKUP } from '@/lib/premium';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
@@ -296,6 +298,11 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
   const [origin, setOrigin] = useState('');
   const [toast, setToast] = useState('');
   const [busy, setBusy] = useState('');
+  // Fork and Export are for Patreon supporters (src/lib/patreon-settings.js)
+  const premiumUnlocked = usePremiumUnlocked();
+  const [unlockOpen, setUnlockOpen] = useState(false);
+  const exportLocked = LOCK_SECTION_EXPORT && !premiumUnlocked;
+  const backupLocked = LOCK_BACKUP && !premiumUnlocked;
   const [confirm, setConfirm] = useState(null);
   const [designs, setDesigns] = useState([]);
   const [currentDesign, setCurrentDesign] = useState(null); // { id, name }
@@ -677,6 +684,7 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
 
   /* Backup export / import: designs + uploaded images + uploaded fonts + brand kit */
   const exportAll = async () => {
+    if (backupLocked) { setUnlockOpen(true); return; }
     setBusy('export');
     try {
       const kitNow = loadKit();
@@ -703,6 +711,7 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
     setBusy('');
   };
   const importFile = async file => {
+    if (backupLocked) { setUnlockOpen(true); return; }
     if (!file) return;
     setBusy('import');
     try {
@@ -775,11 +784,12 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
                   <li>Fonts you uploaded that your designs use</li>
                   <li>Your brand kit, if you’ve set one</li>
                 </ul>
-                <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={exportAll} disabled={!!busy || !designs.length}>{busy === 'export' ? 'Exporting…' : '⤓ Export designs'}</button>
+                {backupLocked && <p className={s.hint}>🔒 Backup and restore are for Patreon supporters. Click a button below to enter the supporter passcode.</p>}
+                <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={backupLocked ? () => setUnlockOpen(true) : exportAll} disabled={!backupLocked && (!!busy || !designs.length)} style={{ padding: '11px 14px', fontSize: 13.5, fontWeight: 700 }}>{backupLocked ? '🔒 Export designs' : busy === 'export' ? 'Exporting…' : '⤓ Export designs'}</button>
                 {!designs.length && <p className={s.hint}>Nothing to export yet. Save a design first (Save in the toolbar, or Ctrl+S).</p>}
                 <h2 className={s.sectionTitle} style={{ marginTop: 22 }}>Import</h2>
                 <p className={s.transferText}>Add designs from a backup file. Nothing you already have is changed: designs you have are skipped, and a different design with the same id comes in as a copy.</p>
-                <button type="button" className={s.miniBtn} onClick={() => importRef.current?.click()} disabled={!!busy}>{busy === 'import' ? 'Importing…' : '⤒ Choose a backup file (.json)'}</button>
+                <button type="button" className={s.miniBtn} onClick={() => (backupLocked ? setUnlockOpen(true) : importRef.current?.click())} disabled={!backupLocked && !!busy} style={{ padding: '11px 14px', fontSize: 13.5, fontWeight: 700 }}>{backupLocked ? '🔒 Choose a backup file (.json)' : busy === 'import' ? 'Importing…' : '⤒ Choose a backup file (.json)'}</button>
                 <input ref={importRef} type="file" accept=".json,application/json" hidden onChange={ev => { const file = ev.target.files?.[0]; ev.target.value = ''; importFile(file); }} />
                 <p className={s.hint}>Designs, images and fonts are stored only in this browser. Export regularly so clearing site data or switching devices never loses your work.</p>
               </section>
@@ -910,6 +920,7 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
             </div>
             <div className={s.toolbarRight} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <HistoryButtons onUndo={undo} onRedo={redo} onReset={() => setState({ ...defaultSectionState(t) })} canUndo={past.current.length > 0} canRedo={future.current.length > 0} />
+              <FullscreenButton />
               <SaveButton
                 onClick={quickSave}
                 busy={busy === 'save'}
@@ -922,17 +933,17 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
               />
               <span className={s.toolbarSep} aria-hidden="true" />
               <AddToPageMenu loadPages={loadBuilderPages} onPick={addToBuilder} />
-              <FullscreenButton />
-              <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
               {aiPrompt && <AiPromptButton prompt={aiPrompt} title={t.name} />}
-              <ExportMenu
+              {exportLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
+              {!exportLocked && <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />}
+              {!exportLocked && <ExportMenu
                 head="Export this section as…"
                 options={[
                   { icon: 'html', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'index.html plus an assets folder with every image', onClick: downloadZip, disabled: !!busy },
                   { icon: 'react', label: busy === 'reactzip' ? 'Zipping…' : 'Download React ZIP', sub: 'The .jsx component plus an assets folder with every image', onClick: () => downloadFrameworkZip('react'), disabled: !!busy },
                   { icon: 'vue', label: busy === 'vuezip' ? 'Zipping…' : 'Download Vue ZIP', sub: 'The .vue component plus an assets folder with every image', onClick: () => downloadFrameworkZip('vue'), disabled: !!busy },
                 ]}
-              />
+              />}
             </div>
           </div>
 
@@ -955,6 +966,7 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
           </div>
         </div>
       </div>
+      <PremiumUnlockDialog open={unlockOpen} onClose={() => setUnlockOpen(false)} name="this section" />
       {confirm && (
         <ConfirmDialog
           {...confirm}

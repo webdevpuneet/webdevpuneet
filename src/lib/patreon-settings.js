@@ -20,3 +20,11 @@ export const PASSCODE_SHA256 = '7821824c1d41f265545f86184234ad7583250a859afb9bd5
 
 /* Website templates that are Patreon-only (ids). Their Export and Fork need the passcode. */
 export const PREMIUM_TEMPLATE_IDS = ['corporate'];
+
+/* true: in the Website Section Templates editor (every section template, and the Custom Section builder) Fork and Export need
+   the passcode too. Previewing, editing, Save and Add to page stay free. */
+export const LOCK_SECTION_EXPORT = true;
+
+/* true: the Backup / Import-Export panel (download or restore all saved designs as a backup file) in the Website Builder, Website
+   Section Templates, Email Templates and Social Post Templates editors is for supporters only. */
+export const LOCK_BACKUP = true;

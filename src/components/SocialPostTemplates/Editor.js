@@ -26,6 +26,8 @@ import { openForkTab } from '@/lib/open-fork-tab';
 import ImageLibraryPicker from '@/components/ImageLibrary';
 import { addToLibrary } from '@/lib/image-library';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import { usePremiumUnlocked, PremiumUnlockDialog } from '@/components/PremiumGate';
+import { LOCK_BACKUP } from '@/lib/premium';
 
 const LS_PREFIX = 'wdp-spt-v1:';
 const fmtBytes = n => (n >= 1048576 ? `${(n / 1048576).toFixed(2)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
@@ -166,6 +168,10 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
   const closeHint = () => { setHintOpen(false); try { localStorage.setItem('spt-stage-hint-closed', '1'); } catch { /* ignore */ } };
   const [safe, setSafe] = useState(false);
   const [busy, setBusy] = useState('');
+  // Backup and restore are for Patreon supporters (src/lib/patreon-settings.js)
+  const premiumUnlocked = usePremiumUnlocked();
+  const [unlockOpen, setUnlockOpen] = useState(false);
+  const backupLocked = LOCK_BACKUP && !premiumUnlocked;
   const [toast, setToast] = useState('');
   const [includeImages, setIncludeImages] = useState(true);
   const [video, setVideo] = useState({ style: 'rise', seconds: 6 }); // animated export options
@@ -750,6 +756,7 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
   /* Export / import My designs (backup file, photos and uploaded fonts included) */
   const importRef = useRef(null);
   const exportAll = async () => {
+    if (backupLocked) { setUnlockOpen(true); return; }
     setBusy('export');
     try {
       const kitNow = loadKit();
@@ -764,6 +771,7 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
     setBusy('');
   };
   const importFile = async file => {
+    if (backupLocked) { setUnlockOpen(true); return; }
     if (!file) return;
     setBusy('import');
     try {
@@ -843,12 +851,13 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                 <li>Uploaded fonts your designs use, so they look right anywhere</li>
                 <li>Your brand kit, if you’ve set one</li>
               </ul>
-              <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={exportAll} disabled={!!busy || !myDesigns.length}>{busy === 'export' ? 'Exporting…' : '⤓ Export designs'}</button>
+              {backupLocked && <p className={s.hint}>🔒 Backup and restore are for Patreon supporters. Click a button below to enter the supporter passcode.</p>}
+              <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={backupLocked ? () => setUnlockOpen(true) : exportAll} disabled={!backupLocked && (!!busy || !myDesigns.length)} style={{ padding: '11px 14px', fontSize: 13.5, fontWeight: 700 }}>{backupLocked ? '🔒 Export designs' : busy === 'export' ? 'Exporting…' : '⤓ Export designs'}</button>
               {!myDesigns.length && <p className={s.hint}>Nothing to export yet. Save a design first (Save in the toolbar, or Ctrl+S).</p>}
 
               <h2 className={s.sectionTitle} style={{ marginTop: 22 }}>Import</h2>
               <p className={s.transferText}>Add designs from a backup file. Nothing you already have is changed: designs you have are skipped, and a different design with the same id comes in as a copy.</p>
-              <button type="button" className={s.miniBtn} onClick={() => importRef.current?.click()} disabled={!!busy}>{busy === 'import' ? 'Importing…' : '⤒ Choose a backup file (.json)'}</button>
+              <button type="button" className={s.miniBtn} onClick={() => (backupLocked ? setUnlockOpen(true) : importRef.current?.click())} disabled={!backupLocked && !!busy} style={{ padding: '11px 14px', fontSize: 13.5, fontWeight: 700 }}>{backupLocked ? '🔒 Choose a backup file (.json)' : busy === 'import' ? 'Importing…' : '⤒ Choose a backup file (.json)'}</button>
               <input ref={importRef} type="file" accept=".json,application/json" hidden onChange={ev => { const f = ev.target.files?.[0]; ev.target.value = ''; importFile(f); }} />
               <p className={s.hint}>Designs are stored only in this browser. Export regularly so clearing site data or switching devices never loses your work.</p>
             </section>
@@ -1144,6 +1153,7 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                 ]}
               />
               <FullscreenButton />
+              {aiPrompt && !isCarousel && <AiPromptButton prompt={aiPrompt} title={t.name} />}
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} title="Save this design as an editable HTML/CSS snippet in My Code (opens in a new tab)" />
               <ExportMenu
                 label="Share"
@@ -1155,7 +1165,6 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                   ...(canVideo ? [{ icon: 'video', label: `Share animated video (${canVideo.ext.toUpperCase()})`, sub: canVideo.ext === 'mp4' ? `${video.seconds}s · for WhatsApp Status and chats` : 'WhatsApp can\'t play WebM: use Chrome for MP4', onClick: () => shareToWhatsApp('video'), disabled: !!busy }] : []),
                 ]}
               />
-              {aiPrompt && !isCarousel && <AiPromptButton prompt={aiPrompt} title={t.name} />}
               <ExportMenu
                 head={isCarousel ? 'Export this carousel as…' : 'Export this post as…'}
                 options={[
@@ -1259,6 +1268,7 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
           )}
         </div>
       </div>
+      <PremiumUnlockDialog open={unlockOpen} onClose={() => setUnlockOpen(false)} />
       {confirm && (
         <ConfirmDialog
           {...confirm}

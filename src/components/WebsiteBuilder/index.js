@@ -56,6 +56,7 @@ import { bindInlineEdit, fieldOfTarget, applyEdit, applyFocus, useFrozenPreview 
 import { analyse, livePatch } from '@/components/SectionTemplates/live-patch';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
+import { LOCK_BACKUP } from '@/lib/premium';
 import { putAsset, getAsset } from '@/components/SectionTemplates/storage';
 import { addToLibrary } from '@/lib/image-library';
 import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from '@/components/SectionTemplates/upload';
@@ -599,6 +600,7 @@ export default function WebsiteBuilder() {
   const premiumUnlocked = usePremiumUnlocked();
   const [unlockOpen, setUnlockOpen] = useState(false);
   const exportLocked = !!site.premium && !premiumUnlocked;
+  const backupLocked = LOCK_BACKUP && !premiumUnlocked;
   const [pageId, setPageIdRaw] = useState(null); // the page being edited (null = home)
   const [navHash, setNavHash] = useState(''); // section to scroll to after a page link
   const [hydrated, setHydrated] = useState(false);
@@ -1290,6 +1292,7 @@ ${pageCss(shown, { fontFaces })}`),
 
   /* Backup export / import */
   const exportAll = async () => {
+    if (backupLocked) { setUnlockOpen(true); return; }
     setBusy('export');
     try {
       const kit = loadKit();
@@ -1310,6 +1313,7 @@ ${pageCss(shown, { fontFaces })}`),
     setBusy('');
   };
   const importFile = async file => {
+    if (backupLocked) { setUnlockOpen(true); return; }
     if (!file) return;
     setBusy('import');
     try {
@@ -1658,10 +1662,11 @@ ${pageCss(shown, { fontFaces })}`),
               <section className={s.section}>
                 <h2 className={s.sectionTitle}>Export</h2>
                 <p className={s.transferText}>Download all {pages.length} saved website{pages.length === 1 ? '' : 's'} as one backup file, with every page, your uploaded images, uploaded fonts and brand kit.</p>
-                <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={exportAll} disabled={!!busy || !pages.length}>{busy === 'export' ? 'Exporting…' : '⤓ Export websites'}</button>
+                {backupLocked && <p className={s.hint}>🔒 Backup and restore are for Patreon supporters. Click a button below to enter the supporter passcode.</p>}
+                <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={backupLocked ? () => setUnlockOpen(true) : exportAll} disabled={!backupLocked && (!!busy || !pages.length)} style={{ padding: '11px 14px', fontSize: 13.5, fontWeight: 700 }}>{backupLocked ? '🔒 Export websites' : busy === 'export' ? 'Exporting…' : '⤓ Export websites'}</button>
                 <h2 className={s.sectionTitle} style={{ marginTop: 22 }}>Import</h2>
                 <p className={s.transferText}>Add websites from a backup file. Nothing you already have is changed.</p>
-                <button type="button" className={s.miniBtn} onClick={() => importRef.current?.click()} disabled={!!busy}>{busy === 'import' ? 'Importing…' : '⤒ Choose a backup file (.json)'}</button>
+                <button type="button" className={s.miniBtn} onClick={() => (backupLocked ? setUnlockOpen(true) : importRef.current?.click())} disabled={!backupLocked && !!busy} style={{ padding: '11px 14px', fontSize: 13.5, fontWeight: 700 }}>{backupLocked ? '🔒 Choose a backup file (.json)' : busy === 'import' ? 'Importing…' : '⤒ Choose a backup file (.json)'}</button>
                 <input ref={importRef} type="file" accept=".json,application/json" hidden onChange={ev => { const file = ev.target.files?.[0]; ev.target.value = ''; importFile(file); }} />
                 <p className={s.hint}>Everything is stored only in this browser. Export regularly so clearing site data or switching devices never loses your work.</p>
               </section>

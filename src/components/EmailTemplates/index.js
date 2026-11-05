@@ -9,6 +9,8 @@ import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import { emailDesignStore } from './designs';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import { usePremiumUnlocked, PremiumUnlockDialog } from '@/components/PremiumGate';
+import { LOCK_BACKUP } from '@/lib/premium';
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
@@ -440,6 +442,10 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
   const [view, setView] = useState('preview');
   const [toast, setToast] = useState('');
   const [busy, setBusy] = useState('');
+  // Backup and restore are for Patreon supporters (src/lib/patreon-settings.js)
+  const premiumUnlocked = usePremiumUnlocked();
+  const [unlockOpen, setUnlockOpen] = useState(false);
+  const backupLocked = LOCK_BACKUP && !premiumUnlocked;
   const [origin, setOrigin] = useState('');
   const [open, setOpen] = useState(() => new Set(['inbox', 'main']));
   const [panelTab, setPanelTab] = useState('edit'); // left panel: 'edit' | 'designs' | 'transfer'
@@ -1136,6 +1142,7 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
   /* Export / import My designs (backup file, uploaded images included) */
   const importRef = useRef(null);
   const exportAll = async () => {
+    if (backupLocked) { setUnlockOpen(true); return; }
     setBusy('export');
     try {
       const kitNow = loadKit();
@@ -1158,6 +1165,7 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
     setBusy('');
   };
   const importFile = async file => {
+    if (backupLocked) { setUnlockOpen(true); return; }
     if (!file) return;
     setBusy('import');
     try {
@@ -1256,12 +1264,13 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
                 <li>Images you uploaded into your emails</li>
                 <li>Your brand kit, if you’ve set one</li>
               </ul>
-              <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={exportAll} disabled={!!busy || !designs.length}>{busy === 'export' ? 'Exporting…' : '⤓ Export designs'}</button>
+              {backupLocked && <p className={s.hint}>🔒 Backup and restore are for Patreon supporters. Click a button below to enter the supporter passcode.</p>}
+              <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={backupLocked ? () => setUnlockOpen(true) : exportAll} disabled={!backupLocked && (!!busy || !designs.length)} style={{ padding: '11px 14px', fontSize: 13.5, fontWeight: 700 }}>{backupLocked ? '🔒 Export designs' : busy === 'export' ? 'Exporting…' : '⤓ Export designs'}</button>
               {!designs.length && <p className={s.hint}>Nothing to export yet. Save a design first (Save in the toolbar, or Ctrl+S).</p>}
 
               <h2 className={s.sectionTitle} style={{ marginTop: 22 }}>Import</h2>
               <p className={s.transferText}>Add designs from a backup file. Nothing you already have is changed: designs you have are skipped, and a different design with the same id comes in as a copy.</p>
-              <button type="button" className={s.miniBtn} onClick={() => importRef.current?.click()} disabled={!!busy}>{busy === 'import' ? 'Importing…' : '⤒ Choose a backup file (.json)'}</button>
+              <button type="button" className={s.miniBtn} onClick={() => (backupLocked ? setUnlockOpen(true) : importRef.current?.click())} disabled={!backupLocked && !!busy} style={{ padding: '11px 14px', fontSize: 13.5, fontWeight: 700 }}>{backupLocked ? '🔒 Choose a backup file (.json)' : busy === 'import' ? 'Importing…' : '⤒ Choose a backup file (.json)'}</button>
               <input ref={importRef} type="file" accept=".json,application/json" hidden onChange={ev => { const f = ev.target.files?.[0]; ev.target.value = ''; importFile(f); }} />
               <p className={s.hint}>Designs are stored only in this browser. Export regularly so clearing site data or switching devices never loses your work.</p>
             </section>
@@ -1684,8 +1693,8 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
               />
               <span className={s.toolbarSep} aria-hidden="true" />
               <FullscreenButton />
-              <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
               {aiPrompt && <AiPromptButton prompt={aiPrompt} title={t.name} />}
+              <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
               <ExportMenu
                 head="Export this email as…"
                 options={[
@@ -1761,6 +1770,7 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
           })()}
         </div>
       </div>
+      <PremiumUnlockDialog open={unlockOpen} onClose={() => setUnlockOpen(false)} />
       {confirm && (
         <ConfirmDialog
           {...confirm}

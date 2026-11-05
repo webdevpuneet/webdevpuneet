@@ -21,6 +21,10 @@ SETTING UP PATREON
   Create the $5 tier, describe the benefits ("no ads on webdevpuneet.com, export the premium website templates"), make a
   post for paid members only that holds the passcode. Tell new patrons where to find it (the tier's welcome message is a good place).
 
+SECTION TEMPLATES (added 2026-11-05): in the Website Section Templates editor (every section template + the Custom Section builder) Fork and
+  Export are locked for everyone without the passcode too (LOCK_SECTION_EXPORT in patreon-settings.js; set false to open them again).
+  Gap: the editor's HTML / CSS code views still show the code. Previewing, editing, Save and Add to page stay free.
+
 IT IS A SOFT LOCK (be honest about it)
   The site is static: the template code is in the public JavaScript and the check runs in the browser. It stops casual use, not
   someone reading the source or clearing the ad script themselves. Known gaps: the live demo pages in

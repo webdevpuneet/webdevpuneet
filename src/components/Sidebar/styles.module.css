@@ -2039,9 +2039,10 @@ a.sortBtn { text-decoration: none; }
 .projResumeSm .projResumeName { font-size: 11.5px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .projResumeSm .projResumeMeta { font-size: 9px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* Patreon supporter note (shown once the passcode is accepted) */
-.supporterBar { display: flex; align-items: center; gap: 7px; margin: 0; padding: 6px 10px; font-size: 11px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #f96854, #e0435a); }
-.supporterBar svg { flex: none; }
+/* Patreon supporter note (shown once the passcode is accepted): a soft tint of the site's accent, so it sits in the sidebar
+   like the rest of it; only the heart keeps Patreon's coral. */
+.supporterBar { display: flex; align-items: center; gap: 7px; margin: 0; padding: 6px 10px; font-size: 11px; font-weight: 700; color: var(--accent); background: color-mix(in srgb, var(--accent) 11%, var(--surface)); border-top: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+.supporterBar svg { flex: none; color: #e0435a; }
 .supporterText { flex: 1; min-width: 0; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.supporterOut { flex: none; border: 0; padding: 2px 6px; border-radius: 6px; font: 700 10px var(--font-ui, system-ui); color: #fff; background: rgba(255, 255, 255, 0.22); cursor: pointer; }
-.supporterOut:hover { background: rgba(255, 255, 255, 0.36); }
+.supporterOut { flex: none; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); padding: 1px 7px; border-radius: 6px; font: 700 10px var(--font-ui, system-ui); color: var(--accent); background: transparent; cursor: pointer; }
+.supporterOut:hover { background: color-mix(in srgb, var(--accent) 16%, transparent); }

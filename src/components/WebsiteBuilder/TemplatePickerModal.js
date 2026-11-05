@@ -8,6 +8,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import b from './styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
 import InViewImg from '@/components/InViewImg';
+import { PremiumBadge } from '@/components/PremiumGate';
+import { isPremiumTemplate } from '@/lib/premium';
 import { LivePage, panProps } from './StartCards';
 import { isSite } from '@/components/SectionTemplates/templates/site.js';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
@@ -150,6 +152,7 @@ export default function TemplatePickerModal({ open, onClose, onUse, saved = [], 
                     // Tall card with the whole page: the preview scrolls top to bottom while hovered
                     <button key={t.id} type="button" className={`${b.modalCard} ${b.tplCard}`} onClick={() => setChosen(t)} title={t.blurb} {...panHandlers}>
                       <span className={b.tplPreview}>
+                        {isPremiumTemplate(t.id) && <PremiumBadge corner />}
                         <InViewImg className={b.tplImg} src={fullOf(t.id)} alt={`${t.name} template preview`} />
                       </span>
                       <span className={b.modalCardCat}>{t.industry}</span>
