@@ -6,7 +6,7 @@ import { isEmbedRoute } from '@/lib/is-embed-route';
 import { ADS_ENABLED, SIDEBAR_AD_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
 import { useAdFree, useAdFreeOnLoad } from '@/lib/use-ad-free';
 import { PremiumUnlockDialog } from '@/components/PremiumGate';
-import { lockAgain } from '@/lib/premium';
+import { lockAgain, PATREON_PRICE } from '@/lib/premium';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import styles from './styles.module.css';
@@ -1373,6 +1373,25 @@ export default function Sidebar() {
         {/* Latest blog posts, one at a time, right under the ad. */}
         <BlogTicker />
 
+        {/* Patreon: a supporter sees the thank-you line; everyone else sees the sign-in line (both one line, same place) */}
+        {!adFree && (
+          <div className={`${styles.supporterBar} ${styles.supporterBarOff}`}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 21s-7.2-4.35-9.55-8.42C.66 9.47 1.43 5.75 4.55 4.2 7.02 2.97 9.46 3.76 12 6.32c2.54-2.56 4.98-3.35 7.45-2.12 3.12 1.55 3.89 5.27 2.1 8.38C19.2 16.65 12 21 12 21Z" /></svg>
+            <span className={styles.supporterText}>Patreon supporter?</span>
+            <button type="button" className={styles.supporterOut} onClick={() => setUnlockOpen(true)}>Sign in</button>
+            {/* What a supporter gets: opens on hover or keyboard focus */}
+            <div className={styles.supporterPop} role="tooltip">
+              <strong className={styles.supporterPopTitle}>Patreon supporter, {PATREON_PRICE}</strong>
+              <ul className={styles.supporterPopList}>
+                <li>No ads anywhere on the site</li>
+                <li>Export and Fork website sections, premium website templates and premium social posts</li>
+                <li>Backup and restore all your saved designs</li>
+                <li>A new passcode every month in the supporter post</li>
+              </ul>
+              <span className={styles.supporterPopNote}>Already a supporter? Click Sign in and enter the passcode.</span>
+            </div>
+          </div>
+        )}
         {/* Shown once the Patreon passcode has been accepted in this browser */}
         {adFree && (
           <div className={styles.supporterBar} role="status">

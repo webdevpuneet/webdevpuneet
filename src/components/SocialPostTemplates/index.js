@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import InViewImg from '@/components/InViewImg';
 import s from './styles.module.css';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import { PremiumBadge } from '@/components/PremiumGate';
+import { isPremiumSocialTemplate } from '@/lib/premium';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { TEMPLATES, TEMPLATE_CATEGORIES, SIZES, categoryById, templateById } from './templates/index.js';
 import Preview from './Preview';
@@ -180,7 +182,8 @@ function GalleryCard({ t, preview }) {
   const cat = categoryById(t.category);
   return (
     <a className={s.card} href={`/social-post-templates/${t.id}/`}>
-      <div ref={ref} className={s.cardPreview}>
+      <div ref={ref} className={s.cardPreview} style={isPremiumSocialTemplate(t.id) ? { position: 'relative' } : undefined}>
+        {isPremiumSocialTemplate(t.id) && <PremiumBadge corner />}
         {preview
           // Captured screenshot when available: much lighter than a live preview
           // eslint-disable-next-line @next/next/no-img-element

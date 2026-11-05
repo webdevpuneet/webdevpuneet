@@ -26,8 +26,8 @@ import { openForkTab } from '@/lib/open-fork-tab';
 import ImageLibraryPicker from '@/components/ImageLibrary';
 import { addToLibrary } from '@/lib/image-library';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
-import { usePremiumUnlocked, PremiumUnlockDialog } from '@/components/PremiumGate';
-import { LOCK_BACKUP } from '@/lib/premium';
+import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
+import { LOCK_BACKUP, isPremiumSocialTemplate } from '@/lib/premium';
 
 const LS_PREFIX = 'wdp-spt-v1:';
 const fmtBytes = n => (n >= 1048576 ? `${(n / 1048576).toFixed(2)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
@@ -172,6 +172,7 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
   const premiumUnlocked = usePremiumUnlocked();
   const [unlockOpen, setUnlockOpen] = useState(false);
   const backupLocked = LOCK_BACKUP && !premiumUnlocked;
+  const socialLocked = isPremiumSocialTemplate(t.id) && !premiumUnlocked; // Patreon-only template: Fork, Share and Export are locked
   const [toast, setToast] = useState('');
   const [includeImages, setIncludeImages] = useState(true);
   const [video, setVideo] = useState({ style: 'rise', seconds: 6 }); // animated export options
@@ -1153,7 +1154,10 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                 ]}
               />
               <FullscreenButton />
-              {aiPrompt && !isCarousel && <AiPromptButton prompt={aiPrompt} title={t.name} />}
+              {aiPrompt && !isCarousel && !socialLocked && <AiPromptButton prompt={aiPrompt} title={t.name} />}
+              {socialLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
+              {!socialLocked && (
+              <>
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} title="Save this design as an editable HTML/CSS snippet in My Code (opens in a new tab)" />
               <ExportMenu
                 label="Share"
@@ -1189,6 +1193,8 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                   { icon: 'file', label: 'Download .html', sub: 'A single self-contained HTML file', onClick: downloadHtml },
                 ]}
               />
+              </>
+              )}
             </div>
           </div>
           <div className={s.viewBar}>

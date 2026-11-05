@@ -933,7 +933,7 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
               />
               <span className={s.toolbarSep} aria-hidden="true" />
               <AddToPageMenu loadPages={loadBuilderPages} onPick={addToBuilder} />
-              {aiPrompt && <AiPromptButton prompt={aiPrompt} title={t.name} />}
+              {aiPrompt && !exportLocked && <AiPromptButton prompt={aiPrompt} title={t.name} />}
               {exportLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
               {!exportLocked && <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />}
               {!exportLocked && <ExportMenu
