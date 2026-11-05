@@ -18,7 +18,7 @@ import { CATEGORIES as SNIPPET_CATEGORIES } from '@/components/UiSnippetsTool/ca
 import { SNIPPET_INDEX as SNIPPETS, VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
 import { dbGetAll as dbGetAllCustomSnippets } from '@/lib/uiSnippetsDb';
 import { useBookmarks, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
-import MyProjectsTab, { useProjects } from './MyProjects';
+import { useProjects, ResumeCard } from './MyProjects';
 import { promptStore, loadPrompts } from '@/components/AiPromptStudioTool/storage';
 import { publishedTags, tagsForSnippetId } from '@/lib/snippet-tags';
 // Snapshot of fwdtools' sidebar groups — regenerate with scripts/sync-fwdtools-sidebar.mjs
@@ -1064,8 +1064,6 @@ function BlogTicker() {
 /* ─────────────────────────────────────────────────────────────
    Sidebar
 ───────────────────────────────────────────────────────────── */
-const SIDEBAR_VIEW_KEY = 'wdp-sidebar-view';
-const SIDEBAR_VIEWS = ['tools', 'blog', 'mycode'];
 
 /* Sidebar top ad — AdSense (slot 6939815965) at a fixed size, never "auto", so the
    sidebar doesn't shift while a creative loads: 300x250 medium rectangle on desktop.
@@ -1133,21 +1131,6 @@ export default function Sidebar() {
   // Tools by default on every page. The tab a visitor clicks is remembered in this browser, so My Code (or
   // Blog) stays open on the next page load. Starts on Tools for the server render and the first client render
   // (they must match), then switches to the remembered tab in an effect.
-  const [sidebarView, setSidebarView] = useState('tools');
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(SIDEBAR_VIEW_KEY);
-      if (SIDEBAR_VIEWS.includes(saved)) setSidebarView(saved);
-    } catch { /* storage blocked: stay on Tools */ }
-  }, []);
-  const chooseSidebarView = view => {
-    setSidebarView(view);
-    try { localStorage.setItem(SIDEBAR_VIEW_KEY, view); } catch { /* ignore */ }
-  };
-
-  // The sidebar opens on Tools on every page. A tab the visitor clicks stays selected while they
-  // move between pages (client-side navigation keeps the sidebar mounted); a fresh page load opens on Tools again.
-
   const [customSnippets, setCustomSnippets] = useState([]);
   const projects = useProjects(); // saved websites, sections, emails and posts, for the My Projects tab
   // saved items per tool, shown on each tool's link (the website in progress is not a saved one, so it is not counted)
@@ -1186,7 +1169,7 @@ export default function Sidebar() {
     refresh();
     window.addEventListener('uis-custom-snippets-changed', refresh);
     return () => { cancelled = true; window.removeEventListener('uis-custom-snippets-changed', refresh); };
-  }, [sidebarView === 'mycode']); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   // Restore the persisted collapsed state right after mount (see the useState
   // above for why this isn't read synchronously).
@@ -1388,33 +1371,9 @@ export default function Sidebar() {
         {/* Latest blog posts, one at a time, right under the ad. */}
         <BlogTicker />
 
-        {/* View tabs (Tools, Tips (the blog), My Code) — they only switch the panel; the My Code panel has Create new / All Snippets links for navigating */}
-        <div className={styles.viewTabs}>
-          <button
-            className={`${styles.viewTab} ${sidebarView === 'tools' ? styles.viewTabActive : ''}`}
-            onClick={() => chooseSidebarView('tools')}
-          >Tools</button>
-          <button
-            className={`${styles.viewTab} ${sidebarView === 'blog' ? styles.viewTabActive : ''}`}
-            onClick={() => chooseSidebarView('blog')}
-          >Tips</button>
-          <button
-            className={`${styles.viewTab} ${sidebarView === 'mycode' ? styles.viewTabActive : ''}`}
-            onClick={() => chooseSidebarView('mycode')}
-          >
-            My Projects
-            {customSnippets.length + projects.length > 0 && <span className={styles.savedCount}>{customSnippets.length + projects.length}</span>}
-          </button>
-        </div>
-
-        {sidebarView === 'blog' && <BlogTab />}
-        {sidebarView === 'mycode' && <MyProjectsTab snippets={customSnippets} projects={projects} />}
-
-        {sidebarView === 'tools' && (
-          <>
+        <>
             {/* Search, with a home button before it that opens the full tools hub */}
             <div className={styles.toolsSearchRow}>
-            <GalleryBtn href="/tools/" label="All tools" />
             <div className={styles.searchWrap}>
               <svg className={styles.searchIcon} width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -1513,6 +1472,7 @@ export default function Sidebar() {
                     open={favOpen}
                     onToggle={() => setFavOpen(v => !v)}
                   />
+                  <ResumeCard snippets={customSnippets} projects={projects} />
                   <UiSnippetsCategories pathname={pathname} />
                   <SidebarLink href="/ui-snippets/mycode/" icon="/icons/my-code.svg" label="My Code" active={/^\/ui-snippets\/mycode(\/|$)/.test(pathname)} count={customSnippets.length} />
                   <SidebarLink href="/website-builder/" icon="/icons/website-builder.svg" label="Website Builder" active={/^\/website-builder(\/|$)/.test(pathname)} count={savedCount.website} />
@@ -1554,8 +1514,7 @@ export default function Sidebar() {
                 </>
               )}
             </nav>
-          </>
-        )}
+        </>
 
         <div className={styles.sidebarBottom}>
           <ThemeToggle />

@@ -256,3 +256,23 @@ export default function MyProjectsTab({ snippets, projects }) {
     </>
   );
 }
+
+/* The newest thing this visitor worked on (a saved design, the website in progress or a My Code snippet), as one card:
+   "Pick up where you left off". Shown above UI Snippets in the sidebar. */
+export function ResumeCard({ snippets, projects }) {
+  const latest = useMemo(() => {
+    const code = (snippets || []).map(sn => ({
+      type: 'code', name: sn.name || 'Untitled', sub: (sn.tags || []).join(', '),
+      updated: sn.updatedAt || sn.createdAt || '', href: `/ui-snippets/mycode/?id=${sn.id}`,
+    }));
+    return [...code, ...(projects || [])].sort((a, b) => new Date(b.updated) - new Date(a.updated))[0] || null;
+  }, [snippets, projects]);
+  if (!latest) return null;
+  return (
+    <a href={latest.href} className={`${styles.projResume} ${styles.projResumeSm}`} title={`Pick up where you left off: ${latest.name}`}>
+      <span className={styles.projResumeLabel}>Pick up where you left off</span>
+      <span className={styles.projResumeName}>{latest.name}</span>
+      <span className={styles.projResumeMeta}>{TYPES[latest.type].label}{latest.sub ? ` · ${latest.sub}` : ''} · {ago(latest.updated)} →</span>
+    </a>
+  );
+}
