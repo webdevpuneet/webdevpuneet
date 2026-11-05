@@ -22,7 +22,9 @@ export const PASSCODE_SHA256 = '7821824c1d41f265545f86184234ad7583250a859afb9bd5
 export const PREMIUM_TEMPLATE_IDS = ['corporate'];
 
 /* Social post templates that are Patreon-only (ids). Their Fork, Share and Export need the passcode. */
-export const PREMIUM_SOCIAL_TEMPLATE_IDS = ['cyber-monday'];
+export const PREMIUM_SOCIAL_TEMPLATE_IDS = [
+  'cyber-monday', 'holiday-sale', 'giveaway', 'advent-calendar', 'five-star-review', 'year-in-review',
+];
 
 /* Email templates that are Patreon-only (ids): the revenue-driving campaign emails. Their Fork, Export and AI button need the passcode.
    The everyday and account emails (welcome, password reset, receipts, newsletters ...) stay free, they are what brings visitors in. */

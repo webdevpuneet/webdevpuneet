@@ -25,7 +25,7 @@ SECTION TEMPLATES (added 2026-11-05): in the Website Section Templates editor (e
   Export are locked for everyone without the passcode too (LOCK_SECTION_EXPORT in patreon-settings.js; set false to open them again).
   Gap: the editor's HTML / CSS code views still show the code. Previewing, editing, Save and Add to page stay free.
 
-PATREON-ONLY LISTS (all in src/lib/patreon-settings.js): PREMIUM_TEMPLATE_IDS (website templates: corporate), PREMIUM_SOCIAL_TEMPLATE_IDS (cyber-monday),
+PATREON-ONLY LISTS (all in src/lib/patreon-settings.js): PREMIUM_TEMPLATE_IDS (website templates: corporate), PREMIUM_SOCIAL_TEMPLATE_IDS (cyber-monday, holiday-sale, giveaway, advent-calendar, five-star-review, year-in-review),
   PREMIUM_EMAIL_TEMPLATE_IDS (10 campaign emails: abandoned-cart, black-friday-sale, last-chance-sale, back-in-stock, refer-a-friend,
   webinar-invitation, re-engagement, trial-ending, review-request, holiday-gift-guide). Rule of thumb: revenue-driving campaign designs are
   Patreon-only; everyday/account emails and other free templates bring the search traffic, so they stay free. In the editors a locked template
