@@ -32,7 +32,7 @@ const faqs = [
   { q: 'How do the animations work?', a: 'Sections animate in with GSAP and ScrollTrigger once they scroll into view. Headlines can reveal word by word, line by line or letter by letter with GSAP SplitText. You can pick the effects and speed, or turn animation off. Content stays visible without JavaScript and animations are skipped for people who prefer reduced motion.' },
   { q: 'Can I upload my own images and fonts?', a: 'Yes. Images are resized in your browser and saved in IndexedDB; fonts can be any Google Font or your own WOFF2, WOFF, TTF or OTF file. Exports include them: the single HTML file embeds them, and the ZIP puts images in an images folder.' },
   { q: 'Will I lose my work?', a: 'No. Edits autosave in your browser, Save keeps named designs in My designs, and the Import / Export tab downloads one backup file with your designs, uploaded images, uploaded fonts and brand kit that you can restore in any browser.' },
-  { q: 'Are they free for commercial use?', a: 'Yes. Every section is free for personal and commercial websites, with no account, no watermark and no attribution required.' },
+  { q: 'Are they free for commercial use?', a: 'Yes, in the Website Builder: every section is free to use in a website you build and export there, for personal and commercial work, with no account, no watermark and no attribution. Exporting or forking a single section on its own from its Section Templates page is for Patreon supporters.' },
 ];
 
 const SECTIONS = [

@@ -51,7 +51,7 @@ export default async function EmailCategoryRoute({ params }) {
     ...c.faqs,
     { q: `Which ${meta.label.toLowerCase()} email templates are included?`, a: list.map(t => `${t.name}: ${t.description}`).join(' ') },
     { q: 'Will these templates work in Outlook, Gmail and Apple Mail?', a: 'Yes. They use nested tables, inline styles, a 600 px container with Outlook conditional comments, a VML "bulletproof" button for Outlook on Windows, and an Arial override so Outlook doesn\'t fall back to Times New Roman. Each includes a dark palette and a plain-text version.' },
-    { q: 'Are they free for commercial use?', a: 'Yes. Every template is free for personal and commercial email, with no account and no watermark. Everything runs in your browser and your edits are saved locally.' },
+    { q: 'Are they free for commercial use?', a: 'Yes, for most of them. Templates without a badge are free for personal and commercial email, with no account and no watermark. Templates with a Patreon badge can be previewed and edited by anyone; exporting them needs the supporter passcode. Everything runs in your browser.' },
   ];
 
   const sections = [

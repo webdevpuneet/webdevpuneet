@@ -49,7 +49,7 @@ export default async function SectionCategoryRoute({ params }) {
   const faqs = [
     ...c.faqs,
     { q: `Which ${meta.label.toLowerCase()} sections are included?`, a: list.map(t => `${t.name}: ${t.description}`).join(' ') },
-    { q: 'Are these sections free for commercial use?', a: 'Yes. Every section is free for personal and commercial websites, with no account and no watermark. Everything runs in your browser and your edits are saved locally.' },
+    { q: 'Are these sections free for commercial use?', a: 'Yes, in the Website Builder: every section is free to use in a website you build and export there, for personal and commercial work, with no account, no watermark and no attribution. Exporting or forking a single section on its own from its Section Templates page is for Patreon supporters.' },
   ];
 
   const sections = [

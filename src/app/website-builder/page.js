@@ -1,4 +1,5 @@
 import SeoSection from '@/components/SeoSection';
+import { PREMIUM_TEMPLATE_IDS } from '@/lib/patreon-settings';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import TemplateGallery from '@/components/WebsiteBuilder/TemplateGallery';
@@ -102,7 +103,7 @@ const SECTIONS = [
 
 Open any template in the builder and everything is editable without code: text, images, links, lists of cards, colours, fonts and animation. Add sections from the [Website Section Templates](/website-section-templates/) library, reorder them by dragging, and export clean HTML you can host anywhere.
 
-Every template is responsive, animated with GSAP (entrance effects, text reveals, counters and carousels), accessible, and free for commercial use.`,
+Every template is responsive, animated with GSAP (entrance effects, text reveals, counters and carousels) and accessible. The templates without a badge are free for commercial use; the ones with a Patreon badge can be previewed and edited by anyone and export for Patreon supporters.`,
   },
   {
     type: 'steps',
@@ -128,7 +129,7 @@ Every template is responsive, animated with GSAP (entrance effects, text reveals
       { icon: '✦', title: 'Animated with GSAP', desc: 'Professional motion on every section, accessible and reduced-motion friendly.' },
       { icon: '⚡', title: 'Fast pages', desc: 'Static HTML, one style sheet and small scripts load quickly on any host.' },
       { icon: '🔒', title: 'Private', desc: 'Pages, images and fonts stay in your browser; nothing is uploaded.' },
-      { icon: '€0', title: 'Free', desc: 'No account, no watermark and no paid tier.' },
+      { icon: '€0', title: 'Free to build', desc: `No account and no watermark. Every section and ${STARTERS.length - PREMIUM_TEMPLATE_IDS.length} of the ${STARTERS.length} templates export free; the ${PREMIUM_TEMPLATE_IDS.length} marked Patreon export for supporters.` },
     ],
   },
   { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: faqs },
