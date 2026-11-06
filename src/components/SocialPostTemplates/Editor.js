@@ -27,7 +27,7 @@ import ImageLibraryPicker from '@/components/ImageLibrary';
 import { addToLibrary } from '@/lib/image-library';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
-import { LOCK_BACKUP, LOCK_SOCIAL_VIDEO, isPremiumSocialTemplate } from '@/lib/premium';
+import { LOCK_BACKUP, LOCK_SOCIAL_VIDEO, LOCK_SOCIAL_BULK, isPremiumSocialTemplate } from '@/lib/premium';
 
 const LS_PREFIX = 'wdp-spt-v1:';
 const fmtBytes = n => (n >= 1048576 ? `${(n / 1048576).toFixed(2)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
@@ -172,6 +172,7 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
   const premiumUnlocked = usePremiumUnlocked();
   const [unlockOpen, setUnlockOpen] = useState(false);
   const backupLocked = LOCK_BACKUP && !premiumUnlocked;
+  const bulkLocked = LOCK_SOCIAL_BULK && !premiumUnlocked; // Bulk create from CSV is for supporters on every template
   const videoLocked = LOCK_SOCIAL_VIDEO && !premiumUnlocked; // animated video export is for supporters on every template
   const socialLocked = isPremiumSocialTemplate(t.id) && !premiumUnlocked; // Patreon-only template: Fork and Export are locked
   const [toast, setToast] = useState('');
@@ -1131,7 +1132,9 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                   isCarousel
                     ? { icon: 'file', label: busy === 'pdf' ? 'Making PDF…' : `Carousel as PDF (${state.slides.length} pages)`, sub: 'Upload to LinkedIn as a document post', onClick: downloadPdf, disabled: !!busy }
                     : { icon: 'file', label: busy === 'pdf' ? 'Making PDF…' : 'Download PDF', sub: `${z.w}×${z.h}, one page`, onClick: downloadPdf, disabled: !!busy },
-                  ...(isCarousel ? [] : [{ icon: 'text', label: 'Bulk create from CSV…', sub: 'One post per spreadsheet row, as a ZIP', onClick: () => setBulkOpen(true), disabled: !!busy }]),
+                  ...(isCarousel ? [] : [bulkLocked
+                    ? { icon: 'text', label: '🔒 Bulk create from CSV…', sub: 'For Patreon supporters · click to enter the passcode', onClick: () => setUnlockOpen(true) }
+                    : { icon: 'text', label: 'Bulk create from CSV…', sub: 'One post per spreadsheet row, as a ZIP', onClick: () => setBulkOpen(true), disabled: !!busy }]),
                   ...(canVideo ? [videoLocked
                     ? { icon: 'video', label: '🔒 Animated video (MP4)', sub: 'For Patreon supporters · click to enter the passcode', onClick: () => setUnlockOpen(true) }
                     : { icon: 'video', label: `Animated video (${canVideo.ext.toUpperCase()})`, sub: `${video.seconds}s · ${video.style} animation · for Reels, Stories and feeds`, onClick: downloadVideo, disabled: !!busy }] : []),

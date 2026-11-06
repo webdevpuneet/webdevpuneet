@@ -135,7 +135,7 @@ const PROMOS = [
     id: 'social', accent: '#7c3aed', tag: 'Social post templates', href: '/social-post-templates/', cta: 'Browse social post templates',
     title: 'Posts, Stories and carousels in minutes',
     desc: 'Quotes, launches, tips and seasonal posts in every size for Instagram, Facebook, X, LinkedIn and Pinterest. Edit the text, apply your brand and download.',
-    points: ['Every size from a single design', 'Download PNG, JPG or PDF; MP4 video for supporters', 'Create dozens at once from a spreadsheet'],
+    points: ['Every size from a single design', 'Download PNG, JPG or PDF; MP4 video for supporters', 'Create dozens at once from a spreadsheet (supporters)'],
   },
 ];
 

@@ -53,5 +53,9 @@ export const LOCK_SECTION_EXPORT = false;
 export const LOCK_BACKUP = true;
 
 /* true: in the Social Post Templates editor the animated video (MP4 / WebM) in Export is for supporters, on every
-   template. Play (the animated preview), PNG, JPG, PDF, ZIP, CSV bulk and HTML stay free. */
+   template. Play (the animated preview), PNG, JPG, PDF, ZIP and HTML stay free. */
 export const LOCK_SOCIAL_VIDEO = true;
+
+/* true: "Bulk create from CSV" (one post per spreadsheet row, as a ZIP) in the Social Post Templates editor is for supporters,
+   on every template. */
+export const LOCK_SOCIAL_BULK = true;
