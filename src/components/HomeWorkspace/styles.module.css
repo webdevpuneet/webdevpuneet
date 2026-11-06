@@ -104,9 +104,15 @@ a.chip:hover { border-color: #6366f1; color: #6366f1; }
   .stripList { --cols: 3; }
   .stripPair { grid-template-columns: minmax(0, 1fr); } .topRow { grid-template-columns: minmax(0, 1fr); } .side { order: 3; } .grid { grid-template-columns: minmax(0, 1fr); } .tools { grid-column: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); } .side { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; } .sideItem { flex: 1 1 180px; } }
 @media (max-width: 680px) {
-  .stripList, .stripHalf .stripList { --cols: 2; }
+  /* Phones: every row of cards is one line that scrolls sideways */
+  .stripList, .stripHalf .stripList { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 8px; }
+  .stripList::-webkit-scrollbar { display: none; }
+  .stripItem { flex: none; width: 168px; scroll-snap-align: start; }
   .wrap { padding: 14px; width: calc(100% - 24px); }
   .grid { grid-template-columns: minmax(0, 1fr); }
-  .tools { grid-template-columns: minmax(0, 1fr); }
+  .heat { display: none; } /* the activity heatmap is for larger screens */
+  .tools { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .tool { padding: 8px 9px; gap: 8px; }
+  .toolCount { display: none; }
   .chipNote { margin-left: 0; }
 }
