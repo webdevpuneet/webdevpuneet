@@ -45,8 +45,8 @@ export const PREMIUM_EMAIL_TEMPLATE_IDS = [
 
 /* true: in the Website Section Templates editor (every section template, and the Custom Section builder) Fork and Export need
    the passcode too. Previewing, editing, Save and Add to page stay free. */
-export const LOCK_SECTION_EXPORT = true;
+export const LOCK_SECTION_EXPORT = false;
 
-/* true: the Backup / Import-Export panel (download or restore all saved designs as a backup file) in the Website Builder, Website
-   Section Templates, Email Templates and Social Post Templates editors is for supporters only. */
+/* true: the Backup / Import-Export panel (download or restore all saved designs as a backup file) in the Website Builder, Email
+   Templates and Social Post Templates editors is for supporters only. Website Section Templates are always free, backup included. */
 export const LOCK_BACKUP = true;

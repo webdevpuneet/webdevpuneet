@@ -1367,9 +1367,6 @@ export default function Sidebar() {
           <SidebarTopAd key={pathname} />
         )}
 
-        {/* Latest blog posts, one at a time, right under the ad. */}
-        <BlogTicker />
-
         {/* Patreon: a supporter sees the thank-you line; everyone else sees the sign-in line (both one line, same place) */}
         {!adFree && (
           <div className={`${styles.supporterBar} ${styles.supporterBarOff}`}>
@@ -1381,7 +1378,7 @@ export default function Sidebar() {
               <strong className={styles.supporterPopTitle}>Patreon supporter, {PATREON_PRICE}</strong>
               <ul className={styles.supporterPopList}>
                 <li>No ads anywhere on the site</li>
-                <li>Export the templates with a Patreon badge (website, email and social post) and single sections from the Section Templates page</li>
+                <li>Export the templates with a Patreon badge (website, email and social post)</li>
                 <li>Backup and restore all your saved designs</li>
                 <li>A new passcode every month in the supporter post</li>
               </ul>
@@ -1399,6 +1396,10 @@ export default function Sidebar() {
             <button type="button" className={styles.supporterOut} onClick={() => { lockAgain(); window.location.reload(); }} title="Forget the passcode in this browser (ads come back)">Sign out</button>
           </div>
         )}
+
+        {/* Latest blog posts, one at a time, right under the ad. */}
+        <BlogTicker />
+
 
         <>
             {/* Search, with a home button before it that opens the full tools hub */}

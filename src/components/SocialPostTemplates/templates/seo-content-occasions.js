@@ -3,6 +3,10 @@
    TEMPLATE_SEO and TEMPLATE_WHY by seo-content.js and seo-why.js. Same shape as the others:
    keywords, about, 8 features, 4 use cases (18-42 words), 4 FAQs (answers 25-70 words), aiPrompt. */
 
+import { nextDhanteras } from './dhanteras.js';
+// The next Dhanteras, so the year and the date in this text update by themselves
+const DT = (() => { const n = nextDhanteras(); const d = n.date; return { year: n.year, label: `${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][d.getDay()]} ${d.getDate()} ${['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getMonth()]} ${d.getFullYear()}` }; })();
+
 export const TEMPLATE_SEO_OCC = {
   'cyber-monday': {
     keywords: ['cyber monday post template', 'cyber monday instagram post', 'cyber monday sale graphic', 'cyber monday promo code post', 'saas cyber monday deal post'],
@@ -179,6 +183,63 @@ On the 16:9 and LinkedIn sizes the wall spreads to eight columns and the door si
     },
   },
 
+  dhanteras: {
+    keywords: ['dhanteras post template', `dhanteras ${DT.year} wishes`, 'happy dhanteras instagram post', 'dhanteras offer post', 'dhanteras gold sale post'],
+    about: {
+      title: `Dhanteras ${DT.year} — Free Gold Coin Greeting & Offer Post Template`,
+      description: `**Dhanteras** is a free social post template for Dhantrayodashi, the first day of the Diwali festival, which in ${DT.year} falls on **${DT.label}**. It is the day families buy gold, silver, new utensils and appliances for good fortune, so it is also one of the biggest shopping days of the year for jewellers and stores across India. The whole post is drawn in CSS, so it stays sharp at every size and animates in the video export.
+
+**A kalash of gold, not a stock photo**
+
+At the centre is a polished brass kalash with a maroon band of pearls, heaped with gold coins and glowing from behind. Two diyas burn on either side and their flames flicker in the animated version, small sparkles twinkle around the pot, and gold coins stamped with the rupee sign drift down the edges of a deep maroon sky. Every colour, including the gold and the sky, can be changed in the editor.
+
+**Hindi and English together**
+
+The editable Hindi line reads "शुभ धनतेरस" (Shubh Dhanteras) in Hind, a typeface made for Devanagari, above a large "Happy *Dhanteras*" set in Cinzel with the festive word in gold. Below it there is room for a short wish for health, wealth and new beginnings.
+
+**A greeting or a sale**
+
+The optional offer chip suits the day perfectly: "0% making charges", a coin or jewellery offer, an exchange deal or extended opening hours. Clear it for a pure greeting from a company, school or office.
+
+**The date keeps itself up to date**
+
+The label carries the date of the next Dhanteras and changes to the following year on its own once the day has passed, so a design saved this year still opens with the right date next October. Every size is ready: the 4:5 portrait for the Instagram and Facebook feed, the 9:16 Story for WhatsApp Status, and on 16:9 and LinkedIn the kalash sits beside the text. For the main festival two days later, pair it with [Diwali](/social-post-templates/diwali/).`,
+    },
+    features: [
+      'Brass kalash heaped with gold coins, drawn in CSS with a pearl band and a warm glow',
+      'Two diyas whose flames flicker in the animated export',
+      'Gold rupee coins drifting down the edges and sparkles twinkling around the pot',
+      'Editable Hindi greeting "शुभ धनतेरस" set in Hind for Devanagari',
+      'Large Cinzel "Happy Dhanteras" headline with a gold highlight',
+      'Optional offer chip for gold, silver and festive sales',
+      'Date label that moves on to the next Dhanteras by itself every year',
+      'Kalash beside the text on 16:9 and LinkedIn sizes',
+    ],
+    useCases: [
+      { icon: '💍', title: 'Jewellers and gold sellers', desc: 'Announce Dhanteras offers on gold, silver and coins, such as 0% making charges or a free coin with every purchase, and post it the evening before and on the day.' },
+      { icon: '📺', title: 'Electronics and home stores', desc: 'Promote appliance, utensil and home offers on one of the busiest shopping days, with the deal in the chip and the Story size sent as a WhatsApp Status.' },
+      { icon: '🏢', title: 'Company and client greetings', desc: 'Send warm Dhanteras wishes from a company page on LinkedIn or Instagram with the chip cleared, ahead of a Diwali greeting two days later.' },
+      { icon: '🏦', title: 'Banks, fintech and gold apps', desc: 'Encourage buying digital gold or opening a savings plan on an auspicious day, with the offer or the cashback in the chip.' },
+    ],
+    faqs: [
+      { q: `When is Dhanteras ${DT.year}?`, a: `Dhanteras ${DT.year} is on ${DT.label}. It falls on Trayodashi, the thirteenth day of the waning moon in the month of Kartik, usually two days before Lakshmi Puja, so the date changes every year. The template's date label moves to the next Dhanteras on its own.` },
+      { q: 'What is Dhanteras and why do people buy gold?', a: 'Dhanteras, also called Dhantrayodashi, opens the five days of Diwali. "Dhan" means wealth, and buying gold, silver or new utensils on the day is believed to bring prosperity, which is why it is one of the biggest shopping days for jewellers.' },
+      { q: 'Can I change or remove the Hindi line?', a: 'Yes. It is an ordinary text field: keep "शुभ धनतेरस", write it in another language such as Marathi or Gujarati, or clear it and the headline moves up.' },
+      { q: 'Can I use it for a sale?', a: 'Yes. Put the offer in the chip, for example "0% making charges today", add your logo, and export a PNG for the feed or the Story size as an MP4 for WhatsApp Status. Leave the chip empty for a greeting.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Dhanteras HTML and CSS: write offers for a jeweller or an electronics store, add a second line with store timings, or recolour it in emerald and gold for a different look.',
+      prompt: `Create a 1080×1350 Dhanteras greeting social post in plain HTML and CSS.
+
+Requirements:
+- A deep maroon gradient sky with a warm gold glow near the bottom.
+- In the lower half, a polished brass kalash (pot) drawn with CSS gradients and border-radius, with a maroon band of small pearls, heaped with overlapping gold coins, with a small diya on each side whose flame is a teardrop shape with a soft glow.
+- A few gold coins with a rupee sign scattered along the left and right edges, kept away from the text.
+- At the top a small uppercase gold date label, then a Hindi greeting "शुभ धनतेरस" in a Devanagari typeface, a large serif headline "Happy Dhanteras" with "Dhanteras" in gold, a one-line wish and an optional rounded gold offer chip.
+- The handle in gold at the bottom.
+- Sizes in CSS units based on the shorter side so the same markup works at 1080×1080, 1080×1920 and 1200×628.`,
+    },
+  },
   hanukkah: {
     keywords: ['hanukkah post template', 'happy hanukkah instagram post', 'chanukah greeting template', 'menorah social media post', 'hanukkah sale post'],
     about: {
@@ -597,6 +658,11 @@ export const TEMPLATE_WHY_OCC = {
     { icon: '🚪', title: 'A reason to come back daily', desc: 'A door a day turns December into a series followers check every morning, which lifts reach for every post that follows.' },
     { icon: '🗂', title: 'One design, 24 posts', desc: 'Only the day number and the deal change, so Bulk create can make the whole month from one spreadsheet.' },
     { icon: '✨', title: 'Feels like a real calendar', desc: 'A wall of numbered doors, a gold bow and a number that ticks up to today make each post feel like opening a door.' },
+  ],
+  dhanteras: [
+    { icon: '🪙', title: 'Made for the biggest gold day', desc: 'A kalash of gold coins and an offer chip fit exactly what jewellers and stores post on Dhanteras.' },
+    { icon: 'अ', title: 'Hindi and English together', desc: 'An editable Devanagari greeting in a typeface made for it sits above the English headline.' },
+    { icon: '📅', title: 'The date updates itself', desc: 'The label moves on to the next Dhanteras every year, so a saved design stays correct.' },
   ],
   hanukkah: [
     { icon: '🕎', title: 'Lit the way it is at home', desc: 'The shamash lights first and the eight flames follow, a detail people who celebrate will notice and appreciate.' },

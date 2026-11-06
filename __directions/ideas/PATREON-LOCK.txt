@@ -48,3 +48,5 @@ FILES
   scripts/set-patreon-passcode.mjs   the monthly command
 
 ADDING ANOTHER PATREON-ONLY TEMPLATE: add its id to PREMIUM_TEMPLATE_IDS in patreon-settings.js.
+
+2026-11-06: Website Section Templates unlocked for everyone (LOCK_SECTION_EXPORT=false; section backup unlocked in SectionTemplates/index.js). Copy updated in section FAQs, PremiumGate and the sidebar Patreon popover.

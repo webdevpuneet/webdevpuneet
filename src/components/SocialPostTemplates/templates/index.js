@@ -49,6 +49,7 @@ import cyberMonday from './cyber-monday.js';
 import givingTuesday from './giving-tuesday.js';
 import adventCalendar from './advent-calendar.js';
 import hanukkah from './hanukkah.js';
+import dhanteras from './dhanteras.js';
 import holidayHours from './holiday-hours.js';
 import yearInReview from './year-in-review.js';
 import lunarNewYear from './lunar-new-year.js';
@@ -103,6 +104,7 @@ const ORDER = [
   storyPoll,
   storyLink,
   halloweenSale,
+  dhanteras,
   diwali,
   ramadanEid,
   thanksgiving,

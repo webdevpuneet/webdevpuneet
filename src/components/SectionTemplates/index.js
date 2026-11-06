@@ -10,7 +10,7 @@ import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
-import { LOCK_SECTION_EXPORT, LOCK_BACKUP } from '@/lib/premium';
+import { LOCK_SECTION_EXPORT } from '@/lib/premium';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
@@ -326,7 +326,7 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
   const premiumUnlocked = usePremiumUnlocked();
   const [unlockOpen, setUnlockOpen] = useState(false);
   const exportLocked = LOCK_SECTION_EXPORT && !premiumUnlocked;
-  const backupLocked = LOCK_BACKUP && !premiumUnlocked;
+  const backupLocked = false; // section templates are free for everyone, backup included
   const [confirm, setConfirm] = useState(null);
   const [designs, setDesigns] = useState([]);
   const [currentDesign, setCurrentDesign] = useState(null); // { id, name }

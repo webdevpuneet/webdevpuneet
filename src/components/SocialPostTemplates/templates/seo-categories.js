@@ -123,7 +123,7 @@ Every other template in the library also exports at Story size, so your feed pos
   },
   holidays: {
     title: 'Holiday Post Templates — Christmas, Diwali, Eid & More',
-    description: 'Free holiday post templates: Christmas, Hanukkah, Diwali, Lunar New Year, Ramadan and Eid, national days, Halloween and more. Animated, every size, no sign-up.',
+    description: 'Free holiday post templates: Christmas, Hanukkah, Diwali, Dhanteras, Lunar New Year, Ramadan and Eid, national days, Halloween. Animated, in every size.',
     h1: 'Holiday & Seasonal Post Templates',
     keywords: ['holiday post templates', 'halloween post template', 'christmas instagram post template', 'thanksgiving post template', 'new year post template'],
     intro: `The last quarter of the year is packed with moments your audience is already talking about: Halloween on October 31, Thanksgiving on November 26, Black Friday and Cyber Monday on November 27 and 30, Christmas on December 25 and New Year's Eve. Seasonal posts fit naturally into the feed and get more engagement than everyday promotions, as long as they look the part.

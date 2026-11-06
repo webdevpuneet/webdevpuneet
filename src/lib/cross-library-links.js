@@ -4,7 +4,7 @@
 export const EMAIL_SOCIAL_PAIRS = {
   'black-friday-sale': ['holiday-sale', 'cyber-monday', 'discount-badge'],
   'last-chance-sale': ['discount-badge', 'countdown'],
-  'holiday-greetings': ['christmas-greeting', 'holiday-hours', 'hanukkah', 'new-year', 'thanksgiving'],
+  'holiday-greetings': ['christmas-greeting', 'holiday-hours', 'hanukkah', 'new-year', 'thanksgiving', 'dhanteras'],
   'holiday-gift-guide': ['product-spotlight', 'advent-calendar', 'christmas-greeting'],
   'webinar-invitation': ['webinar-event', 'countdown'],
   'product-update': ['product-launch', 'coming-soon'],

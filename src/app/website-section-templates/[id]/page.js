@@ -65,7 +65,7 @@ export default async function WebsiteSectionTemplatePage({ params }) {
   const faqs = [
     ...seo.faqs,
     { q: 'What does "Fork to My Code" do?', a: `It saves an editable copy of your ${t.name} in My Code, the UI Snippets code editor: the section markup goes in the HTML panel, its CSS (theme variables, base styles and layout) in the CSS panel, and the GSAP library is added as a CDN link, so you can keep refining the code and save your own versions.` },
-    { q: `Is the ${t.name} template free for commercial use?`, a: 'Yes, in the Website Builder: every section is free to use in a website you build and export there, for personal and commercial work, with no account, no watermark and no attribution. Exporting or forking a single section on its own from its Section Templates page is for Patreon supporters.' },
+    { q: `Is the ${t.name} template free for commercial use?`, a: 'Yes. Every section is free for personal and commercial work, with no account, no watermark and no attribution: export it on its own as HTML, React, Vue or Next.js from its page, or use it in a website you build and export in the Website Builder.' },
   ];
 
   // Website templates built with this section: a link from the section page to each of them

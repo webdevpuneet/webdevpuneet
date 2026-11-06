@@ -183,7 +183,7 @@
   ]
  },
  "social": {
-  "total": 55,
+  "total": 56,
   "categories": [
    {
     "id": "quotes",
@@ -422,6 +422,10 @@
      {
       "id": "halloween-sale",
       "name": "Halloween Sale"
+     },
+     {
+      "id": "dhanteras",
+      "name": "Dhanteras"
      },
      {
       "id": "diwali",
