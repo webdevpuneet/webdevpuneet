@@ -54,8 +54,11 @@ a.chip:hover { border-color: #6366f1; color: #6366f1; }
 
 /* Recently edited: a scrolling strip of cards with a picture each */
 .strip { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
-.stripList { list-style: none; margin: 0; padding: 2px 2px 8px; display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; }
-.stripItem { flex: none; width: 200px; scroll-snap-align: start; }
+.stripList { --cols: 6; list-style: none; margin: 0; padding: 2px 2px 8px; display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 12px; }
+.stripItem { min-width: 0; }
+/* Bookmarked snippets and My Code side by side, three cards each */
+.stripPair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
+.stripHalf .stripList { --cols: 3; }
 .card { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--text); }
 .cardPic { position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: color-mix(in srgb, var(--tint, #6366f1) 10%, var(--surface)); transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s; }
 .card:hover .cardPic { border-color: var(--tint, #6366f1); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12); }
@@ -97,8 +100,11 @@ a.chip:hover { border-color: #6366f1; color: #6366f1; }
 .heatLegend { flex: none; display: flex; align-items: center; gap: 3px; margin-top: 2px; font-size: 10.5px; color: var(--text2); }
 .heatLegend .heatCell { display: inline-block; width: 11px; height: 11px; aspect-ratio: auto; }
 
-@media (max-width: 1100px) { .topRow { grid-template-columns: minmax(0, 1fr); } .side { order: 3; } .grid { grid-template-columns: minmax(0, 1fr); } .tools { grid-column: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); } .side { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; } .sideItem { flex: 1 1 180px; } }
+@media (max-width: 1100px) {
+  .stripList { --cols: 3; }
+  .stripPair { grid-template-columns: minmax(0, 1fr); } .topRow { grid-template-columns: minmax(0, 1fr); } .side { order: 3; } .grid { grid-template-columns: minmax(0, 1fr); } .tools { grid-column: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); } .side { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; } .sideItem { flex: 1 1 180px; } }
 @media (max-width: 680px) {
+  .stripList, .stripHalf .stripList { --cols: 2; }
   .wrap { padding: 14px; width: calc(100% - 24px); }
   .grid { grid-template-columns: minmax(0, 1fr); }
   .tools { grid-template-columns: minmax(0, 1fr); }

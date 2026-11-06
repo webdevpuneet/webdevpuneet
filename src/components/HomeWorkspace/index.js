@@ -9,7 +9,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useProjects, TYPES } from '@/components/Sidebar/MyProjects';
-import { dbGetAll as dbGetAllCustomSnippets } from '@/lib/uiSnippetsDb';
+import { dbGetAll as dbGetAllCustomSnippets, dbSetThumb } from '@/lib/uiSnippetsDb';
 import { useBookmarks, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
 import { SNIPPET_SEARCH_INDEX } from '@/lib/snippet-search-index';
 import { loadKit, kitIsSet } from '@/components/BrandKit';
@@ -37,11 +37,14 @@ const FAVS = [
   { key: 'tpl_fav_section', kind: 'Section', tint: '#10b981', img: id => `/images/section-templates/previews/${id}.png`, href: id => `/website-section-templates/${id}/` },
 ];
 const prettyId = id => String(id).replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-const PAGE = 6; // cards per row; Next shows the following six
+const PAGE = 6; // cards per full-width row; Next shows the following six
+const HALF = 3; // cards in a half-width row; the saved rows are paired two to a line
+const SIZE_OF = { code: HALF, website: HALF, section: HALF, email: HALF, social: HALF };
 const RECENT_MAX = 50; // Recently edited pages through at most this many
 
-/* The saved-design rows under Recently edited, one per kind, in this order (My Code and AI prompts get no row of their own) */
+/* The saved-design rows under Recently edited, one per kind, in this order (AI prompts get no row of their own; My Code comes first, right after Bookmarked snippets) */
 const KIND_ROWS = [
+  { type: 'code', title: 'My Code snippets' },
   { type: 'website', title: 'Saved websites' },
   { type: 'section', title: 'Saved website sections' },
   { type: 'email', title: 'Saved emails' },
@@ -49,13 +52,13 @@ const KIND_ROWS = [
 ];
 
 /* "‹ 1–6 of 14 ›" for a row with more than one page */
-function Pager({ page, total, onPage }) {
-  if (total <= PAGE) return null;
-  const last = Math.ceil(total / PAGE) - 1;
+function Pager({ page, total, onPage, size = PAGE }) {
+  if (total <= size) return null;
+  const last = Math.ceil(total / size) - 1;
   return (
     <span className={st.pager}>
       <button type="button" className={st.pagerBtn} onClick={() => onPage(page - 1)} disabled={page === 0} aria-label="Previous six">‹</button>
-      <span>{page * PAGE + 1}–{Math.min(total, (page + 1) * PAGE)} of {total}</span>
+      <span>{page * size + 1}–{Math.min(total, (page + 1) * size)} of {total}</span>
       <button type="button" className={st.pagerBtn} onClick={() => onPage(page + 1)} disabled={page >= last} aria-label="Next six">Next ›</button>
     </span>
   );
@@ -82,7 +85,7 @@ function ago(iso) {
    from its own HTML and CSS in a small sandboxed frame (no scripts run, nothing can be clicked). */
 function CardPicture({ item }) {
   const [broken, setBroken] = useState(false);
-  if (item.type === 'code' && (item.html || item.css)) {
+  if (item.type === 'code' && !item.cover && (item.html || item.css)) {
     const doc = `<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:#fff;font-family:system-ui,sans-serif}${item.css}</style>${item.html}`;
     return <iframe className={st.cardFrame} title="" srcDoc={doc} sandbox="" loading="lazy" tabIndex={-1} aria-hidden="true" />;
   }
@@ -99,6 +102,7 @@ const THUMB_MAKERS = {
   email: () => import('@/components/EmailTemplates').then(m => m.emailThumb),
   section: () => import('@/components/SectionTemplates').then(m => m.sectionThumb),
   website: () => import('@/components/WebsiteBuilder/saved-thumb').then(m => d => m.siteThumb(d.state)),
+  code: () => import('@/lib/uiSnippetsDb').then(m => m.snippetThumb),
 };
 const thumbTried = new Set();
 function useMissingThumbs(items) {
@@ -165,7 +169,8 @@ export default function HomeWorkspace() {
     const code = (snippets || []).map(sn => ({
       key: `code:${sn.id}`, type: 'code', name: sn.name || 'Untitled', sub: (sn.tags || []).join(', '),
       updated: sn.updatedAt || sn.createdAt || '', created: sn.createdAt || '', href: `/ui-snippets/mycode/?id=${sn.id}`,
-      html: sn.html || '', css: sn.css || '',
+      html: sn.html || '', css: sn.css || '', thumb: sn.thumb || null, cover: sn.thumb || null,
+      design: sn, setThumb: thumb => dbSetThumb(sn.id, thumb),
     }));
     return [...code, ...projects].sort((a, b) => new Date(b.updated) - new Date(a.updated));
   }, [snippets, projects]);
@@ -177,9 +182,23 @@ export default function HomeWorkspace() {
   // One row per kind of saved thing, newest first, six at a time (Next shows the following six)
   const kindRows = useMemo(() => KIND_ROWS.map(k => {
     const items = all.filter(i => i.type === k.type);
-    const page = Math.min(pages[k.type] || 0, Math.max(0, Math.ceil(items.length / PAGE) - 1));
-    return { ...k, items, page, shown: items.slice(page * PAGE, page * PAGE + PAGE) };
+    const size = SIZE_OF[k.type] || PAGE; // a row that shares its line gets fewer cards
+    const page = Math.min(pages[k.type] || 0, Math.max(0, Math.ceil(items.length / size) - 1));
+    return { ...k, items, size, page, shown: items.slice(page * size, page * size + size) };
   }).filter(k => k.items.length), [all, pages]);
+  const codeRow = kindRows.find(k => k.type === 'code');
+  const websiteRow = kindRows.find(k => k.type === 'website');
+  const sectionRow = kindRows.find(k => k.type === 'section');
+  const emailRow = kindRows.find(k => k.type === 'email');
+  const socialRow = kindRows.find(k => k.type === 'social');
+  // One saved-kind row: a title with its count and pager, then its cards (full width: six across; half: three)
+  const kindRowBase = (k, cls) => k && (
+    <div key={k.type} className={cls}>
+      <p className={st.activityTitle}>{k.title} <span className={st.rowCount}>{k.items.length}</span><Pager page={k.page} total={k.items.length} size={k.size} onPage={p => setPages(o => ({ ...o, [k.type]: p }))} /></p>
+      <ul className={st.stripList}>{k.shown.map(savedCard)}</ul>
+    </div>
+  );
+  const kindRowHalf = k => kindRowBase(k, `${st.strip} ${st.stripHalf}`);
   // Thumbnails for whatever is on screen in any row
   const onScreen = useMemo(() => [...new Map([...recentItems, ...kindRows.flatMap(k => k.shown)].map(i => [i.key, i])).values()], [recentItems, kindRows]);
   useMissingThumbs(onScreen);
@@ -256,32 +275,32 @@ export default function HomeWorkspace() {
         <ul className={st.stripList}>{strip.map(savedCard)}</ul>
       </div>}
 
-      {/* Bookmarked library snippets (newest bookmark first), with their gallery preview images */}
-      {bookmarks.length > 0 && <div className={st.strip}>
-        <p className={st.activityTitle}>Bookmarked snippets{bookmarks.length > 6 ? <> · <a href={BOOKMARKED_HREF} className={st.stripMore}>see all {bookmarks.length}</a></> : null}</p>
-        <ul className={st.stripList}>
-          {bookmarks.slice(0, 6).map(id => ({ id, title: SNIPPET_TITLE.get(id) || id.replace(/-/g, ' ') })).map(v => (
-            <li key={v.id} className={st.stripItem}>
-              <a href={`/ui-snippets/${v.id}/`} className={st.card} title={v.title}>
-                <span className={st.cardPic} style={{ '--tint': TYPES.code?.tint }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className={`${st.cardImg} ${st.cardImgContain}`} src={`/images/ui-snippets/previews/${v.id}.png`} alt="" loading="lazy" onError={e => { e.currentTarget.style.display = 'none'; }} />
-                </span>
-                <span className={st.cardName}>{v.title}</span>
-                <span className={st.cardMeta}><b style={{ color: TYPES.code?.tint }}>UI snippet</b> · bookmarked</span>
-              </a>
-            </li>
-          ))}
-        </ul>
+      {/* Bookmarked snippets and My Code snippets, side by side in one row */}
+      {(bookmarks.length > 0 || codeRow) && <div className={st.stripPair}>
+        {/* Bookmarked library snippets (newest bookmark first), with their gallery preview images */}
+        {bookmarks.length > 0 && <div className={`${st.strip} ${st.stripHalf}`}>
+          <p className={st.activityTitle}>Bookmarked snippets{bookmarks.length > HALF ? <> · <a href={BOOKMARKED_HREF} className={st.stripMore}>see all {bookmarks.length}</a></> : null}</p>
+          <ul className={st.stripList}>
+            {bookmarks.slice(0, HALF).map(id => ({ id, title: SNIPPET_TITLE.get(id) || id.replace(/-/g, ' ') })).map(v => (
+              <li key={v.id} className={st.stripItem}>
+                <a href={`/ui-snippets/${v.id}/`} className={st.card} title={v.title}>
+                  <span className={st.cardPic} style={{ '--tint': TYPES.code?.tint }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img className={`${st.cardImg} ${st.cardImgContain}`} src={`/images/ui-snippets/previews/${v.id}.png`} alt="" loading="lazy" onError={e => { e.currentTarget.style.display = 'none'; }} />
+                  </span>
+                  <span className={st.cardName}>{v.title}</span>
+                  <span className={st.cardMeta}><b style={{ color: TYPES.code?.tint }}>UI snippet</b> · bookmarked</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>}
+        {kindRowHalf(codeRow)}
       </div>}
 
-      {/* Then a row for each kind of saved thing */}
-      {kindRows.map(k => (
-        <div key={k.type} className={st.strip}>
-          <p className={st.activityTitle}>{k.title} <span className={st.rowCount}>{k.items.length}</span><Pager page={k.page} total={k.items.length} onPage={p => setPages(o => ({ ...o, [k.type]: p }))} /></p>
-          <ul className={st.stripList}>{k.shown.map(savedCard)}</ul>
-        </div>
-      ))}
+      {/* Then a row for each kind of saved thing: websites beside website sections, emails beside social posts */}
+      {(websiteRow || sectionRow) && <div className={st.stripPair}>{kindRowHalf(websiteRow)}{kindRowHalf(sectionRow)}</div>}
+      {(emailRow || socialRow) && <div className={st.stripPair}>{kindRowHalf(emailRow)}{kindRowHalf(socialRow)}</div>}
 
 
       <PremiumUnlockDialog open={unlockOpen} onClose={() => setUnlockOpen(false)} />

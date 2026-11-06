@@ -102,6 +102,10 @@ async function draw(html, { width = 1280, height = 800, out = 400, base } = {}, 
     for (const l of [...doc.querySelectorAll('link[rel~="stylesheet"]')]) {
       const href = l.getAttribute('href') || '';
       if (!plain && /fonts\.googleapis\.com/.test(href)) fontCss += await googleFontCss(href);
+      else if (!plain && href) {
+        // Any other stylesheet (a CSS library from a CDN): its rules, with its own pictures and fonts inline
+        try { const abs = new URL(href, base || window.location.href).href; fontCss += `\n${scopeCss(await inlineCssUrls((await (await fetch(abs)).text()).replace(/@import[^;]+;/g, ''), abs))}`; } catch { /* skip it */ }
+      }
       l.remove();
     }
     const sheets = [];
