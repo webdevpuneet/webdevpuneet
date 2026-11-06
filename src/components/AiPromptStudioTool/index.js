@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import styles from './styles.module.css';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
-import { loadPrompts, savePrompt, deletePrompt, SOURCE_TAGS, tagById } from './storage';
+import { loadPrompts, savePrompt, updatePrompt, deletePrompt, SOURCE_TAGS, tagById } from './storage';
 // ── Scoring Engine ──────────────────────────────────────────────────────────
 const DIMENSIONS = [
   { key: 'role',        label: 'Role / Persona',  color: '#818cf8' },
@@ -359,12 +359,15 @@ export default function AiPromptStudioTool() {
   const [shared, setShared]                 = useState(false);
   const [optCopied, setOptCopied]           = useState(false);
   const [saveMsg, setSaveMsg]               = useState('');
+  const [openId, setOpenId]                 = useState(null); // the saved prompt being edited: Save updates it instead of adding a copy
   const [copiedId, setCopiedId]             = useState('');   // library item copy feedback
   const [improved, setImproved]             = useState(false);
   const [undoStack, setUndoStack]           = useState([]);   // undo last improve/clear
   const [saveState, setSaveState]           = useState('idle');
 
   const textareaRef = useRef(null);
+  const openIdRef = useRef(null);
+  const handleUpdateRef = useRef(null);
   const hydrated    = useRef(false);
   const saveTimer   = useRef(null);
 
@@ -387,7 +390,7 @@ export default function AiPromptStudioTool() {
       // /ai-prompt-studio/?prompt=<id> (from My Projects) opens that saved prompt
       const want = new URLSearchParams(window.location.search).get('prompt');
       const hit = want && list.find(x => x.id === want);
-      if (hit) { setPrompt(hit.prompt); setTab('analyze'); }
+      if (hit) { setPrompt(hit.prompt); setOpenId(hit.id); setTab('analyze'); }
     });
     hydrated.current = true;
   }, []);
@@ -409,7 +412,7 @@ export default function AiPromptStudioTool() {
     function onKey(e) {
       const mod = e.ctrlKey || e.metaKey;
       if (mod && e.key === 'Enter') { e.preventDefault(); if (prompt.trim()) navigator.clipboard.writeText(prompt).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000); }); }
-      if (mod && e.key === 's')     { e.preventDefault(); if (prompt.trim()) { setShowSaveForm(true); setTimeout(() => document.querySelector('[data-save-input]')?.focus(), 50); } }
+      if (mod && e.key === 's')     { e.preventDefault(); if (prompt.trim()) { if (openIdRef.current) handleUpdateRef.current?.(); else { setShowSaveForm(true); setTimeout(() => document.querySelector('[data-save-input]')?.focus(), 50); } } }
       if (mod && e.key === 'z' && undoStack.length) { e.preventDefault(); const prev = undoStack[undoStack.length - 1]; setUndoStack(s => s.slice(0, -1)); setPrompt(prev); }
     }
     window.addEventListener('keydown', onKey);
@@ -461,6 +464,7 @@ export default function AiPromptStudioTool() {
     if (!prompt.trim()) return;
     pushUndo(prompt);
     setPrompt('');
+    setOpenId(null); // an emptied editor starts a new prompt
     textareaRef.current?.focus();
   }
 
@@ -497,6 +501,7 @@ export default function AiPromptStudioTool() {
     try {
       const entry = await savePrompt({ title, prompt, score: score.total, tag: 'own' });
       setSaved(prev => [entry, ...prev]);
+      setOpenId(entry.id); // from now on Save updates this one
       setSaveMsg('Saved!');
     } catch {
       setSaveMsg('Could not save: browser storage is blocked');
@@ -506,7 +511,26 @@ export default function AiPromptStudioTool() {
     setTimeout(() => setSaveMsg(''), 2000);
   }
 
+  /* Save while a saved prompt is open: replace its text and score, keep its title; it moves to the top of the library */
+  async function handleUpdate() {
+    if (!prompt.trim() || !openId) return;
+    try {
+      const entry = await updatePrompt(openId, { prompt, score: score.total });
+      if (!entry) { setOpenId(null); setShowSaveForm(true); setSaveMsg('That prompt was deleted, so save it as a new one'); setTimeout(() => setSaveMsg(''), 3000); return; }
+      setSaved(prev => [entry, ...prev.filter(x => x.id !== openId)]);
+      setSaveMsg('Updated!');
+    } catch {
+      setSaveMsg('Could not update: browser storage is blocked');
+    }
+    setShowSaveForm(false);
+    setTimeout(() => setSaveMsg(''), 2000);
+  }
+  // The keyboard shortcut (set up once) reads the latest of these through refs
+  openIdRef.current = openId;
+  handleUpdateRef.current = handleUpdate;
+
   async function handleDelete(id) {
+    if (id === openId) setOpenId(null);
     setSaved(prev => prev.filter(x => x.id !== id));
     try { await deletePrompt(id); } catch { /* the list already dropped it; a reload would show it again */ }
   }
@@ -579,7 +603,14 @@ export default function AiPromptStudioTool() {
               >
                 {improved ? '✓ Improved!' : '✦ Improve'}
               </button>
-              <button className={`${styles.btn} ${styles.btnGhost}`} onClick={() => setShowSaveForm(v => !v)} disabled={!hasPrompt}>Save</button>
+              {openId ? (
+                <>
+                  <button className={`${styles.btn} ${styles.btnGhost}`} onClick={handleUpdate} disabled={!hasPrompt} title="Save your changes to this saved prompt (Ctrl+S)">Update</button>
+                  <button className={`${styles.btn} ${styles.btnGhost}`} onClick={() => setShowSaveForm(v => !v)} disabled={!hasPrompt} title="Keep the saved prompt as it is and save this text as a new one">Save as new</button>
+                </>
+              ) : (
+                <button className={`${styles.btn} ${styles.btnGhost}`} onClick={() => setShowSaveForm(v => !v)} disabled={!hasPrompt}>Save</button>
+              )}
               <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={() => copyText(prompt, setCopied)} disabled={!hasPrompt}>{copied ? 'Copied!' : 'Copy'}</button>
             </div>
           </div>
@@ -811,7 +842,7 @@ export default function AiPromptStudioTool() {
                       <p className={styles.templatePreview}>{t.prompt.replace(/\n/g, ' ').slice(0, 110)}…</p>
                       <button
                         className={`${styles.btn} ${styles.btnSmall} ${styles.btnPrimary}`}
-                        onClick={() => { setPrompt(t.prompt); setTab('analyze'); }}
+                        onClick={() => { setPrompt(t.prompt); setOpenId(null); setTab('analyze'); }}
                       >Use Template →</button>
                     </div>
                   ))}
@@ -921,7 +952,7 @@ export default function AiPromptStudioTool() {
                         <div className={styles.savedActions}>
                           <button
                             className={`${styles.btn} ${styles.btnSmall} ${styles.btnPrimary}`}
-                            onClick={() => { setPrompt(item.prompt); setTab('analyze'); }}
+                            onClick={() => { setPrompt(item.prompt); setOpenId(item.id); setTab('analyze'); }}
                           >Load</button>
                           <button
                             className={`${styles.btn} ${styles.btnSmall} ${styles.btnGhost}`}

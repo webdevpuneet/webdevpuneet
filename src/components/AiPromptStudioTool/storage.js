@@ -55,6 +55,14 @@ export async function savePrompt({ title, prompt, score, tag = 'own' }) {
   return toEntry(rec);
 }
 
+/** Replaces the text and score of a saved prompt, keeping its title, tag and date created. Returns the entry, or null if it is gone. */
+export async function updatePrompt(id, { prompt, score }) {
+  const old = await promptStore.getDesign(id);
+  if (!old) return null;
+  const rec = await promptStore.saveDesign({ ...old, state: { ...(old.state || {}), prompt, score } });
+  return toEntry(rec);
+}
+
 export const deletePrompt = id => promptStore.deleteDesign(id);
 
 export async function getPrompt(id) {
