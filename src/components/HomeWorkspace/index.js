@@ -16,6 +16,8 @@ import { loadKit, kitIsSet } from '@/components/BrandKit';
 import { useAdFree } from '@/lib/use-ad-free';
 import { PremiumUnlockDialog } from '@/components/PremiumGate';
 import { PATREON_PRICE } from '@/lib/premium';
+import { readActivity } from '@/lib/activity-log';
+import ActivityHeatmap from './ActivityHeatmap';
 import st from './styles.module.css';
 
 const TOOLS = [
@@ -138,6 +140,7 @@ export default function HomeWorkspace() {
   const adFree = useAdFree();
   const [snippets, setSnippets] = useState(null);
   const [extra, setExtra] = useState({ favs: [], kit: false });
+  const [activity, setActivity] = useState({});
   const [pages, setPages] = useState({}); // the page shown in each kind's row
   const [recentPage, setRecentPage] = useState(0);
   const [unlockOpen, setUnlockOpen] = useState(false);
@@ -153,6 +156,7 @@ export default function HomeWorkspace() {
       try { const v = JSON.parse(localStorage.getItem(f.key) || '[]'); if (Array.isArray(v)) [...v].reverse().forEach(id => { if (typeof id === 'string') favs.push({ ...f, id }); }); } catch { /* ignore */ }
     }
     setExtra({ favs, kit: kitIsSet(loadKit()) });
+    setActivity(readActivity());
     return () => { live = false; window.removeEventListener('uis-custom-snippets-changed', load); };
   }, []);
 
@@ -160,7 +164,7 @@ export default function HomeWorkspace() {
   const all = useMemo(() => {
     const code = (snippets || []).map(sn => ({
       key: `code:${sn.id}`, type: 'code', name: sn.name || 'Untitled', sub: (sn.tags || []).join(', '),
-      updated: sn.updatedAt || sn.createdAt || '', href: `/ui-snippets/mycode/?id=${sn.id}`,
+      updated: sn.updatedAt || sn.createdAt || '', created: sn.createdAt || '', href: `/ui-snippets/mycode/?id=${sn.id}`,
       html: sn.html || '', css: sn.css || '',
     }));
     return [...code, ...projects].sort((a, b) => new Date(b.updated) - new Date(a.updated));
@@ -215,6 +219,9 @@ export default function HomeWorkspace() {
         {patreonPill}
       </div>
 
+      {/* One row: the tools and brand kit on the left, a year of saves (one square per day) on the right */}
+      <div className={st.topRow}>
+
       <div className={st.grid}>
         {/* Every tool with its saved count */}
         <div className={st.tools}>
@@ -240,6 +247,8 @@ export default function HomeWorkspace() {
           <span className={st.sideItem}>♥ {extra.favs.length} favourite template{extra.favs.length === 1 ? '' : 's'}</span>
           <a className={`${st.sideItem} ${st.sideLink}`} href={BOOKMARKED_HREF}>🔖 {bookmarks.length} bookmarked snippet{bookmarks.length === 1 ? '' : 's'}</a>
         </div>
+      </div>
+      <ActivityHeatmap items={all} log={activity} />
       </div>
 
       {/* The newest things saved, of any kind, above the per-kind rows, each with a picture of what was made */}

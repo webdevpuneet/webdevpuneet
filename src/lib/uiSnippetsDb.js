@@ -1,4 +1,5 @@
 /* — IndexedDB for My Code (custom snippets) — shared between UiSnippetsTool and Sidebar — */
+import { logActivity } from './activity-log';
 const DB_NAME    = 'ui_snippets_db';
 const DB_VERSION = 1;
 const STORE      = 'custom_snippets';
@@ -44,6 +45,7 @@ export async function dbPut(record) {
     req.onsuccess = () => resolve();
     req.onerror   = e => reject(e.target.error);
   });
+  logActivity(); // one save for the home page's activity heatmap
   notifyChanged();
 }
 

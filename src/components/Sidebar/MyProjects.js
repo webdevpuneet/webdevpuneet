@@ -63,7 +63,7 @@ export function useProjects() {
         const all = await src.store.listDesigns();
         return all.map(d => ({
           key: `${src.type}:${d.id}`, type: src.type, id: d.id, name: d.name || 'Untitled', sub: src.type === 'website' || src.type === 'prompt' ? '' : pretty(d.tpl),
-          updated: d.updated, thumb: d.thumb || null, cover: coverFor(src.type, d), design: d, href: src.href(d), setThumb: thumb => src.store.setThumb(d.id, thumb), remove: () => src.store.deleteDesign(d.id),
+          updated: d.updated, created: d.created || '', thumb: d.thumb || null, cover: coverFor(src.type, d), design: d, href: src.href(d), setThumb: thumb => src.store.setThumb(d.id, thumb), remove: () => src.store.deleteDesign(d.id),
         }));
       }));
       const items = lists.flat();

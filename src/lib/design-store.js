@@ -4,6 +4,8 @@
                { id, name, tpl, state, thumb?, created, updated }
    - autosave: what's open in each template, saved as you edit. { tpl, state, updated } */
 
+import { logActivity } from './activity-log';
+
 const STORE = 'designs';
 const AUTOSAVE = 'autosave';
 
@@ -78,6 +80,7 @@ export function makeDesignStore(dbName) {
       const now = new Date().toISOString();
       const full = { created: now, ...rec, id: rec.id || `d-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, updated: now };
       await run('readwrite', st => st.put(full));
+      logActivity(); // one save for the home page's activity heatmap
       changed();
       return full;
     },
