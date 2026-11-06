@@ -27,7 +27,7 @@ import ImageLibraryPicker from '@/components/ImageLibrary';
 import { addToLibrary } from '@/lib/image-library';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
-import { LOCK_BACKUP, isPremiumSocialTemplate } from '@/lib/premium';
+import { LOCK_BACKUP, LOCK_SOCIAL_VIDEO, isPremiumSocialTemplate } from '@/lib/premium';
 
 const LS_PREFIX = 'wdp-spt-v1:';
 const fmtBytes = n => (n >= 1048576 ? `${(n / 1048576).toFixed(2)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
@@ -172,7 +172,8 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
   const premiumUnlocked = usePremiumUnlocked();
   const [unlockOpen, setUnlockOpen] = useState(false);
   const backupLocked = LOCK_BACKUP && !premiumUnlocked;
-  const socialLocked = isPremiumSocialTemplate(t.id) && !premiumUnlocked; // Patreon-only template: Fork, Share and Export are locked
+  const videoLocked = LOCK_SOCIAL_VIDEO && !premiumUnlocked; // animated video export is for supporters on every template
+  const socialLocked = isPremiumSocialTemplate(t.id) && !premiumUnlocked; // Patreon-only template: Fork and Export are locked
   const [toast, setToast] = useState('');
   const [includeImages, setIncludeImages] = useState(true);
   const [video, setVideo] = useState({ style: 'rise', seconds: 6 }); // animated export options
@@ -573,53 +574,6 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
       flash(`Downloaded a ${video.seconds}s ${ext.toUpperCase()} video · ${fmtBytes(blob.size)}${ext === 'webm' ? '. Instagram needs MP4: convert it, or use Chrome to get MP4' : ''}`);
     } catch (err) {
       flash(err.name === 'AbortError' ? 'Video cancelled' : `Video export failed: ${err.message}`);
-    }
-    setVideoProg(null);
-    setBusy('');
-  };
-  /* Share to WhatsApp: the image or the animated video goes to the phone's share sheet (WhatsApp is in
-     the list). Desktop browsers can't attach files to WhatsApp, so the image is copied to the clipboard
-     and WhatsApp Web opens for a paste; if even that is blocked the file is downloaded. */
-  const shareToWhatsApp = async kind => {
-    setBusy('share');
-    try {
-      let file;
-      if (kind === 'video') {
-        const ctrl = new AbortController();
-        videoAbort.current = ctrl;
-        setVideoProg({ phase: 'render', pct: 0 });
-        const { blob, ext } = await renderVideo(st, design, {
-          seconds: video.seconds,
-          style: video.style,
-          signal: ctrl.signal,
-          onProgress: ({ phase, done, total }) => setVideoProg({ phase, pct: Math.round((done / total) * 100) }),
-        });
-        setVideoProg(null);
-        file = new File([blob], `${baseName}-${video.seconds}s.${ext}`, { type: blob.type || `video/${ext}` });
-      } else {
-        const blob = await renderImage(st, design, { format: 'png', quality: 0.92 });
-        file = new File([blob], `${baseName}.png`, { type: 'image/png' });
-      }
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        try {
-          await navigator.share({ files: [file], text: state.caption || undefined });
-        } catch (err) {
-          if (err.name === 'AbortError') { setBusy(''); return; }
-          if (err.name !== 'NotAllowedError') throw err;
-          saveBlob(file, file.name); // the browser wanted a fresh tap: keep the file instead
-          flash('Saved to your device. Open WhatsApp and attach it from your gallery');
-        }
-      } else if (kind === 'image' && navigator.clipboard?.write && window.ClipboardItem) {
-        await navigator.clipboard.write([new ClipboardItem({ 'image/png': file })]);
-        window.open('https://web.whatsapp.com/', '_blank', 'noopener');
-        flash('Image copied. Open a chat in WhatsApp Web and paste it (Ctrl+V)');
-      } else {
-        saveBlob(file, file.name);
-        window.open('https://web.whatsapp.com/', '_blank', 'noopener');
-        flash(`Saved ${file.name}. Attach it in WhatsApp`);
-      }
-    } catch (err) {
-      flash(err.name === 'AbortError' ? 'Video cancelled' : `Share failed: ${err.message}`);
     }
     setVideoProg(null);
     setBusy('');
@@ -1093,7 +1047,7 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                     ))}
                   </div>
                 </div>
-                <p className={s.hint}>For “Animated video” in Export ▾: text and photos animate in, then the design holds. Use the Story size for Reels and Stories.</p>
+                <p className={s.hint}>For “Animated video” in Export ▾: text and photos animate in, then the design holds. Use the Story size for Reels and Stories.{videoLocked ? ' Press Play to watch it here for free; downloading the video is for Patreon supporters.' : ''}</p>
               </>
             )}
             <label className={s.check}>
@@ -1160,16 +1114,6 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
               <>
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} title="Save this design as an editable HTML/CSS snippet in My Code (opens in a new tab)" />
               <ExportMenu
-                label="Share"
-                title="Share to WhatsApp"
-                head="Share to WhatsApp"
-                icon={<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-4M8.6 13.5l6.8 4"/></svg>}
-                options={[
-                  { icon: 'image', label: isCarousel ? `Share slide ${active + 1} as an image` : 'Share image', sub: 'PNG, sent to WhatsApp or any app you pick', onClick: () => shareToWhatsApp('image'), disabled: !!busy },
-                  ...(canVideo ? [{ icon: 'video', label: `Share animated video (${canVideo.ext.toUpperCase()})`, sub: canVideo.ext === 'mp4' ? `${video.seconds}s · for WhatsApp Status and chats` : 'WhatsApp can\'t play WebM: use Chrome for MP4', onClick: () => shareToWhatsApp('video'), disabled: !!busy }] : []),
-                ]}
-              />
-              <ExportMenu
                 head={isCarousel ? 'Export this carousel as…' : 'Export this post as…'}
                 options={[
                   { icon: 'image', label: isCarousel ? `Slide ${active + 1} as PNG` : 'Download PNG', sub: `${z.w}×${z.h} · sharpest text`, onClick: () => download('png'), disabled: !!busy },
@@ -1188,7 +1132,9 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                     ? { icon: 'file', label: busy === 'pdf' ? 'Making PDF…' : `Carousel as PDF (${state.slides.length} pages)`, sub: 'Upload to LinkedIn as a document post', onClick: downloadPdf, disabled: !!busy }
                     : { icon: 'file', label: busy === 'pdf' ? 'Making PDF…' : 'Download PDF', sub: `${z.w}×${z.h}, one page`, onClick: downloadPdf, disabled: !!busy },
                   ...(isCarousel ? [] : [{ icon: 'text', label: 'Bulk create from CSV…', sub: 'One post per spreadsheet row, as a ZIP', onClick: () => setBulkOpen(true), disabled: !!busy }]),
-                  ...(canVideo ? [{ icon: 'video', label: `Animated video (${canVideo.ext.toUpperCase()})`, sub: `${video.seconds}s · ${video.style} animation · for Reels, Stories and feeds`, onClick: downloadVideo, disabled: !!busy }] : []),
+                  ...(canVideo ? [videoLocked
+                    ? { icon: 'video', label: '🔒 Animated video (MP4)', sub: 'For Patreon supporters · click to enter the passcode', onClick: () => setUnlockOpen(true) }
+                    : { icon: 'video', label: `Animated video (${canVideo.ext.toUpperCase()})`, sub: `${video.seconds}s · ${video.style} animation · for Reels, Stories and feeds`, onClick: downloadVideo, disabled: !!busy }] : []),
                   { icon: 'html', label: 'Copy HTML', sub: 'The design as HTML and CSS', onClick: copyHtml },
                   { icon: 'file', label: 'Download .html', sub: 'A single self-contained HTML file', onClick: downloadHtml },
                 ]}

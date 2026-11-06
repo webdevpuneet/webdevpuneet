@@ -50,3 +50,4 @@ FILES
 ADDING ANOTHER PATREON-ONLY TEMPLATE: add its id to PREMIUM_TEMPLATE_IDS in patreon-settings.js.
 
 2026-11-06: Website Section Templates unlocked for everyone (LOCK_SECTION_EXPORT=false; section backup unlocked in SectionTemplates/index.js). Copy updated in section FAQs, PremiumGate and the sidebar Patreon popover.
+2026-11-06: Website templates online-course, coach, event added to PREMIUM_TEMPLATE_IDS (11 of 25). New LOCK_SOCIAL_VIDEO=true: animated video (MP4/WebM) download is Patreon-only on every social template (Play preview stays free). Social editor Share (WhatsApp) button removed; Export is the only menu.

@@ -21,9 +21,10 @@ export const PASSCODE_SHA256 = '7821824c1d41f265545f86184234ad7583250a859afb9bd5
 /* Website templates that are Patreon-only (ids). Their Export and Fork need the passcode. */
 export const PREMIUM_TEMPLATE_IDS = [
   'corporate', 'saas', 'agency', 'law-firm', 'real-estate', 'hotel', 'dental', 'product-store',
+  'online-course', 'coach', 'event',
 ];
 
-/* Social post templates that are Patreon-only (ids). Their Fork, Share and Export need the passcode. */
+/* Social post templates that are Patreon-only (ids). Their Fork and Export need the passcode. */
 export const PREMIUM_SOCIAL_TEMPLATE_IDS = [
   'cyber-monday', 'holiday-sale', 'giveaway', 'advent-calendar', 'five-star-review', 'year-in-review',
 ];
@@ -50,3 +51,7 @@ export const LOCK_SECTION_EXPORT = false;
 /* true: the Backup / Import-Export panel (download or restore all saved designs as a backup file) in the Website Builder, Email
    Templates and Social Post Templates editors is for supporters only. Website Section Templates are always free, backup included. */
 export const LOCK_BACKUP = true;
+
+/* true: in the Social Post Templates editor the animated video (MP4 / WebM) in Export is for supporters, on every
+   template. Play (the animated preview), PNG, JPG, PDF, ZIP, CSV bulk and HTML stay free. */
+export const LOCK_SOCIAL_VIDEO = true;

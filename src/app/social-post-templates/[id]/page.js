@@ -57,6 +57,7 @@ export default async function SocialPostTemplatePage({ params }) {
   const faqs = [
     ...seo.faqs,
     { q: `What sizes does the ${t.name} template export?`, a: `${SIZES.map(z => `${z.label} ${z.w}×${z.h} (${z.short}): ${z.note}`).join('. ')}. Switch sizes in the editor and the layout adapts, or click "All sizes (ZIP)" to download every size at once.` },
+    { q: `Can I download the ${t.name} post as a video?`, a: 'Press Play in the editor to watch the animation for free. Downloading it as an animated MP4 (or WebM) for Reels, Stories and WhatsApp Status is for Patreon supporters, who enter the supporter passcode once. PNG, JPG, PDF and HTML exports are free.' },
     { q: 'Can I make lots of posts at once?', a: `Yes. Choose Export, then "Bulk create from CSV", and paste rows from a spreadsheet or upload a CSV whose column names match the ${t.name} fields. Every row becomes one post, and you download them all as a ZIP.` },
     { q: 'Can I see how the post will look on Instagram or LinkedIn?', a: 'Yes. The preview switches between the plain design and mock-ups of an Instagram feed post, an Instagram Story, an X post and a LinkedIn post, using the name, handle and logo from your brand kit and the caption you type.' },
     { q: 'Can I use the HTML in my own project?', a: `Yes. "Copy HTML" and "Download .html" give you one self-contained file: the markup, all the CSS and links to the Google Fonts it uses. "Fork to My Code" saves an editable copy in the UI Snippets editor. The file records the template name and version (v${t.version}).` },

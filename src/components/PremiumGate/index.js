@@ -55,7 +55,7 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
       <form className={s.dialog} role="dialog" aria-modal="true" aria-labelledby="prem-title" onSubmit={submit}>
         <span className={s.lockIcon}>{LOCK}</span>
         <h2 id="prem-title" className={s.title}>Patreon supporters: no ads, plus premium exports</h2>
-        <p className={s.text}>Supporters ({PATREON_PRICE}) see no ads anywhere on the site and can export and fork the templates with a Patreon badge (website, email and social post). Everything else on the site stays free, including every website section template and building websites from them. {name ? `You can preview and edit ${name} freely without it. ` : ''}Patrons find the passcode in the latest supporter post on Patreon; it is remembered in this browser.</p>
+        <p className={s.text}>Supporters ({PATREON_PRICE}) see no ads anywhere on the site and can export and fork the templates with a Patreon badge (website, email and social post) and download social posts as animated videos. Everything else on the site stays free, including every website section template and building websites from them. {name ? `You can preview and edit ${name} freely without it. ` : ''}Patrons find the passcode in the latest supporter post on Patreon; it is remembered in this browser.</p>
         <a className={s.patreon} href={PATREON_URL} target="_blank" rel="noopener noreferrer">Get the passcode on Patreon</a>
         <label className={s.label} htmlFor="prem-code">Already a supporter? Enter the passcode</label>
         <div className={s.row}>
