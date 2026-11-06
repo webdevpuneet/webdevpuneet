@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useProjects, TYPES } from '@/components/Sidebar/MyProjects';
 import { dbGetAll as dbGetAllCustomSnippets } from '@/lib/uiSnippetsDb';
 import { useBookmarks, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
+import { SNIPPET_SEARCH_INDEX } from '@/lib/snippet-search-index';
 import { loadKit, kitIsSet } from '@/components/BrandKit';
 import { useAdFree } from '@/lib/use-ad-free';
 import { PremiumUnlockDialog } from '@/components/PremiumGate';
@@ -25,7 +26,38 @@ const TOOLS = [
   { type: 'code', label: 'My Code', sub: 'Snippets', href: '/ui-snippets/mycode/', icon: '/icons/my-code.svg' },
   { type: 'prompt', label: 'AI Prompts', sub: 'Saved prompts', href: '/ai-prompt-studio/', icon: '/icons/ai-prompt-studio.svg' },
 ];
-const FAV_KEYS = ['wb_tpl_favourites', 'tpl_fav_email', 'tpl_fav_social', 'tpl_fav_section'];
+const SNIPPET_TITLE = new Map(SNIPPET_SEARCH_INDEX.map(sn => [sn.id, sn.title]));
+/* Favourite templates (the heart on each gallery card), per library: where the list is kept, the card picture and the page */
+const FAVS = [
+  { key: 'wb_tpl_favourites', kind: 'Website', tint: '#0ea5e9', img: id => `/images/website-templates/thumb/${id}.jpg`, href: id => `/website-builder/templates/${id}/` },
+  { key: 'tpl_fav_email', kind: 'Email', tint: '#f59e0b', img: id => `/images/email-templates/previews/${id}.png`, href: id => `/email-templates/${id}/` },
+  { key: 'tpl_fav_social', kind: 'Post', tint: '#ec4899', img: id => `/images/social-post-templates/previews/${id}.png`, href: id => `/social-post-templates/${id}/` },
+  { key: 'tpl_fav_section', kind: 'Section', tint: '#10b981', img: id => `/images/section-templates/previews/${id}.png`, href: id => `/website-section-templates/${id}/` },
+];
+const prettyId = id => String(id).replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+const PAGE = 6; // cards per row; Next shows the following six
+const RECENT_MAX = 50; // Recently edited pages through at most this many
+
+/* The saved-design rows under Recently edited, one per kind, in this order (My Code and AI prompts get no row of their own) */
+const KIND_ROWS = [
+  { type: 'website', title: 'Saved websites' },
+  { type: 'section', title: 'Saved website sections' },
+  { type: 'email', title: 'Saved emails' },
+  { type: 'social', title: 'Saved social posts' },
+];
+
+/* "‹ 1–6 of 14 ›" for a row with more than one page */
+function Pager({ page, total, onPage }) {
+  if (total <= PAGE) return null;
+  const last = Math.ceil(total / PAGE) - 1;
+  return (
+    <span className={st.pager}>
+      <button type="button" className={st.pagerBtn} onClick={() => onPage(page - 1)} disabled={page === 0} aria-label="Previous six">‹</button>
+      <span>{page * PAGE + 1}–{Math.min(total, (page + 1) * PAGE)} of {total}</span>
+      <button type="button" className={st.pagerBtn} onClick={() => onPage(page + 1)} disabled={page >= last} aria-label="Next six">Next ›</button>
+    </span>
+  );
+}
 
 function ago(iso) {
   const t = new Date(iso).getTime();
@@ -87,12 +119,27 @@ function useMissingThumbs(items) {
   }, [items]);
 }
 
+/* One saved-design card (Recently edited and the per-kind rows) */
+const savedCard = i => (
+  <li key={i.key} className={st.stripItem}>
+    <a href={i.href} className={st.card} title={i.name}>
+      <span className={st.cardPic} style={{ '--tint': TYPES[i.type]?.tint }}>
+        <CardPicture item={i} />
+      </span>
+      <span className={st.cardName}>{i.name}</span>
+      <span className={st.cardMeta}><b style={{ color: TYPES[i.type]?.tint }}>{TYPES[i.type]?.label}</b> · {ago(i.updated)}</span>
+    </a>
+  </li>
+);
+
 export default function HomeWorkspace() {
   const projects = useProjects();
   const bookmarks = useBookmarks();
   const adFree = useAdFree();
   const [snippets, setSnippets] = useState(null);
-  const [extra, setExtra] = useState({ favs: 0, kit: false });
+  const [extra, setExtra] = useState({ favs: [], kit: false });
+  const [pages, setPages] = useState({}); // the page shown in each kind's row
+  const [recentPage, setRecentPage] = useState(0);
   const [unlockOpen, setUnlockOpen] = useState(false);
 
   useEffect(() => {
@@ -100,8 +147,11 @@ export default function HomeWorkspace() {
     const load = () => dbGetAllCustomSnippets().then(all => { if (live) setSnippets(all || []); }).catch(() => { if (live) setSnippets([]); });
     load();
     window.addEventListener('uis-custom-snippets-changed', load);
-    let favs = 0;
-    for (const k of FAV_KEYS) { try { const v = JSON.parse(localStorage.getItem(k) || '[]'); if (Array.isArray(v)) favs += v.length; } catch { /* ignore */ } }
+    // Each library adds new favourites at the end, so each list is read newest first
+    const favs = [];
+    for (const f of FAVS) {
+      try { const v = JSON.parse(localStorage.getItem(f.key) || '[]'); if (Array.isArray(v)) [...v].reverse().forEach(id => { if (typeof id === 'string') favs.push({ ...f, id }); }); } catch { /* ignore */ }
+    }
     setExtra({ favs, kit: kitIsSet(loadKit()) });
     return () => { live = false; window.removeEventListener('uis-custom-snippets-changed', load); };
   }, []);
@@ -116,8 +166,19 @@ export default function HomeWorkspace() {
     return [...code, ...projects].sort((a, b) => new Date(b.updated) - new Date(a.updated));
   }, [snippets, projects]);
 
-  const recentItems = useMemo(() => all.slice(0, 12), [all]);
-  useMissingThumbs(recentItems);
+  // Recently edited: the 50 newest of any kind, six at a time
+  const recentAll = useMemo(() => all.slice(0, RECENT_MAX), [all]);
+  const recentPageNow = Math.min(recentPage, Math.max(0, Math.ceil(recentAll.length / PAGE) - 1));
+  const recentItems = useMemo(() => recentAll.slice(recentPageNow * PAGE, recentPageNow * PAGE + PAGE), [recentAll, recentPageNow]);
+  // One row per kind of saved thing, newest first, six at a time (Next shows the following six)
+  const kindRows = useMemo(() => KIND_ROWS.map(k => {
+    const items = all.filter(i => i.type === k.type);
+    const page = Math.min(pages[k.type] || 0, Math.max(0, Math.ceil(items.length / PAGE) - 1));
+    return { ...k, items, page, shown: items.slice(page * PAGE, page * PAGE + PAGE) };
+  }).filter(k => k.items.length), [all, pages]);
+  // Thumbnails for whatever is on screen in any row
+  const onScreen = useMemo(() => [...new Map([...recentItems, ...kindRows.flatMap(k => k.shown)].map(i => [i.key, i])).values()], [recentItems, kindRows]);
+  useMissingThumbs(onScreen);
 
   if (snippets === null) return null; // still reading this browser's storage
   const patreonPill = adFree
@@ -141,7 +202,6 @@ export default function HomeWorkspace() {
   }
   const latest = all[0];
   const countOf = type => all.filter(i => i.type === type && i.id !== 'draft').length;
-  const lastOf = type => all.find(i => i.type === type);
   const strip = recentItems;
 
   return (
@@ -160,9 +220,8 @@ export default function HomeWorkspace() {
         <div className={st.tools}>
           {TOOLS.map(tl => {
             const n = countOf(tl.type);
-            const last = lastOf(tl.type);
             return (
-              <a key={tl.type} className={`${st.tool} ${n ? '' : st.toolEmpty}`} href={last && n ? last.href : tl.href} title={last ? `Last: ${last.name}` : `Open ${tl.label}`}>
+              <a key={tl.type} className={`${st.tool} ${n ? '' : st.toolEmpty}`} href={tl.href} title={`Open ${tl.label}`}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={tl.icon} alt="" width={22} height={22} className={st.toolIcon} />
                 <span className={st.toolText}>
@@ -178,28 +237,44 @@ export default function HomeWorkspace() {
         {/* Brand kit, favourites and bookmarks, stacked in the third column */}
         <div className={st.side}>
           <span className={`${st.sideItem} ${extra.kit ? st.chipOn : ''}`}>{extra.kit ? '✓ Brand kit set' : 'No brand kit yet'}</span>
-          <span className={st.sideItem}>♥ {extra.favs} favourite template{extra.favs === 1 ? '' : 's'}</span>
+          <span className={st.sideItem}>♥ {extra.favs.length} favourite template{extra.favs.length === 1 ? '' : 's'}</span>
           <a className={`${st.sideItem} ${st.sideLink}`} href={BOOKMARKED_HREF}>🔖 {bookmarks.length} bookmarked snippet{bookmarks.length === 1 ? '' : 's'}</a>
         </div>
       </div>
 
-      {/* The items before the newest, each with a picture: what you actually made, drawn from the saved design */}
+      {/* The newest things saved, of any kind, above the per-kind rows, each with a picture of what was made */}
       {strip.length > 0 && <div className={st.strip}>
-        <p className={st.activityTitle}>Recently edited</p>
+        <p className={st.activityTitle}>Recently edited <Pager page={recentPageNow} total={recentAll.length} onPage={setRecentPage} /></p>
+        <ul className={st.stripList}>{strip.map(savedCard)}</ul>
+      </div>}
+
+      {/* Bookmarked library snippets (newest bookmark first), with their gallery preview images */}
+      {bookmarks.length > 0 && <div className={st.strip}>
+        <p className={st.activityTitle}>Bookmarked snippets{bookmarks.length > 6 ? <> · <a href={BOOKMARKED_HREF} className={st.stripMore}>see all {bookmarks.length}</a></> : null}</p>
         <ul className={st.stripList}>
-          {strip.map(i => (
-            <li key={i.key} className={st.stripItem}>
-              <a href={i.href} className={st.card} title={i.name}>
-                <span className={st.cardPic} style={{ '--tint': TYPES[i.type]?.tint }}>
-                  <CardPicture item={i} />
+          {bookmarks.slice(0, 6).map(id => ({ id, title: SNIPPET_TITLE.get(id) || id.replace(/-/g, ' ') })).map(v => (
+            <li key={v.id} className={st.stripItem}>
+              <a href={`/ui-snippets/${v.id}/`} className={st.card} title={v.title}>
+                <span className={st.cardPic} style={{ '--tint': TYPES.code?.tint }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className={`${st.cardImg} ${st.cardImgContain}`} src={`/images/ui-snippets/previews/${v.id}.png`} alt="" loading="lazy" onError={e => { e.currentTarget.style.display = 'none'; }} />
                 </span>
-                <span className={st.cardName}>{i.name}</span>
-                <span className={st.cardMeta}><b style={{ color: TYPES[i.type]?.tint }}>{TYPES[i.type]?.label}</b> · {ago(i.updated)}</span>
+                <span className={st.cardName}>{v.title}</span>
+                <span className={st.cardMeta}><b style={{ color: TYPES.code?.tint }}>UI snippet</b> · bookmarked</span>
               </a>
             </li>
           ))}
         </ul>
       </div>}
+
+      {/* Then a row for each kind of saved thing */}
+      {kindRows.map(k => (
+        <div key={k.type} className={st.strip}>
+          <p className={st.activityTitle}>{k.title} <span className={st.rowCount}>{k.items.length}</span><Pager page={k.page} total={k.items.length} onPage={p => setPages(o => ({ ...o, [k.type]: p }))} /></p>
+          <ul className={st.stripList}>{k.shown.map(savedCard)}</ul>
+        </div>
+      ))}
+
 
       <PremiumUnlockDialog open={unlockOpen} onClose={() => setUnlockOpen(false)} />
     </section>
