@@ -13,7 +13,7 @@
 .patreonOn { cursor: default; color: var(--accent, #059669); background: color-mix(in srgb, var(--accent, #059669) 11%, transparent); }
 
 /* The tools and the heatmap side by side */
-.topRow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; align-items: stretch; }
+.topRow { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.5fr) minmax(0, 1fr); gap: 14px; align-items: stretch; }
 .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 
 .resume { display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 14px; text-decoration: none; color: var(--text); background: color-mix(in srgb, var(--accent, #059669) 9%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent, #059669) 30%, transparent); transition: border-color 0.15s, transform 0.15s; }
@@ -23,7 +23,7 @@
 .resumeMeta { font-size: 12px; color: var(--text2); }
 .resumeGo { margin-top: auto; padding-top: 10px; font: 800 13px var(--font-ui); color: var(--accent, #059669); }
 
-.tools { grid-column: span 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 8px; }
 .tool { display: flex; align-items: center; gap: 10px; padding: 9px 11px; border: 1px solid var(--border); border-radius: 12px; text-decoration: none; color: var(--text); background: var(--surface); transition: border-color 0.15s, background 0.15s; }
 .tool:hover { border-color: #6366f1; background: rgba(99, 102, 241, 0.05); }
 .toolEmpty { opacity: 0.7; }
@@ -78,13 +78,14 @@ a.chip:hover { border-color: #6366f1; color: #6366f1; }
 .heatHead { margin-bottom: 8px; }
 .heatTitle { margin: 0; font: 800 15px var(--font-ui); color: var(--text); }
 .heatStats { margin: 3px 0 0; font-size: 12.5px; color: var(--text2); }
-.heatBody { display: flex; gap: 6px; }
-.heatDays { display: grid; grid-template-rows: 16px repeat(7, 14px); row-gap: 4px; flex: none; font-size: 9.5px; line-height: 14px; color: var(--text2); }
-.heatScroll { min-width: 0; overflow-x: auto; scrollbar-width: thin; }
-.heatMonths { display: grid; grid-template-columns: repeat(26, 14px); column-gap: 4px; height: 16px; font-size: 9.5px; color: var(--text2); }
 .heatMonths span { white-space: nowrap; overflow: visible; }
-.heatGrid { display: grid; grid-template-rows: repeat(7, 14px); grid-auto-flow: column; grid-auto-columns: 14px; gap: 4px; width: max-content; }
-.heatCell { width: 14px; height: 14px; border-radius: 3px; background: color-mix(in srgb, var(--text2) 14%, transparent); }
+.heatBody { min-width: 0; }
+.heatMonths, .heatGrid { display: grid; grid-template-columns: 24px repeat(26, minmax(0, 1fr)); column-gap: 3px; }
+.heatMonths { height: 16px; font-size: 10px; color: var(--text2); }
+.heatGrid { grid-template-rows: repeat(7, auto); grid-auto-flow: column; row-gap: 3px; }
+.heatDay { align-self: center; font-size: 9.5px; color: var(--text2); }
+.heatCell { display: block; width: 100%; aspect-ratio: 1; max-height: 16px; border-radius: 3px; background: color-mix(in srgb, var(--text2) 14%, transparent); }
+.heatCellEmpty { display: block; }
 .heatCell[data-l="1"] { background: color-mix(in srgb, var(--accent, #059669) 30%, transparent); }
 .heatCell[data-l="2"] { background: color-mix(in srgb, var(--accent, #059669) 55%, transparent); }
 .heatCell[data-l="3"] { background: color-mix(in srgb, var(--accent, #059669) 78%, transparent); }
@@ -93,11 +94,12 @@ a.chip:hover { border-color: #6366f1; color: #6366f1; }
 /* The hovered day, in a dark bubble above its square */
 .heatTip { position: absolute; z-index: 3; transform: translate(-50%, calc(-100% - 8px)); padding: 6px 10px; border-radius: 8px; background: #1e293b; color: #f8fafc; font: 600 12px var(--font-ui); white-space: nowrap; pointer-events: none; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.25); }
 .heatTip::after { content: ''; position: absolute; left: 50%; top: 100%; margin-left: -5px; border: 5px solid transparent; border-top-color: #1e293b; }
-.heatCellEmpty { width: 14px; height: 14px; }
-.heatLegend { display: flex; align-items: center; justify-content: flex-end; gap: 3px; margin-top: 6px; font-size: 10.5px; color: var(--text2); }
-.heatLegend .heatCell { display: inline-block; width: 11px; height: 11px; }
+.heatFoot { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+.heatChips { display: flex; flex-wrap: wrap; gap: 6px; }
+.heatLegend { display: flex; align-items: center; justify-content: flex-end; gap: 3px; margin-left: auto; font-size: 10.5px; color: var(--text2); }
+.heatLegend .heatCell { display: inline-block; width: 11px; height: 11px; aspect-ratio: auto; }
 
-@media (max-width: 1100px) { .topRow { grid-template-columns: minmax(0, 1fr); } .grid { grid-template-columns: minmax(0, 1fr); } .tools { grid-column: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); } .side { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; } .sideItem { flex: 1 1 180px; } }
+@media (max-width: 1100px) { .topRow { grid-template-columns: minmax(0, 1fr); } .side { order: 3; } .grid { grid-template-columns: minmax(0, 1fr); } .tools { grid-column: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); } .side { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; } .sideItem { flex: 1 1 180px; } }
 @media (max-width: 680px) {
   .wrap { padding: 14px; width: calc(100% - 24px); }
   .grid { grid-template-columns: minmax(0, 1fr); }

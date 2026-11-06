@@ -221,9 +221,7 @@ export default function HomeWorkspace() {
 
       {/* One row: the tools and brand kit on the left, a year of saves (one square per day) on the right */}
       <div className={st.topRow}>
-
-      <div className={st.grid}>
-        {/* Every tool with its saved count */}
+        {/* Every tool with its saved count, two across */}
         <div className={st.tools}>
           {TOOLS.map(tl => {
             const n = countOf(tl.type);
@@ -241,14 +239,15 @@ export default function HomeWorkspace() {
           })}
         </div>
 
-        {/* Brand kit, favourites and bookmarks, stacked in the third column */}
+        {/* Brand kit, favourites and bookmarks, stacked between the tools and the heatmap */}
         <div className={st.side}>
           <span className={`${st.sideItem} ${extra.kit ? st.chipOn : ''}`}>{extra.kit ? '✓ Brand kit set' : 'No brand kit yet'}</span>
           <span className={st.sideItem}>♥ {extra.favs.length} favourite template{extra.favs.length === 1 ? '' : 's'}</span>
           <a className={`${st.sideItem} ${st.sideLink}`} href={BOOKMARKED_HREF}>🔖 {bookmarks.length} bookmarked snippet{bookmarks.length === 1 ? '' : 's'}</a>
         </div>
-      </div>
-      <ActivityHeatmap items={all} log={activity} />
+
+        {/* A year of saves, one square per day */}
+        <ActivityHeatmap items={all} log={activity} />
       </div>
 
       {/* The newest things saved, of any kind, above the per-kind rows, each with a picture of what was made */}

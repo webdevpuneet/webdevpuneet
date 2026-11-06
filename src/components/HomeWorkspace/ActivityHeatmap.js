@@ -4,7 +4,7 @@
    many things were saved that day. Counts come from this browser's save log (lib/activity-log) and, for days before the log
    existed, from when each saved design was created and last edited; a day shows the larger of the two. */
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { dayKey } from '@/lib/activity-log';
 import st from './styles.module.css';
 
@@ -16,12 +16,10 @@ const plural = (n, one) => `${n.toLocaleString()} ${one}${n === 1 ? '' : 's'}`;
 /**
  * @param items  saved things, each with `updated` and (optionally) `created` ISO dates
  * @param log    { 'YYYY-MM-DD': saves } from readActivity()
+ * @param children  shown at the bottom left, beside the legend (the workspace's brand kit / favourites / bookmarks chips)
  */
-export default function ActivityHeatmap({ items, log }) {
+export default function ActivityHeatmap({ items, log, children = null }) {
   const boxRef = useRef(null);
-  const scrollRef = useRef(null);
-  // Start scrolled to the newest weeks when the year does not fit
-  useEffect(() => { const el = scrollRef.current; if (el) el.scrollLeft = el.scrollWidth; }, []);
   const [tip, setTip] = useState(null); // { text, x, y } for the hovered day, in the card's own coordinates
   const data = useMemo(() => {
     // Days from the saved designs themselves: the day each was made and the day it was last edited
@@ -81,22 +79,24 @@ export default function ActivityHeatmap({ items, log }) {
           {plural(data.total, 'save')} in the last 6 months · {plural(data.active, 'active day')}{data.streak > 1 ? ` · ${data.streak}-day streak` : ''}
         </p>
       </div>
+      {/* Full width: the weeks share the card's width, and the day names are the grid's first column */}
       <div className={st.heatBody}>
-        <div className={st.heatDays} aria-hidden="true"><span /><span /><span>Mon</span><span /><span>Wed</span><span /><span>Fri</span><span /></div>
-        <div ref={scrollRef} className={st.heatScroll}>
-          <div className={st.heatMonths} aria-hidden="true">
-            {data.months.map(m => <span key={m.w} style={{ gridColumn: m.w + 1 }}>{m.name}</span>)}
-          </div>
-          <div className={st.heatGrid} onMouseOver={showTip} onMouseLeave={() => setTip(null)} role="img" aria-label={`Activity: ${plural(data.total, 'save')} on ${plural(data.active, 'day')} in the last 6 months`}>
+        <div className={st.heatMonths} aria-hidden="true">
+          {data.months.map(m => <span key={m.w} style={{ gridColumn: m.w + 2 }}>{m.name}</span>)}
+        </div>
+        <div className={st.heatGrid} onMouseOver={showTip} onMouseLeave={() => setTip(null)} role="img" aria-label={`Activity: ${plural(data.total, 'save')} on ${plural(data.active, 'day')} in the last 6 months`}>
+            {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((n, d) => <span key={`d${d}`} className={st.heatDay} aria-hidden="true">{n}</span>)}
             {data.weeks.flatMap((col, w) => col.map((c, d) => (c
               ? <span key={c.k} className={st.heatCell} data-l={level(c.n)} data-tip={c.label} />
               : <span key={`f${w}-${d}`} className={st.heatCellEmpty} />)))}
-          </div>
         </div>
       </div>
       {tip && <span className={st.heatTip} style={{ left: tip.x, top: tip.y }} role="tooltip">{tip.text}</span>}
-      <div className={st.heatLegend} aria-hidden="true">
+      <div className={st.heatFoot}>
+        <div className={st.heatChips}>{children}</div>
+        <div className={st.heatLegend} aria-hidden="true">
         Less {[0, 1, 2, 3, 4].map(l => <span key={l} className={st.heatCell} data-l={l} />)} More
+        </div>
       </div>
     </div>
   );
