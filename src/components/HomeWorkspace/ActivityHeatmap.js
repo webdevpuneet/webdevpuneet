@@ -16,9 +16,8 @@ const plural = (n, one) => `${n.toLocaleString()} ${one}${n === 1 ? '' : 's'}`;
 /**
  * @param items  saved things, each with `updated` and (optionally) `created` ISO dates
  * @param log    { 'YYYY-MM-DD': saves } from readActivity()
- * @param children  shown at the bottom left, beside the legend (the workspace's brand kit / favourites / bookmarks chips)
  */
-export default function ActivityHeatmap({ items, log, children = null }) {
+export default function ActivityHeatmap({ items, log }) {
   const boxRef = useRef(null);
   const [tip, setTip] = useState(null); // { text, x, y } for the hovered day, in the card's own coordinates
   const data = useMemo(() => {
@@ -74,10 +73,15 @@ export default function ActivityHeatmap({ items, log, children = null }) {
   return (
     <div ref={boxRef} className={st.heat}>
       <div className={st.heatHead}>
-        <p className={st.heatTitle}>Activity overview</p>
-        <p className={st.heatStats}>
+        <div>
+          <p className={st.heatTitle}>Activity overview</p>
+          <p className={st.heatStats}>
           {plural(data.total, 'save')} in the last 6 months · {plural(data.active, 'active day')}{data.streak > 1 ? ` · ${data.streak}-day streak` : ''}
         </p>
+        </div>
+        <div className={st.heatLegend} aria-hidden="true">
+        Less {[0, 1, 2, 3, 4].map(l => <span key={l} className={st.heatCell} data-l={l} />)} More
+        </div>
       </div>
       {/* Full width: the weeks share the card's width, and the day names are the grid's first column */}
       <div className={st.heatBody}>
@@ -92,12 +96,6 @@ export default function ActivityHeatmap({ items, log, children = null }) {
         </div>
       </div>
       {tip && <span className={st.heatTip} style={{ left: tip.x, top: tip.y }} role="tooltip">{tip.text}</span>}
-      <div className={st.heatFoot}>
-        <div className={st.heatChips}>{children}</div>
-        <div className={st.heatLegend} aria-hidden="true">
-        Less {[0, 1, 2, 3, 4].map(l => <span key={l} className={st.heatCell} data-l={l} />)} More
-        </div>
-      </div>
     </div>
   );
 }
