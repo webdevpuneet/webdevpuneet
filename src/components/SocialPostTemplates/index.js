@@ -140,7 +140,7 @@ export function TemplateGalleryPage({ previews = [] }) {
 
 /* A saved design drawn live from its template (first slide for carousels), fitted to a
    4:5 card the way the gallery cards are */
-function SavedDesignPreview({ design: d, width }) {
+export function SavedDesignPreview({ design: d, width }) {
   const sl = d.state?.slides?.[0];
   const tt = templateById(sl?.tpl) || templateById(d.tpl);
   const state = useMemo(() => (sl ? {

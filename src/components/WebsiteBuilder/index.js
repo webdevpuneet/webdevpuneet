@@ -57,6 +57,7 @@ import { analyse, livePatch } from '@/components/SectionTemplates/live-patch';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
 import { LOCK_BACKUP } from '@/lib/premium';
+import { siteThumb } from './saved-thumb';
 import { putAsset, getAsset } from '@/components/SectionTemplates/storage';
 import { addToLibrary } from '@/lib/image-library';
 import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from '@/components/SectionTemplates/upload';
@@ -1246,7 +1247,7 @@ ${pageCss(shown, { fontFaces })}`),
     try {
       const nm = name.trim() || site.name;
       const next = { ...site, name: nm };
-      const rec = await store.saveDesign({ name: nm, tpl: 'site', state: next });
+      const rec = await store.saveDesign({ name: nm, tpl: 'site', state: next, thumb: (await siteThumb(next)) || undefined });
       setSiteRaw(next);
       savedJson.current = JSON.stringify(next);
       setCurrent({ id: rec.id, name: rec.name });
@@ -1260,7 +1261,7 @@ ${pageCss(shown, { fontFaces })}`),
     setBusy('save');
     try {
       const old = await store.getDesign(current.id).catch(() => null);
-      await store.saveDesign({ ...(old || {}), id: current.id, name: site.name, tpl: 'site', state: site });
+      await store.saveDesign({ ...(old || {}), id: current.id, name: site.name, tpl: 'site', state: site, thumb: (await siteThumb(site)) || undefined });
       savedJson.current = JSON.stringify(site);
       setCurrent({ id: current.id, name: site.name });
       setJustSaved(true); setTimeout(() => setJustSaved(false), 1500);

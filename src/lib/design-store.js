@@ -81,6 +81,13 @@ export function makeDesignStore(dbName) {
       changed();
       return full;
     },
+    /* Adds or replaces just the thumbnail of a saved design; its updated time stays as it was */
+    async setThumb(id, thumb) {
+      const d = await api.getDesign(id);
+      if (!d || !thumb) return;
+      await run('readwrite', st => st.put({ ...d, thumb }));
+      changed();
+    },
     async deleteDesign(id) { await run('readwrite', st => st.delete(id)); changed(); },
     async duplicateDesign(id) {
       const d = await api.getDesign(id);

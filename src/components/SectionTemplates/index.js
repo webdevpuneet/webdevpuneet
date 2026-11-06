@@ -8,6 +8,7 @@ import x from './styles.module.css';
 import { AddToPageMenu, ExportMenu, ForkButton, FullscreenButton, HistoryButtons, SaveButton, AiPromptButton } from '@/components/ToolbarActions';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
+import { htmlThumb } from '@/lib/html-thumb';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
 import { LOCK_SECTION_EXPORT } from '@/lib/premium';
@@ -236,6 +237,22 @@ function SectionCategoryLinks({ active = null }) {
 
 /* A saved design rendered live (its uploaded images loaded from IndexedDB). Rendered with
    clean: false, so a custom section's JavaScript and HTML-block scripts never run in a thumbnail. */
+/* A small picture (a data: URL) of a saved section design, kept with the design when it is saved (see emailThumb) */
+export async function sectionThumb(d) {
+  const t = sectionTemplateById(d.tpl);
+  if (!t) return '';
+  const made = [];
+  try {
+    const urls = {};
+    for (const [k, u] of Object.entries(d.state?.uploads || {})) {
+      try { const rec = await getAsset(u.id); if (rec?.blob) { const url = URL.createObjectURL(rec.blob); made.push(url); urls[k] = url; } } catch { /* missing */ }
+    }
+    const st = restoreSectionState(t, d.state);
+    const html = previewImages(documentHtml(t, st, { imageSrc: k => urls[k] || '', motion: false, clean: false }), window.location.origin);
+    return await htmlThumb(html, { width: 1280, height: 800 });
+  } catch { return ''; } finally { made.forEach(u => URL.revokeObjectURL(u)); }
+}
+
 export function SavedSectionPreview({ design: d, width }) {
   const t = sectionTemplateById(d.tpl);
   const [origin, setOrigin] = useState('');
@@ -652,7 +669,7 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
   const saveNewDesign = async name => {
     setBusy('save');
     try {
-      const rec = await designStore.saveDesign({ name: name.trim() || t.name, tpl: t.id, state });
+      const rec = await designStore.saveDesign({ name: name.trim() || t.name, tpl: t.id, state, thumb: (await sectionThumb({ tpl: t.id, state })) || undefined });
       savedJson.current = JSON.stringify(state);
       setCurrentDesign({ id: rec.id, name: rec.name });
       flash(`Saved “${rec.name}” to My designs`);
@@ -665,7 +682,7 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
     setBusy('save');
     try {
       const old = await designStore.getDesign(currentDesign.id).catch(() => null);
-      await designStore.saveDesign({ ...(old || {}), id: currentDesign.id, name: currentDesign.name, tpl: t.id, state });
+      await designStore.saveDesign({ ...(old || {}), id: currentDesign.id, name: currentDesign.name, tpl: t.id, state, thumb: (await sectionThumb({ tpl: t.id, state })) || undefined });
       savedJson.current = JSON.stringify(state);
       setJustSaved(true); setTimeout(() => setJustSaved(false), 1500);
     } catch (err) { flash(`Couldn't save: ${err.message}`); }

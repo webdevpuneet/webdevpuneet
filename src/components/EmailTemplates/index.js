@@ -9,6 +9,7 @@ import { AiPromptButton, ExportMenu, ForkButton, FullscreenButton, HistoryButton
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import { emailDesignStore } from './designs';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
+import { htmlThumb } from '@/lib/html-thumb';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton, PremiumBadge } from '@/components/PremiumGate';
 import { LOCK_BACKUP, isPremiumEmailTemplate } from '@/lib/premium';
@@ -250,7 +251,24 @@ function EmailCategoryLinks({ active = null }) {
 
 /* A saved email design rendered from its template code: the real email HTML, with
    images uploaded in the editor loaded from IndexedDB */
-function SavedEmailPreview({ design: d, width }) {
+/* A small picture (a data: URL) of a saved email design, kept with the design when it is saved: the home page and the sidebar
+   show it instead of drawing the whole email again. '' if it could not be drawn. */
+export async function emailThumb(d) {
+  const t = emailTemplateById(d.tpl);
+  if (!t) return '';
+  const made = [];
+  try {
+    const urls = {};
+    for (const [k, u] of Object.entries(d.state?.uploads || {})) {
+      try { const rec = await getAsset(u.id); if (rec?.blob) { const url = URL.createObjectURL(rec.blob); made.push(url); urls[k] = url; } } catch { /* missing */ }
+    }
+    const st = restoreEmail(t, d.state);
+    const html = previewImages(sampleMergePlain(t.build({ ...st, fields: { ...st.fields, ...urls } })), window.location.origin);
+    return await htmlThumb(html, { width: 640, height: 400 });
+  } catch { return ''; } finally { made.forEach(u => URL.revokeObjectURL(u)); }
+}
+
+export function SavedEmailPreview({ design: d, width }) {
   const t = emailTemplateById(d.tpl);
   const [origin, setOrigin] = useState('');
   const [urls, setUrls] = useState({});
@@ -1098,7 +1116,7 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
   const saveNewDesign = async name => {
     setBusy('save');
     try {
-      const rec = await designStore.saveDesign({ name: name.trim() || t.name, tpl: t.id, state });
+      const rec = await designStore.saveDesign({ name: name.trim() || t.name, tpl: t.id, state, thumb: (await emailThumb({ tpl: t.id, state })) || undefined });
       savedJson.current = JSON.stringify(state);
       setCurrentDesign({ id: rec.id, name: rec.name });
       flash(`Saved “${rec.name}” to My designs`);
@@ -1110,7 +1128,7 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
     setBusy('save');
     try {
       const old = await designStore.getDesign(currentDesign.id);
-      await designStore.saveDesign({ ...(old || {}), id: currentDesign.id, name: currentDesign.name, tpl: t.id, state });
+      await designStore.saveDesign({ ...(old || {}), id: currentDesign.id, name: currentDesign.name, tpl: t.id, state, thumb: (await emailThumb({ tpl: t.id, state })) || undefined });
       savedJson.current = JSON.stringify(state);
       flash(`Updated “${currentDesign.name}”`);
     } catch (err) { flash(`Couldn't save the design: ${err.message}`); }

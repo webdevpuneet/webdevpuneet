@@ -37,6 +37,20 @@ const getStores = () => {
 };
 
 const pretty = tpl => String(tpl || '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+/* A picture for a saved item when it has no thumbnail of its own: the template's preview image, or for a website the preview of
+   its first real section (after the navbar). Used by the home page's Recent strip. */
+const COVER_DIR = { social: 'social-post-templates', email: 'email-templates', section: 'section-templates' };
+function coverFor(type, d) {
+  if (d.thumb) return d.thumb;
+  if (COVER_DIR[type] && d.tpl) return `/images/${COVER_DIR[type]}/previews/${d.tpl}.png`;
+  if (type === 'website') {
+    const st = d.state || {};
+    const secs = (st.pages?.[0]?.sections?.length ? st.pages[0].sections : st.sections) || [];
+    const pick = secs.find(x => x?.tpl && !/nav|header|topbar/i.test(x.tpl)) || secs[0];
+    if (pick?.tpl) return `/images/section-templates/previews/${pick.tpl}.png`;
+  }
+  return null;
+}
 const siteHasContent = st => !!(st && ((st.pages || []).some(p => (p.sections || []).length) || (st.sections || []).length));
 
 /* Every saved design of the four tools, plus the website being built. Refreshes when anything is saved
@@ -49,7 +63,7 @@ export function useProjects() {
         const all = await src.store.listDesigns();
         return all.map(d => ({
           key: `${src.type}:${d.id}`, type: src.type, id: d.id, name: d.name || 'Untitled', sub: src.type === 'website' || src.type === 'prompt' ? '' : pretty(d.tpl),
-          updated: d.updated, thumb: d.thumb || null, href: src.href(d), remove: () => src.store.deleteDesign(d.id),
+          updated: d.updated, thumb: d.thumb || null, cover: coverFor(src.type, d), design: d, href: src.href(d), setThumb: thumb => src.store.setThumb(d.id, thumb), remove: () => src.store.deleteDesign(d.id),
         }));
       }));
       const items = lists.flat();
@@ -60,7 +74,7 @@ export function useProjects() {
       if (draft && siteHasContent(draft.state)) {
         const name = draft.state.name || 'My website';
         if (!items.some(i => i.type === 'website' && i.name === name)) {
-          items.push({ key: 'website:draft', type: 'website', id: 'draft', name, sub: 'In progress', updated: draft.updated, thumb: null, href: '/website-builder/editor/', remove: () => web.store.clearAutosave(WEBSITE_DRAFT) });
+          items.push({ key: 'website:draft', type: 'website', id: 'draft', name, sub: 'In progress', updated: draft.updated, thumb: null, cover: coverFor('website', { state: draft.state }), design: { state: draft.state }, href: '/website-builder/editor/', remove: () => web.store.clearAutosave(WEBSITE_DRAFT) });
         }
       }
       setProjects(items);

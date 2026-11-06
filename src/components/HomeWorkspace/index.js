@@ -2,8 +2,8 @@
 
 /* "Your workspace" on the home page, above the hero. A visitor with nothing saved yet sees one slim row (a welcome and
    their Patreon status); once something is saved the full card appears.
-   One card with: where to pick up again, every tool with how many things are saved in it, the latest activity across
-   all tools, and the visitor's brand kit, favourites, bookmarks and Patreon status. Everything is read from this
+   One card with: every tool with how many things are saved in it, a strip of the newest
+   saved items, each with a picture of what was made, and the visitor's brand kit, favourites, bookmarks and Patreon status. Everything is read from this
    browser's own storage (the same sources as the sidebar's projects: lib/design-store, uiSnippetsDb, localStorage);
    nothing is sent anywhere. */
 
@@ -40,6 +40,53 @@ function ago(iso) {
   return new Date(t).toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
 }
 
+/* The picture on a Recent card. A snippet from My Code is drawn live from its own HTML and CSS in a small sandboxed frame
+   (no scripts run, nothing can be clicked); everything else uses its thumbnail or template preview, and falls back to a
+   tinted tile with the type's icon when there is no image or it fails to load. */
+/* The picture on a Recently edited card: the design's own saved thumbnail (a data: URL kept with it when it was saved, the way a
+   social post does), else the template's preview, else a tinted tile with the type's icon. A snippet from My Code is drawn live
+   from its own HTML and CSS in a small sandboxed frame (no scripts run, nothing can be clicked). */
+function CardPicture({ item }) {
+  const [broken, setBroken] = useState(false);
+  if (item.type === 'code' && (item.html || item.css)) {
+    const doc = `<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:#fff;font-family:system-ui,sans-serif}${item.css}</style>${item.html}`;
+    return <iframe className={st.cardFrame} title="" srcDoc={doc} sandbox="" loading="lazy" tabIndex={-1} aria-hidden="true" />;
+  }
+  if (item.cover && !broken) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img className={st.cardImg} src={item.cover} alt="" loading="lazy" onError={() => setBroken(true)} />;
+  }
+  return <span className={st.cardIcon} aria-hidden="true">{TYPES[item.type]?.icon}</span>;
+}
+
+/* Designs saved before thumbnails existed have none. Draw one for each, once, in the background (the editor's own code is loaded
+   only then) and keep it with the design, so the next visit shows it straight away. A design that cannot be drawn is not retried. */
+const THUMB_MAKERS = {
+  email: () => import('@/components/EmailTemplates').then(m => m.emailThumb),
+  section: () => import('@/components/SectionTemplates').then(m => m.sectionThumb),
+  website: () => import('@/components/WebsiteBuilder/saved-thumb').then(m => d => m.siteThumb(d.state)),
+};
+const thumbTried = new Set();
+function useMissingThumbs(items) {
+  useEffect(() => {
+    const todo = items.filter(i => THUMB_MAKERS[i.type] && !i.thumb && i.design && i.setThumb && i.id !== 'draft' && !thumbTried.has(i.key));
+    if (!todo.length) return undefined;
+    let live = true;
+    (async () => {
+      for (const i of todo) {
+        if (!live) return;
+        thumbTried.add(i.key);
+        try {
+          const make = await THUMB_MAKERS[i.type]();
+          const thumb = await make(i.design);
+          if (thumb && live) await i.setThumb(thumb);
+        } catch { /* keep the template preview */ }
+      }
+    })();
+    return () => { live = false; };
+  }, [items]);
+}
+
 export default function HomeWorkspace() {
   const projects = useProjects();
   const bookmarks = useBookmarks();
@@ -64,9 +111,13 @@ export default function HomeWorkspace() {
     const code = (snippets || []).map(sn => ({
       key: `code:${sn.id}`, type: 'code', name: sn.name || 'Untitled', sub: (sn.tags || []).join(', '),
       updated: sn.updatedAt || sn.createdAt || '', href: `/ui-snippets/mycode/?id=${sn.id}`,
+      html: sn.html || '', css: sn.css || '',
     }));
     return [...code, ...projects].sort((a, b) => new Date(b.updated) - new Date(a.updated));
   }, [snippets, projects]);
+
+  const recentItems = useMemo(() => all.slice(0, 12), [all]);
+  useMissingThumbs(recentItems);
 
   if (snippets === null) return null; // still reading this browser's storage
   const patreonPill = adFree
@@ -91,7 +142,7 @@ export default function HomeWorkspace() {
   const latest = all[0];
   const countOf = type => all.filter(i => i.type === type && i.id !== 'draft').length;
   const lastOf = type => all.find(i => i.type === type);
-  const recent = all.slice(0, 6);
+  const strip = recentItems;
 
   return (
     <section className={st.wrap} aria-labelledby="ws-title">
@@ -99,22 +150,12 @@ export default function HomeWorkspace() {
         <div>
           <p className={st.eyebrow}>Your workspace</p>
           <h2 id="ws-title" className={st.title}>Welcome back</h2>
-          <p className={st.sub}>{all.length} {all.length === 1 ? 'thing' : 'things'} saved in this browser · last edit {ago(latest.updated)}</p>
+          <p className={st.sub}>{all.length} {all.length === 1 ? 'thing' : 'things'} saved in this browser · last edit {ago(latest.updated)} · Use Backup in each tool to keep a copy</p>
         </div>
         {patreonPill}
       </div>
 
       <div className={st.grid}>
-        {/* Pick up where you left off */}
-        <a className={st.resume} href={latest.href}>
-          <span className={st.resumeLabel}>Pick up where you left off</span>
-          <span className={st.resumeName}>{latest.name}</span>
-          <span className={st.resumeMeta}>
-            <b style={{ color: TYPES[latest.type]?.tint }}>{TYPES[latest.type]?.label}</b>{latest.sub ? ` · ${latest.sub}` : ''} · {ago(latest.updated)}
-          </span>
-          <span className={st.resumeGo}>Continue →</span>
-        </a>
-
         {/* Every tool with its saved count */}
         <div className={st.tools}>
           {TOOLS.map(tl => {
@@ -134,29 +175,31 @@ export default function HomeWorkspace() {
           })}
         </div>
 
-        {/* Latest activity across all tools */}
-        <div className={st.activity}>
-          <p className={st.activityTitle}>Recent activity</p>
-          <ol className={st.activityList}>
-            {recent.map(i => (
-              <li key={i.key}>
-                <a href={i.href} className={st.activityItem}>
-                  <span className={st.dot} style={{ background: TYPES[i.type]?.tint }} aria-hidden="true" />
-                  <span className={st.activityName}>{i.name}</span>
-                  <span className={st.activityWhen}>{ago(i.updated)}</span>
-                </a>
-              </li>
-            ))}
-          </ol>
+        {/* Brand kit, favourites and bookmarks, stacked in the third column */}
+        <div className={st.side}>
+          <span className={`${st.sideItem} ${extra.kit ? st.chipOn : ''}`}>{extra.kit ? '✓ Brand kit set' : 'No brand kit yet'}</span>
+          <span className={st.sideItem}>♥ {extra.favs} favourite template{extra.favs === 1 ? '' : 's'}</span>
+          <a className={`${st.sideItem} ${st.sideLink}`} href={BOOKMARKED_HREF}>🔖 {bookmarks.length} bookmarked snippet{bookmarks.length === 1 ? '' : 's'}</a>
         </div>
       </div>
 
-      <div className={st.chips}>
-        <span className={`${st.chip} ${extra.kit ? st.chipOn : ''}`}>{extra.kit ? '✓ Brand kit set' : 'No brand kit yet'}</span>
-        <span className={st.chip}>♥ {extra.favs} favourite template{extra.favs === 1 ? '' : 's'}</span>
-        <a className={st.chip} href={BOOKMARKED_HREF}>🔖 {bookmarks.length} bookmarked snippet{bookmarks.length === 1 ? '' : 's'}</a>
-        <span className={st.chipNote}>Saved only in this browser. Use Backup in each tool to keep a copy.</span>
-      </div>
+      {/* The items before the newest, each with a picture: what you actually made, drawn from the saved design */}
+      {strip.length > 0 && <div className={st.strip}>
+        <p className={st.activityTitle}>Recently edited</p>
+        <ul className={st.stripList}>
+          {strip.map(i => (
+            <li key={i.key} className={st.stripItem}>
+              <a href={i.href} className={st.card} title={i.name}>
+                <span className={st.cardPic} style={{ '--tint': TYPES[i.type]?.tint }}>
+                  <CardPicture item={i} />
+                </span>
+                <span className={st.cardName}>{i.name}</span>
+                <span className={st.cardMeta}><b style={{ color: TYPES[i.type]?.tint }}>{TYPES[i.type]?.label}</b> · {ago(i.updated)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>}
 
       <PremiumUnlockDialog open={unlockOpen} onClose={() => setUnlockOpen(false)} />
     </section>
