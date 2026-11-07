@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { CATEGORY_SEO } from '@/lib/snippet-category-seo';
 import SeoSection from '@/components/SeoSection';
 import LandingPageStart, { StartTemplateButtons } from './LandingPageStart';
+import SnippetIndex from './SnippetIndex';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
@@ -810,6 +811,7 @@ export default async function UiSnippetSlugPage({ params }) {
             useCases={content.useCases}
             faqs={content.faqs}
             injectAfterAiPrompt={slug === 'navigation' ? <NavbarBuilderPromo heading="Build a complete responsive navbar visually" /> : undefined}
+            bottomExtra={<SnippetIndex label={(CATEGORIES.find(c => c.id === slug)?.label || slug).toLowerCase()} items={VISIBLE_SNIPPETS.filter(sn => sn.category === slug)} />}
           />
         </IndexOnly>
       </>
