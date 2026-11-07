@@ -111,3 +111,11 @@ Format: date · area · suggested / chosen / done · note
            dots, tabs + breadcrumb + code preview with a tiny tokenizer, indent guides, expand/collapse all, type-ahead, ARIA tree roles. Fixed a bug in the old
            version: chevrons were created with createElement("svg") so they never drew. SEO text, both AI prompts and preview image redone; title 58 chars,
            description 157. 33 headless-Chromium checks pass (animation, keyboard, filter, tabs, theme, phone). Not deployed.
+2026-11-07 · ui snippets · done · liquid-glass-navbar rebuilt: floating glass tab bar over a live app screen; mask-composite bevel rim + pointer rim/sheen; liquid pill that stretches and
+           squashes between tabs (FLIP played with Web Animations, per-keyframe easing, interrupt-safe); scene + pill colours blend through @property; 5 icon tabs with
+           screen copy, 3 wallpapers, arrow-key tablist, icon-only phone mode with ResizeObserver, reduced-motion safe. SEO text, both AI prompts and preview image
+           redone; title 52 chars, description 158. 21 headless-Chromium checks pass. Not deployed.
+2026-11-07 · ui snippets · done · blackjack-card-game rebuilt as a casino table: real card faces from HTML/CSS (corner indexes, pips, court cards), 3D hole-card flip, cards fly from a
+           6-deck shoe with FLIP re-spacing, chips + bankroll with 3:2 blackjack / 1:1 / push payouts, double down, dealer peek + stands on all 17s, basic-strategy hint with
+           reasons, saved chips in localStorage, keyboard play, first-time visitors start with a dealt hand. Fixed an old rules bug (blackjack vs blackjack scored as a win;
+           now a push). SEO text, both AI prompts and preview redone; title 59 chars, description 153. 48 headless-Chromium checks pass (rules, payouts, strategy, UI, phone). Not deployed.

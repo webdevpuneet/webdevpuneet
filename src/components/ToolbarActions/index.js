@@ -177,9 +177,24 @@ export function ForkButton({ onClick, busy = false, disabled = false, title = 'S
 export function FullscreenButton() {
   const [on, setOn] = useState(false);
   const [can, setCan] = useState(false);
+  const wasFull = useRef(false);        // were we in full screen a moment ago? (to spot entering and leaving)
+  const sidebarWasShut = useRef(false); // was the site's left sidebar already collapsed when full screen began?
   useEffect(() => {
     setCan(!!document.documentElement.requestFullscreen);
-    const sync = () => setOn(!!document.fullscreenElement);
+    // Full screen is for working, so it folds the left sidebar away and brings it back on leaving, unless the
+    // sidebar was already collapsed. This runs on the real fullscreenchange event, so Esc and F11 restore it too.
+    const askSidebar = shut => { try { window.dispatchEvent(new CustomEvent('sidebar-collapse-request', { detail: shut })); } catch { /* ignore */ } };
+    const sync = () => {
+      const now = !!document.fullscreenElement;
+      setOn(now);
+      if (now && !wasFull.current) {
+        sidebarWasShut.current = document.body.classList.contains('sidebar-left-collapsed');
+        if (!sidebarWasShut.current) askSidebar(true);
+      } else if (!now && wasFull.current && !sidebarWasShut.current) {
+        askSidebar(false);
+      }
+      wasFull.current = now;
+    };
     sync();
     document.addEventListener('fullscreenchange', sync);
     return () => document.removeEventListener('fullscreenchange', sync);

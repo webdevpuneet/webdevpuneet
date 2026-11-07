@@ -810,8 +810,8 @@ export default async function UiSnippetSlugPage({ params }) {
             features={content.features}
             useCases={content.useCases}
             faqs={content.faqs}
-            injectAfterAiPrompt={slug === 'navigation' ? <NavbarBuilderPromo heading="Build a complete responsive navbar visually" /> : undefined}
-            bottomExtra={<SnippetIndex label={(CATEGORIES.find(c => c.id === slug)?.label || slug).toLowerCase()} items={VISIBLE_SNIPPETS.filter(sn => sn.category === slug)} />}
+            injectAfterAiPrompt={slug === 'navigation' ? <NavbarBuilderPromo key="navbar-promo" heading="Build a complete responsive navbar visually" /> : undefined}
+            bottomExtra={<SnippetIndex key="snippet-index" label={(CATEGORIES.find(c => c.id === slug)?.label || slug).toLowerCase()} items={VISIBLE_SNIPPETS.filter(sn => sn.category === slug)} />}
           />
         </IndexOnly>
       </>
@@ -975,7 +975,7 @@ Requirements:
   // About/FAQ and AI content before the raw code.
   // Related Snippets stay put, above.
   const sourceCodeBlock = (
-    <div>
+    <div key="source-code">
       <div className={styles.sourceCodeHeader}>
         <h2 className={styles.sourceCodeTitle}>Source Code</h2>
         <SnippetExportButton id={sn.id} title={sn.title} html={sn.html} css={sn.css} js={sn.js || ''} cdnUrls={sn.cdnUrls || []} />
@@ -1029,12 +1029,12 @@ Requirements:
           </div>
         }
         injectAfterAiPrompt={start
-          ? <LandingPageStart start={start} sections={sn.seo.sectionsUsed} />
+          ? <LandingPageStart key="landing-start" start={start} sections={sn.seo.sectionsUsed} />
           : navRelated
-            ? <div className={styles.navbarPromoGap}><NavbarBuilderPromo /></div>
+            ? <div key="navbar-promo" className={styles.navbarPromoGap}><NavbarBuilderPromo /></div>
             : undefined}
         bottomExtra={start
-          ? <div><div className={styles.startBottom}><StartTemplateButtons start={start} /></div>{sourceCodeBlock}</div>
+          ? <div key="start-bottom"><div className={styles.startBottom}><StartTemplateButtons start={start} /></div>{sourceCodeBlock}</div>
           : sourceCodeBlock}
         aiPromptLast
         featuresAfterAbout
