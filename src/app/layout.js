@@ -10,8 +10,7 @@ import AdSenseScript from '@/components/AdSenseScript';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import MicrosoftClarity from '@/components/MicrosoftClarity';
 import Statcounter from '@/components/Statcounter';
-import AhrefsAnalytics from '@/components/AhrefsAnalytics';
-import { CLARITY_ENABLED, STATCOUNTER_ENABLED, AHREFS_ANALYTICS_ENABLED } from '@/lib/tracking-config';
+import { CLARITY_ENABLED, STATCOUNTER_ENABLED } from '@/lib/tracking-config';
 import { PASSCODE_SHA256 } from '@/lib/premium';
 
 export const metadata = {
@@ -90,7 +89,6 @@ export default function RootLayout({ children }) {
         <GoogleAnalytics />
         {CLARITY_ENABLED && <MicrosoftClarity />}
         {STATCOUNTER_ENABLED && <Statcounter />}
-        {AHREFS_ANALYTICS_ENABLED && <AhrefsAnalytics />}
         <RouteLoader />
         <div className={styles.appLayout}>
           <Sidebar />
