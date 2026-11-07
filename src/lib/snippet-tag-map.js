@@ -1108,7 +1108,7 @@ export const SNIPPET_TAG_MAP = {
   'menu-item-customizer': ['css-grid'],
   'meta-og-tag-generator': ['clipboard-api', 'developer-tools', 'data-visualization', 'css-grid'],
   'meteor-card': ['intersection-observer', 'css-animation'],
-  'metric-card-grid': ['svg', 'dashboard-ui', 'css-grid'],
+  'metric-card-grid': ['svg', 'dashboard-ui', 'css-grid', 'dark-mode', 'data-visualization'],
   'metronome-tempo-tool': ['web-audio'],
   'micromodal-accessible-focus-trap': ['css-animation', 'accessibility', 'authentication', 'js-libraries'],
   'minesweeper-game': ['accessibility', 'games', 'css-grid'],
