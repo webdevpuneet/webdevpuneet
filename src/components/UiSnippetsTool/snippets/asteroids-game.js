@@ -465,12 +465,16 @@ function endGame() {
 
 // ── Input: keyboard ──
 const KEYMAP = { ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right', ArrowUp: 'thrust', KeyW: 'thrust', Space: 'fire' };
+const SCROLL_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space', 'PageUp', 'PageDown'];
 document.addEventListener('keydown', e => {
+  // Arrow / Space / Page keys must never scroll the page (the browser also scrolls the parent page when this runs in an iframe)
+  if (SCROLL_KEYS.indexOf(e.code) !== -1) e.preventDefault();
   const k = KEYMAP[e.code];
-  if (k && state === 'play') { keys[k] = true; e.preventDefault(); }
+  if (k && state === 'play') keys[k] = true;
+  if (e.code === 'Space' && state === 'paused') resumeGame();
   if (e.code === 'KeyP' || e.code === 'Escape') { state === 'play' ? pauseGame() : resumeGame(); }
   if (e.code === 'KeyM') toggleSound();
-  if ((e.code === 'Enter' || e.code === 'Space') && (state === 'idle' || state === 'over')) { e.preventDefault(); startGame(); }
+  if ((e.code === 'Enter' || e.code === 'Space') && (state === 'idle' || state === 'over')) startGame();
 });
 document.addEventListener('keyup', e => { const k = KEYMAP[e.code]; if (k) keys[k] = false; });
 window.addEventListener('blur', () => { Object.keys(keys).forEach(k => keys[k] = false); pauseGame(); });
