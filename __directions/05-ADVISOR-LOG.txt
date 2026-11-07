@@ -107,3 +107,7 @@ Format: date · area · suggested / chosen / done · note
            registered @property colours that animate the whole palette, a code window / project board / security panel card per audience, staggered
            fade copy swap, arrow-key tabs, ?audience= deep link, localStorage, pointer tilt, reduced-motion safe. SEO text, both AI prompts and preview
            image redone; title 53 chars, description 158. Tested in headless Chromium (tabs, keyboard, reload, deep link, tablet, phone). Not deployed.
+2026-11-07 · ui snippets · done · file-tree-explorer rebuilt as an editor-style explorer: dark/light themes, filter with highlights that restores folder state, git status badges + folder
+           dots, tabs + breadcrumb + code preview with a tiny tokenizer, indent guides, expand/collapse all, type-ahead, ARIA tree roles. Fixed a bug in the old
+           version: chevrons were created with createElement("svg") so they never drew. SEO text, both AI prompts and preview image redone; title 58 chars,
+           description 157. 33 headless-Chromium checks pass (animation, keyboard, filter, tabs, theme, phone). Not deployed.
