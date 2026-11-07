@@ -103,3 +103,7 @@ Format: date · area · suggested / chosen / done · note
 2026-11-04 · website templates · done · Patreon-only template lock (soft, browser-side passcode) built and switched on for the Corporate
            template: Export + Fork locked until the supporter passcode is entered; badge on the gallery card, notice on the template
            page. Details, Patreon setup steps and the known gaps (public demo, Backup tab) in ideas/PATREON-LOCK.txt. Not deployed.
+2026-11-07 · ui snippets · done · hero-audience-toggle-switcher redesigned: dark aurora hero with three audiences (Developers, Teams, Enterprise), self-measuring sliding thumb,
+           registered @property colours that animate the whole palette, a code window / project board / security panel card per audience, staggered
+           fade copy swap, arrow-key tabs, ?audience= deep link, localStorage, pointer tilt, reduced-motion safe. SEO text, both AI prompts and preview
+           image redone; title 53 chars, description 158. Tested in headless Chromium (tabs, keyboard, reload, deep link, tablet, phone). Not deployed.

@@ -399,6 +399,15 @@ button.headerBrand {
   transform: translateX(0);
 }
 
+/* "+ Add to page" menu: every choice is its own bordered row, so the lines are the same all the way down */
+.addNew { border: 1px dashed var(--accent); color: var(--accent); }
+.addNew:hover { background: var(--accent-dim); border-color: var(--accent); }
+.addList { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding: 2px 1px 1px; }
+.addRow, .addGroup { border: 1px solid var(--border); border-radius: 9px; background: var(--surface); transition: border-color 0.12s, background 0.12s; }
+.addRow:hover { border-color: var(--accent); background: var(--accent-dim); }
+.addGroup { padding: 2px 0 4px; flex-shrink: 0; }
+.addGroup .exportMenuItem:hover { background: var(--accent-dim); }
+
 .exportMenuItemIcon {
   display: flex;
   align-items: center;

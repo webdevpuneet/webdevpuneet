@@ -115,27 +115,27 @@ export function AddToPageMenu({ loadPages, onPick, title = 'Add this section to 
   const when = d => (d.updated ? `Edited ${new Date(d.updated).toLocaleDateString()}` : '');
   return (
     <div className={us.popoverAnchor} ref={ref}>
-      <button type="button" className={us.iconBtn} onClick={() => setOpen(v => !v)} title={title} aria-haspopup="true" aria-expanded={open}>
+      <button type="button" className={`${us.iconBtn} ${us.iconBtnAccent}`} onClick={() => setOpen(v => !v)} title={title} aria-haspopup="true" aria-expanded={open}>
         + Add to page
         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 1, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
       {open && (
         <div className={us.exportMenu} role="menu" style={{ width: 300, ...fixedPos }}>
           <div className={us.exportMenuHead}>Add this section to…</div>
-          <button type="button" className={us.exportMenuItem} role="menuitem" onClick={() => pick(null)}>
+          <button type="button" className={`${us.exportMenuItem} ${us.addNew}`} role="menuitem" onClick={() => pick(null)}>
             <span className={us.exportMenuItemText}>
               <span className={us.exportMenuItemLabel}>+ New website</span>
               <span className={us.exportMenuItemSub}>Start an empty one-page website with this section</span>
             </span>
           </button>
-          <div className={us.exportMenuHead} style={{ marginTop: 6 }}>Your websites</div>
-          <div style={{ maxHeight: 300, overflowY: 'auto' }}>
+          <div className={us.exportMenuHead} style={{ marginTop: 8 }}>Your websites</div>
+          <div className={us.addList}>
             {pages === null && <div className={us.exportMenuItemSub} style={{ padding: '6px 10px' }}>Loading…</div>}
             {pages && !pages.length && <div className={us.exportMenuItemSub} style={{ padding: '6px 10px' }}>No saved websites yet. Save one in the Website Builder and it will show here.</div>}
             {(pages || []).map(d => (d.pages?.length > 1 ? (
               // Multi-page website: its name, then one row per page
-              <div key={d.id} role="group" aria-label={`${d.name}, ${d.pages.length} pages`} style={{ padding: '4px 0', borderTop: '1px solid var(--border, rgba(127,127,127,.2))' }}>
-                <div className={us.exportMenuItemText} style={{ padding: '6px 10px 2px' }}>
+              <div key={d.id} role="group" aria-label={`${d.name}, ${d.pages.length} pages`} className={us.addGroup}>
+                <div className={us.exportMenuItemText} style={{ padding: '6px 10px 4px' }}>
                   <span className={us.exportMenuItemLabel}>{d.name}</span>
                   <span className={us.exportMenuItemSub}>Multi-page website · {d.pages.length} pages · {when(d)}</span>
                 </div>
@@ -149,7 +149,7 @@ export function AddToPageMenu({ loadPages, onPick, title = 'Add this section to 
                 ))}
               </div>
             ) : (
-              <button key={d.id} type="button" className={us.exportMenuItem} role="menuitem" onClick={() => pick(d.id)} style={{ borderTop: '1px solid var(--border, rgba(127,127,127,.2))' }}>
+              <button key={d.id} type="button" className={`${us.exportMenuItem} ${us.addRow}`} role="menuitem" onClick={() => pick(d.id)}>
                 <span className={us.exportMenuItemText}>
                   <span className={us.exportMenuItemLabel}>{d.name}</span>
                   <span className={us.exportMenuItemSub}>One page · {when(d)}</span>
