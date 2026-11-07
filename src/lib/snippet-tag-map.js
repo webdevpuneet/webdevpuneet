@@ -2036,7 +2036,7 @@ export const SNIPPET_TAG_MAP = {
   'view-transitions-gallery': ['svg', 'accessibility', 'media-player', 'css-grid'],
   'viewerjs-product-image-viewer-toolbar': ['canvas', 'ecommerce', 'css-grid', 'js-libraries'],
   'violin-plot-chart': ['svg', 'data-visualization'],
-  'virtual-piano-keys': ['web-audio', 'touch-gestures', 'keyboard-navigation'],
+  'virtual-piano-keys': ['web-audio', 'canvas', 'local-storage', 'touch-gestures', 'keyboard-navigation'],
   'virtual-scroll': ['svg', 'scroll-animation'],
   'virtual-tour-badge': ['svg', 'glassmorphism', 'css-animation', 'accessibility', 'onboarding'],
   'virtualized-100k-row-table': ['keyboard-navigation', 'scroll-animation', 'css-animation', 'accessibility', 'data-tables'],
