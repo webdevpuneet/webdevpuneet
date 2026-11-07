@@ -1828,7 +1828,7 @@ export const SNIPPET_TAG_MAP = {
   'tabulator-sortable-filterable-grid': ['svg', 'accessibility', 'data-tables', 'js-libraries'],
   'tag-cloud': ['keyboard-navigation'],
   'tag-input': ['keyboard-navigation', 'css-animation', 'form-validation'],
-  'tank-arena-game': ['canvas', 'local-storage', 'touch-gestures', 'keyboard-navigation', 'games'],
+  'tank-arena-game': ['canvas', 'web-audio', 'local-storage', 'touch-gestures', 'keyboard-navigation', 'games'],
   'task-approval-flow-card': ['svg'],
   'tax-bracket-estimator': ['css-grid'],
   'team-card': ['svg', 'css-grid'],
