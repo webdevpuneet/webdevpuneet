@@ -1111,7 +1111,7 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
     if (w < 200) return;
     const h = Math.round(w * 0.75) + 40;
     const topPx = Math.min(Math.max(12, r.top + r.height / 2 - h / 2), window.innerHeight - h - 12);
-    setPeek({ src: previewSrc(sn.id), title: sn.title, left, top: topPx, width: w });
+    setPeek({ src: previewSrc(sn.id), title: sn.title, left, top: topPx, width: w, cy: r.top + r.height / 2 });
   };
 
   if (!open) return null;
@@ -1122,7 +1122,8 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
       <span className={s.coGrip} aria-hidden="true" />
       <div className={s.coHead}>
         <div className={s.coHeadText}>
-          <p className={s.coTitle}>More like this{label ? <span className={s.coSub}> · {pool.length} in {label}</span> : null}</p>
+          <p className={s.coTitle}>More like this</p>
+          {label ? <p className={s.coSub}>{pool.length} in {label}</p> : null}
         </div>
         <button type="button" className={s.coClose} onClick={close} title="Close and view the full code">
           View code
@@ -1162,10 +1163,34 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
           )}
       </div>
       {peek && typeof document !== 'undefined' && createPortal(
-        <div className={s.coPeek} style={{ left: peek.left, top: peek.top, width: peek.width }} aria-hidden="true">
-          <img src={peek.src} alt="" />
-          <p>{peek.title}</p>
-        </div>,
+        (() => {
+          // Size the box from the image's real dimensions: never enlarge a small image, and shrink a
+          // tall one so the whole preview + title fits on screen. Hidden until the size is known.
+          const TITLE_H = 46, MARGIN = 12, BOTTOM_GAP = 0;   // a tall preview is pushed up just enough that its bottom edge touches the bottom of the window
+          let w = peek.width, imgH = null, top = peek.top;
+          if (peek.nat && peek.natH) {
+            const maxH = Math.max(120, window.innerHeight - MARGIN - BOTTOM_GAP - TITLE_H);
+            w = Math.min(peek.width, Math.max(peek.nat, 170));
+            imgH = Math.round(w * peek.natH / peek.nat);
+            if (imgH > maxH) { imgH = maxH; w = Math.min(w, Math.max(Math.round(imgH * peek.nat / peek.natH), 170)); }
+            const h = imgH + TITLE_H;
+            top = Math.min(Math.max(MARGIN, peek.cy - h / 2), window.innerHeight - h - BOTTOM_GAP);
+          }
+          return (
+            <div className={s.coPeek} style={{ left: peek.left, top, width: w, opacity: imgH ? undefined : 0 }} aria-hidden="true">
+              <img
+                src={peek.src}
+                alt=""
+                style={imgH ? { height: imgH, maxHeight: 'none' } : undefined}
+                onLoad={e => {
+                  const nat = e.currentTarget.naturalWidth || 0, natH = e.currentTarget.naturalHeight || 0;
+                  setPeek(p => (p && p.src === peek.src ? { ...p, nat, natH } : p));
+                }}
+              />
+              <p>{peek.title}</p>
+            </div>
+          );
+        })(),
         document.body
       )}
     </aside>
@@ -2309,7 +2334,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             }}
           >
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <span className={s.headerTitle}>{headerInCode ? 'Create snippet' : 'Create'}</span>
+            <span className={s.headerTitle}>Create</span>
           </button>
           {/* Toggles the related-snippets overlay over the code (library snippets, desktop); active while it shows */}
           {headerInCode && !inMyCode && activeSn?.category && (
@@ -2322,7 +2347,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               aria-label="Related snippets"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-              <span className={s.headerTitle}>Related</span>
+              <span className={s.headerTitle}>Related Snippets</span>
             </button>
           )}
           </div>

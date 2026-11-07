@@ -1305,7 +1305,7 @@ export const SNIPPET_TAG_MAP = {
   'pickr-inline-color-picker-swatches': ['form-validation', 'css-grid', 'js-libraries'],
   'picture-in-picture-video-card': ['touch-gestures', 'svg', 'css-animation', 'media-player'],
   'pie-chart': ['svg', 'data-visualization'],
-  'pin-card': ['clipboard-api', '3d-effects', 'css-animation'],
+  'pin-card': ['clipboard-api', '3d-effects', 'css-animation', 'accessibility'],
   'pin-pad': ['keyboard-navigation', 'svg', 'css-animation', 'form-validation', 'css-grid'],
   'pinch-zoom-image-viewer': ['drag-and-drop', 'touch-gestures', 'glassmorphism'],
   'pinned-draggable-tabs': ['drag-and-drop', 'keyboard-navigation', 'accessibility'],
