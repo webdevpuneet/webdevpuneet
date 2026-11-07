@@ -133,15 +133,17 @@ const SECTIONS = [
   { type: 'text', label: 'About these templates', heading: SEO.about.title, text: SEO.about.description, quickFacts: false },
   { type: 'cards', label: 'How it’s different', heading: 'How These Templates Differ From Canva-Style Ones', columns: 3, items: TEMPLATE_DIFFERENT },
   {
-    type: 'text',
+    // Every category as a table row: its page, how many templates, and what is in it (a few templates linked)
+    type: 'table',
     label: 'Browse by category',
-    heading: 'Template Categories',
-    text: TEMPLATE_CATEGORIES.map(c => {
+    heading: `All ${TEMPLATE_CATEGORIES.length} Social Post Template Categories`,
+    columns: ['Category', 'Templates', 'What you will find'],
+    rows: TEMPLATE_CATEGORIES.map(c => {
       const list = TEMPLATES.filter(t => t.category === c.id);
-      return `**[${CATEGORY_SEO[c.id]?.h1 || c.label}](/social-post-templates/category/${c.id}/)** (${list.length}): ${c.blurb} Includes ${list.map(t => `[${t.name}](/social-post-templates/${t.id}/)`).join(', ')}.`;
-    }).join('\n\n'),
-    quickFacts: false,
-    boxed: true,
+      const shown = list.slice(0, 3).map(t => `[${t.name}](/social-post-templates/${t.id}/)`).join(', ');
+      const more = list.length > 3 ? ` and ${list.length - 3} more` : '';
+      return [`[${CATEGORY_SEO[c.id]?.h1 || c.label}](/social-post-templates/category/${c.id}/)`, String(list.length), `${c.blurb} Includes ${shown}${more}.`];
+    }),
   },
   { type: 'steps', label: 'Step by step', heading: 'How to Use', items: SEO.howToUse.items },
   { type: 'cards', label: 'Real-world uses', heading: 'Who Uses Social Post Templates', columns: 3, items: SEO.useCases },

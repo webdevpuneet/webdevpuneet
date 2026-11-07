@@ -116,7 +116,6 @@ export function TemplateGalleryPage({ previews = [] }) {
           photos, colours and fonts in your browser, then download every size as an image or copy the HTML.
         </p>
       </header>
-      <CategoryLinks />
       <TemplateGallery
         previews={previews}
         chips={false}
