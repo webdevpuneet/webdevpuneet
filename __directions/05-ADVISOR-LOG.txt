@@ -127,3 +127,13 @@ Format: date · area · suggested / chosen / done · note
            6-deck shoe with FLIP re-spacing, chips + bankroll with 3:2 blackjack / 1:1 / push payouts, double down, dealer peek + stands on all 17s, basic-strategy hint with
            reasons, saved chips in localStorage, keyboard play, first-time visitors start with a dealt hand. Fixed an old rules bug (blackjack vs blackjack scored as a win;
            now a push). SEO text, both AI prompts and preview redone; title 59 chars, description 153. 48 headless-Chromium checks pass (rules, payouts, strategy, UI, phone). Not deployed.
+2026-11-08 · ui snippets · done · sky-hopper-game rebuilt as a polished endless climber: squash-and-stretch hopper, steering with momentum + edge wrap (ghost copy), fixed 1/60 s
+           physics with crossing-based one-way landing, procedural rows kept under bounce height with difficulty ramp, solid/sliding/crumbling (fragments)/spring (coil) platforms,
+           stompable birds + spiked orbs, stars, propeller lift, one-hit shield (also saves a fall), four blended sky biomes (parallax clouds, sun, stars, planet), 100 m lines and a
+           gold best-height marker, hold-a-side touch + buttons + keys (arrows/Space never scroll), WebAudio sound with saved mute, pause on blur, saved best score/height. SEO text,
+           both AI prompts and preview redone; title 51 chars, description 151. 22 headless-Chromium checks pass + 25 s autopilot run to 157 m. Not deployed or committed yet.
+2026-11-08 · ui snippets · done · clipboard-paste-button rebuilt as a "smart paste field": one-click readText() with idle/reading/done/armed button states, armed fallback when the browser blocks
+           the read (field pulses, keycaps press down with the real keys, native paste finishes the job), late-result read token, image paste thumbnail, type detection (link, email,
+           phone, hex colour, number, JSON with prettify/minify, UPS/FedEx/USPS tracking with carrier link), trim switch, 7 s Undo, Escape clears, in-memory Recent chips (never stored),
+           copy with writeText -> execCommand -> select fallback chain. SEO text, both AI prompts and preview redone; title 55 chars, description 154. 34 headless-Chromium checks pass
+           (granted and blocked clipboard, phone width). Not deployed or committed yet.
