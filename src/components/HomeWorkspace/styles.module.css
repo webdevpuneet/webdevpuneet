@@ -12,8 +12,8 @@
 .patreon:hover { border-color: var(--accent, #059669); color: var(--accent, #059669); }
 .patreonOn { cursor: default; color: var(--accent, #059669); background: color-mix(in srgb, var(--accent, #059669) 11%, transparent); }
 
-/* The tools and the heatmap side by side */
-.topRow { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.5fr) minmax(0, 1fr); gap: 14px; align-items: stretch; }
+/* The tools and the brand kit / favourites / bookmarks chips side by side */
+.topRow { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.8fr); gap: 14px; align-items: stretch; }
 .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 
 .resume { display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 14px; text-decoration: none; color: var(--text); background: color-mix(in srgb, var(--accent, #059669) 9%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent, #059669) 30%, transparent); transition: border-color 0.15s, transform 0.15s; }
@@ -52,6 +52,16 @@ a.chip:hover { border-color: #6366f1; color: #6366f1; }
 .chipOn { color: var(--accent, #059669); border-color: color-mix(in srgb, var(--accent, #059669) 40%, transparent); }
 .chipNote { margin-left: auto; font-size: 11px; color: var(--text2); }
 
+/* Pick up where you left off: the last edited item as one wide card, picture on the left */
+.pickup { display: flex; align-items: stretch; gap: 18px; padding: 12px; border-radius: 14px; text-decoration: none; color: var(--text); background: color-mix(in srgb, var(--accent, #059669) 7%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent, #059669) 30%, transparent); transition: border-color 0.15s, box-shadow 0.15s; }
+.pickup:hover { border-color: var(--accent, #059669); box-shadow: 0 8px 22px rgba(15, 23, 42, 0.1); }
+.pickupPic { position: relative; flex: none; display: grid; place-items: center; width: 260px; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: color-mix(in srgb, var(--tint, #6366f1) 10%, var(--surface)); }
+.pickupPic .cardFrame { transform: scale(0.26); }
+.pickupText { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+.pickupName { font: 800 20px/1.25 var(--font-ui); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.pickup .resumeGo { margin-top: 6px; padding-top: 0; }
+.pickup:hover .resumeGo { text-decoration: underline; }
+
 /* Recently edited: a scrolling strip of cards with a picture each */
 .strip { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
 .stripList { --cols: 6; list-style: none; margin: 0; padding: 2px 2px 8px; display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 12px; }
@@ -76,30 +86,6 @@ a.chip:hover { border-color: #6366f1; color: #6366f1; }
 .cardName { font: 700 12.5px var(--font-ui); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cardMeta { font-size: 11px; color: var(--text2); }
 
-/* Activity heatmap (ActivityHeatmap.js): a column per week, a square per day, shaded by saves */
-.heat { position: relative; min-width: 0; margin: 0; padding: 14px 16px; border: 1px solid var(--border); border-radius: 14px; }
-.heatHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
-.heatTitle { margin: 0; font: 800 15px var(--font-ui); color: var(--text); }
-.heatStats { margin: 3px 0 0; font-size: 12.5px; color: var(--text2); }
-.heatMonths span { white-space: nowrap; overflow: visible; }
-.heatBody { min-width: 0; }
-.heatMonths, .heatGrid { display: grid; grid-template-columns: 24px repeat(26, minmax(0, 1fr)); column-gap: 3px; }
-.heatMonths { height: 16px; font-size: 10px; color: var(--text2); }
-.heatGrid { grid-template-rows: repeat(7, auto); grid-auto-flow: column; row-gap: 3px; }
-.heatDay { align-self: center; font-size: 9.5px; color: var(--text2); }
-.heatCell { display: block; width: 100%; aspect-ratio: 1; max-height: 11px; border-radius: 3px; background: color-mix(in srgb, var(--text2) 14%, transparent); }
-.heatCellEmpty { display: block; }
-.heatCell[data-l="1"] { background: color-mix(in srgb, var(--accent, #059669) 30%, transparent); }
-.heatCell[data-l="2"] { background: color-mix(in srgb, var(--accent, #059669) 55%, transparent); }
-.heatCell[data-l="3"] { background: color-mix(in srgb, var(--accent, #059669) 78%, transparent); }
-.heatCell[data-l="4"] { background: var(--accent, #059669); }
-.heatGrid .heatCell:hover { outline: 1.5px solid color-mix(in srgb, var(--text) 35%, transparent); outline-offset: 0; }
-/* The hovered day, in a dark bubble above its square */
-.heatTip { position: absolute; z-index: 3; transform: translate(-50%, calc(-100% - 8px)); padding: 6px 10px; border-radius: 8px; background: #1e293b; color: #f8fafc; font: 600 12px var(--font-ui); white-space: nowrap; pointer-events: none; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.25); }
-.heatTip::after { content: ''; position: absolute; left: 50%; top: 100%; margin-left: -5px; border: 5px solid transparent; border-top-color: #1e293b; }
-.heatLegend { flex: none; display: flex; align-items: center; gap: 3px; margin-top: 2px; font-size: 10.5px; color: var(--text2); }
-.heatLegend .heatCell { display: inline-block; width: 11px; height: 11px; aspect-ratio: auto; }
-
 @media (max-width: 1100px) {
   .stripList { --cols: 3; }
   .stripPair { grid-template-columns: minmax(0, 1fr); } .topRow { grid-template-columns: minmax(0, 1fr); } .side { order: 3; } .grid { grid-template-columns: minmax(0, 1fr); } .tools { grid-column: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); } .side { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; } .sideItem { flex: 1 1 180px; } }
@@ -109,8 +95,11 @@ a.chip:hover { border-color: #6366f1; color: #6366f1; }
   .stripList::-webkit-scrollbar { display: none; }
   .stripItem { flex: none; width: 168px; scroll-snap-align: start; }
   .wrap { padding: 14px; width: calc(100% - 24px); }
+  .pickup { flex-direction: column; gap: 12px; }
+  .pickupPic { width: 100%; }
+  .pickupPic .cardFrame { transform: scale(0.3); }
+  .pickupName { font-size: 17px; }
   .grid { grid-template-columns: minmax(0, 1fr); }
-  .heat { display: none; } /* the activity heatmap is for larger screens */
   .tools { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
   .tool { padding: 8px 9px; gap: 8px; }
   .toolCount { display: none; }
