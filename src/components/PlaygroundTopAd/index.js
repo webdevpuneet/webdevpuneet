@@ -69,9 +69,10 @@ function AdUnit() {
 
 // `inline` sits the strip inside a tool's title row (title left, ad filling the rest).
 // `className` lets a padded main column pull the strip out to its edges (HTML playground).
-// `desktopOnly`: for the editors (Website Builder, Section / Email / Social Post Templates), whose phone layout is a
-// fixed-height column: AdSense rewrites the ancestors' heights to `auto !important` there and the preview collapses
-// (seen 2026-11-04: Social preview 68px instead of 369px). So no strip and no ad request below 900px.
+// `desktopOnly`: no strip and no ad request below 900px. The four editors (Website Builder, Section / Email / Social Post
+// Templates) used it after AdSense collapsed the Social preview on phones (seen 2026-11-04: 68px instead of 369px); since
+// 2026-11-09 they show the fixed 320x50 unit on phones too, ABOVE the toolbar (never between toolbar and preview).
+// If a phone preview collapses again, put `desktopOnly` back on that editor's <PlaygroundTopAd />.
 export default function PlaygroundTopAd({ className = '', inline = false, desktopOnly = false }) {
   const notFound = useIsNotFound();
   const [wide, setWide] = useState(false);

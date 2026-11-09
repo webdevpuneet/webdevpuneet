@@ -1063,8 +1063,8 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
         </aside>
 
         <div className={s.main}>
-          {/* Leaderboard ad (max 90px) above the toolbar: the same unit as the UI snippet editor and playgrounds (desktop only) */}
-          <PlaygroundTopAd desktopOnly />
+          {/* Leaderboard ad (max 90px) above the toolbar (never between toolbar and preview): the same unit as the UI snippet editor and playgrounds; 320x50 on phones */}
+          <PlaygroundTopAd />
           <div className={s.toolbar} data-scroll-toolbar>
             <div className={s.meta}>
               {/* The page's H1: the template name, or the saved design's name once it's saved */}
