@@ -1226,22 +1226,34 @@ button.headerBrand {
   border-radius: 999px;
   background: var(--surface, #fff);
   overflow: hidden;
-  cursor: pointer;
+  cursor: default;
   font-family: inherit;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
+/* Faint green track along the bottom edge, under the progress bar */
+.navCount::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgba(34, 197, 94, 0.18);
+}
 button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
-.navCountCur { font-size: 10.5px; font-weight: 800; color: var(--accent); }
+.navCountCur { font-size: 10.5px; font-weight: 800; color: #16a34a; }
 .navCountOf { font-size: 9.5px; font-weight: 600; color: var(--text3, #94a3b8); }
+/* Green progress along the bottom of the pill: how far through the list the open snippet is */
 .navCountBar {
   position: absolute;
   left: 0;
   bottom: 0;
-  height: 1.5px;
-  background: var(--accent);
-  border-radius: 0 2px 2px 0;
+  z-index: 1;
+  height: 3px;
+  background: #22c55e;
+  border-radius: 0 3px 3px 0;
   transition: width 0.3s ease;
 }
 .navCountEdit { cursor: text; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
@@ -1259,9 +1271,14 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
 }
 .navCountInput::-webkit-inner-spin-button,
 .navCountInput::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+/* Prev / Next: arrow only, no "Prev" / "Next" text (the names stay in aria-label and the hover title), so they are
+   the same 26px square as the Home button. */
 .navBtnText {
-  font-size: 11px;
-  font-weight: 700;
+  display: none;
+}
+.navBtnLabeled:has(> .navBtnText) {
+  width: 26px;
+  padding: 0;
 }
 
 

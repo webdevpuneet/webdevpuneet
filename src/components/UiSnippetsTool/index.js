@@ -2436,6 +2436,17 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                     <span className={s.navBtnText}>Prev</span>
                   </button>
                 )}
+                {customIdx >= 0 && customSorted.length > 1 && (
+                  <span
+                    className={s.navCount}
+                    title={`Snippet ${customIdx + 1} of ${customSorted.length}`}
+                    aria-label={`Snippet ${customIdx + 1} of ${customSorted.length}`}
+                  >
+                    <span className={s.navCountCur}>{customIdx + 1}</span>
+                    <span className={s.navCountOf}>/{customSorted.length}</span>
+                    <i className={s.navCountBar} style={{ width: `${((customIdx + 1) / customSorted.length) * 100}%` }} aria-hidden="true" />
+                  </span>
+                )}
                 {nextCustomSn ? (
                   <a
                     className={`${s.navBtn} ${s.navBtnLabeled}`}
@@ -2466,22 +2477,6 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                   activeCategory={activeSn?.category}
                   onNavigate={navStart}
                 />
-                {catSnippets.length > 1 && prevCatSn ? (
-                  <a
-                    className={`${s.navBtn} ${s.navBtnLabeled}`}
-                    href={`/ui-snippets/${prevCatSn.id}/`}
-                    aria-label={`Previous: ${prevCatSn.title}`}
-                    title={prevCatSn.title}
-                  >
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-                    <span className={s.navBtnText}>Prev</span>
-                  </a>
-                ) : (
-                  <button className={`${s.navBtn} ${s.navBtnLabeled}`} disabled aria-label="No previous" title="No previous">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-                    <span className={s.navBtnText}>Prev</span>
-                  </button>
-                )}
                 <div
                   className={s.homeMenu}
                   onMouseEnter={openHomeMenu}
@@ -2520,6 +2515,35 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                     </div>
                   </div>, document.body)}
                 </div>
+                {catSnippets.length > 1 && prevCatSn ? (
+                  <a
+                    className={`${s.navBtn} ${s.navBtnLabeled}`}
+                    href={`/ui-snippets/${prevCatSn.id}/`}
+                    aria-label={`Previous: ${prevCatSn.title}`}
+                    title={prevCatSn.title}
+                  >
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    <span className={s.navBtnText}>Prev</span>
+                  </a>
+                ) : (
+                  <button className={`${s.navBtn} ${s.navBtnLabeled}`} disabled aria-label="No previous" title="No previous">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    <span className={s.navBtnText}>Prev</span>
+                  </button>
+                )}
+                {/* Position pill, short form "1500/2088": where the open snippet sits in the list Prev / Next walk
+                    (the whole library, or the sidebar's filtered / sorted list), with a progress line along the bottom */}
+                {catIdx >= 0 && catSnippets.length > 1 && (
+                  <span
+                    className={s.navCount}
+                    title={`Snippet ${catIdx + 1} of ${catSnippets.length}`}
+                    aria-label={`Snippet ${catIdx + 1} of ${catSnippets.length}`}
+                  >
+                    <span className={s.navCountCur}>{catIdx + 1}</span>
+                    <span className={s.navCountOf}>/{catSnippets.length}</span>
+                    <i className={s.navCountBar} style={{ width: `${((catIdx + 1) / catSnippets.length) * 100}%` }} aria-hidden="true" />
+                  </span>
+                )}
                 {nextCatSn ? (
                   <a
                     className={`${s.navBtn} ${s.navBtnLabeled}`}
