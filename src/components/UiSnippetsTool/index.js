@@ -29,7 +29,8 @@ import {
 } from '@/lib/snippet-exporters';
 import { navStart } from '@/lib/navStart';
 import GistSyncButton from '@/components/GistSyncButton';
-import { ADS_ENABLED, SNIPPET_TOP_AD_ENABLED } from '@/lib/ads-config';
+import { SNIPPET_TOP_AD_ENABLED } from '@/lib/ads-config';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { useAdFreeOnLoad } from '@/lib/use-ad-free';
 import ExportTester from './ExportTester';
 import EmbedModal from './EmbedModal';
@@ -506,82 +507,6 @@ function buildSrcdocSimple(html, css, js, cdnUrls = []) {
 }
 
 const SAVED_PER_PAGE = 12; // 3 rows of 4
-
-/* — Snippet top ad: AdSense unit (slot 7360198340) above the preview, library snippets only (not My Code).
-   The size follows the space actually available above the preview (sidebar and code
-   column eat into the viewport, so screen width alone would be wrong):
-     970x90 large leaderboard → 728x90 leaderboard → 468x60 banner (tablet) → 320x50 mobile.
-   Each size is a FIXED slot. Do NOT use data-ad-format="horizontal"/"auto" or
-   data-full-width-responsive here: AdSense then rewrites every ancestor's inline style to
-   `height:auto !important; min-height:0 !important` (and the section to 100vh), which
-   collapses the whole editor/preview. The size is picked ONCE per snippet view (the parent
-   keys this by snippet id): later resizes never re-request an ad, because AdSense policy
-   forbids refreshing ads without new content or a user action. The loader is site-wide. — */
-const TOP_AD_SIZES = [
-  { w: 970, h: 90 },
-  { w: 728, h: 90 },
-  { w: 468, h: 60 },
-  { w: 320, h: 50 },
-];
-/* Phones (under 768px wide) are the exception to the fixed sizes above: there the unit is fully responsive,
-   auto width and auto height (data-ad-format="auto" + full-width-responsive), so AdSense serves whatever
-   banner fits the screen. The phone layout is one natural-flow column, so the ancestor rewrite described
-   above does not collapse anything there. If a phone preview ever collapses, drop the `auto` size below. */
-function TopAdIns({ w, h, auto }) {
-  useEffect(() => {
-    const id = setTimeout(() => {
-      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
-    }, 300);
-    return () => clearTimeout(id);
-  }, []);
-  if (auto) {
-    return (
-      <ins
-        className="adsbygoogle"
-        style={{ display: 'block' }}
-        data-ad-client="ca-pub-2762737943861458"
-        data-ad-slot="7360198340"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      />
-    );
-  }
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: 'inline-block', width: `${w}px`, height: `${h}px` }}
-      data-ad-client="ca-pub-2762737943861458"
-      data-ad-slot="7360198340"
-    />
-  );
-}
-function SnippetTopAd() {
-  const boxRef = useRef(null);
-  const [size, setSize] = useState(null);
-  useEffect(() => {
-    const strip = boxRef.current?.parentElement;
-    if (!strip) return;
-    const pick = () => {
-      // A strip collapsed by the unfilled-ad rule (display:none) measures 0 wide; ignore it so
-      // the size is never dropped (that would un-collapse, re-request and collapse again).
-      if (strip.offsetParent === null || strip.clientWidth === 0) return;
-      const cs = getComputedStyle(strip);
-      const avail = strip.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-      const next = window.innerWidth < 768 ? { w: 0, h: 0, auto: true } : (TOP_AD_SIZES.find(z => z.w <= avail) || null);
-      setSize(prev => prev ?? next);
-    };
-    pick();
-    if (typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver(pick);
-    ro.observe(strip);
-    return () => ro.disconnect();
-  }, []);
-  return (
-    <div ref={boxRef} className={s.adBarUnit} style={size && !size.auto ? { width: size.w, height: size.h } : undefined}>
-      {size && <TopAdIns key={size.auto ? 'auto' : size.w} w={size.w} h={size.h} auto={size.auto} />}
-    </div>
-  );
-}
 
 function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, onCreateNew, onExploreLibrary, onDelete }) {
   const router = useRouter();
@@ -2459,20 +2384,13 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           )}
           {/* Phones: mount point for the console bar, last in the layout (order 5), under the HTML / CSS / JS panels */}
           {showEditor && isMobile && <div ref={setConsoleHost} className={s.mobileConsole} />}
-          {/* AdSense leaderboard (slot 7360198340) directly above the Preview toolbar, 970x90 /
-              728x90 / 468x60 / 320x50 by available width. Library snippets only: My Code snippets,
-              a new snippet being created and the My Code gallery have no leaderboard. Collapses
-              when unfilled (.adBar:has(ins[data-ad-status="unfilled"])). Switched off with
-              SNIPPET_TOP_AD_ENABLED in lib/ads-config.js. */}
+          {/* The shared leaderboard (components/PlaygroundTopAd, slot 7360198340, the same component every other page
+              uses) directly above the Preview toolbar. Library snippets only: My Code snippets, a new snippet being
+              created and the My Code gallery have no leaderboard. Keyed by snippet id so each snippet view mounts a
+              fresh ad (AdSense forbids refreshing one without new content). Collapses itself when unfilled. Switched
+              off with SNIPPET_TOP_AD_ENABLED in lib/ads-config.js. */}
           {showEditor && !inMyCode && SNIPPET_TOP_AD_ENABLED && !adFree && (
-            <div className={s.adBar} aria-label="Advertisement">
-              {ADS_ENABLED ? <SnippetTopAd key={activeId || 'none'} /> : (
-                <div className={s.adBarSlot}>
-                  <span className={s.adBarLabel}>Ad space</span>
-                  <span className={s.adBarSize}>728 × 90</span>
-                </div>
-              )}
-            </div>
+            <PlaygroundTopAd key={activeId || 'none'} className={s.topAdSlot} />
           )}
           {showEditor && <div ref={previewHdrRef} className={`${s.previewHeader} ${navCentered ? s.previewHeaderCentered : ''}`} data-scroll-toolbar>
             {/* Everything but the action menus scrolls sideways in one row when space is
