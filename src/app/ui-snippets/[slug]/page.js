@@ -990,9 +990,9 @@ Requirements:
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
-      {/* Related snippets in the editor's bottom bar, and again here as a carousel under the ad */}
-      <AdSlot adFirst related={false} />
+      {/* Related snippets in the editor's bottom bar, and again here as a carousel, ABOVE the ad */}
       <RelatedCarousel items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
+      <AdSlot adFirst related={false} />
       <SeoSection
         {...SEO}
         titleExtra={(

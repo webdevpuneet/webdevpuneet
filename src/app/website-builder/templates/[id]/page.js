@@ -223,9 +223,7 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
             </div>
           </aside>
         </div>
-        {/* The page's ad sits above More Templates */}
-        <AdSlot related={false} contained />
-        {/* Same strip as the home page: full-page shots that scroll on hover */}
+        {/* Same strip as the home page: full-page shots that scroll on hover. It sits ABOVE the page's ad. */}
         <div className={st.related}>
           <HomeTemplatesCarousel
             title="More Templates"
@@ -237,6 +235,8 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
             flush
           />
         </div>
+        {/* The page's ad, under More Templates */}
+        <AdSlot related={false} contained />
       </div>
       <IndexOnly always>
         <SeoSection slug="website-builder" title={isPremiumTemplate(t.id) ? `${t.name} Template — Patreon, Editable, Export HTML` : `${t.name} Template — Free, Editable, Export HTML`} subtitle={`${t.industry} · ${multi ? `One page or ${pages.length} pages · ` : ''}${parts.length} sections · ${fonts[0]} + ${fonts[1]} · Responsive · GSAP animation`} sections={SECTIONS} />

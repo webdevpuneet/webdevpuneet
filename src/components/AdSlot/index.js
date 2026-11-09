@@ -105,16 +105,17 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
     </>
   );
 
-  // The ad leads, above the related strip (tool pages and snippet pages alike).
-  // adFirst only switches it to the full-width, centered wrapper.
+  // The related strip leads, ABOVE the ad (tool pages, snippet, email, social post and section pages alike),
+  // so a visitor sees the related content before the advertisement (changed 2026-11-09; it used to be ad first).
+  // adFirst now only switches the ad to the full-width, centered wrapper.
   return (
     <div className={styles.adShell}>
-      {ad}
       {relatedContent && (
         <div className={styles.relatedFull}>
           {relatedContent}
         </div>
       )}
+      {ad}
     </div>
   );
 }
