@@ -923,3 +923,37 @@
 .loadMoreBtn span { font-weight: 600; font-size: 11px; opacity: 0.7; }
 .loadMoreBtn:hover { border-color: var(--accent, #6366f1); color: var(--accent, #6366f1); }
 
+/* ── Phones and small tablets (768px and below) ─────────────────────────────
+   Desktop is a fixed-height 55 / 45 split where each side scrolls on its own. On a phone the tool grows with its
+   content instead (the page wrapper already lets it, app/tool-page.module.css): header that wraps, the editor on
+   top as a real typing area, the score strip, then the tabs and their content below, all in the normal page scroll.
+   Buttons and fields are at least 36-46px tall, and text fields are 16px so iOS does not zoom when they are focused. */
+@media (max-width: 768px) {
+  .wrap { height: auto; overflow: visible; }
+  .header { height: auto; min-height: 48px; flex-wrap: wrap; gap: 6px 12px; padding: 8px 12px; }
+  .headerMeta { flex-wrap: wrap; gap: 6px 10px; }
+  .shortcutHint { display: none; }  /* keyboard shortcuts mean nothing on a phone */
+
+  .main { flex: none; flex-direction: column; overflow: visible; }
+  .editorCol { flex: none; border-right: 0; border-bottom: 1px solid var(--border); overflow: visible; }
+  .editorActions { flex-wrap: wrap; gap: 6px; }
+  .editor { flex: none; height: 44vh; height: 44dvh; min-height: 220px; font-size: 16px; resize: vertical; }
+
+  .scoreStrip { flex-wrap: wrap; gap: 8px 12px; }
+  .dimDots { flex: 1 1 100%; order: 3; gap: 4px; }
+  .dimDotLabel { font-size: 9px; }
+
+  .rightCol { flex: none; overflow: visible; }
+  .tabs { overflow-x: auto; scrollbar-width: none; }
+  .tabBtn { min-height: 46px; padding: 12px 8px; font-size: 13px; }
+  .tabContent { flex: none; overflow: visible; padding: 12px; }
+
+  .btn { min-height: 40px; padding: 8px 14px; font-size: 13px; }
+  .btnSmall { min-height: 36px; padding: 6px 12px; font-size: 12px; }
+  .iconBtn { width: 36px; height: 36px; }
+  .saveInput, .searchInput { font-size: 16px; min-height: 42px; }
+  .saveFormBtns, .savedActions { flex-wrap: wrap; }
+  .tagChip { padding: 7px 12px; font-size: 12px; }
+  .loadMoreBtn { min-height: 44px; }
+}
+
