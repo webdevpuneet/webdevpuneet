@@ -200,6 +200,25 @@
 }
 .browseChip[aria-current="true"] .browseChipCount { color: var(--accent); opacity: 0.8; }
 
+/* Phones and touch screens: no hover popover (a tap would leave it stuck open and the chips are too small to hit).
+   Categories and Tags become two stacked rows; each row is one line of bigger chips that swipes sideways. The
+   selectors repeat the hover ones above so they win. */
+@media (max-width: 700px), (hover: none) {
+  .browseWrap { height: auto; }
+  .browseCols, .browseCols:hover {
+    position: static; flex-direction: column; height: auto; max-height: none;
+    overflow: hidden; box-shadow: none;
+  }
+  .browseCol { padding: 8px 10px 10px; }
+  .browseCol + .browseCol { border-left: 0; border-top: 1px dashed var(--border); }
+  .browseChips, .browseCols:not(:hover) .browseChips {
+    flex-wrap: nowrap; max-height: none; overflow-x: auto; overflow-y: hidden;
+    padding-bottom: 2px; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .browseChips::-webkit-scrollbar { display: none; }
+  .browseChip { flex: none; padding: 8px 13px; font-size: 12.5px; }
+}
+
 /* ── Empty state ── */
 .empty {
   padding: 48px 0;

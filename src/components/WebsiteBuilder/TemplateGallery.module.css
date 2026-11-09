@@ -67,17 +67,48 @@
 .recentChip { padding: 5px 11px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface); color: var(--text2); font: 600 12px var(--font-ui); text-decoration: none; }
 .recentChip:hover { border-color: #6366f1; color: #6366f1; }
 
+/* "Show N results" button that closes the filter panel: phones and small tablets only */
+.panelDone { display: none; }
+
+/* Phones and small tablets: the panel stacks above the results. It is a box that scrolls on its own (never taller
+   than 62% of the screen) with a sticky Done button, and every row is a 44px tap target. */
 @media (max-width: 900px) {
   .layout { grid-template-columns: minmax(0, 1fr); }
-  .panel { position: static; max-height: none; flex-direction: row; flex-wrap: wrap; gap: 14px 22px; padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
-  .group { min-width: 150px; }
+  /* Untouched panel on a narrow screen: closed from the very first paint (lib/use-filter-panel.js) */
+  .panelAuto { display: none; }
+  .panel {
+    position: static; flex-direction: row; flex-wrap: wrap; gap: 14px 22px; padding: 12px;
+    max-height: min(62vh, 520px); max-height: min(62dvh, 520px);
+    overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--border); border-radius: 12px; background: var(--surface);
+  }
+  .group { flex: 1 1 150px; min-width: 150px; }
+  .check { min-height: 44px; padding: 6px 8px; gap: 12px; font-size: 14px; }
+  .check input { width: 20px; height: 20px; }
+  .checkCount { font-size: 12px; }
+  .panelDone {
+    display: block; flex: 1 1 100%; position: sticky; bottom: 0; min-height: 46px; padding: 0 16px;
+    border: 0; border-radius: 10px; background: #6366f1; color: #fff; font: 700 14px var(--font-ui); cursor: pointer;
+    box-shadow: 0 0 0 6px var(--surface);  /* a clear band so rows scrolling underneath never touch the button */
+  }
   .kbd { display: none; }
 }
 @media (max-width: 560px) {
   .toolbar { flex-wrap: wrap; }
   .searchBox { flex-basis: 100%; }
+  .searchBox input, .sort { font-size: 16px; }  /* under 16px iOS zooms the page when the field is focused */
   .toolBtn, .sortWrap { flex: 1; }
+  .toolBtn { justify-content: center; }
   .sort { width: 100%; }
+  .panel { flex-direction: column; flex-wrap: nowrap; gap: 12px; }
+  .group { flex: none; min-width: 0; }
+  .panelDone { flex: none; }
+  /* Result count on its own line above the active-filter chips; chips are bigger to tap */
+  .chipsRow { flex-wrap: wrap; row-gap: 8px; }
+  .resultCount { order: 1; }
+  .chips { order: 2; flex: 1 1 100%; }
+  .chip { padding: 7px 12px; }
+  .clearAll { padding: 8px 4px; }
 }
 
 /* Shared library (components/TemplateLibrary): the gallery's own card with a heart and a large-preview button on top */

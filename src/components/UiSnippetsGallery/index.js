@@ -9,6 +9,7 @@ import { CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { publishedTags, tagsForSnippetId, TAG_BY_ID } from '@/lib/snippet-tags';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import useFilterPanel from '@/lib/use-filter-panel';
 import { useBookmarks, toggleBookmark, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
 import s from './styles.module.css';
 import g from '../WebsiteBuilder/TemplateGallery.module.css';
@@ -164,12 +165,11 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
   const isMain = !initialTag && initialCategory === 'all';
   const [cats, setCats] = useState([]);
   const [tagSel, setTagSel] = useState([]);
-  const [panelOpen, setPanelOpen] = useState(true);
+  const { open: panelOpen, auto: panelAuto, toggle: togglePanel, close: closePanel } = useFilterPanel();
   const [allTags, setAllTags] = useState(false);
   const [mac, setMac] = useState(false);
   const searchRef = useRef(null);
   useEffect(() => {
-    if (window.matchMedia('(max-width: 900px)').matches) setPanelOpen(false);
     setMac(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || ''));
   }, []);
   useEffect(() => {
@@ -359,7 +359,7 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
                 <input ref={searchRef} type="search" value={search} onChange={handleSearch} placeholder={`Search ${SNIPPET_COUNT} snippets`} aria-label="Search UI snippets" />
                 <kbd className={g.kbd} aria-hidden="true">{mac ? '⌘ K' : 'Ctrl K'}</kbd>
               </div>
-              <button type="button" className={`${g.toolBtn} ${panelOpen ? g.toolBtnOn : ''}`} onClick={() => setPanelOpen(v => !v)} aria-expanded={panelOpen} aria-controls="uis-filters">
+              <button type="button" className={`${g.toolBtn} ${panelOpen ? g.toolBtnOn : ''}`} onClick={togglePanel} aria-expanded={panelOpen} aria-controls="uis-filters">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="17" x2="20" y2="17" /><circle cx="9" cy="7" r="2.4" fill="var(--surface)" /><circle cx="15" cy="17" r="2.4" fill="var(--surface)" /></svg>
                 Filters{chips.length > 0 && <span className={g.toolCount}>{chips.length}</span>}
               </button>
@@ -382,7 +382,7 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
 
             <div className={`${g.layout} ${panelOpen ? '' : g.layoutClosed}`}>
               {panelOpen && (
-                <aside id="uis-filters" className={g.panel} aria-label="Filter snippets">
+                <aside id="uis-filters" className={`${g.panel} ${panelAuto ? g.panelAuto : ''}`} aria-label="Filter snippets">
                   <fieldset className={g.group}>
                     <legend>Yours</legend>
                     <Check checked={bookmarkedOn} onChange={toggleBookmarkedView} label="Bookmarked" count={bookmarks.length} />
@@ -404,6 +404,7 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
                       </button>
                     )}
                   </fieldset>
+                  <button type="button" className={g.panelDone} onClick={closePanel}>Show {filtered.length.toLocaleString('en-US')} {filtered.length === 1 ? 'result' : 'results'}</button>
                 </aside>
               )}
               <div className={g.results}>{results}</div>

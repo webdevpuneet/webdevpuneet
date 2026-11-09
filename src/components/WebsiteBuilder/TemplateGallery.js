@@ -8,6 +8,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { LoadMore } from '@/components/UiSnippetsGallery';
+import useFilterPanel from '@/lib/use-filter-panel';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
 import g from './TemplateGallery.module.css';
@@ -59,7 +60,7 @@ export default function TemplateGallery({ templates, industries }) {
   const [access, setAccess] = useState(''); // '' | 'free' | 'patreon'
   const [favOnly, setFavOnly] = useState(false);
   const [sort, setSort] = useState('new');
-  const [panelOpen, setPanelOpen] = useState(true);
+  const { open: panelOpen, auto: panelAuto, toggle: togglePanel, close: closePanel } = useFilterPanel();
   const [favs, setFavs] = useState([]);
   const [recent, setRecent] = useState([]);
   const [shownCount, setShownCount] = useState(PAGE);
@@ -70,7 +71,6 @@ export default function TemplateGallery({ templates, industries }) {
   useEffect(() => {
     setFavs(readList(FAV_KEY));
     setRecent(readList(RECENT_KEY));
-    if (window.matchMedia('(max-width: 900px)').matches) setPanelOpen(false);
     setMac(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || ''));
   }, []);
   // Ctrl/⌘ K jumps to the search box
@@ -144,7 +144,7 @@ export default function TemplateGallery({ templates, industries }) {
             <input ref={searchRef} type="search" value={q} onChange={ev => setQ(ev.target.value)} placeholder="Search templates, industries or styles" aria-label="Search website templates" />
             <kbd className={g.kbd} aria-hidden="true">{mac ? '⌘ K' : 'Ctrl K'}</kbd>
           </div>
-          <button type="button" className={`${g.toolBtn} ${panelOpen ? g.toolBtnOn : ''}`} onClick={() => setPanelOpen(v => !v)} aria-expanded={panelOpen} aria-controls="tpl-filters">
+          <button type="button" className={`${g.toolBtn} ${panelOpen ? g.toolBtnOn : ''}`} onClick={togglePanel} aria-expanded={panelOpen} aria-controls="tpl-filters">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="17" x2="20" y2="17" /><circle cx="9" cy="7" r="2.4" fill="var(--surface)" /><circle cx="15" cy="17" r="2.4" fill="var(--surface)" /></svg>
             Filters{chips.length > 0 && <span className={g.toolCount}>{chips.length}</span>}
           </button>
@@ -168,7 +168,7 @@ export default function TemplateGallery({ templates, industries }) {
 
         <div className={`${g.layout} ${panelOpen ? '' : g.layoutClosed}`}>
           {panelOpen && (
-            <aside id="tpl-filters" className={g.panel} aria-label="Filter templates">
+            <aside id="tpl-filters" className={`${g.panel} ${panelAuto ? g.panelAuto : ''}`} aria-label="Filter templates">
               <fieldset className={g.group}>
                 <legend>Industry</legend>
                 <Check checked={inds.length === 0} onChange={() => setInds([])} label="All industries" count={countFor('ind', () => true)} />
@@ -197,6 +197,7 @@ export default function TemplateGallery({ templates, industries }) {
                 <legend>Yours</legend>
                 <Check checked={favOnly} onChange={() => setFavOnly(v => !v)} label="Favourites" count={favs.filter(id => byId[id]).length} />
               </fieldset>
+              <button type="button" className={g.panelDone} onClick={closePanel}>Show {list.length} {list.length === 1 ? 'result' : 'results'}</button>
             </aside>
           )}
 
