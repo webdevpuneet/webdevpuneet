@@ -153,3 +153,17 @@ Format: date · area · suggested / chosen / done · note
            outlines. SEO text (About 635 words, 7 headings, 4 internal links), both AI prompts and preview (Play lens hovered) redone; title 53 chars, description 151.
            33 headless-Chromium checks pass (tracking, lag, stretch, rotation continuity, all four modes, frame geometry, press, ripple, keyboard focus, window leave, touch, reduced motion,
            CDN blocked). Not deployed.
+2026-11-09 · ui snippets · done · scrollama-story-steps rebuilt from a node highlighter into a scrubbed pipeline story: a packet travels between measured node centres (Browser > Edge >
+           Server > Client) as each step's progress runs, connector lines are real CSS gradients filled by a --w custom property (the old hard-coded SVG wires did not line up with the
+           nodes), HTML chunks stream into the Server node, a live millisecond clock + four-part waterfall bar (illustrative timings, 840 ms total), three-state nodes with status chips
+           (Edge flips from cache lookup to miss). One pure render(index, progress) is called from onStepProgress (cheap, no layout reads) and, through a geometry-based sync(), from
+           onStepEnter / onStepExit, so jumps (scrollbar, dots, Replay, restored scroll position) always land right; a second IntersectionObserver on the intro and footer covers a jump
+           over the whole story, which crosses no step and fires nothing. Phones: graphic becomes a compact pinned strip with the nodes in a row, packet travels horizontally. Step dots
+           (aria-current) + focusable steps + aria-live announcement, Replay button, scroller.resize() + re-measure on resize / orientationchange / fonts.ready, reduced motion (no cue, no
+           transitions, instant jumps), sss-js class only after Scrollama loads so a blocked CDN leaves a fully visible article. SEO text (About 869 words, 8 headings, 3 internal links),
+           both AI prompts and preview (mid-story, step 3) redone; title 57 chars, description 159. 36 headless-Chromium checks pass (scrubbing at every step, scroll back, jumps to the
+           end and top, dots, Tab focus, phone strip, resize, reduced motion, CDN blocked). Not deployed.
+2026-11-09 · ui snippets · done · scrollama-story-steps follow-up (Puneet: "check position"): the packet rested on a node CENTRE, so at step 2 it sat on top of the "Edge" label. It now travels
+           along the wires from one node's exit edge (bottom, or right on phones) to the next node's entry edge and holds on the Edge node's entry edge; edge positions are measured once
+           and re-measured on resize. SEO text and both AI prompts updated to say so. New headless check: the packet centre stays outside every node box at 20 positions (4 steps x 5
+           progress values) on desktop and phone. 40 headless-Chromium checks pass; preview re-captured; title 57 chars, description 159, About 898 words. Not deployed.
