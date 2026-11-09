@@ -6,13 +6,17 @@
   gap: 56px;
   max-width: 1396px;
   width: 100%;
+  min-width: 0;
   margin: 0 auto;
 }
 
-/* ── Two-column body: content left, 300px ad right ── */
+/* ── Two-column body: content left, 300px ad right ──
+   The content column is minmax(0, 1fr), never a bare 1fr: a bare 1fr has an automatic minimum, so anything in the
+   grid that cannot shrink (the ad column: AdSense wraps its ad in fixed-pixel-wide elements) stretches the whole
+   column past the screen on a phone and the cards run into the right edge with no gutter. */
 .seoBody {
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: minmax(0, 1fr) 300px;
   gap: 48px;
   align-items: start;
 }
@@ -45,15 +49,17 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  min-width: 0;
 }
 
 @media (max-width: 1500px) {
   .seoBody {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .seoAdCol {
     position: static;
     width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -708,7 +714,7 @@
   gap: 10px;
 }
 @media (max-width: 600px) {
-  .featGrid { grid-template-columns: 1fr; }
+  .featGrid { grid-template-columns: minmax(0, 1fr); }
 }
 
 .featCard {
@@ -1485,16 +1491,16 @@
   .aboutTitle { font-size: 20px !important; }
 
   /* Sections */
-  .twoCol { grid-template-columns: 1fr; }
-  .twoColLeft2 { grid-template-columns: 1fr; }
-  .twoColRight2 { grid-template-columns: 1fr; }
-  .cardsGrid2 { grid-template-columns: 1fr; }
-  .cardsGrid3 { grid-template-columns: 1fr; }
+  .twoCol { grid-template-columns: minmax(0, 1fr); }
+  .twoColLeft2 { grid-template-columns: minmax(0, 1fr); }
+  .twoColRight2 { grid-template-columns: minmax(0, 1fr); }
+  .cardsGrid2 { grid-template-columns: minmax(0, 1fr); }
+  .cardsGrid3 { grid-template-columns: minmax(0, 1fr); }
   .cardsGrid4 { grid-template-columns: 1fr 1fr; }
-  .useCases { grid-template-columns: 1fr; }
-  .relatedGrid { grid-template-columns: 1fr; }
-  .ctaRow { grid-template-columns: 1fr; }
-  .aboutGrid { grid-template-columns: 1fr; }
+  .useCases { grid-template-columns: minmax(0, 1fr); }
+  .relatedGrid { grid-template-columns: minmax(0, 1fr); }
+  .ctaRow { grid-template-columns: minmax(0, 1fr); }
+  .aboutGrid { grid-template-columns: minmax(0, 1fr); }
 
   /* Steps */
   .stepItem { padding: 14px 16px; }

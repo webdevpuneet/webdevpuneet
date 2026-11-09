@@ -1877,6 +1877,9 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
     box-shadow: none;
   }
   .consoleFab:hover, .consoleFabEmpty:hover { transform: none; box-shadow: none; }
+  /* Mount node the console renders into on phones: the last item of the page (after the HTML / CSS / JS panels,
+     which are order 4), so the console bar sits at the very bottom of the snippet. */
+  .mobileConsole { order: 5; flex-shrink: 0; }
 }
 
 /* Snippet title strip under the toolbar: phones only (wider screens show it inside the toolbar) */

@@ -802,6 +802,8 @@
   .snippetGrid, .shotGrid, .blogGrid, .playGrid, .tutGrid { grid-template-columns: 1fr; }
   .builderStrip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .heroCtas a { flex: 1 1 100%; justify-content: center; }
+  /* Website Builder banner: the two buttons are the same full width, label centred (they were two different widths, left-aligned) */
+  .builderCtaRow a { flex: 1 1 100%; justify-content: center; }
   .heroBenefits { justify-content: flex-start; text-align: left; }
 }
 

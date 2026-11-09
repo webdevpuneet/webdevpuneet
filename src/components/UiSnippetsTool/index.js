@@ -1350,6 +1350,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   // preview's bottom-right corner (null = no room): the tab is absolutely positioned in <body>, so it
   // scrolls with the page natively instead of being re-placed (and lagging) on every scroll.
   const stageRef = useRef(null);
+  // Phones: the console renders into this node at the very end of the page layout, below the code editors
+  const [consoleHost, setConsoleHost] = useState(null);
   const [sideLeft, setSideLeft] = useState(null);
   const [sideTop, setSideTop] = useState(null);
   useEffect(() => {
@@ -2439,6 +2441,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               <EditorPanel lang="js"   code={jsCode}   highlight={highlightJS}   onChange={onJs}   onReset={resetJs}   collapsed={jsCollapsed}   onToggle={toggleJsPanel} headerExtra={jsHeaderExtra} />
             </div>
           )}
+          {/* Phones: mount point for the console bar, last in the layout (order 5), under the HTML / CSS / JS panels */}
+          {showEditor && isMobile && <div ref={setConsoleHost} className={s.mobileConsole} />}
           {/* AdSense leaderboard (slot 7360198340) directly above the Preview toolbar, 970x90 /
               728x90 / 468x60 / 320x50 by available width. Library snippets only: My Code snippets,
               a new snippet being created and the My Code gallery have no leaderboard. Collapses
@@ -2653,8 +2657,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             const n = consoleLogs.length;
             const level = consoleLogs.some(l => l.level === 'error') ? 'error' : consoleLogs.some(l => l.level === 'warn') ? 'warn' : n ? 'log' : undefined;
             const open = consoleOpen && n > 0;
-            const outside = sideLeft !== null;
-            return (
+            const outside = sideLeft !== null && !isMobile;
+            const content = (
               <>
                 {open && (
                   <div className={s.consoleDock}>
@@ -2699,6 +2703,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                 )}
               </>
             );
+            // On phones the console goes to the mount node under the code editors instead of under the preview
+            return isMobile && consoleHost ? createPortal(content, consoleHost) : content;
           })()}
           </div>}
           {/* Related snippets bar under the preview: removed 2026-11-04 (the carousel below the editor shows them) */}
