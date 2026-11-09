@@ -1860,6 +1860,25 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
 .consoleTab .consoleBadge { writing-mode: horizontal-tb; }  /* the count reads upright, only the label runs vertically */
 .consoleTabOn { background: var(--surface2, #f1f5f9); }
 
+/* Phones: no floating pill over the preview. The console is a slim full-width bar stuck to the
+   bottom of the preview (in the flow, under the iframe), like the docked panel it opens into.
+   Declared after the base .consoleFab so it wins the cascade. */
+@media (max-width: 767px) {
+  .consoleFab {
+    position: static;
+    flex-shrink: 0;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    padding: 5px 12px;
+    border-width: 1px 0 0;
+    border-radius: 0;
+    background: var(--surface2, #f1f5f9);
+    box-shadow: none;
+  }
+  .consoleFab:hover, .consoleFabEmpty:hover { transform: none; box-shadow: none; }
+}
+
 /* Snippet title strip under the toolbar: phones only (wider screens show it inside the toolbar) */
 .mobileTitle { display: none; }
 @media (max-width: 767px) {
