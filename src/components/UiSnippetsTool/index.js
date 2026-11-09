@@ -523,13 +523,29 @@ const TOP_AD_SIZES = [
   { w: 468, h: 60 },
   { w: 320, h: 50 },
 ];
-function TopAdIns({ w, h }) {
+/* Phones (under 768px wide) are the exception to the fixed sizes above: there the unit is fully responsive,
+   auto width and auto height (data-ad-format="auto" + full-width-responsive), so AdSense serves whatever
+   banner fits the screen. The phone layout is one natural-flow column, so the ancestor rewrite described
+   above does not collapse anything there. If a phone preview ever collapses, drop the `auto` size below. */
+function TopAdIns({ w, h, auto }) {
   useEffect(() => {
     const id = setTimeout(() => {
       try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
     }, 300);
     return () => clearTimeout(id);
   }, []);
+  if (auto) {
+    return (
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'block' }}
+        data-ad-client="ca-pub-2762737943861458"
+        data-ad-slot="7360198340"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
+    );
+  }
   return (
     <ins
       className="adsbygoogle"
@@ -551,7 +567,7 @@ function SnippetTopAd() {
       if (strip.offsetParent === null || strip.clientWidth === 0) return;
       const cs = getComputedStyle(strip);
       const avail = strip.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-      const next = TOP_AD_SIZES.find(z => z.w <= avail) || null;
+      const next = window.innerWidth < 768 ? { w: 0, h: 0, auto: true } : (TOP_AD_SIZES.find(z => z.w <= avail) || null);
       setSize(prev => prev ?? next);
     };
     pick();
@@ -561,8 +577,8 @@ function SnippetTopAd() {
     return () => ro.disconnect();
   }, []);
   return (
-    <div ref={boxRef} className={s.adBarUnit} style={size ? { width: size.w, height: size.h } : undefined}>
-      {size && <TopAdIns key={size.w} w={size.w} h={size.h} />}
+    <div ref={boxRef} className={s.adBarUnit} style={size && !size.auto ? { width: size.w, height: size.h } : undefined}>
+      {size && <TopAdIns key={size.auto ? 'auto' : size.w} w={size.w} h={size.h} auto={size.auto} />}
     </div>
   );
 }

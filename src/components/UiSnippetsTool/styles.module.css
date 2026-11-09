@@ -1618,10 +1618,11 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
      before wading through HTML/CSS/JS tabs is the more useful default. */
   .previewHeader { order: 1; }
   .adBar         { order: 1; }  /* the ad sits above the preview toolbar (DOM order breaks the tie) */
-  /* Top ad: the fixed size the picker sets inline (320x50 on phones, 468x60 where it fits) is kept.
-     It used to be overridden with `height:auto !important`, which let AdSense serve a 300x250 here.
-     Max height 70px on the strip (60px unit + padding + border) is the safety net, same as the editors' strip. */
-  .adBar { max-height: 70px; }
+  /* Top ad: fully responsive on phones, auto width and auto height. The unit takes the full width of the strip and
+     grows to whatever banner AdSense serves (no max height); the ad itself is data-ad-format="auto" (see SnippetTopAd). */
+  .adBar { padding-left: 0; padding-right: 0; }
+  .adBarUnit { width: 100%; height: auto; min-height: 50px; }
+  .adBarUnit > :global(ins.adsbygoogle) { width: 100%; min-height: 50px; }
   .adBarSlot { height: auto; min-height: 50px; }
   .previewStage  { order: 2; flex: none; }
   .iframeWrap    { order: 2; }
