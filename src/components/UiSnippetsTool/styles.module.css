@@ -331,6 +331,13 @@ button.headerBrand {
   overflow: visible;
   min-height: 0;
 }
+/* Leaderboard above the My Code gallery: a rounded card inside the page padding, like the library gallery's */
+.previewPane > .galleryTopAd {
+  width: calc(100% - 40px);
+  margin: 16px 20px 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
 /* Library snippets: preview on the left, code editor docked on the right */
 .bodyCodeRight { flex-direction: row-reverse; }
 .bodyCodeRight .editorTab { border-right: none; border-left: 1px solid var(--border); }

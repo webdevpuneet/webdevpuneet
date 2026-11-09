@@ -2346,6 +2346,10 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
         {/* — Preview pane / Gallery — */}
         <div className={s.previewPane} style={isMobile ? {} : galleryMode ? { overflow: 'visible', height: 'auto' } : { flex: 1, overflowY: showEditor ? 'hidden' : 'auto' }}>
           {!showEditor && sidebarTab === 'library' && <UiSnippetsGallery initialCategory={initialCategory} initialTag={initialTag} />}
+          {/* My Code gallery: the same shared leaderboard as the library gallery, above the saved snippets (not on phones) */}
+          {!showEditor && sidebarTab === 'saved' && SNIPPET_TOP_AD_ENABLED && !adFree && (
+            <PlaygroundTopAd className={s.galleryTopAd} />
+          )}
           {!showEditor && sidebarTab === 'saved' && (
             <SavedGallery
               snippets={customSnippets}
@@ -2385,11 +2389,11 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           {/* Phones: mount point for the console bar, last in the layout (order 5), under the HTML / CSS / JS panels */}
           {showEditor && isMobile && <div ref={setConsoleHost} className={s.mobileConsole} />}
           {/* The shared leaderboard (components/PlaygroundTopAd, slot 7360198340, the same component every other page
-              uses) directly above the Preview toolbar. Library snippets only: My Code snippets, a new snippet being
-              created and the My Code gallery have no leaderboard. Keyed by snippet id so each snippet view mounts a
-              fresh ad (AdSense forbids refreshing one without new content). Collapses itself when unfilled. Switched
-              off with SNIPPET_TOP_AD_ENABLED in lib/ads-config.js. */}
-          {showEditor && !inMyCode && SNIPPET_TOP_AD_ENABLED && !adFree && (
+              uses) directly above the Preview toolbar, on library snippets AND My Code snippets (saved and new ones;
+              added 2026-11-09). The My Code gallery has no editor, so no leaderboard. Keyed by snippet id so each snippet
+              view mounts a fresh ad (AdSense forbids refreshing one without new content). Collapses itself when
+              unfilled; not shown on phones. Switched off with SNIPPET_TOP_AD_ENABLED in lib/ads-config.js. */}
+          {showEditor && SNIPPET_TOP_AD_ENABLED && !adFree && (
             <PlaygroundTopAd key={activeId || 'none'} className={s.topAdSlot} />
           )}
           {showEditor && <div ref={previewHdrRef} className={`${s.previewHeader} ${navCentered ? s.previewHeaderCentered : ''}`} data-scroll-toolbar>
