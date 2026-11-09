@@ -6,10 +6,13 @@ import { useAdFreeOnLoad } from '@/lib/use-ad-free';
 import { useIsNotFound } from '@/lib/not-found-state';
 import s from './styles.module.css';
 
-/* — Playground top ad: the same leaderboard unit as the UI snippet editor (slot 7360198340),
-   placed above the lesson in every Learn to Code playground. The size follows the width
-   actually available in the playground's main column, not the screen:
-     970x90 large leaderboard → 728x90 leaderboard → 468x60 banner → 320x50 mobile.
+/* — The site's top leaderboard (AdSense slot 7360198340). ONE component for every page: the four editors (Website
+   Builder, Section / Email / Social Post Templates), their galleries, the UI snippet editor and galleries, the category
+   pages and the Learn to Code playgrounds and tools.
+   NOT shown on phones: below 768px wide there is no strip and no ad request (decided 2026-11-09; the phone layouts
+   keep the page ad under the content instead).
+   The size follows the width actually available in the main column, not the screen:
+     970x90 large leaderboard → 728x90 leaderboard → 468x60 banner (tablets).
    Each size is a FIXED slot. Do NOT use data-ad-format="horizontal"/"auto" or
    data-full-width-responsive here: AdSense then rewrites ancestor inline styles to
    `height:auto !important; min-height:0 !important`, which collapses the editor layout.
@@ -20,32 +23,15 @@ const SIZES = [
   { w: 970, h: 90 },
   { w: 728, h: 90 },
   { w: 468, h: 60 },
-  { w: 320, h: 50 },
 ];
 
-/* Phones (under 768px wide) are the exception to the fixed sizes: the unit is fully responsive there, auto width
-   and auto height (data-ad-format="auto" + full-width-responsive), the same as the UI snippet editor's top ad, so
-   AdSense serves whatever banner fits the screen. If a phone layout ever collapses because AdSense rewrote its
-   ancestors' heights (seen 2026-11-04 in the Social editor), pass `desktopOnly` on that page's <PlaygroundTopAd />. */
-function AdIns({ w, h, auto }) {
+function AdIns({ w, h }) {
   useEffect(() => {
     const id = setTimeout(() => {
       try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
     }, 300);
     return () => clearTimeout(id);
   }, []);
-  if (auto) {
-    return (
-      <ins
-        className="adsbygoogle"
-        style={{ display: 'block' }}
-        data-ad-client="ca-pub-2762737943861458"
-        data-ad-slot="7360198340"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      />
-    );
-  }
   return (
     <ins
       className="adsbygoogle"
@@ -67,7 +53,7 @@ function AdUnit() {
       if (strip.offsetParent === null || strip.clientWidth === 0) return;
       const cs = getComputedStyle(strip);
       const avail = strip.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-      const next = window.innerWidth < 768 ? { w: 0, h: 0, auto: true } : (SIZES.find(z => z.w <= avail) || null);
+      const next = SIZES.find(z => z.w <= avail) || null;
       setSize(prev => prev ?? next);
     };
     pick();
@@ -77,32 +63,27 @@ function AdUnit() {
     return () => ro.disconnect();
   }, []);
   return (
-    <div ref={boxRef} className={`${s.unit} ${size?.auto ? s.unitAuto : ''}`} style={size && !size.auto ? { width: size.w, height: size.h } : undefined}>
-      {size && <AdIns key={size.auto ? 'auto' : size.w} w={size.w} h={size.h} auto={size.auto} />}
+    <div ref={boxRef} className={s.unit} style={size ? { width: size.w, height: size.h } : undefined}>
+      {size && <AdIns key={size.w} w={size.w} h={size.h} />}
     </div>
   );
 }
 
 // `inline` sits the strip inside a tool's title row (title left, ad filling the rest).
 // `className` lets a padded main column pull the strip out to its edges (HTML playground).
-// `desktopOnly`: no strip and no ad request below 900px. The four editors (Website Builder, Section / Email / Social Post
-// Templates) used it after AdSense collapsed the Social preview on phones (seen 2026-11-04: 68px instead of 369px); since
-// 2026-11-09 they show the fixed 320x50 unit on phones too, ABOVE the toolbar (never between toolbar and preview).
-// If a phone preview collapses again, put `desktopOnly` back on that editor's <PlaygroundTopAd />.
+// `desktopOnly`: stricter cut-off, no strip below 900px instead of the default 768px.
 export default function PlaygroundTopAd({ className = '', inline = false, desktopOnly = false }) {
   const notFound = useIsNotFound();
-  const [wide, setWide] = useState(false);
+  const [wide, setWide] = useState(false); // false until measured: nothing is rendered, and no ad requested, on a phone
   const adFree = useAdFreeOnLoad();
   useEffect(() => {
-    if (!desktopOnly) return undefined;
-    const mq = window.matchMedia('(min-width: 900px)');
+    const mq = window.matchMedia(`(min-width: ${desktopOnly ? 900 : 768}px)`);
     const sync = () => setWide(mq.matches);
     sync();
     mq.addEventListener('change', sync);
     return () => mq.removeEventListener('change', sync);
   }, [desktopOnly]);
-  if (!ADS_ENABLED || notFound || adFree) return null;
-  if (desktopOnly && !wide) return null;
+  if (!ADS_ENABLED || notFound || adFree || !wide) return null;
   return (
     <div className={`${s.bar} ${inline ? s.inline : ''} ${className}`} aria-label="Advertisement">
       <AdUnit />

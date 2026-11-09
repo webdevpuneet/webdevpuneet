@@ -509,8 +509,3 @@
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
-
-/* Phones: let the header wrap so the responsive top ad sits on its own full-width row under the title */
-@media (max-width: 767px) {
-  .header { flex-wrap: wrap; padding-top: 6px; padding-bottom: 6px; }
-}

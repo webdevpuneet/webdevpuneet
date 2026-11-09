@@ -1,4 +1,4 @@
-/* Leaderboard strip above the lesson: full width of the main column, at most 90px of ad. */
+/* Leaderboard strip above the lesson: full width of the main column, at most 90px of ad. Not rendered on phones. */
 .bar {
   flex: 0 0 auto;
   display: flex;
@@ -11,10 +11,6 @@
   box-sizing: border-box;
 }
 .unit { display: block; flex-shrink: 0; }  /* width/height set inline from the chosen size */
-/* Phones: fully responsive, auto width and auto height. The strip has no side padding so the ad can use the full width. */
-.unitAuto { width: 100%; height: auto; min-height: 50px; }
-.unitAuto > :global(ins.adsbygoogle) { width: 100%; min-height: 50px; }
-@media (max-width: 767px) { .bar:has(.unitAuto) { padding-left: 0; padding-right: 0; } }
 /* AdSense found no ad: collapse the whole strip instead of leaving a gap. */
 .bar:has(ins[data-ad-status="unfilled"]) { display: none; }
 
@@ -25,9 +21,4 @@
   min-width: 0;
   margin-left: 12px;
   border-bottom: 0;
-}
-
-/* Phones: the inline strip (beside a tool's title) takes a full-width row of its own, no height limit */
-@media (max-width: 767px) {
-  .inline { flex: 1 1 100%; margin-left: 0; }
 }

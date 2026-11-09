@@ -229,9 +229,3 @@
   z-index: 99; pointer-events: none;
   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
-
-/* Phones: the header is not a fixed 52px row any more. The top ad is responsive (auto height), so the header grows
-   with it and the ad drops to its own full-width row under the title instead of being squeezed beside it. */
-@media (max-width: 767px) {
-  .header { height: auto; min-height: 52px; flex-wrap: wrap; padding-top: 6px; padding-bottom: 6px; }
-}
