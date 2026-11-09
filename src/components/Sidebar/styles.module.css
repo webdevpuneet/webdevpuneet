@@ -1129,6 +1129,11 @@
   display: none;
 }
 
+/* ── Mobile top bar: logo + menu icon. Phones only, NOT sticky (static, scrolls away with the page) ── */
+.mobileBar {
+  display: none;
+}
+
 /* ── Mobile breakpoint ── */
 @media (max-width: 768px) {
   .collapseTab { display: none; }
@@ -1215,6 +1220,48 @@
   .hamburger:active {
     transform: scale(0.96);
   }
+
+  .mobileBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    position: static; /* not sticky or fixed: it scrolls away with the page */
+    height: 38px;
+    padding: 0 8px 0 12px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-sizing: border-box;
+  }
+  .mobileBrand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    text-decoration: none;
+    color: var(--text);
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    white-space: nowrap;
+  }
+  .mobileBrand strong { font-weight: 700; }
+  .mobileBrandIcon { width: 22px; height: 22px; flex: none; border-radius: 5px; }
+  .mobileMenuBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 28px;
+    flex: none;
+    border: 1px solid var(--border2, var(--border));
+    border-radius: 8px;
+    background: var(--surface3, var(--surface));
+    color: var(--text2);
+    cursor: pointer;
+  }
+  .mobileMenuBtn:active { transform: scale(0.96); }
 }
 
 /* ── Dark theme overrides ── */

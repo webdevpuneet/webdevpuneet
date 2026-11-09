@@ -1305,22 +1305,25 @@ export default function Sidebar() {
         <div className={styles.overlay} onClick={() => setMobileOpen(false)} aria-hidden="true" />
       )}
 
-      {/* Mobile hamburger */}
-      <button
-        className={styles.hamburger}
-        onClick={() => setMobileOpen(v => !v)}
-        aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-      >
-        {mobileOpen ? (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      {/* Mobile top bar (phones only, not sticky): logo + menu icon that opens the drawer.
+          It replaces the old floating hamburger at the bottom-left. Tap the dark backdrop to close. */}
+      <div className={styles.mobileBar}>
+        <a href="/" className={styles.mobileBrand}>
+          <img className={styles.mobileBrandIcon} src="/icons/brand-logo.png" alt="" width={26} height={26} />
+          <span>webdevpuneet<strong>.com</strong></span>
+        </a>
+        <button
+          type="button"
+          className={styles.mobileMenuBtn}
+          onClick={() => setMobileOpen(true)}
+          aria-label="Open menu"
+          aria-expanded={mobileOpen}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
+            <line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/>
           </svg>
-        ) : (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-          </svg>
-        )}
-      </button>
+        </button>
+      </div>
 
       {/* Reopen rail — fixed at top-left, shown only while the sidebar is
           collapsed (the aside itself is off-screen, so this has to live

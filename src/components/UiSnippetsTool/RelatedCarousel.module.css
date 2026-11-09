@@ -346,22 +346,27 @@
 }
 
 
-@media (max-width: 768px) {
-  .track {
-    flex-wrap: wrap;
-  }
-  .card {
-    flex-basis: calc(50% - 6px);
-  }
-}
-
 /* Home strip: below 1300px, three cards a row (the six-per-page strip wraps to two rows). */
 @media (max-width: 1300px) {
   .trackThree { flex-wrap: wrap; }
   .trackThree .card { flex: 0 0 calc((100% - 24px) / 3); }
 }
+
+/* Phones: every related / latest strip is ONE row that swipes sideways, the same as the Related
+   Email, Social Post and Section Template strips (HomeTemplatesCarousel). Placed after the 1300px
+   rule so it wins for .trackThree too. */
 @media (max-width: 768px) {
-  .trackThree .card { flex-basis: calc(50% - 6px); }
+  .track, .trackThree {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+  }
+  .card, .trackThree .card { flex: 0 0 200px; scroll-snap-align: start; }
+}
+@media (max-width: 560px) {
+  .card, .trackThree .card { flex-basis: 44vw; }
 }
 
 .thumb {
