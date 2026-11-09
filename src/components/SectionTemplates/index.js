@@ -934,8 +934,8 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
         </aside>
 
         <div className={s.main} style={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
-          {/* Leaderboard ad (max 90px) above the toolbar (never between toolbar and preview): the same unit as the UI snippet editor and playgrounds; 320x50 on phones */}
-          <PlaygroundTopAd />
+          {/* Leaderboard ad (max 90px) above the toolbar (never between toolbar and preview): the same unit as the UI snippet editor and playgrounds; hidden at 900px and below, where the editor has its phone layout */}
+          <PlaygroundTopAd desktopOnly />
           <div className={s.toolbar} data-scroll-toolbar>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', minWidth: 0 }}>
               <h1 className={s.metaName} title={currentDesign ? `Saved design “${currentDesign.name}”` : undefined}>{currentDesign ? currentDesign.name : t.name}</h1>
