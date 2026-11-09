@@ -59,8 +59,12 @@
   --clr-violet-dk: #8b5cf6;
 }
 
-/* Sidebar collapse — adjust main content left margin */
-body.sidebar-left-collapsed [class*="mainWrap"] { margin-left: 32px !important; transition: margin-left 0.25s cubic-bezier(0.4,0,0.2,1); }
+/* Sidebar collapse — adjust main content left margin. Desktop only: on phones the sidebar is an off-screen drawer
+   whatever its saved "collapsed" state (kept in localStorage, so a sidebar collapsed on desktop stays flagged when the
+   window is narrowed), and the page must stay centred with no left margin. */
+@media (min-width: 769px) {
+  body.sidebar-left-collapsed [class*="mainWrap"] { margin-left: 32px !important; transition: margin-left 0.25s cubic-bezier(0.4,0,0.2,1); }
+}
 
 
 
