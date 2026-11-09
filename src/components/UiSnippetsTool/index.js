@@ -1319,10 +1319,14 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   }, [showEditor, activeId]);
   const [hdrW, setHdrW] = useState(0);
   const [navW, setNavW] = useState(262);        // width of the Refresh / Search / Prev / Home / Next / Random group
-  const [navCentered, setNavCentered] = useState(false);
-  useEffect(() => {
+  // null = not measured yet: the nav group is invisible (it keeps its space) until the first measurement, so it
+  // never shows in the left-hand position and then jumps to the centre. true / false = measured.
+  const [navCentered, setNavCentered] = useState(null);
+  // useLayoutEffect: the first measurement lands before the browser paints the toolbar
+  useLayoutEffect(() => {
     const el = previewHdrRef.current;
-    if (!el || typeof ResizeObserver === 'undefined') return;
+    if (!el) return;
+    if (typeof ResizeObserver === 'undefined') { setNavCentered(prev => (prev === null ? false : prev)); return; }
     const measure = () => {
       const w = el.clientWidth;
       const nav = el.querySelector('.' + s.previewNav);
@@ -1334,7 +1338,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
       const side = Math.max(rightW + 16, 90);
       setHdrW(w);
       if (nw) setNavW(nw);
-      setNavCentered(nw > 0 && w >= 2 * side + nw);
+      // nw === 0: the nav is not in the DOM yet (the toolbar re-measures when it is); keep waiting instead of guessing "left"
+      setNavCentered(prev => (nw > 0 ? w >= 2 * side + nw : prev));
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -2396,7 +2401,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           {showEditor && SNIPPET_TOP_AD_ENABLED && !adFree && (
             <PlaygroundTopAd key={activeId || 'none'} className={s.topAdSlot} />
           )}
-          {showEditor && <div ref={previewHdrRef} className={`${s.previewHeader} ${navCentered ? s.previewHeaderCentered : ''}`} data-scroll-toolbar>
+          {showEditor && <div ref={previewHdrRef} className={`${s.previewHeader} ${navCentered ? s.previewHeaderCentered : ''} ${navCentered === null ? s.previewHeaderMeasuring : ''}`} data-scroll-toolbar>
             {/* Everything but the action menus scrolls sideways in one row when space is
                 short; Fork / Export stay pinned outside so their menus aren't clipped. */}
             <div className={s.previewScroll}>
@@ -2443,7 +2448,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                     aria-label={`Snippet ${customIdx + 1} of ${customSorted.length}`}
                   >
                     <span className={s.navCountCur}>{customIdx + 1}</span>
-                    <span className={s.navCountOf}>/{customSorted.length}</span>
+                    <i className={s.navCountSep} aria-hidden="true" />
+                    <span className={s.navCountOf}>{customSorted.length}</span>
                     <i className={s.navCountBar} style={{ width: `${((customIdx + 1) / customSorted.length) * 100}%` }} aria-hidden="true" />
                   </span>
                 )}
@@ -2540,7 +2546,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                     aria-label={`Snippet ${catIdx + 1} of ${catSnippets.length}`}
                   >
                     <span className={s.navCountCur}>{catIdx + 1}</span>
-                    <span className={s.navCountOf}>/{catSnippets.length}</span>
+                    <i className={s.navCountSep} aria-hidden="true" />
+                    <span className={s.navCountOf}>{catSnippets.length}</span>
                     <i className={s.navCountBar} style={{ width: `${((catIdx + 1) / catSnippets.length) * 100}%` }} aria-hidden="true" />
                   </span>
                 )}

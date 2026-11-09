@@ -137,3 +137,10 @@ Format: date · area · suggested / chosen / done · note
            phone, hex colour, number, JSON with prettify/minify, UPS/FedEx/USPS tracking with carrier link), trim switch, 7 s Undo, Escape clears, in-memory Recent chips (never stored),
            copy with writeText -> execCommand -> select fallback chain. SEO text, both AI prompts and preview redone; title 55 chars, description 154. 34 headless-Chromium checks pass
            (granted and blocked clipboard, phone width). Not deployed or committed yet.
+2026-11-09 · ui snippets · done · wow-js-pricing-table-reveal rebuilt as a showpiece: one entrance per element (heading fadeInDown, switch zoomIn, side plans fadeInUp, featured
+           flipInY) from one WOW instance, now with animateClass 'animate__animated' and no animate__animated in the markup (the old markup played the animation at page load before the
+           reveal); featured card keeps its size with the standalone scale property (transform: scale was overridden by flipInY) plus a rotating conic-gradient ring (@property + mask);
+           Monthly/Yearly radio switch (-20%) with prices that count (rAF tween, cancel token) and annual totals; aria-pressed plan buttons, live role=status summary; pointer spotlight;
+           "Replay the entrance" (wow.stop + reset + re-init); prefers-reduced-motion and no-CDN fallbacks. Fixed a wrong claim in the SEO text (perspective: 1000px is not needed:
+           animate.css 4 puts perspective(400px) inside flipInY). SEO text, both AI prompts and preview redone; title 52 chars, description 158, About 628 words, 3 internal links.
+           25 headless-Chromium checks pass (entrance, scale, switch, counting, selection, arrow keys, replay, reduced motion, CDN blocked, phone 390px). Not deployed.
