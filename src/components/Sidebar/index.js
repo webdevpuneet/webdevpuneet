@@ -1309,7 +1309,7 @@ export default function Sidebar() {
           It replaces the old floating hamburger at the bottom-left. Tap the dark backdrop to close. */}
       <div className={styles.mobileBar}>
         <a href="/" className={styles.mobileBrand}>
-          <img className={styles.mobileBrandIcon} src="/icons/brand-logo.png" alt="" width={26} height={26} />
+          <img className={styles.mobileBrandIcon} src="/icons/brand-logo.png" alt="" width={32} height={32} />
           <span>webdevpuneet<strong>.com</strong></span>
         </a>
         <button
@@ -1319,7 +1319,7 @@ export default function Sidebar() {
           aria-label="Open menu"
           aria-expanded={mobileOpen}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
             <line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/>
           </svg>
         </button>
