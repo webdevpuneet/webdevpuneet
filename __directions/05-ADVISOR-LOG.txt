@@ -144,3 +144,12 @@ Format: date · area · suggested / chosen / done · note
            "Replay the entrance" (wow.stop + reset + re-init); prefers-reduced-motion and no-CDN fallbacks. Fixed a wrong claim in the SEO text (perspective: 1000px is not needed:
            animate.css 4 puts perspective(400px) inside flipInY). SEO text, both AI prompts and preview redone; title 52 chars, description 158, About 628 words, 3 internal links.
            25 headless-Chromium checks pass (entrance, scale, switch, counting, selection, arrow keys, replay, reduced motion, CDN blocked, phone 390px). Not deployed.
+2026-11-09 · ui snippets · done · quickto-cursor rebuilt from a dot + ring into a cursor system: nine gsap.quickTo setters (dot x / y / scaleX / scaleY, ring x / y / rotation / scaleX / scaleY),
+           speed stretch (ring rotated to the travel angle, unwrapped to the shortest turn, scaleX stretches along it, 90 ms relax timer), four cursor modes from data-cursor (view / play /
+           drag lenses with data-label, and a magnetic frame that sizes the ring to the button and retargets it to the element centre + 18% pointer lean), one delegated mouseover handler,
+           dot hidden inside label lenses, press shrink + click ripple, followers invisible until the first move and faded out when the pointer leaves, xPercent/yPercent centring.
+           Native cursor hidden only when (hover: hover) and (pointer: fine) and GSAP loaded; prefers-reduced-motion = near-zero durations (quickTo with duration 0 never moves) and no
+           stretch / ripple. Found two GSAP gotchas while testing: quickTo(el, 'scale') does nothing (use scaleX + scaleY) and duration 0 never moves. Cards are real buttons with focus
+           outlines. SEO text (About 635 words, 7 headings, 4 internal links), both AI prompts and preview (Play lens hovered) redone; title 53 chars, description 151.
+           33 headless-Chromium checks pass (tracking, lag, stretch, rotation continuity, all four modes, frame geometry, press, ripple, keyboard focus, window leave, touch, reduced motion,
+           CDN blocked). Not deployed.
