@@ -11,6 +11,8 @@ import { publishedTags, tagsForSnippetId, TAG_BY_ID } from '@/lib/snippet-tags';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import useFilterPanel from '@/lib/use-filter-panel';
 import { useBookmarks, toggleBookmark, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
+import { PremiumBadge } from '@/components/PremiumGate';
+import { isPremiumGameSnippet } from '@/lib/premium';
 import s from './styles.module.css';
 import g from '../WebsiteBuilder/TemplateGallery.module.css';
 
@@ -315,6 +317,7 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
           <article key={sn.id} className={s.card}>
             <div className={s.previewWrap}>
               <InViewImg className={s.preview} src={`/images/ui-snippets/previews/${sn.id}.png`} alt="" />
+              {isPremiumGameSnippet(sn) && <PremiumBadge corner kind="game" />}
               <button
                 type="button"
                 aria-pressed={bookmarks.includes(sn.id)}

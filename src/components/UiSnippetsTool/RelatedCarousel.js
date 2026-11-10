@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import InViewImg from '@/components/InViewImg';
 import { createPortal } from 'react-dom';
 import { navStart } from '@/lib/navStart';
+import { PremiumBadge } from '@/components/PremiumGate';
+import { isPremiumGameSnippet } from '@/lib/premium';
 import rs from './RelatedCarousel.module.css';
 
 const PAGE_SIZE = 6;
@@ -66,6 +68,7 @@ function RelatedCard({ sn, active, onPeek }) {
         src={`/images/ui-snippets/previews/${sn.id}.png`}
         alt={sn.title}
       />
+      {isPremiumGameSnippet(sn) && <PremiumBadge corner kind="game" />}
       <h4 className={rs.cardTitle}>{sn.title}</h4>
     </a>
   );

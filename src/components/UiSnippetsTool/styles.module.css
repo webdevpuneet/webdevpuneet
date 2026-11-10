@@ -2027,6 +2027,10 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
 }
 @keyframes coIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .codeOverlay { animation: none; } }
+/* The draggable strip across the top of the sheet; the small bar inside it is the visible grip */
+.coGripHit { align-self: stretch; display: flex; justify-content: center; flex: none; height: 20px; cursor: ns-resize; touch-action: none; border-radius: 16px 16px 0 0; }
+.coGripHit:focus-visible { outline: 2px solid #6366f1; outline-offset: -2px; }
+.coGripHit:hover .coGrip, .coGripHit:focus-visible .coGrip { background: #6366f1; }
 .coGrip { align-self: center; width: 40px; height: 4px; margin: 8px 0 2px; border-radius: 99px; background: var(--border); }
 .coHead { flex: none; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 10px; row-gap: 6px; padding: 6px 12px 12px; border-bottom: 1px solid var(--border); }
 .coHeadText { min-width: 0; }

@@ -60,3 +60,5 @@ dev tools can still read it. Copy updated: sidebar supporter popover, PremiumGat
 2026-11-10 · LOCK_GAME_CODE now also covers the static pages: /ui-snippets/<game>/embed/ (code tabs show a lock note, no code or highlighted HTML is sent;
 the live game still plays and can be embedded) and the "Source Code" block on /ui-snippets/<game>/ (replaced by components/UiSnippetsTool/LockedGameCode.js,
 no code in the static HTML, export button hidden). The code is still in the editor's JS bundle, so this stays a soft lock.
+2026-11-10 · Games now show the same "Patreon" corner badge as the Patreon website templates: on the cards of the UI Snippets gallery/category pages and on the
+Related carousel of a snippet page (isPremiumGameSnippet in src/lib/premium.js; PremiumBadge kind="game"). Not on the editor's Related overlay (it would badge every card).

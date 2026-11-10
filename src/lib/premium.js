@@ -17,6 +17,8 @@ export { PATREON_URL, PATREON_PRICE, PASSCODE_SHA256, LOCK_SECTION_EXPORT, LOCK_
 export const isPremiumTemplate = id => PREMIUM_TEMPLATE_IDS.includes(id);
 export const isPremiumSocialTemplate = id => PREMIUM_SOCIAL_TEMPLATE_IDS.includes(id);
 export const isPremiumEmailTemplate = id => PREMIUM_EMAIL_TEMPLATE_IDS.includes(id);
+/** A snippet whose code, export and fork are for supporters: every snippet in the Games category (LOCK_GAME_CODE) */
+export const isPremiumGameSnippet = sn => !!sn && LOCK_GAME_CODE && sn.category === 'games';
 
 const KEY = 'wdp_premium_unlock_v1';
 const EVENT = 'wdp-premium-change';

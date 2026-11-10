@@ -1081,12 +1081,60 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
     setPeek({ src: previewSrc(sn.id), title: sn.title, left, top: topPx, width: w, cy: r.top + r.height / 2 });
   };
 
+  // Drag the grip at the top of the sheet to resize it: 50% (default) to 100% of the code panel, remembered for the session
+  const asideRef = useRef(null);
+  const [pct, setPct] = useState(() => { try { const v = Number(sessionStorage.getItem('uis-related-pct')); return v >= 50 && v <= 100 ? v : 50; } catch { return 50; } });
+  const pctRef = useRef(pct);
+  const applyPct = v => { pctRef.current = Math.max(50, Math.min(100, v)); setPct(pctRef.current); };
+  const savePct = () => { try { sessionStorage.setItem('uis-related-pct', String(pctRef.current)); } catch {} };
+  const startResize = e => {
+    const aside = asideRef.current;
+    const host = aside && (aside.offsetParent || aside.parentElement);
+    if (!host) return;
+    e.preventDefault();
+    setPeek(null);
+    const r = host.getBoundingClientRect();
+    document.body.style.userSelect = 'none';
+    document.querySelectorAll('iframe').forEach(f => { f.style.pointerEvents = 'none'; });
+    const move = ev => applyPct(((r.bottom - ev.clientY) / r.height) * 100);
+    const up = () => {
+      document.body.style.userSelect = '';
+      document.querySelectorAll('iframe').forEach(f => { f.style.pointerEvents = ''; });
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      window.removeEventListener('pointercancel', up);
+      savePct();
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+    window.addEventListener('pointercancel', up);
+  };
+  const onGripKey = e => {
+    if (e.key === 'ArrowUp') { e.preventDefault(); applyPct(pctRef.current + 5); savePct(); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); applyPct(pctRef.current - 5); savePct(); }
+  };
+
   if (!open) return null;
   const close = () => { setOpen(false); setPeek(null); };
   const shown = pool.slice(range.from, range.to);
   return (
-    <aside className={s.codeOverlay} aria-label="Related snippets" onMouseLeave={() => setPeek(null)}>
-      <span className={s.coGrip} aria-hidden="true" />
+    <aside ref={asideRef} className={s.codeOverlay} style={{ height: pct + '%' }} aria-label="Related snippets" onMouseLeave={() => setPeek(null)}>
+      <div
+        className={s.coGripHit}
+        role="separator"
+        aria-orientation="horizontal"
+        aria-label="Drag to resize the related snippets panel"
+        aria-valuemin={50}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(pct)}
+        tabIndex={0}
+        title="Drag to resize (double-click to reset)"
+        onPointerDown={startResize}
+        onDoubleClick={() => { applyPct(50); savePct(); }}
+        onKeyDown={onGripKey}
+      >
+        <span className={s.coGrip} aria-hidden="true" />
+      </div>
       <div className={s.coHead}>
         <div className={s.coHeadText}>
           <p className={s.coTitle}>Related Snippets</p>

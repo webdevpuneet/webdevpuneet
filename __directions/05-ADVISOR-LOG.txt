@@ -203,3 +203,4 @@ Format: date · area · suggested / chosen / done · note
 2026-11-10 · sidebar + patreon · done · sidebar order now: brand, top ad, Patreon supporter bar, blog ticker, search; "Games" link above UI Snippets; top nav row has Games first; LOCK_GAME_CODE added (games code, export, fork).
            Syntax-checked only (TypeScript transpile), not run in a browser, not deployed.
 2026-11-10 · patreon · done · LOCK_GAME_CODE extended to /embed/ pages and the Source Code block on game pages (no game code in their static HTML). Syntax-checked only, not built, not deployed.
+2026-11-10 · patreon · done · "Patreon" corner badge on game snippet cards (gallery + related carousel), like the Patreon website templates. Syntax-checked only, not deployed.

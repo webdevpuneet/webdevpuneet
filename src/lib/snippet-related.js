@@ -15,7 +15,7 @@ const NEWEST_FIRST_SNIPPETS = [...VISIBLE_SNIPPETS].reverse();
 export function getRelatedSnippets(category, limit = 60) {
   const pool = NEWEST_FIRST_SNIPPETS.filter(sn => sn.category === category);
   return {
-    items: pool.slice(0, limit).map(sn => ({ id: sn.id, title: sn.title })),
+    items: pool.slice(0, limit).map(sn => ({ id: sn.id, title: sn.title, category: sn.category })),
     total: pool.length,
   };
 }

@@ -23,8 +23,11 @@ const LOCK = (
 );
 
 /** The small "Patreon" lock tag on template cards and pages */
-export function PremiumBadge({ corner = false }) {
-  return <span className={`${s.badge} ${corner ? s.corner : ''}`} title="Patreon supporter template: preview and edit freely, export with the supporter passcode">{LOCK} Patreon</span>;
+export function PremiumBadge({ corner = false, kind = 'template' }) {
+  const title = kind === 'game'
+    ? 'Patreon supporter game: play it free, the code, export and fork need the supporter passcode'
+    : 'Patreon supporter template: preview and edit freely, export with the supporter passcode';
+  return <span className={`${s.badge} ${corner ? s.corner : ''}`} title={title}>{LOCK} Patreon</span>;
 }
 
 /** Passcode dialog: opens the Patreon page to get the code, or checks the one typed in */
