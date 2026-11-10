@@ -13,7 +13,7 @@ import s from './styles.module.css';
 import { SNIPPET_INDEX as SNIPPETS, VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
 import { publishedTags } from '@/lib/snippet-tags';
 import { usePremiumUnlocked, PremiumUnlockDialog } from '@/components/PremiumGate';
-import { LOCK_SNIPPET_AI } from '@/lib/premium';
+import { LOCK_SNIPPET_AI, LOCK_GAME_CODE } from '@/lib/premium';
 import { CATEGORIES } from './categories';
 import BookmarkButton from './BookmarkButton';
 import { loadSnippet as fetchSnippet, getLoadedSnippet } from './loadSnippet';
@@ -351,7 +351,7 @@ function startDrag(onMove) {
 }
 
 /* — Editor panel -------------------------------------------------------------- */
-function EditorPanel({ lang, code, highlight, onChange, onReset, collapsed, onToggle, className, flexVal, headerExtra, hideChevron, ...rest }) {
+function EditorPanel({ lang, code, highlight, onChange, onReset, collapsed, onToggle, className, flexVal, headerExtra, hideChevron, locked, onUnlock, ...rest }) {
   const taRef = useRef(null);
   const hiRef = useRef(null);
   const [copied, setCopied] = useState(false);
@@ -390,8 +390,8 @@ function EditorPanel({ lang, code, highlight, onChange, onReset, collapsed, onTo
         <span className={s.panelLang} style={{ color: langColor[lang] }}>{lang.toUpperCase()}</span>
         {headerExtra}
         <div className={s.panelBtns}>
-          {onReset && <button className={s.panelBtn} onClick={e => { e.stopPropagation(); onReset(e); }} title="Reset to original">Reset</button>}
-          <button className={`${s.panelBtn} ${copied ? s.panelBtnOk : ''}`} onClick={copyCode}>{copied ? 'Copied!' : 'Copy'}</button>
+          {onReset && !locked && <button className={s.panelBtn} onClick={e => { e.stopPropagation(); onReset(e); }} title="Reset to original">Reset</button>}
+          {!locked && <button className={`${s.panelBtn} ${copied ? s.panelBtnOk : ''}`} onClick={copyCode}>{copied ? 'Copied!' : 'Copy'}</button>}
           {!hideChevron && (
             <button className={s.panelBtn} onClick={e => { e.stopPropagation(); onToggle(); }} title={collapsed ? 'Expand' : 'Collapse'}>
               {collapsed
@@ -402,7 +402,14 @@ function EditorPanel({ lang, code, highlight, onChange, onReset, collapsed, onTo
           )}
         </div>
       </div>
-      {!collapsed && (
+      {!collapsed && locked && (
+        <div className={s.codeArea} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 8, padding: 16, textAlign: 'center', color: 'var(--text2)', fontSize: 12.5 }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          <span>The game code is for Patreon supporters.</span>
+          <button type="button" className={s.panelBtn} onClick={e => { e.stopPropagation(); onUnlock && onUnlock(); }} style={{ background: '#6366f1', borderColor: '#6366f1', color: '#fff' }}>Unlock with passcode</button>
+        </div>
+      )}
+      {!collapsed && !locked && (
         <div className={s.codeArea}>
           <pre ref={hiRef} className={s.highlight} aria-hidden="true" dangerouslySetInnerHTML={{ __html: highlighted + '\n' }} />
           <textarea
@@ -916,6 +923,7 @@ function ExportMenu({ options }) {
                   <span className={s.exportMenuItemLabel}>{o.label}</span>
                   <span className={s.exportMenuItemSub}>{o.sub}</span>
                 </span>
+                {o.locked && <span style={{ flex: 'none', fontSize: 9.5, fontWeight: 800, letterSpacing: '.04em', textTransform: 'uppercase', padding: '2px 6px', borderRadius: 99, background: 'rgba(99,102,241,.14)', color: '#6366f1' }}>Patreon</span>}
                 <svg className={s.exportMenuItemArrow} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
             </div>
@@ -1845,8 +1853,11 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
     showToast('Downloaded!');
   }
 
+  // Games: the code, the exports and Fork are for supporters (the game itself stays playable, Embed stays free)
+  const codeLocked = LOCK_GAME_CODE && !activeIsCustom && SNIPPET_META.get(activeId)?.category === 'games' && !premiumUnlocked;
+
   /* — Options for the single Export dropdown (labels + what each produces) — */
-  const exportOptions = [
+  const exportOptionsAll = [
     // Test Exports needs room for its side-by-side lightbox — desktop only.
     ...(!isMobile && !isTablet ? [{ label: 'Test Exports', sub: 'Preview & try every format live', onClick: () => setTesterOpen(true) }] : []),
     { label: 'HTML',            sub: 'Standalone .html file',                onClick: downloadSnippet },
@@ -1859,6 +1870,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
     // canonical /ui-snippets/[slug]/ page for the embed iframe to point back to.
     ...(!activeIsCustom ? [{ label: 'Embed', sub: 'Live-preview <iframe> for WordPress & other sites', onClick: () => setEmbedModalOpen(true) }] : []),
   ];
+  const exportOptions = codeLocked
+    ? exportOptionsAll.map(o => (o.label === 'Embed' ? o : { ...o, locked: true, sub: 'For Patreon supporters', onClick: () => setUnlockOpen(true) }))
+    : exportOptionsAll;
 
   /* — Toast — */
   function showToast(msg) { setToast(msg); setTimeout(() => setToast(''), 2000); }
@@ -2170,8 +2184,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           {showEditor && <div className={`${s.popoverAnchor} ${s.forkAnchor}`} ref={savePopRef}>
             <button
               className={s.iconBtn}
-              onClick={() => { setSaveName(activeSn?.title || activeSn?.name || ''); setShowSave(v => !v); setSaveStatus(''); }}
-              title="Fork this snippet into your own editable copy"
+              onClick={() => { if (codeLocked) { setUnlockOpen(true); return; } setSaveName(activeSn?.title || activeSn?.name || ''); setShowSave(v => !v); setSaveStatus(''); }}
+              title={codeLocked ? 'Fork is for Patreon supporters: click to enter the passcode' : 'Fork this snippet into your own editable copy'}
               aria-label="Fork this snippet"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="5" r="2.5"/><circle cx="18" cy="5" r="2.5"/><circle cx="12" cy="19" r="2.5"/><path d="M6 7.5v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2"/><line x1="12" y1="11.5" x2="12" y2="16.5"/></svg>
@@ -2354,11 +2368,11 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               style={{ position: 'relative', flex: editorVisible ? `0 0 ${editorWidth}px` : undefined, minWidth: editorVisible ? 300 : undefined, display: editorVisible ? 'flex' : 'none' }}
             >
               {headerInCode && headerEl}
-              <EditorPanel lang="html" data-panel="html" code={htmlCode} highlight={highlightHTML} onChange={onHtml} onReset={resetHtml} collapsed={htmlCollapsed} onToggle={toggleHtmlPanel} className={`${sidebarTab === 'saved' ? s.panelTopBorder : ''} ${htmlCollapsed ? '' : s.panelFlex}`} flexVal={htmlCollapsed ? undefined : htmlFlex} />
+              <EditorPanel lang="html" data-panel="html" locked={codeLocked} onUnlock={() => setUnlockOpen(true)} code={htmlCode} highlight={highlightHTML} onChange={onHtml} onReset={resetHtml} collapsed={htmlCollapsed} onToggle={toggleHtmlPanel} className={`${sidebarTab === 'saved' ? s.panelTopBorder : ''} ${htmlCollapsed ? '' : s.panelFlex}`} flexVal={htmlCollapsed ? undefined : htmlFlex} />
               {!htmlCollapsed && !cssCollapsed && <div className={s.vDragHandle} onMouseDown={onHtmlCssDragStart} title="Drag to resize" />}
-              <EditorPanel lang="css"  data-panel="css"  code={cssCode}  highlight={highlightCSS}  onChange={onCss}  onReset={resetCss} collapsed={cssCollapsed}  onToggle={toggleCssPanel}  className={cssCollapsed  ? '' : s.panelFlex} flexVal={cssCollapsed  ? undefined : cssFlex} headerExtra={cssHeaderExtra} />
+              <EditorPanel lang="css"  data-panel="css"  locked={codeLocked} onUnlock={() => setUnlockOpen(true)} code={cssCode}  highlight={highlightCSS}  onChange={onCss}  onReset={resetCss} collapsed={cssCollapsed}  onToggle={toggleCssPanel}  className={cssCollapsed  ? '' : s.panelFlex} flexVal={cssCollapsed  ? undefined : cssFlex} headerExtra={cssHeaderExtra} />
               {!cssCollapsed && !jsCollapsed && <div className={s.vDragHandle} onMouseDown={onCssJsDragStart} title="Drag to resize" />}
-              <EditorPanel lang="js"   data-panel="js"   code={jsCode}   highlight={highlightJS}   onChange={onJs}   onReset={resetJs} collapsed={jsCollapsed}   onToggle={toggleJsPanel}   className={jsCollapsed   ? '' : s.panelFlex} flexVal={jsCollapsed   ? undefined : jsFlex} headerExtra={jsHeaderExtra} />
+              <EditorPanel lang="js"   data-panel="js"   locked={codeLocked} onUnlock={() => setUnlockOpen(true)} code={jsCode}   highlight={highlightJS}   onChange={onJs}   onReset={resetJs} collapsed={jsCollapsed}   onToggle={toggleJsPanel}   className={jsCollapsed   ? '' : s.panelFlex} flexVal={jsCollapsed   ? undefined : jsFlex} headerExtra={jsHeaderExtra} />
               {editorVisible && !inMyCode && activeSn?.category && <RelatedCodeOverlay key={activeId} activeId={activeId} category={activeSn.category} paneRef={editorRef} />}
             </div>
             {editorVisible && <div className={s.dragHandle} onMouseDown={onSplitDragStart} title="Drag to resize" />}

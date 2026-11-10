@@ -985,7 +985,7 @@ function BlogTab() {
 
 /* ─────────────────────────────────────────────────
    BlogTicker — the latest five blog posts as a one/two-line title that rotates
-   every 5 seconds, just under the sidebar's top ad. Shares the BlogTab's
+   every 5 seconds, just under the sidebar's top ad (the ad comes first, then the ticker). Shares the BlogTab's
    post cache. The bottom progress bar drives the rotation (its animationend
    advances), so hover/focus pauses both together and a hidden tab, where CSS
    animations don't run, doesn't rotate.
@@ -1364,6 +1364,12 @@ export default function Sidebar() {
           </button>
         </div>
 
+        {/* Sidebar top ad (first, right under the brand row). Keyed by pathname so every page mounts a fresh slot.
+            Shown on every URL (query strings included); never on the 404 page. */}
+        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !adFreeOnLoad && !isNotFoundPage && !isEmbedRoute(pathname) && adsAllowedOnPath(pathname) && (
+          <SidebarTopAd key={pathname} />
+        )}
+
         {/* Patreon: a supporter sees the thank-you line; everyone else sees the sign-in line (both one line, same place) */}
         {!adFree && (
           <div className={`${styles.supporterBar} ${styles.supporterBarOff}`}>
@@ -1376,6 +1382,7 @@ export default function Sidebar() {
               <ul className={styles.supporterPopList}>
                 <li>No ads anywhere on the site</li>
                 <li>The AI prompt on every snippet and template</li>
+                <li>The code, export and fork of every game</li>
                 <li>Export the templates with a Patreon badge (website, email and social post)</li>
                 <li>Bulk create social posts from a CSV</li>
                 <li>Backup and restore all your saved designs</li>
@@ -1395,14 +1402,8 @@ export default function Sidebar() {
           </div>
         )}
 
-        {/* Latest blog posts, one at a time, right under the Patreon line (above the ad). */}
+        {/* Latest blog posts, one at a time, right under the Patreon line. */}
         <BlogTicker />
-
-        {/* Sidebar top ad (under the blog ticker). Keyed by pathname so every page mounts a fresh slot.
-            Shown on every URL (query strings included); never on the 404 page. */}
-        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !adFreeOnLoad && !isNotFoundPage && !isEmbedRoute(pathname) && adsAllowedOnPath(pathname) && (
-          <SidebarTopAd key={pathname} />
-        )}
 
 
         <>
@@ -1507,6 +1508,8 @@ export default function Sidebar() {
                     onToggle={() => setFavOpen(v => !v)}
                   />
                   <ResumeCard snippets={customSnippets} projects={projects} />
+                  {/* Games sit first, above UI Snippets */}
+                  <SidebarLink href="/ui-snippets/games/" icon="/icons/games.svg" label="Games" active={/^\/ui-snippets\/games(\/|$)/.test(pathname)} />
                   <UiSnippetsCategories pathname={pathname} />
                   {/* Learn to Code sits right after UI Snippets */}
                   <PlaygroundsGroup

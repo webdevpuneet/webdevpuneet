@@ -7,10 +7,12 @@ import { CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import { VISIBLE_SNIPPET_INDEX } from '@/lib/snippet-index';
 
 // Same lists the old header strip used: categories that have visible snippets, and the published tags.
+const FIRST_CATEGORY = 'games';   // shown first in the row, ahead of the usual order
 const CATS = CATEGORIES
   .filter(c => c.id !== 'all' && !c.devOnly)
   .filter(c => VISIBLE_SNIPPET_INDEX.some(sn => sn.category === c.id))
-  .map(c => ({ id: c.id, label: c.label }));
+  .map(c => ({ id: c.id, label: c.label }))
+  .sort((a, b) => (b.id === FIRST_CATEGORY) - (a.id === FIRST_CATEGORY));
 
 // Top nav for /ui-snippets/: one horizontally scrollable row of categories (no hover panel).
 export default function SnippetsTopNav() {

@@ -30,14 +30,14 @@ function isCssUrl(url) {
   return /\.css(\?.*)?$/.test(url.trim());
 }
 
-export default function EmbedShell({ title, html, css, js, htmlHl, cssHl, jsHl, srcDoc, canonicalUrl, cdnUrls = [] }) {
+export default function EmbedShell({ title, html, css, js, htmlHl, cssHl, jsHl, srcDoc, canonicalUrl, cdnUrls = [], hasJs = false, codeLocked = false }) {
   const [active, setActive] = useState('result');
   const [copied, setCopied] = useState('');
 
   const tabs = [
     { id: 'html', label: 'HTML', code: html, hl: htmlHl },
     { id: 'css', label: 'CSS', code: css, hl: cssHl },
-    ...(js ? [{ id: 'js', label: 'JS', code: js, hl: jsHl }] : []),
+    ...(js || hasJs ? [{ id: 'js', label: 'JS', code: js, hl: jsHl }] : []),
     { id: 'result', label: 'Result', code: null, hl: null },
   ];
 
@@ -159,7 +159,15 @@ export default function EmbedShell({ title, html, css, js, htmlHl, cssHl, jsHl, 
           />
         </div>
 
-        {active !== 'result' && activeTab && (
+        {active !== 'result' && activeTab && codeLocked && (
+          <div className={styles.codePane} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10, textAlign: 'center', padding: 24, color: '#cbd5e1', fontSize: 14 }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            <span>The code for this game is for Patreon supporters.</span>
+            <a href={canonicalUrl} target="_blank" rel="noopener noreferrer nofollow" style={{ color: '#a5b4fc', fontWeight: 700 }}>Unlock it on the game page</a>
+          </div>
+        )}
+
+        {active !== 'result' && activeTab && !codeLocked && (
           <div className={styles.codePane}>
             {(active === 'css' || active === 'js') && cdnUrls.some(u => isCssUrl(u) === (active === 'css')) && (
               <div className={styles.cdnStrip}>

@@ -182,3 +182,24 @@ Format: date · area · suggested / chosen / done · note
            while held, so release never fired / mouseleave ended the take. Now: persistent mic with pointer capture, real slide-to-cancel (70px, red state), <600ms tap guard + toast, mic becomes Send when text typed,
            waveform sampled from the whole take, playable bubbles, keyboard (hold Space/Enter, Esc), reduced motion. 14 headless-Chromium behaviour checks pass. SEO text, FAQs, AI prompts rewritten; title 58 chars,
            description 156. Preview re-captured. Not deployed.
+2026-11-10 · ui snippets · done · matter-js-hill-climb-car upgraded into a full game (Puneet: "make it awesome play"): start card + results card (distance/coins/score), 500 m summit with checkered flag and progress bar, coins on hill arcs,
+           nitro boost with its own meter, flip bonuses (airborne rotation summed, +100 per turn, popups), dust/flame/spark particles, screen shake, leading camera, parallax sun/clouds/2 hill layers, hand-drawn car/wheels,
+           optional engine sound (off by default), 3 touch pedals, R to restart, best score in localStorage. Headless Chromium run: starts, drives 4s to 41 m, boost drains, 23 coins, restart works, no errors. SEO text, FAQs,
+           both AI prompts rewritten; title 54 chars, description 157. Preview re-captured. Not deployed.
+2026-11-10 · ui snippets · done · matter-js-slingshot-tower-knockdown rebuilt as a game: 3 levels, limited stones, green critters that pop on impact speed, wood/stone/glass materials (glass shatters), exact dotted aim preview
+           (launch velocity set from the pull, preview replays gravity 0.2778 + air 0.004 per step; headless check: predicted y 419.4 vs actual 419.0), enddrag release, stars + 300/unused stone, particles, shake, hand-drawn
+           scene. Bugs hit while testing and fixed: spring created without a body gave NaN stone position (set elastic.angleB on attach); destination-over background drawn sky-first hid the hills/ground. Win flow through 3 levels
+           tested headless, no page errors. SEO text, FAQs, both AI prompts rewritten; title 59 chars, description 153. Preview re-captured. Not deployed.
+2026-11-10 · sidebar · done · BlogTicker moved below the sidebar top ad (order now: brand, Patreon bar, SidebarTopAd, BlogTicker, search). Not tested in a browser, not deployed.
+2026-11-10 · ui snippets · done · matter-js-stacking-tower-game rebuilt: real pendulum (x/y from sin/cos of theta, accumulated phase), Perfect landings + combo (10 + 25*combo), wind on falling floors only (meter + leaning guide),
+           narrowing floors with lit windows, terminal fall speed 6 px/step, score + saved best/best height, dusk-to-night sky with stars/moon, particles, start + results cards. The old SEO text claimed "momentum carry-over"
+           while the code had none: rewritten. Headless bots: imperfect (+-8 px) drops collapse at ~30 m, perfect placement reaches 57 m (33 floors) before Matter's stack gives out; chamfer/sleeping/iteration/slop variants
+           did not change that, so left as is. SEO text, FAQs, AI prompts rewritten; title 54 chars, description 159. Preview re-captured. Not deployed.
+2026-11-10 · sidebar · done · BlogTicker moved below the sidebar top ad (order now: brand, Patreon bar, SidebarTopAd, BlogTicker, search). Not tested in a browser, not deployed.
+2026-11-10 · ui snippets · done · matter-js-stacking-tower-game rebuilt: real pendulum (x/y from sin/cos of theta, accumulated phase), Perfect landings + combo (10 + 25*combo), wind on falling floors only (meter + leaning guide),
+           narrowing floors with lit windows, terminal fall speed 6 px/step, score + saved best/best height line, dusk-to-night sky with stars/moon, particles, start + results cards. The old SEO text claimed "momentum
+           carry-over" while the code had none: rewritten. Headless bots: imperfect (+-8 px) drops collapse at ~30 m, perfect placement reaches 57 m (33 floors) before Matter's stack gives out; chamfer/sleeping/iteration/slop
+           variants did not change that, so left as is. SEO text, FAQs, AI prompts rewritten; title 54 chars, description 159. Preview re-captured. Not deployed.
+2026-11-10 · sidebar + patreon · done · sidebar order now: brand, top ad, Patreon supporter bar, blog ticker, search; "Games" link above UI Snippets; top nav row has Games first; LOCK_GAME_CODE added (games code, export, fork).
+           Syntax-checked only (TypeScript transpile), not run in a browser, not deployed.
+2026-11-10 · patreon · done · LOCK_GAME_CODE extended to /embed/ pages and the Source Code block on game pages (no game code in their static HTML). Syntax-checked only, not built, not deployed.

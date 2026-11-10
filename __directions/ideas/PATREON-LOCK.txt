@@ -52,3 +52,11 @@ ADDING ANOTHER PATREON-ONLY TEMPLATE: add its id to PREMIUM_TEMPLATE_IDS in patr
 2026-11-06: Website Section Templates unlocked for everyone (LOCK_SECTION_EXPORT=false; section backup unlocked in SectionTemplates/index.js). Copy updated in section FAQs, PremiumGate and the sidebar Patreon popover.
 2026-11-06: Website templates online-course, coach, event added to PREMIUM_TEMPLATE_IDS (11 of 25). New LOCK_SOCIAL_VIDEO=true: animated video (MP4/WebM) download is Patreon-only on every social template (Play preview stays free). Social editor Share (WhatsApp) button removed; Export is the only menu.
 2026-11-06: LOCK_SOCIAL_BULK=true: Bulk create from CSV is Patreon-only on every social template.
+
+2026-11-10 · GAMES CODE LOCK (LOCK_GAME_CODE in src/lib/patreon-settings.js, default true): for snippets in the Games category the HTML/CSS/JS panels show
+"The game code is for Patreon supporters" with an Unlock button (Copy/Reset hidden), every Export format incl. Test Exports shows a Patreon badge and opens the
+passcode dialog, and Fork opens it too. The game stays playable for everyone and Embed stays free. Soft lock only: the preview iframe runs the same code, so
+dev tools can still read it. Copy updated: sidebar supporter popover, PremiumGate dialog text. Set LOCK_GAME_CODE=false to turn it off.
+2026-11-10 · LOCK_GAME_CODE now also covers the static pages: /ui-snippets/<game>/embed/ (code tabs show a lock note, no code or highlighted HTML is sent;
+the live game still plays and can be embedded) and the "Source Code" block on /ui-snippets/<game>/ (replaced by components/UiSnippetsTool/LockedGameCode.js,
+no code in the static HTML, export button hidden). The code is still in the editor's JS bundle, so this stays a soft lock.

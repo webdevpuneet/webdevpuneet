@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { CATEGORY_SEO } from '@/lib/snippet-category-seo';
 import SeoSection from '@/components/SeoSection';
-import { LOCK_SNIPPET_AI } from '@/lib/patreon-settings';
+import { LOCK_SNIPPET_AI, LOCK_GAME_CODE } from '@/lib/patreon-settings';
 import LandingPageStart, { StartTemplateButtons } from './LandingPageStart';
 import SnippetIndex from './SnippetIndex';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
@@ -13,6 +13,7 @@ import { tagsForSnippet, publishedTags } from '@/lib/snippet-tags';
 import { highlightCode } from '@/lib/shiki-highlight';
 import SnippetExportButton from '@/components/UiSnippetsTool/SnippetExportButton';
 import SourceCodeTabs from '@/components/UiSnippetsTool/SourceCodeTabs';
+import LockedGameCode from '@/components/UiSnippetsTool/LockedGameCode';
 import NavbarBuilderPromo from '@/components/NavbarBuilderPromo';
 import RelatedCarousel from '@/components/UiSnippetsTool/RelatedCarousel';
 import { getRelatedSnippets } from '@/lib/snippet-related';
@@ -965,7 +966,9 @@ Requirements:
   // "Related" tab and only mounts its code textareas after a click), this
   // block is always in the markup a crawler fetches, same technique the
   // /embed/ route already uses.
-  const [htmlHl, cssHl, jsHl] = await Promise.all([
+  // Games are Patreon-only code (LOCK_GAME_CODE): no code is highlighted or sent to the page for them, a lock note replaces it.
+  const gameCodeLocked = LOCK_GAME_CODE && sn.category === 'games';
+  const [htmlHl, cssHl, jsHl] = gameCodeLocked ? ['', '', ''] : await Promise.all([
     highlightCode(sn.html, 'html', 'github-dark'),
     highlightCode(sn.css, 'css', 'github-dark'),
     sn.js ? highlightCode(sn.js, 'javascript', 'github-dark') : Promise.resolve(''),
@@ -979,9 +982,11 @@ Requirements:
     <div key="source-code">
       <div className={styles.sourceCodeHeader}>
         <h2 className={styles.sourceCodeTitle}>Source Code</h2>
-        <SnippetExportButton id={sn.id} title={sn.title} html={sn.html} css={sn.css} js={sn.js || ''} cdnUrls={sn.cdnUrls || []} />
+        {!gameCodeLocked && <SnippetExportButton id={sn.id} title={sn.title} html={sn.html} css={sn.css} js={sn.js || ''} cdnUrls={sn.cdnUrls || []} />}
       </div>
-      <SourceCodeTabs html={sn.html} css={sn.css} js={sn.js || ''} htmlHl={htmlHl} cssHl={cssHl} jsHl={jsHl} cdnUrls={sn.cdnUrls || []} />
+      {gameCodeLocked
+        ? <LockedGameCode />
+        : <SourceCodeTabs html={sn.html} css={sn.css} js={sn.js || ''} htmlHl={htmlHl} cssHl={cssHl} jsHl={jsHl} cdnUrls={sn.cdnUrls || []} />}
     </div>
   );
 

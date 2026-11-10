@@ -3,7 +3,7 @@
 
    Supporters ($3/month) get: no ads anywhere on the site, Export + Fork on the Patreon-only templates (website, email, social
    post), the AI prompt on every UI snippet and template (LOCK_SNIPPET_AI, LOCK_TEMPLATE_AI), the Backup panel (LOCK_BACKUP)
-   and Bulk create from CSV (LOCK_SOCIAL_BULK). Social post video export and section template export/backup are free.
+   and Bulk create from CSV (LOCK_SOCIAL_BULK). The code, export and fork of the Games snippets (LOCK_GAME_CODE) are supporters-only too. Social post video export and section template export/backup are free.
    If you change a lock below, update the copy that describes it: about, terms, privacy-policy, the passcode dialog
    (components/PremiumGate) and the sidebar tooltip.
 
@@ -63,6 +63,11 @@ export const LOCK_SOCIAL_VIDEO = false;
 /* true: the "AI" prompt button in the UI Snippets editor toolbar is for supporters only (others see a locked button that
    opens the passcode dialog). */
 export const LOCK_SNIPPET_AI = true;
+
+/* true: the code of every snippet in the Games category (the HTML, CSS and JS panels), its Copy buttons, every Export format
+   (HTML, Tailwind, React, Vue, Angular, Test Exports) and Fork are for supporters only. The game itself stays playable for
+   everyone, and the Embed link stays free. (A soft lock, in the browser: the preview runs the same code.) */
+export const LOCK_GAME_CODE = true;
 
 /* true: the same for every template type (website templates, website section templates, email templates, social post
    templates): the "AI" prompt button in the editor toolbar and the "Extend with AI" section on the template's page are for
