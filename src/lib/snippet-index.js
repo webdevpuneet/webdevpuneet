@@ -1007,7 +1007,7 @@ export const SNIPPET_INDEX = [
   {"id":"canvas-fluid-cursor-trail","title":"Canvas Fluid Cursor Trail","category":"animations"},
   {"id":"canvas-ripple-click-effect","title":"Canvas Ripple Click Effect","category":"animations"},
   {"id":"canvas-mouse-trail-rainbow","title":"Canvas Rainbow Mouse Trail","category":"animations"},
-  {"id":"canvas-game-of-life","title":"Canvas Conway's Game of Life","category":"games"},
+  {"id":"canvas-game-of-life","title":"Canvas Conway's Game of Life","category":"visualizers"},
   {"id":"canvas-ascii-art-converter","title":"Canvas ASCII Art Converter","category":"tools"},
   {"id":"canvas-snow-overlay","title":"Canvas Snow Overlay","category":"animations"},
   {"id":"canvas-fireworks-physics","title":"Canvas Fireworks Physics","category":"animations"},

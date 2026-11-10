@@ -341,7 +341,7 @@ export const SNIPPET_TAG_MAP = {
   'canvas-fireworks-physics': ['canvas'],
   'canvas-fluid-cursor-trail': ['canvas', 'touch-gestures', 'micro-interactions'],
   'canvas-fractal-tree': ['canvas', 'touch-gestures', 'accessibility', 'landing-page'],
-  'canvas-game-of-life': ['canvas', 'games'],
+  'canvas-game-of-life': ['canvas', 'data-visualization'],
   'canvas-generative-pattern': ['canvas'],
   'canvas-gravity-particles': ['canvas'],
   'canvas-image-pixelate-reveal': ['canvas', 'intersection-observer', 'touch-gestures', 'micro-interactions', 'css-grid'],

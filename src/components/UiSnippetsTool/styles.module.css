@@ -1572,8 +1572,15 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
 }
 
 @media (max-width: 767px) {
+  /* The editor is not a fixed-height app box on phones: it grows with its content and the PAGE scrolls, so ads above the
+     preview (our leaderboard or an auto-placed one) never shrink it. The preview below keeps min-height 100dvh. */
+  .wrap:not(.wrapGallery) {
+    height: auto;
+    overflow: visible;
+  }
   .body {
-    overflow-y: auto;
+    overflow: visible;
+    flex: none;
   }
 
   /* .header never wraps by default (headerRight is flex-shrink:0), so on a
@@ -1614,7 +1621,9 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
      places it above the preview toolbar (DOM order breaks the tie with .previewHeader). */
   .topAdSlot     { order: 1; }
   .previewStage  { order: 2; flex: none; }
-  .iframeWrap    { order: 2; }
+  /* The snippet preview is a full screen tall on every phone / small-tablet width (the 600px block below did this only up to 600px) */
+  .iframeWrap    { order: 2; flex: none; min-height: 100vh; min-height: 100dvh; }
+  .iframe        { min-height: 100vh; min-height: 100dvh; flex: 1; }
   .mobileEditors {
     order: 4;
     flex-shrink: 0;
@@ -1681,10 +1690,12 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
   .iframeWrap {
     flex: none;
     min-height: 100vh;
+    min-height: 100dvh;
   }
 
   .iframe {
     min-height: 100vh;
+    min-height: 100dvh;
     flex: 1;
   }
 }

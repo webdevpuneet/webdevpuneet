@@ -2,7 +2,7 @@ const canvasGameOfLife = {
   id: 'canvas-game-of-life',
   title: "Canvas Conway's Game of Life",
   lastmod: '2026-08-21',
-  category: 'games',
+  category: 'visualizers',
   cdnUrls: [],
   html: `<div class="gl-wrap">
   <canvas id="glCanvas" class="gl-canvas"></canvas>

@@ -31,8 +31,10 @@
 }
 
 @media (max-width: 768px) {
+  /* !important: the UI Snippets layout sets an inline height (viewport minus nav) for the editor. On phones that fixed
+     box made every ad inside it (auto-placed ones too) shrink the snippet preview, so the tool grows with its content. */
   .toolSection {
-    height: auto;
+    height: auto !important;
     min-height: 0;
     overflow: visible;
   }
