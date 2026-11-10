@@ -464,6 +464,24 @@ function SidebarLink({ href, icon, label, active, count = 0 }) {
   );
 }
 
+/* The Games row: same shape as the other rows, with a bobbing controller, an animated "Enjoy!" chip and the number of games */
+const GAME_COUNT = VISIBLE_SNIPPETS.filter(sn => sn.category === 'games').length;
+function GamesLink({ active }) {
+  return (
+    <a
+      href="/ui-snippets/games/"
+      className={`${styles.playgroundsHeader} ${styles.plainLink} ${styles.gamesLink} ${active ? `${styles.groupOpen} ${styles.linkActive}` : ''}`}
+      style={{ textDecoration: 'none' }}
+      title={`Play ${GAME_COUNT} free browser games: physics, puzzles, racing and more`}
+    >
+      <span className={styles.railIcon}><img src="/icons/games.svg" alt="" width={13} height={13} /></span>
+      <span className={styles.frontIcon}><img src="/icons/games.svg" alt="" width={16} height={16} /></span>
+      <span className={styles.groupLabel}>Games <span className={styles.gamesChip}>Enjoy!</span></span>
+      {GAME_COUNT > 0 && <span className={styles.linkCount} aria-label={`${GAME_COUNT} games`}>{GAME_COUNT}</span>}
+    </a>
+  );
+}
+
 /* ─────────────────────────────────────────────────────────────
    UiSnippetsCategories - the UI Snippets link with every category under it, two per row.
    Folded by default (open on the UI snippets pages); the chevron opens the list. The links stay in the page when it is folded
@@ -1509,7 +1527,7 @@ export default function Sidebar() {
                   />
                   <ResumeCard snippets={customSnippets} projects={projects} />
                   {/* Games sit first, above UI Snippets */}
-                  <SidebarLink href="/ui-snippets/games/" icon="/icons/games.svg" label="Games" active={/^\/ui-snippets\/games(\/|$)/.test(pathname)} />
+                  <GamesLink active={(pathname || '').startsWith('/ui-snippets/games')} />
                   <UiSnippetsCategories pathname={pathname} />
                   {/* Learn to Code sits right after UI Snippets */}
                   <PlaygroundsGroup
