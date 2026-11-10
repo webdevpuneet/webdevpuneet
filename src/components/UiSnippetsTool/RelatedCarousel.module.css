@@ -378,6 +378,30 @@
   background: var(--bg2, #f1f5f9);
 }
 
+/* Category tag on a card (home "Random UI Snippets" strip): top right; the Patreon badge sits top left */
+.catTag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  padding: 3px 8px;
+  border-radius: 99px;
+  font: 700 10.5px/1.2 var(--font-ui, system-ui);
+  color: #3730a3;
+  background: rgba(238, 242, 255, 0.95);
+  border: 1px solid #c7d2fe;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+  white-space: nowrap;
+  max-width: calc(100% - 16px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.catTagGame {
+  color: #9a3412;
+  background: rgba(255, 237, 213, 0.95);
+  border-color: #fdba74;
+}
+
 .cardTitle {
   margin: 0;
   padding: 8px 10px;

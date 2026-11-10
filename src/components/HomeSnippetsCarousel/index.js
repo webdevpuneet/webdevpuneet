@@ -3,6 +3,12 @@
 import { useEffect, useState } from 'react';
 import rs from '../UiSnippetsTool/RelatedCarousel.module.css';
 import InViewImg from '../InViewImg';
+import { PremiumBadge } from '@/components/PremiumGate';
+import { isPremiumGameSnippet } from '@/lib/premium';
+import { CATEGORIES } from '@/components/UiSnippetsTool/categories';
+
+// Category tag text: a ready label (`cat`) or looked up from the category id (`category`, as in the Latest strip and the full index)
+const catOf = sn => sn.cat || CATEGORIES.find(c => c.id === sn.category)?.label || '';
 
 const PAGE_SIZE = 5;
 
@@ -20,18 +26,32 @@ const PAGE_SIZE = 5;
 // `title`: the heading (default "Latest UI Snippets"). `shuffle`: reorder `items` randomly in the visitor's browser after
 // the first paint (the server-rendered order stays as the crawlable HTML), and show a Shuffle button; the strip then
 // stays within `items` instead of paging through the whole library.
-export default function HomeSnippetsCarousel({ items, total, flush = false, title = 'Latest UI Snippets', shuffle = false }) {
+// `games`: with `shuffle`, a pool of Patreon games. The strip then shows SIX cards: 3 random games + 3 random items from
+// `items`, mixed into random positions; every card gets a category tag (and games the Patreon badge).
+const mixed = list => [...list].sort(() => Math.random() - 0.5);
+export default function HomeSnippetsCarousel({ items, total, flush = false, title = 'Latest UI Snippets', shuffle = false, games = null }) {
+  const mix = shuffle && games?.length > 0;
+  // First paint (the server HTML): a fixed alternation, so the markup is stable; the browser then re-picks at random
+  const firstMix = () => {
+    const g = games.slice(0, 3), o = items.slice(0, 3), out = [];
+    for (let i = 0; i < 3; i++) { if (g[i]) out.push(g[i]); if (o[i]) out.push(o[i]); }
+    return out;
+  };
   const [start, setStart] = useState(0);
   const [all, setAll] = useState(null);        // the whole library, newest first, once loaded
   const [loading, setLoading] = useState(false);
-  const [order, setOrder] = useState(items);   // items in the order shown (reshuffled in the browser when `shuffle`)
-  const reshuffle = () => { setOrder([...items].sort(() => Math.random() - 0.5)); setStart(0); };
+  const [order, setOrder] = useState(() => (mix ? firstMix() : items));   // items in the order shown
+  const reshuffle = () => {
+    setOrder(mix ? mixed([...mixed(games).slice(0, 3), ...mixed(items).slice(0, 3)]) : mixed(items));
+    setStart(0);
+  };
   useEffect(() => { if (shuffle) reshuffle(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   if (!items?.length) return null;
 
+  const pageSize = mix ? 6 : PAGE_SIZE;
   const list = all || order;
   const grand = all ? all.length : (total ?? items.length);
-  const shown = list.slice(start, start + PAGE_SIZE);
+  const shown = list.slice(start, start + pageSize);
   const rangeEnd = Math.min(start + PAGE_SIZE, list.length);
   const hasPrev = start > 0;
   const hasNext = start + PAGE_SIZE < grand;
@@ -110,6 +130,8 @@ export default function HomeSnippetsCarousel({ items, total, flush = false, titl
                 alt={sn.title}
               />
             )}
+            {catOf(sn) && <span className={`${rs.catTag} ${sn.game || sn.category === 'games' ? rs.catTagGame : ''}`}>{catOf(sn)}</span>}
+            {(sn.game || isPremiumGameSnippet(sn)) && <PremiumBadge corner kind="game" />}
             <h3 className={rs.cardTitle}>{sn.title}</h3>
           </a>
         ))}

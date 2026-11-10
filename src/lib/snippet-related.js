@@ -40,7 +40,7 @@ export function getCategoryNav(category, currentId) {
 // Snippets" strip. Server-side, plain data - see HomeSnippetsCarousel.
 export function getLatestSnippets(limit = 60) {
   return {
-    items: NEWEST_FIRST_SNIPPETS.slice(0, limit).map(sn => ({ id: sn.id, title: sn.title })),
+    items: NEWEST_FIRST_SNIPPETS.slice(0, limit).map(sn => ({ id: sn.id, title: sn.title, category: sn.category })),
     total: NEWEST_FIRST_SNIPPETS.length,
   };
 }

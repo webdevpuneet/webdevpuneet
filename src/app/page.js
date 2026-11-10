@@ -12,13 +12,22 @@ import { WEBSITE_TEMPLATES } from '@/components/SectionTemplates/templates/start
 import { LIVE_TOOLS, CATEGORY_META } from '@/lib/tools-registry';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { VISIBLE_SNIPPET_INDEX } from '@/lib/snippet-index';
+import { CATEGORIES as SNIPPET_CATEGORIES } from '@/components/UiSnippetsTool/categories';
+import { PATREON_GAME_IDS } from '@/lib/patreon-settings';
 
-// 40 random snippets for the "Random UI Snippets" strip. Picked when the page is built; the strip reshuffles them in the
-// visitor's browser, so every visit shows a different order.
-const RANDOM_SNIPPETS = [...VISIBLE_SNIPPET_INDEX]
+// "Random UI Snippets" strip: six cards, always 3 Patreon-only games + 3 snippets from the other categories, mixed in a
+// random order. The pools are picked when the page is built; the strip re-picks and reshuffles in the visitor's browser,
+// so every visit (and every Shuffle click) shows a different six. Each card is tagged with its category.
+const catLabel = id => SNIPPET_CATEGORIES.find(c => c.id === id)?.label || id;
+const RANDOM_GAMES = VISIBLE_SNIPPET_INDEX
+  .filter(sn => sn.category === 'games' && PATREON_GAME_IDS.includes(sn.id))
+  .sort(() => Math.random() - 0.5)
+  .map(sn => ({ id: sn.id, title: sn.title, cat: catLabel(sn.category), game: true }));
+const RANDOM_SNIPPETS = VISIBLE_SNIPPET_INDEX
+  .filter(sn => sn.category !== 'games')
   .sort(() => Math.random() - 0.5)
   .slice(0, 40)
-  .map(sn => ({ id: sn.id, title: sn.title }));
+  .map(sn => ({ id: sn.id, title: sn.title, cat: catLabel(sn.category) }));
 import styles from './page.module.css';
 
 /* ── Home page ──
@@ -253,7 +262,7 @@ export default async function Home() {
           </div>
           {/* Latest and Random are one panel: same card, a thin divider between the two rows */}
           <div className={styles.snipPanel}>
-            <div className={styles.latestStrip}><HomeSnippetsCarousel items={RANDOM_SNIPPETS} total={RANDOM_SNIPPETS.length} title="Random UI Snippets" shuffle flush /></div>
+            <div className={styles.latestStrip}><HomeSnippetsCarousel items={RANDOM_SNIPPETS} games={RANDOM_GAMES} total={RANDOM_SNIPPETS.length} title="Random UI Snippets" shuffle flush /></div>
             <div className={styles.latestStrip}><HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} flush /></div>
           </div>
         </section>
