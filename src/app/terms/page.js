@@ -47,7 +47,7 @@ export default function Terms() {
 
         <section className={styles.section}>
           <h2>4a. Patreon Supporters</h2>
-          <p>The Service is free to use. Supporting webdevpuneet.com on <strong>Patreon</strong> is optional. Supporters receive a passcode in a members-only post. Entering it on the site removes advertising from the site and unlocks the Export, Fork and backup features of the templates marked as Patreon-only. Anyone can preview and edit those templates without it. The passcode is for your own use: please do not share it or publish it. It changes from time to time, and an old passcode stops working when it does.</p>
+          <p>The Service is free to use. Supporting webdevpuneet.com on <strong>Patreon</strong> is optional. Supporters receive a passcode in a members-only post. Entering it on the site removes advertising from the site and unlocks the Export and Fork features of the templates marked as Patreon-only, the AI prompts on UI snippets and templates, the backup feature and bulk creation of social posts from a CSV. Anyone can preview and edit those templates without it. The passcode is for your own use: please do not share it or publish it. It changes from time to time, and an old passcode stops working when it does.</p>
           <p>Memberships, payments, billing and refunds are handled entirely by Patreon under Patreon's own terms; we are not affiliated with Patreon. Which templates and features are included may change over time, and we may stop or change the supporter benefits with reasonable notice on our Patreon page. A membership does not change the disclaimers, the limitation of liability or the rest of these Terms.</p>
         </section>
 

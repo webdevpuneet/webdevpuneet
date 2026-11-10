@@ -1,6 +1,6 @@
 PATREON SUPPORTERS: AD-FREE SITE + PATREON-ONLY TEMPLATES (soft lock), built 2026-11-04
 
-PATREON PAGE: https://www.patreon.com/c/webdevpuneet   JOIN LINK (used by the buttons): https://www.patreon.com/17076973/join   TIER: $5 a month
+PATREON PAGE: https://www.patreon.com/c/webdevpuneet   JOIN LINK (used by the buttons): https://www.patreon.com/17076973/join   TIER: $3 a month
 
 WHAT A SUPPORTER GETS (after entering the passcode once; it is remembered in localStorage, key wdp_premium_unlock_v1)
   1. No ads anywhere on the site: the AdSense script is not even loaded, every ad component returns nothing, and html.ad-free
@@ -18,7 +18,7 @@ MONTHLY PASSCODE CHANGE
   Export locks again) until the new passcode is entered. The starting passcode was "meridian-nov26": CHANGE IT before going public.
 
 SETTING UP PATREON
-  Create the $5 tier, describe the benefits ("no ads on webdevpuneet.com, export the premium website templates"), make a
+  Create the $3 tier (price changed from $5 on 2026-11-10), describe the benefits ("no ads on webdevpuneet.com, export the premium website, email and social post templates, the AI prompt on every snippet and template, backup, bulk create from CSV"), make a
   post for paid members only that holds the passcode. Tell new patrons where to find it (the tier's welcome message is a good place).
 
 SECTION TEMPLATES (added 2026-11-05): in the Website Section Templates editor (every section template + the Custom Section builder) Fork and

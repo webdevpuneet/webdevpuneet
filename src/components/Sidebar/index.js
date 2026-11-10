@@ -1375,13 +1375,13 @@ export default function Sidebar() {
               <strong className={styles.supporterPopTitle}>Patreon supporter, {PATREON_PRICE}</strong>
               <ul className={styles.supporterPopList}>
                 <li>No ads anywhere on the site</li>
+                <li>The AI prompt on every snippet and template</li>
                 <li>Export the templates with a Patreon badge (website, email and social post)</li>
-                <li>The AI prompt on every snippet and template, and bulk create social posts from a CSV</li>
+                <li>Bulk create social posts from a CSV</li>
                 <li>Backup and restore all your saved designs</li>
                 <li>A new passcode every month in the supporter post</li>
               </ul>
               <a className={styles.supporterPopJoin} href={PATREON_URL} target="_blank" rel="noopener noreferrer">Join on Patreon</a>
-              <span className={styles.supporterPopNote}>Everything else stays free, including building in the Website Builder with every section. </span>
               <span className={styles.supporterPopNote}>Already a supporter? Click Sign in and enter the passcode.</span>
             </div>
           </div>

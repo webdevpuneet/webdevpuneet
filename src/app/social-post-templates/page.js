@@ -99,7 +99,7 @@ const SEO = {
     `${TEMPLATES.length} templates in ${TEMPLATE_CATEGORIES.length} categories, including holiday posts for Halloween, Thanksgiving, Christmas and New Year`,
     'Six post sizes: Instagram portrait 1080×1350, square 1080×1080, Story 1080×1920, landscape 1600×900, LinkedIn 1200×627 and Pinterest pin 1000×1500',
     'Platform mock-ups: preview the post inside an Instagram feed, a Story, X and LinkedIn',
-    'Animated video export (MP4) for Reels and Stories, for Patreon supporters: Rise, Fade or Pop, 4 to 8 seconds',
+    'Animated video export (MP4) for Reels and Stories, free: Rise, Fade or Pop, 4 to 8 seconds',
     'Layout options: align text left, centre or right and move it to the top, middle or bottom',
     'Bold, italic, underline and accent highlights from a selection toolbar',
     'Carousel export as a PDF for LinkedIn document posts',
