@@ -230,7 +230,7 @@ export function HistoryButtons({ onUndo, onRedo, onReset, canUndo, canRedo, show
 
 /* AI Prompt: a toolbar dropdown with the page's AI prompt, a Save to AI Prompts button (the visitor's AI Prompt Studio
    library, IndexedDB) and a Copy button. Shared by the UI snippet editor and the template editors. */
-export function AiPromptButton({ prompt, title }) {
+export function AiPromptButton({ prompt, title, locked = false, onUnlock }) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [saveState, setSaveState] = useState(''); // '', 'saved', 'exists', 'error'
@@ -275,12 +275,26 @@ export function AiPromptButton({ prompt, title }) {
         <div className={`${us.exportMenu} ${us.aiPromptMenu}`} style={fixedPos || undefined}>
           <div className={us.aiPromptHead}>
             <span className={us.exportMenuHead} style={{ border: 'none', padding: 0, margin: 0 }}>Extend with AI</span>
-            <span style={{ display: 'flex', gap: 6 }}>
-              <button className={us.saveConfirmBtn} onClick={saveToStudio} title="Keep this prompt in your AI Prompt Studio library">{saveState === 'saved' ? '✓ Saved' : saveState === 'exists' ? 'Already saved' : saveState === 'error' ? 'Storage blocked' : 'Save to AI Prompts'}</button>
-              <button className={us.saveConfirmBtn} onClick={copy}>{copied ? '✓ Copied' : 'Copy'}</button>
-            </span>
+            {!locked && (
+              <span style={{ display: 'flex', gap: 6 }}>
+                <button className={us.saveConfirmBtn} onClick={saveToStudio} title="Keep this prompt in your AI Prompt Studio library">{saveState === 'saved' ? '✓ Saved' : saveState === 'exists' ? 'Already saved' : saveState === 'error' ? 'Storage blocked' : 'Save to AI Prompts'}</button>
+                <button className={us.saveConfirmBtn} onClick={copy}>{copied ? '✓ Copied' : 'Copy'}</button>
+              </span>
+            )}
           </div>
-          <pre className={us.aiPromptBody}>{prompt}</pre>
+          {locked ? (
+            /* Patreon-only: the prompt itself is not shown until the supporter passcode is entered */
+            <div className={us.aiPromptBody} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 10, whiteSpace: 'normal' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700 }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+                AI prompts are for Patreon supporters
+              </span>
+              <span>Get a ready-made prompt to take this snippet further with your AI tool. Enter the supporter passcode to unlock it, on every snippet.</span>
+              <button type="button" className={us.saveConfirmBtn} onClick={() => { setOpen(false); onUnlock?.(); }}>Unlock with passcode</button>
+            </div>
+          ) : (
+            <pre className={us.aiPromptBody}>{prompt}</pre>
+          )}
         </div>
       )}
     </div>

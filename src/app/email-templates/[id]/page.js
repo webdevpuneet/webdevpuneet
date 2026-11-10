@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { PremiumNotice } from '@/components/PremiumGate';
 import SeoSection from '@/components/SeoSection';
+import { LOCK_TEMPLATE_AI } from '@/lib/patreon-settings';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import { isPremiumEmailTemplate } from '@/lib/premium';
@@ -76,6 +77,8 @@ export default async function EmailTemplatePage({ params }) {
 
   const emailAi = emailAiPrompt(t);
   const sections = [
+    // Extend with AI leads the page, above Features (supporters only while LOCK_TEMPLATE_AI is on)
+    { type: 'aiPrompt', label: 'Extend with AI', heading: 'Take This Email Further With AI', paragraph: emailAi.paragraph, prompt: emailAi.prompt, patreonOnly: LOCK_TEMPLATE_AI },
     { type: 'features', label: "What's included", heading: 'Features', items: seo.features },
     {
       type: 'text',
@@ -92,7 +95,6 @@ export default async function EmailTemplatePage({ params }) {
         </div>
       ),
     },
-    { type: 'aiPrompt', label: 'Extend with AI', heading: 'Take This Email Further With AI', paragraph: emailAi.paragraph, prompt: emailAi.prompt },
     { type: 'cards', label: 'Why use it', heading: `Why Use the ${t.name} Template`, columns: 3, items: seo.why },
     { type: 'cards', label: 'How it’s different', heading: 'How It’s Different From Other Free Email Templates', columns: 3, items: EMAIL_DIFFERENT },
     {

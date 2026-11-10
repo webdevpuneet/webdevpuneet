@@ -1221,13 +1221,13 @@ button.headerBrand {
   position: relative;
   flex-shrink: 0;
   display: inline-flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 0;
-  height: 34px;
+  height: 26px;
   min-width: 36px;
-  padding: 2px 7px 5px;
+  padding: 0 8px 3px;
   border: 1px solid var(--border, #e2e8f0);
   border-radius: 8px;
   background: var(--surface, #fff);
@@ -1249,10 +1249,10 @@ button.headerBrand {
   background: rgba(34, 197, 94, 0.18);
 }
 button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
-.navCountCur { font-family: Arial, Helvetica, sans-serif; font-size: 10px; line-height: 1; font-weight: 700; color: #16a34a; }
-.navCountOf { font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 1; font-weight: 400; color: var(--text3, #94a3b8); }
-/* The separator between the current number (top) and the total (bottom) */
-.navCountSep { display: block; flex: none; align-self: stretch; height: 1px; margin: 1px 0 2px; background: var(--border2, #cbd5e1); }
+/* One line, e.g. "506/2K": current number, a slash, the total in short form */
+.navCountCur { font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 1; font-weight: 700; color: #16a34a; }
+.navCountOf { font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 1; font-weight: 400; color: var(--text3, #94a3b8); }
+.navCountSep { display: block; flex: none; width: 1px; height: 11px; margin: 0 4px; background: var(--border2, #cbd5e1); transform: rotate(20deg); }
 /* Green progress along the bottom of the pill: how far through the list the open snippet is */
 .navCountBar {
   position: absolute;
@@ -1284,8 +1284,9 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
   font-size: 11px;
   font-weight: 700;
 }
-.navBtnLabeled:has(> .navBtnText) { padding: 0 11px; }
-.navBtnLabeled:has(> .navBtnText) > svg { display: none; }
+/* Prev / Next show their arrow icon only (the text stays in the markup for the aria-label / title tooltips) */
+.navBtnLabeled:has(> .navBtnText) { width: 26px; padding: 0; }
+.navBtnLabeled:has(> .navBtnText) > .navBtnText { display: none; }
 
 
 .navLabel {

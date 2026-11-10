@@ -11,7 +11,7 @@ import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import { htmlThumb } from '@/lib/html-thumb';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
-import { LOCK_SECTION_EXPORT } from '@/lib/premium';
+import { LOCK_SECTION_EXPORT, LOCK_TEMPLATE_AI } from '@/lib/premium';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
@@ -974,7 +974,7 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
               />
               <span className={s.toolbarSep} aria-hidden="true" />
               <AddToPageMenu loadPages={loadBuilderPages} onPick={addToBuilder} />
-              {aiPrompt && !exportLocked && <AiPromptButton prompt={aiPrompt} title={t.name} />}
+              {aiPrompt && !exportLocked && <AiPromptButton prompt={aiPrompt} title={t.name} locked={LOCK_TEMPLATE_AI && !premiumUnlocked} onUnlock={() => setUnlockOpen(true)} />}
               {exportLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
               {!exportLocked && <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />}
               {!exportLocked && <ExportMenu

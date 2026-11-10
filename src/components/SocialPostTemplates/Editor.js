@@ -27,7 +27,7 @@ import ImageLibraryPicker from '@/components/ImageLibrary';
 import { addToLibrary } from '@/lib/image-library';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
-import { LOCK_BACKUP, LOCK_SOCIAL_VIDEO, LOCK_SOCIAL_BULK, isPremiumSocialTemplate } from '@/lib/premium';
+import { LOCK_BACKUP, LOCK_SOCIAL_VIDEO, LOCK_SOCIAL_BULK, LOCK_TEMPLATE_AI, isPremiumSocialTemplate } from '@/lib/premium';
 
 const LS_PREFIX = 'wdp-spt-v1:';
 const fmtBytes = n => (n >= 1048576 ? `${(n / 1048576).toFixed(2)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
@@ -1109,7 +1109,7 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                 ]}
               />
               <FullscreenButton />
-              {aiPrompt && !isCarousel && !socialLocked && <AiPromptButton prompt={aiPrompt} title={t.name} />}
+              {aiPrompt && !isCarousel && !socialLocked && <AiPromptButton prompt={aiPrompt} title={t.name} locked={LOCK_TEMPLATE_AI && !premiumUnlocked} onUnlock={() => setUnlockOpen(true)} />}
               {socialLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
               {!socialLocked && (
               <>

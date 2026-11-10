@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { notFound } from 'next/navigation';
+import { LOCK_TEMPLATE_AI } from '@/lib/patreon-settings';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
@@ -83,6 +84,8 @@ export default async function WebsiteTemplatePage({ params }) {
   const ai = websiteAiPrompt(t, { theme, fontNames: fonts, pages });
   const extras = addedSectionsOf(t);
   const SECTIONS = [
+    // Extend with AI leads the page, above Features (supporters only while LOCK_TEMPLATE_AI is on)
+    { type: 'aiPrompt', label: 'Extend with AI', heading: 'Take This Template Further With AI', paragraph: ai.paragraph, prompt: ai.prompt, patreonOnly: LOCK_TEMPLATE_AI },
     ...(multi ? [{ type: 'features', label: 'Multi-page version', heading: `Pages in the ${pages.length}-Page ${t.name} Template`, items: pages.map(pg => `${pg.name} (${pg.file}): ${pg.n} sections${pg.file === 'index.html' ? ', the home page' : ''}`) }] : []),
     { type: 'features', label: "What's included", heading: `Sections in the ${t.name} Template`, items: parts.map(p => `${p.name}: ${p.description.split('. ')[0].replace(/\.$/, '')}`) },
     {
@@ -106,7 +109,6 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
       text: `Beyond the standard sections, the ${t.name} template includes ${extras.length === 1 ? 'one extra' : `${extras.length} extras`} that you can edit, move or remove in the builder.\n\n${extras.map(e => `**[${e.name}](${e.url})**: ${e.role}.`).join('\n\n')}\n\nEach extra has its own page in the free [Website Section Templates](/website-section-templates/) library, where you can try its settings on their own before you use it here.`,
     }] : []),
     ...(seo?.about ? [{ type: 'text', label: 'Make it yours', heading: `How to Get the Most From the ${t.name} Template`, quickFacts: false, boxed: true, text: seo.about }] : []),
-    { type: 'aiPrompt', label: 'Extend with AI', heading: 'Take This Template Further With AI', paragraph: ai.paragraph, prompt: ai.prompt },
     ...(seo?.checklist ? [{ type: 'features', label: 'Checklist', heading: `What a ${nameLower} Website Needs`, items: seo.checklist }] : []),
     { type: 'cards', label: 'Who it’s for', heading: 'Best For', columns: 3, items: t.bestFor.map((b, i) => ({ icon: ['★', '◆', '●'][i % 3], title: b, desc: `A ready-made starting point for ${b.toLowerCase()}, with real copy you can adapt in minutes.` })) },
     {

@@ -5,6 +5,8 @@ import styles from './styles.module.css';
 import { AdSlot300x600 } from '@/components/AdSlot';
 import { TOOLS, LIVE_TOOLS } from '@/lib/tools-registry';
 import { RELATED_TOOLS } from '@/lib/related-tools';
+import { usePremiumUnlocked, PremiumUnlockDialog } from '@/components/PremiumGate';
+import { PATREON_URL, PATREON_PRICE } from '@/lib/premium';
 
 /* ── Text node highlighter (DOM mutation, client-only) ── */
 function applyHighlights(container, query, caseSensitive) {
@@ -1234,9 +1236,31 @@ function PromptCodeBox({ text }) {
 }
 
 /** aiPrompt — "Build with AI" paragraph plus a copy-paste recreate-it prompt */
-function AiPromptSection({ heading, headingSize = 'h2', label, paragraph, prompt }) {
+function AiPromptSection({ heading, headingSize = 'h2', label, paragraph, prompt, patreonOnly = false }) {
   const Tag = headingSize === 'h3' ? 'h3' : 'h2';
   const headingClass = headingSize === 'h3' ? styles.sectionH3 : styles.seoH2;
+  const unlocked = usePremiumUnlocked();
+  const [unlockOpen, setUnlockOpen] = useState(false);
+  // Patreon-only: everyone else gets a short locked note instead of the paragraph and the prompt
+  if (patreonOnly && !unlocked) {
+    return (
+      <div>
+        {label && <p className={styles.seoLabel} data-label={label}>{label}</p>}
+        {heading && <Tag className={headingClass}>{heading}</Tag>}
+        <div className={styles.boxedText}>
+          <p className={styles.seoP}>
+            The AI prompt for this one is for Patreon supporters ({PATREON_PRICE}), along with a site with no ads. Supporters enter the passcode once and it is remembered in this browser.
+          </p>
+          <p className={styles.seoP}>
+            <button type="button" className={styles.inlineLink} style={{ background: 'none', border: 0, padding: 0, font: 'inherit', cursor: 'pointer' }} onClick={() => setUnlockOpen(true)}>Unlock with the supporter passcode</button>
+            {' · '}
+            <a href={PATREON_URL} target="_blank" rel="noopener noreferrer" className={styles.inlineLink}>Become a supporter</a>
+          </p>
+        </div>
+        <PremiumUnlockDialog open={unlockOpen} onClose={() => setUnlockOpen(false)} />
+      </div>
+    );
+  }
   return (
     <div>
       {label && <p className={styles.seoLabel} data-label={label}>{label}</p>}
@@ -1446,12 +1470,15 @@ function aiPromptSection(aiPrompt) {
     heading: aiPrompt.heading || 'Build, Understand, Optimize, and Extend It With AI',
     paragraph: aiPrompt.paragraph,
     prompt: aiPrompt.prompt,
+    patreonOnly: !!aiPrompt.patreonOnly,
   };
 }
 
-function normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel = 'About this tool', quickFacts = true, injectAfterAiPrompt, aiPromptLast = false, featuresAfterAbout = true }) {
+function normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel = 'About this tool', quickFacts = true, injectAfterAiPrompt, aiPromptLast = false, aiPromptFirst = false, featuresAfterAbout = true }) {
   if (sections) return featuresBeforeAbout(flattenSections(sections));
   const result = [];
+  // aiPromptFirst: the AI section leads the page, above Features
+  if (aiPrompt && aiPromptFirst) result.push(aiPromptSection(aiPrompt));
   const featuresSection = features?.length
     ? { type: 'features', label: "What's included", heading: 'Features', items: features }
     : null;
@@ -1461,7 +1488,7 @@ function normalizeSections({ sections, about, features, howToUse, useCases, faqs
   if (about) {
     result.push({ type: 'text', label: aboutLabel, heading: about?.title, text: about?.description || '', extra: aboutExtra, quickFacts });
   }
-  if (aiPrompt && !aiPromptLast) result.push(aiPromptSection(aiPrompt));
+  if (aiPrompt && !aiPromptLast && !aiPromptFirst) result.push(aiPromptSection(aiPrompt));
   // Lands right after "Build, Understand, Optimize, and Extend It With AI" —
   // or, on the handful of pages with no aiPrompt, right after About — rather
   // than always at the very top of the page.
@@ -1488,11 +1515,11 @@ function normalizeSections({ sections, about, features, howToUse, useCases, faqs
 ───────────────────────────────────────────── */
 export default function SeoSection({
   // New API
-  slug, title, subtitle, sections, noShare, noRelated, injectAfterAbout, injectAfterAiPrompt, aboutExtra, aboutLabel, quickFacts, topExtra, bottomExtra, aiPromptLast, featuresAfterAbout = true, titleExtra,
+  slug, title, subtitle, sections, noShare, noRelated, injectAfterAbout, injectAfterAiPrompt, aboutExtra, aboutLabel, quickFacts, topExtra, bottomExtra, aiPromptLast, aiPromptFirst, featuresAfterAbout = true, titleExtra,
   // Legacy flat props (auto-converted to sections)
   about, features, howToUse, useCases, faqs, whatsNew, aiPrompt,
 }) {
-  const normalizedSections = normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel, quickFacts, injectAfterAiPrompt, aiPromptLast, featuresAfterAbout });
+  const normalizedSections = normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel, quickFacts, injectAfterAiPrompt, aiPromptLast, aiPromptFirst, featuresAfterAbout });
 
   const [searchOpen,  setSearchOpen]  = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -1675,7 +1702,7 @@ export default function SeoSection({
                 <SectionBlock section={section} />
               </React.Fragment>
             ))}
-            {aiPromptLast && aiPrompt && (
+            {aiPromptLast && !aiPromptFirst && aiPrompt && (
               <>
                 {normalizedSections.length > 0 && <div className={styles.sectionDivider} aria-hidden="true" />}
                 <SectionBlock section={aiPromptSection(aiPrompt)} />

@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
+import { LOCK_TEMPLATE_AI } from '@/lib/patreon-settings';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
@@ -74,6 +75,8 @@ export default async function WebsiteSectionTemplatePage({ params }) {
   // Sections whose effect runs on scroll get a Refresh button in the editor instead of Play (see SCROLL_FX in SectionTemplates/index.js)
   const SCROLL_DRIVEN = (t.behaviors || []).some(b => ['hscroll', 'story', 'stack', 'drawpath', 'ring', 'htimeline', 'kenburns'].includes(b));
   const sections = [
+    // Extend with AI leads the page, above Features (supporters only while LOCK_TEMPLATE_AI is on)
+    ...(seo.aiPrompt ? [{ type: 'aiPrompt', label: 'Extend with AI', heading: 'Take This Section Further With AI', paragraph: seo.aiPrompt.paragraph, prompt: seo.aiPrompt.prompt, patreonOnly: LOCK_TEMPLATE_AI }] : []),
     { type: 'features', label: "What's included", heading: 'Features', items: seo.features },
     {
       type: 'text',
@@ -99,7 +102,6 @@ export default async function WebsiteSectionTemplatePage({ params }) {
       boxed: true,
       text: `${t.liveExample.text} Open the [${t.liveExample.name} UI snippet](/ui-snippets/${t.liveExample.snippet}/) to try it. It uses the same code this template exports, so you can copy it from either page.`,
     }] : []),
-    ...(seo.aiPrompt ? [{ type: 'aiPrompt', label: 'Extend with AI', heading: 'Take This Section Further With AI', paragraph: seo.aiPrompt.paragraph, prompt: seo.aiPrompt.prompt }] : []),
     { type: 'cards', label: 'Why use it', heading: `Why Use the ${t.name}`, columns: 3, items: seo.why },
     { type: 'cards', label: 'How it’s different', heading: 'How It’s Different From Other Free Section Templates', columns: 3, items: SECTION_DIFFERENT },
     {

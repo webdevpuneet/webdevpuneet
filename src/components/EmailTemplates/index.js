@@ -12,7 +12,7 @@ import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import { htmlThumb } from '@/lib/html-thumb';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton, PremiumBadge } from '@/components/PremiumGate';
-import { LOCK_BACKUP, isPremiumEmailTemplate } from '@/lib/premium';
+import { LOCK_BACKUP, LOCK_TEMPLATE_AI, isPremiumEmailTemplate } from '@/lib/premium';
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
@@ -1740,7 +1740,7 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
               {emailLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
               {!emailLocked && (
               <>
-              {aiPrompt && <AiPromptButton prompt={aiPrompt} title={t.name} />}
+              {aiPrompt && <AiPromptButton prompt={aiPrompt} title={t.name} locked={LOCK_TEMPLATE_AI && !premiumUnlocked} onUnlock={() => setUnlockOpen(true)} />}
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
               <ExportMenu
                 head="Export this email as…"

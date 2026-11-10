@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { CATEGORY_SEO } from '@/lib/snippet-category-seo';
 import SeoSection from '@/components/SeoSection';
+import { LOCK_SNIPPET_AI } from '@/lib/patreon-settings';
 import LandingPageStart, { StartTemplateButtons } from './LandingPageStart';
 import SnippetIndex from './SnippetIndex';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
@@ -932,7 +933,7 @@ Requirements:
   // (after About) and a "Start using this template" button (above the code). Their AI prompt is the
   // template's own, written into the snippet by scripts/generate-landing-page-snippets.mjs.
   const start = sn.seo?.startTemplate;
-  SEO.aiPrompt = { ...SEO.aiPrompt, label: 'Extend with AI', heading: start ? 'Take This Template Further With AI' : 'Take This Snippet Further With AI' };
+  SEO.aiPrompt = { ...SEO.aiPrompt, label: 'Extend with AI', heading: start ? 'Take This Template Further With AI' : 'Take This Snippet Further With AI', patreonOnly: LOCK_SNIPPET_AI };
 
   // Navigation snippets (and the standalone hamburger button) point readers at the
   // Navbar Builder for a complete, responsive navbar: a call-out under the source
@@ -1036,7 +1037,7 @@ Requirements:
         bottomExtra={start
           ? <div key="start-bottom"><div className={styles.startBottom}><StartTemplateButtons start={start} /></div>{sourceCodeBlock}</div>
           : sourceCodeBlock}
-        aiPromptLast
+        aiPromptFirst
         featuresAfterAbout
       />
     </>

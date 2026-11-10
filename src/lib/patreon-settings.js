@@ -54,7 +54,16 @@ export const LOCK_BACKUP = true;
 
 /* true: in the Social Post Templates editor the animated video (MP4 / WebM) in Export is for supporters, on every
    template. Play (the animated preview), PNG, JPG, PDF, ZIP and HTML stay free. */
-export const LOCK_SOCIAL_VIDEO = true;
+export const LOCK_SOCIAL_VIDEO = false;
+
+/* true: the "AI" prompt button in the UI Snippets editor toolbar is for supporters only (others see a locked button that
+   opens the passcode dialog). */
+export const LOCK_SNIPPET_AI = true;
+
+/* true: the same for every template type (website templates, website section templates, email templates, social post
+   templates): the "AI" prompt button in the editor toolbar and the "Extend with AI" section on the template's page are for
+   supporters only. */
+export const LOCK_TEMPLATE_AI = true;
 
 /* true: "Bulk create from CSV" (one post per spreadsheet row, as a ZIP) in the Social Post Templates editor is for supporters,
    on every template. */

@@ -12,6 +12,8 @@ import s from './styles.module.css';
 // fetched on demand by loadSnippet (one small chunk per snippet).
 import { SNIPPET_INDEX as SNIPPETS, VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
 import { publishedTags } from '@/lib/snippet-tags';
+import { usePremiumUnlocked, PremiumUnlockDialog } from '@/components/PremiumGate';
+import { LOCK_SNIPPET_AI } from '@/lib/premium';
 import { CATEGORIES } from './categories';
 import BookmarkButton from './BookmarkButton';
 import { loadSnippet as fetchSnippet, getLoadedSnippet } from './loadSnippet';
@@ -961,10 +963,11 @@ const HEADER_TAGS = publishedTags(SNIPPETS).map(t => ({ id: t.id, label: t.label
    and loads 10 more as you scroll, down and up, until the ends ("see all" card at the bottom). Hovering a
    card shows a large preview beside the overlay. Real links with thumbnails, so each is a crawlable link. — */
 const NEWEST_FIRST_SNIPPETS = [...VISIBLE_SNIPPETS].reverse();
-const CODE_OVERLAY_DELAY = 3000;
 const CODE_OVERLAY_PAGE = 10;
 const TOGGLE_RELATED_EVENT = 'uis-toggle-related'; // the "Related" button in the code header toggles the overlay
 const RELATED_STATE_EVENT = 'uis-related-state'; // detail: true while the overlay is open (the button shows active)
+// 2088 -> "2K", 2600 -> "2.6K", 506 -> "506" (the total in the Prev / Next position pill)
+const shortCount = n => (n >= 1000 ? `${Math.floor(n / 100) / 10}K` : String(n));
 const previewSrc = id => `/images/ui-snippets/previews/${id}.png`;
 function RelatedCodeOverlay({ activeId, category, paneRef }) {
   const [open, setOpen] = useState(false);
@@ -990,12 +993,10 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
     setOpen(true);
   }, [paneRef, initial]);
 
+  // Closed by default on every snippet: it no longer fades in by itself, only the "Related Snippets" button opens it.
   useEffect(() => {
     setOpen(false);
-    if (!pool.length) return undefined;
-    const t = setTimeout(reveal, CODE_OVERLAY_DELAY);
-    return () => clearTimeout(t);
-  }, [activeId, pool.length, reveal]);
+  }, [activeId, pool.length]);
   const openRef = useRef(false);
   useEffect(() => {
     openRef.current = open;
@@ -1348,13 +1349,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
     if (act) ro.observe(act);
     return () => ro.disconnect();
   });
-  const [homeMenuPos, setHomeMenuPos] = useState(null); // fixed-position coords of the home-button drop-down, null = closed
-  function openHomeMenu(e) {
-    const r = e.currentTarget.getBoundingClientRect();
-    const w = Math.min(420, window.innerWidth - 16); // matches .homeMenuPanel width
-    // Centre the panel under the home icon, kept inside the window
-    setHomeMenuPos({ top: r.bottom, left: Math.max(8, Math.min(r.left + r.width / 2 - w / 2, window.innerWidth - w - 8)) });
-  }
+  const premiumUnlocked = usePremiumUnlocked(); // Patreon supporter in this browser (the AI button is supporters-only)
+  const [unlockOpen, setUnlockOpen] = useState(false);
   const consoleEndRef = useRef(null);
 
   // Embed modal — library snippets only, never for a custom/MyCode snippet
@@ -2163,7 +2159,6 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               aria-label="Fork this snippet"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="5" r="2.5"/><circle cx="18" cy="5" r="2.5"/><circle cx="12" cy="19" r="2.5"/><path d="M6 7.5v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2"/><line x1="12" y1="11.5" x2="12" y2="16.5"/></svg>
-              Fork
             </button>
             {showSave && (
               <div className={s.savePopover} style={forkPos || undefined}>
@@ -2217,8 +2212,14 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           </div>}
 
           {showEditor && !isMobile && !activeIsCustom && libAiPrompt && libAiPrompt.id === activeId && (
-            <AiPromptButton prompt={libAiPrompt.prompt} title={activeSn?.title || activeSn?.name} />
+            <AiPromptButton
+              prompt={libAiPrompt.prompt}
+              title={activeSn?.title || activeSn?.name}
+              locked={LOCK_SNIPPET_AI && !premiumUnlocked}
+              onUnlock={() => setUnlockOpen(true)}
+            />
           )}
+          <PremiumUnlockDialog open={unlockOpen} onClose={() => setUnlockOpen(false)} />
 
           {!isMobile && showEditor && (
             <>
@@ -2295,7 +2296,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               aria-label="Related snippets"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-              <span className={s.headerTitle}>Related Snippets</span>
+              <span className={s.headerTitle}>Related</span>
             </button>
           )}
           </div>
@@ -2449,7 +2450,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                   >
                     <span className={s.navCountCur}>{customIdx + 1}</span>
                     <i className={s.navCountSep} aria-hidden="true" />
-                    <span className={s.navCountOf}>{customSorted.length}</span>
+                    <span className={s.navCountOf}>{shortCount(customSorted.length)}</span>
                     <i className={s.navCountBar} style={{ width: `${((customIdx + 1) / customSorted.length) * 100}%` }} aria-hidden="true" />
                   </span>
                 )}
@@ -2483,44 +2484,14 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                   activeCategory={activeSn?.category}
                   onNavigate={navStart}
                 />
-                <div
-                  className={s.homeMenu}
-                  onMouseEnter={openHomeMenu}
-                  onMouseLeave={() => setHomeMenuPos(null)}
-                  onFocus={openHomeMenu}
-                  onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) setHomeMenuPos(null); }}
+                <a
+                  className={s.navBtn}
+                  href="/ui-snippets/"
+                  aria-label="All UI snippets"
+                  title="All UI snippets"
                 >
-                  <a
-                    className={s.navBtn}
-                    href="/ui-snippets/"
-                    aria-label="All UI snippets"
-                    aria-haspopup="true"
-                  >
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                  </a>
-                  {/* Hover / keyboard-focus panel: every category and tag, two columns */}
-                  {homeMenuPos && typeof document !== 'undefined' && createPortal(<div className={s.homeMenuPanel} style={homeMenuPos} role="navigation" aria-label="Browse UI snippets">
-                    <div className={s.homeMenuCol}>
-                      <div className={s.homeMenuHead}>Categories</div>
-                      <a className={s.homeMenuLink} href="/ui-snippets/">All snippets</a>
-                      {HEADER_CATEGORIES.map(c => (
-                        <a
-                          key={c.id}
-                          className={`${s.homeMenuLink} ${c.id === activeSn?.category ? s.homeMenuLinkActive : ''}`}
-                          href={`/ui-snippets/${c.id}/`}
-                        >
-                          <span>{c.label}</span><span className={s.homeMenuCount}>{c.count}</span>
-                        </a>
-                      ))}
-                    </div>
-                    <div className={s.homeMenuCol}>
-                      <div className={s.homeMenuHead}>Tags</div>
-                      {HEADER_TAGS.map(t => (
-                        <a key={t.id} className={s.homeMenuLink} href={`/ui-snippets/tag/${t.id}/`}>{t.label}</a>
-                      ))}
-                    </div>
-                  </div>, document.body)}
-                </div>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </a>
                 {catSnippets.length > 1 && prevCatSn ? (
                   <a
                     className={`${s.navBtn} ${s.navBtnLabeled}`}
@@ -2547,7 +2518,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                   >
                     <span className={s.navCountCur}>{catIdx + 1}</span>
                     <i className={s.navCountSep} aria-hidden="true" />
-                    <span className={s.navCountOf}>{catSnippets.length}</span>
+                    <span className={s.navCountOf}>{shortCount(catSnippets.length)}</span>
                     <i className={s.navCountBar} style={{ width: `${((catIdx + 1) / catSnippets.length) * 100}%` }} aria-hidden="true" />
                   </span>
                 )}
