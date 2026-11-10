@@ -6,7 +6,7 @@ import UiSnippetsTool from '@/components/UiSnippetsTool';
 import { CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import CategoryGalleryPage from './[slug]/CategoryGalleryPage';
 import TagGalleryPage from './tag/[tag]/TagGalleryPage';
-import SnippetsTopNav from '@/components/SnippetsTopNav';
+import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import styles from '../tool-page.module.css';
 import { isEmbedRoute } from '@/lib/is-embed-route';
 
@@ -156,7 +156,9 @@ export default function UiSnippetsLayout({ children }) {
 
   return (
     <div className={styles.page} style={{ '--pnav-h': `${effNavH}px` }}>
-      {showNav && <div ref={navRef}><SnippetsTopNav /></div>}
+      {/* The playgrounds' top nav (HTML, CSS, JavaScript…). The category row (SnippetsTopNav) was removed 2026-11-10;
+          the categories are in the sidebar's UI Snippets group. */}
+      {showNav && <div ref={navRef}><PlaygroundTopNav /></div>}
       <div
         className={`${styles.toolSection} ${isGallery ? styles.toolSectionGallery : styles.toolSectionEditor}`}
         style={isGallery ? undefined : { height: `calc(100dvh - ${effNavH}px)` }}

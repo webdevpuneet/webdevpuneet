@@ -37,7 +37,6 @@ import { useAdFreeOnLoad } from '@/lib/use-ad-free';
 import ExportTester from './ExportTester';
 import EmbedModal from './EmbedModal';
 import SnippetSearch from './SnippetSearch';
-import { CategoryStrip } from './RelatedCarousel';
 import { dbGetAll, dbPut, dbDelete, dbClear } from '@/lib/uiSnippetsDb';
 const SNIPPET_BY_ID = new Map(SNIPPETS.map(sn => [sn.id, sn]));
 
@@ -2391,11 +2390,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             Hidden on the library gallery / category / tag pages, which show their own
             Categories | Tags panel, and when the header sits in the narrow code column.
             An empty slot keeps the header layout unchanged. */}
-        <div className={s.headerCats}>
-          {(showEditor || sidebarTab !== 'library') && !headerInCode && (
-            <CategoryStrip categories={HEADER_CATEGORIES} tags={HEADER_TAGS} activeTag={initialTag} activeCategory={activeIsCustom ? null : (activeSn?.category || (initialCategory !== 'all' ? initialCategory : null))} inHeader panelLeft={headerInCode} />
-          )}
-        </div>
+        <div className={s.headerCats} />{/* the category strip was replaced by the playgrounds' top nav above the header */}
         {!headerInCode && headerRightEl}
       </header>
   );

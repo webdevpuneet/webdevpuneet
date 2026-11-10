@@ -486,9 +486,10 @@ function GamesLink({ active }) {
    Folded by default (open on the UI snippets pages); the chevron opens the list. The links stay in the page when it is folded
    (height 0, hidden from keyboard and screen readers), so crawlers still see them everywhere.
 ───────────────────────────────────────────────────────────── */
-// The UI Snippets group is folded on every page, the UI snippet pages and My Code included; the chevron opens it. Nothing is
-// remembered: the next page load starts folded again. (The links stay in the page when folded, so crawlers still see them.)
-const startsOpen = () => false;
+// The UI Snippets group is open on the UI snippet pages (gallery, categories, tags, single snippets) and My Code, and folded
+// everywhere else; the chevron toggles it. Nothing is remembered: the next page load decides again. (The links stay in the
+// page when folded, so crawlers still see them.)
+const startsOpen = (pathname) => /^\/ui-snippets(\/|$)/.test(pathname || '');
 
 function UiSnippetsCategories({ pathname }) {
   const [open, setOpen] = useState(() => startsOpen(pathname));
@@ -498,6 +499,11 @@ function UiSnippetsCategories({ pathname }) {
   const bookmarked = useBookmarks();
 
   const toggleOpen = () => setOpen(v => !v);
+
+  // The sidebar stays mounted while moving between pages: opening a UI snippet page or My Code from elsewhere opens the group
+  useEffect(() => {
+    if (startsOpen(pathname)) setOpen(true);
+  }, [pathname]);
 
   useEffect(() => {
     const el = bodyRef.current;
