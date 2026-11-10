@@ -2233,8 +2233,6 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             />
           )}
           {showEditor && !isMobile && <FullscreenButton />}
-          {/* Bookmark — library snippets only; shows in the gallery's Bookmarked view and the sidebar */}
-          {showEditor && !activeIsCustom && activeSn && <BookmarkButton id={activeId} className={s.iconBtn} size={12} />}
           {/* Fork & Edit — save your own editable copy, only when a snippet is open */}
           {showEditor && <div className={`${s.popoverAnchor} ${s.forkAnchor}`} ref={savePopRef}>
             <button
@@ -2487,6 +2485,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             {/* Everything but the action menus scrolls sideways in one row when space is
                 short; Fork / Export stay pinned outside so their menus aren't clipped. */}
             <div className={s.previewScroll}>
+            {/* Bookmark, just before the title — library snippets only; shows in the gallery's Bookmarked view and the sidebar */}
+            {showEditor && !activeIsCustom && activeSn && <BookmarkButton id={activeId} className={s.iconBtn} size={12} />}
             {(activeSn?.title || activeSn?.name) && (() => {
               // When Prev / Next / Random are centred on the bar, leave them room (about 115px each side of centre)
               const maxW = navCentered ? Math.floor(hdrW / 2 - navW / 2 - 20) : 170;
