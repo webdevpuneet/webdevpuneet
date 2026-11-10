@@ -69,6 +69,21 @@ export const LOCK_SNIPPET_AI = true;
    everyone, and the Embed link stays free. (A soft lock, in the browser: the preview runs the same code.) */
 export const LOCK_GAME_CODE = true;
 
+/* WHICH games are locked: only the snippet ids listed here (when LOCK_GAME_CODE is true). Every other game's code,
+   export and fork are free. These 9 are Patreon-only as of 2026-11-10; to lock another game, add its id. */
+export const PATREON_GAME_IDS = [
+  'matter-js-stacking-tower-game',
+  'matter-js-hill-climb-car',
+  'matter-js-slingshot-tower-knockdown',
+  'sky-hopper-game',
+  'asteroids-game',
+  'lane-runner-game',
+  'tank-arena-game',
+  'pixel-platformer-game',
+  'blackjack-card-game',
+];
+export const isPatreonGame = id => LOCK_GAME_CODE && PATREON_GAME_IDS.includes(id);
+
 /* true: the same for every template type (website templates, website section templates, email templates, social post
    templates): the "AI" prompt button in the editor toolbar and the "Extend with AI" section on the template's page are for
    supporters only. */

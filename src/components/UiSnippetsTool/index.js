@@ -13,7 +13,8 @@ import s from './styles.module.css';
 import { SNIPPET_INDEX as SNIPPETS, VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
 import { publishedTags } from '@/lib/snippet-tags';
 import { usePremiumUnlocked, PremiumUnlockDialog } from '@/components/PremiumGate';
-import { LOCK_SNIPPET_AI, LOCK_GAME_CODE } from '@/lib/premium';
+import { LOCK_SNIPPET_AI } from '@/lib/premium';
+import { isPatreonGame } from '@/lib/patreon-settings';
 import { CATEGORIES } from './categories';
 import BookmarkButton from './BookmarkButton';
 import { loadSnippet as fetchSnippet, getLoadedSnippet } from './loadSnippet';
@@ -1909,7 +1910,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   }
 
   // Games: the code, the exports and Fork are for supporters (the game itself stays playable, Embed stays free)
-  const codeLocked = LOCK_GAME_CODE && !activeIsCustom && SNIPPET_META.get(activeId)?.category === 'games' && !premiumUnlocked;
+  const codeLocked = !activeIsCustom && isPatreonGame(activeId) && !premiumUnlocked;
 
   /* — Options for the single Export dropdown (labels + what each produces) — */
   const exportOptionsAll = [

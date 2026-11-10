@@ -1405,7 +1405,7 @@ export default function Sidebar() {
               <ul className={styles.supporterPopList}>
                 <li>No ads anywhere on the site</li>
                 <li>The AI prompt on every snippet and template</li>
-                <li>The code, export and fork of every game</li>
+                <li>The code, export and fork of selected games</li>
                 <li>Export the templates with a Patreon badge (website, email and social post)</li>
                 <li>Bulk create social posts from a CSV</li>
                 <li>Backup and restore all your saved designs</li>

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { CATEGORY_SEO } from '@/lib/snippet-category-seo';
 import SeoSection from '@/components/SeoSection';
-import { LOCK_SNIPPET_AI, LOCK_GAME_CODE } from '@/lib/patreon-settings';
+import { LOCK_SNIPPET_AI, isPatreonGame } from '@/lib/patreon-settings';
 import LandingPageStart, { StartTemplateButtons } from './LandingPageStart';
 import SnippetIndex from './SnippetIndex';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
@@ -967,7 +967,7 @@ Requirements:
   // block is always in the markup a crawler fetches, same technique the
   // /embed/ route already uses.
   // Games are Patreon-only code (LOCK_GAME_CODE): no code is highlighted or sent to the page for them, a lock note replaces it.
-  const gameCodeLocked = LOCK_GAME_CODE && sn.category === 'games';
+  const gameCodeLocked = isPatreonGame(sn.id);
   const [htmlHl, cssHl, jsHl] = gameCodeLocked ? ['', '', ''] : await Promise.all([
     highlightCode(sn.html, 'html', 'github-dark'),
     highlightCode(sn.css, 'css', 'github-dark'),

@@ -10,7 +10,7 @@
    static, see __directions/ideas/PATREON-LOCK.txt). The settings (passcode hash, Patreon link, price, which templates)
    live in their own file: src/lib/patreon-settings.js. */
 
-import { PATREON_URL, PATREON_PRICE, PASSCODE_SHA256, PREMIUM_TEMPLATE_IDS, PREMIUM_SOCIAL_TEMPLATE_IDS, PREMIUM_EMAIL_TEMPLATE_IDS, LOCK_SECTION_EXPORT, LOCK_BACKUP, LOCK_SOCIAL_VIDEO, LOCK_SOCIAL_BULK, LOCK_SNIPPET_AI, LOCK_TEMPLATE_AI, LOCK_GAME_CODE } from './patreon-settings.js';
+import { PATREON_URL, PATREON_PRICE, PASSCODE_SHA256, PREMIUM_TEMPLATE_IDS, PREMIUM_SOCIAL_TEMPLATE_IDS, PREMIUM_EMAIL_TEMPLATE_IDS, LOCK_SECTION_EXPORT, LOCK_BACKUP, LOCK_SOCIAL_VIDEO, LOCK_SOCIAL_BULK, LOCK_SNIPPET_AI, LOCK_TEMPLATE_AI, LOCK_GAME_CODE, isPatreonGame } from './patreon-settings.js';
 
 export { PATREON_URL, PATREON_PRICE, PASSCODE_SHA256, LOCK_SECTION_EXPORT, LOCK_BACKUP, LOCK_SOCIAL_VIDEO, LOCK_SOCIAL_BULK, LOCK_SNIPPET_AI, LOCK_TEMPLATE_AI, LOCK_GAME_CODE };
 
@@ -18,7 +18,7 @@ export const isPremiumTemplate = id => PREMIUM_TEMPLATE_IDS.includes(id);
 export const isPremiumSocialTemplate = id => PREMIUM_SOCIAL_TEMPLATE_IDS.includes(id);
 export const isPremiumEmailTemplate = id => PREMIUM_EMAIL_TEMPLATE_IDS.includes(id);
 /** A snippet whose code, export and fork are for supporters: every snippet in the Games category (LOCK_GAME_CODE) */
-export const isPremiumGameSnippet = sn => !!sn && LOCK_GAME_CODE && sn.category === 'games';
+export const isPremiumGameSnippet = sn => !!sn && isPatreonGame(sn.id);
 
 const KEY = 'wdp_premium_unlock_v1';
 const EVENT = 'wdp-premium-change';

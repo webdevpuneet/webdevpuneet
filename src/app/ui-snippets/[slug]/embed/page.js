@@ -3,7 +3,7 @@ import { SNIPPETS } from '@/components/UiSnippetsTool/snippets';
 import { buildPreviewSrcdoc } from '@/lib/snippet-preview';
 import { highlightCode } from '@/lib/shiki-highlight';
 import { buildSnippetMetadata } from '@/lib/snippet-seo';
-import { LOCK_GAME_CODE } from '@/lib/patreon-settings';
+import { isPatreonGame } from '@/lib/patreon-settings';
 import EmbedShell from './EmbedShell';
 
 // Static-export only: every embeddable slug is known at build time, same as
@@ -42,7 +42,7 @@ export default async function SnippetEmbedPage({ params }) {
 
   // Games are Patreon-only code (LOCK_GAME_CODE): the embed still plays the game, but the code is not sent to the
   // page at all (no code props, no highlighted HTML), and the code tabs show a lock note instead.
-  const codeLocked = LOCK_GAME_CODE && sn.category === 'games';
+  const codeLocked = isPatreonGame(sn.id);
 
   // Highlighted at build time (dark theme to match the embed shell's dark
   // top bar / code pane), same shiki setup the canonical snippet page uses.
