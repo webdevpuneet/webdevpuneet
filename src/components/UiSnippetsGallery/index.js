@@ -424,6 +424,12 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
       <div className={s.main}>
       {/* Leaderboard ad (max 90px) above the search box */}
       <PlaygroundTopAd className={s.topAd} />
+      {/* Page title: the category or tag being browsed, with how many snippets it holds */}
+      <h2 className={s.pageTitle}>
+        {activeTag ? activeTag.label : (CATEGORIES.find(c => c.id === category)?.label || 'All')}
+        {' '}snippets
+        <span className={s.pageTitleCount}>{filtered.length.toLocaleString('en-US')}</span>
+      </h2>
       <div className={s.controls}>
         <div className={s.searchRow}>
           <div className={s.searchWrap}>
@@ -455,13 +461,6 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
             }
           </button>
         </div>
-
-        <BrowsePanel
-          activeCategory={category}
-          activeTag={initialTag}
-          bookmarkedActive={bookmarkedOn}
-          onBookmarked={canBookmarkView ? toggleBookmarkedView : undefined}
-        />
       </div>
 
       {results}

@@ -1364,12 +1364,6 @@ export default function Sidebar() {
           </button>
         </div>
 
-        {/* Sidebar top ad. Keyed by pathname so every page mounts a fresh slot.
-            Shown on every URL (query strings included); never on the 404 page. */}
-        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !adFreeOnLoad && !isNotFoundPage && !isEmbedRoute(pathname) && adsAllowedOnPath(pathname) && (
-          <SidebarTopAd key={pathname} />
-        )}
-
         {/* Patreon: a supporter sees the thank-you line; everyone else sees the sign-in line (both one line, same place) */}
         {!adFree && (
           <div className={`${styles.supporterBar} ${styles.supporterBarOff}`}>
@@ -1401,8 +1395,14 @@ export default function Sidebar() {
           </div>
         )}
 
-        {/* Latest blog posts, one at a time, right under the ad. */}
+        {/* Latest blog posts, one at a time, right under the Patreon line (above the ad). */}
         <BlogTicker />
+
+        {/* Sidebar top ad (under the blog ticker). Keyed by pathname so every page mounts a fresh slot.
+            Shown on every URL (query strings included); never on the 404 page. */}
+        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !adFreeOnLoad && !isNotFoundPage && !isEmbedRoute(pathname) && adsAllowedOnPath(pathname) && (
+          <SidebarTopAd key={pathname} />
+        )}
 
 
         <>
