@@ -1,262 +1,353 @@
 const mobileVoiceMessageScreen = {
   id: 'mobile-voice-message-screen',
   title: 'Mobile Voice Message Recording Screen',
+  lastmod: '2026-11-10',
   category: 'mobile',
   html: `<div class="vms-phone">
   <div class="vms-screen">
     <div class="vms-status"><span>9:41</span><span class="vms-batt"><i></i></span></div>
     <header class="vms-head">
-      <button class="vms-back" aria-label="Back">&#8249;</button>
-      <div class="vms-contact"><span class="vms-avatar">P</span><b>Priya</b></div>
-      <span class="vms-spacer"></span>
+      <button type="button" class="vms-back" aria-label="Back">&#8249;</button>
+      <div class="vms-contact">
+        <span class="vms-avatar">P</span>
+        <div class="vms-who"><b>Priya</b><small>online</small></div>
+      </div>
     </header>
 
     <div class="vms-thread" id="vmsThread">
+      <div class="vms-day">Today</div>
       <div class="vms-msg vms-them">Hey! Can you send a quick voice note about the launch plan?</div>
       <div class="vms-msg vms-me">Sure, one sec</div>
     </div>
 
-    <div class="vms-composer">
-      <div class="vms-input-row" id="vmsInputRow">
-        <input class="vms-input" placeholder="Message" id="vmsTextInput">
-        <button class="vms-mic-btn" id="vmsMicBtn" aria-label="Hold to record">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 15a3 3 0 003-3V6a3 3 0 10-6 0v6a3 3 0 003 3z"/><path d="M19 11a7 7 0 01-14 0M12 18v3"/></svg>
-        </button>
-      </div>
+    <div class="vms-toast" id="vmsToast" role="status"></div>
 
-      <div class="vms-recording-row" id="vmsRecordingRow" hidden>
-        <button class="vms-cancel" id="vmsCancel" aria-label="Cancel recording">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-        <span class="vms-rec-dot"></span>
-        <span class="vms-timer" id="vmsTimer">0:00</span>
-        <div class="vms-live-wave" id="vmsLiveWave"></div>
-        <span class="vms-slide-hint" id="vmsSlideHint">&#8249; Slide to cancel</span>
-        <button class="vms-send-btn" id="vmsSendBtn" aria-label="Send">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20l18-8L3 4v6l12 2-12 2z"/></svg>
-        </button>
+    <div class="vms-composer" id="vmsComposer">
+      <div class="vms-field">
+        <input class="vms-input" id="vmsInput" placeholder="Message" aria-label="Message" autocomplete="off">
+        <div class="vms-rec" aria-hidden="true">
+          <span class="vms-rec-dot"></span>
+          <span class="vms-timer" id="vmsTimer">0:00</span>
+          <div class="vms-live-wave" id="vmsWave"></div>
+          <span class="vms-hint" id="vmsHint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg><span id="vmsHintText">Slide to cancel</span></span>
+        </div>
       </div>
+      <button type="button" class="vms-mic" id="vmsMic" aria-label="Hold to record a voice message">
+        <svg class="vms-ic-mic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M19 11a7 7 0 0 1-14 0M12 18v3"/></svg>
+        <svg class="vms-ic-send" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 20 21 12 3 4v6l12 2-12 2z"/></svg>
+      </button>
     </div>
   </div>
 </div>`,
+
   css: `*{box-sizing:border-box;margin:0;padding:0}
-html{scrollbar-width:none;-ms-overflow-style:none}
-html::-webkit-scrollbar{display:none}
-body{font-family:system-ui,-apple-system,sans-serif;background:#1e293b;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:24px;scrollbar-width:none;-ms-overflow-style:none}
-body::-webkit-scrollbar{display:none}
+html,body{scrollbar-width:none;-ms-overflow-style:none}
+html::-webkit-scrollbar,body::-webkit-scrollbar{display:none}
+body{font-family:system-ui,-apple-system,sans-serif;background:#1e293b;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:24px}
+button{font:inherit;cursor:pointer;border:0}
 
 .vms-phone{width:288px;height:600px;background:#0b1220;border-radius:46px;padding:12px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6),inset 0 0 0 2px #1e293b}
-.vms-screen{width:100%;height:100%;border-radius:34px;overflow:hidden;background:#eef2f7;color:#0f172a;display:flex;flex-direction:column}
-.vms-status{display:flex;justify-content:space-between;align-items:center;padding:13px 24px 0;font-size:13px;font-weight:700}
+.vms-screen{position:relative;width:100%;height:100%;border-radius:34px;overflow:hidden;background:#eef2f7;color:#0f172a;display:flex;flex-direction:column}
+.vms-status{display:flex;justify-content:space-between;align-items:center;padding:13px 24px 0;font-size:13px;font-weight:700;background:#fff}
 .vms-batt{width:22px;height:11px;border:1.4px solid currentColor;border-radius:3px;position:relative;display:inline-block}
 .vms-batt::after{content:'';position:absolute;right:-3px;top:3px;width:2px;height:5px;background:currentColor;border-radius:0 1px 1px 0}
 .vms-batt i{position:absolute;left:1.4px;top:1.4px;bottom:1.4px;width:82%;background:currentColor;border-radius:1px}
 
 .vms-head{display:flex;align-items:center;gap:10px;padding:8px 14px 12px;background:#fff;border-bottom:1px solid #e2e8f0}
-.vms-back{background:rgba(15,23,42,.06);border:none;width:30px;height:30px;border-radius:50%;font-size:20px;color:#0f172a;cursor:pointer}
-.vms-contact{display:flex;align-items:center;gap:8px;flex:1}
-.vms-avatar{width:28px;height:28px;border-radius:50%;background:#7c3aed;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
-.vms-contact b{font-size:13.5px}
-.vms-spacer{width:30px}
+.vms-back{background:rgba(15,23,42,.06);width:30px;height:30px;border-radius:50%;font-size:20px;line-height:1;color:#0f172a}
+.vms-contact{display:flex;align-items:center;gap:9px}
+.vms-avatar{width:30px;height:30px;border-radius:50%;background:#7c3aed;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.vms-who{display:flex;flex-direction:column;line-height:1.2}
+.vms-who b{font-size:13.5px}
+.vms-who small{font-size:10.5px;color:#16a34a;font-weight:600}
 
-.vms-thread{flex:1;overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:9px;scrollbar-width:none;-ms-overflow-style:none}
+.vms-thread{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:8px;scrollbar-width:none;scroll-behavior:smooth}
 .vms-thread::-webkit-scrollbar{display:none}
-.vms-msg{max-width:78%;font-size:13px;line-height:1.5;padding:9px 13px;border-radius:16px}
+.vms-day{align-self:center;font-size:10.5px;font-weight:700;color:#64748b;background:rgba(15,23,42,.06);padding:3px 10px;border-radius:99px;margin-bottom:2px}
+.vms-msg{max-width:78%;font-size:13px;line-height:1.5;padding:9px 13px;border-radius:16px;word-wrap:break-word;animation:vms-in .25s ease-out}
 .vms-them{align-self:flex-start;background:#fff;border-bottom-left-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
 .vms-me{align-self:flex-end;background:#7c3aed;color:#fff;border-bottom-right-radius:4px}
 
-.vms-voice-bubble{align-self:flex-end;display:flex;align-items:center;gap:8px;background:#7c3aed;color:#fff;padding:9px 13px;border-radius:16px;border-bottom-right-radius:4px;max-width:78%}
-.vms-voice-bubble .vms-play{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.22);border:none;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
-.vms-voice-bars{display:flex;align-items:center;gap:2px;height:18px;flex:1}
-.vms-voice-bars span{width:2.5px;background:rgba(255,255,255,.85);border-radius:2px}
-.vms-voice-dur{font-size:10.5px;opacity:.85;flex-shrink:0}
+.vms-voice{align-self:flex-end;display:flex;align-items:center;gap:8px;width:204px;background:#7c3aed;color:#fff;padding:8px 12px 8px 8px;border-radius:16px;border-bottom-right-radius:4px;animation:vms-in .25s ease-out}
+.vms-play{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.22);color:#fff;display:flex;align-items:center;justify-content:center;flex:none;transition:background .15s}
+.vms-play:hover{background:rgba(255,255,255,.34)}
+.vms-play:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.vms-bars{display:flex;align-items:center;justify-content:space-between;gap:2px;height:22px;flex:1;min-width:0;overflow:hidden}
+.vms-bars span{width:2.5px;flex:none;background:rgba(255,255,255,.45);border-radius:2px;transition:background .1s}
+.vms-bars span.on{background:#fff}
+.vms-dur{font-size:10.5px;font-variant-numeric:tabular-nums;opacity:.9;flex:none}
+@keyframes vms-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-.vms-composer{background:#fff;border-top:1px solid #e2e8f0;padding:10px 12px;position:relative;overflow:hidden}
-.vms-input-row{display:flex;align-items:center;gap:8px;transition:transform .2s,opacity .2s}
-.vms-input-row.hide{transform:translateX(-30px);opacity:0;position:absolute;pointer-events:none}
-.vms-input{flex:1;border:1.5px solid #e2e8f0;border-radius:20px;padding:10px 15px;font-size:13px;font-family:inherit;outline:none}
+.vms-toast{position:absolute;left:50%;bottom:74px;transform:translate(-50%,8px);background:#0f172a;color:#fff;font-size:11.5px;font-weight:600;padding:7px 12px;border-radius:99px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:3}
+.vms-toast.show{opacity:1;transform:translate(-50%,0)}
+
+.vms-composer{display:flex;align-items:center;gap:8px;background:#fff;border-top:1px solid #e2e8f0;padding:10px 12px}
+.vms-field{position:relative;flex:1;min-width:0}
+.vms-input{width:100%;height:40px;border:1.5px solid #e2e8f0;border-radius:20px;padding:0 15px;font-size:13px;font-family:inherit;outline:none;transition:border-color .15s}
 .vms-input:focus{border-color:#7c3aed}
-.vms-mic-btn{width:40px;height:40px;border-radius:50%;background:#7c3aed;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .12s}
-.vms-mic-btn:active{transform:scale(.92)}
+.vms-composer.is-rec .vms-input{visibility:hidden}
 
-.vms-recording-row{display:flex;align-items:center;gap:8px}
-.vms-cancel{width:30px;height:30px;border-radius:50%;background:#f1f5f9;border:none;color:#64748b;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.vms-rec-dot{width:9px;height:9px;border-radius:50%;background:#ef4444;flex-shrink:0;animation:vmsBlink 1s infinite}
-@keyframes vmsBlink{50%{opacity:.25}}
-.vms-timer{font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;flex-shrink:0}
-.vms-live-wave{flex:1;height:22px;display:flex;align-items:center;gap:2px;overflow:hidden}
-.vms-live-wave span{width:2.5px;background:#7c3aed;border-radius:2px;flex-shrink:0}
-.vms-slide-hint{font-size:11px;color:#94a3b8;white-space:nowrap;flex-shrink:0}
-.vms-send-btn{width:34px;height:34px;border-radius:50%;background:#7c3aed;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.vms-send-btn[disabled]{opacity:.4;cursor:not-allowed}`,
-  js: `var micBtn = document.getElementById('vmsMicBtn');
-var inputRow = document.getElementById('vmsInputRow');
-var recordingRow = document.getElementById('vmsRecordingRow');
+.vms-rec{position:absolute;inset:0;display:none;align-items:center;gap:8px;padding:0 14px;border-radius:20px;background:#f5f3ff;border:1.5px solid #ddd6fe;overflow:hidden;transition:background .15s,border-color .15s}
+.vms-composer.is-rec .vms-rec{display:flex}
+.vms-composer.is-cancel .vms-rec{background:#fef2f2;border-color:#fecaca}
+.vms-rec-dot{width:9px;height:9px;border-radius:50%;background:#ef4444;flex:none;animation:vms-blink 1s infinite}
+@keyframes vms-blink{50%{opacity:.25}}
+.vms-timer{font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;flex:none}
+.vms-live-wave{flex:1;min-width:0;height:24px;display:flex;align-items:center;gap:2px;overflow:hidden}
+.vms-live-wave span{width:2.5px;flex:none;background:#7c3aed;border-radius:2px}
+.vms-composer.is-cancel .vms-live-wave span{background:#ef4444}
+.vms-hint{position:absolute;right:12px;display:flex;align-items:center;gap:3px;font-size:11px;font-weight:600;color:#64748b;white-space:nowrap;padding-left:22px;background:linear-gradient(90deg,transparent,#f5f3ff 40%);transition:opacity .4s,color .15s}
+.vms-composer.is-cancel .vms-hint{color:#dc2626;background:linear-gradient(90deg,transparent,#fef2f2 40%)}
+.vms-hint.gone{opacity:0}
+
+.vms-mic{position:relative;width:40px;height:40px;border-radius:50%;background:#7c3aed;color:#fff;display:flex;align-items:center;justify-content:center;flex:none;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;transition:transform .15s,background .15s}
+.vms-mic:focus-visible{outline:2px solid #4c1d95;outline-offset:2px}
+.vms-ic-send{display:none}
+.vms-composer.has-text .vms-ic-mic{display:none}
+.vms-composer.has-text .vms-ic-send{display:block}
+.vms-composer.is-rec .vms-mic{transform:scale(1.3)}
+.vms-composer.is-rec .vms-mic::after{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid #7c3aed;animation:vms-pulse 1.2s ease-out infinite}
+.vms-composer.is-cancel .vms-mic{background:#ef4444}
+.vms-composer.is-cancel .vms-mic::after{border-color:#ef4444}
+@keyframes vms-pulse{from{transform:scale(1);opacity:.7}to{transform:scale(1.9);opacity:0}}
+
+@media (prefers-reduced-motion:reduce){
+  .vms-rec-dot,.vms-composer.is-rec .vms-mic::after,.vms-msg,.vms-voice{animation:none}
+  .vms-thread{scroll-behavior:auto}
+}`,
+
+  js: `var composer = document.getElementById('vmsComposer');
+var input = document.getElementById('vmsInput');
+var mic = document.getElementById('vmsMic');
 var timerEl = document.getElementById('vmsTimer');
-var liveWave = document.getElementById('vmsLiveWave');
-var cancelBtn = document.getElementById('vmsCancel');
-var sendBtn = document.getElementById('vmsSendBtn');
-var slideHint = document.getElementById('vmsSlideHint');
+var wave = document.getElementById('vmsWave');
+var hint = document.getElementById('vmsHint');
+var hintText = document.getElementById('vmsHintText');
 var thread = document.getElementById('vmsThread');
+var toastEl = document.getElementById('vmsToast');
 
-var seconds = 0;
-var timerId = null;
-var waveTimerId = null;
-var isRecording = false;
-var recordedBars = [];
+var CANCEL_DISTANCE = 70;   // px to slide left before release cancels
+var MIN_MS = 600;           // shorter than this counts as an accidental tap
+var recording = false, inCancelZone = false;
+var startX = 0, startTime = 0, timerId = 0, waveId = 0;
+var levels = [], level = 0.5;
 
-function fmtTime(s) {
-  var m = Math.floor(s / 60);
-  var r = s % 60;
-  return m + ':' + (r < 10 ? '0' : '') + r;
+var PLAY = '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="7 3 20 12 7 21 7 3"/></svg>';
+var PAUSE = '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+
+function fmt(s) { return Math.floor(s / 60) + ':' + (s % 60 < 10 ? '0' : '') + (s % 60); }
+function scrollDown() { thread.scrollTop = thread.scrollHeight; }
+
+var toastTimer = 0;
+function toast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 1800);
 }
 
-function addWaveBar(container, height) {
-  var bar = document.createElement('span');
-  bar.style.height = height + 'px';
-  container.appendChild(bar);
-  return bar;
-}
-
-function startRecording() {
-  isRecording = true;
-  seconds = 0;
-  recordedBars = [];
+// ---- recording ----
+function startRecording(x) {
+  recording = true; inCancelZone = false;
+  startX = x; startTime = performance.now();
+  levels = []; level = 0.5;
+  wave.innerHTML = '';
   timerEl.textContent = '0:00';
-  liveWave.innerHTML = '';
-  inputRow.classList.add('hide');
-  recordingRow.hidden = false;
-  sendBtn.disabled = false;
-  slideHint.style.opacity = '1';
+  hint.classList.remove('gone');
+  hint.style.transform = '';
+  hintText.textContent = 'Slide to cancel';
+  composer.classList.add('is-rec');
+  composer.classList.remove('is-cancel');
 
   timerId = setInterval(function () {
-    seconds++;
-    timerEl.textContent = fmtTime(seconds);
-    if (seconds > 2) slideHint.style.opacity = '0';
-  }, 1000);
+    var ms = performance.now() - startTime;
+    timerEl.textContent = fmt(Math.floor(ms / 1000));
+    if (ms > 2200 && !inCancelZone) hint.classList.add('gone');
+  }, 200);
 
-  waveTimerId = setInterval(function () {
-    var h = 4 + Math.round(Math.random() * 16);
-    recordedBars.push(h);
-    addWaveBar(liveWave, h);
-    liveWave.scrollLeft = liveWave.scrollWidth;
-  }, 120);
+  // A smooth random walk, so the bars rise and fall like speech instead of flickering
+  waveId = setInterval(function () {
+    level = Math.max(0.12, Math.min(1, level + (Math.random() - 0.5) * 0.7));
+    levels.push(level);
+    var bar = document.createElement('span');
+    bar.style.height = Math.round(4 + level * 18) + 'px';
+    wave.appendChild(bar);
+    var capacity = Math.floor(wave.clientWidth / 4.5);
+    while (wave.children.length > capacity) wave.removeChild(wave.firstChild);
+  }, 90);
 }
 
-function stopRecording(shouldSend) {
-  isRecording = false;
-  clearInterval(timerId);
-  clearInterval(waveTimerId);
-  recordingRow.hidden = true;
-  inputRow.classList.remove('hide');
+function finish(send) {
+  if (!recording) return;
+  recording = false;
+  clearInterval(timerId); clearInterval(waveId);
+  var ms = performance.now() - startTime;
+  composer.classList.remove('is-rec', 'is-cancel');
+  if (!send) { toast('Recording discarded'); return; }
+  if (ms < MIN_MS) { toast('Hold to record, release to send'); return; }
+  addVoice(Math.max(1, Math.round(ms / 1000)), levels);
+}
 
-  if (shouldSend && seconds > 0) {
-    sendVoiceMessage(seconds, recordedBars.slice());
+// Pointer events cover mouse, touch and pen. Pointer capture keeps the events coming
+// even when the finger slides off the button, so a recording can never get stuck open.
+mic.addEventListener('pointerdown', function (e) {
+  if (input.value.trim() || (e.pointerType === 'mouse' && e.button !== 0)) return;   // with text typed, the button just sends
+  e.preventDefault();
+  mic.setPointerCapture(e.pointerId);
+  startRecording(e.clientX);
+});
+mic.addEventListener('pointermove', function (e) {
+  if (!recording) return;
+  var dx = Math.min(0, e.clientX - startX);
+  inCancelZone = dx < -CANCEL_DISTANCE;
+  composer.classList.toggle('is-cancel', inCancelZone);
+  hintText.textContent = inCancelZone ? 'Release to cancel' : 'Slide to cancel';
+  hint.classList.toggle('gone', false);
+  hint.style.transform = 'translateX(' + dx * 0.5 + 'px)';
+});
+mic.addEventListener('pointerup', function () { finish(!inCancelZone); });
+mic.addEventListener('pointercancel', function () { finish(false); });
+mic.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+// Keyboard: hold Space or Enter to record, release to send, Escape to cancel
+mic.addEventListener('keydown', function (e) {
+  if ((e.key === ' ' || e.key === 'Enter') && !e.repeat && !recording && !input.value.trim()) { e.preventDefault(); startRecording(0); }
+  else if (e.key === 'Escape' && recording) finish(false);
+});
+mic.addEventListener('keyup', function (e) { if ((e.key === ' ' || e.key === 'Enter') && recording) { e.preventDefault(); finish(true); } });
+mic.addEventListener('blur', function () { if (recording) finish(false); });
+
+// ---- text messages: with text typed, the mic becomes a send button ----
+input.addEventListener('input', function () {
+  var has = !!input.value.trim();
+  composer.classList.toggle('has-text', has);
+  mic.setAttribute('aria-label', has ? 'Send message' : 'Hold to record a voice message');
+});
+function sendText() {
+  var text = input.value.trim();
+  if (!text) return;
+  var m = document.createElement('div');
+  m.className = 'vms-msg vms-me';
+  m.textContent = text;
+  thread.appendChild(m);
+  input.value = '';
+  composer.classList.remove('has-text');
+  mic.setAttribute('aria-label', 'Hold to record a voice message');
+  scrollDown();
+}
+mic.addEventListener('click', sendText);
+input.addEventListener('keydown', function (e) { if (e.key === 'Enter') sendText(); });
+
+// ---- voice bubble: the waveform is the recording's own shape, and it plays back ----
+function addVoice(seconds, data) {
+  var N = 24, bars = '';
+  for (var i = 0; i < N; i++) {
+    var l = data[Math.floor(i * data.length / N)] || 0.3;
+    bars += '<span style="height:' + (3 + Math.round(l * 17)) + 'px"></span>';
   }
-}
+  var b = document.createElement('div');
+  b.className = 'vms-voice';
+  b.innerHTML = '<button type="button" class="vms-play" aria-label="Play voice message">' + PLAY + '</button>' +
+    '<span class="vms-bars">' + bars + '</span><span class="vms-dur">' + fmt(seconds) + '</span>';
+  thread.appendChild(b);
+  scrollDown();
 
-function sendVoiceMessage(duration, bars) {
-  var bubble = document.createElement('div');
-  bubble.className = 'vms-voice-bubble';
-  var barsHtml = bars.slice(-24).map(function (h) {
-    return '<span style="height:' + Math.max(3, Math.round(h * 0.7)) + 'px"></span>';
-  }).join('');
-  bubble.innerHTML = '<button class="vms-play" aria-label="Play">' +
-    '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg></button>' +
-    '<span class="vms-voice-bars">' + barsHtml + '</span>' +
-    '<span class="vms-voice-dur">' + fmtTime(duration) + '</span>';
-  thread.appendChild(bubble);
-  thread.scrollTop = thread.scrollHeight;
-}
+  var btn = b.querySelector('.vms-play'), spans = b.querySelectorAll('.vms-bars span'), dur = b.querySelector('.vms-dur');
+  var t = 0, id = 0;
+  function stop() { clearInterval(id); id = 0; btn.innerHTML = PLAY; btn.setAttribute('aria-label', 'Play voice message'); }
+  function reset() { spans.forEach(function (s) { s.classList.remove('on'); }); dur.textContent = fmt(seconds); t = 0; }
+  btn.addEventListener('click', function () {
+    if (id) { stop(); return; }
+    btn.innerHTML = PAUSE;
+    btn.setAttribute('aria-label', 'Pause voice message');
+    id = setInterval(function () {
+      t += 100;
+      var p = Math.min(1, t / (seconds * 1000));
+      spans.forEach(function (s, i) { s.classList.toggle('on', i < p * spans.length); });
+      dur.textContent = fmt(Math.floor(t / 1000));
+      if (p >= 1) { stop(); setTimeout(reset, 400); }
+    }, 100);
+  });
+}`,
 
-micBtn.addEventListener('mousedown', startRecording);
-micBtn.addEventListener('touchstart', function (e) { e.preventDefault(); startRecording(); });
-
-micBtn.addEventListener('mouseup', function () { if (isRecording) stopRecording(true); });
-micBtn.addEventListener('mouseleave', function () { if (isRecording) stopRecording(true); });
-micBtn.addEventListener('touchend', function () { if (isRecording) stopRecording(true); });
-
-cancelBtn.addEventListener('click', function () { stopRecording(false); });
-sendBtn.addEventListener('click', function () { stopRecording(true); });`,
   seo: {
-    title: 'Mobile Voice Message Recording Screen — Free Snippet',
-    description: 'A mobile chat screen with a hold-to-record voice message composer, live waveform, timer, slide-to-cancel hint, and a sent voice bubble. Exports to React, Vue & Tailwind.',
+    title: 'Mobile Voice Message Screen — Hold to Record, Slide Cancel',
+    description: 'Chat voice-note composer: hold the mic, slide left to cancel, see a live waveform and timer, then send a playable voice bubble. Pure JavaScript, no library.',
     about: {
-      title: 'Mobile Voice Message Screen — Hold-to-Record Composer with a Live Waveform',
-      description: `Voice messaging inside a chat composer is a distinct interaction from a standalone recorder: the input row has to transform into a recording state and back without ever losing the surrounding conversation. This snippet builds that full composer transformation inside a CSS phone frame — holding the mic button swaps the text field for a live timer and waveform, releasing sends a real voice bubble into the thread, and a separate cancel control discards the recording entirely.
+      title: 'Mobile Voice Message Screen — Hold-to-Record, Slide-to-Cancel and Playable Voice Bubbles',
+      description: `A voice note in a chat app is a gesture, not a button: you press and hold, speak, and either release to send or slide away to throw it out. This snippet builds that whole interaction inside a CSS phone frame in plain HTML, CSS and vanilla JavaScript. Holding the mic swaps the text field for a live timer and waveform, sliding left turns the composer red and cancels on release, and letting go sends a voice bubble into the thread whose waveform is the shape of what you recorded and which actually plays back.
 
-**Hold-to-record, not tap-to-record**
+**One mic button that never moves**
 
-The mic button listens for \`mousedown\`/\`touchstart\` to call \`startRecording()\` and \`mouseup\`/\`touchend\`/\`mouseleave\` to call \`stopRecording(true)\` — mirroring the press-and-hold gesture every major chat app uses for voice notes, rather than a tap-to-start/tap-to-stop toggle. The \`mouseleave\` handler specifically covers the case where a cursor (or a finger dragging away on touch) leaves the button while still pressed, so a recording never gets stuck open because the release event fired somewhere else.
+An earlier version hid the mic button while recording, which meant the release event had nowhere to land and the recording could end as soon as the pointer moved. Here the button stays put, scales up with a pulsing ring, and owns the whole gesture through pointer events. \`pointerdown\` starts it and calls \`setPointerCapture\`, so \`pointermove\` and \`pointerup\` keep arriving even when the finger drifts off the button; \`pointercancel\` discards. One set of handlers covers mouse, touch and pen.
 
-**The input row and the recording row are two views of one composer**
+**Slide to cancel, for real**
 
-Rather than modifying the text input in place, \`inputRow.classList.add('hide')\` slides the whole message-input row out while \`recordingRow.hidden = false\` reveals the timer/waveform row underneath the same composer bar. This clean swap — never both visible, never neither visible — is what makes the transformation read as "the composer became a recorder" rather than a second unrelated element appearing on the screen.
+\`pointermove\` measures how far the pointer has travelled left of where it started. The hint text follows at half speed, and once the distance passes 70px the composer gets an \`is-cancel\` class: the field and mic turn red and the hint reads "Release to cancel". Releasing there discards the take with a short "Recording discarded" toast; sliding back before releasing sends normally.
 
-**A waveform built live, one bar per tick**
+**Accidental taps and the text-to-send swap**
 
-While recording, a bar is appended to \`#vmsLiveWave\` every 120 milliseconds with a randomized height, and each bar's height is also pushed into a \`recordedBars\` array — the running visual record of the recording, not just decoration. On send, the last 24 recorded heights are reused to build the sent message's static waveform bubble, so the waveform in the chat thread is not a generic fixed pattern; it is genuinely derived from the shape of that particular recording.
+A press shorter than 600ms is treated as a mistake: nothing is sent and a toast explains "Hold to record, release to send". When there is text in the field, the mic icon becomes a send arrow and the same button posts the message as a normal bubble, which is how the major chat apps behave.
 
-**A slide-to-cancel hint that fades on its own schedule**
+**A live waveform with a memory**
 
-The "Slide to cancel" text appears with the timer at zero and fades to \`opacity: 0\` once \`seconds > 2\`, mirroring how real chat apps de-emphasize that hint once a user has clearly committed to a longer message. A dedicated X-button cancel control sits to the left of the timer as the reliable, always-available way to discard a recording, independent of whatever gesture-based slide-to-cancel a production build might layer on top.
+Every 90ms a bar is added using a smooth random walk, so the levels rise and fall like speech, and the oldest bars are trimmed to fit the width. The levels are also stored. When you send, the bubble samples 24 of them across the whole recording, so its waveform shows the shape of that recording rather than just the last second.
 
-**Sending never fires on an accidental tap**
+**Bubbles that play**
 
-\`stopRecording(shouldSend)\` only calls \`sendVoiceMessage()\` when \`shouldSend\` is true and \`seconds > 0\` — releasing the mic button with zero elapsed time (an accidental brush of the button) produces no message at all, matching the expectation that a voice note needs at least a moment of actual audio before it is worth sending.
+The play button toggles between play and pause icons, fills the bars from left to right as time passes, counts up the duration and resets when it ends. Swap the timer for an \`<audio>\` element and its \`timeupdate\` event when you add real audio.
 
-**Wiring it to real audio capture**
+**Keyboard and motion**
 
-Replace the \`setInterval\`-driven random bar heights with real amplitude data from the Web Audio API's \`AnalyserNode\` bound to a \`MediaRecorder\` stream from \`navigator.mediaDevices.getUserMedia({ audio: true })\`, and swap the placeholder waveform bubble for an actual \`<audio>\` element wired to the recorded \`Blob\` once \`MediaRecorder\` stops — the composer state machine (hold to start, release to send or cancel, hide/show the two rows) needs no changes to support real audio underneath it.`,
+Hold Space or Enter on the mic to record, release to send, press Escape or move focus away to cancel. The pulse, blinking dot and entrance animations switch off with \`prefers-reduced-motion\`.
+
+**Going live**
+
+The waveform and timing are simulated. To record real audio, request \`navigator.mediaDevices.getUserMedia({ audio: true })\`, feed the stream to a \`MediaRecorder\` and an \`AnalyserNode\` for the levels, and attach the resulting Blob to the bubble. Put the composer inside a [mobile chat screen](/ui-snippets/mobile-chat-screen/), or compare it with the standalone [voice message bubble](/ui-snippets/voice-message-bubble/).`,
     },
-    howToUse: {
-      type: 'steps',
-      items: [
-        { title: 'Paste HTML, CSS, and JS', text: 'A chat screen renders with a message thread and a normal text composer at the bottom.' },
-        { title: 'Press and hold the mic button', text: 'The text input slides away and a live timer plus waveform take over the composer.' },
-        { title: 'Keep holding', text: 'New waveform bars append roughly every 120ms and the "Slide to cancel" hint fades after 2 seconds.' },
-        { title: 'Release the mic button', text: 'A voice message bubble with the actual recorded waveform shape and duration appears in the thread.' },
-        { title: 'Tap the X during a recording', text: 'The recording is discarded and the composer returns to the normal text input with no message sent.' },
-        { title: 'Wire it to real audio', text: 'Replace the randomized bar heights with real MediaRecorder/AnalyserNode amplitude data and attach an actual audio Blob to the sent bubble.' },
-      ],
-    },
+    howToUse: { type: 'steps', items: [
+      { title: 'Paste HTML, CSS and JS', text: 'A chat screen appears with an input field and a purple mic button; the thread has a date chip and two messages.' },
+      { title: 'Press and hold the mic', text: 'The input is replaced by a red dot, a running timer and a live waveform, and the mic scales up with a pulsing ring.' },
+      { title: 'Slide left', text: 'Past 70px the composer turns red and the hint reads "Release to cancel". Releasing there discards the take with a toast.' },
+      { title: 'Release in place', text: 'A voice bubble appears whose waveform was sampled from your recording, with its duration. A press shorter than 0.6s sends nothing.' },
+      { title: 'Play the bubble', text: 'The button switches to pause, the bars fill left to right and the time counts up, then resets at the end.' },
+      { title: 'Type a message', text: 'With text in the field the mic becomes a send arrow, and pressing it posts a normal text bubble.' },
+    ] },
     features: [
-      'Press-and-hold mic gesture via mousedown/touchstart and mouseup/touchend/mouseleave',
-      'Composer swaps cleanly between a text-input row and a recording row, never both at once',
-      'Live waveform built one randomized bar at a time, recorded into an array as it grows',
-      'Sent voice bubble reuses the actual recorded bar heights, not a generic fixed waveform',
-      'Slide-to-cancel hint text that fades automatically after a few seconds of recording',
-      'Dedicated cancel button discards a recording independent of any slide gesture',
-      'Zero-length recordings (accidental taps) never produce a sent message',
-      'Blinking red record dot and a running mm:ss timer while recording',
-      'Zero dependencies, vanilla JavaScript only',
+      { title: 'Pointer-capture gesture', text: 'One set of pointer events covers mouse, touch and pen, and capture keeps the release arriving wherever the finger goes.' },
+      { title: 'Real slide-to-cancel', text: 'Sliding 70px left turns the composer red and cancels on release, with the hint following the finger.' },
+      { title: 'Accidental-tap guard', text: 'A press under 600ms sends nothing and shows a "Hold to record" toast.' },
+      { title: 'Live waveform', text: 'A smooth random walk adds a bar every 90ms, trimmed to fit, with a blinking dot and a running timer.' },
+      { title: 'Waveform from the recording', text: 'The sent bubble samples 24 of the recorded levels across the whole take.' },
+      { title: 'Playable bubbles', text: 'Play and pause, bars fill as it plays, the time counts up and resets at the end.' },
+      { title: 'Mic becomes Send', text: 'Typing swaps the mic icon for a send arrow that posts a text bubble.' },
+      { title: 'Keyboard and reduced motion', text: 'Hold Space or Enter to record, Escape to cancel, and animations switch off when the user prefers less motion.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Chat and messaging apps', desc: 'The canonical use case — pair with the [Mobile Chat Screen](/ui-snippets/mobile-chat-screen/) as the full conversation this composer would sit inside.' },
-      { icon: 'FLOW', title: 'Voicemail and audio-note features', desc: 'The same hold-to-record and live-waveform pattern applies to any short-form audio capture, not only chat messages.' },
-      { icon: 'DASH', title: 'Customer support and async video/voice apps', desc: 'Voice replies inside a support thread benefit from the same clear recording/sending state machine as consumer chat apps.' },
-      { icon: 'LEARN', title: 'Teaching press-and-hold gesture handling', desc: 'A concrete, real-world reference for coordinating mousedown/touchstart with mouseup/touchend/mouseleave to avoid a recording ever getting stuck open.' },
-      { icon: 'CODE', title: 'Related: Mobile Chat Screen', desc: 'See the [Mobile Chat Screen](/ui-snippets/mobile-chat-screen/) for the full conversation thread this voice composer is designed to sit inside.' },
-      { icon: 'CODE', title: 'Related: Voice Message Bubble', desc: 'See the [Voice Message Bubble](/ui-snippets/voice-message-bubble/) for a closer look at a standalone playable voice-message bubble component.' },
+      { title: 'Chat and messaging apps', text: 'Use this composer inside a [mobile chat screen](/ui-snippets/mobile-chat-screen/); the gesture, cancel zone and playable bubble are what users expect from voice notes.' },
+      { title: 'Support and customer replies', text: 'Let agents or customers answer a ticket by voice, with the cancel gesture preventing half-recorded messages from going out by mistake.' },
+      { title: 'Coaching and feedback apps', text: 'Record short spoken feedback on a lesson or task, with the duration and waveform telling the recipient how long it is before pressing play.' },
+      { title: 'Field and logging tools', text: 'Capture a quick note one-handed with hold-to-record, then review it with the standalone [voice message bubble](/ui-snippets/voice-message-bubble/) pattern.' },
+      { title: 'Learning press-and-hold', text: 'A compact reference for pointer capture, a cancel threshold and a minimum-duration guard, the three details that make hold gestures reliable on touch.' },
     ],
     faqs: [
-      { q: 'Why does the mic button listen to mouseleave as well as mouseup?', a: 'If the cursor (or a dragging finger on touch) leaves the button area while still pressed, a plain mouseup listener on the button itself might never fire there. Also listening for mouseleave guarantees stopRecording() is still called, so a recording can never get stuck open indefinitely.' },
-      { q: 'Is the waveform shown while recording based on real audio?', a: 'No — each bar\’s height is randomized every 120 milliseconds to simulate live amplitude. For real audio-reactive bars, bind a Web Audio API AnalyserNode to a MediaRecorder stream from getUserMedia and read actual frequency/amplitude data on each animation tick instead of Math.random().' },
-      { q: 'Does the sent voice bubble reuse the actual recording shape?', a: 'Yes, within this demo\’s simulated data — the same recordedBars array built live during recording is reused (its last 24 values) to draw the static waveform in the sent message bubble, so the sent bubble\’s shape corresponds to that specific recording rather than a fixed generic pattern.' },
-      { q: 'What happens if I tap the mic button very briefly by accident?', a: 'stopRecording() only calls sendVoiceMessage() when the elapsed seconds is greater than zero. A near-instant press-and-release produces no waveform bars and no sent message, preventing accidental blank voice notes.' },
-      { q: 'How do I discard a recording in progress?', a: 'Tap the X cancel button to the left of the timer at any point during recording. This calls stopRecording(false), which tears down the timers and returns the composer to its normal text-input state without calling sendVoiceMessage().' },
-      { q: 'Can I use this in React, Vue, or Angular?', a: 'Yes. Track isRecording, seconds, and an array of bar heights in state, start/stop interval timers inside your gesture handlers, and conditionally render either the text-input row or the recording row from the same isRecording boolean — the send/cancel logic and the reused-bars-on-send pattern translate directly.' },
+      { q: 'Why use pointer events instead of mouse and touch events?', a: 'Pointer events give mouse, touch and pen one set of handlers, and setPointerCapture keeps pointermove and pointerup coming to the mic even when the finger slides off it. That removes the stuck-recording bugs that come from mouseleave and separate touchend handling.' },
+      { q: 'How does slide-to-cancel decide to cancel?', a: 'On every pointermove it subtracts the starting x from the current x and ignores movement to the right. If the result passes minus 70px, the composer gets the is-cancel class, and releasing in that state calls finish(false) instead of sending. Sliding back before releasing sends normally.' },
+      { q: 'Is the waveform real audio?', a: 'No, the levels are a simulated random walk so the demo works without microphone permission. For real levels, connect getUserMedia to an AnalyserNode and push its amplitude into the levels array on each tick. Recording the Blob with MediaRecorder gives you the audio to play.' },
+      { q: 'How do I attach real audio to the bubble?', a: 'Create an audio element from the recorded Blob with URL.createObjectURL, then call play and pause on it from the play button, and set the bars from its timeupdate event instead of the interval timer. Uploading the Blob to your server gives the recipient the same bubble.' },
     ],
     aiPrompt: {
-      paragraph: `Rather than tracing the gesture-handling and state-swap logic by hand, paste this snippet's HTML, CSS, and JS into an AI coding assistant like Claude and ask it to explain exactly how the combination of mousedown/touchstart and mouseup/touchend/mouseleave prevents a recording from getting stuck open, and how the same recordedBars array feeds both the live waveform and the sent message bubble\’s static waveform. The same assistant can help you optimize it, for instance asking whether pointer events (pointerdown/pointerup) would simplify the mouse-and-touch handling into a single unified set of listeners. It is also useful for extending the screen: ask it to wire in real MediaRecorder and Web Audio API amplitude capture in place of the randomized bars, implement an actual horizontal slide-to-cancel drag gesture instead of the fading text hint, or add playback scrubbing to the sent voice bubble. Treat the code less like a finished artifact and more like a starting point for a conversation.`,
-      prompt: `Build a mobile chat "voice message" composer in plain HTML, CSS, and JavaScript, framed inside a CSS phone mockup showing a short message thread above it, with a press-and-hold recording gesture, no audio library.
+      paragraph: `Paste this snippet's HTML, CSS and JS into an AI coding assistant like Claude and ask it to explain why the mic button stays in place and uses setPointerCapture, and how finish(send) decides between sending, discarding and the too-short toast. Since slide-to-cancel, the accidental-tap guard, playable bubbles, keyboard support and the send-button swap already exist, ask for what is missing: a slide-up lock so you can record hands-free, real capture with getUserMedia and MediaRecorder, an AnalyserNode driving the live bars, a recording cap with a countdown, drag-to-scrub on the bubble, or a delivered and read tick. It can also advise on iOS Safari's microphone permission and gesture requirements.`,
+      prompt: `Build a mobile chat voice-message composer in plain HTML, CSS and vanilla JavaScript inside a CSS phone mockup with a header, a message thread and a composer — no audio library.
 
 Requirements:
-- A composer bar containing a text input and a mic button by default. Pressing and holding the mic button (mousedown and touchstart, not a simple click) must slide the text input row out of view and reveal a separate recording row in its place within the same composer bar, never showing both at once.
-- The recording row must show a blinking red dot, a running mm:ss timer that increments once per second, and a live waveform that appends one new bar with a randomized height roughly every 100\–150 milliseconds while recording continues, plus a "slide to cancel" hint that fades out automatically after a couple of seconds of recording.
-- Releasing the hold (mouseup, touchend, and also mouseleave, so the recording never gets stuck open if the cursor leaves the button while still pressed) must stop the recording, hide the recording row, restore the text-input row, and, only if at least one second of audio was recorded, append a new voice-message bubble to the message thread showing a play button, a waveform built from the actual bar heights recorded during that session (not a generic fixed shape), and the final duration.
-- A separate visible cancel button within the recording row must let the user discard the current recording at any time without sending a message, distinct from simply releasing the mic button.
-- A release with zero elapsed recording time (an accidental tap) must not send any message.`,
+- The composer has a text input and a round mic button that never moves or hides. Holding the mic (pointerdown with setPointerCapture, not click) replaces the input with a recording row inside the same field: a blinking red dot, a running m:ss timer, a live waveform and a "Slide to cancel" hint. The mic scales up with a pulsing ring.
+- Add one waveform bar every 90ms using a smooth random walk (clamped between 0.12 and 1), store every level in an array, and trim the oldest visible bars so they fit the width. Fade the hint out after about 2 seconds.
+- On pointermove, measure how far left the pointer is from where it started. The hint follows at half speed. Beyond 70px, add a cancel state (field, wave and mic turn red, hint reads "Release to cancel"). Releasing in that state discards the take with a "Recording discarded" toast. pointercancel also discards.
+- Releasing otherwise sends, but a recording shorter than 600ms sends nothing and shows "Hold to record, release to send".
+- The sent voice bubble has a play/pause button, a waveform of 24 bars sampled evenly from the stored levels across the whole recording, and the duration. Playing fills the bars left to right, counts the time up, resets at the end and can be paused.
+- When the input has text, the mic icon becomes a send arrow and the same button (or Enter) posts a text bubble; update its aria-label.
+- Keyboard: Space or Enter held on the mic records and releasing sends, Escape or blur cancels. Respect prefers-reduced-motion, use textContent for user text, and add a toast element with role="status".`,
     },
   },
 };

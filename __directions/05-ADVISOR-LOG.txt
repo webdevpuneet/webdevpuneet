@@ -173,3 +173,12 @@ Format: date · area · suggested / chosen / done · note
 2026-11-10 · ui snippets · done · org-chart redesigned: data-built tree (TREE/DEPTS), CSS pseudo-element connectors kept, dept-coloured cards, open-role cards, "+N hidden" badge on folded teams,
            search + department chips (matches ring, others dim, folded branches open), Collapse teams / Expand all, zoom-to-fit with -/+, entrance + expand fades, reduced motion. SEO text,
            FAQs and both AI prompts rewritten; title 54 chars, description 159. Preview re-captured (not yet opened/checked). Not deployed. Also: Related sheet height set to 60% of the code panel.
+2026-11-10 · ui snippets · done · cascading-select redesigned: 3-step progress indicator, per-level loading spinner via promise getOptions() (swap for fetch), stale-response token guard, option-count hints,
+           focus + pulse on the newly opened select, result card (code badge, city, region/country) built with DOM text, Start over, Continue (FormData, disabled until complete); no emoji. SEO text, FAQs,
+           both AI prompts rewritten; title 56 chars, description 158. Preview re-captured. Not deployed.
+2026-11-10 · ui snippets · done · favorite-button redesigned: four variants (heart Like pill, star, bookmark, thumb) on one handler via --c/--spin, colour-matched burst, count fixed to base+own-like (old version parsed "1.2k" text and drifted),
+           directional count roll, localStorage persistence (guarded), double-tap photo card, aria-pressed + hidden names, reduced motion. SEO text, FAQs, both AI prompts rewritten; title 55 chars, description 156. Preview re-captured. Not deployed.
+2026-11-10 · ui snippets · done · mobile-voice-message-screen fixed + redesigned. Bugs found: .vms-recording-row{display:flex} overrode [hidden], so the recording row showed permanently (visible in the old preview), and the mic button hid itself
+           while held, so release never fired / mouseleave ended the take. Now: persistent mic with pointer capture, real slide-to-cancel (70px, red state), <600ms tap guard + toast, mic becomes Send when text typed,
+           waveform sampled from the whole take, playable bubbles, keyboard (hold Space/Enter, Esc), reduced motion. 14 headless-Chromium behaviour checks pass. SEO text, FAQs, AI prompts rewritten; title 58 chars,
+           description 156. Preview re-captured. Not deployed.

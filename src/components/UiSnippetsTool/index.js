@@ -1014,6 +1014,18 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
     return () => window.removeEventListener(TOGGLE_RELATED_EVENT, toggle);
   }, [reveal]);
 
+  // Clicking the code that peeks out above the sheet closes it
+  useEffect(() => {
+    if (!open) return;
+    const onDown = e => {
+      const t = e.target;
+      if (!(t instanceof Element) || t.closest('aside')?.contains(gridRef.current)) return;
+      if (t.closest('[data-panel]') && paneRef.current?.contains(t)) { setOpen(false); setPeek(null); }
+    };
+    document.addEventListener('pointerdown', onDown);
+    return () => document.removeEventListener('pointerdown', onDown);
+  }, [open, paneRef]);
+
   // On open, scroll so the open snippet sits near the top (the previous ones are a short scroll up)
   useEffect(() => {
     if (!open) return;
