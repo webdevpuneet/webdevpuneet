@@ -167,3 +167,9 @@ Format: date · area · suggested / chosen / done · note
            along the wires from one node's exit edge (bottom, or right on phones) to the next node's entry edge and holds on the Edge node's entry edge; edge positions are measured once
            and re-measured on resize. SEO text and both AI prompts updated to say so. New headless check: the packet centre stays outside every node box at 20 positions (4 steps x 5
            progress values) on desktop and phone. 40 headless-Chromium checks pass; preview re-captured; title 57 chars, description 159, About 898 words. Not deployed.
+2026-11-10 · ui snippets · done · treemap redesigned (Puneet: "make it awesome"): real squarified layout (was balanced slice-and-dice), tiles built once as buttons, Size/Files switch with tiles
+           gliding to new positions, hover dims other tiles, click/Enter selects with a detail panel (value, share, progress bar), gradient tiles with staggered entrance, ResizeObserver,
+           reduced-motion. SEO text, FAQs and both AI prompts rewritten to match; title 56 chars, description 158. Preview re-captured (1.6s wait) and checked. Not deployed.
+2026-11-10 · ui snippets · done · org-chart redesigned: data-built tree (TREE/DEPTS), CSS pseudo-element connectors kept, dept-coloured cards, open-role cards, "+N hidden" badge on folded teams,
+           search + department chips (matches ring, others dim, folded branches open), Collapse teams / Expand all, zoom-to-fit with -/+, entrance + expand fades, reduced motion. SEO text,
+           FAQs and both AI prompts rewritten; title 54 chars, description 159. Preview re-captured (not yet opened/checked). Not deployed. Also: Related sheet height set to 60% of the code panel.

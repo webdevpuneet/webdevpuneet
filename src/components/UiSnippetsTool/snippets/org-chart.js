@@ -1,140 +1,318 @@
 const orgChart = {
   id: 'org-chart',
   title: 'Org Chart',
+  lastmod: '2026-11-10',
   category: 'charts',
   html: `<div class="wrap">
   <div class="chart-head">
-    <h2 class="chart-title">Organisation Chart</h2>
-    <span class="chart-sub">Click any manager to collapse their team</span>
+    <div>
+      <h2 class="chart-title">Organisation Chart</h2>
+      <p class="chart-sub" id="orgStatus"></p>
+    </div>
+    <div class="zoom" role="group" aria-label="Zoom">
+      <button type="button" class="zbtn" id="zOut" aria-label="Zoom out">&minus;</button>
+      <button type="button" class="zval" id="zFit" title="Fit to width">100%</button>
+      <button type="button" class="zbtn" id="zIn" aria-label="Zoom in">+</button>
+    </div>
   </div>
-  <div class="org" id="org">
-    <ul class="tree">
-      <li>
-        <div class="node ceo" onclick="toggle(this)">
-          <div class="node-av" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">EC</div>
-          <div class="node-info"><span class="node-name">Elena Carter</span><span class="node-role">CEO</span></div>
-          <span class="node-count">3</span>
-        </div>
-        <ul>
-          <li>
-            <div class="node" onclick="toggle(this)">
-              <div class="node-av" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4)">MR</div>
-              <div class="node-info"><span class="node-name">Marcus Reed</span><span class="node-role">VP Engineering</span></div>
-              <span class="node-count">3</span>
-            </div>
-            <ul>
-              <li><div class="node leaf"><div class="node-av" style="background:linear-gradient(135deg,#f59e0b,#f97316)">AT</div><div class="node-info"><span class="node-name">Aisha Tran</span><span class="node-role">Frontend Lead</span></div></div></li>
-              <li><div class="node leaf"><div class="node-av" style="background:linear-gradient(135deg,#10b981,#059669)">DK</div><div class="node-info"><span class="node-name">David Kim</span><span class="node-role">Backend Lead</span></div></div></li>
-              <li><div class="node leaf"><div class="node-av" style="background:linear-gradient(135deg,#ec4899,#db2777)">RP</div><div class="node-info"><span class="node-name">Rosa Pinto</span><span class="node-role">DevOps</span></div></div></li>
-            </ul>
-          </li>
-          <li>
-            <div class="node" onclick="toggle(this)">
-              <div class="node-av" style="background:linear-gradient(135deg,#8b5cf6,#a855f7)">SN</div>
-              <div class="node-info"><span class="node-name">Sophie Nguyen</span><span class="node-role">VP Design</span></div>
-              <span class="node-count">2</span>
-            </div>
-            <ul>
-              <li><div class="node leaf"><div class="node-av" style="background:linear-gradient(135deg,#14b8a6,#0d9488)">JM</div><div class="node-info"><span class="node-name">Jon Marsh</span><span class="node-role">Product Designer</span></div></div></li>
-              <li><div class="node leaf"><div class="node-av" style="background:linear-gradient(135deg,#f43f5e,#e11d48)">LW</div><div class="node-info"><span class="node-name">Lily Wong</span><span class="node-role">UX Researcher</span></div></div></li>
-            </ul>
-          </li>
-          <li>
-            <div class="node leaf">
-              <div class="node-av" style="background:linear-gradient(135deg,#64748b,#475569)">TB</div>
-              <div class="node-info"><span class="node-name">Tom Baker</span><span class="node-role">VP Sales</span></div>
-            </div>
-          </li>
-        </ul>
-      </li>
-    </ul>
+  <div class="tools">
+    <label class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="orgSearch" type="search" placeholder="Search name or role" autocomplete="off" aria-label="Search people">
+    </label>
+    <button type="button" class="tbtn" id="collapseAll">Collapse teams</button>
+    <button type="button" class="tbtn" id="expandAll">Expand all</button>
   </div>
+  <div class="chips" id="orgChips" role="group" aria-label="Filter by department"></div>
+  <div class="stage" id="stage"><div class="org" id="org"></div></div>
 </div>`,
+
   css: `* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: system-ui, sans-serif; background: #f1f5f9; min-height: 100vh; padding: 32px 20px; }
-.wrap { max-width: 900px; margin: 0 auto; }
-.chart-head { text-align: center; margin-bottom: 30px; }
-.chart-title { font-size: 20px; font-weight: 800; color: #0f172a; }
-.chart-sub { font-size: 13px; color: #94a3b8; }
-.org { overflow-x: auto; padding: 10px 24px 20px; }
-.tree { width: max-content; margin: 0 auto; }
+body { font-family: system-ui, -apple-system, sans-serif; background: #eef2f7; min-height: 100vh; padding: 28px 20px; color: #0f172a; }
+button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+.wrap { max-width: 980px; margin: 0 auto; background: #fff; border-radius: 20px; padding: 22px; box-shadow: 0 1px 2px rgba(15,23,42,.05), 0 22px 48px rgba(15,23,42,.08); }
+
+.chart-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.chart-title { font-size: 19px; font-weight: 800; letter-spacing: -.01em; }
+.chart-sub { font-size: 12.5px; color: #64748b; margin-top: 2px; font-variant-numeric: tabular-nums; }
+
+.zoom { display: inline-flex; align-items: center; background: #f1f5f9; border-radius: 999px; padding: 3px; flex: none; }
+.zbtn, .zval { height: 26px; border-radius: 999px; font-weight: 700; color: #475569; transition: background .15s, color .15s; }
+.zbtn { width: 26px; font-size: 16px; line-height: 1; }
+.zval { min-width: 48px; padding: 0 6px; font-size: 12px; font-variant-numeric: tabular-nums; }
+.zbtn:hover, .zval:hover { background: #fff; color: #4338ca; }
+
+.tools { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.search { position: relative; flex: 1 1 200px; display: flex; align-items: center; }
+.search svg { position: absolute; left: 11px; color: #94a3b8; pointer-events: none; }
+.search input { width: 100%; height: 34px; padding: 0 12px 0 32px; border: 1.5px solid #e2e8f0; border-radius: 10px; font: inherit; font-size: 13px; background: #f8fafc; outline: 0; transition: border-color .15s, box-shadow .15s, background .15s; }
+.search input:focus { border-color: #6366f1; background: #fff; box-shadow: 0 0 0 3px rgba(99,102,241,.15); }
+.tbtn { height: 34px; padding: 0 13px; border-radius: 10px; border: 1.5px solid #e2e8f0; font-size: 12.5px; font-weight: 700; color: #475569; transition: border-color .15s, color .15s, background .15s; }
+.tbtn:hover { border-color: #818cf8; color: #4338ca; background: #f5f3ff; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px 5px 9px; border-radius: 999px; background: #f1f5f9; font-size: 12px; font-weight: 700; color: #475569; transition: background .15s, color .15s, box-shadow .15s; }
+.chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.chip span { color: #94a3b8; font-weight: 600; font-variant-numeric: tabular-nums; }
+.chip:hover { background: #e2e8f0; }
+.chip[aria-pressed="true"] { background: #fff; color: #0f172a; box-shadow: 0 0 0 1.5px var(--c); }
+.tbtn:focus-visible, .chip:focus-visible, .zbtn:focus-visible, .zval:focus-visible, .node:focus-visible { outline: 2px solid #4338ca; outline-offset: 2px; }
+
+.stage { overflow-x: auto; padding: 22px 16px 14px; border-radius: 14px; background: radial-gradient(circle at 1px 1px, #dbe3ee 1px, transparent 0) 0 0 / 18px 18px, #f8fafc; }
+.org { width: max-content; margin: 0 auto; }
+
+/* --- the tree: nested lists, connector lines drawn with pseudo-elements --- */
 .tree, .tree ul { display: flex; justify-content: center; list-style: none; position: relative; }
-.tree ul { padding-top: 22px; }
-/* vertical line dropping from each parent node into its children's row */
+.tree ul { padding-top: 22px; animation: org-fade .3s ease; }
 .tree ul::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 2px; height: 22px; background: #cbd5e1; }
-.tree li { display: flex; flex-direction: column; align-items: center; position: relative; padding: 22px 10px 0; }
-/* vertical drop from the sibling bar into this node */
+.tree li { display: flex; flex-direction: column; align-items: center; position: relative; padding: 22px 5px 0; }
 .tree li::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 2px; height: 22px; background: #cbd5e1; }
-/* horizontal bar joining siblings */
 .tree li::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: #cbd5e1; }
 .tree li:first-child::after { left: 50%; width: 50%; }
 .tree li:last-child::after { width: 50%; }
 .tree li:only-child::after { display: none; }
-/* top-level root: no connectors or gap above the CEO */
 .tree > li { padding-top: 0; }
 .tree > li::before, .tree > li::after { display: none; }
 .tree ul.collapsed { display: none; }
-.node { display: flex; align-items: center; gap: 10px; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 10px 14px; cursor: pointer; transition: all 0.15s; position: relative; min-width: 170px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-.node:hover { border-color: #818cf8; box-shadow: 0 4px 14px rgba(99,102,241,0.15); transform: translateY(-1px); }
-.node.leaf { cursor: default; }
-.node.leaf:hover { border-color: #e2e8f0; transform: none; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-.node.ceo { border-color: #c7d2fe; background: linear-gradient(180deg,#fff,#f5f3ff); }
-.node-av { width: 38px; height: 38px; border-radius: 50%; color: #fff; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.node-info { display: flex; flex-direction: column; }
-.node-name { font-size: 14px; font-weight: 700; color: #1e293b; white-space: nowrap; }
-.node-role { font-size: 11px; color: #94a3b8; white-space: nowrap; }
-.node-count { position: absolute; right: -8px; top: -8px; background: #6366f1; color: #fff; font-size: 10px; font-weight: 800; min-width: 20px; height: 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 0 5px; transition: background 0.15s; }
-.node.collapsed-parent .node-count { background: #94a3b8; }`,
-  js: `function toggle(node) {
-  if (node.classList.contains('leaf')) return;
-  var li = node.closest('li');
-  var childUl = li.querySelector(':scope > ul');
-  if (!childUl) return;
-  childUl.classList.toggle('collapsed');
-  node.classList.toggle('collapsed-parent');
-}`,
+
+.node { position: relative; display: flex; align-items: center; gap: 9px; min-width: 146px; text-align: left; background: #fff; border: 1.5px solid #e2e8f0; border-top: 3px solid var(--c); border-radius: 12px; padding: 7px 11px 7px 8px; box-shadow: 0 1px 3px rgba(15,23,42,.05);
+  transition: transform .15s, box-shadow .15s, border-color .15s, opacity .2s; animation: org-in .45s cubic-bezier(.2,.8,.2,1) backwards; animation-delay: calc(var(--d) * 90ms); }
+button.node:hover { transform: translateY(-2px); box-shadow: 0 8px 20px -6px rgba(15,23,42,.2); border-color: var(--c); }
+.node.root { background: linear-gradient(180deg, #fff, #f5f3ff); }
+.node.vacant { border-style: dashed; border-top-style: dashed; background: #f8fafc; }
+.av { width: 32px; height: 32px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12.5px; font-weight: 800; background: linear-gradient(140deg, var(--c), color-mix(in srgb, var(--c) 60%, #000)); }
+.vacant .av { background: #e2e8f0; color: #64748b; font-size: 18px; font-weight: 600; }
+.info { display: flex; flex-direction: column; min-width: 0; }
+.name { font-size: 13.5px; font-weight: 700; white-space: nowrap; }
+.role { font-size: 11px; color: #64748b; white-space: nowrap; }
+.count { position: absolute; right: -8px; top: -11px; min-width: 22px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--c); color: #fff; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; box-shadow: 0 0 0 2px #fff; }
+.node.is-closed .count { background: #0f172a; }
+
+.node.dim { opacity: .25; }
+.node.hit { box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 35%, transparent), 0 8px 20px -6px rgba(15,23,42,.2); border-color: var(--c); }
+
+@keyframes org-in { from { opacity: 0; transform: translateY(8px) scale(.94); } to { opacity: 1; transform: none; } }
+@keyframes org-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .node, .tree ul { animation: none; } .node { transition: none; } }
+@media (max-width: 520px) { body { padding: 14px 10px; } .wrap { padding: 16px; } .chart-head { flex-wrap: wrap; } }`,
+
+  js: `// Departments: colour and label used by the card accent, the avatar and the filter chips.
+var DEPTS = {
+  exec:   { label: 'Leadership',  color: '#6366f1' },
+  eng:    { label: 'Engineering', color: '#0284c7' },
+  design: { label: 'Design',      color: '#9333ea' },
+  sales:  { label: 'Sales',       color: '#d97706' },
+  people: { label: 'People',      color: '#059669' },
+};
+
+// Your data: a nested tree. Add { vacant: true } for an open role.
+var TREE = { name: 'Elena Carter', role: 'CEO', dept: 'exec', children: [
+  { name: 'Marcus Reed', role: 'VP Engineering', dept: 'eng', children: [
+    { name: 'Aisha Tran', role: 'Frontend Lead', dept: 'eng' },
+    { name: 'David Kim', role: 'Backend Lead', dept: 'eng' },
+    { name: 'Open role', role: 'DevOps Engineer', dept: 'eng', vacant: true },
+  ] },
+  { name: 'Sophie Nguyen', role: 'VP Design', dept: 'design', children: [
+    { name: 'Jon Marsh', role: 'Product Designer', dept: 'design' },
+    { name: 'Lily Wong', role: 'UX Researcher', dept: 'design' },
+  ] },
+  { name: 'Tom Baker', role: 'VP Sales', dept: 'sales', children: [
+    { name: 'Priya Shah', role: 'Account Executive', dept: 'sales' },
+    { name: 'Noah Berg', role: 'SDR Team Lead', dept: 'sales', children: [
+      { name: 'Mia Lopez', role: 'Sales Rep', dept: 'sales' },
+    ] },
+  ] },
+  { name: 'Grace Okafor', role: 'Head of People', dept: 'people' },
+] };
+
+var org = document.getElementById('org');
+var stage = document.getElementById('stage');
+var search = document.getElementById('orgSearch');
+var status = document.getElementById('orgStatus');
+var chips = document.getElementById('orgChips');
+var dept = null;           // active department filter
+var people = 0, open = 0, perDept = {};
+
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function initials(n) { return n.split(' ').map(function (w) { return w[0]; }).slice(0, 2).join(''); }
+function descendants(p) { return (p.children || []).reduce(function (n, c) { return n + 1 + descendants(c); }, 0); }
+
+function build(p, depth) {
+  var kids = p.children || [];
+  if (p.vacant) open++; else { people++; perDept[p.dept] = (perDept[p.dept] || 0) + 1; }
+  var tag = kids.length ? 'button' : 'div';
+  var attrs = ' class="node' + (depth === 0 ? ' root' : '') + (p.vacant ? ' vacant' : '') + '" data-dept="' + p.dept + '"' +
+    ' data-text="' + esc((p.name + ' ' + p.role).toLowerCase()) + '" style="--c:' + DEPTS[p.dept].color + ';--d:' + depth + '"' +
+    (kids.length ? ' type="button" aria-expanded="true" data-direct="' + kids.length + '" data-total="' + descendants(p) + '"' : '');
+  return '<li><' + tag + attrs + '>' +
+    '<span class="av">' + (p.vacant ? '+' : esc(initials(p.name))) + '</span>' +
+    '<span class="info"><span class="name">' + esc(p.name) + '</span><span class="role">' + esc(p.role) + '</span></span>' +
+    (kids.length ? '<span class="count" title="Direct reports">' + kids.length + '</span>' : '') +
+    '</' + tag + '>' +
+    (kids.length ? '<ul>' + kids.map(function (c) { return build(c, depth + 1); }).join('') + '</ul>' : '') +
+    '</li>';
+}
+
+org.innerHTML = '<ul class="tree">' + build(TREE, 0) + '</ul>';
+var tree = org.querySelector('.tree');
+
+// Department chips (click to filter)
+chips.innerHTML = Object.keys(DEPTS).map(function (k) {
+  return '<button type="button" class="chip" data-k="' + k + '" aria-pressed="false" style="--c:' + DEPTS[k].color + '"><i></i>' +
+    DEPTS[k].label + ' <span>' + (perDept[k] || 0) + '</span></button>';
+}).join('');
+
+// Collapse or expand one manager's team, and update its badge (direct reports, or "+N" hidden).
+function setCollapsed(ul, closed) {
+  ul.classList.toggle('collapsed', closed);
+  var node = ul.parentElement.querySelector(':scope > .node');
+  node.setAttribute('aria-expanded', String(!closed));
+  node.classList.toggle('is-closed', closed);
+  node.querySelector('.count').textContent = closed ? '+' + node.dataset.total : node.dataset.direct;
+}
+function toggle(node) {
+  var ul = node.parentElement.querySelector(':scope > ul');
+  setCollapsed(ul, !ul.classList.contains('collapsed'));
+  refit();
+}
+org.addEventListener('click', function (e) {
+  var node = e.target.closest('.node');
+  if (node && node.dataset.direct) toggle(node);
+});
+document.getElementById('collapseAll').addEventListener('click', function () {
+  org.querySelectorAll('.node[data-direct]:not(.root)').forEach(function (n) { setCollapsed(n.parentElement.querySelector(':scope > ul'), true); });
+  refit();
+});
+document.getElementById('expandAll').addEventListener('click', function () {
+  org.querySelectorAll('ul.collapsed').forEach(function (ul) { setCollapsed(ul, false); });
+  refit();
+});
+
+// Search + department filter: matches are highlighted, everyone else dims,
+// and any collapsed branch that hides a match is opened.
+function expandPath(node) {
+  var ul = node.closest('li').parentElement;
+  while (ul && ul.tagName === 'UL') {
+    if (ul.classList.contains('collapsed')) setCollapsed(ul, false);
+    ul = ul.parentElement.parentElement;
+  }
+}
+function applyFilter() {
+  var q = search.value.trim().toLowerCase(), active = !!(q || dept), hits = 0;
+  org.querySelectorAll('.node').forEach(function (n) {
+    var ok = (!dept || n.dataset.dept === dept) && (!q || n.dataset.text.indexOf(q) > -1);
+    n.classList.toggle('hit', active && ok);
+    n.classList.toggle('dim', active && !ok);
+    if (active && ok) { hits++; expandPath(n); }
+  });
+  status.textContent = active
+    ? hits + (hits === 1 ? ' match' : ' matches') + ' of ' + (people + open) + ' positions'
+    : people + ' people \\u00b7 ' + open + ' open role' + (open === 1 ? '' : 's') + ' \\u00b7 click a manager to fold their team';
+  refit();
+}
+search.addEventListener('input', applyFilter);
+chips.addEventListener('click', function (e) {
+  var chip = e.target.closest('.chip');
+  if (!chip) return;
+  dept = dept === chip.dataset.k ? null : chip.dataset.k;
+  chips.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.k === dept)); });
+  applyFilter();
+});
+
+// Zoom: fit-to-width by default, or step with the - / + buttons.
+var zoom = 1, auto = true, zFit = document.getElementById('zFit');
+function setZoom(z) {
+  zoom = Math.max(0.5, Math.min(1.3, z));
+  tree.style.zoom = zoom;
+  zFit.textContent = Math.round(zoom * 100) + '%';
+}
+function fit() {
+  tree.style.zoom = 1;
+  setZoom(Math.min(1, (stage.clientWidth - 32) / tree.offsetWidth));
+}
+function refit() { if (auto) fit(); }
+document.getElementById('zOut').addEventListener('click', function () { auto = false; setZoom(zoom - 0.1); });
+document.getElementById('zIn').addEventListener('click', function () { auto = false; setZoom(zoom + 0.1); });
+zFit.addEventListener('click', function () { auto = true; fit(); });
+if (window.ResizeObserver) new ResizeObserver(refit).observe(stage);
+else window.addEventListener('resize', refit);
+
+applyFilter();
+fit();`,
+
   seo: {
-    title: 'Org Chart — Free HTML CSS JS Tree Snippet',
-    description: 'Collapsible organisation chart with CSS connector lines, avatars, roles, and direct-report counts. Pure CSS tree. Exports to React, Vue & Angular.',
+    title: 'Org Chart in HTML & CSS — Collapsible, Searchable Tree',
+    description: `Collapsible org chart with CSS-only connector lines, live search, department filters, zoom-to-fit and "+N hidden" badges. Plain JavaScript, no SVG, no library.`,
     about: {
-      title: 'Org Chart — CSS Connector Tree, Collapsible Branches & Report Counts',
-      description: `An organisation chart visualises reporting hierarchy — who reports to whom — and is a staple of HR tools, company about pages, team directories, and admin dashboards. This snippet builds a complete, collapsible org chart using nothing but nested HTML lists and CSS for the connector lines, with avatars, names, roles, direct-report count badges, and click-to-collapse branches.\n\n**The pure-CSS connector tree**\n\nThe hierarchy is a nested unordered list, and the connecting lines are drawn entirely with CSS pseudo-elements — no SVG, canvas, or library. Each list item gets a vertical line above it (::before) descending from its parent, and a horizontal line (::after) that joins siblings. Clever use of :first-child and :last-child trims the horizontal line so it spans only between the outermost siblings, and :only-child hides the connectors entirely for a single report. This is the classic CSS tree technique, refined to look clean at every branch.\n\n**Centred flex layout**\n\nEach level is a flex row with justify-content: center, and each node stacks its children below it centred. This produces the symmetrical top-down org chart layout automatically — the browser handles the horizontal distribution, so adding or removing people never requires manual positioning. A horizontal scroll container handles wide charts gracefully on smaller screens.\n\n**Collapsible branches**\n\nClicking a manager node toggles a collapsed class on its child list, hiding the entire subtree, and adds a state class to dim the report-count badge. The toggle() function uses the :scope > ul selector to target only the node\'s direct child list — essential in a recursive tree so collapsing one manager does not affect nested teams. Leaf nodes (individual contributors with no reports) are non-interactive.\n\n**Report-count badges**\n\nManagers show a small badge with their number of direct reports, positioned at the top-right corner of their node. The badge dims when the branch is collapsed, signalling that there is a hidden team beneath. This gives an at-a-glance sense of team size and span of control without expanding every branch.\n\n**Visual hierarchy**\n\nThe CEO node gets a distinct subtle gradient and accent border to mark the root. Avatars use gradient backgrounds with initials, avoiding image dependencies. Hover lifts interactive nodes with a shadow, while leaf nodes stay flat to communicate that they are not clickable.`,
+      title: 'Org Chart — CSS Connector Tree with Search, Department Filters and Zoom-to-Fit',
+      description: `An org chart shows who reports to whom, and the hard part is not drawing boxes but keeping a tree readable once it has more than a dozen people. This snippet builds the whole chart from one nested JavaScript object. The connector lines are plain CSS on nested lists, managers fold their teams with a click, a search box and department chips highlight matches, and the chart zooms itself to fit its container, so it stays usable from a phone to a wide dashboard with no SVG and no library.
+
+**Connectors drawn with pseudo-elements**
+
+Each person is a list item inside the list of their manager. A \`::before\` draws the short vertical drop into the card, and an \`::after\` draws the horizontal bar that joins siblings. \`:first-child\` and \`:last-child\` trim that bar to half width at the ends so it spans exactly from the first to the last sibling, and \`:only-child\` removes it for a lone report. Because the lines belong to the list structure, adding a person never means touching any coordinates.
+
+**Built from a data tree**
+
+The \`TREE\` object holds name, role, department and optional children, and \`build()\` turns it into the nested markup recursively. Managers render as buttons with \`aria-expanded\`, individual contributors as plain cards, and a person marked \`vacant: true\` renders as a dashed "Open role" card so hiring gaps show on the chart. The \`DEPTS\` map supplies each department's colour, used for the card's top accent, the avatar gradient and the filter chips.
+
+**Fold a team, see what is hidden**
+
+Clicking a manager hides their list with \`:scope > ul\`, which reaches only that manager's direct reports. The badge switches from the number of direct reports to "+N" with the full count of hidden people, so a collapsed branch still tells you how big it is. Collapse teams folds everything below the top row; Expand all opens it back up.
+
+**Search and department filters**
+
+Typing in the search box matches name or role, and clicking a department chip filters by team; both can be combined. Matching people get a coloured ring, everyone else dims to 25%, and any collapsed branch hiding a match opens automatically. A status line reports how many positions match.
+
+**Zoom to fit**
+
+A wide hierarchy no longer needs sideways scrolling: the chart measures its natural width and sets \`zoom\` so it fits the container, re-fitting on resize and whenever a branch folds. The − and + buttons give manual control from 50% to 130%, and clicking the percentage returns to fit.
+
+**Motion and accessibility**
+
+Cards fade up level by level, and an expanding branch fades in. Everything respects \`prefers-reduced-motion\`, and every interactive element is a real button with a visible focus ring.`,
     },
     howToUse: { type: 'steps', items: [
-      { title: 'Explore the hierarchy', text: 'The chart shows the full reporting structure top-down from the CEO. Each manager displays a badge with their number of direct reports.' },
-      { title: 'Collapse and expand teams', text: 'Click any manager node to collapse their team and hide the subtree. Click again to expand. The report-count badge dims while collapsed.' },
-      { title: 'Add a person', text: 'Add an <li> inside the appropriate parent\'s <ul>. Give it a .node with an avatar, name, and role. If they manage people, add a nested <ul> and a .node-count badge; if not, add the .leaf class.' },
-      { title: 'Rebuild from data', text: 'For dynamic charts, render the nested lists from a hierarchical data array. Walk the tree recursively, emitting an <li> with a node for each person and a nested <ul> for their reports.' },
-      { title: 'Style and brand', text: 'Recolour the connector lines, node borders, and the CEO accent. Swap avatar gradients for real profile photos by replacing the initials div with an <img>.' },
-      { title: 'Export for your framework', text: 'Click "JSX" for a React component that renders the tree recursively from a data array. Click "Vue" for a Vue 3 SFC using a recursive component.' },
-    ]},
-    features: ['Pure-CSS connector lines via ::before/::after pseudo-elements','Nested <ul> structure — semantic and naturally recursive',':first-child/:last-child trimming for clean sibling connectors','Centred flex layout auto-distributes nodes symmetrically','Click-to-collapse branches with :scope > ul targeting','Direct-report count badges that dim when collapsed','Distinct CEO root styling and non-interactive leaf nodes','Horizontal scroll container for wide hierarchies'],
+      { title: 'Paste HTML, CSS and JS', text: `The chart builds itself from the TREE object, fitting the container, with cards fading in level by level.` },
+      { title: 'Click a manager', text: `Their team folds away and the badge changes from the direct-report count to "+N" hidden people. Click again to open it.` },
+      { title: 'Search or filter', text: `Type a name or role, or click a department chip. Matches get a ring, others dim, and folded branches that hide a match open.` },
+      { title: 'Zoom', text: `Use − and + to change the scale from 50% to 130%; click the percentage to fit the chart to its container again.` },
+      { title: 'Edit TREE and DEPTS', text: `Add people as nested children with a name, role and dept key. Add { vacant: true } for an open position, and add colours in DEPTS for new teams.` },
+      { title: 'Use photos', text: `In build(), replace the initials span with an img tag using a photo URL stored on each person.` },
+    ] },
+    features: [
+      { title: 'CSS-only connectors', text: `Vertical and horizontal lines come from ::before and ::after on nested list items, trimmed with :first-child, :last-child and :only-child.` },
+      { title: 'Built from one data tree', text: `A nested TREE object renders recursively into the markup the connector CSS expects.` },
+      { title: 'Fold with a hidden count', text: `A collapsed manager's badge changes from direct reports to "+N" for everyone hidden beneath.` },
+      { title: 'Live search', text: `Matches on name or role get a ring, the rest dim, and folded branches containing a match open.` },
+      { title: 'Department filter chips', text: `Colour-coded chips with headcounts filter by team and combine with the search.` },
+      { title: 'Zoom to fit', text: `The chart fits its container by default, re-fits on resize and fold, and zooms from 50% to 130%.` },
+      { title: 'Open-role cards', text: `A vacant position renders as a dashed "Open role" card so hiring gaps appear in the hierarchy.` },
+      { title: 'Accessible controls', text: `Managers are buttons with aria-expanded, controls have focus rings, and reduced-motion visitors get no animation.` },
+    ],
     useCases: [
-      { icon: 'APP', title: 'HR platform and team directory', desc: 'Render a company\'s reporting structure from your HR system. Link each node to the employee\'s profile, show open positions as dashed placeholder nodes, and let managers collapse other departments to focus on their own. The report counts give leadership a quick view of team sizes and span of control.' },
-      { icon: 'CHART', title: 'Company about page and team showcase', desc: 'Display your team structure on a public about or careers page. Swap initials for real photos and link roles to open job postings under each team. The collapsible branches keep a large org compact while letting visitors drill into areas they care about.' },
-      { icon: 'FLOW', title: 'Admin dashboard permission and role hierarchy', desc: 'Adapt the tree to visualise role inheritance or permission hierarchies — who can manage whom, or how access cascades. The collapse mechanic helps admins navigate deep permission trees, and the badges can show the number of users in each role group.' },
-      { icon: 'CODE', title: 'Render from a hierarchical data source', desc: 'Feed the chart from an API returning a nested employee tree (or a flat list with managerId you build into a tree). Walk the structure recursively to emit the nested lists. Add [drag-and-drop](/ui-snippets/drag-sort-list/) to reassign reporting lines, persisting the new managerId back to your backend.' },
-      { icon: 'LEARN', title: 'Study the pure-CSS tree connector technique', desc: 'Drawing tree connectors with only pseudo-elements and child-position selectors is an elegant, dependency-free technique. The snippet shows exactly how the vertical and horizontal lines are composed and trimmed. It transfers to family trees, category taxonomies, decision trees, and file explorers like the [tree menu](/ui-snippets/tree-menu/) and [tree table](/ui-snippets/tree-table/).' },
-      { icon: 'DESIGN', title: 'Mind map or category taxonomy viewer', desc: 'The same nested-list-plus-CSS-connectors approach renders any hierarchy: a content taxonomy, a product category tree, or a simple mind map. Replace the person nodes with topic cards and the chart becomes a collapsible knowledge map.' },
-      { icon: 'CODE', title: 'Related: CSS text-wrap: balance Demo', desc: 'See the [CSS text-wrap: balance Demo](/ui-snippets/text-wrap-balance-demo/) for a related layouts pattern worth pairing with this one.' },
+      { title: 'HR and team directory', text: 'Render the reporting structure from your HR system, filter by department, search for a person and show open positions as dashed cards before they are filled.' },
+      { title: 'Company about or careers page', text: 'Show leadership and teams on a public page, swap initials for photos, and let visitors fold departments they are not interested in.' },
+      { title: 'Roles and permissions tree', text: 'Adapt the nodes to show role inheritance, where the +N badge tells an admin how many users sit under a folded role.' },
+      { title: 'Large organisation overview', text: 'Zoom-to-fit and the Collapse teams button keep a 100-person chart readable on one screen, with search to jump straight to a person.' },
+      { title: 'Taxonomy or mind-map viewer', text: 'Replace people with topics, use departments as categories, and the same chart becomes a collapsible map like the [tree menu](/ui-snippets/tree-menu/) or [tree table](/ui-snippets/tree-table/).' },
     ],
     faqs: [
-      { q: 'How are the connector lines drawn without SVG or a library?', a: 'Each tree node is a list item. A ::before pseudo-element draws a short vertical line descending from the parent into the node, and a ::after draws a horizontal line that connects siblings. The horizontal line is trimmed with :first-child (line only on the right half) and :last-child (only on the left half) so the connector spans precisely between the outermost siblings. :only-child hides both lines for a lone report. This composition of pseudo-elements and position selectors creates the entire connector system in CSS alone.' },
-      { q: 'Why use :scope > ul when collapsing a branch?', a: 'The org chart is a recursively nested structure — a manager\'s list item contains a <ul> of reports, and those reports may contain their own <ul>s. A plain querySelector("ul") from a node would match the first descendant list anywhere in the subtree, potentially collapsing the wrong level. li.querySelector(":scope > ul") restricts the match to the node\'s immediate child list, so toggling collapses exactly that manager\'s direct team and leaves nested teams\' own collapse states untouched.' },
-      { q: 'How do I build the chart from a flat employee list?', a: 'If your data is a flat array where each employee has an id and a managerId, first build a tree: group employees by managerId, then recursively attach each person\'s reports. Starting from the root (the employee with no manager), emit an <li> with the person\'s node and, if they have reports, a nested <ul> containing their reports rendered the same way. This recursive render mirrors the nested-list markup the CSS expects.' },
-      { q: 'How do I build this in React?', a: 'Model the org as a nested data structure where each person has a reports array. Create a recursive OrgNode component that renders the person\'s card and, if they have reports, maps over them rendering an OrgNode for each inside a child list — the recursion produces the nested <ul> markup the CSS connectors rely on. Track collapsed node ids in state (a Set) and conditionally add the collapsed class. Reuse the exact CSS for the connector lines.' },
+      { q: 'How are the connector lines drawn without SVG?', a: `Each person is a list item. A ::before draws the vertical drop from the sibling bar into the card, and an ::after draws the horizontal bar. :first-child and :last-child cut the bar to half width at the ends, and :only-child hides it for a lone report. The lines belong to the list, so adding a person never needs coordinates.` },
+      { q: 'How does the search open folded branches?', a: `For every match, expandPath() walks up from its list item through each parent list and removes the collapsed state from any that are hidden, updating the manager's aria-expanded and badge as it goes. Non-matching people dim instead of disappearing, so the shape of the organisation stays visible.` },
+      { q: 'Why does the chart use the zoom property instead of transform?', a: `Transform scales the drawing but not the layout, so a wide chart would still produce a horizontal scrollbar. CSS zoom changes the layout size, so the scrollbar disappears when the chart fits. Zoom is supported in Chrome, Safari and recent Firefox; in older browsers the chart simply stays at 100% and scrolls.` },
+      { q: 'How do I load a real organisation from an API?', a: `Convert your data into the TREE shape: a name, role and dept per person with children nested. If you have a flat list with managerId, group by managerId and attach each person's reports recursively. Then add the departments you use to DEPTS and the chart, chips and counts all follow.` },
     ],
     aiPrompt: {
-      paragraph: `You do not have to trace the connector geometry in your head. Paste this snippet's HTML, CSS, and JS into an AI coding assistant like Claude and ask it to explain exactly how the tree li::before and li::after pseudo-elements combine with the first-child and last-child width trimming to draw a clean horizontal sibling bar with no SVG, or why toggle uses the scope greater-than ul selector instead of a plain querySelector on a recursively nested list. The same assistant is useful for optimizing it too, for example weighing whether rendering a very deep or wide chart calls for virtualizing collapsed branches so hidden subtrees are not sitting fully in the DOM. It is equally good at extending the effect: ask it to add drag-and-drop re-parenting of a node, generate the nested lists recursively from a flat employee array with manager ids, or add keyboard navigation between sibling nodes. Treat the code less like a finished artifact and more like a starting point for a conversation.`,
-      prompt: `Build a collapsible "org chart" tree in plain HTML and CSS, using nested unordered lists as the only structure and CSS pseudo-elements as the only connector lines — no SVG, no canvas, no charting library.
+      paragraph: `Paste this snippet's HTML, CSS and JS into an AI coding assistant like Claude and ask it to walk through how the ::before and ::after connectors combine with :first-child and :last-child to draw a clean sibling bar, or how expandPath() climbs from a match to open every folded ancestor. Because search, department chips, the +N badges, zoom-to-fit and open-role cards already exist, ask for what is missing instead: drag-and-drop re-parenting that updates TREE, a side panel with a person's details when a card is clicked, keyboard arrow navigation between parent, child and siblings, a horizontal layout for narrow screens, or export of the current view as an image. It could also tell you whether a 500-person tree needs lazy rendering of collapsed branches.`,
+      prompt: `Build a collapsible, searchable org chart in plain HTML, CSS and vanilla JavaScript — no SVG, no canvas, no library.
 
 Requirements:
-- The hierarchy must be marked up as nested <ul><li> lists: a manager's list item contains a nested <ul> whose <li> children are their direct reports, recursively.
-- Draw a vertical line above every non-root list item using a ::before pseudo-element, and a horizontal sibling-connector line using an ::after pseudo-element on the parent <ul>'s list items. The horizontal line must be trimmed with the first-child selector so it only extends from center to the right, and with the last-child selector so it only extends from the left to center, so the joining bar spans exactly between the outermost siblings and does not overhang past them. A lone-child list item (matched with only-child) must hide both connector lines entirely.
-- Lay out each level as a centered flex row so the whole tree distributes and re-centers itself automatically as nodes are added or removed, with no manual position math.
-- Each manager node must be clickable and display a badge showing its number of direct reports. Clicking a manager must toggle a collapsed class on its own direct child ul only — selected using the colon-scope greater-than ul combinator so that toggling one manager's subtree never affects a nested manager's own independently-collapsed team.
-- Leaf nodes (people with no reports) must not be clickable and must render with no report-count badge.
-- Give the root node distinct styling from every other node so the top of the hierarchy is visually obvious.`,
+- Define the organisation as one nested JavaScript object (name, role, dept key, optional children, optional vacant flag) plus a DEPTS map of department label and colour. Render it recursively into nested ul/li lists; managers are buttons with aria-expanded, individual contributors are plain cards, and vacant roles are dashed "Open role" cards.
+- Draw connectors in CSS only: a ::before vertical drop on every non-root li, an ::after horizontal sibling bar trimmed with :first-child and :last-child to half width and hidden with :only-child, and a short drop from each parent ul. Lay each level out as a centred flex row.
+- Clicking a manager toggles a collapsed class on its own direct child list only (:scope > ul). The badge shows the number of direct reports when open and "+N" with the total number of hidden descendants when collapsed. Add "Collapse teams" (everything below the top row) and "Expand all" buttons.
+- Add a search box matching name or role, and department chips with headcounts that filter by team; both combine. Matches get a coloured ring, non-matches dim to 25% opacity, and any collapsed branch that hides a match is opened. A status line reports the number of matching positions.
+- Zoom: fit the chart to its container width on load, on resize and after every fold using the CSS zoom property, with − and + buttons (50% to 130%) and a percentage button that returns to fit.
+- Cards have a department-colour top accent and gradient initials avatar, fade up by level on entrance, and expanding branches fade in. Respect prefers-reduced-motion and give every control a visible focus style.`,
     },
   },
 };

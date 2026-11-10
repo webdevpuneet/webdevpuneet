@@ -1284,9 +1284,7 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
   font-size: 11px;
   font-weight: 700;
 }
-/* Prev / Next show their arrow icon only (the text stays in the markup for the aria-label / title tooltips) */
-.navBtnLabeled:has(> .navBtnText) { width: 26px; padding: 0; }
-.navBtnLabeled:has(> .navBtnText) > .navBtnText { display: none; }
+/* Prev / Next show their arrow icon plus the text label */
 
 
 .navLabel {
@@ -2005,6 +2003,7 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
   left: 0;
   right: 0;
   bottom: 0;
+  height: 50%;
   z-index: 20;
   display: flex;
   flex-direction: column;
@@ -2037,11 +2036,12 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
   flex: none;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  width: 28px;
   height: 28px;
-  padding: 0 10px;
+  padding: 0;
   border: 0;
-  border-radius: 8px;
+  border-radius: 50%;
   background: #6366f1;
   color: #fff;
   font: 700 12px var(--font-ui);

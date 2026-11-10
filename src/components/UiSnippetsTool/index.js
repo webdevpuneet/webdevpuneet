@@ -993,9 +993,14 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
     setOpen(true);
   }, [paneRef, initial]);
 
-  // Closed by default on every snippet: it no longer fades in by itself, only the "Related Snippets" button opens it.
+  // Opens by itself 3 seconds after every page load or snippet change (unless the visitor already used the Related button).
+  const touched = useRef(false);
   useEffect(() => {
     setOpen(false);
+    touched.current = false;
+    const t = setTimeout(() => { if (!touched.current) reveal(); }, 3000);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId, pool.length]);
   const openRef = useRef(false);
   useEffect(() => {
@@ -1004,7 +1009,7 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
   }, [open]);
   useEffect(() => () => { window.dispatchEvent(new CustomEvent(RELATED_STATE_EVENT, { detail: false })); }, []);
   useEffect(() => {
-    const toggle = () => { if (openRef.current) { setOpen(false); setPeek(null); } else reveal(); };
+    const toggle = () => { touched.current = true; if (openRef.current) { setOpen(false); setPeek(null); } else reveal(); };
     window.addEventListener(TOGGLE_RELATED_EVENT, toggle);
     return () => window.removeEventListener(TOGGLE_RELATED_EVENT, toggle);
   }, [reveal]);
@@ -1060,15 +1065,14 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
   const close = () => { setOpen(false); setPeek(null); };
   const shown = pool.slice(range.from, range.to);
   return (
-    <aside className={s.codeOverlay} style={{ top }} aria-label="Related snippets" onMouseLeave={() => setPeek(null)}>
+    <aside className={s.codeOverlay} aria-label="Related snippets" onMouseLeave={() => setPeek(null)}>
       <span className={s.coGrip} aria-hidden="true" />
       <div className={s.coHead}>
         <div className={s.coHeadText}>
-          <p className={s.coTitle}>More like this</p>
+          <p className={s.coTitle}>Related Snippets</p>
           {label ? <p className={s.coSub}>{pool.length} in {label}</p> : null}
         </div>
-        <button type="button" className={s.coClose} onClick={close} title="Close and view the full code">
-          View code
+        <button type="button" className={s.coClose} onClick={close} title="Close and view the full code" aria-label="Close related snippets and view the full code">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
