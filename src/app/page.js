@@ -258,32 +258,6 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ── 3b + 3c. Playgrounds and developer tools: one row, two columns (stacked on narrow screens) ── */}
-        <div className={styles.twoCol}>
-        <section className={styles.section} aria-labelledby="h2-learn">
-          <SectionHead
-            id="h2-learn"
-            title="Learn to Code Interactively"
-            desc="Write code, change the examples and see the result instantly. Short lessons, a live editor and progress saved in your browser."
-            href="/learn-to-code/"
-            linkLabel="Explore all playgrounds"
-          />
-          <HomeToolSearch tools={searchPlaygrounds} categories={[]} noun="playgrounds" allHref="/learn-to-code/" searchable={false} />
-        </section>
-
-        {/* ── 3c. Developer tools (after Learn to Code) ── */}
-        <section className={styles.section} aria-labelledby="h2-tools">
-          <SectionHead
-            id="h2-tools"
-            title="Free Developer Tools"
-            desc="Generate CSS, build layouts, format code and solve everyday development tasks directly in your browser."
-            href="/tools/"
-            linkLabel="Browse all developer tools"
-          />
-          <HomeToolSearch tools={searchTools} categories={toolCategories} />
-        </section>
-        </div>
-
         {/* ── 3. Featured product: Website Builder ── */}
         <section className={styles.builder} aria-labelledby="h2-builder">
           <div className={styles.builderText}>
@@ -378,6 +352,32 @@ export default async function Home() {
             ))}
           </div>
         </section>
+
+        {/* ── 3b + 3c. Playgrounds and developer tools: one row, two columns (stacked on narrow screens) ── */}
+        <div className={styles.twoCol}>
+        <section className={styles.section} aria-labelledby="h2-learn">
+          <SectionHead
+            id="h2-learn"
+            title="Learn to Code Interactively"
+            desc="Write code, change the examples and see the result instantly. Short lessons, a live editor and progress saved in your browser."
+            href="/learn-to-code/"
+            linkLabel="Explore all playgrounds"
+          />
+          <HomeToolSearch tools={searchPlaygrounds} categories={[]} noun="playgrounds" allHref="/learn-to-code/" searchable={false} />
+        </section>
+
+        {/* ── 3c. Developer tools (after Learn to Code) ── */}
+        <section className={styles.section} aria-labelledby="h2-tools">
+          <SectionHead
+            id="h2-tools"
+            title="Free Developer Tools"
+            desc="Generate CSS, build layouts, format code and solve everyday development tasks directly in your browser."
+            href="/tools/"
+            linkLabel="Browse all developer tools"
+          />
+          <HomeToolSearch tools={searchTools} categories={toolCategories} />
+        </section>
+        </div>
 
         {/* The "Practical Web Development Tutorials" section (latest blog posts) was removed from the home page on 2026-11-10 */}
 
