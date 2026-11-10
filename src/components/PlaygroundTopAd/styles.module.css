@@ -1,4 +1,4 @@
-/* Leaderboard strip above the lesson: full width of the main column, at most 90px of ad. Not rendered on phones. */
+/* Leaderboard strip above the lesson: full width of the main column, at most 90px of ad.  Shown on phones too (320x50). */
 .bar {
   flex: 0 0 auto;
   display: flex;
@@ -22,3 +22,6 @@
   margin-left: 12px;
   border-bottom: 0;
 }
+
+/* Phones: no side padding, so a 320x50 banner fits inside a card on a 360px-wide screen */
+@media (max-width: 767px) { .bar { padding: 4px 0; } }
