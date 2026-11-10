@@ -63,13 +63,13 @@
   position: relative;
   max-width: 860px;
   margin: 0 auto;
-  padding: 56px 20px 44px;
+  padding: 22px 20px 20px;
   text-align: center;
 }
 .heroEyebrow {
   display: inline-block;
-  margin: 0 0 14px;
-  padding: 4px 14px;
+  margin: 0 0 8px;
+  padding: 3px 12px;
   border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
   border-radius: 20px;
   background: color-mix(in srgb, var(--accent) 10%, transparent);
@@ -84,10 +84,10 @@
   margin: 0;
   color: var(--text);
   font-family: var(--font-ui);
-  font-size: clamp(30px, 4vw, 48px);
+  font-size: clamp(26px, 3vw, 36px);
   font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -1px;
+  line-height: 1.12;
+  letter-spacing: -0.8px;
   text-wrap: balance;
 }
 .heroGrad {
@@ -98,10 +98,10 @@
 }
 .heroText {
   max-width: 680px;
-  margin: 16px auto 0;
+  margin: 8px auto 0;
   color: var(--text2);
-  font-size: 16px;
-  line-height: 1.65;
+  font-size: 14.5px;
+  line-height: 1.55;
 }
 .heroCtas {
   display: flex;
@@ -134,15 +134,15 @@
 .heroBenefits strong { color: var(--text); font-family: var(--font-ui); font-weight: 800; }
 
 /* Hero profile card: below the copy on narrow screens, on the right on wide ones */
-.heroProfile { width: 100%; max-width: 560px; margin: 26px auto 0; text-align: left; }
+.heroProfile { width: 100%; max-width: 560px; margin: 14px auto 0; text-align: left; }
 @container (min-width: 900px) {
   .heroInner {
     max-width: 1440px; /* same width as the sections below */
     display: grid;
     grid-template-columns: minmax(0, 1.15fr) minmax(430px, 0.85fr);
     align-items: center;
-    gap: 48px;
-    padding: 56px 20px 48px; /* same side padding as .main */
+    gap: 40px;
+    padding: 18px 20px 18px; /* same side padding as .main */
     text-align: left;
   }
   .heroText { margin-left: 0; margin-right: 0; }
@@ -554,6 +554,19 @@
 .promoBtn:hover { filter: brightness(1.08); transform: translateY(-1px); }
 @media (max-width: 900px) { .promoGrid { grid-template-columns: 1fr; } }
 .latestStrip > section { margin-top: 0; margin-bottom: 0; }
+/* Latest UI Snippets + Random UI Snippets as one panel */
+.snipPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px 20px 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -12px rgba(15, 23, 42, 0.12);
+}
+.snipPanel > .latestStrip + .latestStrip { padding-top: 18px; border-top: 1px solid var(--border); }
+@media (max-width: 640px) { .snipPanel { padding: 14px 12px 18px; } }
 .snippetSearch { position: relative; z-index: 10; width: 100%; max-width: 560px; justify-self: end; }
 .catPanel {
   display: flex;

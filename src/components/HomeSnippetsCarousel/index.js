@@ -57,10 +57,9 @@ export default function HomeSnippetsCarousel({ items, total, flush = false, titl
     <section className={rs.section} style={flush ? { paddingLeft: 0, paddingRight: 0 } : undefined} aria-label={title}>
       <div className={rs.header}>
         <h2 className={rs.title}>{title}</h2>
-        <span className={rs.headCount}>{shuffle ? 'a new five on every visit' : `${grand.toLocaleString('en-US')} in the library`}</span>
-        {shuffle
-          ? <button type="button" className={rs.viewAll} onClick={reshuffle} style={{ background: 'none', border: 0, cursor: 'pointer', font: 'inherit' }}>Shuffle ↻</button>
-          : <a href="/ui-snippets/" className={rs.viewAll}>View all &rarr;</a>}
+        {!shuffle && <span className={rs.headCount}>{`${grand.toLocaleString('en-US')} in the library`}</span>}
+        {shuffle && <button type="button" className={rs.viewAll} onClick={reshuffle} style={{ background: 'none', border: 0, cursor: 'pointer', font: 'inherit' }}>Shuffle ↻</button>}
+        <a href="/ui-snippets/" className={rs.viewAll}>View all &rarr;</a>
         <div className={rs.navBtns}>
           {!shuffle && <span className={rs.pageIndicator}>{(start + 1).toLocaleString('en-US')}–{rangeEnd.toLocaleString('en-US')} of {grand.toLocaleString('en-US')}</span>}
           {/* The shuffled strip shows just five at a time: no paging arrows, the Shuffle link brings another five */}

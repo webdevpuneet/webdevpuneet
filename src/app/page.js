@@ -227,12 +227,12 @@ export default async function Home() {
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
-          <p className={styles.heroEyebrow}>Free templates, snippets and coding playgrounds</p>
+          <p className={styles.heroEyebrow}>Free UI snippets, coding playgrounds and templates</p>
           <h1 className={styles.heroTitle}>
-            Web design ideas you can <span className={styles.heroGrad}>see, edit and learn from.</span>
+            Ready-to-use UI snippets you can <span className={styles.heroGrad}>see, edit and learn from.</span>
           </h1>
           <p className={styles.heroText}>
-            Pick a ready-made website, section, email or UI snippet, edit it in your browser and export clean code, or hand it to your own AI. Then see how it works in {PLAYGROUND_COUNT} free coding playgrounds. No sign-up, nothing to install.
+            Browse {SNIPPETS_ROUNDED}+ UI snippets, edit them live and export clean code, or hand them to your own AI. Learn how they work in {PLAYGROUND_COUNT} free coding playgrounds, or start a website, email or social post from a template. No sign-up, nothing to install.
           </p>
           </div>
           <div className={styles.heroProfile}><ProfileHeroCard /></div>
@@ -251,8 +251,11 @@ export default async function Home() {
             </div>
             <div className={styles.snippetSearch}><HomeOmniSearch snippetsOnly /></div>
           </div>
-          <div className={styles.latestStrip}><HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} flush /></div>
-          <div className={styles.latestStrip}><HomeSnippetsCarousel items={RANDOM_SNIPPETS} total={RANDOM_SNIPPETS.length} title="Random UI Snippets" shuffle flush /></div>
+          {/* Latest and Random are one panel: same card, a thin divider between the two rows */}
+          <div className={styles.snipPanel}>
+            <div className={styles.latestStrip}><HomeSnippetsCarousel items={RANDOM_SNIPPETS} total={RANDOM_SNIPPETS.length} title="Random UI Snippets" shuffle flush /></div>
+            <div className={styles.latestStrip}><HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} flush /></div>
+          </div>
         </section>
 
         {/* ── 3b + 3c. Playgrounds and developer tools: one row, two columns (stacked on narrow screens) ── */}
