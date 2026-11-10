@@ -973,7 +973,9 @@ const HEADER_TAGS = publishedTags(SNIPPETS).map(t => ({ id: t.id, label: t.label
 const NEWEST_FIRST_SNIPPETS = [...VISIBLE_SNIPPETS].reverse();
 const CODE_OVERLAY_PAGE = 10;
 const TOGGLE_RELATED_EVENT = 'uis-toggle-related'; // the "Related" button in the code header toggles the overlay
-const RELATED_STATE_EVENT = 'uis-related-state'; // detail: true while the overlay is open (the button shows active)
+const RELATED_CLOSED_KEY = 'uis-related-closed-at'; // when the visitor last closed the overlay
+const RELATED_CLOSED_MS = 10 * 60 * 1000;           // it does not auto-open again for 10 minutes after that
+const RELATED_STATE_EVENT ='uis-related-state'; // detail: true while the overlay is open (the button shows active)
 // 2088 -> "2K", 2600 -> "2.6K", 506 -> "506" (the total in the Prev / Next position pill)
 const shortCount = n => (n >= 1000 ? `${Math.floor(n / 100) / 10}K` : String(n));
 const previewSrc = id => `/images/ui-snippets/previews/${id}.png`;
@@ -1006,12 +1008,18 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
   useEffect(() => {
     setOpen(false);
     touched.current = false;
+    // Closed by the visitor within the last 10 minutes: stay closed (the Related button still opens it)
+    let closedAt = 0;
+    try { closedAt = Number(localStorage.getItem(RELATED_CLOSED_KEY)) || 0; } catch {}
+    if (Date.now() - closedAt < RELATED_CLOSED_MS) return undefined;
     const t = setTimeout(() => { if (!touched.current) reveal(); }, 3000);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId, pool.length]);
   const openRef = useRef(false);
   useEffect(() => {
+    // open -> closed by the visitor: remember the time (a snippet change remounts this component, so it is not counted)
+    if (openRef.current && !open) { try { localStorage.setItem(RELATED_CLOSED_KEY, String(Date.now())); } catch {} }
     openRef.current = open;
     window.dispatchEvent(new CustomEvent(RELATED_STATE_EVENT, { detail: open }));
   }, [open]);
@@ -1083,9 +1091,9 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
 
   // Drag the grip at the top of the sheet to resize it: 50% (default) to 100% of the code panel, remembered for the session
   const asideRef = useRef(null);
-  const [pct, setPct] = useState(() => { try { const v = Number(sessionStorage.getItem('uis-related-pct')); return v >= 50 && v <= 100 ? v : 50; } catch { return 50; } });
+  const [pct, setPct] = useState(() => { try { const v = Number(sessionStorage.getItem('uis-related-pct')); return v >= 60 && v <= 100 ? v : 60; } catch { return 60; } });
   const pctRef = useRef(pct);
-  const applyPct = v => { pctRef.current = Math.max(50, Math.min(100, v)); setPct(pctRef.current); };
+  const applyPct = v => { pctRef.current = Math.max(60, Math.min(100, v)); setPct(pctRef.current); };
   const savePct = () => { try { sessionStorage.setItem('uis-related-pct', String(pctRef.current)); } catch {} };
   const startResize = e => {
     const aside = asideRef.current;
@@ -1124,13 +1132,13 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
         role="separator"
         aria-orientation="horizontal"
         aria-label="Drag to resize the related snippets panel"
-        aria-valuemin={50}
+        aria-valuemin={60}
         aria-valuemax={100}
         aria-valuenow={Math.round(pct)}
         tabIndex={0}
         title="Drag to resize (double-click to reset)"
         onPointerDown={startResize}
-        onDoubleClick={() => { applyPct(50); savePct(); }}
+        onDoubleClick={() => { applyPct(60); savePct(); }}
         onKeyDown={onGripKey}
       >
         <span className={s.coGrip} aria-hidden="true" />
@@ -2465,9 +2473,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           )}
           {showEditor && isMobile && (
             <div className={s.mobileEditors}>
-              <EditorPanel lang="html" code={htmlCode} highlight={highlightHTML} onChange={onHtml} onReset={resetHtml} collapsed={htmlCollapsed} onToggle={toggleHtmlPanel} className={sidebarTab === 'saved' ? s.panelTopBorder : ''} />
-              <EditorPanel lang="css"  code={cssCode}  highlight={highlightCSS}  onChange={onCss}  onReset={resetCss}  collapsed={cssCollapsed}  onToggle={toggleCssPanel} headerExtra={cssHeaderExtra} />
-              <EditorPanel lang="js"   code={jsCode}   highlight={highlightJS}   onChange={onJs}   onReset={resetJs}   collapsed={jsCollapsed}   onToggle={toggleJsPanel} headerExtra={jsHeaderExtra} />
+              <EditorPanel lang="html" locked={codeLocked} onUnlock={() => setUnlockOpen(true)} code={htmlCode} highlight={highlightHTML} onChange={onHtml} onReset={resetHtml} collapsed={htmlCollapsed} onToggle={toggleHtmlPanel} className={sidebarTab === 'saved' ? s.panelTopBorder : ''} />
+              <EditorPanel lang="css"  locked={codeLocked} onUnlock={() => setUnlockOpen(true)} code={cssCode}  highlight={highlightCSS}  onChange={onCss}  onReset={resetCss}  collapsed={cssCollapsed}  onToggle={toggleCssPanel} headerExtra={cssHeaderExtra} />
+              <EditorPanel lang="js"   locked={codeLocked} onUnlock={() => setUnlockOpen(true)} code={jsCode}   highlight={highlightJS}   onChange={onJs}   onReset={resetJs}   collapsed={jsCollapsed}   onToggle={toggleJsPanel} headerExtra={jsHeaderExtra} />
             </div>
           )}
           {/* Phones: mount point for the console bar, last in the layout (order 5), under the HTML / CSS / JS panels */}
