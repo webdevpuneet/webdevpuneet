@@ -13,7 +13,7 @@ import { tagsForSnippet, publishedTags } from '@/lib/snippet-tags';
 import { highlightCode } from '@/lib/shiki-highlight';
 import SnippetExportButton from '@/components/UiSnippetsTool/SnippetExportButton';
 import SourceCodeTabs from '@/components/UiSnippetsTool/SourceCodeTabs';
-import LockedGameCode from '@/components/UiSnippetsTool/LockedGameCode';
+import LockedGameCode, { GameExportButton } from '@/components/UiSnippetsTool/LockedGameCode';
 import NavbarBuilderPromo from '@/components/NavbarBuilderPromo';
 import RelatedCarousel from '@/components/UiSnippetsTool/RelatedCarousel';
 import { getRelatedSnippets } from '@/lib/snippet-related';
@@ -974,18 +974,19 @@ Requirements:
     sn.js ? highlightCode(sn.js, 'javascript', 'github-dark') : Promise.resolve(''),
   ]);
 
-  // Rendered after the FAQ and "Build, Understand, Optimize, and Extend It With
-  // AI" (aiPromptLast), as SeoSection's bottomExtra, so a reader reaches the
-  // About/FAQ and AI content before the raw code.
+  // Rendered right after the page title (SeoSection's topExtra), before the About / FAQ / AI sections.
   // Related Snippets stay put, above.
   const sourceCodeBlock = (
     <div key="source-code">
+      <p className={styles.sourceCodeLabel}>{gameCodeLocked ? 'For supporters' : 'Copy & paste'}</p>
       <div className={styles.sourceCodeHeader}>
         <h2 className={styles.sourceCodeTitle}>Source Code</h2>
-        {!gameCodeLocked && <SnippetExportButton id={sn.id} title={sn.title} html={sn.html} css={sn.css} js={sn.js || ''} cdnUrls={sn.cdnUrls || []} />}
+        {gameCodeLocked
+          ? <GameExportButton id={sn.id} />
+          : <SnippetExportButton id={sn.id} title={sn.title} html={sn.html} css={sn.css} js={sn.js || ''} cdnUrls={sn.cdnUrls || []} />}
       </div>
       {gameCodeLocked
-        ? <LockedGameCode />
+        ? <LockedGameCode id={sn.id} />
         : <SourceCodeTabs html={sn.html} css={sn.css} js={sn.js || ''} htmlHl={htmlHl} cssHl={cssHl} jsHl={jsHl} cdnUrls={sn.cdnUrls || []} />}
     </div>
   );
@@ -1039,9 +1040,10 @@ Requirements:
           : navRelated
             ? <div key="navbar-promo" className={styles.navbarPromoGap}><NavbarBuilderPromo /></div>
             : undefined}
+        topExtra={sourceCodeBlock}
         bottomExtra={start
-          ? <div key="start-bottom"><div className={styles.startBottom}><StartTemplateButtons start={start} /></div>{sourceCodeBlock}</div>
-          : sourceCodeBlock}
+          ? <div key="start-bottom"><div className={styles.startBottom}><StartTemplateButtons start={start} /></div></div>
+          : undefined}
         aiPromptFirst
         featuresAfterAbout
       />
