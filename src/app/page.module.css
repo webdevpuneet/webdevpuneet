@@ -152,6 +152,31 @@
 
 /* ── Section scaffolding ── */
 .section { display: flex; flex-direction: column; gap: 20px; }
+/* Two sections side by side (Learn to Code | Developer Tools); they stack on narrower screens */
+.twoCol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
+@media (max-width: 1100px) { .twoCol { grid-template-columns: minmax(0, 1fr); } }
+/* Each column is a card of its own, same height, with a tidier header: title, one-line description, link as a pill */
+.twoCol > .section {
+  padding: 26px 26px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -12px rgba(15, 23, 42, 0.12);
+  gap: 18px;
+}
+.twoCol .sectionHead { flex-direction: column; align-items: flex-start; gap: 12px; }
+.twoCol .sectionTitle { font-size: clamp(21px, 1.9vw, 26px); }
+.twoCol .sectionDesc { margin-top: 6px; font-size: 14px; }
+.twoCol .headLink {
+  padding: 6px 13px;
+  font-size: 12.5px;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  transition: gap 0.15s, background 0.15s;
+}
+.twoCol .headLink:hover { background: color-mix(in srgb, var(--accent) 16%, transparent); }
+@media (max-width: 640px) { .twoCol > .section { padding: 18px 16px; } }
 .sectionHead {
   display: flex;
   align-items: flex-end;

@@ -710,7 +710,7 @@
 
 /* ── Recently used group ── */
 .playgroundsGroup {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  /* no divider line under Learn to Code (removed 2026-11-10, it now sits between UI Snippets and My Code) */
   margin-bottom: 2px;
 }
 .playgroundsHeader {
@@ -747,7 +747,6 @@
   transition: color 0.12s;
 }
 .playgroundsSeeAll:hover { color: rgba(0,0,0,0.75); }
-:global([data-theme="dark"]) .playgroundsGroup { border-bottom-color: rgba(255,255,255,0.08); }
 :global([data-theme="dark"]) .playgroundsHeader { color: rgba(255,255,255,0.45); }
 :global([data-theme="dark"]) .playgroundsHeader:hover { color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.05); }
 :global([data-theme="dark"]) .playgroundsHeader.groupOpen { color: rgba(255,255,255,0.6); }

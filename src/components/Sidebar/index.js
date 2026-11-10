@@ -1508,17 +1508,18 @@ export default function Sidebar() {
                   />
                   <ResumeCard snippets={customSnippets} projects={projects} />
                   <UiSnippetsCategories pathname={pathname} />
+                  {/* Learn to Code sits right after UI Snippets */}
+                  <PlaygroundsGroup
+                    activeSlug={activeSlug}
+                    open={playgroundsOpen}
+                    onToggle={() => setPlaygroundsOpen(v => !v)}
+                  />
                   <SidebarLink href="/ui-snippets/mycode/" icon="/icons/my-code.svg" label="My Code" active={/^\/ui-snippets\/mycode(\/|$)/.test(pathname)} count={customSnippets.length} />
                   <SidebarLink href="/website-builder/" icon="/icons/website-builder.svg" label="Website Builder" active={/^\/website-builder(\/|$)/.test(pathname)} count={savedCount.website} />
                   <SidebarLink href="/website-section-templates/" icon="/icons/website-section-templates.svg" label="Website Sections" active={/^\/website-section-templates(\/|$)/.test(pathname)} count={savedCount.section} />
                   <SidebarLink href="/email-templates/" icon="/icons/email-templates.svg" label="Email Templates" active={/^\/email-templates(\/|$)/.test(pathname)} count={savedCount.email} />
                   <SidebarLink href="/social-post-templates/" icon="/icons/social-post-templates.svg" label="Social Post Templates" active={/^\/social-post-templates(\/|$)/.test(pathname)} count={savedCount.social} />
                   <SidebarLink href="/ai-prompt-studio/" icon="/icons/ai-prompt-studio.svg" label="AI Prompts" active={/^\/ai-prompt-studio(\/|$)/.test(pathname)} count={promptCount} />
-                  <PlaygroundsGroup
-                    activeSlug={activeSlug}
-                    open={playgroundsOpen}
-                    onToggle={() => setPlaygroundsOpen(v => !v)}
-                  />
                   {CATEGORIES.filter(cat => cat.id === 'css').map(cat => (
                     <div key={cat.id} className={styles.categories}>
                       <CategoryGroup

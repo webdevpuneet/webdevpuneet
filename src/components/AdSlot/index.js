@@ -78,6 +78,9 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
   const relatedContent = related === false ? null : (related || (slug ? <RelatedStrip slug={slug} /> : null));
 
   if (!ADS_ENABLED) {
+    // Nothing to show (no ad, no related strip): render nothing, so a flex/grid parent with a gap (the home page)
+    // does not keep an empty block that doubles the spacing
+    if (!relatedContent) return null;
     return (
       <div className={styles.adShell}>
         {relatedContent && (

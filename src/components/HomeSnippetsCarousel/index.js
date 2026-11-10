@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import rs from '../UiSnippetsTool/RelatedCarousel.module.css';
 import InViewImg from '../InViewImg';
 
@@ -17,13 +17,19 @@ const PAGE_SIZE = 5;
 // load - lazily, from the same index the home page search already uses - so
 // the client never imports the whole snippet library just to draw thumbnails.
 // `flush`: rendered inside AdSlot's .relatedFull (tool pages), which already pads the sides.
-export default function HomeSnippetsCarousel({ items, total, flush = false }) {
+// `title`: the heading (default "Latest UI Snippets"). `shuffle`: reorder `items` randomly in the visitor's browser after
+// the first paint (the server-rendered order stays as the crawlable HTML), and show a Shuffle button; the strip then
+// stays within `items` instead of paging through the whole library.
+export default function HomeSnippetsCarousel({ items, total, flush = false, title = 'Latest UI Snippets', shuffle = false }) {
   const [start, setStart] = useState(0);
   const [all, setAll] = useState(null);        // the whole library, newest first, once loaded
   const [loading, setLoading] = useState(false);
+  const [order, setOrder] = useState(items);   // items in the order shown (reshuffled in the browser when `shuffle`)
+  const reshuffle = () => { setOrder([...items].sort(() => Math.random() - 0.5)); setStart(0); };
+  useEffect(() => { if (shuffle) reshuffle(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   if (!items?.length) return null;
 
-  const list = all || items;
+  const list = all || order;
   const grand = all ? all.length : (total ?? items.length);
   const shown = list.slice(start, start + PAGE_SIZE);
   const rangeEnd = Math.min(start + PAGE_SIZE, list.length);
@@ -48,31 +54,38 @@ export default function HomeSnippetsCarousel({ items, total, flush = false }) {
   }
 
   return (
-    <section className={rs.section} style={flush ? { paddingLeft: 0, paddingRight: 0 } : undefined} aria-label="Latest UI snippets">
+    <section className={rs.section} style={flush ? { paddingLeft: 0, paddingRight: 0 } : undefined} aria-label={title}>
       <div className={rs.header}>
-        <h2 className={rs.title}>Latest UI Snippets</h2>
-        <span className={rs.headCount}>{grand.toLocaleString('en-US')} in the library</span>
-        <a href="/ui-snippets/" className={rs.viewAll}>View all &rarr;</a>
+        <h2 className={rs.title}>{title}</h2>
+        <span className={rs.headCount}>{shuffle ? 'a new five on every visit' : `${grand.toLocaleString('en-US')} in the library`}</span>
+        {shuffle
+          ? <button type="button" className={rs.viewAll} onClick={reshuffle} style={{ background: 'none', border: 0, cursor: 'pointer', font: 'inherit' }}>Shuffle ↻</button>
+          : <a href="/ui-snippets/" className={rs.viewAll}>View all &rarr;</a>}
         <div className={rs.navBtns}>
-          <span className={rs.pageIndicator}>{(start + 1).toLocaleString('en-US')}–{rangeEnd.toLocaleString('en-US')} of {grand.toLocaleString('en-US')}</span>
-          <button
-            type="button"
-            className={rs.navBtn}
-            onClick={() => setStart(s => Math.max(0, s - PAGE_SIZE))}
-            disabled={!hasPrev}
-            aria-label="Show previous snippets"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
-          <button
-            type="button"
-            className={rs.navBtn}
-            onClick={next}
-            disabled={!hasNext || loading}
-            aria-label="Show next snippets"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
+          {!shuffle && <span className={rs.pageIndicator}>{(start + 1).toLocaleString('en-US')}–{rangeEnd.toLocaleString('en-US')} of {grand.toLocaleString('en-US')}</span>}
+          {/* The shuffled strip shows just five at a time: no paging arrows, the Shuffle link brings another five */}
+          {!shuffle && (
+            <>
+              <button
+                type="button"
+                className={rs.navBtn}
+                onClick={() => setStart(s => Math.max(0, s - PAGE_SIZE))}
+                disabled={!hasPrev}
+                aria-label="Show previous snippets"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <button
+                type="button"
+                className={rs.navBtn}
+                onClick={next}
+                disabled={!hasNext || loading}
+                aria-label="Show next snippets"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </>
+          )}
         </div>
       </div>
       <div className={`${rs.track} ${rs.trackThree}`}>

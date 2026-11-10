@@ -1,18 +1,24 @@
 import HomeOmniSearch from '@/components/HomeOmniSearch';
-import HomeWorkspace from '@/components/HomeWorkspace';
 import HomeToolSearch from '@/components/HomeToolSearch';
 import ProfileHeroCard from '@/components/ProfileHeroCard';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
 import { getLatestSnippets } from '@/lib/snippet-related';
 import InViewImg from '@/components/InViewImg';
 import AdSlot from '@/components/AdSlot';
-import { fetchLatestBlogPosts } from '@/lib/blog-feed';
 import { TEMPLATES as SOCIAL_TEMPLATES } from '@/components/SocialPostTemplates/templates/index.js';
 import { EMAIL_TEMPLATES } from '@/components/EmailTemplates/templates/index.js';
 import { SECTION_TEMPLATES } from '@/components/SectionTemplates/templates/index.js';
 import { WEBSITE_TEMPLATES } from '@/components/SectionTemplates/templates/starters.js';
 import { LIVE_TOOLS, CATEGORY_META } from '@/lib/tools-registry';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
+import { VISIBLE_SNIPPET_INDEX } from '@/lib/snippet-index';
+
+// 40 random snippets for the "Random UI Snippets" strip. Picked when the page is built; the strip reshuffles them in the
+// visitor's browser, so every visit shows a different order.
+const RANDOM_SNIPPETS = [...VISIBLE_SNIPPET_INDEX]
+  .sort(() => Math.random() - 0.5)
+  .slice(0, 40)
+  .map(sn => ({ id: sn.id, title: sn.title }));
 import styles from './page.module.css';
 
 /* ── Home page ──
@@ -109,12 +115,6 @@ const itemListSchema = {
 };
 
 /* ── Content ── */
-const HERO_BENEFITS = [
-  { n: `${WEBSITE_TEMPLATES.length}`, label: 'website templates' },
-  { n: `${SECTION_TEMPLATES.length}`, label: 'sections' },
-  { n: `${SNIPPETS_ROUNDED}+`, label: 'UI snippets' },
-  { n: `${PLAYGROUND_COUNT}`, label: 'coding playgrounds' },
-];
 
 const BUILDER_POINTS = [
   { title: 'Start with a ready-made template', text: `${WEBSITE_TEMPLATES.length} one-page websites for SaaS, restaurants, clinics, events and more, or a blank page.` },
@@ -135,7 +135,7 @@ const PROMOS = [
     id: 'social', accent: '#7c3aed', tag: 'Social post templates', href: '/social-post-templates/', cta: 'Browse social post templates',
     title: 'Posts, Stories and carousels in minutes',
     desc: 'Quotes, launches, tips and seasonal posts in every size for Instagram, Facebook, X, LinkedIn and Pinterest. Edit the text, apply your brand and download.',
-    points: ['Every size from a single design', 'Download PNG, JPG or PDF; MP4 video for supporters', 'Create dozens at once from a spreadsheet (supporters)'],
+    points: ['Every size from a single design', 'Download PNG, JPG, PDF or MP4 video', 'Create dozens at once from a spreadsheet (supporters)'],
   },
 ];
 
@@ -206,7 +206,6 @@ function SectionHead({ id, eyebrow, title, desc, href, linkLabel }) {
 }
 
 export default async function Home() {
-  const blogPosts = (await fetchLatestBlogPosts(4)).slice(0, 3);
   const latestSnippets = getLatestSnippets(60);
   const mockTemplates = BUILDER_MOCK_TEMPLATES.map(id => WEBSITE_TEMPLATES.find(x => x.id === id)).filter(Boolean);
   // Plain data for the client-side tool finder; only categories that actually have tools.
@@ -224,8 +223,7 @@ export default async function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* ── 1. Hero ── */}
-      {/* Returning visitors who have saved something: their workspace first (renders nothing for everyone else) */}
-      <HomeWorkspace />
+      {/* The "Your workspace" card (HomeWorkspace) was removed from the top of the home page on 2026-11-10; the component is still in src/components/HomeWorkspace */}
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
@@ -236,15 +234,6 @@ export default async function Home() {
           <p className={styles.heroText}>
             Pick a ready-made website, section, email or UI snippet, edit it in your browser and export clean code, or hand it to your own AI. Then see how it works in {PLAYGROUND_COUNT} free coding playgrounds. No sign-up, nothing to install.
           </p>
-          <div className={styles.heroCtas}>
-            <a href="/ui-snippets/" className={styles.btnPrimary}>Explore UI snippets <Arrow /></a>
-            <a href="/website-builder/" className={styles.btnSecondary}>Browse website templates</a>
-          </div>
-          <ul className={styles.heroBenefits}>
-            {HERO_BENEFITS.map(b => (
-              <li key={b.label}><strong>{b.n}</strong> {b.label}</li>
-            ))}
-          </ul>
           </div>
           <div className={styles.heroProfile}><ProfileHeroCard /></div>
         </div>
@@ -263,7 +252,34 @@ export default async function Home() {
             <div className={styles.snippetSearch}><HomeOmniSearch snippetsOnly /></div>
           </div>
           <div className={styles.latestStrip}><HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} flush /></div>
+          <div className={styles.latestStrip}><HomeSnippetsCarousel items={RANDOM_SNIPPETS} total={RANDOM_SNIPPETS.length} title="Random UI Snippets" shuffle flush /></div>
         </section>
+
+        {/* ── 3b + 3c. Playgrounds and developer tools: one row, two columns (stacked on narrow screens) ── */}
+        <div className={styles.twoCol}>
+        <section className={styles.section} aria-labelledby="h2-learn">
+          <SectionHead
+            id="h2-learn"
+            title="Learn to Code Interactively"
+            desc="Write code, change the examples and see the result instantly. Short lessons, a live editor and progress saved in your browser."
+            href="/learn-to-code/"
+            linkLabel="Explore all playgrounds"
+          />
+          <HomeToolSearch tools={searchPlaygrounds} categories={[]} noun="playgrounds" allHref="/learn-to-code/" searchable={false} />
+        </section>
+
+        {/* ── 3c. Developer tools (after Learn to Code) ── */}
+        <section className={styles.section} aria-labelledby="h2-tools">
+          <SectionHead
+            id="h2-tools"
+            title="Free Developer Tools"
+            desc="Generate CSS, build layouts, format code and solve everyday development tasks directly in your browser."
+            href="/tools/"
+            linkLabel="Browse all developer tools"
+          />
+          <HomeToolSearch tools={searchTools} categories={toolCategories} />
+        </section>
+        </div>
 
         {/* ── 3. Featured product: Website Builder ── */}
         <section className={styles.builder} aria-labelledby="h2-builder">
@@ -360,54 +376,7 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ── 3b. Playgrounds: same finder layout as the developer tools below ── */}
-        <section className={styles.section} aria-labelledby="h2-learn">
-          <SectionHead
-            id="h2-learn"
-            title="Learn to Code Interactively"
-            desc="Write code, change the examples and see the result instantly. Short lessons, a live editor and progress saved in your browser."
-            href="/learn-to-code/"
-            linkLabel="Explore all playgrounds"
-          />
-          <HomeToolSearch tools={searchPlaygrounds} categories={[]} noun="playgrounds" allHref="/learn-to-code/" searchable={false} />
-        </section>
-
-        {/* ── 3c. Developer tools (after Learn to Code) ── */}
-        <section className={styles.section} aria-labelledby="h2-tools">
-          <SectionHead
-            id="h2-tools"
-            title="Free Developer Tools"
-            desc="Generate CSS, build layouts, format code and solve everyday development tasks directly in your browser."
-            href="/tools/"
-            linkLabel="Browse all developer tools"
-          />
-          <HomeToolSearch tools={searchTools} categories={toolCategories} />
-        </section>
-
-        {/* ── 3d. Tutorials (after Developer tools) ── */}
-        <section className={styles.section} aria-labelledby="h2-blog">
-          <SectionHead
-            id="h2-blog"
-            title="Practical Web Development Tutorials"
-            desc="Guides with live demos you can open, read and fork."
-            href="https://webdevpuneet.com/blog/"
-            linkLabel="Read all tutorials"
-          />
-          {blogPosts.length === 0 ? (
-            <p className={styles.sectionDesc}>Couldn&apos;t load the latest posts right now — <a href="https://webdevpuneet.com/blog/">browse the blog directly</a>.</p>
-          ) : (
-            <div className={styles.tutGrid}>
-              {blogPosts.map(post => (
-                <a key={post.href} href={post.href} className={styles.tutItem}>
-                  {post.date && <span className={styles.tutDate}>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>}
-                  <span className={styles.tutTitle}>{post.title}</span>
-                  {post.excerpt && <span className={styles.tutExcerpt}>{post.excerpt}</span>}
-                  <span className={styles.tutMore}>Read the article <Arrow /></span>
-                </a>
-              ))}
-            </div>
-          )}
-        </section>
+        {/* The "Practical Web Development Tutorials" section (latest blog posts) was removed from the home page on 2026-11-10 */}
 
         <AdSlot />
 

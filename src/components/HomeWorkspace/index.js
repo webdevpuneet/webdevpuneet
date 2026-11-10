@@ -108,7 +108,6 @@ export default function HomeWorkspace() {
   const projects = useProjects();
   const adFree = useAdFree();
   const [snippets, setSnippets] = useState(null);
-  const [recentPage, setRecentPage] = useState(0);
   const [unlockOpen, setUnlockOpen] = useState(false);
 
   useEffect(() => {
@@ -129,14 +128,6 @@ export default function HomeWorkspace() {
     }));
     return [...code, ...projects].sort((a, b) => new Date(b.updated) - new Date(a.updated));
   }, [snippets, projects]);
-
-  // Recently edited: the 50 newest of any kind, six at a time
-  const recentAll = useMemo(() => all.slice(0, RECENT_MAX), [all]);
-  const recentPageNow = Math.min(recentPage, Math.max(0, Math.ceil(recentAll.length / PAGE) - 1));
-  const recentItems = useMemo(() => recentAll.slice(recentPageNow * PAGE, recentPageNow * PAGE + PAGE), [recentAll, recentPageNow]);
-  // Thumbnails for whatever is on screen: the Pick up card and the Recently edited strip
-  const onScreen = useMemo(() => [...new Map([...(all[0] ? [all[0]] : []), ...recentItems].map(i => [i.key, i])).values()], [all, recentItems]);
-  useMissingThumbs(onScreen);
 
   if (snippets === null) return null; // still reading this browser's storage
   const patreonPill = adFree
@@ -159,7 +150,6 @@ export default function HomeWorkspace() {
     );
   }
   const latest = all[0];
-  const strip = recentItems;
 
   return (
     <section className={st.wrap} aria-labelledby="ws-title">
@@ -172,25 +162,8 @@ export default function HomeWorkspace() {
         {patreonPill}
       </div>
 
-      {/* Pick up where you left off: the item edited last, with a picture of it */}
-      <a className={st.pickup} href={latest.href} title={`Continue editing ${latest.name}`}>
-        <span className={st.pickupPic} style={{ '--tint': TYPES[latest.type]?.tint }}>
-          <CardPicture item={latest} />
-        </span>
-        <span className={st.pickupText}>
-          <span className={st.resumeLabel}>Pick up where you left off</span>
-          <span className={st.pickupName}>{latest.name}</span>
-          <span className={st.cardMeta}><b style={{ color: TYPES[latest.type]?.tint }}>{TYPES[latest.type]?.label}</b> · edited {ago(latest.updated)}</span>
-          <span className={st.resumeGo}>Continue editing →</span>
-        </span>
-      </a>
-
-      {/* The newest things saved, of any kind, each with a picture of what was made */}
-      {strip.length > 0 && <div className={st.strip}>
-        <p className={st.activityTitle}>Recently edited <Pager page={recentPageNow} total={recentAll.length} onPage={setRecentPage} /></p>
-        <ul className={st.stripList}>{strip.map(savedCard)}</ul>
-      </div>}
-
+      {/* "Pick up where you left off" and "Recently edited" were removed from the home page (2026-11-10).
+          The helpers for them (CardPicture, savedCard, Pager, useMissingThumbs) are kept below in case they come back. */}
       <PremiumUnlockDialog open={unlockOpen} onClose={() => setUnlockOpen(false)} />
     </section>
   );
