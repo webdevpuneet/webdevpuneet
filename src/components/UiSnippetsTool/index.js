@@ -2476,7 +2476,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               uses) directly above the Preview toolbar, on library snippets AND My Code snippets (saved and new ones;
               added 2026-11-09). The My Code gallery has no editor, so no leaderboard. Keyed by snippet id so each snippet
               view mounts a fresh ad (AdSense forbids refreshing one without new content). Collapses itself when
-              unfilled; not shown on phones. Switched off with SNIPPET_TOP_AD_ENABLED in lib/ads-config.js. */}
+              unfilled; shown on phones too (320x50). Switched off with SNIPPET_TOP_AD_ENABLED in lib/ads-config.js. */}
           {showEditor && SNIPPET_TOP_AD_ENABLED && !adFree && (
             <PlaygroundTopAd key={activeId || 'none'} className={s.topAdSlot} />
           )}

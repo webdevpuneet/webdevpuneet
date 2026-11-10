@@ -14,6 +14,9 @@
 /* AdSense found no ad: collapse the whole strip instead of leaving a gap. */
 .bar:has(ins[data-ad-status="unfilled"]) { display: none; }
 
+/* Column narrower than the smallest banner: collapse visually (not display:none, so the width is still measured) */
+.noFit { height: 0; padding: 0; border: 0; visibility: hidden; }
+
 /* Inside a tool's title row: fills the space beside the title, no strip border of its own. */
 .inline {
   flex: 1 1 0;

@@ -477,7 +477,6 @@ function GamesLink({ active }) {
       <span className={styles.railIcon}><img src="/icons/games.svg" alt="" width={13} height={13} /></span>
       <span className={styles.frontIcon}><img src="/icons/games.svg" alt="" width={16} height={16} /></span>
       <span className={styles.groupLabel}>Games <span className={styles.gamesChip}>Enjoy!</span></span>
-      {GAME_COUNT > 0 && <span className={styles.linkCount} aria-label={`${GAME_COUNT} games`}>{GAME_COUNT}</span>}
     </a>
   );
 }

@@ -56,7 +56,10 @@ function AdUnit({ onNoFit }) {
       const cs = getComputedStyle(strip);
       const avail = strip.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
       const next = SIZES.find(z => z.w <= avail) || null;
-      if (!next) onNoFit?.();   // narrower than the smallest banner (320): no strip at all
+      // Narrower than the smallest banner (320): collapse the strip, but keep measuring. On phones the first render still
+      // has the desktop editor column beside the preview, so the column is briefly narrow; a permanent "no fit" removed
+      // the ad for good on mobile.
+      onNoFit?.(!next);
       setSize(prev => prev ?? next);
     };
     pick();
@@ -79,10 +82,10 @@ export default function PlaygroundTopAd({ className = '', inline = false }) {
   const notFound = useIsNotFound();
   const [noFit, setNoFit] = useState(false); // the column is narrower than the smallest banner
   const adFree = useAdFreeOnLoad();
-  const onNoFit = useCallback(() => setNoFit(true), []);
-  if (!ADS_ENABLED || notFound || adFree || noFit) return null;
+  const onNoFit = useCallback((v) => setNoFit(!!v), []);
+  if (!ADS_ENABLED || notFound || adFree) return null;
   return (
-    <div className={`${s.bar} ${inline ? s.inline : ''} ${className}`} aria-label="Advertisement">
+    <div className={`${s.bar} ${inline ? s.inline : ''} ${noFit ? s.noFit : ''} ${className}`} aria-label="Advertisement">
       <AdUnit onNoFit={onNoFit} />
     </div>
   );
