@@ -2173,6 +2173,38 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   // Gallery layout (page scrolls, no fixed-height inner pane) for every grid view:
   // the library gallery / categories / tags AND the My Code saved-snippet grid.
   const galleryMode = !showEditor;
+
+  // AdSense writes "height: auto !important" (inline) on every parent of the gallery's responsive top ad. The gallery and the
+  // editor share those elements, so opening a snippet from a grid (My Code, the library) kept that inline height and the
+  // editor shrank to its content (about 360px) until a reload. In editor mode, strip those forced heights and restore the
+  // section's viewport height, and keep doing it if AdSense writes them again.
+  const wrapRef = useRef(null);
+  const wasGallery = useRef(galleryMode);
+  useEffect(() => {
+    // Leaving a grid for the editor: start at the top, or a grid scrolled down leaves the editor's header off-screen
+    if (wasGallery.current && !galleryMode && window.scrollY > 0) window.scrollTo(0, 0);
+    wasGallery.current = galleryMode;
+    if (galleryMode) return undefined;
+    const wrap = wrapRef.current;
+    if (!wrap || typeof MutationObserver === 'undefined') return undefined;
+    const chain = [];
+    for (let el = wrap; el && el !== document.body; el = el.parentElement) chain.push(el);
+    const fix = () => {
+      chain.forEach(el => {
+        ['height', 'min-height', 'max-height'].forEach(prop => {
+          if (el.style.getPropertyPriority(prop) === 'important') el.style.removeProperty(prop);
+        });
+        if (el.hasAttribute('data-uis-tool-section')) {
+          const h = 'calc(100dvh - var(--pnav-h, 25px))';
+          if (el.style.height !== h) el.style.height = h;
+        }
+      });
+    };
+    fix();
+    const mo = new MutationObserver(fix);
+    chain.forEach(el => mo.observe(el, { attributes: true, attributeFilter: ['style'] }));
+    return () => mo.disconnect();
+  }, [galleryMode]);
   // Which header section is current: My Code (its gallery, its snippets, a new blank one) or the library.
   const inMyCode = initialView === 'saved' || activeIsCustom || isNewBlank || wantsNew;
   // Whether the related-snippets overlay over the code is showing (the "Related" button is active while it is)
@@ -2396,7 +2428,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   );
 
   return (
-    <div className={`${s.wrap} ${galleryMode ? s.wrapGallery : ''}`} data-uis-gallery={galleryMode ? '' : undefined}>
+    <div ref={wrapRef} className={`${s.wrap} ${galleryMode ? s.wrapGallery : ''}`} data-uis-gallery={galleryMode ? '' : undefined}>
 
       {/* — Header — on editor pages (desktop) it sits at the top of the code column instead */}
       {!headerInCode && headerEl}

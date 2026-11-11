@@ -30,6 +30,14 @@
   overflow: visible;
 }
 
+/* The snippet editor and My Code always fill at least the whole window below the nav on desktop, even if the measured nav
+   height or the dvh unit comes out wrong (a short editor with the page content showing under it). */
+@media (min-width: 769px) {
+  .toolSectionEditor {
+    min-height: calc(100vh - var(--pnav-h, 25px));
+  }
+}
+
 @media (max-width: 768px) {
   /* !important: the UI Snippets layout sets an inline height (viewport minus nav) for the editor. On phones that fixed
      box made every ad inside it (auto-placed ones too) shrink the snippet preview, so the tool grows with its content. */

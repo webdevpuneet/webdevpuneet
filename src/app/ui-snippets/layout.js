@@ -151,7 +151,8 @@ export default function UiSnippetsLayout({ children }) {
   if (isEmbedRoute(pathname)) return <>{children}</>;
 
   // No nav on a snippet page: never carry a stale measurement over from the previous page.
-  const effNavH = showNav ? navH : 0;
+  // (capped: the nav is one row, about 26px, two rows at most; a runaway measurement must never shrink the editor)
+  const effNavH = showNav ? Math.min(navH, 80) : 0;
   const isGallery = isGalleryRoute(pathname);
 
   return (
@@ -160,6 +161,7 @@ export default function UiSnippetsLayout({ children }) {
           the categories are in the sidebar's UI Snippets group. */}
       {showNav && <div ref={navRef}><PlaygroundTopNav /></div>}
       <div
+        data-uis-tool-section=""
         className={`${styles.toolSection} ${isGallery ? styles.toolSectionGallery : styles.toolSectionEditor}`}
         style={isGallery ? undefined : { height: `calc(100dvh - ${effNavH}px)` }}
       >

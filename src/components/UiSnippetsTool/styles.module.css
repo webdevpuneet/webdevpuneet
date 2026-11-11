@@ -12,6 +12,11 @@
   font-family: var(--font-ui);
 }
 
+/* Desktop: the editor never ends up shorter than the window below the nav (see .toolSectionEditor in tool-page.module.css) */
+@media (min-width: 769px) {
+  .wrap:not(.wrapGallery) { min-height: calc(100vh - var(--pnav-h, 25px)); }
+}
+
 /* Gallery routes (bare /ui-snippets/, a category, a tag) — no editor pane,
    just the grid. Let it flow to its natural height so the browser's own
    scrollbar carries it into the SEO content below, instead of clipping it

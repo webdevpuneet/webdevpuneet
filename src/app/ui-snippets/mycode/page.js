@@ -2,7 +2,22 @@ import SeoSection from '@/components/SeoSection';
 import AdSlot from '@/components/AdSlot';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
-import { getLatestSnippets } from '@/lib/snippet-related';
+import { VISIBLE_SNIPPET_INDEX } from '@/lib/snippet-index';
+import { CATEGORIES as SNIPPET_CATEGORIES } from '@/components/UiSnippetsTool/categories';
+import { PATREON_GAME_IDS } from '@/lib/patreon-settings';
+
+// "Random UI Snippets" strip, the same as the home page: 3 Patreon-only games + 2 snippets from the other categories, mixed
+// in a random order. The pools are picked when the page is built; the strip re-picks in the visitor's browser (and on Shuffle).
+const catLabel = id => SNIPPET_CATEGORIES.find(c => c.id === id)?.label || id;
+const RANDOM_GAMES = VISIBLE_SNIPPET_INDEX
+  .filter(sn => sn.category === 'games' && PATREON_GAME_IDS.includes(sn.id))
+  .sort(() => Math.random() - 0.5)
+  .map(sn => ({ id: sn.id, title: sn.title, cat: catLabel(sn.category), game: true }));
+const RANDOM_SNIPPETS = VISIBLE_SNIPPET_INDEX
+  .filter(sn => sn.category !== 'games')
+  .sort(() => Math.random() - 0.5)
+  .slice(0, 40)
+  .map(sn => ({ id: sn.id, title: sn.title, cat: catLabel(sn.category) }));
 
 const OG_IMAGE = 'https://webdevpuneet.com/images/ui-snippets/mycode.png';
 const TITLE    = 'My Code — Free Personal HTML CSS JS Code Space, No Signup | webdevpuneet.com';
@@ -154,16 +169,15 @@ const breadcrumbSchema = {
 };
 
 export default function SavedSnippetsPage() {
-  const latestSnippets = getLatestSnippets(60);
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      {/* Ad first, then Latest UI Snippets (same strip as the home page) below it. Like the
+      {/* Ad first, then the Random UI Snippets strip (3 Patreon games + 2 snippets, same as the home page) below it. Like the
           SEO content, both show on every URL, saved snippets (?id=) included. */}
-      <AdSlot adFirst related={<HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} flush />} />
+      <AdSlot adFirst related={<HomeSnippetsCarousel items={RANDOM_SNIPPETS} games={RANDOM_GAMES} total={RANDOM_SNIPPETS.length} title="Random UI Snippets" shuffle flush />} />
       <SeoSection {...SEO} featuresAfterAbout slug="ui-snippets" title="My Code — Personal HTML CSS JS Code Space" />
     </>
   );
