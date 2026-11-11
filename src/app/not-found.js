@@ -1,42 +1,50 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import HomeOmniSearch from '@/components/HomeOmniSearch';
 import { LIVE_TOOLS } from '@/lib/tools-registry';
 import { setNotFound } from '@/lib/not-found-state';
-import HeroSnippetPreview from '@/components/HeroSnippetPreview';
-import NotFoundBlogStrip from '@/components/NotFoundBlogStrip';
+import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
+import { VISIBLE_SNIPPET_INDEX } from '@/lib/snippet-index';
+import { CATEGORIES as SNIPPET_CATEGORIES } from '@/components/UiSnippetsTool/categories';
+import { PATREON_GAME_IDS } from '@/lib/patreon-settings';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import styles from './not-found.module.css';
 
-const POPULAR = [
-  'typescript-playground', 'tailwind-playground', 'scss-playground', 'nextjs-playground',
-  'angular-playground', 'gsap-playground', 'svg-playground', 'jquery-playground',
-  'bootstrap5-playground', 'css-playground', 'react-playground', 'vue-playground',
+const SNIPPET_TOTAL = (Math.floor(VISIBLE_SNIPPET_INDEX.length / 100) * 100).toLocaleString('en-US') + '+';
+const TOOL_TOTAL = LIVE_TOOLS.filter(t => !t.slug.endsWith('-playground') && t.slug !== 'ui-snippets').length;
+
+// "Explore everything": one compact card per part of the site
+const EXPLORE = [
+  { name: 'Website Builder', sub: 'Pick a template, edit it with forms, download a site', href: '/website-builder/', icon: 'website-builder' },
+  { name: 'Section Templates', sub: 'Heroes, pricing, footers and more, ready to edit', href: '/website-section-templates/', icon: 'website-section-templates' },
+  { name: 'Email Templates', sub: 'Responsive emails that work in Gmail and Outlook', href: '/email-templates/', icon: 'email-templates' },
+  { name: 'Social Post Templates', sub: 'Posts and short videos for every occasion', href: '/social-post-templates/', icon: 'social-post-templates' },
+  { name: 'UI Snippets', sub: SNIPPET_TOTAL + ' components with live code and exports', href: '/ui-snippets/', icon: 'ui-snippets' },
+  { name: 'Games', sub: 'Play free in the browser; unlock the code on Patreon', href: '/ui-snippets/games/', icon: 'games', badge: 'Patreon' },
+  { name: 'Coding Playgrounds', sub: 'Learn HTML, CSS, JS, React and more with lessons', href: '/learn-to-code/', icon: 'html-playground' },
+  { name: 'Developer Tools', sub: TOOL_TOTAL + ' free tools: CSS, images, SEO, JSON and more', href: '/tools/', icon: 'json-formatter' },
 ];
 
-const LEARN = [
-  'ui-snippets',
-  'html-playground', 'css-playground', 'js-playground', 'react-playground',
-  'vue-playground', 'tailwind-playground', 'nextjs-playground', 'gsap-playground',
-];
+// "Random UI Snippets" (same strip as the home page): 3 Patreon-only games + 3 snippets from other categories, re-picked
+// at random in the browser. The pools are built in a fixed order so the pre-rendered HTML matches the first client render.
+const catLabel = id => SNIPPET_CATEGORIES.find(c => c.id === id)?.label || id;
+const RANDOM_GAMES = VISIBLE_SNIPPET_INDEX
+  .filter(sn => sn.category === 'games' && PATREON_GAME_IDS.includes(sn.id))
+  .map(sn => ({ id: sn.id, title: sn.title, cat: catLabel(sn.category), game: true }));
+const RANDOM_OTHERS = VISIBLE_SNIPPET_INDEX
+  .filter(sn => sn.category !== 'games')
+  .map(sn => ({ id: sn.id, title: sn.title, cat: catLabel(sn.category) }));
 
-const TOOL_MAP = Object.fromEntries(LIVE_TOOLS.map(t => [t.slug, t]));
-const popularTools = POPULAR.map(s => TOOL_MAP[s]).filter(Boolean);
-const learnTools = LEARN.map(s => TOOL_MAP[s]).filter(Boolean);
+// Newest first (the index is oldest-first), with the category for the card tags
+const LATEST = [...VISIBLE_SNIPPET_INDEX].reverse().slice(0, 60).map(sn => ({ id: sn.id, title: sn.title, category: sn.category }));
+
+const PLAYGROUNDS = LIVE_TOOLS.filter(t => t.slug.endsWith('-playground'));
 
 export default function NotFound() {
-  const [query, setQuery] = useState('');
-
   useEffect(() => {
     setNotFound(true);
     return () => setNotFound(false);
   }, []);
-
-  const results = query.trim().length > 1
-    ? LIVE_TOOLS.filter(t =>
-        t.name.toLowerCase().includes(query.toLowerCase()) ||
-        t.sub.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 8)
-    : null;
 
   return (
     <div className={styles.shell}>
@@ -46,65 +54,44 @@ export default function NotFound() {
       <div className={styles.inner}>
         <div className={styles.code}>404</div>
         <h1 className={styles.title}>Page not found</h1>
-        <p className={styles.sub}>That URL doesn't exist — but one of these snippets or playgrounds might be what you're looking for.</p>
+        <p className={styles.sub}>That URL doesn&apos;t exist. Search for a snippet, template, playground or tool below, or try one of these.</p>
 
-        <div className={styles.searchWrap}>
-          <svg className={styles.searchIcon} width="14" height="14" viewBox="0 0 24 24" fill="none">
-            <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2"/>
-            <path d="M16.5 16.5L21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-          <input
-            className={styles.searchInput}
-            placeholder={`Search ${LIVE_TOOLS.length} tools...`}
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            autoFocus
-          />
-          {query && <button className={styles.searchClear} onClick={() => setQuery('')}>×</button>}
-        </div>
+        {/* The home page's search: UI snippets, website, section, email and social templates, playgrounds and tools */}
+        <div className={styles.omniSearch}><HomeOmniSearch /></div>
 
-        {results ? (
-          <div className={styles.results}>
-            {results.length === 0 ? (
-              <p className={styles.noResults}>No tools match "{query}"</p>
-            ) : (
-              results.map(tool => (
-                <a key={tool.slug} href={`/${tool.slug}/`} className={styles.toolCard}>
-                  <img src={`/icons/${tool.slug}.svg`} alt="" width={16} height={16} className={styles.toolIcon} />
-                  <span className={styles.toolName}>{tool.name}</span>
-                  <span className={styles.toolSub}>{tool.sub}</span>
-                </a>
-              ))
-            )}
-          </div>
-        ) : (
           <>
-            <HeroSnippetPreview pageSize={4} columns={4} />
-            <NotFoundBlogStrip count={4} columns={4} />
-
-            <p className={styles.sectionLabel}>Learn to code</p>
-            <div className={styles.learnGrid}>
-              {learnTools.map(tool => (
-                <a key={tool.slug} href={`/${tool.slug}/`} className={styles.learnCard}>
-                  <img src={`/icons/${tool.slug}.svg`} alt="" width={18} height={18} className={styles.toolIcon} />
-                  <span className={styles.learnName}>{tool.name.replace(' Playground', '')}</span>
-                </a>
-              ))}
-              <a href="/learn-to-code/" className={styles.learnCardMore}>All playgrounds →</a>
+            {/* Same panel as the home page: Random (3 Patreon games + 3 others) and Latest, with a divider between */}
+            <div className={styles.snipPanel}>
+              <div className={styles.latestStrip}><HomeSnippetsCarousel items={RANDOM_OTHERS} games={RANDOM_GAMES} title="Random UI Snippets" shuffle flush /></div>
+              <div className={styles.latestStrip}><HomeSnippetsCarousel items={LATEST} total={VISIBLE_SNIPPET_INDEX.length} flush /></div>
             </div>
 
-            <p className={styles.sectionLabel}>More playgrounds &amp; tools</p>
-            <div className={styles.results}>
-              {popularTools.map(tool => (
-                <a key={tool.slug} href={`/${tool.slug}/`} className={styles.toolCard}>
-                  <img src={`/icons/${tool.slug}.svg`} alt="" width={16} height={16} className={styles.toolIcon} />
-                  <span className={styles.toolName}>{tool.name}</span>
-                  <span className={styles.toolSub}>{tool.sub}</span>
+            {/* Everything else on the site, compact: one card per product, then every playground as a chip */}
+            <p className={styles.sectionLabel}>Explore everything</p>
+            <div className={styles.exploreGrid}>
+              {EXPLORE.map(x => (
+                <a key={x.href} href={x.href} className={styles.exploreCard}>
+                  <span className={styles.exploreIcon}><img src={`/icons/${x.icon}.svg`} alt="" width={20} height={20} /></span>
+                  <span className={styles.exploreText}>
+                    <span className={styles.exploreName}>{x.name}{x.badge && <span className={styles.exploreBadge}>{x.badge}</span>}</span>
+                    <span className={styles.exploreSub}>{x.sub}</span>
+                  </span>
+                  <span className={styles.exploreArrow} aria-hidden="true">→</span>
                 </a>
               ))}
+            </div>
+
+            <p className={styles.sectionLabel}>Coding playgrounds</p>
+            <div className={styles.chipRow}>
+              {PLAYGROUNDS.map(tool => (
+                <a key={tool.slug} href={`/${tool.slug}/`} className={styles.chip}>
+                  <img src={`/icons/${tool.slug}.svg`} alt="" width={14} height={14} />
+                  {tool.name.replace(' Playground', '')}
+                </a>
+              ))}
+              <a href="/learn-to-code/" className={styles.chipMore}>All playgrounds →</a>
             </div>
           </>
-        )}
 
         <a href="/" className={styles.homeLink}>← Back to home</a>
       </div>

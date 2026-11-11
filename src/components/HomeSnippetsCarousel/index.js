@@ -26,14 +26,14 @@ const PAGE_SIZE = 5;
 // `title`: the heading (default "Latest UI Snippets"). `shuffle`: reorder `items` randomly in the visitor's browser after
 // the first paint (the server-rendered order stays as the crawlable HTML), and show a Shuffle button; the strip then
 // stays within `items` instead of paging through the whole library.
-// `games`: with `shuffle`, a pool of Patreon games. The strip then shows SIX cards: 3 random games + 3 random items from
+// `games`: with `shuffle`, a pool of Patreon games. The strip then shows FIVE cards in one row: 3 random games + 2 random items from
 // `items`, mixed into random positions; every card gets a category tag (and games the Patreon badge).
 const mixed = list => [...list].sort(() => Math.random() - 0.5);
 export default function HomeSnippetsCarousel({ items, total, flush = false, title = 'Latest UI Snippets', shuffle = false, games = null }) {
   const mix = shuffle && games?.length > 0;
   // First paint (the server HTML): a fixed alternation, so the markup is stable; the browser then re-picks at random
   const firstMix = () => {
-    const g = games.slice(0, 3), o = items.slice(0, 3), out = [];
+    const g = games.slice(0, 3), o = items.slice(0, 2), out = [];
     for (let i = 0; i < 3; i++) { if (g[i]) out.push(g[i]); if (o[i]) out.push(o[i]); }
     return out;
   };
@@ -42,13 +42,13 @@ export default function HomeSnippetsCarousel({ items, total, flush = false, titl
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState(() => (mix ? firstMix() : items));   // items in the order shown
   const reshuffle = () => {
-    setOrder(mix ? mixed([...mixed(games).slice(0, 3), ...mixed(items).slice(0, 3)]) : mixed(items));
+    setOrder(mix ? mixed([...mixed(games).slice(0, 3), ...mixed(items).slice(0, 2)]) : mixed(items));
     setStart(0);
   };
   useEffect(() => { if (shuffle) reshuffle(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   if (!items?.length) return null;
 
-  const pageSize = mix ? 6 : PAGE_SIZE;
+  const pageSize = PAGE_SIZE;
   const list = all || order;
   const grand = all ? all.length : (total ?? items.length);
   const shown = list.slice(start, start + pageSize);

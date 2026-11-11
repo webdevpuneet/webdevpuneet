@@ -219,3 +219,52 @@
   .learnGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .results { grid-template-columns: 1fr; }
 }
+
+/* Random + Latest UI Snippets as one panel, the same as the home page */
+.snipPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 8px 0 28px;
+  padding: 18px 20px 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -12px rgba(15, 23, 42, 0.12);
+  text-align: left;
+}
+.latestStrip > section { margin-top: 0; margin-bottom: 0; }
+.snipPanel > .latestStrip + .latestStrip { padding-top: 18px; border-top: 1px solid var(--border); }
+@media (max-width: 640px) { .snipPanel { padding: 14px 12px 18px; } }
+
+/* The home page's omni search (snippets, templates, playgrounds, tools); above the panels so its dropdown overlaps them */
+.omniSearch { position: relative; z-index: 20; width: 100%; max-width: 760px; margin: 0 0 24px; text-align: left; }
+
+/* ── "Explore everything": compact product cards ── */
+.exploreGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 18px; text-align: left; }
+@media (max-width: 1100px) { .exploreGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .exploreGrid { grid-template-columns: 1fr; } }
+.exploreCard { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); text-decoration: none; color: var(--text); transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s; min-width: 0; }
+.exploreCard:hover { border-color: #a5b4fc; transform: translateY(-1px); box-shadow: 0 6px 16px -8px rgba(15, 23, 42, 0.25); }
+.exploreIcon { flex: none; width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--surface2, #f1f5f9); }
+.exploreText { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.exploreName { display: flex; align-items: center; gap: 6px; font: 700 13.5px/1.25 var(--font-ui, system-ui); }
+.exploreBadge { font: 700 9.5px/1 var(--font-ui, system-ui); color: #fff; background: linear-gradient(135deg, #f96854, #e0435a); padding: 3px 6px; border-radius: 99px; }
+.exploreSub { font-size: 11.5px; line-height: 1.35; color: var(--text3, #64748b); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.exploreArrow { flex: none; color: var(--text3, #94a3b8); font-size: 14px; transition: transform 0.15s, color 0.15s; }
+.exploreCard:hover .exploreArrow { transform: translateX(2px); color: #6366f1; }
+
+/* ── AI band (same message as the home page, compact) ── */
+.aiBand { display: flex; align-items: center; justify-content: space-between; gap: 14px 20px; flex-wrap: wrap; padding: 14px 16px; margin-bottom: 22px; border-radius: 14px; border: 1px solid rgba(99, 102, 241, 0.25); background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(236, 72, 153, 0.06)); text-align: left; }
+.aiText { flex: 1 1 340px; min-width: 0; }
+.aiTitle { margin: 0 0 4px; font: 800 15px/1.3 var(--font-ui, system-ui); color: var(--text); }
+.aiSub { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--text2, #475569); }
+.aiLinks { display: flex; flex-wrap: wrap; gap: 6px; flex: 0 1 auto; }
+.aiLinks a { padding: 5px 11px; border-radius: 99px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font: 600 12px/1.3 var(--font-ui, system-ui); text-decoration: none; }
+.aiLinks a:hover { border-color: #6366f1; color: #4f46e5; }
+
+/* ── Coding playgrounds as one row of chips ── */
+.chipRow { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px; border-radius: 99px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font: 600 12.5px/1.2 var(--font-ui, system-ui); text-decoration: none; }
+.chip:hover { border-color: #a5b4fc; }
+.chipMore { display: inline-flex; align-items: center; padding: 6px 11px; border-radius: 99px; border: 1px dashed var(--border); color: #6366f1; font: 700 12.5px/1.2 var(--font-ui, system-ui); text-decoration: none; }
