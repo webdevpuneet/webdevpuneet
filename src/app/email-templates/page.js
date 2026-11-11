@@ -5,6 +5,7 @@ import { EmailGalleryPage } from '@/components/EmailTemplates';
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES } from '@/components/EmailTemplates/templates/index.js';
 import { EMAIL_DIFFERENT } from '@/components/EmailTemplates/templates/seo-content.js';
 import { emailPreviewIds } from '@/components/EmailTemplates/assets';
+import { emailCategoriesTable } from '@/components/EmailTemplates/categoryTable';
 import styles from '../tool-page.module.css';
 
 const PAGE_URL = 'https://webdevpuneet.com/email-templates/';
@@ -62,17 +63,7 @@ const SECTIONS = [
       'Works on phones: the editor opens as a bottom sheet over the preview',
     ],
   },
-  {
-    type: 'text',
-    label: 'Browse by category',
-    boxed: true,
-    heading: 'Email Templates for Every Stage of the Customer Journey',
-    quickFacts: false,
-    text: EMAIL_CATEGORIES.filter(c => EMAIL_TEMPLATES.some(t => t.category === c.id)).map(c => {
-      const list = EMAIL_TEMPLATES.filter(t => t.category === c.id);
-      return `**[${c.label} email templates](/email-templates/category/${c.id}/)**: ${c.blurb} Includes ${list.map(t => `[${t.name}](/email-templates/${t.id}/)`).join(', ')}.`;
-    }).join('\n\n'),
-  },
+  emailCategoriesTable(),
   {
     type: 'text',
     label: 'About these templates',

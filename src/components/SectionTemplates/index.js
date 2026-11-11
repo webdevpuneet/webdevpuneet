@@ -223,19 +223,6 @@ function SectionPlainGallery({ excludeId = null, limit = null, previews = [], in
   );
 }
 
-/* Crawlable links to every category that has sections */
-function SectionCategoryLinks({ active = null }) {
-  return (
-    <nav className={s.catLinks} aria-label="Section template categories">
-      <a href={BASE} className={`${s.catLink} ${!active ? s.catLinkActive : ''}`}>All sections <span>{SECTION_TEMPLATES.length}</span></a>
-      {SECTION_CATEGORIES.map(c => {
-        const n = SECTION_TEMPLATES.filter(t => t.category === c.id).length;
-        return n && !c.noPage ? <a key={c.id} href={`${BASE}category/${c.id}/`} className={`${s.catLink} ${active === c.id ? s.catLinkActive : ''}`}>{c.label} <span>{n}</span></a> : null;
-      })}
-    </nav>
-  );
-}
-
 /* A saved design rendered live (its uploaded images loaded from IndexedDB). Rendered with
    clean: false, so a custom section's JavaScript and HTML-block scripts never run in a thumbnail. */
 /* A small picture (a data: URL) of a saved section design, kept with the design when it is saved (see emailThumb) */
@@ -292,7 +279,6 @@ export function SectionGalleryPage({ previews = [] }) {
           Change the text, upload your images, set your brand colours and fonts, preview desktop, tablet and mobile, then export HTML and CSS, a ZIP, React or Vue.
         </p>
       </header>
-      <SectionCategoryLinks />
       <SectionTemplateGallery
         previews={previews}
         savedStrip={q => (
@@ -324,7 +310,6 @@ export function SectionCategoryPage({ category, h1, lead, previews = [] }) {
         <h1 className={s.galleryH1}>{h1}</h1>
         <p className={s.galleryLead}>{lead}</p>
       </header>
-      <SectionCategoryLinks active={category} />
       <SectionTemplateGallery previews={previews} initialCategory={category} hideControls />
     </div>
   );

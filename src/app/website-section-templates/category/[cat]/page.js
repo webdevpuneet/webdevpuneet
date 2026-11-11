@@ -7,6 +7,7 @@ import { SECTION_TEMPLATES, SECTION_CATEGORIES, sectionCategoryById } from '@/co
 import { SECTION_SEO, SECTION_DIFFERENT } from '@/components/SectionTemplates/templates/seo-content.js';
 import { SECTION_CATEGORY_SEO } from '@/components/SectionTemplates/templates/seo-categories.js';
 import { sectionPreviewIds, hasSectionOg, sectionOgUrl } from '@/components/SectionTemplates/assets';
+import { sectionCategoriesTable } from '@/components/SectionTemplates/categoryTable';
 import styles from '../../../tool-page.module.css';
 
 const BASE = 'https://webdevpuneet.com/website-section-templates/';
@@ -60,6 +61,7 @@ export default async function SectionCategoryRoute({ params }) {
       text: `${c.intro}\n\n${list.map(t => `**[${t.name}](/website-section-templates/${t.id}/)**: ${t.description}`).join('\n\n')}`,
       quickFacts: false,
     },
+    sectionCategoriesTable({ skip: cat, heading: 'More Section Categories', label: 'Browse other categories' }),
     {
       type: 'cards',
       label: 'Real-world uses',

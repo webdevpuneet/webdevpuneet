@@ -233,23 +233,6 @@ function EmailPlainGallery({ excludeId = null, limit = null, previews = [], init
   );
 }
 
-/* Crawlable links to every category landing page */
-function EmailCategoryLinks({ active = null }) {
-  return (
-    <nav className={s.catLinks} aria-label="Email template categories">
-      <a href="/email-templates/" className={`${s.catLink} ${!active ? s.catLinkActive : ''}`}>All templates <span>{EMAIL_TEMPLATES.length}</span></a>
-      {EMAIL_CATEGORIES.map(c => {
-        const n = EMAIL_TEMPLATES.filter(t => t.category === c.id).length;
-        return n ? (
-          <a key={c.id} href={`/email-templates/category/${c.id}/`} className={`${s.catLink} ${active === c.id ? s.catLinkActive : ''}`}>
-            {c.label} <span>{n}</span>
-          </a>
-        ) : null;
-      })}
-    </nav>
-  );
-}
-
 /* A saved email design rendered from its template code: the real email HTML, with
    images uploaded in the editor loaded from IndexedDB */
 /* A small picture (a data: URL) of a saved email design, kept with the design when it is saved: the home page and the sidebar
@@ -308,7 +291,6 @@ export function EmailGalleryPage({ previews = [] }) {
           then copy the HTML, download a ZIP or fork it into My Code.
         </p>
       </header>
-      <EmailCategoryLinks />
       <EmailTemplateGallery
         previews={previews}
         chips={false}
@@ -341,7 +323,6 @@ export function EmailCategoryPage({ category, h1, lead, previews = [] }) {
         <h1 className={s.galleryH1}>{h1}</h1>
         <p className={s.galleryLead}>{lead}</p>
       </header>
-      <EmailCategoryLinks active={category} />
       <EmailTemplateGallery previews={previews} initialCategory={category} hideControls />
     </div>
   );

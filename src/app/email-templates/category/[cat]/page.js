@@ -7,6 +7,7 @@ import { emailPreviewIds, hasEmailOg, emailOgUrl } from '@/components/EmailTempl
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailCategoryById } from '@/components/EmailTemplates/templates/index.js';
 import { EMAIL_SEO, EMAIL_DIFFERENT } from '@/components/EmailTemplates/templates/seo-content.js';
 import { EMAIL_CATEGORY_SEO } from '@/components/EmailTemplates/templates/seo-categories.js';
+import { emailCategoriesTable } from '@/components/EmailTemplates/categoryTable';
 import styles from '../../../tool-page.module.css';
 
 const BASE = 'https://webdevpuneet.com/email-templates/';
@@ -62,6 +63,7 @@ export default async function EmailCategoryRoute({ params }) {
       text: `${c.intro}\n\n${list.map(t => `**[${t.name}](/email-templates/${t.id}/)**: ${t.description}`).join('\n\n')}`,
       quickFacts: false,
     },
+    emailCategoriesTable({ skip: cat, heading: 'More Email Template Categories', label: 'Browse other categories' }),
     {
       type: 'cards',
       label: 'Real-world uses',

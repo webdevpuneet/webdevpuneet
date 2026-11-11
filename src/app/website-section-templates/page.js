@@ -5,6 +5,7 @@ import { SectionGalleryPage } from '@/components/SectionTemplates';
 import { SECTION_TEMPLATES, SECTION_CATEGORIES } from '@/components/SectionTemplates/templates/index.js';
 import { SECTION_DIFFERENT } from '@/components/SectionTemplates/templates/seo-content.js';
 import { sectionPreviewIds } from '@/components/SectionTemplates/assets';
+import { sectionCategoriesTable } from '@/components/SectionTemplates/categoryTable';
 import styles from '../tool-page.module.css';
 
 const PAGE_URL = 'https://webdevpuneet.com/website-section-templates/';
@@ -57,16 +58,13 @@ const SECTIONS = [
       'Free, private and works without an account',
     ],
   },
+  sectionCategoriesTable(),
   {
     type: 'text',
-    label: 'Browse by category',
-    boxed: true,
-    heading: 'Sections for Every Part of a Website',
+    label: 'Build a whole page',
+    heading: 'From Sections to a Full Website',
     quickFacts: false,
-    text: SECTION_CATEGORIES.filter(c => !c.noPage && SECTION_TEMPLATES.some(t => t.category === c.id)).map(c => {
-      const list = SECTION_TEMPLATES.filter(t => t.category === c.id && !t.draft);
-      return `**[${c.label} section templates](/website-section-templates/category/${c.id}/)**: ${c.blurb} Includes ${list.map(t => `[${t.name}](/website-section-templates/${t.id}/)`).join(', ')}.`;
-    }).join('\n\n') + '\n\nEvery section is built on the same theme, so any combination looks like one website. Want a whole page? The free [Website Builder](/website-builder/) stacks a navbar, any of these sections and a footer into one page with one theme, and exports it as HTML.',
+    text: 'Every section is built on the same theme, so any combination looks like one website. Want a whole page? The free [Website Builder](/website-builder/) stacks a navbar, any of these sections and a footer into one page with one theme, and exports it as HTML.',
   },
   {
     type: 'text',
