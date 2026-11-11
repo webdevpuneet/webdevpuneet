@@ -323,6 +323,9 @@
 .genreChip:hover:not(:disabled) { color: var(--accent); border-color: var(--accent); }
 .genreChip:disabled { opacity: 0.4; cursor: default; }
 .genreChipOn, .genreChipOn:hover:not(:disabled) { color: #fff; background: var(--accent); border-color: var(--accent); }
+.genreChipBookmark { color: #b45309; border-color: rgba(245,158,11,0.45); background: rgba(245,158,11,0.08); }
+.genreChipBookmark:hover:not(:disabled) { color: #b45309; border-color: #f59e0b; }
+.genreChipBookmark.genreChipOn, .genreChipBookmark.genreChipOn:hover:not(:disabled) { color: #fff; background: #f59e0b; border-color: #f59e0b; }
 .genreCount { font-size: 10px; font-weight: 800; opacity: 0.75; }
 
 .catBadge {

@@ -10,7 +10,6 @@ import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { publishedTags, tagsForSnippetId, TAG_BY_ID } from '@/lib/snippet-tags';
 import useFilterPanel from '@/lib/use-filter-panel';
 import { useBookmarks, toggleBookmark, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
-import { PremiumBadge } from '@/components/PremiumGate';
 import { isPremiumGameSnippet } from '@/lib/premium';
 import { GAME_GENRES, genreOf, isGenreId } from '@/lib/game-genres';
 import s from './styles.module.css';
@@ -166,7 +165,7 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
   const isGamesPage = !initialTag && initialCategory === 'games';
   const [genre, setGenre] = useState(() => {
     const t = searchParams.get('type');
-    return isGamesPage && isGenreId(t) ? t : 'all';
+    return isGamesPage && (isGenreId(t) || t === 'bookmarked') ? t : 'all';
   });
   // The main gallery (/ui-snippets/) is a filterable library: categories and tags as checkboxes with counts, active
   // filters as chips, Ctrl/⌘ K for search. Category and tag pages keep their plain layout (they are their own filter).
@@ -274,7 +273,8 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
   };
   const filtered = useMemo(() => {
     let list = SNIPPETS.filter(sn => passes(sn));
-    if (isGamesPage && genre !== 'all') list = list.filter(sn => genreOf(sn.id)?.id === genre);
+    if (isGamesPage && genre === 'bookmarked') list = list.filter(sn => bookmarks.includes(sn.id));
+    else if (isGamesPage && genre !== 'all') list = list.filter(sn => genreOf(sn.id)?.id === genre);
     let out = sortOrder === 'az' ? [...list].sort((a, b) => a.title.localeCompare(b.title))
       : sortOrder === 'newest' ? [...list].reverse() : list;
     // Games category: the Patreon games come first, then the free ones, each group in the chosen sort order
@@ -286,8 +286,14 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
   const genreOptions = useMemo(() => {
     if (!isGamesPage) return [];
     const games = SNIPPETS.filter(sn => passes(sn));
-    return [{ id: 'all', label: 'All', n: games.length }, ...GAME_GENRES.map(g => ({ id: g.id, label: g.label, n: games.filter(sn => genreOf(sn.id)?.id === g.id).length }))];
-  }, [isGamesPage, q]); // eslint-disable-line react-hooks/exhaustive-deps
+    // "Bookmarked" (the games bookmarked in this browser) comes right after "All", and only when there are some
+    const marked = games.filter(sn => bookmarks.includes(sn.id)).length;
+    return [
+      { id: 'all', label: 'All', n: games.length },
+      ...(marked > 0 || genre === 'bookmarked' ? [{ id: 'bookmarked', label: 'Bookmarked', n: marked, bookmark: true }] : []),
+      ...GAME_GENRES.map(g => ({ id: g.id, label: g.label, n: games.filter(sn => genreOf(sn.id)?.id === g.id).length })),
+    ];
+  }, [isGamesPage, q, bookmarks, genre]); // eslint-disable-line react-hooks/exhaustive-deps
   const pickGenre = id => {
     setGenre(id);
     setPage(0);
@@ -337,6 +343,8 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
           ? <>No bookmarked snippets yet — click the bookmark icon on any snippet to save it here.</>
           : activeTag
           ? <>No snippets tagged {activeTag.label} yet — check back soon.</>
+          : isGamesPage && genre === 'bookmarked'
+          ? <>No bookmarked games yet — click the bookmark icon on any game to keep it here.</>
           : cats.length || tagSel.length
           ? <>No snippets match these filters.</>
           : <>No snippets in this category yet — check back soon.</>}
@@ -348,7 +356,6 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
           <article key={sn.id} className={s.card}>
             <div className={s.previewWrap}>
               <InViewImg className={s.preview} src={`/images/ui-snippets/previews/${sn.id}.png`} alt="" />
-              {isPremiumGameSnippet(sn) && <PremiumBadge corner kind="game" />}
               <button
                 type="button"
                 aria-pressed={bookmarks.includes(sn.id)}
@@ -498,11 +505,12 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
               <button
                 key={o.id}
                 type="button"
-                className={`${s.genreChip} ${genre === o.id ? s.genreChipOn : ''}`}
+                className={`${s.genreChip} ${o.bookmark ? s.genreChipBookmark : ''} ${genre === o.id ? s.genreChipOn : ''}`}
                 aria-pressed={genre === o.id}
                 disabled={o.n === 0 && genre !== o.id}
                 onClick={() => pickGenre(o.id)}
               >
+                {o.bookmark && <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>}
                 {o.label}<span className={s.genreCount}>{o.n}</span>
               </button>
             ))}

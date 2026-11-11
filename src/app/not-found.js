@@ -25,7 +25,7 @@ const EXPLORE = [
   { name: 'Developer Tools', sub: TOOL_TOTAL + ' free tools: CSS, images, SEO, JSON and more', href: '/tools/', icon: 'json-formatter' },
 ];
 
-// "Random UI Snippets" (same strip as the home page): 3 Patreon-only games + 3 snippets from other categories, re-picked
+// "Random UI Snippets" (same strip as the home page): 2 games + 3 snippets from other categories, re-picked
 // at random in the browser. The pools are built in a fixed order so the pre-rendered HTML matches the first client render.
 const catLabel = id => SNIPPET_CATEGORIES.find(c => c.id === id)?.label || id;
 const RANDOM_GAMES = VISIBLE_SNIPPET_INDEX
@@ -60,7 +60,7 @@ export default function NotFound() {
         <div className={styles.omniSearch}><HomeOmniSearch /></div>
 
           <>
-            {/* Same panel as the home page: Random (3 Patreon games + 3 others) and Latest, with a divider between */}
+            {/* Same panel as the home page: Random (2 games + 3 others) and Latest, with a divider between */}
             <div className={styles.snipPanel}>
               <div className={styles.latestStrip}><HomeSnippetsCarousel items={RANDOM_OTHERS} games={RANDOM_GAMES} title="Random UI Snippets" shuffle flush /></div>
               <div className={styles.latestStrip}><HomeSnippetsCarousel items={LATEST} total={VISIBLE_SNIPPET_INDEX.length} flush /></div>

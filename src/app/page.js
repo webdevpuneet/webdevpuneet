@@ -15,7 +15,7 @@ import { VISIBLE_SNIPPET_INDEX } from '@/lib/snippet-index';
 import { CATEGORIES as SNIPPET_CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import { PATREON_GAME_IDS } from '@/lib/patreon-settings';
 
-// "Random UI Snippets" strip: six cards, always 3 Patreon-only games + 3 snippets from the other categories, mixed in a
+// "Random UI Snippets" strip: five cards, always 2 games + 3 snippets from the other categories, mixed in a
 // random order. The pools are picked when the page is built; the strip re-picks and reshuffles in the visitor's browser,
 // so every visit (and every Shuffle click) shows a different six. Each card is tagged with its category.
 const catLabel = id => SNIPPET_CATEGORIES.find(c => c.id === id)?.label || id;
