@@ -98,8 +98,8 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:radial
 .fcm-price-tag{margin-top:6px;font-size:13px;font-weight:800;padding:4px 11px;border-radius:99px;background:rgba(0,0,0,.28)}
 .fcm-more,.fcm-close{display:none}
 
-/* The open state is just a class: fixed, centred, wider. No coordinates in JavaScript. */
-.fcm-card.is-open{position:fixed;inset:auto;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,92vw);height:auto;min-height:380px;z-index:20;cursor:default;padding:34px 28px 26px;gap:8px}
+/* The open state is just a class: fixed, centred with margin:auto (no transform), wider. No coordinates in JavaScript. */
+.fcm-card.is-open{position:fixed;inset:0;margin:auto;width:min(440px,92vw);height:fit-content;min-height:380px;z-index:20;cursor:default;padding:34px 28px 26px;gap:8px}
 .fcm-card.is-flying{z-index:30}
 .fcm-card.is-open .fcm-badge,.fcm-card.is-open .fcm-price-tag{display:none}
 .fcm-card.is-open .fcm-emoji{font-size:66px}
@@ -153,37 +153,52 @@ function setA11y(card, opening) {
   slots.forEach(function (slot) { if (!slot.contains(card)) slot.inert = opening; });
 }
 
+// The pieces of content each layout shows, so they can fade out of one layout and into the other
+function parts(card, layout) {
+  var q = function (sel) { return Array.prototype.slice.call(card.querySelectorAll(sel)); };
+  return layout === 'open'
+    ? q('.fcm-emoji, h3, .fcm-tag, .fcm-more > *, .fcm-close')
+    : q('.fcm-badge, .fcm-emoji, h3, .fcm-tag, .fcm-price-tag');
+}
+
 function toggle(card) {
   if (animating) return;
   animating = true;
-
-  // First: capture the card exactly as it sits in (or out of) the grid.
-  var state = Flip.getState(card, { props: 'borderRadius' });
-
-  // Last: flip the class. CSS moves the card to its modal (or grid) layout.
   var opening = !card.classList.contains('is-open');
-  card.classList.add('is-flying');             // keep the card above the backdrop for the whole flight
-  card.classList.toggle('is-open', opening);
-  backdrop.classList.toggle('is-on', opening);
-  openCard = opening ? card : null;
-  setA11y(card, opening);
 
-  // Invert + Play: animate from the captured state to the new one.
-  Flip.from(state, {
-    duration: reduce ? 0 : 0.55,
-    ease: 'power3.inOut',
-    absolute: true,
-    onComplete: function () {
-      card.classList.remove('is-flying');
-      animating = false;
-      (opening ? card.querySelector('.fcm-close') : card).focus({ preventScroll: true });
-    }
+  // 1. Fade the current content out, so its size change in the next step is never seen.
+  gsap.to(parts(card, opening ? 'closed' : 'open'), {
+    opacity: 0, duration: reduce ? 0 : 0.14, ease: 'power1.out', onComplete: flip
   });
 
-  // The extra content cascades in after the container lands.
-  if (opening && !reduce) {
-    gsap.from(card.querySelectorAll('.fcm-more > *'), {
-      opacity: 0, y: 16, duration: 0.4, delay: 0.3, stagger: 0.07, ease: 'power2.out'
+  function flip() {
+    // 2. First: capture the card exactly as it sits in (or out of) the grid.
+    var state = Flip.getState(card, { props: 'borderRadius' });
+
+    // Last: flip the class. CSS moves the card to its modal (or grid) layout.
+    card.classList.add('is-flying');             // keep the card above the backdrop for the whole flight
+    card.classList.toggle('is-open', opening);
+    backdrop.classList.toggle('is-on', opening);
+    openCard = opening ? card : null;
+    setA11y(card, opening);
+
+    // Invert + Play: only the empty container moves, so there is nothing to jump while it travels.
+    var incoming = parts(card, opening ? 'open' : 'closed');
+    gsap.set(incoming, { opacity: 0 });
+    Flip.from(state, {
+      duration: reduce ? 0 : 0.55,
+      ease: 'power3.inOut',
+      scale: true,                               // animate with transforms, so margin:auto centring is never disturbed
+      onComplete: function () {
+        card.classList.remove('is-flying');
+        animating = false;
+        (opening ? card.querySelector('.fcm-close') : card).focus({ preventScroll: true });
+      }
+    });
+
+    // 3. Once the container has mostly landed, the new content fades up, one piece after another.
+    gsap.to(incoming, {
+      opacity: 1, duration: reduce ? 0 : 0.35, delay: reduce ? 0 : 0.32, stagger: reduce ? 0 : 0.05, ease: 'power2.out'
     });
   }
 }
@@ -231,11 +246,11 @@ document.addEventListener('keydown', function (e) {
 
 **One element, two layouts, no coordinates in JavaScript**
 
-The modal state is just a class. \`.is-open\` switches the card to \`position: fixed\`, centres it with a translate, widens it and reveals the hidden detail block. The animation is the standard FLIP sequence (First, Last, Invert, Play): \`Flip.getState(card)\` records where the card is before the class flips, the class flips, and \`Flip.from(state)\` animates from the recorded position and size to wherever CSS just put the card. JavaScript never computes a position, so redesigning the modal or the grid means editing only CSS.
+The modal state is just a class. \`.is-open\` switches the card to \`position: fixed\`, centres it with \`inset: 0\` and \`margin: auto\` (no transform, so Flip has a plain target), widens it and reveals the hidden detail block. The animation is the standard FLIP sequence (First, Last, Invert, Play): \`Flip.getState(card)\` records where the card is before the class flips, the class flips, and \`Flip.from(state)\` animates from the recorded position and size to wherever CSS just put the card. JavaScript never computes a position, so redesigning the modal or the grid means editing only CSS.
 
 **A slot keeps the grid steady**
 
-A fixed-position card leaves the document flow, which would make the other cards jump into its place the moment it opens. To avoid that, every card lives inside a \`.fcm-slot\` wrapper that owns the grid cell and its size (\`aspect-ratio: 3/4\`), while the card inside is absolutely positioned to fill it. When the card flies out to the centre, the slot stays exactly where it was, so the grid does not reflow, and the card has a clear place to fly back to.
+A fixed-position card leaves the document flow, which would make the other cards jump into its place the moment it opens. To avoid that, every card lives inside a \`.fcm-slot\` wrapper that owns the grid cell and its size (\`aspect-ratio: 3/4\`), while the card inside is absolutely positioned to fill it. When the card flies out to the centre, the slot stays exactly where it was, so the grid does not reflow, and the card has a clear place to fly back to. It is also why the Flip call does not need \`absolute: true\`: nothing in the grid reflows, so the card can simply animate with transforms.
 
 **Why the real node beats a clone**
 
@@ -245,9 +260,9 @@ A clone-based modal has to copy the content, mirror any state between the two co
 
 The backdrop sits at \`z-index: 10\` and the open card at 20, but the card needs to stay above the backdrop on the way back as well, when the \`.is-open\` class has already been removed. A temporary \`.is-flying\` class (z-index 30) is added before every flip and removed in \`onComplete\`, so the card never dips behind the dimmed page in either direction. The \`props: 'borderRadius'\` option shows the pattern for style changes: any property the class swap changes can be recorded and tweened instead of snapping.
 
-**Content is choreographed, not flipped**
+**Fade-through keeps the motion smooth**
 
-The description, spec chips and buy row are \`display: none\` in the grid state, so they have no meaningful starting geometry and flipping them would smear the text. They fade up in a separate, staggered tween that starts about 0.3 seconds into the morph, once the container has mostly landed. Splitting the container's motion from the content's entrance is what makes shared-element interfaces feel polished.
+Because one node plays both roles, its text changes size the instant the class flips (the title goes from 15px to 26px, the emoji from 40px to 66px). If that happened while the container was still small, the content would visibly jump and re-wrap. So the content is choreographed in three steps: the current content fades out in 0.14 seconds, the empty container flips to its new layout, and the new content fades up in a staggered tween that starts about 0.3 seconds into the morph, once the container has mostly landed. Splitting the container's motion from the content's change is what makes shared-element interfaces feel polished (it is the "fade through" pattern from Material Design's container transform).
 
 **Accessible by default**
 
@@ -265,7 +280,7 @@ Swap the emoji for a product image that scales with the card (give the image \`o
       { title: 'Add GSAP and the Flip plugin', text: `Load gsap.min.js and Flip.min.js from the CDN panel (or install the gsap package), then call gsap.registerPlugin(Flip).` },
       { title: 'Paste the HTML, CSS and JS', text: `Each card sits in a .fcm-slot inside the grid. Add as many slot and card pairs as you need.` },
       { title: 'Click or press Enter on a card', text: `It flies from its grid slot to the centre of the screen and becomes a modal dialog, with the rest of the page dimmed.` },
-      { title: 'Watch the details arrive', text: `The description, spec chips and buy row fade up one after another once the card has landed.` },
+      { title: 'Watch the details arrive', text: `The old content fades out, the empty card flies to the centre, and the description, spec chips and buy row fade up one after another once it has landed.` },
       { title: 'Close it three ways', text: `Click the close button, click the backdrop or press Escape, and the card flies back into its slot.` },
       { title: 'Restyle either state', text: `Both layouts are plain CSS (the card and the .is-open rule), and Flip adapts to whatever you change.` },
     ] },
@@ -274,7 +289,7 @@ Swap the emoji for a product image that scales with the card (give the image \`o
       'The modal layout is a single .is-open class; no pixel coordinates are computed in JavaScript',
       'A slot wrapper holds each card\'s place in the grid, so nothing shifts or reflows when a card opens',
       'GSAP Flip animates position, size and border radius between the two layouts',
-      'Details cascade in after the container lands, as a separate staggered tween',
+      'Fade-through choreography: content fades out, the empty container flips, new content fades up in a stagger, so text never jumps mid-flight',
       'Card becomes role="dialog" with aria-modal, inert siblings, a focus trap and focus return',
       'Keyboard support: Enter or Space opens a card, Escape closes it, Tab stays inside the dialog',
       'Respects prefers-reduced-motion by skipping the flip and the entrance animation',
@@ -293,7 +308,7 @@ Swap the emoji for a product image that scales with the card (give the image \`o
       { q: 'How does a card become a modal without cloning it?', a: `The modal is just another CSS state: .is-open makes the same element position: fixed, centred and wider. Flip.getState records the card's geometry in the grid before the class changes, and Flip.from animates from that record to wherever CSS has put the card. One element, two layouts, and GSAP animates the difference, so no clone ever exists.` },
       { q: 'Why does each card sit inside a .fcm-slot wrapper?', a: `A position: fixed card leaves the normal flow, so without a wrapper the other cards would jump into its grid cell as soon as it opens, and the opening card would have nowhere to fly back to. The slot owns the cell and its aspect ratio while the card inside is absolutely positioned, so the grid stays still while the card is out.` },
       { q: 'Why not clone the card for the modal?', a: `Clones must duplicate content, mirror any state and hide the original, and they still go out of sync if the content updates during the transition. With one node, click handlers, media playback and form values persist through the morph. The only price is the slot placeholder, which is a few lines of CSS.` },
-      { q: 'Why is the detail content animated separately?', a: `The description and price are display: none in the card state, so they have no real starting geometry, and flipping them would smear the text across the resize. A separate tween fades them up about 0.3 seconds into the morph, after the container has mostly landed. Splitting container motion from content entrance is what makes shared-element UIs feel polished.` },
+      { q: 'Why does the content fade out and back in instead of moving with the card?', a: `The card is one node, so its text changes size the moment the class flips (the title jumps from 15px to 26px), and flipping that while the container is small would make it jump and re-wrap. The script fades the content out first, flips the empty container, and fades the new content up about 0.3 seconds into the morph, once the container has mostly landed. Splitting container motion from content change is what makes shared-element UIs feel polished.` },
       { q: 'How is the modal made accessible?', a: `While open, the card switches to role="dialog" with aria-modal="true" and aria-labelledby pointing at its heading. The other cards are set inert so they cannot be tabbed to or read, Tab is trapped between the close and buy buttons, focus moves to the close button on open and back to the card on close, and Escape closes it. While closed, each card is a role="button" with a label that opens with Enter or Space.` },
       { q: 'What stops a double-click from breaking the animation?', a: `An animating boolean is set before Flip.from and cleared in its onComplete. Without it, a second click in mid-flight would record a moving element as the starting state and stack a conflicting animation, which is the usual way FLIP interfaces strand elements between layouts. Clicks on the open card are also ignored so visitors can select text.` },
       { q: 'Does it respect reduced-motion settings?', a: `Yes. The script reads prefers-reduced-motion once. If it is set, the Flip duration is 0, so the card simply appears in its new place, and the staggered content entrance is skipped. The backdrop fade is also switched off in a CSS media query.` },
@@ -301,14 +316,14 @@ Swap the emoji for a product image that scales with the card (give the image \`o
       { q: 'How do I build this in React, Vue or Angular?', a: `Drive the is-open class from state, but record the Flip state before the state change: call Flip.getState in the click handler, then call Flip.from in useLayoutEffect (React), nextTick (Vue) or afterNextRender (Angular) once the class has been applied. Register Flip at module scope, keep an animating ref as the guard, and clean up with gsap.context on unmount. Both layouts translate directly to conditional Tailwind classes.` },
     ],
     aiPrompt: {
-      paragraph: `You don't need to reverse-engineer the FLIP sequence by hand to understand what is happening here. Paste this snippet's HTML, CSS and JS into an AI coding assistant like Claude and ask it to walk through exactly what Flip.getState records before the is-open class toggles, why the card lives inside a .fcm-slot wrapper, and why props: 'borderRadius' is needed on top of the automatic position and size tracking. It can also help you harden it: ask whether the animating flag is enough when several cards are clicked quickly, whether absolute: true is the right choice if the grid can reflow mid-flight, or how to make the focus trap work with a modal that contains form fields. It is also useful for extending the interaction: have it add a hero image that scales with the card during the flip, return a card to a different grid position after a sort, or add next and previous buttons that morph between cards. Treat the code as a starting point for a conversation rather than a finished artefact.`,
+      paragraph: `You don't need to reverse-engineer the FLIP sequence by hand to understand what is happening here. Paste this snippet's HTML, CSS and JS into an AI coding assistant like Claude and ask it to walk through exactly what Flip.getState records before the is-open class toggles, why the card lives inside a .fcm-slot wrapper, and why props: 'borderRadius' is needed on top of the automatic position and size tracking. It can also help you harden it: ask whether the animating flag is enough when several cards are clicked quickly, whether the fade-through timing still holds up if the modal content is taller than the card, or how to make the focus trap work with a modal that contains form fields. It is also useful for extending the interaction: have it add a hero image that scales with the card during the flip, return a card to a different grid position after a sort, or add next and previous buttons that morph between cards. Treat the code as a starting point for a conversation rather than a finished artefact.`,
       prompt: `Build an accessible "card that becomes its own modal" shared-element transition in plain HTML, CSS and JavaScript using GSAP and its Flip plugin (load both from a CDN). The modal must be the exact same DOM node as the grid card, never a clone.
 
 Requirements:
 - A CSS grid of product cards. Wrap every card in a slot element that owns the grid cell and its aspect ratio, with the card absolutely positioned to fill it, so the grid does not shift when a card leaves the flow. Each card has a compact collapsed look (emoji, title, tagline, price chip, badge) and a hidden detail block (description, spec chips, price and an "Add to cart" button) that is display: none by default.
 - A single .is-open class that switches the card via CSS alone to position: fixed, centred with a translate, given a wider fixed width, and reveals its detail block and a close button. No JavaScript may compute or set pixel coordinates for the open state.
-- On click, capture the card with Flip.getState (including borderRadius in props) before toggling .is-open, then call Flip.from right after the toggle with absolute: true. Add a temporary .is-flying class (higher z-index than the backdrop) before the flip and remove it in onComplete so the card stays above the backdrop in both directions.
-- Animate the revealed detail content separately with a short staggered fade-and-slide-up tween delayed until the container flip is mostly complete, because display: none elements have no starting geometry to flip.
+- On click, capture the card with Flip.getState (including borderRadius in props) before toggling .is-open, then call Flip.from right after the toggle (the card is centred with inset: 0 and margin: auto rather than a transform, and the slot makes absolute: true unnecessary). Add a temporary .is-flying class (higher z-index than the backdrop) before the flip and remove it in onComplete so the card stays above the backdrop in both directions.
+- Use a fade-through for the content: fade the current content out (about 0.14 s), toggle the class and run Flip.from on the empty container, then fade the new content in with a short stagger starting about 0.3 s into the flip. This stops the text, whose font size changes with the class, from jumping while the container is still small.
 - Use a boolean guard so clicks are ignored while a flip is animating.
 - A backdrop that fades in with a CSS opacity transition, sits below the traveling card, and closes the open card when clicked. Escape and a close button also close it.
 - Accessibility: closed cards are role="button" with a label, tabindex 0, and open on Enter or Space. When open, the card switches to role="dialog" with aria-modal and aria-labelledby, the other slots become inert, Tab is trapped inside the dialog, focus moves to the close button on open and returns to the card on close.
