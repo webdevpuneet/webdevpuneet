@@ -8,7 +8,6 @@ import { VISIBLE_SNIPPET_INDEX as SNIPPETS } from '@/lib/snippet-index';
 import { CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { publishedTags, tagsForSnippetId, TAG_BY_ID } from '@/lib/snippet-tags';
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import useFilterPanel from '@/lib/use-filter-panel';
 import { useBookmarks, toggleBookmark, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
 import { PremiumBadge } from '@/components/PremiumGate';
@@ -355,7 +354,6 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
       <div className={s.wrap}>
         <div className={s.layout}>
           <div className={s.main}>
-            <PlaygroundTopAd className={s.topAd} />
             <div className={g.toolbar}>
               <div className={g.searchBox}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><line x1="16.5" y1="16.5" x2="21" y2="21" /></svg>
@@ -425,8 +423,6 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
     <div className={s.wrap}>
       <div className={s.layout}>
       <div className={s.main}>
-      {/* Leaderboard ad (max 90px) above the search box */}
-      <PlaygroundTopAd className={s.topAd} />
       {/* Page title: the category or tag being browsed, with how many snippets it holds */}
       <h2 className={s.pageTitle}>
         {activeTag ? activeTag.label : (CATEGORIES.find(c => c.id === category)?.label || 'All')}

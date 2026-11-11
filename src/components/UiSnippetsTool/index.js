@@ -34,6 +34,7 @@ import { navStart } from '@/lib/navStart';
 import GistSyncButton from '@/components/GistSyncButton';
 import { SNIPPET_TOP_AD_ENABLED } from '@/lib/ads-config';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import GalleryTopAd from '@/components/GalleryTopAd';
 import { useAdFreeOnLoad } from '@/lib/use-ad-free';
 import ExportTester from './ExportTester';
 import EmbedModal from './EmbedModal';
@@ -2397,6 +2398,12 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   return (
     <div className={`${s.wrap} ${galleryMode ? s.wrapGallery : ''}`} data-uis-gallery={galleryMode ? '' : undefined}>
 
+      {/* Gallery pages (library, category, tag, My Code grid): a fully responsive ad under the top nav, above the UI Snippets bar.
+          Keyed per view so each gallery view requests a fresh ad. Editor pages keep the fixed-size leaderboard above the preview. */}
+      {galleryMode && SNIPPET_TOP_AD_ENABLED && !adFree && (
+        <GalleryTopAd key={(initialCategory || '') + '|' + (initialTag || '') + '|' + sidebarTab} />
+      )}
+
       {/* — Header — on editor pages (desktop) it sits at the top of the code column instead */}
       {!headerInCode && headerEl}
 
@@ -2432,10 +2439,6 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
         {/* — Preview pane / Gallery — */}
         <div className={s.previewPane} style={isMobile ? {} : galleryMode ? { overflow: 'visible', height: 'auto' } : { flex: 1, overflowY: showEditor ? 'hidden' : 'auto' }}>
           {!showEditor && sidebarTab === 'library' && <UiSnippetsGallery initialCategory={initialCategory} initialTag={initialTag} />}
-          {/* My Code gallery: the same shared leaderboard as the library gallery, above the saved snippets (not on phones) */}
-          {!showEditor && sidebarTab === 'saved' && SNIPPET_TOP_AD_ENABLED && !adFree && (
-            <PlaygroundTopAd className={s.galleryTopAd} />
-          )}
           {!showEditor && sidebarTab === 'saved' && (
             <SavedGallery
               snippets={customSnippets}

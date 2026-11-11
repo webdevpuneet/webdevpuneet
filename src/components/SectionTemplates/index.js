@@ -10,6 +10,7 @@ import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import { htmlThumb } from '@/lib/html-thumb';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import GalleryTopAd from '@/components/GalleryTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
 import { LOCK_SECTION_EXPORT, LOCK_TEMPLATE_AI } from '@/lib/premium';
 import { LoadMore } from '@/components/UiSnippetsGallery';
@@ -282,7 +283,8 @@ export function SavedSectionPreview({ design: d, width }) {
 export function SectionGalleryPage({ previews = [] }) {
   return (
     <div className={`${s.galleryPage} ${s.galleryFull}`}>
-      <PlaygroundTopAd />
+      {/* Fully responsive ad, no height limit (gallery pages only; editors keep the fixed leaderboard) */}
+      <GalleryTopAd />
       <header className={s.galleryHead}>
         <h1 className={s.galleryH1}>Website Section Templates</h1>
         <p className={s.galleryLead}>
@@ -315,7 +317,8 @@ export function SectionGalleryPage({ previews = [] }) {
 export function SectionCategoryPage({ category, h1, lead, previews = [] }) {
   return (
     <div className={`${s.galleryPage} ${s.galleryFull}`}>
-      <PlaygroundTopAd />
+      {/* Fully responsive ad, no height limit (gallery pages only; editors keep the fixed leaderboard) */}
+      <GalleryTopAd />
       <header className={s.galleryHead}>
         <a href={BASE} className={s.back}>← All section templates</a>
         <h1 className={s.galleryH1}>{h1}</h1>

@@ -1,0 +1,6 @@
+/* Full width of the gallery, no height limit: the ad decides its own height */
+.bar { width: 100%; padding: 12px 20px 0; box-sizing: border-box; }
+.bar ins.adsbygoogle { width: 100%; }
+/* AdSense found no ad: collapse the strip instead of leaving a gap */
+.bar:has(ins[data-ad-status="unfilled"]) { display: none; }
+@media (max-width: 767px) { .bar { padding: 8px 0 0; } }

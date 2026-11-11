@@ -16,7 +16,7 @@ import StartCards, { EDITOR } from './StartCards';
 import InViewImg from '@/components/InViewImg';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import hs from '@/components/HomeTemplatesCarousel/styles.module.css';
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import GalleryTopAd from '@/components/GalleryTopAd';
 import { PremiumBadge } from '@/components/PremiumGate';
 import { isPremiumTemplate } from '@/lib/premium';
 
@@ -120,7 +120,8 @@ export default function TemplateGallery({ templates, industries }) {
 
   return (
     <div className={`${s.galleryPage} ${s.galleryFull}`}>
-      <PlaygroundTopAd />
+      {/* Fully responsive ad, no height limit (gallery pages only) */}
+      <GalleryTopAd />
       <header className={s.galleryHead}>
         <h1 className={s.galleryH1}>Free Website Builder &amp; Templates</h1>
         <p className={s.galleryLead}>

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import TemplateLibrary from '@/components/TemplateLibrary';
 import InViewImg from '@/components/InViewImg';
 import s from './styles.module.css';
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import GalleryTopAd from '@/components/GalleryTopAd';
 import { PremiumBadge } from '@/components/PremiumGate';
 import { isPremiumSocialTemplate } from '@/lib/premium';
 import { LoadMore } from '@/components/UiSnippetsGallery';
@@ -108,7 +108,8 @@ function SocialPlainGallery({ compact = false, excludeId = null, limit = null, p
 export function TemplateGalleryPage({ previews = [] }) {
   return (
     <div className={`${s.galleryPage} ${s.galleryFull}`}>
-      <PlaygroundTopAd />
+      {/* Fully responsive ad, no height limit (gallery pages only; editors keep the fixed leaderboard) */}
+      <GalleryTopAd />
       <header className={s.galleryHead}>
         <h1 className={s.galleryH1}>Social Post Templates</h1>
         <p className={s.galleryLead}>
@@ -175,7 +176,8 @@ function CategoryLinks({ active = null }) {
 export function TemplateCategoryPage({ category, h1, lead, previews = [] }) {
   return (
     <div className={`${s.galleryPage} ${s.galleryFull}`}>
-      <PlaygroundTopAd />
+      {/* Fully responsive ad, no height limit (gallery pages only; editors keep the fixed leaderboard) */}
+      <GalleryTopAd />
       <header className={s.galleryHead}>
         <a href="/social-post-templates/" className={s.back}>← All social post templates</a>
         <h1 className={s.galleryH1}>{h1}</h1>

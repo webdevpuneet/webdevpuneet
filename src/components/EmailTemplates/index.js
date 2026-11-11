@@ -11,6 +11,7 @@ import { emailDesignStore } from './designs';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import { htmlThumb } from '@/lib/html-thumb';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import GalleryTopAd from '@/components/GalleryTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton, PremiumBadge } from '@/components/PremiumGate';
 import { LOCK_BACKUP, LOCK_TEMPLATE_AI, isPremiumEmailTemplate } from '@/lib/premium';
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
@@ -297,7 +298,8 @@ export function SavedEmailPreview({ design: d, width }) {
 export function EmailGalleryPage({ previews = [] }) {
   return (
     <div className={`${s.galleryPage} ${s.galleryFull}`}>
-      <PlaygroundTopAd />
+      {/* Fully responsive ad, no height limit (gallery pages only; editors keep the fixed leaderboard) */}
+      <GalleryTopAd />
       <header className={s.galleryHead}>
         <h1 className={s.galleryH1}>Email Templates</h1>
         <p className={s.galleryLead}>
@@ -332,7 +334,8 @@ export function EmailGalleryPage({ previews = [] }) {
 export function EmailCategoryPage({ category, h1, lead, previews = [] }) {
   return (
     <div className={`${s.galleryPage} ${s.galleryFull}`}>
-      <PlaygroundTopAd />
+      {/* Fully responsive ad, no height limit (gallery pages only; editors keep the fixed leaderboard) */}
+      <GalleryTopAd />
       <header className={s.galleryHead}>
         <a href="/email-templates/" className={s.back}>← All email templates</a>
         <h1 className={s.galleryH1}>{h1}</h1>
