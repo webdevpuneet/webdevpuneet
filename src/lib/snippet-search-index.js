@@ -2092,4 +2092,5 @@ export const SNIPPET_SEARCH_INDEX = [
   {"id":"church-landing-page-template","title":"Church Website Template","category":"landing-pages"},
   {"id":"music-landing-page-template","title":"Music Artist & Band Website Template","category":"landing-pages"},
   {"id":"accessibility-toolbar-widget","title":"Accessibility Toolbar Widget","category":"misc"},
+  {"id":"switchyard-train-puzzle-game","title":"Switchyard Train Switch Puzzle Game","category":"games"},
 ];

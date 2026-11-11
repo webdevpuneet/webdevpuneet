@@ -1785,6 +1785,7 @@ export const SNIPPET_TAG_MAP = {
   'swiper-testimonial-fade-slider': ['touch-gestures', 'accessibility', 'media-player', 'social-ui', 'mobile-ui'],
   'swiper-thumbnail-synced-gallery': ['touch-gestures', 'accessibility', 'media-player', 'mobile-ui', 'css-grid'],
   'swiper-vertical-fullpage-slider': ['touch-gestures', 'css-animation', 'accessibility', 'media-player', 'mobile-ui'],
+  'switchyard-train-puzzle-game': ['canvas', 'web-audio', 'local-storage', 'clipboard-api', 'games'],
   'swup-page-transition-demo': ['js-libraries'],
   'sync-scroll-compare-layout': ['scroll-animation', 'css-animation', 'css-grid'],
   'synced-thumbnail-carousel': ['keyboard-navigation', 'media-player'],

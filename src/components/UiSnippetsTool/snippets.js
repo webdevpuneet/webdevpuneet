@@ -148,6 +148,7 @@ import tileMerge2048Game from './snippets/tile-merge-2048-game.js';
 import flapDodgeGame from './snippets/flap-dodge-game.js';
 import blackjackCardGame from './snippets/blackjack-card-game.js';
 import rhythmTapGame from './snippets/rhythm-tap-game.js';
+import switchyardTrainPuzzleGame from './snippets/switchyard-train-puzzle-game.js';
 import wordUnscrambleGame from './snippets/word-unscramble-game.js';
 import quickMathGame from './snippets/quick-math-game.js';
 import mazeRunnerGame from './snippets/maze-runner-game.js';
@@ -4280,6 +4281,7 @@ export const SNIPPETS = [
   churchLandingPageTemplate,
   musicLandingPageTemplate,
   accessibilityToolbarWidget,
+  switchyardTrainPuzzleGame,
 ];
 
 // Snippets visible in production listings/sitemaps — noindex/test snippets only show on localhost
