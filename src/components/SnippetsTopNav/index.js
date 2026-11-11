@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import styles from './styles.module.css';
 import { CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import { VISIBLE_SNIPPET_INDEX } from '@/lib/snippet-index';
+import { useBookmarks, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
 
 // Same lists the old header strip used: categories that have visible snippets, and the published tags.
 const FIRST_CATEGORY = 'games';   // shown first in the row, ahead of the usual order
@@ -19,6 +20,14 @@ export default function SnippetsTopNav() {
   const pathname = usePathname() || '';
   const parts = pathname.split('/').filter(Boolean);
   const activeCat = parts[1] && CATS.some(c => c.id === parts[1]) ? parts[1] : null;
+
+  // "Bookmarked" (the snippets bookmarked in this browser) comes first, in front of Games, and only when there are some.
+  // Its active state is read from the address bar after mount (useSearchParams would need a Suspense boundary here).
+  const bookmarked = useBookmarks();
+  const [onBookmarked, setOnBookmarked] = useState(false);
+  useEffect(() => {
+    setOnBookmarked(parts.length === 1 && new URLSearchParams(window.location.search).get('filter') === 'bookmarked');
+  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Horizontal scroll with arrows, same as the language nav
   const scrollRef = useRef(null);
@@ -55,6 +64,12 @@ export default function SnippetsTopNav() {
           </button>
         )}
         <div className={styles.list} ref={scrollRef}>
+          {bookmarked.length > 0 && (
+            <a href={BOOKMARKED_HREF} className={`${styles.item} ${styles.itemBookmark} ${onBookmarked ? styles.itemActive : ''}`} aria-current={onBookmarked ? 'page' : undefined} title="Your bookmarked snippets">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
+              Bookmarked<span className={styles.count}>{bookmarked.length}</span>
+            </a>
+          )}
           {CATS.map(c => (
             <a key={c.id} href={`/ui-snippets/${c.id}/`} className={`${styles.item} ${c.id === activeCat ? styles.itemActive : ''}`} aria-current={c.id === activeCat ? 'page' : undefined}>{c.label}</a>
           ))}

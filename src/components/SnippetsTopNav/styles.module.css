@@ -48,5 +48,8 @@
   transition: color 0.13s, background 0.13s;
 }
 .item:hover { color: var(--text); background: var(--surface2); }
+.itemBookmark { gap: 5px; color: #b45309; font-weight: 600; }
+.itemBookmark:hover { color: #92400e; background: rgba(245,158,11,0.12); }
+.count { font-size: 9px; font-weight: 800; padding: 1px 6px; border-radius: 8px; background: rgba(245,158,11,0.18); color: #b45309; }
 .itemActive { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
 

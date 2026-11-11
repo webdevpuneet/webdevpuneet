@@ -931,7 +931,7 @@ export const SNIPPET_SEARCH_INDEX = [
   {"id":"word-search-puzzle","title":"Word Search Puzzle Grid","category":"games"},
   {"id":"loot-box-reveal","title":"Loot Box Reveal Animation","category":"animations"},
   {"id":"color-sort-puzzle","title":"Color Sort Water Puzzle","category":"games"},
-  {"id":"battleship-game","title":"Battleship Ship-Finding Game","category":"games"},
+  {"id":"battleship-game","title":"Battleship Game vs Computer","category":"games"},
   {"id":"click-speed-test","title":"Click Speed Test (CPS Counter)","category":"games"},
   {"id":"mini-sudoku-game","title":"Mini Sudoku Puzzle (6x6)","category":"games"},
   {"id":"css-selector-challenge-game","title":"CSS Selector Challenge Game","category":"games"},

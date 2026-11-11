@@ -1,0 +1,90 @@
+GAMES PLAYBOOK  (started 2026-11-11)
+Read this before creating or rebuilding any game in the UI Snippets "Games" category.
+Everything here came from building Rhythm Tap, Pong, Snake, Switchyard, Mini Sudoku and Battleship, plus ChatGPT's advice.
+
+------------------------------------------------------------
+1. WHAT CHATGPT SAID ABOUT GAMES (kept for reference)
+------------------------------------------------------------
+Shared by Puneet on 2026-11-11 (a screenshot of one point; the other points were not shared):
+
+  "3. Measure actual engagement. This is probably your biggest opportunity. Track:
+     - Game preview opened.
+     - Game started.
+     - Game completed.
+     - Play again clicked.
+     - Session duration.
+     - Returning players."
+
+How we plan to use it (not built yet, see SUGGESTIONS-UI-SNIPPETS.html "Measure game engagement"):
+  - Google Analytics is already on; the missing piece is custom events.
+  - Games run inside a sandboxed preview iframe, so one shared "event bridge" is needed: the game posts a message to the
+    page (window.parent.postMessage), the page forwards it to gtag. Same channel can carry the storage bridge (section 4).
+  - No game change needed: preview opened (page view), started (first key press / pointer press in the iframe), session length.
+  - One line per game: completed and play again, e.g. sendGameEvent('complete', { level, stars }); it must do nothing outside the site.
+  - Returning players: GA's new vs returning report; the games' own localStorage also tells them.
+  - Anonymous only, respect the cookie banner (send nothing if analytics are declined), keep the privacy policy in step with ANALYTICS_NAMES.
+  - Use the numbers to choose which game gets the next rebuild instead of guessing.
+When designing a new game, build it so these events are easy to add: a clear "start" moment, a clear "complete / game over"
+moment, and one "play again / next level" button.
+
+------------------------------------------------------------
+2. THE RECIPE THAT WORKED (what makes a game worth coming back to)
+------------------------------------------------------------
+  - LEVELS AS DATA: one array (name, size, speed, rules, par). Tiers of 3 to 6 levels. Adding a level = adding a row.
+  - SEEDED GENERATORS (mulberry32): level i always uses the same seed, so every player gets the same puzzle. Reject bad layouts and
+    try the next seed. Validate with a solver or BFS (Sudoku: exactly one solution; Switchyard: every layout connected).
+  - STARS + UNLOCKS: 1 to 3 stars per level (mistakes, hints, par time or shots), the next level unlocks with 1 star, star total on the menu.
+  - DAILY CHALLENGE + STREAK + "Copy result" share line: date-seeded, same for everyone, streak resets after a missed day.
+  - LIVES / MISSES (3), HINTS THAT TEACH (explain why in words), PENCIL NOTES / UNDO where the game has them.
+  - DIFFICULTY RAMP inside a level too (faster, shorter gaps), and a clear reason to retry (par, stars, best time, best shots).
+  - GAME FEEL: sound with a Web Audio synth (tone() and a noise() helper, no files), particles, screen shake, pop/wave animations,
+    confetti on a win, animated star reveal, floating text, glow. A demo or autopilot running behind the menu makes it look alive.
+  - PAUSE (Space or P) and auto-pause when the tab is hidden. Keyboard AND pointer input. Never hijack Ctrl/Cmd shortcuts, ignore key repeat.
+  - A weapon / power-up that costs a choice (Pong orbs, Battleship sonar and cross strike) is more fun than a free bonus.
+  - Opponents: make them beatable on purpose and fair (no cheating). Give a skill ladder (Battleship AI averages 62 / 52 / 49 / 44 shots).
+  - Use the width: wide games (Switchyard, Battleship) fill the preview area; narrow ones fit-to-view.
+
+------------------------------------------------------------
+3. TECHNICAL RULES
+------------------------------------------------------------
+  - Plain HTML/CSS/JS, no libraries, no image or audio files. The JS lives inside a template literal: NO backticks and NO ${ in the
+    game code; write unicode as \\u2605 inside the snippet file; escape apostrophes in single-quoted SEO strings.
+  - localStorage: wrap EVERY read and write in try/catch (sandboxed iframes throw SecurityError). Keep progress in one key per game
+    (e.g. 'battleship-save-v1') as one JSON object.
+  - Canvas games: scale the buffer by devicePixelRatio; use delta time (60fps units) so 120Hz screens are not twice as fast.
+  - AudioContext only after a click (the Start / level button), every sound call in try/catch, a mute button.
+  - Timers: bump a runId on every new game / menu visit so old setTimeouts do nothing.
+  - Restarting a CSS animation: remove the class, force a reflow (void el.offsetWidth), add it again. Setting the same class string does nothing.
+  - CSS pitfalls met: a selector like .stat b beats .lives (specificity, hearts turned white); a keyframe using background-color: inherit
+    flashes the PARENT's colour; hidden attribute loses to display:flex.
+  - FIT TO VIEW: the preview area can be short. Pattern: outer .xx-fit takes the scaled size, inner .xx-wrap is laid out at its natural
+    size and shrunk with transform: scale(k), k = min(1, availW/naturalW, availH/naturalH), floor 0.4, re-fit on resize with
+    ResizeObserver. On narrow screens (< ~760px) stack the layout and let the page scroll instead. (Mini Sudoku and Battleship have it;
+    Snake, Pong, Switchyard and Rhythm Tap do not yet.)
+  - The preview iframe uses sandbox="allow-scripts allow-forms" (no allow-same-origin), so localStorage is BLOCKED there: on the site the
+    saves do not persist yet. Planned fix: a storage bridge over postMessage (parent keeps the data under a per-game key and injects it
+    into the iframe at load); do NOT add allow-same-origin (My Code runs visitors' own code in the same iframe).
+  - Overlays (menu, result) sit inside the panel with position:absolute; the same panel scales with the game.
+
+------------------------------------------------------------
+4. SITE CHECKLIST FOR A NEW OR REBUILT GAME
+------------------------------------------------------------
+  - File: src/components/UiSnippetsTool/snippets/<id>.js (category 'games'); bump lastmod.
+  - New game only: import + add to SNIPPETS in snippets.js; node scripts/generate-snippet-search-index.mjs (also after a TITLE change);
+    SNIPPET_COUNT in src/lib/snippet-count.js; ONE line in src/lib/snippet-tag-map.js (never run the full tag generator: it re-tags ~50 games).
+  - EVERY game is Patreon-only: add the id to PATREON_GAME_IDS (src/lib/patreon-settings.js) and fix the count in the comment above it.
+  - Give it a type in src/lib/game-genres.js (Arcade, Puzzle, Coding, Board & Card, Skill & Reflex, Brain & Memory, Word, Physics, Luck & Fun).
+  - SEO title 50-60 characters, description 150-160 (show the counts); rewrite about, howToUse, features, useCases, FAQs, aiPrompt.paragraph AND
+    aiPrompt.prompt so they describe the game as it is now.
+  - Preview image: capture a GAMEPLAY frame (not the start screen) with a temporary Playwright script, open the png and look at it, delete the script.
+  - Test the game logic with a bot in headless Chromium (generated page, not the user's server): all levels solvable, win / lose / unlock / daily
+    paths, no page errors, storage blocked case. Fix what the screenshot shows.
+  - Add a dated line to 05-ADVISOR-LOG.txt; mark the idea in SUGGESTIONS-UI-SNIPPETS.html; do not deploy until asked.
+  - Small UI changes (nav, sidebar, labels): edit, syntax-check, say it is untested. Puneet said "do not test" on 2026-11-11.
+
+------------------------------------------------------------
+5. STATE OF THE GAMES (2026-11-11)
+------------------------------------------------------------
+  Rebuilt with levels/daily/sound: Rhythm Tap (combo, ranks), Pong (5 CPU levels, orbs), Snake (8 levels, lives), Mini Sudoku (24 levels, daily),
+  Battleship (12 levels, daily, AI skill ladder). New: Switchyard (20 levels, daily). 71 games in total, all Patreon-only.
+  Other older games are still simple demos: candidates for the next rebuild once engagement data exists (see section 1).
