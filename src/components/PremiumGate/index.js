@@ -65,7 +65,7 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
           <li>No ads anywhere on the site</li>
           <li>Export and fork of the templates with a Patreon badge (website, email and social post)</li>
           <li>The AI prompt on every snippet and template</li>
-          <li>The code, export and fork of selected Games snippets</li>
+          <li>The code, export and fork of every Games snippet</li>
           <li>Bulk create social posts from a CSV</li>
         </ul>
         <p className={s.text}>{name ? `You can preview and edit ${name} freely without it. ` : ''}Patrons find the passcode in the latest supporter post on Patreon; it is remembered in this browser.</p>
