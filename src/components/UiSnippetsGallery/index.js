@@ -12,6 +12,7 @@ import useFilterPanel from '@/lib/use-filter-panel';
 import { useBookmarks, toggleBookmark, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
 import { PremiumBadge } from '@/components/PremiumGate';
 import { isPremiumGameSnippet } from '@/lib/premium';
+import { GAME_GENRES, genreOf, isGenreId } from '@/lib/game-genres';
 import s from './styles.module.css';
 import g from '../WebsiteBuilder/TemplateGallery.module.css';
 
@@ -161,6 +162,12 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
   // or the crawlable Load-more href opens with pages 1..N already loaded.
   const [page, setPage] = useState(() => Math.max(0, (parseInt(searchParams.get('page'), 10) || 1) - 1));
   const [sortOrder, setSortOrder] = useState('newest');
+  // Games category page: filter by game type (Arcade, Puzzle ...), kept in ?type= so a filtered view can be shared
+  const isGamesPage = !initialTag && initialCategory === 'games';
+  const [genre, setGenre] = useState(() => {
+    const t = searchParams.get('type');
+    return isGamesPage && isGenreId(t) ? t : 'all';
+  });
   // The main gallery (/ui-snippets/) is a filterable library: categories and tags as checkboxes with counts, active
   // filters as chips, Ctrl/⌘ K for search. Category and tag pages keep their plain layout (they are their own filter).
   const isMain = !initialTag && initialCategory === 'all';
@@ -192,8 +199,12 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
   // just local state, so pagination on a search's page 2+ keeps the search
   // term instead of losing it (the pagination links below are real <a href>
   // navigations, so whatever isn't in the URL doesn't survive a click).
-  function syncToUrl({ page: p, q, filter } = {}) {
+  function syncToUrl({ page: p, q, filter, type } = {}) {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
+    if (type !== undefined) {
+      if (type && type !== 'all') params.set('type', type);
+      else params.delete('type');
+    }
     if (filter !== undefined) {
       if (filter) params.set('filter', filter);
       else params.delete('filter');
@@ -262,10 +273,31 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
     return true;
   };
   const filtered = useMemo(() => {
-    const list = SNIPPETS.filter(sn => passes(sn));
-    if (sortOrder === 'az') return [...list].sort((a, b) => a.title.localeCompare(b.title));
-    return sortOrder === 'newest' ? [...list].reverse() : list;
-  }, [q, category, sortOrder, initialTag, bookmarkedOn, bookmarks, cats, tagSel]); // eslint-disable-line react-hooks/exhaustive-deps
+    let list = SNIPPETS.filter(sn => passes(sn));
+    if (isGamesPage && genre !== 'all') list = list.filter(sn => genreOf(sn.id)?.id === genre);
+    let out = sortOrder === 'az' ? [...list].sort((a, b) => a.title.localeCompare(b.title))
+      : sortOrder === 'newest' ? [...list].reverse() : list;
+    // Games category: the Patreon games come first, then the free ones, each group in the chosen sort order
+    const gamesOnly = !initialTag && (category === 'games' || (isMain && cats.length === 1 && cats[0] === 'games'));
+    if (gamesOnly) out = [...out.filter(sn => isPremiumGameSnippet(sn)), ...out.filter(sn => !isPremiumGameSnippet(sn))];
+    return out;
+  }, [q, category, sortOrder, initialTag, bookmarkedOn, bookmarks, cats, tagSel, genre]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Game type chips with counts (after the search, before the type filter)
+  const genreOptions = useMemo(() => {
+    if (!isGamesPage) return [];
+    const games = SNIPPETS.filter(sn => passes(sn));
+    return [{ id: 'all', label: 'All', n: games.length }, ...GAME_GENRES.map(g => ({ id: g.id, label: g.label, n: games.filter(sn => genreOf(sn.id)?.id === g.id).length }))];
+  }, [isGamesPage, q]); // eslint-disable-line react-hooks/exhaustive-deps
+  const pickGenre = id => {
+    setGenre(id);
+    setPage(0);
+    try { // ?type= in the address bar (shareable), without a navigation that would re-render the page
+      const u = new URL(window.location.href);
+      if (id === 'all') u.searchParams.delete('type'); else u.searchParams.set('type', id);
+      u.searchParams.delete('page');
+      window.history.replaceState(window.history.state, '', u.pathname + u.search + u.hash);
+    } catch { /* ignore */ }
+  };
   const catOptions = useMemo(() => (isMain ? CATEGORIES.filter(c => c.id !== 'all' && !c.devOnly).map(c => ({ ...c, n: SNIPPETS.filter(sn => sn.category === c.id && passes(sn, 'cat')).length })) : []),
     [isMain, q, bookmarkedOn, bookmarks, tagSel]); // eslint-disable-line react-hooks/exhaustive-deps
   const tagOptions = useMemo(() => (isMain ? TAG_LINKS.map(t => ({ ...t, n: SNIPPETS.filter(sn => tagsForSnippetId(sn.id).includes(t.id) && passes(sn, 'tag')).length })) : []),
@@ -332,7 +364,7 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
               <h3 className={s.cardTitle}>
                 <a href={`/ui-snippets/${sn.id}/`} className={s.cardLink}>{sn.title}</a>
               </h3>
-              <span className={s.catBadge}>{sn.category}</span>
+              <span className={s.catBadge}>{isGamesPage ? (genreOf(sn.id)?.label || sn.category) : sn.category}</span>
             </div>
           </article>
         ))}
@@ -460,6 +492,22 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
             }
           </button>
         </div>
+        {isGamesPage && (
+          <div className={s.genreRow} role="group" aria-label="Game type">
+            {genreOptions.map(o => (
+              <button
+                key={o.id}
+                type="button"
+                className={`${s.genreChip} ${genre === o.id ? s.genreChipOn : ''}`}
+                aria-pressed={genre === o.id}
+                disabled={o.n === 0 && genre !== o.id}
+                onClick={() => pickGenre(o.id)}
+              >
+                {o.label}<span className={s.genreCount}>{o.n}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {results}

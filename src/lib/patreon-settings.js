@@ -16,8 +16,8 @@
 /* Your Patreon join page: every "Get the passcode" button opens it (your page is https://www.patreon.com/c/webdevpuneet) */
 export const PATREON_URL = 'https://www.patreon.com/17076973/join';
 
-/* What the supporter tier costs, shown in the dialogs (set the same price and the 7-day free trial on Patreon) */
-export const PATREON_PRICE = '$3 a month, 7 days free';
+/* What the supporter tier costs, shown in the dialogs (set the same price on Patreon; there is no free trial since 2026-11-11) */
+export const PATREON_PRICE = '$3 a month';
 
 /* The current passcode, as a hash (written by scripts/set-patreon-passcode.mjs; the first one was "meridian-nov26") */
 export const PASSCODE_SHA256 = '7821824c1d41f265545f86184234ad7583250a859afb9bd575abbedcbbc3051c';

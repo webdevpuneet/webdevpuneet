@@ -72,7 +72,7 @@ export default async function EmailTemplatePage({ params }) {
   const faqs = [
     ...seo.faqs,
     { q: 'What does "Fork to My Code" do?', a: `It saves an editable copy of your ${t.name} in My Code, the UI Snippets code editor: the email markup goes in the HTML panel and its CSS (mobile and dark-mode rules plus fonts) in the CSS panel, so you can keep refining the code and save your own versions.` },
-    { q: `Is the ${t.name} template free for commercial use?`, a: isPremiumEmailTemplate(t.id) ? 'It is a Patreon template. Anyone can preview and edit it for free. Exporting and forking it are for Patreon supporters ($3 a month, with a 7-day free trial), who enter the supporter passcode once; designs you make with it can then be used in personal and commercial work. Everything runs in your browser, and your edits are saved locally.' : 'Yes. It is free for personal and commercial email, with no sign-up and no watermark. Everything runs in your browser, and your edits are saved locally.' },
+    { q: `Is the ${t.name} template free for commercial use?`, a: isPremiumEmailTemplate(t.id) ? 'It is a Patreon template. Anyone can preview and edit it for free. Exporting and forking it are for Patreon supporters ($3 a month), who enter the supporter passcode once; designs you make with it can then be used in personal and commercial work. Everything runs in your browser, and your edits are saved locally.' : 'Yes. It is free for personal and commercial email, with no sign-up and no watermark. Everything runs in your browser, and your edits are saved locally.' },
   ];
 
   const emailAi = emailAiPrompt(t);

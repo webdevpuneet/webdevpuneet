@@ -310,6 +310,21 @@
   border-top: 1px solid var(--border);
 }
 
+/* Games category: game type filter chips */
+.genreRow { display: flex; flex-wrap: wrap; gap: 6px; }
+.genreChip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  font: inherit; font-size: 12px; font-weight: 700;
+  color: var(--text-muted, #64748b); background: var(--surface, #fff);
+  border: 1px solid var(--border, #e2e8f0);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.genreChip:hover:not(:disabled) { color: var(--accent); border-color: var(--accent); }
+.genreChip:disabled { opacity: 0.4; cursor: default; }
+.genreChipOn, .genreChipOn:hover:not(:disabled) { color: #fff; background: var(--accent); border-color: var(--accent); }
+.genreCount { font-size: 10px; font-weight: 800; opacity: 0.75; }
+
 .catBadge {
   font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
   color: var(--accent); background: var(--accent-dim);
