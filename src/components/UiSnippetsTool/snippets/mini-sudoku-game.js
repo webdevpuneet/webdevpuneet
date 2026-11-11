@@ -3,7 +3,7 @@ const miniSudokuGame = {
   title: 'Mini Sudoku Puzzle (6x6)',
   lastmod: '2026-11-11',
   category: 'games',
-  html: `<div class="ms-wrap">
+  html: `<div class="ms-fit" id="ms-fit"><div class="ms-wrap" id="ms-wrap">
   <div class="ms-panel" id="ms-panel">
     <div class="ms-hud">
       <div class="ms-hud-left">
@@ -59,16 +59,19 @@ const miniSudokuGame = {
       </div>
     </div>
   </div>
-</div>`,
+</div></div>`,
 
   css: `* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
   background: radial-gradient(ellipse at top, #1b1f4a 0%, #090c1c 62%);
   min-height: 100vh; display: flex; align-items: center; justify-content: center;
-  padding: 20px 14px; color: #e2e8f0;
+  padding: 12px 14px; color: #e2e8f0; overflow: hidden;
 }
-.ms-wrap { width: 100%; max-width: 520px; }
+/* The game scales itself to the space it is given (see fitToView in the script): .ms-fit takes the scaled size,
+   .ms-wrap is laid out at its natural size and then shrunk with transform. */
+.ms-fit { flex: none; width: 100%; max-width: 520px; }
+.ms-wrap { width: 100%; transform-origin: top left; }
 
 .ms-panel {
   position: relative; display: flex; flex-direction: column; gap: 10px;
@@ -141,7 +144,7 @@ body {
 .ms-paused small { font-size: 12px; font-weight: 600; color: #94a3b8; }
 .ms-paused.show { display: flex; }
 
-.ms-msg { min-height: 34px; font-size: 13px; line-height: 1.45; color: #94a3b8; text-align: center; padding: 0 4px; }
+.ms-msg { min-height: 40px; font-size: 13px; line-height: 1.45; color: #94a3b8; text-align: center; padding: 0 4px; }
 .ms-msg b { color: #5eead4; }
 .ms-msg.warn { color: #fca5a5; }
 
@@ -837,10 +840,27 @@ shareBtn.addEventListener('click', () => {
   try { navigator.clipboard.writeText(text).then(done, () => { shareBtn.textContent = text; }); } catch (e) { shareBtn.textContent = text; }
 });
 
+/* ---------- Fit the whole game into the space available (a short preview area shrinks it instead of cutting it off) ---------- */
+const fitEl = $('ms-fit'), wrapEl = $('ms-wrap');
+function fitToView() {
+  const availW = Math.max(240, window.innerWidth - 28), availH = Math.max(240, window.innerHeight - 24);
+  const w = Math.min(520, availW);
+  wrapEl.style.transform = 'none';
+  wrapEl.style.width = w + 'px';
+  const natH = wrapEl.offsetHeight || 1;          // height at this width, before shrinking
+  const k = Math.max(0.4, Math.min(1, availH / natH)); // never below 40%, below that the page scrolls
+  wrapEl.style.transform = k < 1 ? 'scale(' + k + ')' : 'none';
+  fitEl.style.width = Math.round(w * k) + 'px';
+  fitEl.style.height = Math.round(natH * k) + 'px';
+}
+window.addEventListener('resize', fitToView);
+if (typeof ResizeObserver !== 'undefined') new ResizeObserver(fitToView).observe(wrapEl);
+
 buildBoard();
 isDaily = false; levelIndex = 0;
 loadPuzzle(levelSpec(0));
-showMenu();`,
+showMenu();
+fitToView();`,
 
   seo: {
     title: 'Mini Sudoku Game with 24 Levels – Free HTML, CSS & JS',
@@ -895,6 +915,7 @@ A solved level earns up to three stars: one is lost for any mistake and one for 
       'Stars, par times, best times and unlocks saved to localStorage inside try/catch',
       'Highlights for the selected row, column, box and matching digits, a green wave when a unit is completed, and confetti on a win',
       'Web Audio synth sounds with a mute button, no libraries, no images, and a pause when the tab is hidden',
+      'Scales to the space it is given: fitToView() shrinks the whole game (down to 40 percent) in a short or narrow area instead of cutting it off',
     ],
     useCases: [
       { icon: 'LEARN', title: 'Teaching backtracking, constraint solving and unique-solution generation', desc: 'The 6x6 size keeps the search instant, so it is a clear example of three ideas: backtracking to build a grid, a solution counter that stops at two to test uniqueness, and a logic solver that rates difficulty. All three are short enough to read in one sitting.' },
