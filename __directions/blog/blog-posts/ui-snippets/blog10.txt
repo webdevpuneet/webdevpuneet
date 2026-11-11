@@ -21,7 +21,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Every snippet below is a <strong>live, interactive preview</strong> — hover it, resize it, try it right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+<p>Every snippet below is a <strong>live, interactive preview</strong> — hover it, resize it, try it right in the article. When you find one you like, use the <strong>HTML, CSS and JS tabs</strong> on the preview to copy the code, or hit <strong>Edit in Editor</strong> to open it full size and export it to React, Vue, Angular or Tailwind.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
@@ -79,7 +79,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>No gradients, no motion, no dark theme — an inline nav, a kicker label, a fluid headline, dual CTAs, and a proof-stats row on plain white, in the same restrained style Linear, Notion, and Stripe have all used.</p>
+<p>No gradients, no motion, no dark theme — an inline nav, a kicker label, a fluid headline, dual CTAs, and a proof-stats row on plain white, in the restrained, typography-first style common on developer-tool and productivity sites.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
@@ -159,7 +159,7 @@
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
-<p><strong>How it works:</strong> every word sits stacked in a vertical flex column inside a container clipped to exactly one line's height with <code>overflow: hidden</code>. JavaScript measures a single word's real pixel height at runtime and sets <code>translateY(-index × height)</code> on the column to slide the visible window to the current word — so unlike a fixed-duration CSS keyframe, it works correctly with words of any length, and adding a new word to the cycle is a pure HTML change. The cycling words also carry a gradient text fill that matches the CTA buttons for visual coherence.</p>
+<p><strong>How it works:</strong> every word sits stacked in a vertical flex column inside a container clipped to exactly one line's height with <code>overflow: hidden</code>. JavaScript measures a single word's real pixel height at runtime and sets <code>translateY(-index × height)</code> on the column to slide the visible window to the current word — so unlike a CSS keyframe with a hard-coded pixel offset, it keeps working if you change the font size or line height. Adding a word takes two small edits: one more <code>&lt;span class="flip-word"&gt;</code> in the HTML and one more entry in the <code>WORDS</code> array in the JS. The cycling words also carry a gradient text fill that matches the CTA buttons for visual coherence.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -199,7 +199,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>A split hero with copy and App Store/Google Play buttons on one side and a CSS-only phone mockup showing a live finance app UI on the other — the layout Notion, Linear, and Revolut all use for mobile app landing pages.</p>
+<p>A split hero with copy and App Store/Google Play buttons on one side and a CSS-only phone mockup showing a live finance app UI on the other — a split layout common on fintech and productivity app landing pages.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
@@ -207,7 +207,7 @@
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
-<p><strong>How it works:</strong> the phone frame is built entirely from CSS — a rounded rectangle with a double border simulates the bezel, a small dark rectangle forms the notch, and the "screen" is just a flex column of ordinary divs (header, balance card, bar chart, transaction list). Nothing here is an image or screenshot, so it loads instantly and stays crisp at any pixel density. The store buttons reuse one base class with the official two-line label layout ("Download on the" / "App Store") matching Apple and Google's own badge guidelines.</p>
+<p><strong>How it works:</strong> the phone frame is built entirely from CSS — a rounded rectangle with a double border simulates the bezel, a small dark rectangle forms the notch, and the "screen" is just a flex column of ordinary divs (header, balance card, bar chart, transaction list). Nothing here is an image or screenshot, so it loads instantly and stays crisp at any pixel density. The store buttons reuse one base class and copy the two-line label layout of the official badges ("Download on the" / "App Store"). Treat them as placeholders: for production, swap in the official App Store and Google Play badge artwork, which Apple's and Google's badge guidelines ask you to use.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -253,7 +253,7 @@
 <!-- wp:list {"ordered":true} -->
 <ol class="wp-block-list">
 <!-- wp:list-item -->
-<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<li>Click the <strong>HTML</strong>, <strong>CSS</strong> and <strong>JS</strong> tabs on the preview to see each part of the code, or hit <strong>Edit in Editor</strong> to open the full editor.</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
 <li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS (if any) before your closing <code>&lt;/body&gt;</code> tag.</li>
