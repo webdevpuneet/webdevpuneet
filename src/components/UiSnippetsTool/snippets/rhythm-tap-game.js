@@ -1,28 +1,34 @@
 const rhythmTapGame = {
   id: 'rhythm-tap-game',
   title: 'Rhythm Tap Game',
-  lastmod: '2026-08-09',
+  lastmod: '2026-11-11',
   category: 'games',
   html: `<div class="rt-wrap">
   <div class="rt-hud">
     <div class="rt-hud-item"><span class="rt-hud-label">Score</span><span class="rt-hud-value" id="rt-score">0</span></div>
-    <div class="rt-hud-item"><span class="rt-hud-label">Combo</span><span class="rt-hud-value" id="rt-combo">0</span></div>
+    <div class="rt-hud-item"><span class="rt-hud-label">Combo <span class="rt-mult" id="rt-mult">x1</span></span><span class="rt-hud-value" id="rt-combo">0</span></div>
     <div class="rt-hud-item"><span class="rt-hud-label">Best</span><span class="rt-hud-value" id="rt-best">0</span></div>
+    <button class="rt-mute" id="rt-mute" type="button" aria-pressed="false" aria-label="Toggle sound">Sound on</button>
   </div>
+  <div class="rt-progress"><div class="rt-progress-bar" id="rt-progress"></div></div>
 
-  <div class="rt-stage" id="rt-stage">
-    <div class="rt-lane" data-lane="0"><div class="rt-lane-track" id="track-0"></div><div class="rt-hitline"></div><div class="rt-key">D</div></div>
-    <div class="rt-lane" data-lane="1"><div class="rt-lane-track" id="track-1"></div><div class="rt-hitline"></div><div class="rt-key">F</div></div>
-    <div class="rt-lane" data-lane="2"><div class="rt-lane-track" id="track-2"></div><div class="rt-hitline"></div><div class="rt-key">J</div></div>
-    <div class="rt-lane" data-lane="3"><div class="rt-lane-track" id="track-3"></div><div class="rt-hitline"></div><div class="rt-key">K</div></div>
+  <div class="rt-stage" id="rt-stage" data-heat="0">
+    <div class="rt-lane" data-lane="0" style="--c:#f472b6"><div class="rt-lane-track" id="track-0"></div><div class="rt-hitline"></div><div class="rt-key">D</div></div>
+    <div class="rt-lane" data-lane="1" style="--c:#fbbf24"><div class="rt-lane-track" id="track-1"></div><div class="rt-hitline"></div><div class="rt-key">F</div></div>
+    <div class="rt-lane" data-lane="2" style="--c:#34d399"><div class="rt-lane-track" id="track-2"></div><div class="rt-hitline"></div><div class="rt-key">J</div></div>
+    <div class="rt-lane" data-lane="3" style="--c:#60a5fa"><div class="rt-lane-track" id="track-3"></div><div class="rt-hitline"></div><div class="rt-key">K</div></div>
+    <div class="rt-fx" id="rt-fx"></div>
     <div class="rt-feedback" id="rt-feedback"></div>
+    <div class="rt-callout" id="rt-callout"></div>
+    <div class="rt-count" id="rt-count"></div>
 
-    <div class="rt-screen rt-start-screen" id="rt-start-screen">
+    <div class="rt-screen rt-start-screen show" id="rt-start-screen">
       <p class="rt-logo">Rhythm Tap</p>
-      <p class="rt-sub">Hit D F J K as notes cross the line</p>
+      <p class="rt-sub">Hit D F J K (or tap a lane) as notes cross the line.<br>Every hit plays a note, so you make the music.</p>
       <button class="rt-btn" id="rt-start-btn">Start</button>
     </div>
     <div class="rt-screen rt-end-screen" id="rt-end-screen">
+      <p class="rt-grade" id="rt-grade">A</p>
       <p class="rt-logo">Run Complete</p>
       <p class="rt-summary" id="rt-summary"></p>
       <button class="rt-btn" id="rt-restart-btn">Play Again</button>
@@ -33,77 +39,130 @@ const rhythmTapGame = {
   css: `* { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: system-ui, sans-serif; background: #0f0f1a; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
 
-.rt-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.rt-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 
-.rt-hud { display: flex; gap: 10px; }
+.rt-hud { display: flex; gap: 8px; align-items: stretch; }
 .rt-hud-item {
-  background: rgba(255,255,255,0.06); border-radius: 8px; padding: 6px 16px;
-  display: flex; flex-direction: column; align-items: center; min-width: 68px;
+  background: rgba(255,255,255,0.06); border-radius: 8px; padding: 6px 14px;
+  display: flex; flex-direction: column; align-items: center; min-width: 64px;
 }
 .rt-hud-label { font-size: 10px; font-weight: 700; color: #a5b4fc; text-transform: uppercase; letter-spacing: 0.5px; }
 .rt-hud-value { font-size: 18px; font-weight: 800; color: #fff; font-family: 'Courier New', monospace; }
+.rt-mult { display: inline-block; color: #fbbf24; margin-left: 2px; }
+.rt-mult.bump { animation: rt-bump 0.45s ease; }
+@keyframes rt-bump { 0% { transform: scale(2.2); } 100% { transform: scale(1); } }
+
+.rt-mute {
+  background: rgba(255,255,255,0.06); color: #a5b4fc; border: none; border-radius: 8px;
+  padding: 0 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+  cursor: pointer; font-family: inherit;
+}
+.rt-mute:hover { background: rgba(255,255,255,0.12); }
+
+.rt-progress { width: 320px; max-width: calc(100vw - 48px); height: 4px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; }
+.rt-progress-bar { height: 100%; width: 0; background: linear-gradient(90deg, #f472b6, #fbbf24, #34d399, #60a5fa); transition: width 0.2s; }
 
 .rt-stage {
   position: relative;
-  width: 320px; height: 440px;
+  width: 320px; max-width: calc(100vw - 48px); height: 440px;
   background: linear-gradient(180deg, #1e1b3a 0%, #14122a 100%);
   border-radius: 14px; overflow: hidden;
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  display: flex;
+  display: flex; touch-action: none; user-select: none; -webkit-user-select: none;
+  transition: box-shadow 0.3s;
 }
+.rt-stage[data-heat="1"] { box-shadow: 0 0 30px rgba(251,191,36,0.35), 0 20px 60px rgba(0,0,0,0.5); }
+.rt-stage[data-heat="2"] { box-shadow: 0 0 40px rgba(244,114,182,0.5), 0 20px 60px rgba(0,0,0,0.5); }
+.rt-stage[data-heat="3"] { box-shadow: 0 0 55px rgba(96,165,250,0.7), 0 20px 60px rgba(0,0,0,0.5); }
+.rt-stage.shake { animation: rt-shake 0.25s ease; }
+@keyframes rt-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
 .rt-lane {
   position: relative; flex: 1;
   border-right: 1px solid rgba(255,255,255,0.06);
   display: flex; flex-direction: column; align-items: center;
 }
-.rt-lane:last-child { border-right: none; }
+.rt-lane[data-lane="3"] { border-right: none; }
+.rt-lane::before {
+  content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.12s;
+  background: linear-gradient(0deg, var(--c), transparent 65%);
+}
+.rt-lane.lit::before { opacity: 0.28; }
 
 .rt-lane-track { position: absolute; inset: 0; }
 
 .rt-note {
   position: absolute; left: 50%; transform: translateX(-50%);
-  width: 60%; height: 22px; border-radius: 6px;
-  background: #6366f1; box-shadow: 0 0 10px rgba(99,102,241,0.6);
+  width: 64%; height: 22px; border-radius: 7px;
+  background: linear-gradient(180deg, #fff 0%, var(--c) 45%);
+  box-shadow: 0 0 12px var(--c);
 }
 
 .rt-hitline {
   position: absolute; bottom: 56px; left: 4px; right: 4px; height: 4px;
   background: rgba(255,255,255,0.35); border-radius: 4px;
 }
-.rt-hitline.flash { background: #fbbf24; box-shadow: 0 0 12px #fbbf24; }
+.rt-hitline.flash { background: var(--c); box-shadow: 0 0 14px var(--c); }
 
 .rt-key {
   position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
   width: 34px; height: 34px; border-radius: 8px;
-  background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08); border: 1.5px solid var(--c);
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 800; color: #cbd5e1;
+  font-size: 13px; font-weight: 800; color: #e2e8f0;
   transition: background 0.08s, transform 0.08s;
 }
-.rt-key.pressed { background: #6366f1; color: #fff; transform: translateX(-50%) scale(0.9); }
+.rt-key.pressed { background: var(--c); color: #0f0f1a; transform: translateX(-50%) scale(0.9); }
+
+.rt-fx { position: absolute; inset: 0; pointer-events: none; }
+.rt-spark {
+  position: absolute; width: 6px; height: 6px; border-radius: 50%;
+  animation: rt-spark 0.55s ease-out forwards;
+}
+@keyframes rt-spark { to { transform: translate(var(--dx), var(--dy)) scale(0.2); opacity: 0; } }
 
 .rt-feedback {
-  position: absolute; top: 40%; left: 0; right: 0; text-align: center;
-  font-size: 20px; font-weight: 800; pointer-events: none;
-  opacity: 0; transition: opacity 0.15s;
+  position: absolute; top: 38%; left: 0; right: 0; text-align: center;
+  font-size: 20px; font-weight: 800; pointer-events: none; opacity: 0;
 }
-.rt-feedback.show { opacity: 1; animation: rt-pop 0.4s ease forwards; }
+.rt-feedback.show { animation: rt-pop 0.45s ease forwards; }
 @keyframes rt-pop { 0% { transform: translateY(0) scale(0.8); opacity: 1; } 100% { transform: translateY(-18px) scale(1.1); opacity: 0; } }
-.rt-feedback.perfect { color: #4ade80; }
+.rt-feedback.perfect { color: #4ade80; text-shadow: 0 0 12px rgba(74,222,128,0.7); }
 .rt-feedback.good { color: #60a5fa; }
 .rt-feedback.miss { color: #f87171; }
 
+.rt-callout {
+  position: absolute; top: 22%; left: 0; right: 0; text-align: center;
+  font-size: 26px; font-weight: 900; font-style: italic; letter-spacing: 1px;
+  color: #fff; text-shadow: 0 0 18px #f472b6, 0 0 6px #fbbf24;
+  pointer-events: none; opacity: 0;
+}
+.rt-callout.show { animation: rt-callout 1s ease forwards; }
+@keyframes rt-callout { 0% { transform: scale(0.4); opacity: 0; } 20% { transform: scale(1.15); opacity: 1; } 70% { transform: scale(1); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
+
+.rt-count {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 72px; font-weight: 900; color: #fff; text-shadow: 0 0 30px #6366f1;
+  pointer-events: none; opacity: 0;
+}
+.rt-count.show { animation: rt-count 0.7s ease forwards; }
+@keyframes rt-count { 0% { transform: scale(1.8); opacity: 0; } 25% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.8); opacity: 0; } }
+
 .rt-screen {
-  position: absolute; inset: 0;
-  background: rgba(15,15,26,0.88);
+  position: absolute; inset: 0; z-index: 2;
+  background: rgba(15,15,26,0.9);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
   opacity: 0; pointer-events: none; transition: opacity 0.2s;
 }
 .rt-screen.show { opacity: 1; pointer-events: all; }
 .rt-logo { font-size: 24px; font-weight: 800; color: #fff; }
-.rt-sub { font-size: 12px; color: #a5b4fc; margin-bottom: 4px; }
+.rt-sub { font-size: 12px; color: #a5b4fc; margin-bottom: 4px; text-align: center; line-height: 1.6; padding: 0 16px; }
 .rt-summary { font-size: 13px; color: #e0e7ff; text-align: center; line-height: 1.7; }
+.rt-grade {
+  font-size: 80px; font-weight: 900; line-height: 1;
+  background: linear-gradient(135deg, #f472b6, #fbbf24, #34d399, #60a5fa);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
 
 .rt-btn {
   background: #6366f1; color: #fff; border: none; border-radius: 10px;
@@ -114,36 +173,58 @@ body { font-family: system-ui, sans-serif; background: #0f0f1a; min-height: 100v
 .rt-btn:active { transform: scale(0.96); }`,
 
   js: `const LANE_KEYS = ['d', 'f', 'j', 'k'];
-const LANE_LABELS = ['D', 'F', 'J', 'K'];
-const NOTE_SPEED = 260;       // px/s
-const HIT_LINE_OFFSET = 56;   // px from bottom, matches .rt-hitline
+const LANE_COLORS = ['#f472b6', '#fbbf24', '#34d399', '#60a5fa'];
+const LANE_FREQS = [261.63, 329.63, 392.0, 523.25]; // C4 E4 G4 C5, always sounds good together
 const NOTE_HEIGHT = 22;
 const STAGE_HEIGHT = 440;
-const SPAWN_INTERVAL = 850;   // ms between note spawns
-const TOTAL_NOTES = 30;
-const PERFECT_WINDOW = 14;    // px tolerance from hit line center
-const GOOD_WINDOW = 30;
+const HIT_LINE_OFFSET = 56;   // px from bottom, matches .rt-hitline
+const TOTAL_NOTES = 40;
+const BASE_SPEED = 250;       // px/s at the start of the run
+const MAX_SPEED = 350;        // px/s at the end of the run
+const BASE_INTERVAL = 800;    // ms between note spawns at the start
+const MIN_INTERVAL = 470;     // ms between note spawns at the end
+const PERFECT_WINDOW = 16;    // px tolerance from hit line center
+const GOOD_WINDOW = 34;
+const MILESTONES = { 10: 'Heating up!', 20: 'On fire!', 30: 'Unstoppable!', 40: 'Legendary!' };
 
 const BEST_KEY = 'rhythm-tap-best-combo';
 
+// localStorage can throw in sandboxed iframes / private mode, so guard it
+function loadBest() {
+  try { return parseInt(localStorage.getItem(BEST_KEY) || '0', 10) || 0; } catch (e) { return 0; }
+}
+function saveBest(v) {
+  try { localStorage.setItem(BEST_KEY, String(v)); } catch (e) { /* ignore */ }
+}
+
 const stage = document.getElementById('rt-stage');
+const fxEl = document.getElementById('rt-fx');
 const scoreEl = document.getElementById('rt-score');
 const comboEl = document.getElementById('rt-combo');
+const multEl = document.getElementById('rt-mult');
 const bestEl = document.getElementById('rt-best');
+const progressEl = document.getElementById('rt-progress');
 const feedbackEl = document.getElementById('rt-feedback');
+const calloutEl = document.getElementById('rt-callout');
+const countEl = document.getElementById('rt-count');
 const startScreen = document.getElementById('rt-start-screen');
 const endScreen = document.getElementById('rt-end-screen');
 const summaryEl = document.getElementById('rt-summary');
+const gradeEl = document.getElementById('rt-grade');
+const muteBtn = document.getElementById('rt-mute');
 const tracks = [0, 1, 2, 3].map(i => document.getElementById('track-' + i));
+const laneEls = document.querySelectorAll('.rt-lane');
 const hitlines = document.querySelectorAll('.rt-hitline');
 const keyEls = document.querySelectorAll('.rt-key');
 
 let notes = []; // { lane, el, y, hit }
-let score = 0;
-let combo = 0;
-let bestCombo = parseInt(localStorage.getItem(BEST_KEY) || '0', 10) || 0;
+let score = 0, combo = 0, mult = 1;
+let bestCombo = loadBest();
+let bestAtStart = bestCombo;
 let hits = 0, misses = 0, perfects = 0, goods = 0;
 let notesSpawned = 0;
+let lastLane = -1, sameLaneRun = 0;
+let speed = BASE_SPEED, interval = BASE_INTERVAL;
 let running = false;
 let lastTime = 0;
 let spawnTimer = 0;
@@ -151,28 +232,151 @@ let rafId = null;
 
 bestEl.textContent = bestCombo;
 
-const hitLineY = STAGE_HEIGHT - HIT_LINE_OFFSET; // px from top
+// Center of the 4px hit line (px from top); notes are judged by their center
+const hitLineY = STAGE_HEIGHT - HIT_LINE_OFFSET - 2;
 
+/* ---------- Sound (tiny Web Audio synth, no files needed) ---------- */
+let audioCtx = null;
+let muted = false;
+
+function getAudio() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { audioCtx = null; }
+  }
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function tone(freq, dur, type, vol, slideTo, delay) {
+  if (muted) return;
+  const ctx = getAudio();
+  if (!ctx) return;
+  try {
+    const t0 = ctx.currentTime + (delay || 0);
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, t0);
+    if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, t0 + dur);
+    gain.gain.setValueAtTime(vol, t0);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur);
+  } catch (e) { /* audio is optional */ }
+}
+
+muteBtn.addEventListener('click', () => {
+  muted = !muted;
+  muteBtn.textContent = muted ? 'Sound off' : 'Sound on';
+  muteBtn.setAttribute('aria-pressed', String(muted));
+});
+
+/* ---------- Helpers ---------- */
+function restartClass(el, cls) {
+  el.classList.remove(cls);
+  void el.offsetWidth; // reflow so the CSS animation restarts every time
+  el.classList.add(cls);
+}
+
+function showFeedback(text, cls) {
+  feedbackEl.textContent = text;
+  feedbackEl.className = 'rt-feedback';
+  void feedbackEl.offsetWidth;
+  feedbackEl.className = 'rt-feedback show ' + cls;
+}
+
+function showCallout(text) {
+  calloutEl.textContent = text;
+  calloutEl.classList.remove('show');
+  void calloutEl.offsetWidth;
+  calloutEl.classList.add('show');
+}
+
+function burst(lane, count) {
+  const x = laneEls[lane].offsetLeft + laneEls[lane].offsetWidth / 2;
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement('div');
+    s.className = 'rt-spark';
+    s.style.left = x + 'px';
+    s.style.top = hitLineY + 'px';
+    s.style.background = LANE_COLORS[lane];
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 24 + Math.random() * 34;
+    s.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+    s.style.setProperty('--dy', Math.sin(angle) * dist - 16 + 'px');
+    fxEl.appendChild(s);
+    setTimeout(() => s.remove(), 600);
+  }
+}
+
+function updateHud() {
+  comboEl.textContent = combo;
+  const m = 1 + Math.min(3, Math.floor(combo / 10));
+  if (m > mult) restartClass(multEl, 'bump');
+  mult = m;
+  multEl.textContent = 'x' + mult;
+  stage.dataset.heat = String(mult - 1);
+  progressEl.style.width = Math.min(100, ((hits + misses) / TOTAL_NOTES) * 100) + '%';
+}
+
+/* ---------- Run lifecycle ---------- */
 function resetState() {
   notes.forEach(n => n.el.remove());
   notes = [];
-  score = 0; combo = 0; hits = 0; misses = 0; perfects = 0; goods = 0; notesSpawned = 0;
-  spawnTimer = 0;
+  score = 0; combo = 0; mult = 1;
+  hits = 0; misses = 0; perfects = 0; goods = 0; notesSpawned = 0;
+  lastLane = -1; sameLaneRun = 0;
+  speed = BASE_SPEED; interval = BASE_INTERVAL;
+  bestAtStart = bestCombo;
   scoreEl.textContent = '0';
   comboEl.textContent = '0';
+  multEl.textContent = 'x1';
+  stage.dataset.heat = '0';
+  progressEl.style.width = '0';
 }
 
 function startGame() {
   resetState();
-  running = true;
   startScreen.classList.remove('show');
   endScreen.classList.remove('show');
+  getAudio(); // created inside the click so the browser allows sound
+  countdown(3);
+}
+
+function countdown(n) {
+  if (n === 0) {
+    countEl.textContent = 'GO!';
+    restartClass(countEl, 'show');
+    tone(880, 0.25, 'square', 0.05);
+    beginRun();
+    return;
+  }
+  countEl.textContent = String(n);
+  restartClass(countEl, 'show');
+  tone(440, 0.12, 'square', 0.05);
+  setTimeout(() => countdown(n - 1), 700);
+}
+
+function beginRun() {
+  running = true;
+  spawnTimer = interval - 350; // first note arrives quickly
   lastTime = performance.now();
   rafId = requestAnimationFrame(loop);
 }
 
-function spawnNote() {
-  const lane = Math.floor(Math.random() * 4);
+function pickLane() {
+  let lane;
+  do {
+    lane = Math.floor(Math.random() * 4);
+  } while (lane === lastLane && sameLaneRun >= 2); // never three in a row on one lane
+  sameLaneRun = lane === lastLane ? sameLaneRun + 1 : 1;
+  lastLane = lane;
+  return lane;
+}
+
+function spawnNote(lane) {
   const el = document.createElement('div');
   el.className = 'rt-note';
   el.style.top = '-24px';
@@ -181,24 +385,40 @@ function spawnNote() {
   notesSpawned++;
 }
 
+function spawnStep() {
+  const lane = pickLane();
+  spawnNote(lane);
+  // Later in the run, sometimes drop a second note in another lane (a chord)
+  const t = notesSpawned / TOTAL_NOTES;
+  if (notesSpawned < TOTAL_NOTES && t > 0.25 && Math.random() < 0.15 + t * 0.15) {
+    let other;
+    do { other = Math.floor(Math.random() * 4); } while (other === lane);
+    spawnNote(other);
+  }
+}
+
 function loop(now) {
   const dt = Math.min(0.033, (now - lastTime) / 1000);
   lastTime = now;
   if (!running) return;
 
+  // Difficulty ramps up smoothly: faster notes, shorter gaps
+  const t = Math.min(1, notesSpawned / TOTAL_NOTES);
+  speed = BASE_SPEED + (MAX_SPEED - BASE_SPEED) * t;
+  interval = BASE_INTERVAL - (BASE_INTERVAL - MIN_INTERVAL) * t;
+
   spawnTimer += dt * 1000;
-  if (spawnTimer >= SPAWN_INTERVAL && notesSpawned < TOTAL_NOTES) {
-    spawnTimer = 0;
-    spawnNote();
+  if (spawnTimer >= interval && notesSpawned < TOTAL_NOTES) {
+    spawnTimer -= interval;
+    spawnStep();
   }
 
   for (const note of notes) {
     if (note.hit) continue;
-    note.y += NOTE_SPEED * dt;
+    note.y += speed * dt;
     note.el.style.top = note.y + 'px';
-    if (note.y > hitLineY + GOOD_WINDOW + NOTE_HEIGHT) {
-      // Passed the hit window unhit — counts as a miss
-      registerMiss(note);
+    if (note.y + NOTE_HEIGHT / 2 > hitLineY + GOOD_WINDOW) {
+      registerMiss(note); // passed the hit window unhit
     }
   }
   notes = notes.filter(n => !n.consumed);
@@ -217,161 +437,204 @@ function registerMiss(note) {
   note.el.remove();
   misses++;
   combo = 0;
-  comboEl.textContent = combo;
+  mult = 1;
+  updateHud();
   showFeedback('Miss', 'miss');
+  restartClass(stage, 'shake');
+  tone(160, 0.22, 'sawtooth', 0.06, 70);
 }
 
 function laneKeyDown(laneIndex) {
   if (!running) return;
   const key = keyEls[laneIndex];
   key.classList.add('pressed');
-  setTimeout(() => key.classList.remove('pressed'), 100);
+  laneEls[laneIndex].classList.add('lit');
+  setTimeout(() => {
+    key.classList.remove('pressed');
+    laneEls[laneIndex].classList.remove('lit');
+  }, 110);
 
-  // Find the closest un-hit note in this lane within the good timing window
+  // Find the closest un-hit note in this lane (by center) within the good window
   let closest = null;
   let closestDist = Infinity;
   for (const note of notes) {
     if (note.hit || note.lane !== laneIndex) continue;
-    const dist = Math.abs(note.y - hitLineY);
+    const dist = Math.abs(note.y + NOTE_HEIGHT / 2 - hitLineY);
     if (dist < closestDist) { closestDist = dist; closest = note; }
   }
 
-  if (closest && closestDist <= GOOD_WINDOW) {
-    closest.hit = true;
-    closest.consumed = true;
-    closest.el.remove();
-    hits++;
-    combo++;
-    if (combo > bestCombo) {
-      bestCombo = combo;
-      localStorage.setItem(BEST_KEY, String(bestCombo));
-      bestEl.textContent = bestCombo;
-    }
-    comboEl.textContent = combo;
-    hitlines[laneIndex].classList.add('flash');
-    setTimeout(() => hitlines[laneIndex].classList.remove('flash'), 120);
-
-    if (closestDist <= PERFECT_WINDOW) {
-      perfects++;
-      score += 100 + combo * 2;
-      showFeedback('Perfect', 'perfect');
-    } else {
-      goods++;
-      score += 50 + combo;
-      showFeedback('Good', 'good');
-    }
-    scoreEl.textContent = score;
+  if (!closest || closestDist > GOOD_WINDOW) {
+    // Air tap: still plays a soft note so the lanes feel like an instrument
+    tone(LANE_FREQS[laneIndex], 0.08, 'sine', 0.015);
+    return;
   }
-  // A key press with no note in range is simply ignored (no penalty),
-  // matching common rhythm-game leniency for early/late taps.
+
+  closest.hit = true;
+  closest.consumed = true;
+  closest.el.remove();
+  hits++;
+  combo++;
+  const wasRecord = combo > bestCombo;
+  if (wasRecord) {
+    bestCombo = combo;
+    saveBest(bestCombo);
+    bestEl.textContent = bestCombo;
+  }
+  updateHud(); // recalculates the multiplier before scoring
+
+  hitlines[laneIndex].classList.add('flash');
+  setTimeout(() => hitlines[laneIndex].classList.remove('flash'), 120);
+
+  if (closestDist <= PERFECT_WINDOW) {
+    perfects++;
+    score += 100 * mult;
+    showFeedback('Perfect', 'perfect');
+    burst(laneIndex, 12);
+    tone(LANE_FREQS[laneIndex], 0.22, 'triangle', 0.09);
+    tone(LANE_FREQS[laneIndex] * 2, 0.16, 'sine', 0.04);
+  } else {
+    goods++;
+    score += 50 * mult;
+    showFeedback('Good', 'good');
+    burst(laneIndex, 6);
+    tone(LANE_FREQS[laneIndex], 0.18, 'triangle', 0.07);
+  }
+  scoreEl.textContent = score;
+
+  if (MILESTONES[combo]) {
+    showCallout(MILESTONES[combo]);
+    tone(523.25, 0.12, 'square', 0.04, null, 0);
+    tone(659.25, 0.12, 'square', 0.04, null, 0.1);
+    tone(783.99, 0.2, 'square', 0.04, null, 0.2);
+  }
 }
 
-function showFeedback(text, cls) {
-  feedbackEl.textContent = text;
-  feedbackEl.className = 'rt-feedback show ' + cls;
-  void feedbackEl.offsetWidth; // restart animation
-  feedbackEl.classList.add('show');
+function gradeFor(accuracy, perfectRatio) {
+  if (misses === 0 && perfectRatio >= 0.8) return 'S';
+  if (accuracy >= 90) return 'A';
+  if (accuracy >= 75) return 'B';
+  if (accuracy >= 50) return 'C';
+  return 'D';
 }
 
 function endRun() {
   running = false;
   cancelAnimationFrame(rafId);
-  const totalNotes = hits + misses;
-  const accuracy = totalNotes ? Math.round((hits / totalNotes) * 100) : 0;
+  const total = hits + misses;
+  const accuracy = total ? Math.round((hits / total) * 100) : 0;
+  const perfectRatio = total ? perfects / total : 0;
+  gradeEl.textContent = gradeFor(accuracy, perfectRatio);
   summaryEl.innerHTML =
     'Score: ' + score + '<br>' +
     'Perfect: ' + perfects + ' &nbsp; Good: ' + goods + ' &nbsp; Miss: ' + misses + '<br>' +
-    'Accuracy: ' + accuracy + '% &nbsp; Best Combo: ' + bestCombo;
-  endScreen.classList.add('show');
+    'Accuracy: ' + accuracy + '% &nbsp; Best Combo: ' + bestCombo +
+    (bestCombo > bestAtStart ? '<br><strong>New best combo!</strong>' : '');
+  tone(392, 0.15, 'triangle', 0.07, null, 0);
+  tone(523.25, 0.15, 'triangle', 0.07, null, 0.15);
+  tone(659.25, 0.3, 'triangle', 0.07, null, 0.3);
+  setTimeout(() => endScreen.classList.add('show'), 450); // let the last hit land first
 }
 
 document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey || e.metaKey || e.altKey) return; // keep browser shortcuts working
   const idx = LANE_KEYS.indexOf(e.key.toLowerCase());
   if (idx !== -1) {
     e.preventDefault();
-    laneKeyDown(idx);
+    if (!e.repeat) laneKeyDown(idx);
   }
 });
 
-document.querySelectorAll('.rt-lane').forEach((laneEl, idx) => {
-  laneEl.addEventListener('click', () => laneKeyDown(idx));
+laneEls.forEach((laneEl, idx) => {
+  laneEl.addEventListener('pointerdown', () => laneKeyDown(idx));
 });
 
 document.getElementById('rt-start-btn').addEventListener('click', startGame);
-document.getElementById('rt-restart-btn').addEventListener('click', startGame);`,
+document.getElementById('rt-restart-btn').addEventListener('click', startGame);
+
+startScreen.classList.add('show');`,
 
   seo: {
-    title: 'Rhythm Tap Game — Free HTML CSS JS Snippet',
-    description: 'Four-lane falling-note rhythm game with timing-window accuracy, combo streaks and best-combo persistence. Exports to React, Vue, Angular & Tailwind.',
+    title: 'Rhythm Tap Game – Free HTML, CSS & JS Snippet with Combos',
+    description: 'Free four-lane rhythm tap game with sound, combo multipliers, particle bursts, rank grades and a saved best combo. Exports to React, Vue, Angular & Tailwind.',
     about: {
-      title: 'Rhythm Tap Game — Falling-Note Timing Windows, Combo Streaks & Nearest-Note Hit Detection',
-      description: `Rhythm games boil down to one core mechanic done well: judging how close a player's input is to a moving target in time, then translating that closeness into a graded result. This snippet implements a genuine four-lane falling-note rhythm game — no audio library, no timing engine dependency, just \`requestAnimationFrame\`, delta-time movement, and a nearest-note matching algorithm that decides what counts as a Perfect, a Good, or a Miss.
+      title: 'Rhythm Tap Game — Falling Notes, Combo Multipliers, Synth Sound & Rank Grades',
+      description: `Rhythm games boil down to one core mechanic done well: judging how close a player's input is to a moving target in time, then turning that closeness into a graded, satisfying result. This snippet is a four-lane falling-note rhythm game with no audio files and no libraries: \`requestAnimationFrame\`, delta-time movement, a nearest-note matching algorithm, a tiny Web Audio synth and a handful of CSS animations that make every hit feel good.
 
-**Falling notes driven by delta time**
+**Falling notes with a rising difficulty curve**
 
-Every note is a small \`div\` absolutely positioned inside its lane's track, spawned at \`spawnNote()\` with a starting \`y\` of roughly -24px (just above the visible stage). Each frame of the game loop advances every unhit note's \`y\` position by \`NOTE_SPEED * dt\`, where \`dt\` is the real elapsed seconds since the previous frame — exactly the same delta-time approach used in the [Flap & Dodge Obstacle Game](/ui-snippets/flap-dodge-game) snippet — so notes fall at a constant real-world speed no matter the device's refresh rate. Notes are spawned into a random lane on a fixed real-time interval (\`SPAWN_INTERVAL\`) up to a total of \`TOTAL_NOTES\`, giving the run a simple but genuine fixed pattern without needing an actual audio track to sync against.
+Every note is a small \`div\` inside its lane's track, advanced each frame by \`speed * dt\`, where \`dt\` is the real elapsed time since the previous frame. This is the same delta-time approach as the [Flap & Dodge Obstacle Game](/ui-snippets/flap-dodge-game), so fall speed is constant on any refresh rate. Both \`speed\` and the gap between spawns are interpolated from the share of notes already spawned, so a 40-note run starts gentle and ends fast. After the first quarter of the run, a spawn can also drop a second note in a different lane (a chord), and \`pickLane()\` never allows three notes in a row on the same lane.
 
-**Judging a hit: nearest note, distance-based grading**
+**Judging a hit: nearest note, graded by distance**
 
-When a lane's key is pressed, \`laneKeyDown()\` does not simply check "is any note near the line" — it scans every unhit note currently in that lane and finds the one whose vertical distance from the hit line is smallest, because more than one note could theoretically be near the line in a dense pattern. If that closest note's distance falls within \`GOOD_WINDOW\` pixels, it counts as a hit; if it falls within the tighter \`PERFECT_WINDOW\`, it is upgraded to a Perfect. This two-tier distance check is the same principle every rhythm game from arcade cabinets to mobile hits uses, just expressed in pixels-from-the-line instead of milliseconds-from-the-beat, since this snippet is deliberately visual-timing-only rather than audio-synced.
+When a lane is pressed, \`laneKeyDown()\` scans every unhit note in that lane and picks the one whose center is closest to the center of the hit line. Within \`GOOD_WINDOW\` it counts as a hit, and within the tighter \`PERFECT_WINDOW\` it becomes a Perfect. A note that slides past the window unhit is registered as a Miss on the next frame by the game loop. Pressing a lane with no note nearby is a harmless air tap.
 
-**Combo streaks and score weighting**
+**Combo multiplier, heat and milestones**
 
-A successful hit increments a \`combo\` counter and both Perfect and Good hits scale their score reward by the current combo (\`100 + combo * 2\` for Perfect, \`50 + combo\` for Good), rewarding sustained accuracy the way real rhythm games do. Missing — whether by a note scrolling past the hit line unhit, tracked in the game loop as \`note.y > hitLineY + GOOD_WINDOW + NOTE_HEIGHT\`, or simply never pressing the right key in time — resets \`combo\` back to zero immediately, breaking the streak. The best combo achieved is compared against the running value on every successful hit and persisted to \`localStorage\` the moment a new record is set, so it survives page reloads.
+Every consecutive hit raises the combo, and each 10 hits raises the multiplier (up to x4), which scales the 100 or 50 points a Perfect or Good is worth. The multiplier badge bumps when it increases, the stage glow changes colour through a \`data-heat\` attribute, and combos of 10, 20, 30 and 40 trigger a callout and a short arpeggio. A Miss resets the combo, drops the multiplier back to x1 and shakes the stage.
 
-**Ending the run and reporting accuracy**
+**Sound and juice, no assets required**
 
-The run considers itself finished once \`notesSpawned\` reaches \`TOTAL_NOTES\` and the \`notes\` array is empty (meaning every spawned note has either been hit or has scrolled past and been counted as a miss). \`endRun()\` then computes a simple accuracy percentage from hits divided by total judged notes and renders a summary breaking down Perfect, Good, and Miss counts alongside the final score and best combo — giving the player a clear, honest readout of how the run actually went rather than just a single number.`,
+Each lane is tuned to a note of a C major chord (C4, E4, G4, C5), and \`tone()\` plays it through an \`OscillatorNode\` and a \`GainNode\` with a quick decay, so every hit adds to a melody. Perfect hits add an octave sparkle, misses play a falling sawtooth, and a mute button turns everything off. Visual feedback comes from lane colours, a glow on the pressed lane, particle sparks created and removed per hit, and a 3-2-1-GO countdown.
+
+**Ending the run and ranking the player**
+
+The run ends when all 40 notes have been spawned and resolved. \`gradeFor()\` turns accuracy and the share of Perfects into an S, A, B, C or D rank, shown with the score, Perfect/Good/Miss breakdown and best combo. The best combo is saved to \`localStorage\` (inside a try/catch so it also works in sandboxed iframes), and a "New best combo!" line appears when it was beaten.`,
     },
     howToUse: {
       type: 'steps',
       items: [
-        { title: 'Start a run', text: 'Click "Start" on the opening screen. Notes begin spawning into a random lane on a fixed interval (SPAWN_INTERVAL) and immediately start falling toward the hit line at the bottom.' },
-        { title: 'Watch the four lanes', text: 'Each of the four lanes is mapped to a key — D, F, J, K — shown as an on-screen label at the bottom hit line of its lane, matching the classic rhythm-game control layout.' },
-        { title: 'Hit notes as they cross the line', text: 'Press the matching key (or click/tap the lane) the moment a falling note reaches the hit line. laneKeyDown() finds the closest unhit note in that lane and grades it Perfect or Good based on how close it is to the line.' },
-        { title: 'Chain hits into a combo', text: 'Consecutive successful hits build a combo streak shown in the HUD, and both Perfect and Good hits award more score the higher your current combo climbs.' },
-        { title: 'Avoid breaking your streak', text: 'A note that scrolls past the hit line without being pressed in time counts as a Miss, immediately resetting your combo back to zero — shown briefly as red "Miss" feedback text.' },
-        { title: 'Review your accuracy summary', text: 'After 30 notes have been spawned and resolved, the run ends automatically and shows your final score, Perfect/Good/Miss breakdown, overall accuracy percentage, and your best-ever combo, which persists across sessions via localStorage.' },
+        { title: 'Start a run', text: 'Click "Start". A 3-2-1-GO countdown plays, then notes begin falling toward the hit line in four colour-coded lanes.' },
+        { title: 'Play the lanes', text: 'The lanes are mapped to D, F, J and K, shown as key caps at the bottom. On a touch screen, tap the lane itself. Each lane plays its own note when you hit it, so you make the music.' },
+        { title: 'Time your hits', text: 'Press the lane as a note crosses the hit line. laneKeyDown() finds the closest unhit note in that lane and grades it Perfect or Good, with sparks and a flash on the lane.' },
+        { title: 'Build the multiplier', text: 'Consecutive hits grow your combo. Every 10 hits raises the multiplier up to x4, the stage glow gets hotter and milestone callouts like "On fire!" appear.' },
+        { title: 'Survive the ramp-up', text: 'Notes get faster and closer together as the run progresses, and chords (two notes at once) start appearing. A missed note resets your combo and multiplier and shakes the stage.' },
+        { title: 'Check your rank', text: 'After all 40 notes, you get an S to D rank, your Perfect/Good/Miss breakdown, accuracy and best combo, which is saved with localStorage.' },
       ],
     },
     features: [
       'Delta-time note movement via requestAnimationFrame, keeping fall speed constant across frame rates',
-      'Nearest-note matching in laneKeyDown(): scans all unhit notes in a lane to find the closest one to the hit line',
-      'Two-tier timing windows (PERFECT_WINDOW and GOOD_WINDOW) producing graded Perfect/Good/Miss judgments',
-      'Combo-scaled scoring: both Perfect and Good hits award more points as the current combo streak grows',
-      'Automatic miss detection for notes that scroll past the hit line unhit, immediately breaking the combo',
-      'Persistent best-combo tracking via localStorage, updated live the instant a new record combo is reached',
-      'Fixed-count run (TOTAL_NOTES) with a run-end summary reporting accuracy percentage and a full hit breakdown',
-      'Dual input handling: physical keydown for D/F/J/K plus click/tap support directly on each lane',
+      'Nearest-note matching in laneKeyDown(): scans all unhit notes in a lane and judges the closest one by its center',
+      'Two-tier timing windows (PERFECT_WINDOW and GOOD_WINDOW) producing graded Perfect, Good and Miss judgments',
+      'Combo multiplier up to x4 with a bump animation, stage glow that heats up and milestone callouts',
+      'Web Audio synth: each lane plays a note of a C major chord, so hits build a melody with no audio files',
+      'Difficulty ramp that speeds up notes, shortens gaps and adds two-note chords later in the run',
+      'Colour-coded lanes, lane glow on press, particle sparks on every hit and a screen shake on a miss',
+      '3-2-1-GO countdown, a progress bar, a mute button and an S to D rank on the results screen',
+      'Best combo saved to localStorage inside a try/catch, so it also works in sandboxed iframes',
+      'Keyboard (D/F/J/K) and pointer input, with Ctrl/Cmd shortcuts and key repeat ignored',
     ],
     useCases: [
-      { icon: 'LEARN', title: 'Teaching timing-window and nearest-match input judging', desc: 'The core challenge in any rhythm or timing-based game is converting a raw input event into a graded result based on proximity to a target. This snippet\'s nearest-note search followed by a two-tier distance check is a clean, minimal teaching example of that pattern, applicable to any game or interactive UI that needs to judge "how close was that" rather than a simple boolean hit/miss.' },
-      { icon: 'APP', title: 'Portfolio piece demonstrating multi-lane real-time input handling', desc: 'A working four-lane rhythm game with graded accuracy, combo tracking, and a fair delta-time-driven fall speed is a strong, self-contained demonstration of real-time state management and precise input handling for a portfolio or coding exercise, showing skills well beyond a static UI mockup.' },
-      { icon: 'FLOW', title: 'Quick, replayable skill-based diversion embedded in a site', desc: 'A fixed 30-note run with a clear accuracy summary at the end makes this a satisfying quick session for a "just for fun" corner of a personal site, a loading screen, or a break-room panel in an internal tool — short enough to play in under a minute but with a genuine skill ceiling worth returning to beat your best combo.' },
-      { icon: 'DESIGN', title: 'Vertical lane and hit-line UI pattern reference', desc: 'The four-lane layout with a shared hit line, flash feedback on successful hits, and floating Perfect/Good/Miss text callouts is a reusable visual pattern for any timing-based or reaction-based mini-game, or for building tutorial/onboarding flows that need to visually confirm a well-timed user action.' },
-      { icon: 'CODE', title: 'Base for real audio-synced or difficulty-scaling variants', desc: 'Because note spawning is driven by a simple fixed SPAWN_INTERVAL rather than baked-in beat data, this snippet is a practical starting point for syncing note spawns to an actual audio track\'s timestamps using the Web Audio API, or for a difficulty mode that shortens SPAWN_INTERVAL and tightens the timing windows as the run progresses, similar to how the [Flap & Dodge Obstacle Game](/ui-snippets/flap-dodge-game) could ramp its obstacle speed.' },
-      { icon: 'FORM', title: 'Reaction-time and hand-eye coordination practice tool', desc: 'With visual-only timing and no audio dependency, this snippet works well as a lightweight reaction-time or hand-eye coordination exercise embedded in an educational or wellness app, where the accuracy percentage and best-combo tracking give users a concrete, improvable metric over repeated sessions.' },
+      { icon: 'LEARN', title: 'Teaching timing-window and nearest-match input judging', desc: 'The core challenge in any rhythm or timing game is converting an input event into a graded result based on proximity to a target. The nearest-note search followed by a two-tier distance check is a clean, minimal example of that pattern, useful for any interaction that needs "how close was that" instead of a yes or no.' },
+      { icon: 'APP', title: 'Portfolio piece showing real-time input, audio and game feel', desc: 'A working four-lane game with graded accuracy, combo multipliers, synthesized sound and particle effects shows state management, precise input handling and polish in one self-contained piece, which goes well beyond a static UI mockup.' },
+      { icon: 'FLOW', title: 'Quick, replayable diversion for a personal site', desc: 'A 40-note run takes about a minute, ends with a rank, and invites another try to beat your best combo. That makes it a good fun corner for a personal site, a 404 page or a loading screen.' },
+      { icon: 'DESIGN', title: 'Reference for game-feel effects in plain CSS and JS', desc: 'The restartable CSS animations, per-lane colour variables, spark particles, screen shake and heat-based glow are reusable techniques for any reaction or timing mini-game, or for onboarding flows that need to celebrate a well-timed action.' },
+      { icon: 'CODE', title: 'Base for audio-synced or difficulty-scaling variants', desc: 'Notes are spawned from a simple interval, so this is a good starting point for syncing spawns to the timestamps of a real track with the Web Audio API clock, or for adding difficulty modes, as you could also do with the [Flap & Dodge Obstacle Game](/ui-snippets/flap-dodge-game).' },
+      { icon: 'FORM', title: 'Reaction-time and hand-eye coordination practice', desc: 'With accuracy percentages, ranks and a saved best combo, the game gives users a concrete, improvable score across repeated sessions, which suits an educational or wellness app.' },
       { icon: 'CODE', title: 'Related: Sorting Swap Puzzle Game', desc: 'See the [Sorting Swap Puzzle Game](/ui-snippets/sorting-swap-puzzle-game/) for a related games pattern worth pairing with this one.' },
     ],
     faqs: [
-      { q: 'How does the game decide whether a hit is Perfect or Good?', a: 'When a lane key is pressed, laneKeyDown() finds the closest unhit note currently in that lane by comparing each note\'s vertical distance from the hit line. If that distance is within PERFECT_WINDOW (14px), the hit is graded Perfect and scores 100 plus a combo bonus; if it is further but still within GOOD_WINDOW (30px), it is graded Good and scores 50 plus a smaller combo bonus. If no unhit note in that lane is within GOOD_WINDOW of the line, the key press is simply ignored with no penalty.' },
-      { q: 'Why does missing a note reset the combo to zero but pressing an empty lane does not?', a: 'A Miss is only registered when a spawned note fully scrolls past the hit line without ever being hit, tracked each frame in the game loop by checking note.y against the hit line plus the timing window. Pressing a lane key when no note is currently in range is treated as a harmless "air tap" with no consequence, which matches the leniency most rhythm games offer for slightly early or exploratory key presses, rather than punishing every mistimed press as a full miss.' },
-      { q: 'Is the note timing synced to real music?', a: 'No — this snippet is deliberately visual-timing-only, spawning notes on a fixed SPAWN_INTERVAL with no audio dependency, as noted in the howToUse steps. To sync it to real music, you would replace the fixed spawn interval with a schedule of timestamps read from an audio analysis or a hand-authored beatmap, and use the Web Audio API\'s currentTime as the authoritative clock instead of requestAnimationFrame\'s delta time alone.' },
-      { q: 'How is the best combo persisted, and can I track best score too?', a: 'bestCombo is compared against the current combo on every successful hit inside laneKeyDown(), and the moment a new record is set it is written to localStorage under the key rhythm-tap-best-combo and immediately reflected in the HUD. To also persist best score, add a similar comparison and localStorage.setItem call inside endRun() (or after every score update) using a separate storage key, following the same pattern used for bestCombo.' },
-      { q: 'Can I add a fifth lane or remap the keys?', a: 'Yes. Add a matching key to the LANE_KEYS array (and its display label to LANE_LABELS), duplicate a .rt-lane block in the HTML with the next track id and key label, and add a corresponding track div reference in the JS tracks array. Because spawnNote() picks a random lane using Math.floor(Math.random() * 4), you would also update that 4 to match your new total lane count.' },
+      { q: 'How does the game decide whether a hit is Perfect or Good?', a: 'laneKeyDown() finds the closest unhit note in the pressed lane by comparing the center of each note with the center of the hit line. Within PERFECT_WINDOW (16px) it is a Perfect worth 100 points times the multiplier, within GOOD_WINDOW (34px) it is a Good worth 50 times the multiplier. If no note in that lane is inside GOOD_WINDOW, the press is an air tap with no penalty.' },
+      { q: 'Why does a miss reset the combo but an air tap does not?', a: 'A Miss is only registered when a note slides past the hit line unhit, checked every frame in the game loop. Pressing a lane with no note in range just plays a quiet note, which keeps the lanes feeling like an instrument and avoids punishing exploratory taps.' },
+      { q: 'How does the sound work without any audio files?', a: 'tone() creates an OscillatorNode and a GainNode with the Web Audio API, sets a frequency, fades the gain to near zero and stops the oscillator. Each lane has its own frequency from LANE_FREQS (C4, E4, G4 and C5). The AudioContext is created inside the Start click so browsers allow sound, and the mute button simply makes tone() return early.' },
+      { q: 'How does the difficulty ramp work, and how do I tune it?', a: 'Each frame the loop computes t as the share of notes already spawned, then interpolates speed between BASE_SPEED and MAX_SPEED and the spawn gap between BASE_INTERVAL and MIN_INTERVAL. Change those four constants, or TOTAL_NOTES, to make the run easier, harder or longer. Chords are added in spawnStep() once t passes 0.25.' },
+      { q: 'How is the best combo saved, and why the try/catch?', a: 'When a new record is reached, saveBest() writes it to localStorage under rhythm-tap-best-combo. Accessing localStorage throws a SecurityError in sandboxed iframes and some private modes, so both loadBest() and saveBest() are wrapped in try/catch. If storage is blocked, the game still runs and just does not remember the best combo.' },
+      { q: 'Can I add a fifth lane or remap the keys?', a: 'Yes. Add a key to LANE_KEYS, a colour to LANE_COLORS and a frequency to LANE_FREQS, then duplicate a .rt-lane block in the HTML with the next track id, a --c colour and a key label, and extend the tracks array. Replace the 4 in pickLane() and spawnStep() with your lane count.' },
     ],
     aiPrompt: {
-      paragraph: `Paste this snippet's HTML, CSS, and JS into an AI coding assistant like Claude and ask it to explain exactly how laneKeyDown() picks which note to judge when a key is pressed — the "closest unhit note in this lane" search is the crux of the whole timing system, and understanding it makes every other rhythm-game mechanic easier to reason about. It's also a great snippet to extend with AI assistance: ask it to build a real beatmap-driven variant using the Web Audio API's currentTime as the timing source instead of a fixed spawn interval, add a difficulty mode that shortens the spawn interval and tightens the Perfect/Good windows as the run progresses, or add a visual multiplier badge that appears once your combo crosses certain thresholds. Ask the assistant to sanity-check the miss-detection boundary condition too, since off-by-one errors there are easy to introduce.`,
-      prompt: `Build a four-lane falling-note rhythm tap game in plain HTML, CSS, and JavaScript — no frameworks, no libraries, and no real audio/music sync required (visual timing only).
+      paragraph: `Paste this snippet's HTML, CSS and JS into an AI coding assistant like Claude and ask it to explain how laneKeyDown() picks which note to judge, how the combo multiplier feeds into scoring, and how tone() builds a sound from an oscillator and a gain node. It is also a great snippet to extend: ask for a beatmap-driven version that uses the Web Audio clock instead of a fixed spawn interval, a difficulty selector that changes the timing windows, hold notes, or a daily seed so everyone gets the same pattern. Ask the assistant to double-check the miss-detection boundary and the restartable CSS animations too, since small mistakes there are easy to introduce.`,
+      prompt: `Build a four-lane falling-note rhythm tap game in plain HTML, CSS and JavaScript, with no frameworks or libraries and no audio files.
 
 Requirements:
-- Four vertical lanes, each mapped to one keyboard key (for example D, F, J, K), with the key shown as an on-screen label at a fixed "hit line" near the bottom of its lane.
-- Notes spawn at the top of a randomly chosen lane on a timed schedule and fall downward at a constant speed, using requestAnimationFrame with delta-time-based movement so speed is not tied to frame rate.
-- Pressing the correct lane's key while a note is within a small timing window of the hit line must register as a hit, removing that note and awarding a graded result (for example "Perfect" for very close timing versus "Good" for looser timing) rather than a single flat hit result.
-- A note that passes the hit line without being hit must count as a "Miss" and immediately reset the current combo streak to zero.
-- Track and display a live score, the current combo streak, and the best combo achieved, persisting the best combo across page reloads using localStorage.
-- Include a "Start" button that begins spawning notes on a simple fixed pattern, and automatically end the run after a fixed number of notes (for example 30) or a fixed duration, showing a final summary with accuracy percentage and a breakdown of Perfect/Good/Miss counts.
-- Support both a physical keydown listener for the mapped keys and a click/tap fallback directly on each lane for touch devices.`,
+- Four colour-coded vertical lanes mapped to the keys D, F, J and K, with key caps shown at a fixed hit line near the bottom of each lane. Lanes also respond to pointerdown for touch.
+- Notes spawn in random lanes (never three in a row on one lane) and fall at a speed driven by requestAnimationFrame with delta time. Speed rises and the spawn gap shrinks across the run, and later spawns sometimes add a second note in another lane.
+- Pressing a lane finds the closest unhit note in that lane, measured by note center versus hit line center. Within a tight window it is "Perfect", within a looser window it is "Good". Presses with no note nearby are ignored without penalty.
+- A note that passes the hit line unhit is a "Miss": reset the combo and multiplier, shake the stage and show red feedback.
+- Combo multiplier that goes up every 10 consecutive hits (max x4) and scales the score. Show milestone callouts at 10, 20, 30 and 40 combo and make the stage glow stronger as the multiplier rises.
+- Synthesize sound with the Web Audio API (oscillator and gain node): each lane plays a different note of one chord on hit, plus distinct sounds for a miss, the countdown and milestones. Add a mute button, and create the AudioContext inside the Start click.
+- Spark particles on each hit, a glow on the pressed lane, a 3-2-1-GO countdown, a progress bar and feedback text whose animation restarts on every hit.
+- Track score, combo and best combo in a HUD. Save the best combo to localStorage inside try/catch so it works in sandboxed iframes.
+- End the run after 40 notes with a results screen showing an S/A/B/C/D rank, Perfect/Good/Miss counts, accuracy and a "New best combo!" message when applicable, plus a Play Again button.
+- Ignore key presses with Ctrl, Cmd or Alt held and ignore key repeat.`,
     },
   },
 };

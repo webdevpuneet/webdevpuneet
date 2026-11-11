@@ -70,7 +70,7 @@ export const LOCK_SNIPPET_AI = true;
 export const LOCK_GAME_CODE = true;
 
 /* WHICH games are locked: only the snippet ids listed here (when LOCK_GAME_CODE is true). Every other game's code,
-   export and fork are free. These 17 are Patreon-only as of 2026-11-10; to lock another game, add its id. */
+   export and fork are free. These 20 are Patreon-only as of 2026-11-11; to lock another game, add its id. */
 export const PATREON_GAME_IDS = [
   'matter-js-stacking-tower-game',
   'matter-js-hill-climb-car',
@@ -89,6 +89,9 @@ export const PATREON_GAME_IDS = [
   'dodge-the-blocks-game',
   'breakout-brick-game',
   'maze-runner-game',
+  'rhythm-tap-game',
+  'pong-game',
+  'snake-game',
 ];
 export const isPatreonGame = id => LOCK_GAME_CODE && PATREON_GAME_IDS.includes(id);
 
