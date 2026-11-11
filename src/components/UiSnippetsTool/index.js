@@ -2398,14 +2398,14 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   return (
     <div className={`${s.wrap} ${galleryMode ? s.wrapGallery : ''}`} data-uis-gallery={galleryMode ? '' : undefined}>
 
-      {/* Gallery pages (library, category, tag, My Code grid): a fully responsive ad under the top nav, above the UI Snippets bar.
-          Keyed per view so each gallery view requests a fresh ad. Editor pages keep the fixed-size leaderboard above the preview. */}
+      {/* — Header — on editor pages (desktop) it sits at the top of the code column instead */}
+      {!headerInCode && headerEl}
+
+      {/* Gallery pages (library, category, tag, My Code grid): a fully responsive ad just below the UI Snippets / My Code /
+          Create bar. Keyed per view so each gallery view requests a fresh ad. Editor pages keep the fixed-size leaderboard. */}
       {galleryMode && SNIPPET_TOP_AD_ENABLED && !adFree && (
         <GalleryTopAd key={(initialCategory || '') + '|' + (initialTag || '') + '|' + sidebarTab} />
       )}
-
-      {/* — Header — on editor pages (desktop) it sits at the top of the code column instead */}
-      {!headerInCode && headerEl}
 
       {/* — Body — */}
       <div className={`${s.body} ${galleryMode ? s.bodyGallery : ''} ${codeRight ? s.bodyCodeRight : ''}`} ref={bodyRef}>
