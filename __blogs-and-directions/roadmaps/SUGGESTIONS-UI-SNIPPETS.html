@@ -83,6 +83,12 @@
   </div>
 
   <div class="sug">
+    <div class="sug-head"><h3>Measure game engagement (ChatGPT's suggestion, 2026-11-11)</h3><span class="pill todo">Suggested</span></div>
+    <p class="muted">Added 2026-11-11 · not started · wanted events: game preview opened, game started, game completed, play again clicked, session duration, returning players</p>
+    <p>Google Analytics is already on (Clarity and Statcounter are off, Ahrefs Web Analytics is on), so no new service is needed; the missing piece is custom events. The games run inside the snippet preview iframe, so the plan is one small shared bridge: the preview wrapper posts a message to the page, and the page forwards it to gtag as an event. <strong>Cheap events with no change to any game:</strong> preview opened (the page view of /ui-snippets/&lt;game&gt;/), started (first key press or pointer press inside the iframe), session duration (time from started to leaving the page, sent on pagehide). <strong>Needs a line in each game:</strong> completed and play again, because only the game knows when it ends; add a shared helper such as <code>sendGameEvent('complete', { level, stars })</code> that does nothing outside the site, and call it from the games that matter most first (Switchyard, Snake, Mini Sudoku, Pong). Returning players come free from GA's new/returning users report, and the new games also save progress in localStorage, so a "returning" check by the game itself is possible without cookies. Keep it anonymous (no names, no ids), keep the privacy policy wording in step with ANALYTICS_NAMES, and note that visitors who decline analytics must send nothing. Use it to decide which games get the next rebuild (the 2026-11-11 rebuilds were chosen by guess).</p>
+  </div>
+
+  <div class="sug">
     <div class="sug-head"><h3>New wide game: train switch puzzle ("Switchyard")</h3><span class="pill done">Built</span></div>
     <p class="muted">Added 2026-11-11 · BUILT 2026-11-11 as /ui-snippets/switchyard-train-puzzle-game/ (Games, Patreon-only code) · asked for: unique, fun, levels, uses almost the full preview width, a reason to come back</p>
     <p>Coloured trains enter on the left of a wide landscape board and travel right along branching tracks. The player taps junctions to flip them so each train reaches the station of its own colour. The play field is the width itself, so the canvas should scale to the container (about 2.4:1), unlike the narrow Snake, Pong and Rhythm Tap boards. <strong>Levels:</strong> about 20, adding junctions, more colours, faster trains, tunnels that hide a train, and crossings where two trains crash; 1 to 3 stars per level, unlocked one by one. <strong>Come back:</strong> a Daily Route seeded by the date (the same board for everyone), a day streak, a star total, and a copyable result line to share. Alternates considered: a typing game where CSS property names ride a conveyor across the full width (fits the learning position), and a bridge builder across a wide canyon. Candidate names: Switchyard, Junction Rush, Color Line Express, Track Switch, Signal Box, Rush Hour Rails. Patreon-only code like the other games; follow the snippet update checklist.</p>
@@ -106,6 +112,7 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-11-11</td><td>Added the game engagement tracking idea (from ChatGPT).</td></tr>
       <tr><td>2026-11-11</td><td>Added the wide train switch puzzle game idea.</td></tr>
       <tr><td>2026-11-07</td><td>Added the virtual piano next-level ideas.</td></tr>
       <tr><td>2026-11-02</td><td>Suggestions split into separate files (website, email, social, UI snippets, blog) with an index page; nothing removed.</td></tr>

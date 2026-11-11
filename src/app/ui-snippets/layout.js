@@ -6,7 +6,7 @@ import UiSnippetsTool from '@/components/UiSnippetsTool';
 import { CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import CategoryGalleryPage from './[slug]/CategoryGalleryPage';
 import TagGalleryPage from './tag/[tag]/TagGalleryPage';
-import PlaygroundTopNav from '@/components/PlaygroundTopNav';
+import SnippetsTopNav from '@/components/SnippetsTopNav';
 import styles from '../tool-page.module.css';
 import { isEmbedRoute } from '@/lib/is-embed-route';
 
@@ -122,8 +122,8 @@ function UiSnippetsToolSection() {
 export default function UiSnippetsLayout({ children }) {
   const pathname = usePathname();
 
-  // Code playground top nav (HTML | CSS | JavaScript | jQuery | GSAP | ... | Next.js): shown on every UI Snippets page
-  // again (2026-11-09): the gallery, categories, tags, individual snippet pages and My Code (gallery and editor).
+  // Top nav (the category row: Games, Buttons, Forms ...): shown on every UI Snippets page: the gallery, categories, tags,
+  // individual snippet pages and My Code (gallery and editor).
   // It was switched off on 2026-11-03 to give the editor the full height; the editor now fills the screen BELOW the
   // nav (the layout measures it, see --pnav-h). Set to false to hide it everywhere. Embeds get none either way.
   const showNav = true;
@@ -157,9 +157,10 @@ export default function UiSnippetsLayout({ children }) {
 
   return (
     <div className={styles.page} style={{ '--pnav-h': `${effNavH}px` }}>
-      {/* The playgrounds' top nav (HTML, CSS, JavaScript…). The category row (SnippetsTopNav) was removed 2026-11-10;
-          the categories are in the sidebar's UI Snippets group. */}
-      {showNav && <div ref={navRef}><PlaygroundTopNav /></div>}
+      {/* Top nav of the UI Snippets pages and My Code: one scrollable row of the snippet categories, Games first
+          (SnippetsTopNav). It replaced the playgrounds' language row (HTML, CSS, JavaScript…) again on 2026-11-11, as on
+          2026-11-10; the sidebar's UI Snippets group lists the same categories. */}
+      {showNav && <div ref={navRef}><SnippetsTopNav /></div>}
       <div
         data-uis-tool-section=""
         className={`${styles.toolSection} ${isGallery ? styles.toolSectionGallery : styles.toolSectionEditor}`}
