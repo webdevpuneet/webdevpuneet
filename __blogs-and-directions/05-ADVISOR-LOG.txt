@@ -233,3 +233,9 @@ Format: date · area · suggested / chosen / done · note
   tabs for Rush / Daily / Blitz / Duel / Vaults instead of a menu wall, and a drag-the-line input (line spans the numbers still possible, let go to guess, let go far away to cancel),
   haptics on phones. Campaign vaults, Daily, Blitz, Duel, clues, coach, stats and achievements stay. SEO 56 / 150, steps, features, FAQs, aiPrompt rewritten.
   Tests: on load phase=play with no overlay, perfect play through all 14 ladder vaults, 3 lost vaults end the run, Space restarts, real mouse drag + cancel, tabs, old modes still pass, blocked storage OK.
+
+2026-11-12  GAME PREVIEW HELPER (UiSnippetsTool/index.js GAME_HELPER, games only): auto-picks the default start (Start / Play / New Game button, else the first level tile) so the real game shows at once,
+  floating chips: Menu / Hide menu / Show menu (brings the overlay back or hides it), Light / Dark (dark game pages are shown bright via inverted colours, because dark screens show reflections),
+  wakes the game's AudioContext on the first real click or key. Skips overlays that contain inputs or selects. Tested on 15 games (old and rebuilt): all started, chips worked, no errors.
+  Not applied to: /embed pages, gallery thumbnails, My Code. Native light themes per game are still to do (see games-lighter-versions memory).
+2026-11-12  Puneet: keep the dark games dark. The preview helper no longer brightens dark games by default; a "Light" chip (off by default) shows the bright version on request. Auto start + Menu chip unchanged.

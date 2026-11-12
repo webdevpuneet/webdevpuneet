@@ -145,3 +145,6 @@ moment, and one "play again / next level" button.
   Avoid piling on modes (the Number Guessing rebuild reached 5 modes + stats + achievements: too heavy). Confirm with Puneet if "lighter" meant a light colour theme.
   Look (Puneet, same day): "they not necessarily need a dark background and colors". Light backgrounds and soft palettes are welcome; stop defaulting to dark navy + neon gradients.
   Choose the style per game (light / paper / pastel / flat), few colours, good contrast.
+
+  PREVIEW HELPER (2026-11-12): games get a shared layer in the editor preview: auto start of the default choice, a Menu chip to change it, and a Light chip that brightens dark games
+  (filter: invert(1) hue-rotate(180deg)). A game that is already light is left alone. New games should still ship with a light palette of their own.

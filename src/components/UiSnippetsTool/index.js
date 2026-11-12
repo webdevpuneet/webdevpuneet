@@ -211,7 +211,78 @@ h1 span {
 /* — srcdoc builder ------------------------------------------------------------ */
 const CONSOLE_INTERCEPTOR = `<script>(function(){function _s(l,a){try{window.parent.postMessage({_uisnip:'console',level:l,args:Array.from(a).map(function(x){try{if(x instanceof Error)return x.toString();if(typeof x==='object'&&x!==null)return JSON.stringify(x,null,2);return String(x);}catch(e){return String(x);}})}, '*');}catch(e){}}['log','warn','error','info'].forEach(function(m){var o=console[m];console[m]=function(){o&&o.apply(console,arguments);_s(m,arguments);};});window.addEventListener('error',function(e){_s('error',[e.message+(e.lineno?' (line '+e.lineno+')':'')]);}); window.addEventListener('unhandledrejection',function(e){_s('error',['Uncaught (in promise) '+(e.reason instanceof Error?e.reason.toString():String(e.reason))]);});})();<\/script>`;
 
-function buildSrcdoc(html, css, js, cdnUrls = []) {
+/* Games only (library snippets in the Games category). Many games open on a start or level-select overlay that covers the board.
+   This small layer runs inside the preview: it picks the default start by itself (a Start / Play / New Game button, else the first level
+   tile) so the real game shows at once, and a small floating chip brings the menu back to change level, mode or difficulty ("Menu"),
+   or hides it again ("Hide menu"). It does nothing when the overlay holds an input or select, or when no covering overlay is found.
+   It also wakes the game's AudioContext on the first real click or key press (the automatic start is not a user gesture), and when the game page has a
+   dark background it adds a small "Light" chip that shows a bright version (colours inverted and hue-turned back) on request. Dark games stay dark by default. */
+const GAME_HELPER = `<script>(function(){
+var ACs=[],AC=window.AudioContext||window.webkitAudioContext;
+if(AC){var W=function(){var c=Reflect.construct(AC,Array.prototype.slice.call(arguments));ACs.push(c);return c;};W.prototype=AC.prototype;window.AudioContext=W;window.webkitAudioContext=W;}
+function wake(){for(var i=0;i<ACs.length;i++){try{if(ACs[i].state==='suspended')ACs[i].resume();}catch(e){}}}
+['pointerdown','keydown','touchstart'].forEach(function(t){document.addEventListener(t,function(e){if(e.isTrusted)wake();},true);});
+var target=null,snap=null,box=null,menuBtn=null,themeBtn=null,peeked=false,light=false,INV='invert(1) hue-rotate(180deg)';
+function parts(c){var a=c.indexOf('(');return c.slice(a+1,c.indexOf(')')).split(',');}
+function alpha(c){if(c.indexOf('(')<0)return c==='transparent'?0:1;var p=parts(c);return p.length>3?parseFloat(p[3]):1;}
+function lum(c){var p=parts(c);return (0.2126*p[0]+0.7152*p[1]+0.0722*p[2])/255;}
+function pageDark(){
+ var bs=getComputedStyle(document.body),hs=getComputedStyle(document.documentElement),txt=[bs.backgroundImage,bs.backgroundColor,hs.backgroundColor].join(' '),vals=[],i=0,j,seg,k,sum=0;
+ while((i=txt.indexOf('rgb',i))>=0){j=txt.indexOf(')',i);if(j<0)break;seg=txt.slice(i,j+1);if(alpha(seg)>0.3)vals.push(lum(seg));i=j+1;}
+ if(!vals.length)return false;
+ for(k=0;k<vals.length;k++)sum+=vals[k];
+ return sum/vals.length<0.38;
+}
+function setLight(on){light=on;document.documentElement.style.filter=on?INV:'';if(box)box.style.filter=on?INV:'';if(themeBtn)themeBtn.textContent=on?'Dark':'Light';}
+function cover(el){
+ var s=getComputedStyle(el);
+ if(s.display==='none'||s.visibility==='hidden'||parseFloat(s.opacity)<0.6||(s.position!=='absolute'&&s.position!=='fixed'))return false;
+ var r=el.getBoundingClientRect();if(r.width<200||r.height<150)return false;
+ var pr=(s.position==='fixed'||!el.offsetParent)?{width:innerWidth,height:innerHeight}:el.offsetParent.getBoundingClientRect();
+ if(r.width<pr.width*0.8||r.height<pr.height*0.8)return false;
+ if(alpha(s.backgroundColor)<0.4&&s.backgroundImage==='none')return false;
+ return true;
+}
+function findOverlay(){
+ var all=document.body.getElementsByTagName('*'),best=null,bz=-1;
+ for(var i=0;i<all.length;i++){var el=all[i];if(el.id==='uis-peek'||!el.querySelector('button,[role=button],a'))continue;if(!cover(el))continue;var z=parseInt(getComputedStyle(el).zIndex,10)||0;if(z>=bz){bz=z;best=el;}}
+ return best;
+}
+function words(t){return t.toLowerCase().split(/[^a-z]+/);}
+function shown(b){var s=getComputedStyle(b);return !b.disabled&&s.display!=='none'&&s.visibility!=='hidden'&&b.getBoundingClientRect().width>0;}
+function has(list,w){for(var j=0;j<w.length;j++)if(list.indexOf(w[j])>=0)return true;return false;}
+function pick(ov){
+ var bs=[].slice.call(ov.querySelectorAll('button,[role=button]')).filter(shown);
+ if(!bs.length)return null;
+ var good=['start','play','begin','new','go','launch'],bad=['daily','two','players','player','vs','duel','continue','resume','options','settings','how','help','rules','quit','exit','sound','mute','back','menu'],i,w,c;
+ for(i=0;i<bs.length;i++){w=words(bs[i].textContent||'');if(has(good,w)&&!has(bad,w))return bs[i];}
+ for(i=0;i<bs.length;i++){c=((typeof bs[i].className==='string'?bs[i].className:'')+' '+bs[i].id).toLowerCase();if(c.indexOf('tile')>=0||c.indexOf('level')>=0)return bs[i];}
+ for(i=0;i<bs.length;i++){if(!has(bad,words(bs[i].textContent||'')))return bs[i];}
+ return bs[0];
+}
+function label(){if(!menuBtn||!target)return;menuBtn.textContent=peeked?'Show menu':(cover(target)?'Hide menu':'Menu');}
+function toggleMenu(){
+ var ov=target;if(!ov||!document.body.contains(ov))return;
+ if(peeked){ov.style.removeProperty('opacity');ov.style.removeProperty('pointer-events');peeked=false;label();return;}
+ if(cover(ov)){ov.style.setProperty('opacity','0','important');ov.style.setProperty('pointer-events','none','important');peeked=true;label();return;}
+ ov.className=snap.cls;if(snap.style===null)ov.removeAttribute('style');else ov.setAttribute('style',snap.style);ov.hidden=snap.hidden;setTimeout(label,300);
+}
+function mk(text,fn){var b=document.createElement('button');b.type='button';b.textContent=text;b.style.cssText='padding:5px 12px;border-radius:14px;border:1px solid rgba(148,163,184,.6);background:rgba(15,23,42,.82);color:#e2e8f0;font:700 11px system-ui,sans-serif;cursor:pointer;opacity:.92';b.addEventListener('click',function(e){e.stopPropagation();fn();});return b;}
+function run(){
+ var ov=findOverlay(),dark=pageDark();
+ box=document.createElement('div');box.id='uis-peek';box.style.cssText='position:fixed;right:8px;bottom:8px;z-index:2147483647;display:flex;gap:6px';
+ if(ov){
+  target=ov;snap={cls:ov.className,style:ov.getAttribute('style'),hidden:ov.hidden};
+  if(!ov.querySelector('input,select,textarea')){var b=pick(ov);if(b)b.click();}
+  menuBtn=mk('Menu',toggleMenu);box.appendChild(menuBtn);setInterval(label,600);setTimeout(label,400);
+ }
+ if(dark){themeBtn=mk('Light',function(){setLight(!light);});box.appendChild(themeBtn);}
+ if(box.children.length)document.body.appendChild(box);
+}
+window.addEventListener('load',function(){setTimeout(run,700);});
+})();<\/script>`;
+
+function buildSrcdoc(html, css, js, cdnUrls = [], isGame = false) {
   const cdnTags = cdnUrls.filter(u => u.trim()).map(u =>
     /\.css(\?.*)?$/.test(u.trim())
       ? `<link rel="stylesheet" href="${u.trim()}">`
@@ -228,6 +299,7 @@ ${cdnTags}
 </head>
 <body>
 ${CONSOLE_INTERCEPTOR}
+${isGame ? GAME_HELPER : ''}
 ${html}
 ${js ? `<script${hasBabel ? ' type="text/babel" data-presets="react,env"' : ''}>${js}<\/script>` : ''}
 <script>document.addEventListener('click',function(e){var a=e.target.closest('a');if(a&&(a.getAttribute('href')==='#'||a.getAttribute('href')==='javascript:void(0)')){e.preventDefault();}});<\/script>
@@ -1355,6 +1427,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   const cdnPopRef    = useRef(null);
   const cdnCssPopRef = useRef(null);
   const cdnUrlsRef   = useRef([]);
+  const isGameRef    = useRef(false); // the open library snippet is a game: its preview gets the start helper (see GAME_HELPER)
   const [consoleLogs,  setConsoleLogs]  = useState([]);
   const [consoleOpen,  setConsoleOpen]  = useState(false);
   const [jumping, setJumping] = useState(false);   // the "12 / 2,063" counter is a number box while true
@@ -1472,7 +1545,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
     setActiveId(sn.id); setActiveIsCustom(false);
     setHtmlCode(sn.html); setCssCode(sn.css); setJsCode(sn.js || '');
     const libUrls = sn.cdnUrls || []; setCdnUrls(libUrls); cdnUrlsRef.current = libUrls;
-    setSrcDoc(buildSrcdoc(sn.html, sn.css, sn.js, libUrls));
+    isGameRef.current = sn.category === 'games';
+    setSrcDoc(buildSrcdoc(sn.html, sn.css, sn.js, libUrls, isGameRef.current));
   }
   // Open a library snippet: title/category switch immediately (from the
   // index); the code follows as soon as its chunk arrives (instant if cached).
@@ -1497,7 +1571,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
     htmlRef.current = ''; cssRef.current = ''; jsRef.current = '';
     setHtmlCode(''); setCssCode(''); setJsCode('');
     setCdnUrls([]); cdnUrlsRef.current = [];
-    setSrcDoc(buildSrcdoc('', '', ''));
+    isGameRef.current = false; setSrcDoc(buildSrcdoc('', '', ''));
     setActiveId(null); setActiveIsCustom(false);
     setIsNewBlank(true); setShowEditor(true);
     setSidebarTab('saved');
@@ -1538,6 +1612,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
       htmlRef.current = sn.html; cssRef.current = sn.css; jsRef.current = sn.js;
       setHtmlCode(sn.html); setCssCode(sn.css); setJsCode(sn.js); fitPanelsTo(sn);
       const urls = sn.cdnUrls || []; setCdnUrls(urls); cdnUrlsRef.current = urls;
+      isGameRef.current = false;
       setSrcDoc(buildSrcdoc(sn.html, sn.css, sn.js, urls));
       setSidebarTab('saved'); setShowEditor(true); setIsNewBlank(false);
       setCustomSnippets(all.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)));
@@ -1708,7 +1783,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
     clearTimeout(debounceRef.current);
     clearJsCountdown();
     setConsoleLogs([]);
-    setSrcDoc(buildSrcdoc(html, css, js, cdnUrlsRef.current));
+    setSrcDoc(buildSrcdoc(html, css, js, cdnUrlsRef.current, isGameRef.current));
     // An unchanged srcDoc string wouldn't reload the iframe, so Run would do
     // nothing on unedited code: remount it so the JS really executes again.
     setPreviewKey(k => k + 1);
@@ -1727,13 +1802,13 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           clearInterval(jsCountdownRef.current);
           setJsCountdown(null);
           setConsoleLogs([]);
-          setSrcDoc(buildSrcdoc(html, css, js, cdnUrlsRef.current));
+          setSrcDoc(buildSrcdoc(html, css, js, cdnUrlsRef.current, isGameRef.current));
         } else {
           setJsCountdown(remaining);
         }
       }, 1000);
     } else {
-      debounceRef.current = setTimeout(() => { setConsoleLogs([]); setSrcDoc(buildSrcdoc(html, css, js, cdnUrlsRef.current)); }, 200);
+      debounceRef.current = setTimeout(() => { setConsoleLogs([]); setSrcDoc(buildSrcdoc(html, css, js, cdnUrlsRef.current, isGameRef.current)); }, 200);
     }
   }
 
@@ -1747,6 +1822,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
     htmlRef.current = sn.html; cssRef.current = sn.css; jsRef.current = sn.js;
     setHtmlCode(sn.html); setCssCode(sn.css); setJsCode(sn.js); fitPanelsTo(sn);
     const snUrls = sn.cdnUrls || []; setCdnUrls(snUrls); cdnUrlsRef.current = snUrls;
+    isGameRef.current = false;
     setSrcDoc(buildSrcdoc(sn.html, sn.css, sn.js, snUrls));
   }
 
@@ -2475,6 +2551,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                 setActiveId(sn.id); setActiveIsCustom(true); setIsNewBlank(false);
                 setHtmlCode(sn.html); setCssCode(sn.css); setJsCode(sn.js); fitPanelsTo(sn);
                 const u2 = sn.cdnUrls||[]; setCdnUrls(u2); cdnUrlsRef.current=u2;
+                isGameRef.current = false;
                 setSrcDoc(buildSrcdoc(sn.html, sn.css, sn.js, u2));
                 setShowEditor(true);
                 router.push(`/ui-snippets/mycode/?id=${sn.id}`, { scroll: false });
@@ -2483,7 +2560,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               onCreateNew={() => {
                 htmlRef.current = ''; cssRef.current = ''; jsRef.current = '';
                 setHtmlCode(''); setCssCode(''); setJsCode('');
-                setSrcDoc(buildSrcdoc('', '', ''));
+                isGameRef.current = false; setSrcDoc(buildSrcdoc('', '', ''));
                 setActiveId(null); setActiveIsCustom(false);
                 setIsNewBlank(true); setShowEditor(true);
               }}
