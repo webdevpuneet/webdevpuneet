@@ -1,8 +1,8 @@
 const bubbleWrapPopper = {
   id: 'bubble-wrap-popper',
   title: 'Bubble Wrap Popper (Stress Relief)',
-  lastmod: '2026-08-09',
-  category: 'games',
+  lastmod: '2026-11-12',
+  category: 'animations',
   html: `<div class="wrap-app">
   <div class="wrap-header">
     <h2>Bubble Wrap</h2>

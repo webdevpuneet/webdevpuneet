@@ -1,8 +1,8 @@
 const diceRoller = {
   id: 'dice-roller',
   title: 'Dice Roller',
-  lastmod: '2026-06-23',
-  category: 'games',
+  lastmod: '2026-11-12',
+  category: 'animations',
   html: `<div class="dr-stage">
   <div class="dr-scene">
     <div class="dr-cube" id="drCube">

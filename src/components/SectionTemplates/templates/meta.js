@@ -18,6 +18,7 @@ export const SECTION_CATEGORIES = [
   { id: 'team',         label: 'Team',            blurb: 'Team grids with photos, names and roles.' },
   { id: 'about',        label: 'About us',        blurb: 'About us and our story sections: a picture, the story, the founder, key facts and company values.' },
   { id: 'contact',      label: 'Contact',         blurb: 'Contact sections with details, maps and forms.' },
+  { id: 'forms',        label: 'Forms',           blurb: 'Forms for every job: contact, multi-step, quote request, survey, application, RSVP, support, donation, waitlist and code verification, with floating labels, selects, switches, ratings, steppers and file drop areas.' },
   { id: 'blog',         label: 'Blog',            blurb: 'Blog and article grids with cover images.' },
   { id: 'gallery',      label: 'Gallery & media', blurb: 'Photo galleries with filters and a lightbox, video sections and before-and-after sliders.' },
   { id: 'scroll',       label: 'Scroll effects',  blurb: 'Scroll-driven sections built with GSAP: horizontal scroll galleries, pinned scroll stories and stacking cards.' },

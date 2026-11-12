@@ -28,8 +28,7 @@ export const GAME_GENRES = [
   ] },
   { id: 'brain', label: 'Brain & Memory', ids: [
     'memory-match-game', 'simon-sequence-game', 'number-sequence-memory-game', 'quick-math-game', 'number-guessing-game',
-    'hex-color-guess-game', 'quiz-card',
-  ] },
+    'hex-color-guess-game', ] },
   { id: 'word', label: 'Word', ids: [
     'word-guess-game', 'hangman-word-game', 'word-unscramble-game', 'word-search-puzzle', 'word-ladder-game',
   ] },
@@ -37,8 +36,7 @@ export const GAME_GENRES = [
     'matter-js-plinko-board', 'matter-js-slingshot-tower-knockdown', 'matter-js-hill-climb-car', 'matter-js-stacking-tower-game',
   ] },
   { id: 'luck', label: 'Luck & Fun', ids: [
-    'spin-wheel', 'dice-roller', 'coin-flip', 'bubble-wrap-popper',
-  ] },
+    ] },
 ];
 
 const BY_SNIPPET = new Map();

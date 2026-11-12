@@ -239,3 +239,11 @@ Format: date · area · suggested / chosen / done · note
   wakes the game's AudioContext on the first real click or key. Skips overlays that contain inputs or selects. Tested on 15 games (old and rebuilt): all started, chips worked, no errors.
   Not applied to: /embed pages, gallery thumbnails, My Code. Native light themes per game are still to do (see games-lighter-versions memory).
 2026-11-12  Puneet: keep the dark games dark. The preview helper no longer brightens dark games by default; a "Light" chip (off by default) shows the bright version on request. Auto start + Menu chip unchanged.
+
+2026-11-12  NEW SECTION CATEGORY "Forms" in Website Section Templates: 13 sections (contact centered, floating labels, multi-step wizard, quote request, feedback survey, job application,
+  event RSVP, support ticket, donation, waitlist inline, OTP code, profile/preferences kit, split image). Shared kit forms-shared.js + BEHAVIORS.formkit; all post through BEHAVIORS.form.
+  SEO + category page text written, previews captured, nav regenerated, export test 13/13 ok, behaviours tested in Chromium. Not deployed. Light themes on purpose (see games-lighter-versions memory).
+
+2026-11-12  GAMES CATEGORY CLEAN-UP: moved 5 snippets that are not games out of Games and removed their Patreon-only status (they are free again; PATREON_GAME_IDS now 66 games):
+  Spin the Wheel, Dice Roller, Coin Flip -> Tools & Calculators; Quiz Card -> Cards; Bubble Wrap Popper -> Animations. Their lastmod set to 2026-11-12 (they show first in "newest").
+  Removed from game-genres.js and the "games" tag; index regenerated. Borderline, kept in Games: Reaction Time Tester, Click Speed Test, Typing Speed Test (score-based tests), Matter.js Plinko Board (scoring).

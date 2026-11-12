@@ -1,7 +1,8 @@
 const quizCard = {
   id: 'quiz-card',
   title: 'Quiz Card',
-  category: 'games',
+  lastmod: '2026-11-12',
+  category: 'cards',
   html: `<div class="wrap">
   <div class="card" id="card">
     <div class="quiz" id="quiz">

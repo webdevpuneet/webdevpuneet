@@ -341,6 +341,27 @@ Keep the offer relevant, show one popup per visit and make the close button obvi
       { q: 'Do popups work on mobile phones?', a: 'Yes. Cards stretch across the screen, and because phones have no mouse, exit intent falls back to a delay of at least ten seconds.' },
     ],
   },
+  forms: {
+    title: 'Form Section Templates — Free HTML Contact & Survey Forms',
+    description: 'Free form section templates: contact, multi-step, quote, feedback, job application, RSVP, support, donation, waitlist and code forms. Edit online, export HTML.',
+    h1: 'Form Section Templates',
+    keywords: ['form section templates', 'html form templates', 'contact form html css', 'multi step form html', 'form with floating labels', 'survey form template', 'donation form html'],
+    intro: `A good form is mostly small decisions: which fields to ask for, how to show errors, what happens after sending. These sections make those decisions for you, in plain HTML and CSS with a little JavaScript where a control needs it, and every one of them really sends. Paste your form address from Formspree, Basin or Getform (or point it at your own server) and the form posts with a success message, an error message and a hidden spam-trap field. Without JavaScript it is an ordinary form post.
+
+For a plain message form start with the **[Centered Contact Form](/website-section-templates/form-contact-centered/)** (topic menu, character counter, consent) or the **[Floating Label Form](/website-section-templates/form-floating-labels/)**, where labels glide up as you type using CSS only. Long forms feel shorter in steps: the **[Multi-Step Form](/website-section-templates/form-multi-step/)** has a progress bar, checks each step and ends with a review of every answer. The **[Quote Request Form](/website-section-templates/form-quote-request/)** uses pill buttons, budget cards and a brief upload so you can price a job in one reply.
+
+Other forms for specific jobs: the **[Feedback Survey Form](/website-section-templates/form-feedback-survey/)** (five stars and a 0 to 10 recommend scale), the **[Job Application Form](/website-section-templates/form-job-application/)** with a resume drop area, the **[Event RSVP Form](/website-section-templates/form-event-rsvp/)** with a guest counter and ticket cards, the **[Support Ticket Form](/website-section-templates/form-support-ticket/)** whose order number appears only when needed, the **[Donation Form](/website-section-templates/form-donation/)** with amount buttons, the one-row **[Waitlist Form](/website-section-templates/form-waitlist-inline/)**, the **[Verification Code Form](/website-section-templates/form-otp-verify/)** with six digit boxes and a **[Profile & Preferences Form](/website-section-templates/form-settings-kit/)** that shows every control in one style. The **[Form With Image](/website-section-templates/form-split-image/)** puts a photo and a quote beside the fields.
+
+Every control is a real HTML input, so keyboards, screen readers and browser autofill work, labels are always visible and focus rings are clear. Colours, fonts and corner radius come from your theme, and each section exports as HTML, a ZIP, a React component or a Vue component. For login and register screens see [Login & Sign up](/website-section-templates/category/auth/), and for contact details and maps see [Contact](/website-section-templates/category/contact/).`,
+    faqs: [
+      { q: 'How do I make these forms send emails?', a: 'Create a free form at Formspree, Basin or Getform, copy its address into the "Form URL (action)" field of the section and export. Every submission is delivered to your inbox by that service. You can also post to your own server.' },
+      { q: 'Do the forms work without JavaScript?', a: 'Yes. They are normal HTML forms that post to your endpoint. JavaScript adds the smooth success message, the multi-step wizard, the code boxes, steppers and counters. Without it a multi-step form simply shows all steps one after another.' },
+      { q: 'How do the forms deal with spam?', a: 'Each form contains a hidden field named _gotcha that people never see but bots fill in, which services such as Formspree use to discard bot messages. Add the service’s own captcha for extra protection.' },
+      { q: 'Can the forms take file uploads?', a: 'The quote request, job application, support ticket and profile forms have file drop areas and post as multipart form data. The service that receives the form must accept file uploads; check its plan limits.' },
+      { q: 'Do any of these forms take payments?', a: 'No. The donation form collects the donor’s choices and posts them to your endpoint, and the verification code form is only the front end. Connect a payment provider or your own server for charging cards and checking codes.' },
+      { q: 'Are the forms accessible?', a: 'They use real labels, fieldsets and legends, visible focus rings, large touch targets and announced errors. Stars, scales, switches and option cards are native radio buttons and checkboxes, so they work with keyboards and screen readers.' },
+    ],
+  },
   ...MORE_CATEGORY_SEO, // Login & Sign up (seo-content-more.js)
   ...SCROLL_LISTINGS_CATEGORY_SEO, // scroll + listings (seo-scroll-listings.js)
   ...MUSIC_CATEGORY_SEO, // music (seo-music.js)

@@ -70,7 +70,7 @@ export const LOCK_SNIPPET_AI = true;
 export const LOCK_GAME_CODE = true;
 
 /* WHICH games are locked: only the snippet ids listed here (when LOCK_GAME_CODE is true). Every other game's code,
-   export and fork are free. Since 2026-11-11 EVERY game is Patreon-only (all 71); a new game must be added here too. */
+   export and fork are free. Since 2026-11-11 EVERY game is Patreon-only (all 66); a new game must be added here too. */
 export const PATREON_GAME_IDS = [
   'matter-js-stacking-tower-game',
   'matter-js-hill-climb-car',
@@ -93,10 +93,6 @@ export const PATREON_GAME_IDS = [
   'pong-game',
   'snake-game',
   'switchyard-train-puzzle-game',
-  'spin-wheel',
-  'quiz-card',
-  'dice-roller',
-  'coin-flip',
   'memory-match-game',
   'typing-speed-test',
   'reaction-time-tester',
@@ -105,7 +101,6 @@ export const PATREON_GAME_IDS = [
   'sliding-puzzle-game',
   'tic-tac-toe-game',
   'word-guess-game',
-  'bubble-wrap-popper',
   'rock-paper-scissors-game',
   'hex-color-guess-game',
   'number-guessing-game',

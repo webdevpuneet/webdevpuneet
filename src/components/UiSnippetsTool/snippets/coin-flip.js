@@ -1,8 +1,8 @@
 const coinFlip = {
   id: 'coin-flip',
   title: 'Coin Flip',
-  lastmod: '2026-06-23',
-  category: 'games',
+  lastmod: '2026-11-12',
+  category: 'tools',
   html: `<div class="cf-stage">
   <div class="cf-scene">
     <div class="cf-coin" id="cfCoin">

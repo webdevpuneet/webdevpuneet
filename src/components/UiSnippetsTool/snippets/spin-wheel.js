@@ -1,8 +1,8 @@
 const spinWheel = {
   id: 'spin-wheel',
   title: 'Spin the Wheel',
-  category: 'games',
-  lastmod: '2026-06-10',
+  category: 'tools',
+  lastmod: '2026-11-12',
   html: `<div class="wheel-app">
   <div class="wheel-wrap">
     <div class="pointer"></div>

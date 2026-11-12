@@ -472,7 +472,7 @@
   ]
  },
  "section": {
-  "total": 81,
+  "total": 94,
   "categories": [
    {
     "id": "hero",
@@ -713,6 +713,64 @@
      {
       "id": "opening-hours",
       "name": "Opening Hours & Location"
+     }
+    ]
+   },
+   {
+    "id": "forms",
+    "label": "Forms",
+    "items": [
+     {
+      "id": "form-contact-centered",
+      "name": "Centered Contact Form"
+     },
+     {
+      "id": "form-floating-labels",
+      "name": "Floating Label Form"
+     },
+     {
+      "id": "form-multi-step",
+      "name": "Multi-Step Form"
+     },
+     {
+      "id": "form-quote-request",
+      "name": "Quote Request Form"
+     },
+     {
+      "id": "form-feedback-survey",
+      "name": "Feedback Survey Form"
+     },
+     {
+      "id": "form-job-application",
+      "name": "Job Application Form"
+     },
+     {
+      "id": "form-event-rsvp",
+      "name": "Event RSVP Form"
+     },
+     {
+      "id": "form-support-ticket",
+      "name": "Support Ticket Form"
+     },
+     {
+      "id": "form-donation",
+      "name": "Donation Form"
+     },
+     {
+      "id": "form-waitlist-inline",
+      "name": "Waitlist Form"
+     },
+     {
+      "id": "form-otp-verify",
+      "name": "Verification Code Form"
+     },
+     {
+      "id": "form-settings-kit",
+      "name": "Profile & Preferences Form"
+     },
+     {
+      "id": "form-split-image",
+      "name": "Form With Image"
      }
     ]
    },

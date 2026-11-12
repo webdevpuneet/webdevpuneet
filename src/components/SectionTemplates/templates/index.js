@@ -46,6 +46,19 @@ import contactSplitForm from './contact-split-form.js';
 import contactCards from './contact-cards.js';
 import contactMap from './contact-map.js';
 import bookingForm from './booking-form.js';
+import formContactCentered from './form-contact-centered.js';
+import formFloatingLabels from './form-floating-labels.js';
+import formMultiStep from './form-multi-step.js';
+import formQuoteRequest from './form-quote-request.js';
+import formFeedbackSurvey from './form-feedback-survey.js';
+import formJobApplication from './form-job-application.js';
+import formEventRsvp from './form-event-rsvp.js';
+import formSupportTicket from './form-support-ticket.js';
+import formDonation from './form-donation.js';
+import formWaitlistInline from './form-waitlist-inline.js';
+import formOtpVerify from './form-otp-verify.js';
+import formSettingsKit from './form-settings-kit.js';
+import formSplitImage from './form-split-image.js';
 import openingHours from './opening-hours.js';
 import aboutStory from './about-story.js';
 import reviewsSummary from './reviews-summary.js';
@@ -137,6 +150,19 @@ export const SECTION_TEMPLATES = [
   contactCards,
   contactMap,
   bookingForm,
+  formContactCentered,
+  formFloatingLabels,
+  formMultiStep,
+  formQuoteRequest,
+  formFeedbackSurvey,
+  formJobApplication,
+  formEventRsvp,
+  formSupportTicket,
+  formDonation,
+  formWaitlistInline,
+  formOtpVerify,
+  formSettingsKit,
+  formSplitImage,
   openingHours,
   aboutStory,
   reviewsSummary,

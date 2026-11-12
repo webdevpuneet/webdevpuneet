@@ -2462,3 +2462,177 @@ BEHAVIORS.revfilter = {
   });
 })();`,
 };
+
+BEHAVIORS.formkit = {
+  /* The interactive parts of the Forms category (form.fk), all plain JavaScript on top of normal inputs, so a form
+     still posts without it: multi-step wizard ([data-fk-wizard] with [data-fk-step] panels, a progress list,
+     [data-fk-next] / [data-fk-prev] buttons and a [data-fk-summary] list), code boxes ([data-fk-otp]), plus / minus
+     steppers, character counters, file names in drop areas, range outputs, donation amount chips and conditional
+     fields ([data-fk-when="name=value"]). Works next to the form behaviour that sends the data. */
+  plugins: [],
+  js: `(function () {
+  function all(root, sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
+  function text(el) { return (el && el.textContent || '').replace(/\\s+/g, ' ').trim(); }
+  function fire(el, type) { var e = document.createEvent('Event'); e.initEvent(type, true, true); el.dispatchEvent(e); }
+
+  document.querySelectorAll('.st form.fk').forEach(function (form) {
+    /* plus / minus steppers */
+    all(form, '[data-fk-stepper]').forEach(function (box) {
+      var input = box.querySelector('input');
+      var step = function (d) {
+        var min = input.min === '' ? -Infinity : +input.min, max = input.max === '' ? Infinity : +input.max;
+        var v = (parseInt(input.value, 10) || 0) + d;
+        input.value = Math.max(min, Math.min(max, v)); fire(input, 'input'); fire(input, 'change');
+      };
+      var dec = box.querySelector('[data-fk-dec]'), inc = box.querySelector('[data-fk-inc]');
+      if (dec) dec.addEventListener('click', function () { step(-1); });
+      if (inc) inc.addEventListener('click', function () { step(1); });
+    });
+
+    /* character counters */
+    all(form, '[data-fk-count]').forEach(function (box) {
+      var ta = box.querySelector('textarea'), out = box.querySelector('[data-fk-counter]');
+      if (!ta || !out) return;
+      var upd = function () { out.textContent = ta.value.length + (ta.maxLength > 0 ? ' / ' + ta.maxLength : ''); };
+      ta.addEventListener('input', upd); upd();
+    });
+
+    /* file drop areas: show the chosen file names, highlight while dragging over */
+    all(form, '[data-fk-drop]').forEach(function (box) {
+      var input = box.querySelector('input[type="file"]'), out = box.querySelector('[data-fk-file]');
+      if (!input) return;
+      input.addEventListener('change', function () {
+        var names = []; for (var i = 0; i < input.files.length; i++) names.push(input.files[i].name);
+        if (out) out.textContent = names.join(', ');
+      });
+      ['dragenter', 'dragover'].forEach(function (t) { box.addEventListener(t, function () { box.classList.add('is-over'); }); });
+      ['dragleave', 'drop'].forEach(function (t) { box.addEventListener(t, function () { box.classList.remove('is-over'); }); });
+    });
+
+    /* range sliders with a live value: <div data-fk-range data-prefix="$" data-suffix="k"><input type="range"><output></output></div> */
+    all(form, '[data-fk-range]').forEach(function (box) {
+      var r = box.querySelector('input[type="range"]'), o = box.querySelector('output');
+      if (!r || !o) return;
+      var pre = box.getAttribute('data-prefix') || '', suf = box.getAttribute('data-suffix') || '';
+      var upd = function () { o.textContent = pre + Number(r.value).toLocaleString('en-US') + suf; };
+      r.addEventListener('input', upd); upd();
+    });
+
+    /* donation amounts: choosing a chip clears the custom amount, typing a custom amount clears the chips */
+    all(form, '[data-fk-amounts]').forEach(function (box) {
+      var radios = all(box, 'input[type="radio"]'), other = box.querySelector('[data-fk-other]');
+      if (!other) return;
+      radios.forEach(function (r) { r.addEventListener('change', function () { other.value = ''; }); });
+      other.addEventListener('input', function () { if (other.value) radios.forEach(function (r) { r.checked = false; }); });
+    });
+
+    /* conditional fields: [data-fk-when="topic=other"] is shown only while the field "topic" has that value */
+    var whens = all(form, '[data-fk-when]');
+    if (whens.length) {
+      var evalWhen = function () {
+        whens.forEach(function (el) {
+          var parts = el.getAttribute('data-fk-when').split('='), name = parts[0], want = parts[1];
+          var ctl = form.querySelectorAll('[name="' + name + '"]'), have = '';
+          for (var i = 0; i < ctl.length; i++) { if ((ctl[i].type === 'radio' || ctl[i].type === 'checkbox') ? ctl[i].checked : true) have = ctl[i].value; }
+          var show = have === want;
+          el.hidden = !show;
+          all(el, 'input,select,textarea').forEach(function (c) { c.disabled = !show; });
+        });
+      };
+      form.addEventListener('change', evalWhen); form.addEventListener('input', evalWhen); evalWhen();
+    }
+
+    /* code boxes: auto-advance, backspace, paste, arrows, a hidden field with the whole code, a resend countdown */
+    all(form, '[data-fk-otp]').forEach(function (box) {
+      var digits = all(box, 'input[data-fk-digit]'), hidden = box.querySelector('input[type="hidden"]');
+      var join = function () {
+        var v = ''; digits.forEach(function (d) { v += d.value; });
+        if (hidden) hidden.value = v; box.classList.toggle('is-complete', v.length === digits.length);
+      };
+      digits.forEach(function (d, i) {
+        d.addEventListener('input', function () {
+          d.value = d.value.replace(/[^0-9]/g, '').slice(-1); join();
+          if (d.value && digits[i + 1]) digits[i + 1].focus();
+        });
+        d.addEventListener('keydown', function (e) {
+          if (e.key === 'Backspace' && !d.value && digits[i - 1]) { digits[i - 1].focus(); digits[i - 1].value = ''; join(); e.preventDefault(); }
+          else if (e.key === 'ArrowLeft' && digits[i - 1]) { digits[i - 1].focus(); e.preventDefault(); }
+          else if (e.key === 'ArrowRight' && digits[i + 1]) { digits[i + 1].focus(); e.preventDefault(); }
+        });
+        d.addEventListener('paste', function (e) {
+          var data = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+          if (!data) return; e.preventDefault();
+          for (var k = 0; k < digits.length - i && k < data.length; k++) digits[i + k].value = data.charAt(k);
+          join(); (digits[Math.min(digits.length - 1, i + data.length)] || d).focus();
+        });
+        d.addEventListener('focus', function () { d.select(); });
+      });
+      var resend = form.querySelector('[data-fk-resend]'), timer = form.querySelector('[data-fk-timer]');
+      if (resend) {
+        var secs = parseInt(resend.getAttribute('data-fk-seconds'), 10) || 30, left = 0, tick = null;
+        var start = function () {
+          left = secs; resend.disabled = true;
+          var draw = function () { if (timer) timer.textContent = left > 0 ? '(' + left + 's)' : ''; };
+          draw(); clearInterval(tick);
+          tick = setInterval(function () { left--; draw(); if (left <= 0) { clearInterval(tick); resend.disabled = false; } }, 1000);
+        };
+        resend.addEventListener('click', function () {
+          digits.forEach(function (d) { d.value = ''; }); join(); if (digits[0]) digits[0].focus();
+          fire(form, 'st:resend'); start();
+        });
+        if (!window.ST_PREVIEW) start(); else if (timer) timer.textContent = '';
+      }
+    });
+
+    /* multi-step wizard */
+    if (form.hasAttribute('data-fk-wizard')) {
+      var panels = all(form, '[data-fk-step]'), bars = all(form, '[data-fk-progress] li'), cur = 0;
+      var summary = form.querySelector('[data-fk-summary]');
+      form.classList.add('fk-js');
+      var labelOf = function (el) {
+        var f = el.closest('.st-field, .fk-group, .fk-fl, .fk-check, .fk-stepper-field');
+        if (!f) return '';
+        var l = f.querySelector('legend, .fk-legend') || f.querySelector('span');
+        return text(l);
+      };
+      var buildSummary = function () {
+        if (!summary) return;
+        summary.innerHTML = '';
+        var seen = {};
+        all(form, 'input,select,textarea').forEach(function (c) {
+          if (!c.name || c.name.charAt(0) === '_' || c.type === 'hidden' || c.type === 'password' || c.disabled || seen[c.name]) return;
+          var val = '';
+          if (c.type === 'radio' || c.type === 'checkbox') {
+            seen[c.name] = true; var got = [];
+            all(form, '[name="' + c.name.replace(/"/g, '') + '"]').forEach(function (x) { if (x.checked) { var tt = x.parentNode.querySelector('.fk-opt-title'); got.push(text(tt || x.parentNode)); } });
+            val = got.join(', ');
+          } else if (c.type === 'file') { val = c.files && c.files.length ? c.files[0].name : ''; }
+          else val = c.value;
+          if (!val) return;
+          var row = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd');
+          dt.textContent = labelOf(c) || c.name; dd.textContent = val; row.appendChild(dt); row.appendChild(dd); summary.appendChild(row);
+        });
+      };
+      var show = function (n, focus) {
+        cur = Math.max(0, Math.min(panels.length - 1, n));
+        panels.forEach(function (p, i) { p.classList.toggle('is-active', i === cur); p.setAttribute('aria-hidden', i === cur ? 'false' : 'true'); });
+        bars.forEach(function (b, i) { b.classList.toggle('is-active', i === cur); b.classList.toggle('is-done', i < cur); if (i === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+        if (cur === panels.length - 1) buildSummary();
+        if (focus) { var first = panels[cur].querySelector('input:not([type="hidden"]),select,textarea,button'); if (first) first.focus({ preventScroll: true }); }
+      };
+      var valid = function () {
+        var fields = all(panels[cur], 'input,select,textarea');
+        for (var i = 0; i < fields.length; i++) { if (!fields[i].checkValidity()) { fields[i].reportValidity(); return false; } }
+        return true;
+      };
+      all(form, '[data-fk-next]').forEach(function (b) { b.addEventListener('click', function () { if (valid()) show(cur + 1, true); }); });
+      all(form, '[data-fk-prev]').forEach(function (b) { b.addEventListener('click', function () { show(cur - 1, true); }); });
+      form.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && cur < panels.length - 1 && e.target && /^(INPUT|SELECT)$/.test(e.target.tagName) && e.target.type !== 'submit') { e.preventDefault(); if (valid()) show(cur + 1, true); }
+      });
+      form.addEventListener('submit', function (e) { if (cur < panels.length - 1) { e.preventDefault(); e.stopImmediatePropagation(); if (valid()) show(cur + 1, true); } }, true);
+      show(0, false);
+    }
+  });
+})();`,
+};

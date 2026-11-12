@@ -6,6 +6,7 @@ import { MUSIC_SEO } from './seo-music.js';
 import { NEW_SECTIONS_SEO } from './seo-content-new.js';
 import { MORE_SECTIONS_SEO } from './seo-content-more.js';
 import { WAVE2_SEO } from './seo-content-wave2.js';
+import { FORMS_SECTIONS_SEO } from './seo-content-forms.js';
 
 export const SECTION_SEO = {
   'saas-split-hero': {
@@ -2654,6 +2655,7 @@ Download HTML, a ZIP, React or Vue with the hover script, or fork into [My Code]
   ...MORE_SECTIONS_SEO, // login, register, blog post, blog grid with pagination (seo-content-more.js)
   ...WAVE2_SEO, // Opening hours, About us, Reviews summary (seo-content-wave2.js)
   ...NEW_SECTIONS_SEO, // Gallery & media, comparison table, booking form, case study, legal text (seo-content-new.js)
+  ...FORMS_SECTIONS_SEO, // Forms category (seo-content-forms.js)
 };
 
 export const SECTION_DIFFERENT = [
