@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { freshestFirst } from '@/lib/newest-first';
 import rs from '../UiSnippetsTool/RelatedCarousel.module.css';
 import InViewImg from '../InViewImg';
 import { CATEGORIES } from '@/components/UiSnippetsTool/categories';
@@ -63,7 +64,7 @@ export default function HomeSnippetsCarousel({ items, total, flush = false, titl
     setLoading(true);
     try {
       const mod = await import('@/lib/snippet-search-index');
-      const full = [...mod.SNIPPET_SEARCH_INDEX].reverse();   // the index is oldest-first
+      const full = freshestFirst(mod.SNIPPET_SEARCH_INDEX);   // most recently updated first
       setAll(full);
       setStart(to);
     } catch {

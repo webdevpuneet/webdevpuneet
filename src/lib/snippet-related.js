@@ -1,7 +1,8 @@
 import { VISIBLE_SNIPPETS } from '@/components/UiSnippetsTool/snippets';
+import { freshestFirst } from '@/lib/newest-first';
 
-// Newest-first, matching the gallery's default sort order.
-const NEWEST_FIRST_SNIPPETS = [...VISIBLE_SNIPPETS].reverse();
+// Freshest first (latest lastmod), matching the gallery's default sort order.
+const NEWEST_FIRST_SNIPPETS = freshestFirst(VISIBLE_SNIPPETS);
 
 // Ranked once on the server (not shipped as client JS) so the related-snippet
 // links land in the raw HTML a crawler fetches, the same reasoning that keeps

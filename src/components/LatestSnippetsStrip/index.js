@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { freshestFirst } from '@/lib/newest-first';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
 
 // "Latest UI Snippets" for tool pages. The home page ranks its slice on the server; tool
@@ -15,7 +16,7 @@ export default function LatestSnippetsStrip({ limit = 60 }) {
     import('@/lib/snippet-search-index')
       .then(mod => {
         if (cancelled) return;
-        const newestFirst = [...mod.SNIPPET_SEARCH_INDEX].reverse();   // the index is oldest-first
+        const newestFirst = freshestFirst(mod.SNIPPET_SEARCH_INDEX);   // most recently updated first
         setData({ items: newestFirst.slice(0, limit), total: newestFirst.length });
       })
       .catch(() => { /* offline or chunk failed: leave the strip out */ });

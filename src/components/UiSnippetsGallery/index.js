@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
+import { freshestFirst } from '@/lib/newest-first';
 import InViewImg from '@/components/InViewImg';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 // The lightweight index + categories, not UiSnippetsTool/snippets (which bundles every snippet's source).
@@ -276,7 +277,7 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
     if (isGamesPage && genre === 'bookmarked') list = list.filter(sn => bookmarks.includes(sn.id));
     else if (isGamesPage && genre !== 'all') list = list.filter(sn => genreOf(sn.id)?.id === genre);
     let out = sortOrder === 'az' ? [...list].sort((a, b) => a.title.localeCompare(b.title))
-      : sortOrder === 'newest' ? [...list].reverse() : list;
+      : sortOrder === 'newest' ? freshestFirst(list) : list;
     // Games category: the Patreon games come first, then the free ones, each group in the chosen sort order
     const gamesOnly = !initialTag && (category === 'games' || (isMain && cats.length === 1 && cats[0] === 'games'));
     if (gamesOnly) out = [...out.filter(sn => isPremiumGameSnippet(sn)), ...out.filter(sn => !isPremiumGameSnippet(sn))];

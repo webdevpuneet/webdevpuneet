@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
+import { freshestFirst } from '@/lib/newest-first';
 import { createPortal } from 'react-dom';
 import { useScrollToolbarMenu, AiPromptButton, FullscreenButton } from '@/components/ToolbarActions';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -960,7 +961,7 @@ const HEADER_CATEGORIES = CATEGORIES
   .filter(c => c.count > 0);
 // Category id -> label, for the toolbar search drop-down
 const CATEGORY_LABELS = new Map(CATEGORIES.map(c => [c.id, c.label]));
-const VISIBLE_SNIPPETS_NEWEST = [...VISIBLE_SNIPPETS].reverse();
+const VISIBLE_SNIPPETS_NEWEST = freshestFirst(VISIBLE_SNIPPETS);
 // Header tag list for the strip's drop-down (same set the gallery's Tags column shows).
 const HEADER_TAGS = publishedTags(SNIPPETS).map(t => ({ id: t.id, label: t.label }));
 
@@ -971,7 +972,7 @@ const HEADER_TAGS = publishedTags(SNIPPETS).map(t => ({ id: t.id, label: t.label
    (newest first): it opens on the open snippet (marked) with a few previous ones above, shows 10 at a time
    and loads 10 more as you scroll, down and up, until the ends ("see all" card at the bottom). Hovering a
    card shows a large preview beside the overlay. Real links with thumbnails, so each is a crawlable link. — */
-const NEWEST_FIRST_SNIPPETS = [...VISIBLE_SNIPPETS].reverse();
+const NEWEST_FIRST_SNIPPETS = freshestFirst(VISIBLE_SNIPPETS);
 const CODE_OVERLAY_PAGE = 10;
 const TOGGLE_RELATED_EVENT = 'uis-toggle-related'; // the "Related" button in the code header toggles the overlay
 const RELATED_STATE_EVENT ='uis-related-state'; // detail: true while the overlay is open (the button shows active)
@@ -2135,10 +2136,10 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
         if (sidebarStack) return sidebarStack;
         if (relatedNavOn) {
           const cat = VISIBLE_SNIPPETS.filter(sn => sn.category === activeSn.category);
-          return sidebarNav.sort === 'newest' ? [...cat].reverse() : cat;
+          return sidebarNav.sort === 'newest' ? freshestFirst(cat) : cat;
         }
         const base = VISIBLE_SNIPPETS;
-        return sortOrder === 'newest' ? [...base].reverse() : base;
+        return sortOrder === 'newest' ? freshestFirst(base) : base;
       })()
     : [];
   const randomLabel  = relatedNavOn ? 'Random related snippet'

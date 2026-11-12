@@ -1226,7 +1226,7 @@ export const SNIPPET_TAG_MAP = {
   'now-playing-mini-player': ['touch-gestures', 'svg', 'media-player', 'games'],
   'nps-survey': ['css-grid'],
   'number-base-converter': ['developer-tools', 'css-grid'],
-  'number-guessing-game': ['games'],
+  'number-guessing-game': ['local-storage', 'web-audio', 'clipboard-api', 'games'],
   'number-key-jump-carousel': ['keyboard-navigation', 'accessibility', 'media-player'],
   'number-sequence-memory-game': ['keyboard-navigation', 'games', 'css-grid'],
   'number-slot': ['loading-states'],

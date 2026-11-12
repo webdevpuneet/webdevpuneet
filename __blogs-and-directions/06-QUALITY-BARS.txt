@@ -59,3 +59,9 @@ WORKING RULES (from Puneet)
   - New tools go in test mode first unless Puneet asks for live.
   - Blog drafts are rebranded to webdevpuneet.com; WordPress output is one <name>-wordpress.txt.
   - Read and update __directions/roadmaps/TEMPLATES-ROADMAP.html and SUGGESTIONS.html when working on templates.
+
+ORDER OF "NEWEST" (added 2026-11-12): UI snippets are sorted freshest first = latest `lastmod`, then later position in the library for the same day.
+Used by the home "Latest UI Snippets" strip, the UI Snippets gallery, every category page, the editor's Related list / Prev-Next and the 404 page.
+The rank `r` is precomputed into src/lib/snippet-index.js and snippet-search-index.js, so AFTER changing a snippet's lastmod run:
+  node scripts/generate-snippet-search-index.mjs
+(helper: freshestFirst() in src/lib/newest-first.js). Snippets without a lastmod sink to the bottom in library order.

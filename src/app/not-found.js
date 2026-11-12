@@ -1,5 +1,6 @@
 'use client';
 import { useEffect } from 'react';
+import { freshestFirst } from '@/lib/newest-first';
 import HomeOmniSearch from '@/components/HomeOmniSearch';
 import { LIVE_TOOLS } from '@/lib/tools-registry';
 import { setNotFound } from '@/lib/not-found-state';
@@ -36,7 +37,7 @@ const RANDOM_OTHERS = VISIBLE_SNIPPET_INDEX
   .map(sn => ({ id: sn.id, title: sn.title, cat: catLabel(sn.category) }));
 
 // Newest first (the index is oldest-first), with the category for the card tags
-const LATEST = [...VISIBLE_SNIPPET_INDEX].reverse().slice(0, 60).map(sn => ({ id: sn.id, title: sn.title, category: sn.category }));
+const LATEST = freshestFirst(VISIBLE_SNIPPET_INDEX).slice(0, 60).map(sn => ({ id: sn.id, title: sn.title, category: sn.category }));
 
 const PLAYGROUNDS = LIVE_TOOLS.filter(t => t.slug.endsWith('-playground'));
 
