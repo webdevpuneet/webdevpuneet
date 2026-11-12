@@ -4,6 +4,7 @@ import Sidebar from '@/components/Sidebar';
 import RouteLoader from '@/components/RouteLoader';
 import CookieConsent from '@/components/CookieConsent';
 import ShareThisWidget from '@/components/ShareThisWidget';
+import DesignWebsiteButton from '@/components/DesignWebsiteButton';
 import styles from './layout.module.css';
 import AdSenseScript from '@/components/AdSenseScript';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
@@ -101,7 +102,7 @@ export default function RootLayout({ children }) {
         </div>
         <CookieConsent />
         <ShareThisWidget />
-        {/* Floating "Design your website" button removed 2026-11-10; the component is kept in components/DesignWebsiteButton */}
+        <DesignWebsiteButton />
       </body>
     </html>
   );
