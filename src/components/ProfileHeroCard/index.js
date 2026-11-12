@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.css';
+import { PremiumUnlockDialog } from '@/components/PremiumGate';
+import { useAdFree } from '@/lib/use-ad-free';
 
 // Author card for the home hero — a quiet, flat card (no photo) so it does not compete
 // with the hero title and search. "Email me" opens a small popover with the
@@ -12,6 +14,8 @@ const UPWORK = 'https://www.upwork.com/freelancers/~017de423dd2d0e2767';
 export default function ProfileHeroCard() {
   const [emailOpen, setEmailOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const supporter = useAdFree(); // Patreon supporters do not see the support button
+  const [patreonOpen, setPatreonOpen] = useState(false); // the Patreon modal (same one as the sidebar line)
   const emailRef = useRef(null);
 
   // Close the email popover on an outside click or Escape.
@@ -54,7 +58,7 @@ export default function ProfileHeroCard() {
       <div className={styles.buttons}>
         <a className={styles.primary} href="/puneet/">Hire me</a>
         <a className={styles.secondary} href={UPWORK} target="_blank" rel="noopener noreferrer">
-          <span className={styles.upDot} aria-hidden="true" /> Available on Upwork
+          <span className={styles.upDot} aria-hidden="true" /> Upwork
         </a>
         <div className={styles.emailWrap} ref={emailRef}>
           <button
@@ -74,7 +78,13 @@ export default function ProfileHeroCard() {
             </div>
           )}
         </div>
+        {!supporter && (
+          <button type="button" className={`${styles.secondary} ${styles.support}`} onClick={() => setPatreonOpen(true)}>
+            <span aria-hidden="true">&#9829;</span> Support
+          </button>
+        )}
       </div>
+      <PremiumUnlockDialog open={patreonOpen} onClose={() => setPatreonOpen(false)} />
     </section>
   );
 }

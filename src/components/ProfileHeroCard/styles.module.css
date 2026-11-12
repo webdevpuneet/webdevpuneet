@@ -17,12 +17,12 @@
 /* Illustration of Puneet at his desk, faded in from the right so the text on the left stays easy to read */
 .card::before {
   content: '';
-  position: absolute; top: 0; right: 0; bottom: 0; width: 58%;
+  position: absolute; top: 0; right: 0; bottom: 0; width: 62%;
   background: url('/images/patreon-supporter.webp') center 28% / cover no-repeat;
   border-radius: 0 12px 12px 0;
-  opacity: 0.42;
-  -webkit-mask-image: linear-gradient(to left, #000 25%, transparent 100%);
-  mask-image: linear-gradient(to left, #000 25%, transparent 100%);
+  opacity: 0.85;
+  -webkit-mask-image: linear-gradient(to left, #000 45%, transparent 100%);
+  mask-image: linear-gradient(to left, #000 45%, transparent 100%);
   pointer-events: none;
 }
 .card > * { position: relative; }
@@ -154,4 +154,21 @@
 
 @media (max-width: 640px) {
   .card { padding: 16px; }
+}
+
+/* Patreon support button next to Hire me / Upwork / Email me: a soft rose tint so it reads as a different kind of action */
+.support { color: #be3455; border-color: color-mix(in srgb, #e0435a 45%, transparent); background: color-mix(in srgb, #e0435a 9%, var(--surface)); }
+.support:hover { background: color-mix(in srgb, #e0435a 18%, var(--surface)); border-color: #e0435a; }
+:global([data-theme="dark"]) .support { color: #fda4b4; }
+
+/* Wide screens: the text, badge and buttons stay in the left 60% of the card and the picture fills the right 40% at full strength,
+   so nothing is written on top of the photo. On narrower screens the faded picture behind the text (above) is used. */
+@media (min-width: 900px) {
+  .card { padding-right: calc(40% + 8px); }
+  .card::before { width: 40%; opacity: 1; -webkit-mask-image: linear-gradient(to left, #000 78%, transparent 100%); mask-image: linear-gradient(to left, #000 78%, transparent 100%); }
+  .head { flex-wrap: wrap; row-gap: 6px; }
+  /* smaller buttons so all four fit in the left 60% on one row */
+  .buttons { gap: 5px; flex-wrap: nowrap; }
+  .primary, .secondary { height: 26px; padding: 0 8px; gap: 4px; border-radius: 7px; font-size: 11px; white-space: nowrap; }
+  .upDot { width: 6px; height: 6px; }
 }
