@@ -966,7 +966,7 @@ const HEADER_TAGS = publishedTags(SNIPPETS).map(t => ({ id: t.id, label: t.label
 
 /* — Related snippets overlay: covers only the code panels (HTML / CSS / JS), never the preview or the
    header. Library snippets, desktop only (it lives in the desktop editor pane; phones never get it). It
-   fades in 3 seconds after every page load or snippet change; "View code" closes it for this page and the
+   fades in 3 seconds after every page load or snippet change; closing it only closes it for that page (the next snippet opens it again) and the
    "Related" button in the code header brings it back. The list is the whole category in gallery order
    (newest first): it opens on the open snippet (marked) with a few previous ones above, shows 10 at a time
    and loads 10 more as you scroll, down and up, until the ends ("see all" card at the bottom). Hovering a
@@ -974,8 +974,6 @@ const HEADER_TAGS = publishedTags(SNIPPETS).map(t => ({ id: t.id, label: t.label
 const NEWEST_FIRST_SNIPPETS = [...VISIBLE_SNIPPETS].reverse();
 const CODE_OVERLAY_PAGE = 10;
 const TOGGLE_RELATED_EVENT = 'uis-toggle-related'; // the "Related" button in the code header toggles the overlay
-const RELATED_CLOSED_KEY = 'uis-related-closed-at'; // when the visitor last closed the overlay
-const RELATED_CLOSED_MS = 10 * 60 * 1000;           // it does not auto-open again for 10 minutes after that
 const RELATED_STATE_EVENT ='uis-related-state'; // detail: true while the overlay is open (the button shows active)
 // 2088 -> "2K", 2600 -> "2.6K", 506 -> "506" (the total in the Prev / Next position pill)
 const shortCount = n => (n >= 1000 ? `${Math.floor(n / 100) / 10}K` : String(n));
@@ -1009,18 +1007,12 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
   useEffect(() => {
     setOpen(false);
     touched.current = false;
-    // Closed by the visitor within the last 10 minutes: stay closed (the Related button still opens it)
-    let closedAt = 0;
-    try { closedAt = Number(localStorage.getItem(RELATED_CLOSED_KEY)) || 0; } catch {}
-    if (Date.now() - closedAt < RELATED_CLOSED_MS) return undefined;
     const t = setTimeout(() => { if (!touched.current) reveal(); }, 3000);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId, pool.length]);
   const openRef = useRef(false);
   useEffect(() => {
-    // open -> closed by the visitor: remember the time (a snippet change remounts this component, so it is not counted)
-    if (openRef.current && !open) { try { localStorage.setItem(RELATED_CLOSED_KEY, String(Date.now())); } catch {} }
     openRef.current = open;
     window.dispatchEvent(new CustomEvent(RELATED_STATE_EVENT, { detail: open }));
   }, [open]);
