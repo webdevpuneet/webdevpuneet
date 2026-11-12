@@ -1,7 +1,7 @@
 const animatedUnderline = {
   id: 'animated-underline',
   title: 'Animated Underline Links',
-  category: 'animations',
+  category: 'text-animations',
   html: `<nav class="links">
   <a href="#" class="u-slide">Slide in</a>
   <a href="#" class="u-center">Center out</a>

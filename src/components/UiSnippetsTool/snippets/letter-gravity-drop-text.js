@@ -1,7 +1,7 @@
 const letterGravityDropText = {
     id: 'letter-gravity-drop-text',
     title: 'Letter Gravity Drop Text',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <h1 class="gravity-heading" id="heading">Letters fall into place</h1>
   <button class="replay" onclick="dropLetters()">Drop again</button>

@@ -1,7 +1,7 @@
 const numberWordMorphCounter = {
     id: 'number-word-morph-counter',
     title: 'Number to Word Morph Counter',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <p class="sub">Trusted by</p>
   <div class="morph-stage">

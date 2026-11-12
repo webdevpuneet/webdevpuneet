@@ -32,7 +32,7 @@ const FALLBACK_OG = BASE_OG + '.png';
 /** Returns the OG image for a category id. Falls back to the generic image. */
 function categoryOG(catId) {
   const available = new Set([
-    'animations','buttons','cards','charts','dashboards','forms',
+    'animations','text-animations','buttons','cards','charts','dashboards','forms',
     'heroes','layouts','loaders','modals','navigation',
     'pricing','tables','scroll','mobile','games',
     'carousels','media','tools','visualizers','landing-pages',
@@ -345,6 +345,67 @@ const CATEGORY_CONTENT = {
       { q: 'How do I respect the prefers-reduced-motion accessibility setting?', a: 'Add @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } } to your CSS. This near-instantly completes all animations for users who have enabled "Reduce motion" in their OS accessibility settings. For Canvas animations, check window.matchMedia("(prefers-reduced-motion: reduce)").matches in JavaScript and skip the animation loop or show a static frame.' },
       { q: 'Can I layer multiple animation effects on the same page?', a: 'Yes. Aurora Background and Floating Particles use absolute/fixed positioning and can be layered via z-index — Aurora behind, Particles on top. Gradient Text works on any heading element regardless of background. Custom Cursor is global via document event listeners and works with any page content. The Spotlight effect uses a pointer-events: none overlay so it never blocks clicks on the content below it.' },
       { q: 'Which animations work on touch devices and mobile screens?', a: 'All CSS-only animations (Gradient Text, Aurora, Typewriter, Wave Text, Glitch Text, Stagger List, Reveal on Scroll) work on mobile without changes. Mouse-dependent effects (Custom Cursor, Spotlight, 3D Card Tilt) require a pointer device and degrade or disappear on touch. Add @media (pointer: coarse) { .cursor-dot, .cursor-ring { display: none } } to disable cursor elements on touch screens. The 3D Card Tilt can be adapted to work on touch by binding touchmove events and reading e.touches[0].clientX/Y.' },
+    ],
+  },
+
+  'text-animations': {
+    slug: 'ui-snippets/text-animations',
+    title: 'Text Animation Snippets — Free HTML CSS JS Text Effects',
+    subtitle: '{n} text animation effects · Typewriter, Text Scramble, Glitch, Gradient & Shiny Text, Split Text, Wave, Rotating Words, Scroll Reveals & more · Exports to React, Vue, Angular & Tailwind',
+    about: {
+      title: 'Text Animation Snippets — 44 Free Effects: Typewriter, Scramble, Glitch, Split Text, Scroll Reveals',
+      description: `Text is the first thing a visitor reads, so a little motion on a headline does more than almost any image: it tells people where to look, makes a hero feel alive and gives a brand a voice. This collection gathers 44 text animation effects in plain HTML, CSS and vanilla JavaScript, plus a few that use GSAP, Typed.js or Splitting.js. Each one runs live in the editor, so you can change the words, speed and colours and see the result at once, then copy the code or export it to React, Vue, Angular or Tailwind.
+
+**The classic text effects**
+
+The [Typewriter Effect](/ui-snippets/typewriter/) types a line one letter at a time with a blinking cursor. [Text Scramble](/ui-snippets/text-scramble/) shuffles random characters until each letter settles on the right one, which gives the "decoding" look used on developer and sci-fi sites. [Glitch Text](/ui-snippets/glitch-text/) splits the colour channels with clip-path and offsets. [Animated Gradient Text](/ui-snippets/gradient-text/) slides a gradient through the letters with background-clip: text, and [Shiny Text](/ui-snippets/shiny-text/) sweeps a highlight across a word. [Wave Text](/ui-snippets/wave-text/) bounces each letter in turn, and the [Marquee](/ui-snippets/marquee/) scrolls a line of text forever.
+
+**Split text, per-letter and per-word animation**
+
+Most advanced text animation starts by splitting a line into letters or words so each can move on its own. [Split Text Animation](/ui-snippets/split-text/) does it in plain JavaScript, [GSAP SplitText Reveal](/ui-snippets/gsap-split-text/) does it with GSAP, and [Splitting.js CSS Stagger](/ui-snippets/splitting-css-stagger/) writes CSS variables so the stagger is pure CSS. From there the collection goes further: [Letter Gravity Drop](/ui-snippets/letter-gravity-drop-text/), [Character Wobble on hover](/ui-snippets/character-wobble-hover-text/), [3D Character Flip Reveal](/ui-snippets/char-flip-reveal-3d/), [Word Spring Bounce](/ui-snippets/word-spring-bounce-heading/) and [Text Scatter and Assemble](/ui-snippets/text-scatter-assemble/).
+
+**Rotating words and hero headlines**
+
+A headline that cycles through words ("Build faster, ship smarter, scale easier") says more in the same space. [GSAP Text Rotator](/ui-snippets/gsap-text-rotator/), [Word Flip Hero](/ui-snippets/word-flip-hero/), [Typed.js Rotating Headline](/ui-snippets/typed-rotating-hero/) and [Typed.js Multi-String Hero](/ui-snippets/typed-js-multi-string-hero/) are ready to drop into a hero section.
+
+**Text that reacts to scroll**
+
+Scroll turns reading into an interaction. [Text Reveal on Scroll](/ui-snippets/text-reveal-scroll/) fills a paragraph word by word as you scroll, [Scroll Text Clip Reveal](/ui-snippets/scroll-text-clip-reveal/) wipes lines in, [Scroll Typewriter](/ui-snippets/scroll-typewriter/) types as the page moves, [Scroll Text Draw](/ui-snippets/scroll-text-draw/) draws the outline of a word, and [Scroll Letter Stagger](/ui-snippets/scroll-letter-stagger/) and [Scroll Word Wheel](/ui-snippets/scroll-word-wheel/) animate letters and words.
+
+**Canvas, SVG and variable fonts**
+
+For bigger effects there are [Canvas Particle Text Formation](/ui-snippets/canvas-particle-text-formation/) (particles that gather into a word), [SVG Liquid Text Wave](/ui-snippets/svg-liquid-text-wave/), [SVG Mask Sweep Text Reveal](/ui-snippets/svg-mask-sweep-text-reveal/) and [Variable Font Weight Breathe](/ui-snippets/variable-font-weight-breathe/), which animates the font-weight axis of a variable font.
+
+**Built to be used in real pages**
+
+Every snippet is small, has no required dependencies unless the title names a library, and keeps the real text in the DOM so search engines, screen readers and copy and paste still work. Animations use transform and opacity where possible so they stay smooth, and you can respect the prefers-reduced-motion setting with one media query (see the FAQ below).`,
+    },
+    features: [
+      '44 text animation effects: typewriter, scramble, glitch, gradient, shiny, wave, split text, rotating words, scroll reveals and particle text',
+      'Plain HTML, CSS and vanilla JavaScript for most snippets, with GSAP, Typed.js and Splitting.js versions where a library is the better tool',
+      'Live editor: change the words, timing and colours and see the animation update at once',
+      'Per-letter and per-word effects built on one split-and-stagger pattern you can reuse',
+      'Scroll-linked text with IntersectionObserver or GSAP ScrollTrigger, with no heavy scroll listeners',
+      'Real text stays in the DOM, so it remains readable by search engines, screen readers and copy and paste',
+      'GPU-friendly animations (transform and opacity) and an easy prefers-reduced-motion switch',
+      'One-click export to HTML, React, Vue, Angular and Tailwind CSS',
+    ],
+    useCases: [
+      { icon: 'APP', title: 'Hero headlines that rotate or type themselves', desc: 'Typed.js Rotating Headline, GSAP Text Rotator and Word Flip Hero show several value propositions in one headline slot, which is useful on SaaS, agency and portfolio landing pages.' },
+      { icon: 'DESIGN', title: 'Dark, techy and cyberpunk interfaces', desc: 'Text Scramble, Glitch Text, Typewriter Glitch Gradient Reveal and Typing Code Editor give developer tools, game sites and hacker-style portfolios the right feel without images or video.' },
+      { icon: 'STAR', title: 'Premium brand and product pages', desc: 'Shiny Text, Aurora Text, Animated Gradient Text and Sparkles Text add polish to a product name, a pricing headline or a launch announcement.' },
+      { icon: 'FLOW', title: 'Scroll storytelling and long-form pages', desc: 'Text Reveal on Scroll, Scroll Text Clip Reveal and Scroll Typewriter make people read a manifesto, a case study or an about page line by line instead of skimming it.' },
+      { icon: 'LEARN', title: 'Learn how text animation works', desc: 'Split Text, Splitting.js and Letter Gravity Drop show how a line becomes letters, how the stagger delay is calculated and how to animate each letter with CSS or GSAP.' },
+      { icon: 'CODE', title: 'Replace a text animation library with a few lines of code', desc: 'Many sites load a whole library only for a typing or scramble effect. The vanilla versions here are a few dozen lines and add no weight to your bundle.' },
+    ],
+    faqs: [
+      { q: 'How do I make a typewriter text effect with plain CSS and JavaScript?', a: 'Open the Typewriter Effect snippet. It keeps the full text in a variable, adds one character at a time with setTimeout, and shows a blinking cursor with a CSS animation. Change the text and the typing speed at the top of the script. For a CSS-only version you can animate width with the steps() timing function on a monospace font.' },
+      { q: 'How do I split text into letters or words to animate each one?', a: 'Wrap each letter or word in a span, then give each span a growing animation-delay (index times 40 ms is a good start). The Split Text Animation snippet does this in plain JavaScript, and Splitting.js and GSAP SplitText do it with a library. Keep an aria-label on the parent so screen readers read the original sentence, and mark the spans aria-hidden.' },
+      { q: 'Do text animations hurt SEO or accessibility?', a: 'Not when the real text stays in the HTML, which is how these snippets are written. Search engines read the text in the DOM, not the animation. For accessibility, avoid animating text that must be read quickly, keep contrast high, and switch the motion off for people who ask for it with the prefers-reduced-motion media query.' },
+      { q: 'How do I respect prefers-reduced-motion for text animations?', a: 'Wrap the animation in @media (prefers-reduced-motion: no-preference), or add @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } } and show the final text immediately. For JavaScript effects, check window.matchMedia("(prefers-reduced-motion: reduce)").matches and skip the animation.' },
+      { q: 'Which text effect is best for a hero section?', a: 'A rotating headline (Typed.js Rotating Headline, GSAP Text Rotator or Word Flip Hero) works well when you have several short messages. A gradient or shiny headline suits a single strong line. Use one effect per screen, because several competing animations make the page harder to read.' },
+      { q: 'Can I use these text animations in React, Vue, Angular or Tailwind?', a: 'Yes. Every snippet has export buttons for HTML, React (JSX), React with Tailwind, Vue 3 and Angular. For effects that need JavaScript, the export puts the logic in the right lifecycle hook (useEffect, onMounted or ngAfterViewInit) so the animation starts when the component appears.' },
+      { q: 'Are the text animations free, and do I need to credit you?', a: 'The snippets are free to copy and use in personal and commercial projects. No account and no credit are required, though a link back is always appreciated.' },
     ],
   },
 
@@ -824,7 +885,7 @@ export default async function UiSnippetSlugPage({ params }) {
   const sn = SNIPPETS.find(s => s.id === slug);
   if (!sn) notFound();
 
-  const categoryLabel = sn.category.charAt(0).toUpperCase() + sn.category.slice(1);
+  const categoryLabel = sn.category === 'text-animations' ? 'Text Animation' : sn.category.charAt(0).toUpperCase() + sn.category.slice(1);
   const related = getRelatedSnippets(sn.category);
 
   const breadcrumbSchema = {

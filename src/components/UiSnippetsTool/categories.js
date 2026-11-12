@@ -14,6 +14,7 @@ export const CATEGORIES = [
   { id: 'charts',     label: 'Charts' },
   { id: 'loaders',    label: 'Loaders' },
   { id: 'animations', label: 'Animations' },
+  { id: 'text-animations', label: 'Text Animations' },
   { id: 'scroll',     label: 'Scroll Effects' },
   { id: 'layouts',    label: 'Layouts' },
   { id: 'media',      label: 'Media & Galleries' },

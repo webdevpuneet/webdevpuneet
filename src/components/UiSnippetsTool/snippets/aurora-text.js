@@ -2,7 +2,7 @@ const auroraText = {
   id: 'aurora-text',
   title: 'Aurora Text',
   lastmod: '2026-07-18',
-  category: 'animations',
+  category: 'text-animations',
   html: `<div class="at-stage">
   <p class="at-eyebrow">Northern lights</p>
   <h1 class="at-text">Aurora</h1>

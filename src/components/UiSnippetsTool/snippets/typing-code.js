@@ -2,7 +2,7 @@ const typingCode = {
   id: 'typing-code',
   title: 'Typing Code Editor',
   lastmod: '2026-07-18',
-  category: 'animations',
+  category: 'text-animations',
   html: `<div class="tc-window">
   <div class="tc-bar"><span class="tc-dot tc-r"></span><span class="tc-dot tc-y"></span><span class="tc-dot tc-g"></span><span class="tc-file">app.js</span></div>
   <pre class="tc-code"><code id="tcCode"></code><span class="tc-caret" id="tcCaret"></span></pre>

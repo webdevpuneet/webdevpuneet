@@ -1,7 +1,7 @@
 const svgLiquidTextWave = {
     id: 'svg-liquid-text-wave',
     title: 'SVG Liquid Text Wave',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <svg viewBox="0 0 800 220" class="liquid-svg" xmlns="http://www.w3.org/2000/svg">
     <defs>

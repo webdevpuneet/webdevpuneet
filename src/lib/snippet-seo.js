@@ -14,7 +14,7 @@ export const BASE_OG = 'https://webdevpuneet.com/images/ui-snippets';
 const FALLBACK_OG = BASE_OG + '.png';
 
 const OG_CATEGORIES = new Set([
-  'animations', 'buttons', 'cards', 'charts', 'dashboards', 'forms',
+  'animations', 'text-animations', 'buttons', 'cards', 'charts', 'dashboards', 'forms',
   'heroes', 'layouts', 'loaders', 'modals', 'navigation',
   'pricing', 'tables', 'scroll', 'mobile', 'games',
   'carousels', 'media', 'tools', 'visualizers', 'landing-pages',

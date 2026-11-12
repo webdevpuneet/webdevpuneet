@@ -1,7 +1,7 @@
 const typewriter = {
     id: 'typewriter',
     title: 'Typewriter Effect',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <p class="sub">Hi, I'm a developer who</p>
   <h1>

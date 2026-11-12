@@ -2,7 +2,7 @@ const scrollLetterStagger = {
   id: 'scroll-letter-stagger',
   title: 'Scroll Letter Stagger',
   lastmod: '2026-07-18',
-  category: 'scroll',
+  category: 'text-animations',
   cdnUrls: [
     'https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js',
     'https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js',

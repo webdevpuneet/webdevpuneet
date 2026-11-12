@@ -2,7 +2,7 @@ const typedRotatingHero = {
   id: 'typed-rotating-hero',
   title: 'Typed.js Rotating Headline',
   lastmod: '2026-08-02',
-  category: 'heroes',
+  category: 'text-animations',
   cdnUrls: ['https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js'],
   html: `<section class="trh-hero">
   <div class="trh-inner">

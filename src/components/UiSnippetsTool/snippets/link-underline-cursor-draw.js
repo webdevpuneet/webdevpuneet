@@ -1,7 +1,7 @@
 const linkUnderlineCursorDraw = {
   id: 'link-underline-cursor-draw',
   title: 'Cursor-Follow Underline Draw',
-  category: 'animations',
+  category: 'text-animations',
   html: `<div class="lu-stage">
   <p class="lu-hint">Move your cursor across a link — the underline draws in from wherever you entered</p>
   <nav class="lu-nav">

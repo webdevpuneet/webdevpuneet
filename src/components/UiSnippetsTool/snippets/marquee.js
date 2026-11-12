@@ -1,7 +1,7 @@
 const marquee = {
     id: 'marquee',
     title: 'Marquee / Ticker',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <h2>Trusted by teams at</h2>
   <div class="marquee-wrap">

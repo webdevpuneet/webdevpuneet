@@ -1,7 +1,7 @@
 const textScramble = {
     id: 'text-scramble',
     title: 'Text Scramble',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <h1 id="text">Hover to decode</h1>
   <div class="buttons">

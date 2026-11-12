@@ -1,7 +1,7 @@
 const typewriterGlitchGradientReveal = {
     id: 'typewriter-glitch-gradient-reveal',
     title: 'Typewriter Glitch Gradient Reveal',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <h1 class="reveal-heading">
     <span id="typed"></span><span class="cursor" id="cursor">|</span>

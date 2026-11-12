@@ -1,7 +1,7 @@
 const characterWobbleHoverText = {
   id: 'character-wobble-hover-text',
   title: 'Character Wobble Hover Text',
-  category: 'animations',
+  category: 'text-animations',
   html: `<div class="cw-stage">
   <p class="cw-hint">Hover the heading — each letter wobbles independently as your cursor passes over it</p>
   <h1 class="cw-text" id="cwText">Wobble on hover</h1>

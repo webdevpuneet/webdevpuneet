@@ -2,7 +2,7 @@ const typedJsMultiStringHero = {
   id: 'typed-js-multi-string-hero',
   title: 'Typed.js Multi-String Hero',
   lastmod: '2026-08-21',
-  category: 'heroes',
+  category: 'text-animations',
   cdnUrls: [
     'https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.js',
   ],

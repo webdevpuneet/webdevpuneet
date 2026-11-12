@@ -1,7 +1,7 @@
 const glitchText = {
     id: 'glitch-text',
     title: 'Glitch Text Effect',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <h1 class="glitch" data-text="GLITCH">GLITCH</h1>
   <p class="sub">CSS-only glitch effect using pseudo-elements and clip-path animation</p>

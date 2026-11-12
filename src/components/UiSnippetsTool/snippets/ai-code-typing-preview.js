@@ -2,7 +2,7 @@ const aiCodeTypingPreview = {
   id: 'ai-code-typing-preview',
   title: 'AI Code Typing Preview',
   lastmod: '2026-08-08',
-  category: 'animations',
+  category: 'text-animations',
   html: `<div class="actp-wrap">
   <div class="actp-editor">
     <div class="actp-titlebar">

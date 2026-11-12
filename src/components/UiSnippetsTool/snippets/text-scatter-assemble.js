@@ -1,7 +1,7 @@
 const textScatterAssemble = {
     id: 'text-scatter-assemble',
     title: 'Text Scatter Assemble',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <h1 class="assemble-heading" id="heading">Pieces find their place</h1>
   <button class="replay" onclick="assemble()">Scatter and reassemble</button>

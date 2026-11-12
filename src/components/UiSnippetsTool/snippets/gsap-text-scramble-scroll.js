@@ -2,7 +2,7 @@ const gsapTextScrambleScroll = {
   id: 'gsap-text-scramble-scroll',
   title: 'GSAP Scroll Text Scramble',
   lastmod: '2026-08-21',
-  category: 'scroll',
+  category: 'text-animations',
   cdnUrls: [
     'https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js',
     'https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js',

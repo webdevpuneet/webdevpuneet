@@ -1,7 +1,7 @@
 const variableFontWeightBreathe = {
     id: 'variable-font-weight-breathe',
     title: 'Variable Font Weight Breathe',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <p class="sub">Scroll to change weight — or watch it breathe</p>
   <h1 class="breathe-heading">Weight that moves with you</h1>

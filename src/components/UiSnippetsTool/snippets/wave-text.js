@@ -1,7 +1,7 @@
 const waveText = {
     id: 'wave-text',
     title: 'Wave Text Animation',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <div class="wave-wrap" id="wave1"></div>
   <div class="wave-wrap rainbow" id="wave2"></div>

@@ -2,7 +2,7 @@ const wordFlipHero = {
   id: 'word-flip-hero',
   title: 'Word Flip Hero',
   lastmod: '2026-06-13',
-  category: 'heroes',
+  category: 'text-animations',
   html: `<div class="hero">
   <div class="hero-noise"></div>
   <div class="hero-content">

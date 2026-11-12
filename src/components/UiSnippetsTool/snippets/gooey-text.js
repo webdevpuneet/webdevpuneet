@@ -2,7 +2,7 @@ const gooeyText = {
   id: 'gooey-text',
   title: 'Gooey Text Morph',
   lastmod: '2026-07-18',
-  category: 'animations',
+  category: 'text-animations',
   html: `<div class="gt-stage">
   <svg width="0" height="0"><filter id="gtGoo"><feGaussianBlur in="SourceGraphic" stdDeviation="7" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -8"/></filter></svg>
 

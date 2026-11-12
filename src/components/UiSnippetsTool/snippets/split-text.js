@@ -1,7 +1,7 @@
 const splitText = {
   id: 'split-text',
   title: 'Split Text Animation',
-  category: 'animations',
+  category: 'text-animations',
   html: `<div class="stage">
   <!-- Word-reveal animation -->
   <div class="demo-section">

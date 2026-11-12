@@ -1,7 +1,7 @@
 const svgMaskSweepTextReveal = {
     id: 'svg-mask-sweep-text-reveal',
     title: 'SVG Mask Sweep Text Reveal',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <h1 class="sweep-heading" onclick="playSweep()">Reveal on demand</h1>
   <p class="hint">Click the headline to sweep the reveal shape across it again</p>

@@ -1,7 +1,7 @@
 const textParticles = {
   id: 'text-particles',
   title: 'Text Particles',
-  category: 'animations',
+  category: 'text-animations',
   lastmod: '2026-06-11',
   html: `<div class="app">
   <canvas id="canvas"></canvas>

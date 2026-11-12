@@ -1,7 +1,7 @@
 const charFlipReveal3d = {
     id: 'char-flip-reveal-3d',
     title: '3D Character Flip Reveal',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <p class="eyebrow">Scroll-triggered</p>
   <h1 class="flip-heading" data-flip-text="Design in motion"></h1>

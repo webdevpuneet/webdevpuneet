@@ -2,7 +2,7 @@ const flipLink = {
   id: 'flip-link',
   title: 'Flip Link',
   lastmod: '2026-07-18',
-  category: 'animations',
+  category: 'text-animations',
   html: `<nav class="fl-nav" id="flNav">
   <a href="#" class="fl-link" data-text="Home">Home</a>
   <a href="#" class="fl-link" data-text="Work">Work</a>

@@ -1,7 +1,7 @@
 const wordSpringBounceHeading = {
     id: 'word-spring-bounce-heading',
     title: 'Word Spring Bounce Heading',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <h1 class="spring-heading" id="heading">Words that land with a bounce</h1>
   <button class="replay" onclick="playSpring()">Replay animation</button>

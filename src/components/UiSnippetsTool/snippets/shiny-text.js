@@ -2,7 +2,7 @@ const shinyText = {
   id: 'shiny-text',
   title: 'Shiny Text',
   lastmod: '2026-07-18',
-  category: 'animations',
+  category: 'text-animations',
   html: `<div class="st-stage">
   <a href="#" class="st-badge"><span class="st-shiny">✨ Introducing v2.0</span><span class="st-arrow">→</span></a>
   <h1 class="st-shiny st-big">Shimmer that sweeps</h1>

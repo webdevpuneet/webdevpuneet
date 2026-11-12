@@ -2,7 +2,7 @@ const sparklesText = {
   id: 'sparkles-text',
   title: 'Sparkles Text',
   lastmod: '2026-07-18',
-  category: 'animations',
+  category: 'text-animations',
   html: `<div class="sk-stage">
   <h1 class="sk-text" id="skText">Magic, on demand</h1>
   <p class="sk-sub">Sparkles spawn and twinkle around the headline, then fade.</p>

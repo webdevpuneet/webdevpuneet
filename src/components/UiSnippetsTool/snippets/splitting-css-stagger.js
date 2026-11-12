@@ -2,7 +2,7 @@ const splittingCssStagger = {
   id: 'splitting-css-stagger',
   title: 'Splitting.js CSS Stagger',
   lastmod: '2026-08-02',
-  category: 'animations',
+  category: 'text-animations',
   cdnUrls: ['https://cdn.jsdelivr.net/npm/splitting@1.0.6/dist/splitting.min.js'],
   html: `<div class="scs-wrap">
   <span class="scs-tag">splitting.js · css custom properties</span>

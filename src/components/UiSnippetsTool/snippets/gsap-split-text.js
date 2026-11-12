@@ -2,7 +2,7 @@ const gsapSplitText = {
   id: 'gsap-split-text',
   title: 'GSAP SplitText Reveal',
   lastmod: '2026-07-18',
-  category: 'animations',
+  category: 'text-animations',
   cdnUrls: [
     'https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js',
     'https://cdn.jsdelivr.net/npm/gsap@3/dist/SplitText.min.js',

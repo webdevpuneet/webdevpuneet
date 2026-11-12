@@ -1,7 +1,7 @@
 const gradientText = {
     id: 'gradient-text',
     title: 'Animated Gradient Text',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <p class="sub">Introducing something new</p>
   <h1 class="gradient-text">Build beautiful<br>interfaces faster</h1>

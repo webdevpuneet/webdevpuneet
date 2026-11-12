@@ -1,7 +1,7 @@
 const cursorSpotlightTextFill = {
     id: 'cursor-spotlight-text-fill',
     title: 'Cursor Spotlight Text Fill',
-    category: 'animations',
+    category: 'text-animations',
     html: `<div class="scene">
   <p class="sub">Move your mouse across the headline</p>
   <h1 class="spotlight-heading" data-text="Light follows every letter">Light follows every letter</h1>

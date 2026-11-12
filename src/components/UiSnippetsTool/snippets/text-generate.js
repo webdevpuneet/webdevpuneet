@@ -2,7 +2,7 @@ const textGenerate = {
   id: 'text-generate',
   title: 'Text Generate Effect',
   lastmod: '2026-07-18',
-  category: 'animations',
+  category: 'text-animations',
   html: `<div class="tg-stage">
   <p class="tg-eyebrow">AI-style reveal</p>
   <h1 class="tg-text" id="tgText" data-text="Ideas become interfaces the moment you stop typing and start shipping."></h1>

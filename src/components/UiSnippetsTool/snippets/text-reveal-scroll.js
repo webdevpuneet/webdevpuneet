@@ -2,7 +2,7 @@ const textRevealScroll = {
   id: 'text-reveal-scroll',
   title: 'Text Reveal on Scroll',
   lastmod: '2026-07-18',
-  category: 'scroll',
+  category: 'text-animations',
   html: `<div class="tr-intro">Scroll down ↓</div>
 <section class="tr-section" id="trSection">
   <p class="tr-text" id="trText">We build tools that get out of your way so you can focus on the work that actually matters — shipping things people love.</p>

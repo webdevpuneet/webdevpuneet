@@ -2,7 +2,7 @@ const canvasParticleTextFormation = {
   id: 'canvas-particle-text-formation',
   title: 'Canvas Particle Text Formation',
   lastmod: '2026-08-21',
-  category: 'animations',
+  category: 'text-animations',
   cdnUrls: [],
   html: `<div class="pt-wrap">
   <canvas id="ptCanvas" class="pt-canvas"></canvas>
