@@ -88,3 +88,34 @@ moment, and one "play again / next level" button.
   Rebuilt with levels/daily/sound: Rhythm Tap (combo, ranks), Pong (5 CPU levels, orbs), Snake (8 levels, lives), Mini Sudoku (24 levels, daily),
   Battleship (12 levels, daily, AI skill ladder). New: Switchyard (20 levels, daily). 71 games in total, all Patreon-only.
   Other older games are still simple demos: candidates for the next rebuild once engagement data exists (see section 1).
+
+------------------------------------------------------------
+6. MORE LESSONS (added 2026-11-11, Color Sort + Checkers)
+------------------------------------------------------------
+  - Generate puzzles BACKWARDS from the solved state with inverse moves (Color Sort): always solvable, and a seed makes it the same for everyone.
+    A scramble length is a poor par: take the length of a real solver solution (a greedy best-first search with a heap is enough) as par.
+  - A turn can be a whole SEQUENCE (checkers multi-jump): generate complete sequences once and let the UI, the AI and the move log share them;
+    in the UI only show the squares that continue a legal sequence and refuse other clicks mid-chain.
+  - Computer opponents: negamax + alpha-beta + iterative deepening + a time cap + a capture extension; weaker levels = lower depth AND random noise
+    added to root move scores (a shallow horizon alone plays oddly, noise plays like a distracted human). Test strength with engine-vs-engine games
+    in both seats (depth 6 beat depth 2 in 5 of 6, depth 2 beat random 6 of 6).
+  - CSS content escapes use \265B (hex), NOT ♛; inside the snippet template literal that is written \265B.
+  - Seeded daily starts must be checked for fairness (no capture on offer, equal material) or the "same for everyone" game is unequal.
+  - Persistent piece elements moved with CSS transitions (left/top in %) beat re-rendering the board on every click; remove captured pieces
+    with a short scale/fade class, then delete the element.
+  - A fixed segment height (flex: 0 0 Npx) stops liquid layers stretching in part-filled tubes.
+  - GENERATE AND VERIFY (Minesweeper): place mines at random, run the solver on the whole board, keep it only if the solver clears it (no 50/50
+    guesses ever); reveal an opening at the start so there is no first-click guess either. Use the SAME solver for hints and explain the
+    deduction in words, highlighting the clue cells and the target cell. Prove it with a bot that uses only the solver: it must win every level.
+  - When a render function rewrites className, keep one-shot animation classes (win, hint highlights) or they vanish on the next render.
+  - Timers: stop counting while the tab is hidden (reset lastTick on hidden), and start the clock on the first player action, not at level load.
+  - Typing-test lessons: WPM = correct chars / 5 / minutes (only correct words count), accuracy = per KEYSTROKE and never reduced by Backspace; use a
+    word-based model (Space commits a word) not strict position matching, or one skipped letter ruins the rest; repaint only the current word.
+    Record per-letter attempts/misses: it powers a Weak keys mode, a keys-to-practise list and a tinted on-screen keyboard (a reason to return).
+  - If a view has dead space, fill it with something that teaches or motivates (the on-screen keyboard) instead of shrinking the panel.
+  - ONE RULES INTERFACE (Tic-Tac-Toe): give every game type the same functions (moves, play, winner, evaluate) and one search serves classic, big boards
+    and Ultimate, plus hints and a generated daily puzzle. Perfect-play levels need an objective a human can meet (a draw passes).
+  - A solver also makes the daily content: random position -> keep it only if the solver says it has a forced win of the wanted length.
+  - One-shot CSS animation classes must survive re-renders for the animation's duration (store a timestamp per cell), not just the render that added them.
+
+2048 lesson: keep tiles as persistent elements with ids and animate via transform; redrawing every move makes tiles jump. Merge flag per move prevents 2,2,4 -> 8.
