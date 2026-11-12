@@ -24,7 +24,7 @@ export default function Terms() {
         <section className={styles.section}>
           <h2>2. Description of Service</h2>
           <p>webdevpuneet.com provides a collection of free, browser-based utilities for developers and freelancers, including but not limited to code formatters, converters, calculators, generators, and productivity tools. All tools are designed to run <strong>entirely client-side</strong> — processing happens inside your own browser using JavaScript, and your input is not uploaded to or stored on our servers unless a specific tool explicitly states otherwise (for example, an optional cloud-sync feature that you must actively enable using your own third-party credentials).</p>
-          <p>The Service is provided free of charge and is supported by advertising. We do not guarantee that any specific tool will remain available indefinitely, be free of interruption, or be added, changed, or removed at any time without notice.</p>
+          <p>Most of the Service is provided free of charge and is supported by advertising. Items marked with a Patreon badge (such as the Games snippets and the exports of some templates) are for Patreon supporters. We do not guarantee that any specific tool will remain available indefinitely, be free of interruption, or be added, changed, or removed at any time without notice.</p>
         </section>
 
         <section className={styles.section}>
@@ -47,7 +47,7 @@ export default function Terms() {
 
         <section className={styles.section}>
           <h2>4a. Patreon Supporters</h2>
-          <p>The Service is free to use. Supporting webdevpuneet.com on <strong>Patreon</strong> is optional. Supporters receive a passcode in a members-only post. Entering it on the site removes advertising from the site and unlocks the Export and Fork features of the templates marked as Patreon-only, the AI prompts on UI snippets and templates, the code, export and fork of the Games snippets, the backup feature and bulk creation of social posts from a CSV. Anyone can preview and edit those templates without it. The passcode is for your own use: please do not share it or publish it. It changes from time to time, and an old passcode stops working when it does.</p>
+          <p>The Service is free to use. Supporting webdevpuneet.com on <strong>Patreon</strong> is optional. Supporters receive a passcode in a members-only post. Entering it on the site removes advertising from the site and unlocks the Export and Fork features of the templates marked as Patreon-only, the AI prompts on UI snippets and templates, the code, export and fork of the Games snippets, the Export and Fork of the Website Section Templates, the backup feature and bulk creation of social posts from a CSV. Anyone can preview and edit those templates without it. The passcode is for your own use: please do not share it or publish it. It changes from time to time, and an old passcode stops working when it does.</p>
           <p>Memberships, payments, billing and refunds are handled entirely by Patreon under Patreon's own terms; we are not affiliated with Patreon. Which templates and features are included may change over time, and we may stop or change the supporter benefits with reasonable notice on our Patreon page. A membership does not change the disclaimers, the limitation of liability or the rest of these Terms.</p>
         </section>
 

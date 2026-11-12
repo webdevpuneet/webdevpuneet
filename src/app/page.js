@@ -168,7 +168,7 @@ const MOCK_SELECTS = [
 const FAQS = [
   {
     q: 'Is webdevpuneet.com free?',
-    a: 'Yes. Every snippet, template, playground and tool is free, with no subscription, trial or usage limit.',
+    a: 'Yes. Every snippet, template, playground and tool is free to use, with no trial or usage limit, except the ones marked with a Patreon badge (the games and some template exports), which are for Patreon supporters.',
   },
   {
     q: 'Can I use the code in commercial projects?',

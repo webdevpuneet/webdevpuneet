@@ -56,17 +56,20 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
   return createPortal(
     <div className={s.backdrop} onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}>
       <form className={s.dialog} role="dialog" aria-modal="true" aria-labelledby="prem-title" onSubmit={submit}>
+        <img className={s.hero} src="/images/patreon-supporter.webp" alt="Puneet at his desk building webdevpuneet.com" width="880" height="880" loading="lazy" />
+        <div className={s.story}>
+          <strong>Built with passion. Shared with everyone.</strong>
+          <p>WebDevPuneet is an independent project made with countless hours of work. <b>If it has helped you or saved you time, please consider becoming a supporter</b> and help keep it alive and growing.</p>
+        </div>
         <div className={s.head}>
           <span className={s.lockIcon}>{LOCK}</span>
-          <h2 id="prem-title" className={s.title}>Patreon supporters: no ads, plus premium exports</h2>
+          <h2 id="prem-title" className={s.title}>Patreon supporters: $3/month</h2>
         </div>
-        <p className={s.text}>Supporters ({PATREON_PRICE}) get:</p>
         <ul className={s.list}>
           <li>No ads anywhere on the site</li>
           <li>Export and fork of the templates with a Patreon badge (website, email and social post)</li>
           <li>The AI prompt on every snippet and template</li>
           <li>The code, export and fork of every Games snippet</li>
-          <li>Bulk create social posts from a CSV</li>
         </ul>
         <p className={s.text}>{name ? `You can preview and edit ${name} freely without it. ` : ''}Patrons find the passcode in the latest supporter post on Patreon; it is remembered in this browser.</p>
         <a className={s.patreon} href={PATREON_URL} target="_blank" rel="noopener noreferrer">Get the passcode on Patreon</a>
