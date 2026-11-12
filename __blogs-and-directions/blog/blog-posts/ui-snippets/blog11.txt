@@ -17,11 +17,11 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Each one comes with <strong>how the effect actually works</strong>, <strong>when to reach for it</strong>, and a quick tip for adapting it. They span the full range of techniques — pure CSS sticky positioning, GSAP ScrollTrigger, canvas frame-scrubbing, Lottie players, and WebGL — but they all share one idea: the scrollbar is the timeline, so the animation plays forward as you scroll down and backward as you scroll up.</p>
+<p>Each one comes with <strong>how the effect actually works</strong>, <strong>when to reach for it</strong>, and a quick tip for adapting it. They span the full range of techniques — CSS sticky positioning, GSAP ScrollTrigger, canvas frame-scrubbing, Lottie players, and WebGL — but they all share one idea: the scrollbar is the timeline, so the animation plays forward as you scroll down and backward as you scroll up.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Every snippet below is a <strong>live, interactive preview</strong> — scroll inside it and try the effect right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+<p>Every snippet below is a <strong>live, interactive preview</strong> — scroll inside it and try the effect right in the article. When you find one you like, use the <strong>HTML, CSS and JS tabs</strong> in the preview to read the code, or click <strong>Edit in Editor</strong> to tweak it and export it to React, Vue, Angular or Tailwind.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
@@ -63,7 +63,7 @@
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
-<p><strong>How it works:</strong> a set of frames is preloaded, and GSAP's ScrollTrigger scrubs a single frame-index value from the first frame to the last as you scroll through a pinned section. Whichever frame that value lands on is painted to a <code>&lt;canvas&gt;</code> with <code>drawImage</code>, so only one image is ever on screen and the "video" is really just the right still for your scroll position. Because it's scrubbed, scrolling back up plays the sequence in reverse with no extra code.</p>
+<p><strong>How it works:</strong> the demo pre-renders 80 frames of an orbiting particle ring into offscreen canvases (a stand-in for a folder of exported PNG frames), and GSAP's ScrollTrigger scrubs a single frame-index value from the first frame to the last as you scroll through a pinned section. Whichever frame that value lands on is painted to a <code>&lt;canvas&gt;</code> with <code>drawImage</code>, so only one image is ever on screen and the "video" is really just the right still for your scroll position. Because it's scrubbed, scrolling back up plays the sequence in reverse with no extra code. To use your own footage, replace the frame-building loop with an <code>Image()</code> preloader.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -87,11 +87,11 @@
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
-<p><strong>How it works:</strong> GSAP ScrollTrigger scrubs a character count from zero to the length of the string as you move through a pinned section, and each frame the snippet shows just that many characters with a blinking caret at the end. Nothing is on a timer, so the reversibility is free — scroll up and the value shrinks, deleting characters one at a time. It's the same scrubbing idea as the image sequence, applied to text instead of frames.</p>
+<p><strong>How it works:</strong> each line is split into one span per character, all hidden. A GSAP timeline, scrubbed by ScrollTrigger through a pinned section, switches the spans to visible one after another (a stagger of near-zero-length tweens, because <code>display</code> can't be tweened smoothly), and the caret is moved to sit after the last visible character. Nothing is on a timer, so the reversibility is free — scroll up and the characters disappear one at a time. It's the same scrubbing idea as the image sequence, applied to text instead of frames.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Best for:</strong> landing-page headlines, terminal and code-tool demos, and story sections where a line should "type" into place as the reader arrives. <strong>Tip:</strong> keep the underlying text a real, complete text node and reveal a slice of it — that way it stays selectable and readable by screen readers even mid-animation.</p>
+<p><strong>Best for:</strong> landing-page headlines, terminal and code-tool demos, and story sections where a line should "type" into place as the reader arrives. <strong>Tip:</strong> hidden spans aren't read by screen readers, so put the full sentence in an <code>aria-label</code> on the line and mark the spans <code>aria-hidden</code> — assistive tech then gets the whole text from the start. Want more typing, scrambling and splitting effects? The <a href="https://webdevpuneet.com/ui-snippets/text-animations/">Text Animation snippets</a> collection has 44 of them.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -127,7 +127,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Full-width cards pin to the top of the viewport one after another, and as you keep scrolling the next card slides up to cover the previous one — which shrinks back like a card going into a deck.</p>
+<p>Cards pin near the top of the viewport one after another, and as you keep scrolling the next card slides up to cover the previous one — which shrinks back like a card going into a deck.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
@@ -135,11 +135,11 @@
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
-<p><strong>How it works:</strong> each card uses <code>position: sticky</code> with a top offset, so it sticks to the top of the viewport while its section scrolls past, and the next sticky card rides up over it. A small scale-down on the outgoing card makes it recede like it's slipping into a stack rather than being flatly hidden. The whole effect is CSS-first — no library needed for the core stacking.</p>
+<p><strong>How it works:</strong> each card uses <code>position: sticky</code> with a top offset, so it sticks to the top of the viewport while its section scrolls past, and the next sticky card rides up over it. As the next card rises, a small scroll handler scales the outgoing card down by up to 8% and dims it slightly, so it recedes like it's slipping into a stack rather than being flatly hidden. The stacking itself is pure CSS, and the whole effect needs no library.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Best for:</strong> feature walkthroughs, step-by-step storytelling, and pricing or plan comparisons where each card deserves a full moment on screen. <strong>Tip:</strong> give each card a slightly different top offset so a sliver of the previous card peeks out above the current one — that visible edge is what reads as a real physical stack.</p>
+<p><strong>Best for:</strong> feature walkthroughs, step-by-step storytelling, and pricing or plan comparisons where each card deserves a full moment on screen. <strong>Tip:</strong> this demo pins every card at the same offset; give each card a slightly larger top offset than the one before so a sliver of the previous card peeks out above the current one — that visible edge is what reads as a real physical stack.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -159,7 +159,7 @@
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
-<p><strong>How it works:</strong> the chart sits in a <code>position: sticky</code> column so it stays fixed on screen while the text steps scroll past it. Each step is tracked as it scrolls into view, and as one becomes active the chart transitions to that step's data — bars regrow, a line redraws, a series highlights. Because the active step is derived from scroll position, scrolling back up returns the chart to the previous state exactly.</p>
+<p><strong>How it works:</strong> the chart sits in a <code>position: sticky</code> column so it stays fixed on screen while the text steps scroll past it. An IntersectionObserver watches each step, and when one crosses the middle band of the screen the chart switches to that step's data — the bars regrow to new heights and the leading bar is highlighted. Because the active step follows where you are on the page, scrolling back up returns the chart to the previous state exactly.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -223,7 +223,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Plain vertical page scroll turned into a horizontal pan across a strip of 3D panels — the scrollbar slides the whole gallery sideways while each panel rotates coverflow-style toward the camera as it reaches center.</p>
+<p>Plain vertical page scroll turned into a horizontal pan across a strip of 3D panels — the scrollbar slides the whole gallery sideways while each of the six panels rotates coverflow-style toward the camera as it reaches center. (The demo uses plain coloured panels as placeholders for your images.)</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
@@ -235,7 +235,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Best for:</strong> portfolios, product line-ups, and case-study galleries that want a tactile, three-dimensional browse instead of a flat carousel. <strong>Tip:</strong> keep the panel count modest and the textures reasonably sized — a horizontal 3D strip is most striking when each panel is crisp and the motion stays perfectly smooth.</p>
+<p><strong>Best for:</strong> portfolios, product line-ups, and case-study galleries that want a tactile, three-dimensional browse instead of a flat carousel. <strong>Tip:</strong> when you swap the coloured panels for image textures, keep the panel count modest and the images reasonably sized — a horizontal 3D strip is most striking when each panel is crisp and the motion stays perfectly smooth.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -255,11 +255,11 @@
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
-<p><strong>How it works:</strong> a single curve is used twice — once to extrude the tube geometry you fly through, and again as the exact path the camera travels — so the camera is always perfectly centered inside the tunnel. ScrollTrigger scrubs one 0-to-1 value that walks the camera along that curve, and the camera looks at a point sampled slightly ahead so it banks naturally into every bend. Neon rings threaded along the path streak past to sell the speed.</p>
+<p><strong>How it works:</strong> a single curve is used twice — once to extrude the tube geometry you fly through, and again as the exact path the camera travels — so the camera is always perfectly centered inside the tunnel. ScrollTrigger scrubs one 0-to-1 value that walks the camera along that curve, and the camera looks at a point sampled slightly ahead so it follows every bend, while a slow roll of the camera makes the tunnel twist past you. Neon rings threaded along the path streak past to sell the speed.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Best for:</strong> immersive landing intros, game and esports promos, and music or event pages that want a high-energy scroll journey. <strong>Tip:</strong> reshape the tunnel by editing the control points of the curve — because the geometry and the camera share it, the walls and the flight path update together automatically.</p>
+<p><strong>Best for:</strong> immersive landing intros, game and esports promos, and music or event pages that want a high-energy scroll journey. <strong>Tip:</strong> reshape the tunnel by changing the formula that generates the curve's control points — because the geometry and the camera share the curve, the walls and the flight path update together automatically.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -271,7 +271,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Dozens of glowing crystal fragments start flung apart in space and, as you scroll through a pinned stage, fly inward until every piece locks into its exact position and orientation to form a solid shape.</p>
+<p>Ninety glowing crystal fragments start flung apart in space and, as you scroll through a pinned stage, fly inward until every piece settles onto the surface of a faceted crystal shape.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
@@ -279,11 +279,11 @@
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
-<p><strong>How it works:</strong> every fragment stores both a scattered start transform and a target position and rotation on the assembled surface. ScrollTrigger scrubs a single 0-to-1 value, and each frame every fragment's position is interpolated between its start and target while its rotation is smoothly slerped, so scrolling assembles the object and scrolling back explodes it apart again. A three-light rig gives the crystal shards their glassy, faceted shading.</p>
+<p><strong>How it works:</strong> each tetrahedron fragment is matched to one face of a hidden icosahedron and stores both a scattered start transform and a target position and rotation on that face. ScrollTrigger scrubs a single 0-to-1 value, and each frame every fragment's position is interpolated between its start and target while its rotation is smoothly slerped, so scrolling assembles the object and scrolling back explodes it apart again. Two coloured point lights, a directional light and a soft ambient light give the shards their glassy, faceted shading.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Best for:</strong> product and brand reveals, launch pages, and hero moments where an object should feel like it's being constructed as the visitor scrolls into it. <strong>Tip:</strong> the assembled target is just a set of points on a shape — swap it for your own logo or product silhouette and the same fly-in-and-lock motion reassembles that instead.</p>
+<p><strong>Best for:</strong> product and brand reveals, launch pages, and hero moments where an object should feel like it's being constructed as the visitor scrolls into it. <strong>Tip:</strong> the assembled target is sampled from the faces of the reference geometry — swap that geometry for another shape and the same fly-in motion assembles it instead. Matching a flat logo or product silhouette takes custom target points.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -301,7 +301,7 @@
 <!-- wp:list {"ordered":true} -->
 <ol class="wp-block-list">
 <!-- wp:list-item -->
-<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, plus any CDN scripts it needs (GSAP, Three.js, or lottie-web).</li>
+<li>Open the snippet and switch between the <strong>HTML, CSS and JS</strong> tabs to see the code, plus the CDN scripts it needs (GSAP, Three.js, or lottie-web). <strong>Edit in Editor</strong> opens it in the full editor.</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
 <li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — and add the CDN script tags for the heavier effects.</li>
@@ -342,9 +342,9 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>These ten span every layer of the stack — a pure-CSS sticky stack, a GSAP-scrubbed typewriter, a canvas image sequence, two scroll-driven Lottie animations, and three WebGL scenes — but they're all the same idea underneath: make the scrollbar the timeline, and derive everything on screen from one scrubbed value. Once that clicks, you stop thinking of scroll animations as separate tricks and start seeing them as one technique pointed at different content — text, an SVG path, a chart, a Lottie frame, or a 3D camera.</p>
+<p>These ten span every layer of the stack — a CSS sticky card stack, a GSAP-scrubbed typewriter, a canvas image sequence, two scroll-driven Lottie animations, and three WebGL scenes — but they're all the same idea underneath: make the scrollbar the timeline, and derive everything on screen from one scrubbed value. Once that clicks, you stop thinking of scroll animations as separate tricks and start seeing them as one technique pointed at different content — text, an SVG path, a chart, a Lottie frame, or a 3D camera.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/scroll/">webdevpuneet UI Snippets — Scroll Effects</a> — it's free and runs entirely in your browser.</p>
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/scroll/">webdevpuneet UI Snippets — Scroll Effects</a>, and for more typing, scrambling and splitting effects like the scrubbed typewriter, see the <a href="https://webdevpuneet.com/ui-snippets/text-animations/">Text Animation snippets</a>. Both are free and run entirely in your browser.</p>
 <!-- /wp:paragraph -->
