@@ -1384,12 +1384,6 @@ export default function Sidebar() {
           </button>
         </div>
 
-        {/* Sidebar top ad (first, right under the brand row). Keyed by pathname so every page mounts a fresh slot.
-            Shown on every URL (query strings included); never on the 404 page. */}
-        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !adFreeOnLoad && !isNotFoundPage && !isEmbedRoute(pathname) && adsAllowedOnPath(pathname) && (
-          <SidebarTopAd key={pathname} />
-        )}
-
         {/* Patreon: a supporter sees the thank-you line; everyone else sees the sign-in line (both one line, same place) */}
         {!adFree && (
           <div className={`${styles.supporterBar} ${styles.supporterBarOff}`}>
@@ -1405,6 +1399,12 @@ export default function Sidebar() {
             <span className={styles.supporterText}>Patreon supporter: thank you!</span>
             <button type="button" className={styles.supporterOut} onClick={() => { lockAgain(); window.location.reload(); }} title="Forget the passcode in this browser (ads come back)">Sign out</button>
           </div>
+        )}
+
+        {/* Sidebar top ad (right under the Patreon line). Keyed by pathname so every page mounts a fresh slot.
+            Shown on every URL (query strings included); never on the 404 page. */}
+        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !adFreeOnLoad && !isNotFoundPage && !isEmbedRoute(pathname) && adsAllowedOnPath(pathname) && (
+          <SidebarTopAd key={pathname} />
         )}
 
         {/* Latest blog posts, one at a time, right under the Patreon line. */}
