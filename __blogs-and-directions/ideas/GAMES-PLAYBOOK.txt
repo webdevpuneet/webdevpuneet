@@ -119,3 +119,29 @@ moment, and one "play again / next level" button.
   - One-shot CSS animation classes must survive re-renders for the animation's duration (store a timestamp per cell), not just the render that added them.
 
 2048 lesson: keep tiles as persistent elements with ids and animate via transform; redrawing every move makes tiles jump. Merge flag per move prevents 2,2,4 -> 8.
+
+------------------------------------------------------------
+7. MARKET DATA POINT (shared by Puneet 2026-11-12)
+------------------------------------------------------------
+  "Recent browser gaming research found that hypercasual and puzzle games dominate browser gaming."
+  Implications noted: put rebuild effort into hypercasual (one-tap, 30-90 s runs: Jump Charge, Flap Dodge, Stack timing, Sled Rush style runners)
+  and puzzle games (2048, Sudoku, Minesweeper, Color Sort, Switchyard) before niche ones. Keep the game's first 5 seconds instant (no menu wall),
+  sessions short, and a reason to replay (daily, stars, ghost). Use the planned engagement events to confirm which type our visitors actually play.
+
+------------------------------------------------------------
+8. LESSONS FROM THE HYPERCASUAL REWORK OF NUMBER GUESSING (2026-11-12)
+------------------------------------------------------------
+  - Start in a game, not a menu: init calls the start function quietly (no AudioContext before the first gesture); the menu becomes tabs + a "Vaults" screen.
+  - One-gesture input beats a keypad: a line that spans only what is still possible (zooms as the range shrinks), press-drag, let go to commit, release far away to cancel.
+  - An endless ladder with hearts (Rush) gives a run of 1 to 2 minutes and a score to chase; save the BEST score live on every success, not only when the run ends
+    (abandoned runs otherwise lose it). Compare "new best" against the best at run start.
+  - Escaping: in the snippet file a template literal turns ♥ into the raw character; use \u2665 so it stays an escape in the output JS. When editing from the shell,
+    backslash-u sequences get unescaped by the tooling: use the Edit tool for such lines.
+
+------------------------------------------------------------
+9. LIGHTER GAMES FROM NOW ON (Puneet, 2026-11-12: "from now on make game lighter versions")
+------------------------------------------------------------
+  Interpretation: one core mechanic, plays at once, 30 to 90 s runs, ONE replay hook (best score or daily), small code, no menu wall, short SEO text.
+  Avoid piling on modes (the Number Guessing rebuild reached 5 modes + stats + achievements: too heavy). Confirm with Puneet if "lighter" meant a light colour theme.
+  Look (Puneet, same day): "they not necessarily need a dark background and colors". Light backgrounds and soft palettes are welcome; stop defaulting to dark navy + neon gradients.
+  Choose the style per game (light / paper / pastel / flat), few colours, good contrast.

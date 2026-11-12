@@ -227,3 +227,9 @@ Format: date · area · suggested / chosen / done · note
   number line, chart of numbers left vs perfect halving, SVG vault door, paid clues, binary-search coach, Daily Vault (+streak, copy line), 60 s Blitz, AI Duel (Rookie/Pro/Master),
   ranks + 8 achievements, keypad for phones, fit-to-view. Tests: perfect bisection hits par on every vault (40 runs each), clues never lose the target, loss/daily/blitz/duel paths,
   keyboard + keypad, blocked storage OK. SEO 56 / 158. Title changed -> index regenerated. Not deployed.
+
+2026-11-12  Number Guessing Game reworked again for the hypercasual/puzzle finding (see GAMES-PLAYBOOK section 7): it now PLAYS THE MOMENT IT LOADS in a new endless
+  Rush mode (ladder of vaults 10 -> 1,000,000, 3 hearts, +1 heart per 4 cracks, par combo multiplier, live best score, Play again / Space restarts at once),
+  tabs for Rush / Daily / Blitz / Duel / Vaults instead of a menu wall, and a drag-the-line input (line spans the numbers still possible, let go to guess, let go far away to cancel),
+  haptics on phones. Campaign vaults, Daily, Blitz, Duel, clues, coach, stats and achievements stay. SEO 56 / 150, steps, features, FAQs, aiPrompt rewritten.
+  Tests: on load phase=play with no overlay, perfect play through all 14 ladder vaults, 3 lost vaults end the run, Space restarts, real mouse drag + cancel, tabs, old modes still pass, blocked storage OK.
