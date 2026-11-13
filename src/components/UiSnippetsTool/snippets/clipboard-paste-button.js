@@ -1,7 +1,7 @@
 const clipboardPasteButton = {
   id: 'clipboard-paste-button',
   title: 'Clipboard Paste Button',
-  lastmod: '2026-11-08',
+  lastmod: '2026-11-13',
   category: 'buttons',
   cdnUrls: [],
   html: `<section class="cpb-wrap">
@@ -53,7 +53,7 @@ const clipboardPasteButton = {
 
     <p class="cpb-status" role="status" aria-live="polite"><span id="cpbStatusText">Example loaded. Press Paste, or copy something and try it.</span><button type="button" class="cpb-link" id="cpbUndo" hidden>Undo</button></p>
 
-    <div class="cpb-recent" id="cpbRecent" hidden><span>Recent</span><div id="cpbChips"></div></div>
+    <div class="cpb-recent" id="cpbRecent" hidden><span>Recent</span><div id="cpbChips"></div><button type="button" class="cpb-link cpb-clearall" id="cpbClearRecent">Clear all</button></div>
   </div>
 
   <p class="cpb-note">Clipboard reads need HTTPS, a click, and usually a permission. Inside a sandboxed preview frame they are often blocked, and that is exactly the case the armed state handles. Recent pastes live in memory only and are never saved.</p>
@@ -137,6 +137,7 @@ body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:radial
 .cpb-recent{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07)}
 .cpb-recent>span{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6c5f8d;flex:none}
 .cpb-recent div{display:flex;gap:6px;flex-wrap:wrap;min-width:0}
+.cpb-clearall{flex:none;margin-left:auto}
 .cpb-chipbtn{display:flex;align-items:center;gap:6px;max-width:150px;padding:4px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:#d7cdf0;font:12px ui-monospace,Menlo,Consolas,monospace;cursor:pointer;transition:background .15s,border-color .15s}
 .cpb-chipbtn:hover{background:rgba(255,255,255,.1);border-color:rgba(196,181,253,.5)}
 .cpb-chipbtn i{width:7px;height:7px;border-radius:50%;flex:none;background:#94a3b8}
@@ -152,7 +153,7 @@ var chip = $('cpbChip'), meta = $('cpbMeta'), actionEl = $('cpbAction');
 var pasteBtn = $('cpbPasteBtn'), pasteLabel = $('cpbPasteLabel'), copyBtn = $('cpbCopyBtn'), copyLabel = $('cpbCopyLabel');
 var armedBox = $('cpbArmed'), armedMsg = $('cpbArmedMsg'), keyMod = $('cpbKeyMod'), keyV = $('cpbKeyV');
 var statusText = $('cpbStatusText'), undoBtn = $('cpbUndo');
-var recentBox = $('cpbRecent'), chipsEl = $('cpbChips');
+var recentBox = $('cpbRecent'), chipsEl = $('cpbChips'), clearRecentBtn = $('cpbClearRecent');
 var imageBox = $('cpbImage'), thumb = $('cpbThumb'), imgInfo = $('cpbImgInfo');
 
 var isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || '');
@@ -166,7 +167,9 @@ var pretty = false;
 var CARRIERS = {
   UPS: function (n) { return 'https://www.ups.com/track?tracknum=' + n; },
   FedEx: function (n) { return 'https://www.fedex.com/fedextrack/?trknbr=' + n; },
-  USPS: function (n) { return 'https://tools.usps.com/go/TrackConfirmAction?tLabels=' + n; }
+  USPS: function (n) { return 'https://tools.usps.com/go/TrackConfirmAction?tLabels=' + n; },
+  Amazon: function (n) { return 'https://track.amazon.com/tracking/' + n; },
+  'Intl post': function (n) { return 'https://parcelsapp.com/en/tracking/' + n; }
 };
 function detect(raw) {
   var v = raw.trim();
@@ -180,7 +183,7 @@ function detect(raw) {
   if (/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test(v)) return { type: 'email', label: 'Email', meta: v.split('@')[1], href: 'mailto:' + v, linkText: 'Write \\u2197' };
   if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v)) return { type: 'color', label: 'Colour', meta: v.toUpperCase(), swatch: v };
   var c = v.replace(/[\\s-]/g, '');
-  var carrier = /^1Z[0-9A-Z]{16}$/i.test(c) ? 'UPS' : /^9\\d{19,21}$/.test(c) ? 'USPS' : /^(\\d{12}|\\d{15})$/.test(c) ? 'FedEx' : '';
+  var carrier = /^1Z[0-9A-Z]{16}$/i.test(c) ? 'UPS' : /^9\\d{19,21}$/.test(c) ? 'USPS' : /^(\\d{12}|\\d{15})$/.test(c) ? 'FedEx' : /^TBA\\d{10,14}$/i.test(c) ? 'Amazon' : /^[A-Z]{2}\\d{9}[A-Z]{2}$/i.test(c) ? 'Intl post' : '';
   if (carrier) return { type: 'tracking', label: 'Tracking', meta: carrier + ' \\u00b7 ' + c.length + ' characters', href: CARRIERS[carrier](c.toUpperCase()), linkText: 'Track \\u2197' };
   var digits = v.replace(/\\D/g, '').length;
   if (/^\\+?[\\d\\s().-]{7,20}$/.test(v) && digits >= 7 && digits <= 15 && (/[+\\s().-]/.test(v) || digits >= 10)) return { type: 'phone', label: 'Phone', meta: digits + ' digits', href: 'tel:' + v.replace(/[^\\d+]/g, ''), linkText: 'Call \\u2197' };
@@ -239,6 +242,11 @@ function remember(v) {
   recentBox.hidden = recent.length < 2;
 }
 
+clearRecentBtn.addEventListener('click', function () {
+  recent = []; chipsEl.textContent = ''; recentBox.hidden = true;
+  setStatus('Recent list cleared.', false);
+});
+
 // ── Paste button states ──
 function setPasteState(s) { pasteBtn.setAttribute('data-state', s); pasteLabel.textContent = PASTE_LABELS[s]; }
 function arm(reason) {
@@ -294,7 +302,7 @@ input.addEventListener('paste', function (e) {
     offerUndo(prev, 'Pasted ' + input.value.length + ' characters.');
   }, 0);
 });
-input.addEventListener('input', function () { sync(); if (!armedBox.hidden) disarm(); });
+input.addEventListener('input', function () { pretty = /\\n\\s+"/.test(input.value); sync(); if (!armedBox.hidden) disarm(); });
 input.addEventListener('keydown', function (e) { if (e.key === 'Escape' && input.value) { e.preventDefault(); clearField(); } });
 
 function clearField() { var prev = input.value; setValue(''); offerUndo(prev, 'Field cleared.'); input.focus(); }
@@ -350,7 +358,7 @@ When \`readText()\` rejects with \`NotAllowedError\`, is missing, or returns an 
 
 **Detecting what was pasted**
 
-Every value is classified as you type or paste: a link, email address, phone number, hex colour, number, valid JSON, or a parcel tracking number matched to UPS, FedEx or USPS formats. Each type gets a colour chip, a short description, and one useful action: Open, Write, Call, Track (a carrier tracking link), or Prettify and Minify for JSON. Links are built with DOM methods and \`rel="noopener noreferrer"\`, and pasted text is only ever assigned with \`textContent\`, never as HTML.
+Every value is classified as you type or paste: a link, email address, phone number, hex colour, number, valid JSON, or a parcel tracking number matched to UPS, FedEx, USPS, Amazon or international postal (S10) formats. Each type gets a colour chip, a short description, and one useful action: Open, Write, Call, Track (a carrier tracking link), or Prettify and Minify for JSON. Links are built with DOM methods and \`rel="noopener noreferrer"\`, and pasted text is only ever assigned with \`textContent\`, never as HTML.
 
 **Trim, undo and recent pastes**
 
@@ -368,9 +376,9 @@ The status line is a polite live region, every control is a real button with a v
       type: 'steps',
       items: [
         { title: 'Press "Paste from clipboard"', text: 'The button calls navigator.clipboard.readText() from your click. The browser may ask once for permission; while it decides, the button shows a spinner.' },
-        { title: 'See what you pasted', text: 'The chip names the type: link, email, phone, hex colour, number, JSON or a UPS, FedEx or USPS tracking number. The action beside it opens, calls, tracks or prettifies it.' },
+        { title: 'See what you pasted', text: 'The chip names the type: link, email, phone, hex colour, number, JSON or a UPS, FedEx, USPS, Amazon or international postal tracking number. The action beside it opens, calls, tracks or prettifies it.' },
         { title: 'Follow the armed hint if access is blocked', text: 'When the browser refuses, the button turns amber, the field glows and the keycaps show what to press. A normal paste then fills the field, and it also accepts pasted images.' },
-        { title: 'Undo, clear and reuse', text: 'Undo appears for seven seconds after any paste or clear. Press Escape to clear, and click a Recent chip to bring an earlier value back. Turn off Trim spaces to keep padding.' },
+        { title: 'Undo, clear and reuse', text: 'Undo appears for seven seconds after any paste or clear. Press Escape to clear, and click a Recent chip to bring an earlier value back, or Clear all to empty the list. Turn off Trim spaces to keep padding.' },
         { title: 'Copy it back out', text: 'Copy writes the field to the clipboard and confirms with a check. An empty field shakes, and if every method is blocked the text is selected for a manual copy.' },
         { title: 'Wire it into your form', text: 'Replace the detect() rules with your own validator, swap the textarea for an input, or call apply(text) from your own button to reuse the trim, undo and history behaviour.' },
       ],
@@ -379,9 +387,9 @@ The status line is a polite live region, every control is a real button with a v
       'One-click navigator.clipboard.readText() paste with spinner, success and armed button states',
       'Armed fallback: blocked reads focus the field and show keycaps that press down with your real keys',
       'Native paste handling, including images from the clipboard, with a thumbnail, type, size and dimensions',
-      'Type detection for links, emails, phones, hex colours, numbers, JSON and UPS, FedEx and USPS tracking numbers',
+      'Type detection for links, emails, phones, hex colours, numbers, JSON and UPS, FedEx, USPS, Amazon and international postal tracking numbers',
       'Per-type actions: open, write, call, track with the carrier, and prettify or minify JSON',
-      'Trim switch, seven-second Undo, Escape to clear and a five-item Recent list kept in memory only',
+      'Trim switch, seven-second Undo, Escape to clear and a five-item Recent list with a Clear all button, kept in memory only',
       'Copy with writeText(), a hidden-textarea execCommand fallback and a select-for-you last resort',
       'Live-region status, visible focus rings, a native switch and reduced-motion support, no libraries',
     ],
@@ -397,7 +405,7 @@ The status line is a polite live region, every control is a real button with a v
       { q: 'Why does the Paste button turn amber instead of filling the field?', a: 'readText() needs HTTPS, a click and usually a permission, and sandboxed frames often block it with no prompt at all. The amber state means the browser refused, and the field is armed so your own paste, which is never blocked, still fills it.' },
       { q: 'Can a page read my clipboard in the background?', a: 'No. Browsers only allow readText() in direct response to a user gesture and normally ask permission first. This snippet calls it solely when you press the Paste button, and keeps recent pastes in memory, never in storage.' },
       { q: 'What happens if I paste an image?', a: 'A text field cannot hold an image, so the native paste event is caught and the picture appears as a thumbnail with its type, size and pixel dimensions. Remove clears it, and the one-click button reads text only.' },
-      { q: 'How reliable is the tracking number detection?', a: 'It matches common formats only: UPS 1Z numbers, 12 or 15 digit FedEx numbers and 20 to 22 digit USPS numbers starting with 9. Other carriers fall back to Number or Text, and you can add patterns to the CARRIERS table.' },
+      { q: 'How reliable is the tracking number detection?', a: 'It matches common formats only: UPS 1Z numbers, 12 or 15 digit FedEx numbers and 20 to 22 digit USPS numbers starting with 9, Amazon TBA numbers and 13 character international postal numbers such as RM123456789GB. Other carriers fall back to Number or Text, and you can add patterns to the CARRIERS table.' },
       { q: 'Is it safe to paste untrusted text here?', a: 'Yes. Pasted text is only assigned with textContent and value, never as HTML. Links are limited to valid http and https URLs and open with rel noopener noreferrer, and mailto and tel links are built from the validated value.' },
     ],
     aiPrompt: {
@@ -408,8 +416,8 @@ Core behaviour:
 - An auto-growing textarea (1 to about 5 rows), a clear (x) button that appears when it has text, a "Paste from clipboard" button and a "Copy" button. A switch labelled "Trim spaces" is on by default.
 - The Paste button calls navigator.clipboard.readText() from the click, with a data-state attribute driving four looks: idle, reading (spinner), done (animated check for about 1.5 s) and armed (pulsing amber). Use a read token so a result that arrives after the user pasted by hand is ignored.
 - If readText is missing, rejects (explain NotAllowedError in plain words) or returns an empty string, enter an "armed" state: focus the field, pulse its border, change the button to "Now press Ctrl V" (use the command key on Apple devices), and show two keycaps that animate down while the real keys are held. A native paste event must always work, and must also catch pasted images (show a thumbnail with type, KB and pixel size, plus a Remove button).
-- Detect the value after every change and show a coloured chip, a short description and one action: link (open in a new tab with rel noopener noreferrer), email (mailto), phone (tel), hex colour (swatch), number (locale formatted), valid JSON (key count, Prettify/Minify toggle), and tracking numbers (UPS 1Z..., FedEx 12 or 15 digits, USPS 9... 20 to 22 digits, with a carrier tracking link).
-- Offer a 7-second Undo after any paste, clear or restore; Escape clears the field; keep the last five distinct pastes as clickable chips in memory only (never in storage).
+- Detect the value after every change and show a coloured chip, a short description and one action: link (open in a new tab with rel noopener noreferrer), email (mailto), phone (tel), hex colour (swatch), number (locale formatted), valid JSON (key count, Prettify/Minify toggle), and tracking numbers (UPS 1Z..., FedEx 12 or 15 digits, USPS 9... 20 to 22 digits, Amazon TBA..., international postal S10 numbers like RM123456789GB, with a carrier tracking link).
+- Offer a 7-second Undo after any paste, clear or restore; Escape clears the field; keep the last five distinct pastes as clickable chips in memory only (never in storage), with a Clear all button that empties the list. The Prettify/Minify label must follow the text if the user edits the JSON by hand.
 - Copy uses writeText(), falls back to a hidden textarea with execCommand('copy'), and finally selects the text. An empty field shakes and shows a message instead.
 - Use textContent and DOM methods for all user text, never innerHTML. Add a polite live status region, visible focus rings, a native checkbox switch, prefers-reduced-motion support and a stacked layout below 420px. Start with the example tracking number 1Z999AA10123456784 loaded.`,
     },
