@@ -4,7 +4,7 @@
    PATREON SETTINGS: the one file to edit when the passcode changes (monthly), when your Patreon page or price changes, or
    when another template becomes Patreon-only. Everything else reads from here (src/lib/premium.js).
 
-   Supporters ($3/month) get: no ads anywhere on the site, Export + Fork on the Patreon-only templates (website, email, social
+   Supporters ($1/month) get: no ads anywhere on the site, Export + Fork on the Patreon-only templates (website, email, social
    post), the Backup panel (LOCK_BACKUP)
    and Bulk create from CSV (LOCK_SOCIAL_BULK). The code, export and fork of the Games snippets (LOCK_GAME_CODE) are supporters-only too. Social post video export and section template export/backup are free.
    If you change a lock below, update the copy that describes it: about, terms, privacy-policy, the passcode dialog
@@ -20,7 +20,7 @@
 export const PATREON_URL = 'https://www.patreon.com/17076973/join';
 
 /* What the supporter tier costs, shown in the dialogs (set the same price on Patreon; there is no free trial since 2026-11-11) */
-export const PATREON_PRICE = '$3 a month';
+export const PATREON_PRICE = '$1 a month';
 
 /* The current passcode, as a hash (written by scripts/set-patreon-passcode.mjs; the first one was "meridian-nov26") */
 export const PASSCODE_SHA256 = '7821824c1d41f265545f86184234ad7583250a859afb9bd575abbedcbbc3051c';

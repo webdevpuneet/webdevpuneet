@@ -63,7 +63,7 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
         </div>
         <div className={s.head}>
           <span className={s.lockIcon}>♥</span>
-          <h2 id="prem-title" className={s.title}>Support the site: $3/month</h2>
+          <h2 id="prem-title" className={s.title}>Support the site: $1/month</h2>
         </div>
         <ul className={s.list}>
           <li>Everything stays free for everyone: every tool, template, snippet, game, export and fork</li>
