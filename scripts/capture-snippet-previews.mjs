@@ -76,7 +76,7 @@ async function main() {
     // after the first stuck at 0% progress. A clean page each time avoids that.
     const page = await browser.newPage({ viewport: VIEWPORT });
     try {
-      currentHtml = buildSrcdoc(snippet.html, snippet.css, snippet.js, snippet.cdnUrls);
+      currentHtml = buildSrcdoc(snippet.html, snippet.css + (snippet.previewCss || ''), snippet.js, snippet.cdnUrls); // previewCss: optional extra CSS used ONLY for the thumbnail (e.g. hide a start overlay)
       await page.goto(previewUrl, { waitUntil: 'networkidle', timeout: 30000 });
       await page.waitForTimeout(500); // let CSS animations / JS init settle
 

@@ -33,7 +33,7 @@ export const GAME_GENRES = [
     'word-guess-game', 'hangman-word-game', 'word-unscramble-game', 'word-search-puzzle', 'word-ladder-game',
   ] },
   { id: 'physics', label: 'Physics', ids: [
-    'matter-js-plinko-board', 'matter-js-slingshot-tower-knockdown', 'matter-js-hill-climb-car', 'matter-js-stacking-tower-game',
+    'matter-js-plinko-board', 'matter-js-slingshot-tower-knockdown', 'matter-js-hill-climb-car', 'matter-js-stacking-tower-game', 'pocket-artillery-game',
   ] },
   { id: 'luck', label: 'Luck & Fun', ids: [
     ] },

@@ -1322,6 +1322,7 @@ export const SNIPPET_TAG_MAP = {
   'pomodoro-countdown-timer': ['timers'],
   'pomodoro-timer': ['svg', 'glassmorphism', 'timers', 'css-grid'],
   'pong-game': ['canvas', 'keyboard-navigation', 'games'],
+  'pocket-artillery-game': ['canvas', 'keyboard-navigation', 'games'],
   'popmotion-drag-inertia-card': ['touch-gestures', 'js-libraries'],
   'popmotion-spring-toggle-switch': ['form-validation', 'micro-interactions', 'js-libraries'],
   'popmotion-swipe-dismiss-stack': ['touch-gestures', 'mobile-ui', 'js-libraries'],

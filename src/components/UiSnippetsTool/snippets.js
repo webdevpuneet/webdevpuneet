@@ -142,6 +142,7 @@ import connectFourGame from './snippets/connect-four-game.js';
 import hangmanWordGame from './snippets/hangman-word-game.js';
 import snakeGame from './snippets/snake-game.js';
 import pongGame from './snippets/pong-game.js';
+import pocketArtilleryGame from './snippets/pocket-artillery-game.js';
 import breakoutBrickGame from './snippets/breakout-brick-game.js';
 import minesweeperGame from './snippets/minesweeper-game.js';
 import tileMerge2048Game from './snippets/tile-merge-2048-game.js';
@@ -4282,6 +4283,7 @@ export const SNIPPETS = [
   musicLandingPageTemplate,
   accessibilityToolbarWidget,
   switchyardTrainPuzzleGame,
+  pocketArtilleryGame,
 ];
 
 // Snippets visible in production listings/sitemaps — noindex/test snippets only show on localhost
