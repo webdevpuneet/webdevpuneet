@@ -161,7 +161,6 @@ function GalleryCard({ t, preview }) {
 const EMAIL_ITEMS = newestFirst(EMAIL_TEMPLATES);
 const EMAIL_FACETS = [
   { key: 'cat', label: 'Category', options: EMAIL_CATEGORIES.map(c => ({ id: c.id, label: c.label, test: t => t.category === c.id })) },
-  { key: 'access', label: 'Access', options: [{ id: 'free', label: 'Free to export', test: t => !isPremiumEmailTemplate(t.id) }, { id: 'patreon', label: 'Patreon', test: t => isPremiumEmailTemplate(t.id) }] },
 ];
 export function EmailTemplateGallery(props) {
   const { excludeId = null, limit = null, previews = [], hideControls = false, savedStrip = null } = props;

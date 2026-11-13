@@ -62,23 +62,14 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
           <p>WebDevPuneet is an independent project made with countless hours of work. <b>If it has helped you or saved you time, please consider becoming a supporter</b> and help keep it alive and growing.</p>
         </div>
         <div className={s.head}>
-          <span className={s.lockIcon}>{LOCK}</span>
-          <h2 id="prem-title" className={s.title}>Patreon supporters: $3/month</h2>
+          <span className={s.lockIcon}>♥</span>
+          <h2 id="prem-title" className={s.title}>Support the site: $3/month</h2>
         </div>
         <ul className={s.list}>
-          <li>No ads anywhere on the site</li>
-          <li>Export and fork of the templates with a Patreon badge (website, email and social post)</li>
-          <li>The code, export and fork of every Games snippet</li>
+          <li>Everything stays free for everyone: every tool, template, snippet, game, export and fork</li>
+          <li>Your support pays for hosting and keeps new tools, templates and games coming</li>
         </ul>
-        <p className={s.text}>{name ? `You can preview and edit ${name} freely without it. ` : ''}Patrons find the passcode in the latest supporter post on Patreon; it is remembered in this browser.</p>
-        <a className={s.patreon} href={PATREON_URL} target="_blank" rel="noopener noreferrer">Get the passcode on Patreon</a>
-        <label className={s.label} htmlFor="prem-code">Already a supporter? Enter the passcode</label>
-        <div className={s.row}>
-          <input id="prem-code" ref={input} className={s.input} value={code} onChange={e => { setCode(e.target.value); setState(''); }} placeholder="Passcode" autoComplete="off" spellCheck={false} aria-invalid={state === 'wrong'} />
-          <button type="submit" className={s.go} disabled={!code.trim() || state === 'checking' || state === 'done'}>{state === 'checking' ? 'Checking…' : 'Unlock'}</button>
-        </div>
-        {state === 'done' && <p className={s.ok} role="status">Unlocked. Thank you for supporting the site! Refreshing the page…</p>}
-        {state === 'wrong' && <p className={s.error} role="alert">That passcode is not right. Copy it from the latest supporter post on Patreon.</p>}
+        <a className={s.patreon} href={PATREON_URL} target="_blank" rel="noopener noreferrer">Support on Patreon</a>
         <button type="button" className={s.close} onClick={onClose}>Not now</button>
       </form>
     </div>,

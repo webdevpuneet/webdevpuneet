@@ -25,7 +25,6 @@ const GALLERY_PAGE = 10; // cards per "Load more": 2 rows of 5
 const SOCIAL_ITEMS = newestFirst(TEMPLATES);
 const SOCIAL_FACETS = [
   { key: 'cat', label: 'Category', options: TEMPLATE_CATEGORIES.map(c => ({ id: c.id, label: c.label, test: t => t.category === c.id })) },
-  { key: 'access', label: 'Access', options: [{ id: 'free', label: 'Free to export', test: t => !isPremiumSocialTemplate(t.id) }, { id: 'patreon', label: 'Patreon', test: t => isPremiumSocialTemplate(t.id) }] },
 ];
 export function TemplateGallery(props) {
   const { compact = false, excludeId = null, limit = null, previews = [], hideControls = false, savedStrip = null } = props;

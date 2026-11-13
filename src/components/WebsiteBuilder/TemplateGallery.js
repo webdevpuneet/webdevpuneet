@@ -190,11 +190,6 @@ export default function TemplateGallery({ templates, industries }) {
                 <Check checked={pages === 'multi'} onChange={() => setPages(v => (v === 'multi' ? '' : 'multi'))} label="Several pages" count={countFor('pages', t => t.p > 1)} />
               </fieldset>
               <fieldset className={g.group}>
-                <legend>Access</legend>
-                <Check checked={access === 'free'} onChange={() => setAccess(v => (v === 'free' ? '' : 'free'))} label="Free to export" count={countFor('access', t => !isPremiumTemplate(t.id))} />
-                <Check checked={access === 'patreon'} onChange={() => setAccess(v => (v === 'patreon' ? '' : 'patreon'))} label="Patreon" count={countFor('access', t => isPremiumTemplate(t.id))} />
-              </fieldset>
-              <fieldset className={g.group}>
                 <legend>Yours</legend>
                 <Check checked={favOnly} onChange={() => setFavOnly(v => !v)} label="Favourites" count={favs.filter(id => byId[id]).length} />
               </fieldset>
