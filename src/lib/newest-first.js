@@ -1,10 +1,12 @@
-/* Template galleries list the newest templates first. Newest = latest `created` date, and
-   among templates created the same day, the one added later to its registry list. So a new
-   template only needs to be added at the END of its list (and carry a `created` date). */
+/* Template galleries list the freshest templates first. Freshest = the later of a template's `updated` and `created`
+   dates, so both a brand-new template and an edited one rise to the top. Among templates with the same date, the one
+   added later to its registry list comes first. So a new template only needs to be added at the END of its list with a
+   `created` date, and when you change an existing template, bump its `updated` date to today. */
+export const freshDate = t => { const c = String(t.created || ''), u = String(t.updated || ''); return u > c ? u : c; };
 export function newestFirst(list) {
   return list
     .map((t, i) => [t, i])
-    .sort((a, b) => String(b[0].created || '').localeCompare(String(a[0].created || '')) || b[1] - a[1])
+    .sort((a, b) => freshDate(b[0]).localeCompare(freshDate(a[0])) || b[1] - a[1])
     .map(([t]) => t);
 }
 

@@ -65,3 +65,11 @@ Used by the home "Latest UI Snippets" strip, the UI Snippets gallery, every cate
 The rank `r` is precomputed into src/lib/snippet-index.js and snippet-search-index.js, so AFTER changing a snippet's lastmod run:
   node scripts/generate-snippet-search-index.mjs
 (helper: freshestFirst() in src/lib/newest-first.js). Snippets without a lastmod sink to the bottom in library order.
+
+TEMPLATE GALLERY ORDER (added 2026-11-13): the Social Post, Email, Website Section and Website Builder template galleries list the
+FRESHEST first = the later of a template's `updated` and `created` dates (lib/newest-first.js: newestFirst / freshDate), and among
+equal dates the one added later to its registry list. So:
+  - new template: add it at the END of its registry list with `created` (and `updated`) = today.
+  - changed an existing template: bump its `updated` to today and it moves to the top.
+  - Website Builder templates (STARTERS in SectionTemplates/templates/starters*.js) had no dates: add an optional `updated: 'YYYY-MM-DD'`
+    on the template object when you change one (the gallery's "Newest" sort reads it; no date keeps the list order).

@@ -100,6 +100,7 @@ export default function TemplateGallery({ templates, industries }) {
     if (sort === 'az') out.sort((a, b) => a.name.localeCompare(b.name));
     else if (sort === 'sections') out.sort((a, b) => b.n - a.n);
     else if (sort === 'pages') out.sort((a, b) => b.p - a.p);
+    else out.sort((a, b) => String(b.updated || '').localeCompare(String(a.updated || ''))); // newest or most recently updated first (stable: no date keeps the list order)
     return out;
   }, [templates, q, inds, incs, pages, access, favOnly, favs, sort]); // eslint-disable-line react-hooks/exhaustive-deps
   const countFor = (skip, test) => templates.filter(t => matches(t, skip) && test(t)).length;
