@@ -5,6 +5,10 @@ const clipboardPasteButton = {
   category: 'buttons',
   cdnUrls: [],
   html: `<section class="cpb-wrap">
+  <button class="cpb-theme" id="cpbTheme" type="button" aria-pressed="false" aria-label="Switch to light theme" title="Light or dark theme">
+    <svg class="ic-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    <svg class="ic-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+  </button>
   <span class="cpb-tag">navigator.clipboard · smart paste</span>
   <h1>Smart paste field</h1>
   <p class="cpb-lead">One click reads your clipboard. If the browser says no, the field arms itself so your own paste finishes the job.</p>
@@ -62,7 +66,11 @@ const clipboardPasteButton = {
   css: `*{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
 body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:radial-gradient(120% 90% at 50% 0%,#241b3d,#08070f 62%);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:26px}
-.cpb-wrap{width:100%;max-width:460px;text-align:center}
+.cpb-wrap{position:relative;width:100%;max-width:460px;text-align:center}
+.cpb-theme{position:absolute;top:-4px;right:0;width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#e8e2f5;cursor:pointer;display:grid;place-items:center;transition:background .15s}
+.cpb-theme:hover{background:rgba(255,255,255,.13)}
+.cpb-theme:focus-visible{outline:2px solid #c4b5fd;outline-offset:2px}
+.cpb-theme .ic-moon{display:none}
 .cpb-tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#c4b5fd;background:rgba(196,181,253,.1);border:1px solid rgba(196,181,253,.3);padding:5px 12px;border-radius:99px;margin-bottom:14px}
 .cpb-wrap h1{font-size:clamp(24px,6vw,32px);font-weight:800;letter-spacing:-.02em}
 .cpb-lead{font-size:13.5px;color:#a89dc2;margin:8px auto 0;line-height:1.6;max-width:380px}
@@ -144,6 +152,51 @@ body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:radial
 .cpb-chipbtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cpb-note{font-size:11.5px;color:#6c5f8d;max-width:420px;margin:16px auto 0;line-height:1.6}
 
+/* Light theme: the switch in the corner toggles .cpb-light on the wrapper */
+body:has(.cpb-light){background:radial-gradient(120% 90% at 50% 0%,#ffffff,#e9e4f7 70%);color:#1b1530}
+.cpb-light .cpb-theme{border-color:rgba(27,21,48,.16);background:#fff;color:#2a1f4d}
+.cpb-light .cpb-theme:hover{background:#f1edfb}
+.cpb-light .cpb-theme .ic-sun{display:none}
+.cpb-light .cpb-theme .ic-moon{display:block}
+.cpb-light .cpb-tag{color:#6d28d9;background:rgba(109,40,217,.08);border-color:rgba(109,40,217,.28)}
+.cpb-light .cpb-lead{color:#5b4f7d}
+.cpb-light .cpb-card{border-color:rgba(109,40,217,.18);background:#fff;box-shadow:0 24px 60px -30px rgba(109,40,217,.35)}
+.cpb-light .cpb-label,.cpb-light .cpb-switch{color:#6b5f8c}
+.cpb-light .cpb-track{background:#d9d2ee}
+.cpb-light .cpb-track::after{background:#fff;box-shadow:0 1px 2px rgba(27,21,48,.3)}
+.cpb-light .cpb-input{border-color:rgba(27,21,48,.16);background:#f6f3fd;color:#1b1530}
+.cpb-light .cpb-input::placeholder{color:#8b80ab}
+.cpb-light .cpb-input:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.18)}
+.cpb-light .cpb-x{background:rgba(27,21,48,.07);color:#4b3f72}
+.cpb-light .cpb-x:hover{background:rgba(27,21,48,.14)}
+.cpb-light .cpb-x:focus-visible,.cpb-light .cpb-btn:focus-visible,.cpb-light .cpb-link:focus-visible,.cpb-light .cpb-chipbtn:focus-visible,.cpb-light .cpb-theme:focus-visible{outline-color:#7c3aed}
+.cpb-light .cpb-chip[data-type=none]{background:rgba(27,21,48,.08);color:#6b5f8c}
+.cpb-light .cpb-chip[data-type=color]{background:#fff;box-shadow:inset 0 0 0 1px rgba(27,21,48,.25)}
+.cpb-light .cpb-meta{color:#4b3f72}
+.cpb-light .cpb-swatch{border-color:rgba(27,21,48,.3)}
+.cpb-light .cpb-link{color:#6d28d9}
+.cpb-light .cpb-link:hover{color:#1b1530}
+.cpb-light .cpb-image{background:#f6f3fd;border-color:rgba(109,40,217,.35)}
+.cpb-light .cpb-image img{background:#e6e0f6}
+.cpb-light .cpb-image div{color:#6b5f8c}
+.cpb-light .cpb-image b{color:#1b1530}
+.cpb-light .cpb-btn{border-color:rgba(27,21,48,.16);background:#f1edfb;color:#2a1f4d}
+.cpb-light .cpb-btn:hover{background:#e7e0f8}
+.cpb-light .cpb-btn.primary{background:linear-gradient(135deg,#c084fc,#818cf8);border-color:transparent;color:#1a0f2e}
+.cpb-light .cpb-btn[data-state=done]{background:rgba(34,197,94,.14);border-color:rgba(22,163,74,.5);color:#15803d}
+.cpb-light .cpb-btn[data-state=armed]{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#2b1a00}
+.cpb-light .cpb-armed{background:rgba(245,158,11,.1);border-color:rgba(217,119,6,.45)}
+.cpb-light .cpb-armed p{color:#7a4b00}
+.cpb-light .cpb-keys b{color:#a16207}
+.cpb-light .cpb-keys kbd{color:#7a4b00;background:#fff4d6;border-color:#e0b45a}
+.cpb-light .cpb-keys kbd.down{background:#fbbf24;color:#2b1a00}
+.cpb-light .cpb-status{color:#5b4f7d}
+.cpb-light .cpb-recent{border-top-color:rgba(27,21,48,.1)}
+.cpb-light .cpb-recent>span{color:#8b80ab}
+.cpb-light .cpb-chipbtn{border-color:rgba(27,21,48,.16);background:#f6f3fd;color:#2a1f4d}
+.cpb-light .cpb-chipbtn:hover{background:#ece6fa;border-color:rgba(124,58,237,.5)}
+.cpb-light .cpb-note{color:#7a6f9a}
+
 @media(max-width:420px){.cpb-actions{flex-direction:column}.cpb-armed{flex-direction:column;align-items:flex-start}}
 @media(prefers-reduced-motion:reduce){.cpb-field.armed .cpb-input,.cpb-btn[data-state=armed],.cpb-field.shake,.cpb-btn[data-state=done] .ic-check{animation:none}.cpb-btn[data-state=reading] .ic-spin{animation-duration:1.6s}}`,
 
@@ -162,6 +215,15 @@ var PASTE_LABELS = { idle: 'Paste from clipboard', reading: 'Waiting for the bro
 
 var recent = [], undoValue = null, undoTimer = 0, readToken = 0, imgUrl = '';
 var pretty = false;
+
+// ── Light / dark theme switch (dark by default) ──
+var wrapEl = document.querySelector('.cpb-wrap'), themeBtn = $('cpbTheme');
+function setTheme(light) {
+  wrapEl.classList.toggle('cpb-light', light);
+  themeBtn.setAttribute('aria-pressed', String(light));
+  themeBtn.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
+}
+themeBtn.addEventListener('click', function () { setTheme(!wrapEl.classList.contains('cpb-light')); });
 
 // ── Detect what was pasted ──
 var CARRIERS = {
@@ -390,6 +452,7 @@ The status line is a polite live region, every control is a real button with a v
       'Type detection for links, emails, phones, hex colours, numbers, JSON and UPS, FedEx, USPS, Amazon and international postal tracking numbers',
       'Per-type actions: open, write, call, track with the carrier, and prettify or minify JSON',
       'Trim switch, seven-second Undo, Escape to clear and a five-item Recent list with a Clear all button, kept in memory only',
+      'Dark theme by default with a one-click light theme switch, all through one class on the wrapper',
       'Copy with writeText(), a hidden-textarea execCommand fallback and a select-for-you last resort',
       'Live-region status, visible focus rings, a native switch and reduced-motion support, no libraries',
     ],
@@ -409,8 +472,8 @@ The status line is a polite live region, every control is a real button with a v
       { q: 'Is it safe to paste untrusted text here?', a: 'Yes. Pasted text is only assigned with textContent and value, never as HTML. Links are limited to valid http and https URLs and open with rel noopener noreferrer, and mailto and tel links are built from the validated value.' },
     ],
     aiPrompt: {
-      paragraph: `Paste this snippet's HTML, CSS and JS into an AI assistant like Claude and ask it to explain the read-token trick that ignores a late readText() result, why a native paste event still works when the Clipboard API is blocked, and how detect() decides between a tracking number, phone number and plain number. Then extend it: use navigator.clipboard.read() to pull images on a button click, add more carriers or an IBAN and credit-card-last-four mask, validate against a pattern you pass in, offer a "paste and submit" mode, or turn the Recent list into a small saved history with a clear-all button. You could also ask for a React hook, usePasteField, that returns the value, detected type, and armed state.`,
-      prompt: `Build a "smart paste field" in plain HTML, CSS and JavaScript, no libraries, with a dark purple theme.
+      paragraph: `Paste this snippet's HTML, CSS and JS into an AI assistant like Claude and ask it to explain the read-token trick that ignores a late readText() result, why a native paste event still works when the Clipboard API is blocked, and how detect() decides between a tracking number, phone number and plain number. Then extend it: use navigator.clipboard.read() to pull images on a button click, add more carriers such as DHL or Royal Mail, an IBAN and credit-card-last-four mask, validate against a pattern you pass in, offer a "paste and submit" mode, remember the visitor's light or dark choice, or turn the Recent list into a small saved history (opt-in, since it is memory only now). You could also ask for a React hook, usePasteField, that returns the value, detected type, and armed state.`,
+      prompt: `Build a "smart paste field" in plain HTML, CSS and JavaScript, no libraries, with a dark purple theme by default and a light theme the visitor can switch to with a small sun/moon button in the top corner (toggle a class on the wrapper, set aria-pressed and update the aria-label).
 
 Core behaviour:
 - An auto-growing textarea (1 to about 5 rows), a clear (x) button that appears when it has text, a "Paste from clipboard" button and a "Copy" button. A switch labelled "Trim spaces" is on by default.
