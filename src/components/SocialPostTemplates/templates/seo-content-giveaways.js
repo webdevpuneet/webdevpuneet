@@ -5,8 +5,8 @@ export const TEMPLATE_SEO_GIVE = {
   'giveaway-winners': {
     keywords: ['giveaway winners post template', 'instagram giveaway winner announcement', 'contest winners announcement post', 'congratulations giveaway winners graphic', 'announce giveaway winners instagram'],
     about: {
-      title: 'Giveaway Winners — Free Instagram Winner Announcement Post Template',
-      description: `**Giveaway Winners** is a free social post template for the moment after a contest closes: announcing who won. Most brands put enormous effort into the entry post and then announce the winners with a plain caption, which wastes the one post where everyone who entered is paying attention. This template gives the result its own celebration.
+      title: 'Giveaway Winners Announcement Template — 3 Winners on One Post',
+      description: `A **giveaway winners announcement** is the post everyone who entered is waiting for, yet most brands give it a single line of caption. **Giveaway Winners** is a free template that gives the result a post of its own: a podium of up to three winners, each with a prize, a claim instruction and a thank-you for everyone who entered.
 
 **A podium of three glowing rows**
 
@@ -65,8 +65,8 @@ Pick winners with a random method you can show, state the date in your caption, 
   'winner-reveal': {
     keywords: ['giveaway winner reveal template', 'and the winner is instagram post', 'announce giveaway winner post', 'single winner announcement graphic', 'prize draw winner template'],
     about: {
-      title: 'Giveaway Winner Reveal — Free "And the Winner Is" Instagram Post Template',
-      description: `**Giveaway Winner Reveal** is a free social post template for contests with one winner, where the announcement should feel like a drumroll rather than a notice. It opens with the line every giveaway follower is waiting for, "And the winner is…", and then puts a single person in a spotlight.
+      title: 'Giveaway Winner Reveal Template — "And the Winner Is…" Spotlight Post',
+      description: `A **giveaway winner reveal** works best as a drumroll, not a notice. **Giveaway Winner Reveal** is a free Instagram template for contests with one winner: it opens with the line every follower waits for, "And the winner is…", then puts one person in a spotlight with a big photo, a gold ring, turning rays of light and their name in capitals.
 
 **A spotlight on one person**
 
@@ -123,8 +123,8 @@ Use the 4:5 size in the feed and the 9:16 size for Stories, where there is room 
   'giveaway-time': {
     keywords: ['giveaway time post template', 'bold instagram giveaway template', 'playful giveaway post', 'product giveaway instagram post', 'giveaway graphic with prize photo'],
     about: {
-      title: 'Giveaway Time — Free Bold & Playful Instagram Giveaway Post Template',
-      description: `**Giveaway Time** is a free Instagram giveaway post template made to stop the scroll. Where a calm layout asks to be read, this one shouts: electric lime, a giant "Giveaway Time!" headline and a prize photo that looks like a sticker slapped onto the page. It suits brands whose audience is young, fast and used to loud feeds.
+      title: 'Giveaway Time Instagram Post Template — Loud Prize Photo Giveaway',
+      description: `Most **Instagram giveaway posts** politely explain; this one shouts. **Giveaway Time** is a free giveaway post template for feeds that are already loud: electric lime, a giant two-line headline, a "Join now" sticker and a prize photo that looks slapped onto the page.
 
 **A headline you can read from across the room**
 
@@ -180,8 +180,8 @@ Use Giveaway Time for quick, high-energy contests: a weekend product drop, a lau
   'giveaway-rules': {
     keywords: ['giveaway rules template', 'how to enter giveaway post', 'instagram contest rules post', 'giveaway terms and conditions graphic', 'how to enter instagram giveaway template'],
     about: {
-      title: 'Giveaway Rules — Free "How to Enter" Instagram Post Template',
-      description: `**Giveaway Rules** is a free post template for the part of a contest most brands rush: explaining exactly how to enter. A giveaway can have a great prize and still lose entries because people are not sure what counts, whether a Story share is required or when it ends. This template turns the rules into a calm card that answers those questions at a glance.
+      title: 'Giveaway Rules Template — a "How to Enter" Post with Ticked Steps',
+      description: `A **giveaway rules post** answers the question that costs you entries: "how do I enter?" **Giveaway Rules** is a free template that lays the steps out as four ticked rows, marks the bonus entry as optional and puts the fine print in a box people can actually read.
 
 **Four ticked steps**
 
@@ -236,8 +236,8 @@ Warm cream and teal make it a good follow-up to a flashier announcement: post [G
   'raffle-ticket': {
     keywords: ['raffle ticket giveaway template', 'raffle post template instagram', 'prize draw post template', 'admit one ticket giveaway graphic', 'comment to enter giveaway template'],
     about: {
-      title: 'Raffle Ticket Giveaway — Free Instagram Raffle & Prize Draw Post Template',
-      description: `**Raffle Ticket Giveaway** is a free social post template that makes a prize draw look like the thing people actually enter: a ticket. Instead of another card with a headline, the whole post is a cream admit-one ticket on deep navy, with notches cut out of its edges and a stub you can almost tear off.
+      title: 'Raffle Ticket Giveaway Template — Admit-One Post for Prize Draws',
+      description: `A **raffle ticket giveaway** works because a ticket is something people want to hold. **Raffle Ticket Giveaway** is a free template that styles your prize draw as a cream admit-one ticket on deep navy, with cut-out notches, a perforated stub, a barcode and a ticket number.
 
 **A ticket with a prize on it**
 

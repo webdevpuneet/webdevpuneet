@@ -7,7 +7,7 @@ export default {
   created: '2026-11-13',
   updated: '2026-11-13',
   seoTitle: 'Giveaway Winners Announcement Post Template — Free',
-  seoDescription: 'Free giveaway winners post template: a congratulations headline, three winners with prizes and optional photos, a claim line. Edit online, download PNG or HTML.',
+  seoDescription: 'Giveaway winners announcement template: up to three winners with prizes, optional photos and a claim line on one post. Free to edit online, export PNG or HTML.',
   description: 'A "Congratulations" post that announces up to three giveaway winners, each in a glowing numbered pill with their prize, over a shimmering iridescent glow with twinkling stars, plus a claim line and a thank-you.',
   bestFor: ['Announcing contest winners on Instagram and Facebook', 'Raffle and sweepstakes results', 'Follower milestone giveaway wrap-ups'],
   fonts: { heading: 'g:Fraunces|79|e', body: 'jakarta' },
