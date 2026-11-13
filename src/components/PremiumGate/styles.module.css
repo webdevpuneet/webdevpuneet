@@ -34,3 +34,11 @@
 .xWrap { position: sticky; top: 0; height: 0; margin-bottom: -12px; z-index: 3; align-self: stretch; }
 .xClose { position: absolute; top: -20px; right: -20px; width: 32px; height: 32px; display: grid; place-items: center; border: 0; border-radius: 50%; background: rgba(15, 23, 42, 0.6); color: #fff; font-size: 20px; line-height: 1; cursor: pointer; backdrop-filter: blur(4px); }
 .xClose:hover { background: rgba(15, 23, 42, 0.8); }
+
+/* Follow buttons (Facebook, X) in one compact row just under the picture at the top of the support modal */
+.follow { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; }
+.followLabel { font: 700 11px var(--font-ui, system-ui); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text2, #475569); }
+.followBtn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; font: 700 12px var(--font-ui, system-ui); color: #fff; text-decoration: none; }
+.followBtn:hover { filter: brightness(1.1); }
+.followFb { background: #1877f2; }
+.followX { background: #0f1419; }
