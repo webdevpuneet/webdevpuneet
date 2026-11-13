@@ -2094,13 +2094,10 @@ a.sortBtn { text-decoration: none; }
 .supporterOut:hover { background: color-mix(in srgb, var(--accent) 16%, transparent); }
 
 /* The same line for visitors who are not supporters yet: quieter, no tint, still one line */
-/* Bold Patreon-coral call to action (was a quiet grey line) */
+/* Bold Patreon-coral call to action */
 .supporterBarOff { color: #fff; background: linear-gradient(135deg, #f96854, #e0435a); padding: 9px 10px; font-size: 12.5px; border-top: 0; border-bottom: 0; box-shadow: 0 2px 8px rgba(224, 67, 90, 0.35); }
 .supporterBarOff .supporterText { font-weight: 800; letter-spacing: 0; font-size: 12px; line-height: 1.2; white-space: normal; overflow: visible; text-overflow: clip; }
-.supporterBarOff .supporterText small { display: block; opacity: 0.9 !important; font-weight: 600 !important; font-size: 10.5px !important; }
 .supporterBarOff > svg { color: #fff; fill: rgba(255, 255, 255, 0.35); width: 15px; height: 15px; }
-.supporterBarOff .supporterOut { color: #e0435a; background: #fff; border-color: #fff; padding: 3px 10px; font-size: 11px; border-radius: 7px; }
-.supporterBarOff .supporterOut:hover { background: #ffe9ec; }
 
 /* Hover / focus popover on the sign-in line: the supporter benefits */
 .supporterBarOff { position: relative; }
