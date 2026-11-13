@@ -1,7 +1,7 @@
 'use client';
 
 /* Global "support the site" modal. After the visitor clicks a Copy / Export / Download button anywhere on the site, the
-   Patreon support dialog (the same one as the sidebar bar) opens. If the visitor dismisses it (Not now, Esc, click outside) it waits 10 minutes before it can show again;
+   Patreon support dialog (the same one as the sidebar bar) opens. If the visitor closes it (outside click, Not now, Esc) it shows again on the next click;
    after "Support on Patreon" it waits 24 hours; after "I'm already a supporter" it stays away for 30 days (localStorage).
    One delegated click listener, so every current and future button is covered without wiring each one.
    Never inside an iframe (embeds), and never for clicks inside the dialog itself. */
@@ -11,11 +11,10 @@ import { PremiumUnlockDialog } from '@/components/PremiumGate';
 import { isUnlocked, isMarkedSupporter } from '@/lib/premium';
 
 const KEY = 'wdp_support_prompt_next';   // timestamp: no prompt before this time
-const SNOOZE = 10 * 60 * 1000;           // dismissed: ask again after 10 minutes
 const DAY = 24 * 60 * 60 * 1000;         // went to Patreon: leave them alone for a day
 const DELAY = 900;                       // let the copy / download finish before the dialog appears
 // Copy / export / download / fork / embed / save-as style buttons, and the one-click "use this" buttons
-const ACTION = /\b(copy|copied|export|download|fork|embed|save (as|to|snippet|design|code|template)|use this|start using|add to page|get the code)\b/i;
+const ACTION = /\b(copy|copied|export|download|fork|embed|save (as|to|snippet|design|code|template)|use this|start using|get the code)\b/i;
 
 function labelOf(el) {
   return `${el.getAttribute('aria-label') || ''} ${el.getAttribute('title') || ''} ${el.textContent || ''}`.trim();
@@ -63,7 +62,9 @@ export default function SupportPrompt() {
     return () => { document.removeEventListener('click', onClick, true); clearTimeout(timer); };
   }, []);
 
-  const close = () => { setOpen(false); pending.current = false; snooze(SNOOZE); };   // ignored / "Not now"
+  // Closing the modal any other way (outside click, Not now, Esc) does not snooze: it shows again on the next Copy / Export click.
+  // Only "Support on Patreon" (24 hours) and "I'm already a supporter" (30 days) keep it away.
+  const close = () => { setOpen(false); pending.current = false; };
   const supported = () => snooze(DAY);                                               // clicked "Support on Patreon"
   const alreadySupporter = () => { /* the dialog stores the choice (markSupporter) and shows its thank-you */ };
   return <PremiumUnlockDialog open={open} onClose={close} onSupport={supported} onAlreadySupporter={alreadySupporter} />;

@@ -66,8 +66,9 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
     } else setState('wrong');
   };
   return createPortal(
-    <div className={s.backdrop} onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}>
+    <div className={s.backdrop}>{/* clicking outside does not close it: only Not now, Esc or the buttons do */}
       <form className={s.dialog} role="dialog" aria-modal="true" aria-labelledby="prem-title" onSubmit={submit}>
+        <div className={s.xWrap}><button type="button" className={s.xClose} onClick={() => onClose('x')} aria-label="Close">×</button></div>
         <img className={s.hero} src="/images/patreon-supporter.webp" alt="Puneet at his desk building webdevpuneet.com" width="880" height="880" loading="lazy" />
         <div className={s.story}>
           <strong>Built with passion. Shared with everyone.</strong>
@@ -86,7 +87,7 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
         ) : (
           <>
             <a className={s.patreon} href={PATREON_URL} target="_blank" rel="noopener noreferrer" onClick={() => onSupport?.()}>Support on Patreon</a>
-            <button type="button" className={s.close} onClick={onClose}>Not now</button>
+            <button type="button" className={s.close} onClick={() => onClose('notnow')}>Not now, will think about it later on...</button>
             {!thanked && <button type="button" className={s.close} onClick={() => { markSupporter(); onAlreadySupporter?.(); setState('thanks'); setTimeout(onClose, 2200); }}>I'm already a supporter</button>}
           </>
         )}
