@@ -131,8 +131,8 @@ export default function HomeWorkspace() {
 
   if (snippets === null) return null; // still reading this browser's storage
   const patreonPill = adFree
-    ? <span className={`${st.patreon} ${st.patreonOn}`} title="The Patreon passcode is active in this browser">♥ Patreon supporter · no ads · premium exports on</span>
-    : <button type="button" className={st.patreon} onClick={() => setUnlockOpen(true)} title={`Support the site on Patreon (${PATREON_PRICE}): no ads`}>♡ Not a Patreon supporter yet · Sign in</button>;
+    ? <span className={`${st.patreon} ${st.patreonOn}`} title="The Patreon passcode is active in this browser">♥ Patreon supporter · no ads</span>
+    : <button type="button" className={st.patreon} onClick={() => setUnlockOpen(true)} title={`Support the site on Patreon (${PATREON_PRICE}): no ads`}>♡ Support the site</button>;
 
   // Nothing saved yet: just the greeting and the Patreon status, one slim row
   if (!all.length) {

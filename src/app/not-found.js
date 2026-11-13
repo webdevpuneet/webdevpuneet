@@ -21,7 +21,7 @@ const EXPLORE = [
   { name: 'Email Templates', sub: 'Responsive emails that work in Gmail and Outlook', href: '/email-templates/', icon: 'email-templates' },
   { name: 'Social Post Templates', sub: 'Posts and short videos for every occasion', href: '/social-post-templates/', icon: 'social-post-templates' },
   { name: 'UI Snippets', sub: SNIPPET_TOTAL + ' components with live code and exports', href: '/ui-snippets/', icon: 'ui-snippets' },
-  { name: 'Games', sub: 'Play free in the browser; unlock the code on Patreon', href: '/ui-snippets/games/', icon: 'games', badge: 'Patreon' },
+  { name: 'Games', sub: 'Play free in the browser, with the full code', href: '/ui-snippets/games/', icon: 'games' },
   { name: 'Coding Playgrounds', sub: 'Learn HTML, CSS, JS, React and more with lessons', href: '/learn-to-code/', icon: 'html-playground' },
   { name: 'Developer Tools', sub: TOOL_TOTAL + ' free tools: CSS, images, SEO, JSON and more', href: '/tools/', icon: 'json-formatter' },
 ];
