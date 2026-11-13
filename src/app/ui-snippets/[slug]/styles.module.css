@@ -89,6 +89,7 @@
 
 .sourceCodePre { overflow-x: auto; }
 .sourceCodePre :global(pre.shiki) {
+  background: var(--surface) !important;
   margin: 0;
   padding: 14px 16px;
   font-size: 12.5px;

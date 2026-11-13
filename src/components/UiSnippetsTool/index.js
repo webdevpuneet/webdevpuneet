@@ -2401,7 +2401,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             <AiPromptButton
               prompt={libAiPrompt.prompt}
               title={activeSn?.title || activeSn?.name}
-              locked={LOCK_SNIPPET_AI && !premiumUnlocked}
+              locked={(LOCK_SNIPPET_AI || isPatreonGame(activeId)) && !premiumUnlocked}
               onUnlock={() => setUnlockOpen(true)}
             />
           )}

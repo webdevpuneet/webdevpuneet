@@ -62,7 +62,8 @@ export const LOCK_SOCIAL_VIDEO = false;
 
 /* true: the "AI" prompt button in the UI Snippets editor toolbar is for supporters only (others see a locked button that
    opens the passcode dialog). */
-/* The AI prompt on every UI snippet (games included) is FREE since 2026-11-13. true: supporters only again (then also update the copy). */
+/* The AI prompt on UI snippets is FREE since 2026-11-13, EXCEPT games listed in PATREON_GAME_IDS: their AI prompt (page section
+   and editor button) stays supporters-only along with their code. true: every snippet's prompt supporters only (then also update the copy). */
 export const LOCK_SNIPPET_AI = false;
 
 /* true: the code of every snippet in the Games category (the HTML, CSS and JS panels), its Copy buttons, every Export format

@@ -126,6 +126,7 @@
   max-height: 420px;
 }
 .panel :global(pre.shiki) {
+  background: var(--surface) !important; /* same as the "Extend with AI" box; overrides shiki's inline white */
   margin: 0;
   padding: 14px 16px;
   font-size: 12.5px;

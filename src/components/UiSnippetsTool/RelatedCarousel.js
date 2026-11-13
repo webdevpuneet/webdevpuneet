@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import InViewImg from '@/components/InViewImg';
 import { createPortal } from 'react-dom';
 import { navStart } from '@/lib/navStart';
@@ -183,6 +183,12 @@ export default function RelatedCarousel({ items, total, activeId, category }) {
     return s;
   });
 
+  // Prev/next shows a new page: the strip's own horizontal scroll goes back to its starting point
+  const trackRef = useRef(null);
+  useEffect(() => {
+    if (trackRef.current) trackRef.current.scrollLeft = 0;
+  }, [start]);
+
   const hasPrevPage = start > 0;
   const hasNextPage = items?.length ? start + PAGE_SIZE < items.length : false;
   const shown = items?.length ? items.slice(start, start + PAGE_SIZE) : [];
@@ -219,7 +225,7 @@ export default function RelatedCarousel({ items, total, activeId, category }) {
           </button>
         </div>
       </div>
-      <div className={rs.track}>
+      <div className={rs.track} ref={trackRef}>
         {shown.map(sn => <RelatedCard key={sn.id} sn={sn} active={sn.id === activeId} onPeek={onPeek} />)}
       </div>
       <PeekPopup peek={peek} />

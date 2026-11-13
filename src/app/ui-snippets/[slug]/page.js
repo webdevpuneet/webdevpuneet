@@ -995,7 +995,7 @@ Requirements:
   // (after About) and a "Start using this template" button (above the code). Their AI prompt is the
   // template's own, written into the snippet by scripts/generate-landing-page-snippets.mjs.
   const start = sn.seo?.startTemplate;
-  SEO.aiPrompt = { ...SEO.aiPrompt, label: 'Extend with AI', heading: start ? 'Take This Template Further With AI' : 'Take This Snippet Further With AI', patreonOnly: LOCK_SNIPPET_AI };
+  SEO.aiPrompt = { ...SEO.aiPrompt, label: 'Extend with AI', heading: start ? 'Take This Template Further With AI' : 'Take This Snippet Further With AI', patreonOnly: LOCK_SNIPPET_AI || isPatreonGame(sn.id) };
 
   // Navigation snippets (and the standalone hamburger button) point readers at the
   // Navbar Builder for a complete, responsive navbar: a call-out under the source
@@ -1030,9 +1030,9 @@ Requirements:
   // Games are Patreon-only code (LOCK_GAME_CODE): no code is highlighted or sent to the page for them, a lock note replaces it.
   const gameCodeLocked = isPatreonGame(sn.id);
   const [htmlHl, cssHl, jsHl] = gameCodeLocked ? ['', '', ''] : await Promise.all([
-    highlightCode(sn.html, 'html', 'github-dark'),
-    highlightCode(sn.css, 'css', 'github-dark'),
-    sn.js ? highlightCode(sn.js, 'javascript', 'github-dark') : Promise.resolve(''),
+    highlightCode(sn.html, 'html', 'github-light'),
+    highlightCode(sn.css, 'css', 'github-light'),
+    sn.js ? highlightCode(sn.js, 'javascript', 'github-light') : Promise.resolve(''),
   ]);
 
   // Rendered right after the page title (SeoSection's topExtra), before the About / FAQ / AI sections.
