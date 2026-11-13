@@ -48,9 +48,9 @@ export const PREMIUM_EMAIL_TEMPLATE_IDS = [
   'holiday-gift-guide',
 ];
 
-/* true: in the Website Section Templates editor (every section template, and the Custom Section builder) Fork and Export need
-   the passcode too. Previewing, editing, Save and Add to page stay free. */
-export const LOCK_SECTION_EXPORT = true;
+/* Website Section Templates: Fork and Export are FREE (decided 2026-11-13). true: in that editor (every section template, and
+   the Custom Section builder) Fork and Export need the passcode again. Previewing, editing, Save and Add to page stay free. */
+export const LOCK_SECTION_EXPORT = false;
 
 /* true: the Backup / Import-Export panel (download or restore all saved designs as a backup file) in the Website Builder, Email
    Templates and Social Post Templates editors is for supporters only. Website Section Templates are always free, backup included. */
