@@ -68,7 +68,6 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
         <ul className={s.list}>
           <li>No ads anywhere on the site</li>
           <li>Export and fork of the templates with a Patreon badge (website, email and social post)</li>
-          <li>The AI prompt on every snippet and template</li>
           <li>The code, export and fork of every Games snippet</li>
         </ul>
         <p className={s.text}>{name ? `You can preview and edit ${name} freely without it. ` : ''}Patrons find the passcode in the latest supporter post on Patreon; it is remembered in this browser.</p>
@@ -99,9 +98,9 @@ export function PremiumNotice({ name }) {
 }
 
 /** Replaces the Fork and Export buttons while a premium site is locked */
-export function LockedExportButton({ onClick }) {
+export function LockedExportButton({ onClick, title = 'Export and Fork are for Patreon supporters: click to enter the passcode' }) {
   return (
-    <button type="button" className={`${us.iconBtn} ${us.iconBtnAccent}`} onClick={onClick} title="Export and Fork are for Patreon supporters: click to enter the passcode">
+    <button type="button" className={`${us.iconBtn} ${us.iconBtnAccent}`} onClick={onClick} title={title}>
       {LOCK}
       Unlock export
     </button>

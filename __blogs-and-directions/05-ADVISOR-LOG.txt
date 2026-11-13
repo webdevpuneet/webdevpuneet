@@ -247,3 +247,8 @@ Format: date · area · suggested / chosen / done · note
 2026-11-12  GAMES CATEGORY CLEAN-UP: moved 5 snippets that are not games out of Games and removed their Patreon-only status (they are free again; PATREON_GAME_IDS now 66 games):
   Spin the Wheel, Dice Roller, Coin Flip -> Tools & Calculators; Quiz Card -> Cards; Bubble Wrap Popper -> Animations. Their lastmod set to 2026-11-12 (they show first in "newest").
   Removed from game-genres.js and the "games" tag; index regenerated. Borderline, kept in Games: Reaction Time Tester, Click Speed Test, Typing Speed Test (score-based tests), Matter.js Plinko Board (scoring).
+
+2026-11-13  AI PROMPTS ARE FREE FOR EVERYONE: LOCK_SNIPPET_AI and LOCK_TEMPLATE_AI set to false (UI snippets incl. games, website / section / email / social templates and their pages).
+  The AI button also no longer hides in the Section Templates and Social Post editors when their export is locked. Removed "AI prompt" from the Patreon modal list, About and Terms copy.
+  Patreon perks now: no ads, export + fork of Patreon templates, games code/export/fork, section template export/fork, backup, bulk CSV. Not deployed.
+2026-11-13  FORK is free again in Website Section Templates (only Export stays for supporters, button "Unlock export"); Fork is back in the Website Builder toolbar (locked only for Patreon-badge templates, as before). Terms updated.

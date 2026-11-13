@@ -1109,7 +1109,7 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                 ]}
               />
               <FullscreenButton />
-              {aiPrompt && !isCarousel && !socialLocked && <AiPromptButton prompt={aiPrompt} title={t.name} locked={LOCK_TEMPLATE_AI && !premiumUnlocked} onUnlock={() => setUnlockOpen(true)} />}
+              {aiPrompt && !isCarousel && <AiPromptButton prompt={aiPrompt} title={t.name} locked={LOCK_TEMPLATE_AI && !premiumUnlocked} onUnlock={() => setUnlockOpen(true)} />}
               {socialLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
               {!socialLocked && (
               <>

@@ -962,9 +962,9 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
               />
               <span className={s.toolbarSep} aria-hidden="true" />
               <AddToPageMenu loadPages={loadBuilderPages} onPick={addToBuilder} />
-              {aiPrompt && !exportLocked && <AiPromptButton prompt={aiPrompt} title={t.name} locked={LOCK_TEMPLATE_AI && !premiumUnlocked} onUnlock={() => setUnlockOpen(true)} />}
-              {exportLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
-              {!exportLocked && <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />}
+              {aiPrompt && <AiPromptButton prompt={aiPrompt} title={t.name} locked={LOCK_TEMPLATE_AI && !premiumUnlocked} onUnlock={() => setUnlockOpen(true)} />}
+              <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
+              {exportLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} title="Export is for Patreon supporters: click to enter the passcode" />}
               {!exportLocked && <ExportMenu
                 head="Export this section as…"
                 options={[

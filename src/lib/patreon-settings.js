@@ -2,7 +2,7 @@
    when another template becomes Patreon-only. Everything else reads from here (src/lib/premium.js).
 
    Supporters ($3/month) get: no ads anywhere on the site, Export + Fork on the Patreon-only templates (website, email, social
-   post), the AI prompt on every UI snippet and template (LOCK_SNIPPET_AI, LOCK_TEMPLATE_AI), the Backup panel (LOCK_BACKUP)
+   post), the Backup panel (LOCK_BACKUP)
    and Bulk create from CSV (LOCK_SOCIAL_BULK). The code, export and fork of the Games snippets (LOCK_GAME_CODE) are supporters-only too. Social post video export and section template export/backup are free.
    If you change a lock below, update the copy that describes it: about, terms, privacy-policy, the passcode dialog
    (components/PremiumGate) and the sidebar tooltip.
@@ -62,7 +62,8 @@ export const LOCK_SOCIAL_VIDEO = false;
 
 /* true: the "AI" prompt button in the UI Snippets editor toolbar is for supporters only (others see a locked button that
    opens the passcode dialog). */
-export const LOCK_SNIPPET_AI = true;
+/* The AI prompt on every UI snippet (games included) is FREE since 2026-11-13. true: supporters only again (then also update the copy). */
+export const LOCK_SNIPPET_AI = false;
 
 /* true: the code of every snippet in the Games category (the HTML, CSS and JS panels), its Copy buttons, every Export format
    (HTML, Tailwind, React, Vue, Angular, Test Exports) and Fork are for supporters only. The game itself stays playable for
@@ -144,7 +145,8 @@ export const isPatreonGame = id => LOCK_GAME_CODE && PATREON_GAME_IDS.includes(i
 /* true: the same for every template type (website templates, website section templates, email templates, social post
    templates): the "AI" prompt button in the editor toolbar and the "Extend with AI" section on the template's page are for
    supporters only. */
-export const LOCK_TEMPLATE_AI = true;
+/* The AI prompt on every template (website, section, email, social) is FREE since 2026-11-13. true: supporters only again. */
+export const LOCK_TEMPLATE_AI = false;
 
 /* true: "Bulk create from CSV" (one post per spreadsheet row, as a ZIP) in the Social Post Templates editor is for supporters,
    on every template. */

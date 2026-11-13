@@ -18,7 +18,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import s from '../SocialPostTemplates/styles.module.css';
 import b from './styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
-import { ExportMenu, FullscreenButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
+import { ExportMenu, ForkButton, FullscreenButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import { toReactComponent, toVueSfc, componentName } from '@/lib/snippet-exporters';
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
@@ -1719,6 +1719,7 @@ ${pageCss(shown, { fontFaces })}`),
               />
               <span className={s.toolbarSep} aria-hidden="true" />
               {exportLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
+              {!exportLocked && <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy || !page.sections.length} />}
               {!exportLocked && <ExportMenu
                 head={multi ? 'Export this website as…' : 'Export this page as…'}
                 options={[
