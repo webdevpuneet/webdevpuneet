@@ -23,6 +23,17 @@ export const isPremiumGameSnippet = sn => !!sn && isPatreonGame(sn.id);
 const KEY = 'wdp_premium_unlock_v1';
 const EVENT = 'wdp-premium-change';
 const SALT = 'webdevpuneet-premium:';
+const SUPPORTER_KEY = 'wdp_support_prompt_off'; // "I'm already a supporter" (no passcode): holds the time it lasts until, in ms
+const SUPPORTER_DAYS = 30;                      // after that the thank-you goes and the support prompt may ask again
+
+/** Remembers in this browser for 30 days that the visitor says they already support the site (no ads change, just the thank-you and no prompts) */
+export function markSupporter() {
+  try { localStorage.setItem(SUPPORTER_KEY, String(Date.now() + SUPPORTER_DAYS * 24 * 60 * 60 * 1000)); } catch { /* ignore */ }
+  try { window.dispatchEvent(new Event(EVENT)); } catch { /* ignore */ }
+}
+export function isMarkedSupporter() {
+  try { return Number(localStorage.getItem(SUPPORTER_KEY) || 0) > Date.now(); } catch { return false; }
+}
 
 async function hashOf(code) {
   const data = new TextEncoder().encode(SALT + String(code).trim().toLowerCase());
@@ -52,13 +63,13 @@ export async function tryUnlock(code, { notify = true } = {}) {
 
 export function lockAgain() {
   unlockedNow = false;
-  try { localStorage.removeItem(KEY); } catch { /* ignore */ }
+  try { localStorage.removeItem(KEY); localStorage.removeItem(SUPPORTER_KEY); } catch { /* ignore */ }
   window.dispatchEvent(new Event(EVENT));
 }
 
 /** Subscribes to unlock changes (this tab and other tabs) */
 export function onUnlockChange(fn) {
-  const on = e => { if (!e || e.type === EVENT || e.key === KEY) fn(); };
+  const on = e => { if (!e || e.type === EVENT || e.key === KEY || e.key === SUPPORTER_KEY) fn(); };
   window.addEventListener(EVENT, on);
   window.addEventListener('storage', on);
   return () => { window.removeEventListener(EVENT, on); window.removeEventListener('storage', on); };

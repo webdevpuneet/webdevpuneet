@@ -5,13 +5,24 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import us from '../UiSnippetsTool/styles.module.css';
-import { PATREON_URL, PATREON_PRICE, isUnlocked, tryUnlock, onUnlockChange } from '@/lib/premium';
+import { PATREON_URL, PATREON_PRICE, isUnlocked, tryUnlock, onUnlockChange, markSupporter, isMarkedSupporter } from '@/lib/premium';
 import s from './styles.module.css';
 
 export function usePremiumUnlocked() {
   const [on, setOn] = useState(false);
   useEffect(() => {
     const sync = () => setOn(isUnlocked());
+    sync();
+    return onUnlockChange(sync);
+  }, []);
+  return on;
+}
+
+/** True once the visitor said "I'm already a supporter" (or entered the passcode): the sidebar bar then shows the thank-you */
+export function useSupporterThanks() {
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    const sync = () => setOn(isMarkedSupporter() || isUnlocked());
     sync();
     return onUnlockChange(sync);
   }, []);
@@ -31,10 +42,11 @@ export function PremiumBadge({ corner = false, kind = 'template' }) {
 }
 
 /** Passcode dialog: opens the Patreon page to get the code, or checks the one typed in */
-export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, reload = true }) {
+export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, reload = true, onAlreadySupporter, onSupport }) {
   const [code, setCode] = useState('');
   const [state, setState] = useState(''); // '', 'checking', 'wrong', 'done'
   const input = useRef(null);
+  const thanked = useSupporterThanks(); // already said so (or has the passcode): no need to ask again
   useEffect(() => { if (open) { setCode(''); setState(''); setTimeout(() => input.current?.focus(), 50); } }, [open]);
   useEffect(() => {
     if (!open) return undefined;
@@ -69,8 +81,15 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
           <li>Everything stays free for everyone: every tool, template, snippet, game, export and fork</li>
           <li>Your support pays for hosting and keeps new tools, templates and games coming</li>
         </ul>
-        <a className={s.patreon} href={PATREON_URL} target="_blank" rel="noopener noreferrer">Support on Patreon</a>
-        <button type="button" className={s.close} onClick={onClose}>Not now</button>
+        {state === 'thanks' ? (
+          <p className={s.ok} role="status" style={{ textAlign: 'center', fontSize: 15, fontWeight: 700, margin: '8px 0 4px' }}>♥ Thank you for supporting WebDevPuneet! It means a lot.</p>
+        ) : (
+          <>
+            <a className={s.patreon} href={PATREON_URL} target="_blank" rel="noopener noreferrer" onClick={() => onSupport?.()}>Support on Patreon</a>
+            <button type="button" className={s.close} onClick={onClose}>Not now</button>
+            {!thanked && <button type="button" className={s.close} onClick={() => { markSupporter(); onAlreadySupporter?.(); setState('thanks'); setTimeout(onClose, 2200); }}>I'm already a supporter</button>}
+          </>
+        )}
       </form>
     </div>,
     document.body

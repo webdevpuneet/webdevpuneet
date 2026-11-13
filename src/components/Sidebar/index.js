@@ -5,8 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { isEmbedRoute } from '@/lib/is-embed-route';
 import { ADS_ENABLED, SIDEBAR_AD_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
 import { useAdFree, useAdFreeOnLoad } from '@/lib/use-ad-free';
-import { PremiumUnlockDialog } from '@/components/PremiumGate';
-import { lockAgain } from '@/lib/premium';
+import { PremiumUnlockDialog, useSupporterThanks } from '@/components/PremiumGate';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import styles from './styles.module.css';
@@ -1127,6 +1126,7 @@ function SidebarTopAd() {
 export default function Sidebar() {
   const pathname = usePathname();
   const isNotFoundPage = useIsNotFound();
+  const supporterThanks = useSupporterThanks(); // said "I'm already a supporter" (or passcode): thank-you bar
   const adFree = useAdFree(); // Patreon supporters (passcode in localStorage): the button's label
   const adFreeOnLoad = useAdFreeOnLoad(); // ...and no sidebar ad on pages loaded as a supporter
   const [unlockOpen, setUnlockOpen] = useState(false);
@@ -1385,18 +1385,17 @@ export default function Sidebar() {
         </div>
 
         {/* Patreon: a supporter sees the thank-you line; everyone else sees the sign-in line (both one line, same place) */}
-        {!adFree && (
+        {!supporterThanks && (
           <div className={`${styles.supporterBar} ${styles.supporterBarOff}`}>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 21s-7.2-4.35-9.55-8.42C.66 9.47 1.43 5.75 4.55 4.2 7.02 2.97 9.46 3.76 12 6.32c2.54-2.56 4.98-3.35 7.45-2.12 3.12 1.55 3.89 5.27 2.1 8.38C19.2 16.65 12 21 12 21Z" /></svg>
             <button type="button" className={`${styles.supporterText} ${styles.supporterMore}`} onClick={() => setUnlockOpen(true)}>Become a Patreon Supporter</button>
           </div>
         )}
         {/* Shown once the Patreon passcode has been accepted in this browser */}
-        {adFree && (
+        {supporterThanks && (
           <div className={styles.supporterBar} role="status">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.2-4.35-9.55-8.42C.66 9.47 1.43 5.75 4.55 4.2 7.02 2.97 9.46 3.76 12 6.32c2.54-2.56 4.98-3.35 7.45-2.12 3.12 1.55 3.89 5.27 2.1 8.38C19.2 16.65 12 21 12 21Z" /></svg>
-            <span className={styles.supporterText}>Patreon supporter: thank you!</span>
-            <button type="button" className={styles.supporterOut} onClick={() => { lockAgain(); window.location.reload(); }} title="Forget the passcode in this browser (ads come back)">Sign out</button>
+            <button type="button" className={`${styles.supporterText} ${styles.supporterMore}`} onClick={() => setUnlockOpen(true)}>Patreon supporter: thank you!</button>
           </div>
         )}
 

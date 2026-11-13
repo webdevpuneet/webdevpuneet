@@ -12,6 +12,7 @@ import Statcounter from '@/components/Statcounter';
 import AhrefsAnalytics from '@/components/AhrefsAnalytics';
 import { CLARITY_ENABLED, STATCOUNTER_ENABLED, AHREFS_ANALYTICS_ENABLED } from '@/lib/tracking-config';
 import { PASSCODE_SHA256 } from '@/lib/premium';
+import SupportPrompt from '@/components/SupportPrompt';
 
 export const metadata = {
   title: {
@@ -91,6 +92,7 @@ export default function RootLayout({ children }) {
         {STATCOUNTER_ENABLED && <Statcounter />}
         {AHREFS_ANALYTICS_ENABLED && <AhrefsAnalytics />}
         <RouteLoader />
+        <SupportPrompt />
         <div className={styles.appLayout}>
           <Sidebar />
           <div className={styles.mainWrap}>

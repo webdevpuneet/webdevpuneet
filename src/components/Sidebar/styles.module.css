@@ -2087,11 +2087,11 @@ a.sortBtn { text-decoration: none; }
 
 /* Patreon supporter note (shown once the passcode is accepted): a soft tint of the site's accent, so it sits in the sidebar
    like the rest of it; only the heart keeps Patreon's coral. */
-.supporterBar { display: flex; align-items: center; gap: 7px; margin: 0; padding: 6px 10px; font-size: 11px; font-weight: 700; color: var(--accent); background: color-mix(in srgb, var(--accent) 11%, var(--surface)); border-top: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
-.supporterBar svg { flex: none; color: #e0435a; }
+.supporterBar { display: flex; align-items: center; gap: 7px; margin: 0; padding: 9px 10px; font-size: 12.5px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #f96854, #e0435a); box-shadow: 0 2px 8px rgba(224, 67, 90, 0.35); }
+.supporterBar svg { flex: none; color: #fff; fill: rgba(255, 255, 255, 0.35); width: 15px; height: 15px; }
 .supporterText { flex: 1; min-width: 0; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.supporterOut { flex: none; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); padding: 1px 7px; border-radius: 6px; font: 700 10px var(--font-ui, system-ui); color: var(--accent); background: transparent; cursor: pointer; }
-.supporterOut:hover { background: color-mix(in srgb, var(--accent) 16%, transparent); }
+.supporterOut { flex: none; border: 1px solid #fff; padding: 3px 10px; border-radius: 7px; font: 700 11px var(--font-ui, system-ui); color: #e0435a; background: #fff; cursor: pointer; }
+.supporterOut:hover { background: #ffe9ec; }
 
 /* The same line for visitors who are not supporters yet: quieter, no tint, still one line */
 /* Bold Patreon-coral call to action */
