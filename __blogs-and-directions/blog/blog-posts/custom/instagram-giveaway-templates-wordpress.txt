@@ -1,0 +1,256 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  Instagram Giveaway Templates: 5 New Designs for Every Stage of a Contest
+
+  SEO TITLE (53 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  Free Instagram Giveaway Templates: 5 New Post Designs
+
+  SEO DESCRIPTION (153 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  Free Instagram giveaway templates for every stage: rules, raffle ticket, winners and winner reveal posts. Edit in your browser, then export PNG or video.
+
+  IMAGES: the 6 pictures below load straight from webdevpuneet.com/images/social-post-templates/previews/ (same domain, no upload needed).
+  They only show once the latest site build is live on the server.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Search for an Instagram giveaway template and you will mostly find one thing: a single "Giveaway!" graphic. But a contest is not one post. People need to <em>see</em> the prize, <em>understand</em> how to enter, feel the deadline coming and, at the end, believe that somebody really won. Each of those moments does a different job, and each deserves its own design.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>So we built five new giveaway post templates, one for every stage of a contest, and added them to the free <a href="https://webdevpuneet.com/social-post-templates/" target="_blank" rel="noopener">Social Post Templates</a> library. All five are editable in your browser, use your own photos and colours, and export as PNG, JPG, PDF or HTML, or as an <strong>animated video</strong> for Reels and Stories. No sign-up, no watermark.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">A giveaway is four posts, not one</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Think of a contest as a short campaign with four beats. The templates below map onto them:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Announce it.</strong> A loud, simple post that shows the prize and says "join in". <a href="#giveaway-time">Giveaway Time</a> does this.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Explain it.</strong> A calm card with the entry steps and the fine print, for everyone who asks "how do I enter?". That is <a href="#giveaway-rules">Giveaway Rules</a>.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Make it feel real.</strong> For raffles and prize draws, a post that looks like the ticket people are entering. <a href="#raffle-ticket">Raffle Ticket Giveaway</a>.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Close it.</strong> Announce who won, either a podium of up to three (<a href="#giveaway-winners">Giveaway Winners</a>) or a single spotlight moment (<a href="#winner-reveal">Giveaway Winner Reveal</a>).</li>
+<!-- /wp:list-item -->
+</ol>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="giveaway-time">1. Giveaway Time: the loud announcement</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image size-large"><a href="https://webdevpuneet.com/social-post-templates/giveaway-time/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/social-post-templates/previews/giveaway-time.png" alt="Giveaway Time Instagram giveaway post template: giant black and pink GIVEAWAY TIME headline on lime green with a tilted prize photo card and a Join now sticker"/></a><figcaption class="wp-element-caption">Giveaway Time: electric lime, a giant two-line headline, a "Join now" sticker and a tilted prize photo card.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>Most feeds are already noisy, so this one is built to be impossible to miss. A giant <strong>GIVEAWAY TIME!</strong> headline sits over a tilted prize photo card, with a blue "Join now" sticker, three entry pills (follow, like and save, tag friends) and the deadline in bold type underneath.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> quick product giveaways, launch-week prizes and follower-count pushes, especially for fashion, gaming, snack and sneaker brands. <strong>Tip:</strong> keep each pill to a few words so all three stay on one line. <a href="https://webdevpuneet.com/social-post-templates/giveaway-time/" target="_blank" rel="noopener">Open Giveaway Time &rarr;</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="giveaway-rules">2. Giveaway Rules: the "how to enter" card</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image size-large"><a href="https://webdevpuneet.com/social-post-templates/giveaway-rules/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/social-post-templates/previews/giveaway-rules.png" alt="Giveaway Rules post template: How to enter headline on cream with four ticked entry steps, a dashed bonus-entry row and a fine-print box"/></a><figcaption class="wp-element-caption">Giveaway Rules: four ticked steps, a dashed bonus-entry row and the fine print in its own box.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>A giveaway can have a brilliant prize and still lose entries because nobody is sure what counts. This card answers that in plain order: <strong>follow, like, tag two friends</strong>, plus a clearly optional <strong>bonus entry</strong> (a Story share, for example) in a dashed coral row. Underneath, a fine-print box holds eligibility, how the winner is picked and the "not sponsored by Instagram" line, in type that is still readable on a phone.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> a Story or highlight that stays available after the main post scrolls away, and for contests that need eligibility rules. <strong>Tip:</strong> save it to a "Giveaway" highlight so latecomers can still find the rules. <a href="https://webdevpuneet.com/social-post-templates/giveaway-rules/" target="_blank" rel="noopener">Open Giveaway Rules &rarr;</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="raffle-ticket">3. Raffle Ticket Giveaway: a draw that looks like a draw</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image size-large"><a href="https://webdevpuneet.com/social-post-templates/raffle-ticket/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/social-post-templates/previews/raffle-ticket.png" alt="Raffle Ticket Giveaway post template: a cream admit-one ticket on navy with a prize photo, draw date, how to enter, a perforated stub and a barcode"/></a><figcaption class="wp-element-caption">Raffle Ticket Giveaway: notched edges, a perforated stub, a barcode and a ticket number.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>People enter a raffle for the ticket, so the post should look like one. This template is a cream <strong>admit-one ticket</strong> on deep navy, with notches cut into its edges, a "Grand prize" tag on the photo and three small detail cells for the <strong>draw date</strong>, <strong>how to enter</strong> (for example "Comment TICKET") and the <strong>prize value</strong>. A dashed perforation separates the stub, which carries your handle, a barcode and a ticket number.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> fundraiser raffles, event ticket giveaways and comment-to-enter contests. <strong>Tip:</strong> the barcode is decorative, so do not use it for real check-in. Raffles are regulated in many places, so check the rules that apply to you. <a href="https://webdevpuneet.com/social-post-templates/raffle-ticket/" target="_blank" rel="noopener">Open Raffle Ticket Giveaway &rarr;</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="giveaway-winners">4. Giveaway Winners: the podium post</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image size-large"><a href="https://webdevpuneet.com/social-post-templates/giveaway-winners/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/social-post-templates/previews/giveaway-winners.png" alt="Giveaway Winners announcement template: Congratulations badge, a large italic Giveaway winners headline and three numbered winner rows with prizes on an indigo background"/></a><figcaption class="wp-element-caption">Giveaway Winners: a gold-ringed first place, two runners-up, their prizes and a claim line.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>After a contest closes, everyone who entered is waiting for this post, and most brands give it one line of caption. <strong>Giveaway Winners</strong> turns the result into a celebration: a "Congratulations" badge, a big italic headline and up to three numbered winner rows, with first place larger and rimmed in gold. Each row has the winner's handle, their prize and an optional round photo. At the bottom are the two lines that matter: how to claim, and a thank-you to everyone who entered.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> contests with more than one prize. Fill in only one or two winners and the empty rows disappear, so the layout still looks finished. <a href="https://webdevpuneet.com/social-post-templates/giveaway-winners/" target="_blank" rel="noopener">Open Giveaway Winners &rarr;</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="winner-reveal">5. Giveaway Winner Reveal: one winner, one spotlight</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image size-large"><a href="https://webdevpuneet.com/social-post-templates/winner-reveal/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/social-post-templates/previews/winner-reveal.png" alt="Giveaway Winner Reveal template: And the winner is headline, a large gold-ringed winner photo with rays of light and a Winner ribbon, the name in capitals and the prize"/></a><figcaption class="wp-element-caption">Giveaway Winner Reveal: a gold-ringed photo in a spotlight with a "Winner" ribbon, name and prize.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>When one person wins, give them a drumroll. The post opens with <strong>"And the winner is…"</strong>, then shows a large round photo in a gold ring with slowly turning rays of light, a "Winner" ribbon across the bottom, the name in big capitals and a pill with the prize. Long names shrink to fit, so "Alexandria Montgomery-Reyes" looks as tidy as "Sam".</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> single-winner giveaways, "customer of the month" posts and prize-draw results. <strong>Tip:</strong> use the 9:16 Story size, which leaves space above for a "tag the winner" sticker. <a href="https://webdevpuneet.com/social-post-templates/winner-reveal/" target="_blank" rel="noopener">Open Giveaway Winner Reveal &rarr;</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Add your own photos and drag them into place</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Every one of these templates has image areas for your pictures: the prize photo, the winner's face, a polaroid. Upload a photo and you can <strong>drag it directly inside the preview</strong> to reposition it, so a face is never cropped badly. Each template also has an optional logo slot, and the colours, fonts and every line of text are editable. Anything you do not use simply disappears.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Hit Play and watch them move</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These are not flat pictures. Every design is animated, and you can check it before you download anything: open a template, then <strong>hit the Play button in the editor toolbar</strong> and watch the post build itself. On Giveaway Rules the ticks are stamped one after another. On Raffle Ticket the ticket number counts up. On Giveaway Winners the rank numbers pop in one by one while the stars twinkle. The "Join now" sticker on Giveaway Time wobbles, and the Winner ribbon on the reveal post is stamped onto the photo.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Happy with it? Open <strong>Export</strong> and choose <strong>Animated video</strong> to download the same animation as an MP4 or WebM for Reels, Stories or the feed (use a recent Chrome or Edge, which are the safest for video). We are deliberately not embedding a video here: press Play on any template and see it for yourself. Prefer a still? PNG, JPG, PDF and HTML exports work the same way.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">One design, six sizes</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Switch the size and the layout re-flows rather than just stretching. Each template supports the <strong>4:5 portrait post</strong> (1080&times;1350), the <strong>1:1 square</strong> (1080&times;1080), the <strong>9:16 Story or Reel</strong> (1080&times;1920, with the Story safe areas kept clear), the <strong>16:9 landscape</strong> post for X and Facebook (1600&times;900), the <strong>LinkedIn image</strong> (1200&times;627) and the <strong>2:3 Pinterest pin</strong> (1000&times;1500). Make one giveaway design and publish it everywhere.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The classic one-post option: Giveaway Contest</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image size-large"><a href="https://webdevpuneet.com/social-post-templates/giveaway/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/social-post-templates/previews/giveaway.png" alt="Giveaway Contest Instagram post template with a Giveaway badge, prize headline, prize photo, three numbered entry steps and a deadline on a confetti background"/></a><figcaption class="wp-element-caption">Giveaway Contest: prize, three numbered steps, deadline and a rules line, all in one post.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>If you only want to publish a single post, <a href="https://webdevpuneet.com/social-post-templates/giveaway/" target="_blank" rel="noopener">Giveaway Contest</a> puts everything in one frame: the prize as a big headline, an optional prize photo, three numbered entry steps, the deadline and a short rules line over a confetti background. Use it first, then pick a winners post from the list above to close the loop.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">A quick checklist before you post a giveaway</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Name the prize and who can enter.</strong> Say where entrants must live and the minimum age.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Give an end date, time and time zone.</strong> "Ends Friday" is not enough.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Say how and when the winner is chosen and contacted.</strong> Random, from the comments, with a tool you can screen-record.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Add the platform disclaimer.</strong> Instagram's promotion guidelines ask that a contest is not sponsored or run by Instagram. Check the current wording before you launch.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Check your local rules.</strong> Free prize draws, paid raffles and sweepstakes are treated differently in different places.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Announce the result and tag the winner.</strong> A winners post with a real name or handle is what makes the next giveaway believable.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">There are 60+ more social post templates</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The giveaway set is just one corner of the library. The <a href="https://webdevpuneet.com/social-post-templates/" target="_blank" rel="noopener">Social Post Templates gallery</a> holds more than 60 free, editable designs across quotes and tips, how-to checklists, announcements, promo and sales posts, events, social proof, carousels, Stories and seasonal holidays. Newly added and recently updated templates are listed first. A few that pair well with a giveaway: <a href="https://webdevpuneet.com/social-post-templates/countdown/" target="_blank" rel="noopener">Countdown</a> for the final 24 hours, <a href="https://webdevpuneet.com/social-post-templates/thank-you/" target="_blank" rel="noopener">Thank You</a> for the day after, and <a href="https://webdevpuneet.com/social-post-templates/testimonial/" target="_blank" rel="noopener">Customer Testimonial</a> once your winner has had their prize.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">How do I make an Instagram giveaway post for free?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Open a giveaway template, type your prize, entry steps and deadline, upload a prize photo, and download the PNG. It runs in your browser, with no account and no watermark. Use the 4:5 size for the feed and 9:16 for Stories.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What size should an Instagram giveaway post be?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>1080&times;1350 (4:5) is the recommended feed size, because it takes the most room on a phone. Use 1080&times;1920 (9:16) for Stories and Reels. Every template here supports both, plus square, landscape, LinkedIn and Pinterest sizes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">How many entry steps should a giveaway have?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Three or four. Every extra step loses entrants. Keep the required actions few (follow, like, tag a friend) and mark extras such as a Story share as a bonus entry.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can I turn a giveaway template into a video for Reels or Stories?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes. Every template is animated. Press the Play button in the editor to preview it, then choose Export and Animated video to download it as an MP4 or WebM. Use the 9:16 size for Reels and Stories. If your browser produces WebM and Instagram needs MP4, use Chrome or convert the file.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Are these giveaway templates really free?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes. You can edit, export and use them for your own and your clients' contests without paying or signing up. They are part of webdevpuneet.com's free Social Post Templates library.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Ready to run one?</strong> Start with <a href="https://webdevpuneet.com/social-post-templates/giveaway-time/" target="_blank" rel="noopener">Giveaway Time</a>, explain it with <a href="https://webdevpuneet.com/social-post-templates/giveaway-rules/" target="_blank" rel="noopener">Giveaway Rules</a>, and finish with <a href="https://webdevpuneet.com/social-post-templates/giveaway-winners/" target="_blank" rel="noopener">Giveaway Winners</a> or the <a href="https://webdevpuneet.com/social-post-templates/winner-reveal/" target="_blank" rel="noopener">Winner Reveal</a>. Or browse the <a href="https://webdevpuneet.com/social-post-templates/" target="_blank" rel="noopener">full Social Post Templates library</a> and hit Play on anything that catches your eye.</p>
+<!-- /wp:paragraph -->
