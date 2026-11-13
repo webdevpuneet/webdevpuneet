@@ -18,10 +18,8 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import s from '../SocialPostTemplates/styles.module.css';
 import b from './styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
-import { ExportMenu, ForkButton, FullscreenButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
+import { ExportMenu, FullscreenButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import { toReactComponent, toVueSfc, componentName } from '@/lib/snippet-exporters';
-import { dbPut } from '@/lib/uiSnippetsDb';
-import { openForkTab } from '@/lib/open-fork-tab';
 import SectionPickerModal from './SectionPickerModal';
 import TemplatePickerModal from './TemplatePickerModal';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
@@ -821,11 +819,6 @@ export default function WebsiteBuilder() {
   const uploadOf = (uid, k) => { const sec = allSections.find(x => x.uid === uid); return k === BG_KEY ? sec?.style?.bg : sec?.state.uploads?.[k]; };
   const previewSrc = (uid, k) => { const u = uploadOf(uid, k); return u ? blobUrls[u.id] || '' : ''; };
   const relativeSrc = (uid, k) => { const u = uploadOf(uid, k); return u ? `assets/${u.file}` : ''; };
-  const dataUrls = async () => {
-    const out = {};
-    for (const u of allUploads) { const rec = await getAsset(u.id).catch(() => null); if (rec?.blob) out[`${u.uid}|${u.k}`] = await blobToDataUrl(rec.blob); }
-    return out;
-  };
   const customIds = [page.fonts.heading, page.fonts.body].filter(id => String(id).startsWith('c:'));
   const fontFaces = useMemo(() => (fontTick >= 0 ? customFontFaceCss(customIds) : ''), [customIds.join('|'), fontTick]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -1082,38 +1075,6 @@ export default function WebsiteBuilder() {
 
   /* Export */
   const fileBase = slugify(page.name);
-  /* Fork: the whole page as one editable snippet in My Code (opens in a new tab) */
-  const forkToMyCode = async () => {
-    const tab = openForkTab();
-    setBusy('fork');
-    try {
-      const urls = await dataUrls();
-      const now = new Date().toISOString();
-      const rid = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `wb-${Date.now().toString(36)}`;
-      const gf = pageDocumentHtml(shown, { fontFaces }).match(/<link href="(https:\/\/fonts\.googleapis\.com[^"]+)"/)?.[1];
-      /* On localhost the production image URLs aren't live yet, so point them at this origin */
-      const local = /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
-        ? str => str.split('https://webdevpuneet.com/images/').join(`${location.origin}/images/`)
-        : str => str;
-      const js = pageScript(shown);
-      await dbPut({
-        id: rid,
-        name: `${page.name || 'My website'}${multi ? ` · ${activePage.name}` : ''} (page)`,
-        tags: ['page'],
-        cdnUrls: [...(gf ? [gf] : []), ...(js ? pageCdn(shown) : [])],
-        html: local(pageMarkup(shown, { imageSrc: (uid, k) => urls[`${uid}|${k}`] || '', clean: true })),
-        css: local(`body{margin:0;background:${page.theme?.bg || '#fff'}}
-html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
-${pageCss(shown, { fontFaces })}`),
-        js: js || '',
-        createdAt: now,
-        updatedAt: now,
-      });
-      tab.go(rid);
-      flash('Forked to My Code. It opened in a new tab.');
-    } catch (err) { tab.cancel(); flash(`Couldn't save to My Code: ${err.message}`); }
-    setBusy('');
-  };
   const pageParts = imageSrc => {
     const gf = pageDocumentHtml(shown, { fontFaces }).match(/<link href="(https:\/\/fonts\.googleapis\.com[^"]+)"/)?.[1];
     const js = pageScript(shown);
@@ -1719,7 +1680,6 @@ ${pageCss(shown, { fontFaces })}`),
               />
               <span className={s.toolbarSep} aria-hidden="true" />
               {exportLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
-              {!exportLocked && <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy || !page.sections.length} />}
               {!exportLocked && <ExportMenu
                 head={multi ? 'Export this website as…' : 'Export this page as…'}
                 options={[

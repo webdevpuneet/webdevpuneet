@@ -5,14 +5,14 @@ import TemplateLibrary from '@/components/TemplateLibrary';
 import InViewImg from '@/components/InViewImg';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from './styles.module.css';
-import { AddToPageMenu, ExportMenu, ForkButton, FullscreenButton, HistoryButtons, SaveButton, AiPromptButton } from '@/components/ToolbarActions';
+import { AddToPageMenu, ExportMenu, ForkButton, FullscreenButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import { htmlThumb } from '@/lib/html-thumb';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import GalleryTopAd from '@/components/GalleryTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
-import { LOCK_SECTION_EXPORT, LOCK_TEMPLATE_AI } from '@/lib/premium';
+import { LOCK_SECTION_EXPORT } from '@/lib/premium';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
@@ -962,7 +962,6 @@ export function SectionTemplateEditor({ id, aiPrompt = '' }) {
               />
               <span className={s.toolbarSep} aria-hidden="true" />
               <AddToPageMenu loadPages={loadBuilderPages} onPick={addToBuilder} />
-              {aiPrompt && <AiPromptButton prompt={aiPrompt} title={t.name} locked={LOCK_TEMPLATE_AI && !premiumUnlocked} onUnlock={() => setUnlockOpen(true)} />}
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
               {exportLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} title="Export is for Patreon supporters: click to enter the passcode" />}
               {!exportLocked && <ExportMenu

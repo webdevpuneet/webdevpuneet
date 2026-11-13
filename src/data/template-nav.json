@@ -183,7 +183,7 @@
   ]
  },
  "social": {
-  "total": 56,
+  "total": 61,
   "categories": [
    {
     "id": "quotes",
@@ -332,6 +332,26 @@
      {
       "id": "giveaway",
       "name": "Giveaway Contest"
+     },
+     {
+      "id": "giveaway-winners",
+      "name": "Giveaway Winners"
+     },
+     {
+      "id": "winner-reveal",
+      "name": "Giveaway Winner Reveal"
+     },
+     {
+      "id": "giveaway-time",
+      "name": "Giveaway Time"
+     },
+     {
+      "id": "giveaway-rules",
+      "name": "Giveaway Rules"
+     },
+     {
+      "id": "raffle-ticket",
+      "name": "Raffle Ticket Giveaway"
      },
      {
       "id": "us-vs-them",

@@ -1,0 +1,34 @@
+GIVEAWAY SOCIAL POST SERIES (started 2026-11-13)
+Why: "instagram giveaway template" is a search keyword people use; one template (Giveaway Contest) is not enough.
+Goal: 5 more giveaway-themed social post templates (was 10, cut to 5 by the user), each with its own look (not a recolour), built ONE AT A TIME
+(write -> render every size -> look -> fix -> SEO -> next). Style references came from the user's Canva screenshots
+(ideas only, never copy a layout): repeated-word type stacks, winners lists, retro scalloped labels, editorial serif,
+starburst stickers, countdown timers, Y2K gradients, neon gamer, ticket stubs, rules cards, tilted product + Join Now sticker.
+
+THE 5 (user changed the plan to 5 total on 2026-11-13: "create just 5, not 10"). ALL DONE 2026-11-13.
+  1. giveaway-winners   congratulations list, 3 winner pills, optional round winner photos (indigo + gold)
+  2. winner-reveal      "And the winner is..." spotlight, big round winner photo, Winner ribbon (magenta + gold)
+  3. giveaway-time      loud lime + pink stacked headline, tilted prize photo card, Join now sticker
+  4. giveaway-rules     cream + teal "How to enter" card, 4 ticked steps, optional polaroid, fine-print box
+  5. raffle-ticket      navy + cream admit-one ticket, prize photo, 3 detail cells, perforated stub with barcode
+Ideas NOT built (from the first list of 10, if you ever want more): follower-milestone giveaway ("20K giveaway"),
+big prize amount ("Win $500"), giveaway alert (Y2K / editorial), Black Friday giveaway, editorial luxury giveaway.
+
+RULES FOR EVERY ONE (from memory + this session)
+  - Image areas: each template has optional photo slots (data-image data-optional) so people can upload pictures;
+    the editor lets users drag a photo inside the preview to reposition it, so use normal data-image slots.
+  - Optional `logo` field (type image, fit contain) BEFORE any other contain field; brand = .spt-brand group.
+  - Mark every moving part with data-anim (breathe, drift, twinkle, wobble, pop, count, countdown, burst ... see render.js).
+  - Check all 6 sizes: portrait, square, story (safe areas), landscape, linkedin, pin. Use  node scripts/_check-template.mjs <id> <out.png> [fill]
+    ("fill" simulates uploaded photos + logo). It reports OVERFLOW / OVERLAP / CONTENT-OVERFLOW. Fix until all say ok.
+  - Gotcha: a display font with tall metrics + line-height:1 makes [data-fit] text look "overflowing" and the fit loop
+    shrinks it to nothing. Use line-height >= 1.2 on fitted headlines.
+  - Gotcha: a flex column list that is taller than its space overflows silently; the checker's CONTENT-OVERFLOW line catches it.
+  - SEO hand-written per template in templates/seo-content-giveaways.js (TEMPLATE_SEO_GIVE + TEMPLATE_WHY_GIVE):
+    seoTitle 50-60 chars, seoDescription 150-160 chars (count them), about (3-4 headed paragraphs), features, useCases, 4-5 FAQs, aiPrompt.
+  - Registration steps per template: templates/<id>.js -> index.js (import + ORDER after giveaway) -> SEO entries ->
+    node scripts/generate-template-nav.mjs -> node scripts/capture-template-previews.mjs <id> (look at the png) -> log here.
+  - scripts/_check-template.mjs and scripts/_dbg.mjs are scratch helpers (delete _dbg.mjs when done).
+  - Also changed in this session: removed the Fork button from the Social Post and Website Builder editors, and the AI button
+    from the Social Post and Website Section editors' top toolbars (the AI prompt still shows in each page's SEO section).
+  - Not yet done for the series: Play/video export check at phone size, cross-library-links, category intro text in seo-categories(-more).js.

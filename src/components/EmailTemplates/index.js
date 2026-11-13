@@ -5,7 +5,7 @@ import TemplateLibrary from '@/components/TemplateLibrary';
 import InViewImg from '@/components/InViewImg';
 import s from '../SocialPostTemplates/styles.module.css';
 import e from './styles.module.css';
-import { AiPromptButton, ExportMenu, ForkButton, FullscreenButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
+import { ExportMenu, ForkButton, FullscreenButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import { emailDesignStore } from './designs';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
@@ -13,7 +13,7 @@ import { htmlThumb } from '@/lib/html-thumb';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import GalleryTopAd from '@/components/GalleryTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton, PremiumBadge } from '@/components/PremiumGate';
-import { LOCK_BACKUP, LOCK_TEMPLATE_AI, isPremiumEmailTemplate } from '@/lib/premium';
+import { LOCK_BACKUP, isPremiumEmailTemplate } from '@/lib/premium';
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
@@ -1723,7 +1723,6 @@ export function EmailTemplateEditor({ id, aiPrompt = '' }) {
               {emailLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
               {!emailLocked && (
               <>
-              {aiPrompt && <AiPromptButton prompt={aiPrompt} title={t.name} locked={LOCK_TEMPLATE_AI && !premiumUnlocked} onUnlock={() => setUnlockOpen(true)} />}
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
               <ExportMenu
                 head="Export this email as…"

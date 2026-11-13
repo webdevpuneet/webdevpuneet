@@ -11,23 +11,21 @@ import { revealInPanel } from '@/lib/reveal-in-panel';
 import { SIZES, sizeById, templateById } from './templates/index.js';
 import { PALETTES, parseHex } from '../OgImageGenerator/engine';
 import FontPicker from '@/components/FontPicker';
-import { AiPromptButton, ExportMenu, ForkButton, FullscreenButton, HistoryButtons, PlayButton, SaveButton } from '@/components/ToolbarActions';
+import { ExportMenu, FullscreenButton, HistoryButtons, PlayButton, SaveButton } from '@/components/ToolbarActions';
 import Preview from './Preview';
 import FormatPopover from '@/components/EmailTemplates/FormatPopover';
-import { renderImage, standaloneHtml, snippetParts, renderVideo, videoSupport, playPreviewAnimation } from './render';
-import { dbPut } from '@/lib/uiSnippetsDb';
+import { renderImage, standaloneHtml, renderVideo, videoSupport, playPreviewAnimation } from './render';
 import { jpegsToPdf } from '@/lib/images-to-pdf';
 import Mockup, { MOCKUPS } from './Mockup';
 import BulkCreate from './BulkCreate';
 import ConfirmDialog from './ConfirmDialog';
 import { runChecks } from './quality-checks';
 import { listDesigns, getDesign, saveDesign, deleteDesign, duplicateDesign, thumbFrom, onDesignsChange, getAutosave, putAutosave } from './designs';
-import { openForkTab } from '@/lib/open-fork-tab';
 import ImageLibraryPicker from '@/components/ImageLibrary';
 import { addToLibrary } from '@/lib/image-library';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
-import { LOCK_BACKUP, LOCK_SOCIAL_VIDEO, LOCK_SOCIAL_BULK, LOCK_TEMPLATE_AI, isPremiumSocialTemplate } from '@/lib/premium';
+import { LOCK_BACKUP, LOCK_SOCIAL_VIDEO, LOCK_SOCIAL_BULK, isPremiumSocialTemplate } from '@/lib/premium';
 
 const LS_PREFIX = 'wdp-spt-v1:';
 const fmtBytes = n => (n >= 1048576 ? `${(n / 1048576).toFixed(2)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
@@ -585,22 +583,6 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
       flash('HTML copied. Paste it into a .html file');
     } catch { flash('Copy blocked by the browser, so use Download .html instead'); }
   };
-  const forkToMyCode = async () => {
-    const tab = openForkTab();
-    setBusy('fork');
-    try {
-      const { html, css } = snippetParts(st, design, { includeImages });
-      const now = new Date().toISOString();
-      const rid = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `spt-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-      await dbPut({ id: rid, name: `${st.name} (${z.label}, ${z.w}×${z.h})`, tags: ['social-post'], cdnUrls: [], html, css, js: '', createdAt: now, updatedAt: now });
-      tab.go(rid);
-      flash('Forked to My Code. It opened in a new tab.');
-    } catch (err) {
-      tab.cancel();
-      flash(`Couldn't save to My Code: ${err.message}`);
-    }
-    setBusy('');
-  };
   const downloadHtml = () => saveBlob(new Blob([standaloneHtml(st, design, { includeImages })], { type: 'text/html' }), `${baseName}.html`);
 
   /* Carousel (or a single post) as a PDF: LinkedIn document posts are uploaded as PDFs */
@@ -1109,11 +1091,9 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                 ]}
               />
               <FullscreenButton />
-              {aiPrompt && !isCarousel && <AiPromptButton prompt={aiPrompt} title={t.name} locked={LOCK_TEMPLATE_AI && !premiumUnlocked} onUnlock={() => setUnlockOpen(true)} />}
               {socialLocked && <LockedExportButton onClick={() => setUnlockOpen(true)} />}
               {!socialLocked && (
               <>
-              <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} title="Save this design as an editable HTML/CSS snippet in My Code (opens in a new tab)" />
               <ExportMenu
                 head={isCarousel ? 'Export this carousel as…' : 'Export this post as…'}
                 options={[

@@ -25,6 +25,11 @@ import tipOfTheDay from './tip-of-the-day.js';
 import weAreLive from './we-are-live.js';
 import webinarEvent from './webinar-event.js';
 import giveaway from './giveaway.js';
+import giveawayWinners from './giveaway-winners.js';
+import winnerReveal from './winner-reveal.js';
+import giveawayTime from './giveaway-time.js';
+import giveawayRules from './giveaway-rules.js';
+import raffleTicket from './raffle-ticket.js';
 import meetTheTeam from './meet-the-team.js';
 import mythVsFact from './myth-vs-fact.js';
 import bigStat from './big-stat.js';
@@ -89,6 +94,11 @@ const ORDER = [
   adventCalendar,
   productSpotlight,
   giveaway,
+  giveawayWinners,
+  winnerReveal,
+  giveawayTime,
+  giveawayRules,
+  raffleTicket,
   usVsThem,
   justListed,
   webinarEvent,
