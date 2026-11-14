@@ -52,7 +52,6 @@ import {
 } from '@/components/SectionTemplates/templates/scroll.js';
 import { bindInlineEdit, fieldOfTarget, applyEdit, applyFocus, useFrozenPreview } from '@/components/SectionTemplates/inline-edit';
 import { analyse, livePatch } from '@/components/SectionTemplates/live-patch';
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { usePremiumUnlocked, PremiumUnlockDialog, LockedExportButton } from '@/components/PremiumGate';
 import { LOCK_BACKUP } from '@/lib/premium';
 import { siteThumb } from './saved-thumb';
@@ -599,6 +598,7 @@ export default function WebsiteBuilder() {
   const premiumUnlocked = usePremiumUnlocked();
   const [unlockOpen, setUnlockOpen] = useState(false);
   const exportLocked = !!site.premium && !premiumUnlocked;
+  const [autoExport, setAutoExport] = useState('');
   const backupLocked = LOCK_BACKUP && !premiumUnlocked;
   const [pageId, setPageIdRaw] = useState(null); // the page being edited (null = home)
   const [navHash, setNavHash] = useState(''); // section to scroll to after a page link
@@ -713,6 +713,9 @@ export default function WebsiteBuilder() {
       // isn't saved, is kept in My pages first so nothing is lost.
       const starterId = new URLSearchParams(window.location.search).get('starter');
       const blank = starterId === 'blank';
+      // &export=zip|next|react|vue (from the template page's Export menu): run that export once the template is loaded
+      const wantExport = new URLSearchParams(window.location.search).get('export');
+      if (live && starterId && !blank && ['zip', 'next', 'react', 'vue'].includes(wantExport)) setAutoExport(wantExport);
       if (live && starterId && (blank || STARTERS.some(x => x.id === starterId))) {
         const auto = await store.getAutosave(AUTOSAVE).catch(() => null);
         const prev = auto ? restoreSite(auto) : null;
@@ -1201,8 +1204,22 @@ export default function WebsiteBuilder() {
     setBusy('');
   };
 
+  /* Export chosen on the template page: runs once the template is loaded, then the Patreon support dialog follows (the page was just opened, so no click triggered it) */
+  useEffect(() => {
+    if (!autoExport || !hydrated || busy || !page.sections.length) return;
+    const kind = autoExport;
+    setAutoExport('');
+    if (exportLocked) { setUnlockOpen(true); return; }
+    (async () => {
+      if (kind === 'zip') await downloadZip();
+      else if (kind === 'next') await downloadNextZip();
+      else await downloadFrameworkZip(kind);
+      window.dispatchEvent(new Event('wdp-support-prompt'));
+    })();
+  }); // eslint-disable-line react-hooks/exhaustive-deps
+
   /* My pages */
-  const dirty = !!current && savedJson.current !== null && savedJson.current !== JSON.stringify(site);
+  const dirty =!!current && savedJson.current !== null && savedJson.current !== JSON.stringify(site);
   const saveNew = async name => {
     setBusy('save');
     try {
@@ -1637,8 +1654,7 @@ export default function WebsiteBuilder() {
         </aside>
 
         <div className={s.main} style={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
-          {/* Leaderboard ad (max 90px) above the toolbar (never between toolbar and preview): the same unit as the UI snippet editor and playgrounds; hidden at 900px and below, where the editor has its phone layout */}
-          <PlaygroundTopAd desktopOnly />
+          {/* No top ad in the Website Builder editor (removed 2026-11-14) */}
           <div className={s.toolbar} data-scroll-toolbar>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', minWidth: 0 }}>
               <h1 className={s.metaName} title={site.name}>{site.name}</h1>

@@ -7,7 +7,6 @@ import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import { websiteAiPrompt } from '@/components/SectionTemplates/templates/ai-prompts.js';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
-import AiPromptPanel from '@/components/WebsiteBuilder/AiPromptPanel';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from '@/components/SectionTemplates/templates/starters.js';
 import { starterPageList } from '@/components/SectionTemplates/templates/site.js';
@@ -18,6 +17,7 @@ import { resolveFont } from '@/lib/fonts';
 import { PremiumNotice } from '@/components/PremiumGate';
 import { isPremiumTemplate } from '@/lib/premium';
 import st from '../templates.module.css';
+import TemplateExport from './TemplateExport';
 
 const BASE = 'https://webdevpuneet.com/website-builder/templates/';
 /* Live demos: demos/website-templates/<id>/one-page and /multi-page (made by scripts/export-website-demos.mjs).
@@ -181,8 +181,9 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
                 <h2 id="ver-one" className={st.versionTitle}>One page</h2>
                 <p className={st.versionText}>{t.sections.length} sections on one scrolling page, with menu links that jump to each part.</p>
                 <div className={st.versionBtns}>
-                  <a className={st.btn} href={useUrl}>Use this version</a>
+                  <a className={st.btn} href={useUrl}>Edit this version</a>
                   {demoOne && <a className={`${st.btn} ${st.btnGhost}`} href={demoOne} target="_blank" rel="noopener">Live demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg><span className={st.srOnly}> (opens in a new tab)</span></a>}
+                  <TemplateExport starter={t.id} />
                 </div>
               </section>
               {multi && (
@@ -190,13 +191,13 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
                   <h2 id="ver-multi" className={st.versionTitle}>{pages.length}-page website</h2>
                   <p className={st.versionText}>{pageNames}, sharing one navbar, footer and theme.</p>
                   <div className={st.versionBtns}>
-                    <a className={st.btn} href={multiUrl}>Use this version</a>
+                    <a className={st.btn} href={multiUrl}>Edit this version</a>
                     {demoMulti && <a className={`${st.btn} ${st.btnGhost}`} href={demoMulti} target="_blank" rel="noopener">Live demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg><span className={st.srOnly}> (opens in a new tab)</span></a>}
+                    <TemplateExport starter={t.id} multi pageCount={pages.length} />
                   </div>
                 </section>
               )}
               <a className={`${st.btn} ${st.btnGhost} ${st.allBtn}`} href="/website-builder/"><span aria-hidden="true">←</span> All website templates</a>
-              <AiPromptPanel prompt={ai?.prompt} title={`${t.name} website template`} />
             </div>
             {multi && (
               <div className={st.box}>

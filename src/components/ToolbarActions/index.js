@@ -7,7 +7,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import us from '../UiSnippetsTool/styles.module.css';
 
-const EXPORT_ICON = {
+export const EXPORT_ICON = {
   html: <svg width="16" height="18" viewBox="0 0 512 512" aria-hidden="true"><path fill="#e44d26" d="M107 457L75 96h362l-32 361-149 41z"/><path fill="#f16529" d="M256 444l120-33 27-307H256z"/><path fill="#ebebeb" d="M256 208h-62l-4-45h66v-44H144l11 127h101zm0 122l-49-13-3-36h-44l6 67 90 25z"/><path fill="#fff" d="M256 208v44h58l-6 58-52 14v46l90-25 7-77 7-60zm0-89v44h114l-4-44z"/></svg>,
   react: <svg width="17" height="17" viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="50" rx="10" ry="10" fill="#61dafb"/><ellipse cx="50" cy="50" rx="46" ry="18" fill="none" stroke="#61dafb" strokeWidth="5"/><ellipse cx="50" cy="50" rx="46" ry="18" fill="none" stroke="#61dafb" strokeWidth="5" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="46" ry="18" fill="none" stroke="#61dafb" strokeWidth="5" transform="rotate(120 50 50)"/></svg>,
   vue: <svg width="17" height="15" viewBox="0 0 261.76 226.69" aria-hidden="true"><path d="M161.096 0l-30.225 52.351L100.647 0H0l130.871 226.69L261.742 0z" fill="#41b883"/><path d="M161.096 0l-30.225 52.351L100.647 0H52.346l78.525 136.01L209.397 0z" fill="#34495e"/></svg>,
@@ -18,7 +18,7 @@ const EXPORT_ICON = {
   image: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#db2777" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>,
   text: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="14" y2="18"/></svg>,
 };
-const EXPORT_TINT = { next: '#111827', react: '#61dafb', vue: '#41b883', html: '#e44d26', zip: '#6366f1', file: '#0ea5e9', text: '#059669', image: '#db2777', video: '#7c3aed' };
+export const EXPORT_TINT = { next: '#111827', react: '#61dafb', vue: '#41b883', html: '#e44d26', zip: '#6366f1', file: '#0ea5e9', text: '#059669', image: '#db2777', video: '#7c3aed' };
 
 /* Inside a toolbar that scrolls sideways ([data-scroll-toolbar], tablet width) an absolute menu
    would be clipped by the scroller, and on phones by the editor's own overflow (the preview and the
