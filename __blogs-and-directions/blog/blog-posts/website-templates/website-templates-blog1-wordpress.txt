@@ -1,0 +1,474 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  Free Online Store Website Template: Mega Menu, Filters, Cart & Checkout
+
+  SEO TITLE (56 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  Free Online Store Template With Cart, Checkout & Filters
+
+  SEO DESCRIPTION (157 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  A free ecommerce website template with a mega menu, shop filters, product page, cart, checkout, orders and wishlist. See every page and how to make it yours.
+
+  HOW TO PASTE: click the first line after this comment, Ctrl+Shift+End, Ctrl+C →
+  in WordPress click "Type / to choose a block", Ctrl+V. Fallback: ⋮ → Code editor.
+
+  BEFORE PUBLISHING: extract /tools.zip on the server first. The demo, the template page and the
+  images in this post only work once the new pages and images are live.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Most free "ecommerce templates" are a home page with a few product cards and a button that goes nowhere. A real shop needs the rest of the journey: finding a product, looking at it closely, adding it to a cart, paying, and seeing that the order worked. So I built the whole thing. The <strong><a href="https://webdevpuneet.com/website-builder/templates/online-store/" target="_blank" rel="noopener">Online Store website template</a></strong> is a complete, working shop with a mega menu, a shop page with filters, a product page, a cart drawer, a cart page, a checkout, a thank-you page, order history and a wishlist, and it runs in the browser with no server and no account.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>It is free to use, edit and export, and you can try it right now: <a href="https://webdevpuneet.com/demos/website-templates/online-store/multi-page/" target="_blank" rel="noopener">open the live multi-page demo</a> and click through it like a shopper. Add something to the cart, apply the code <strong>SAVE20</strong>, go to checkout, and look at your order afterwards. This post lists everything inside, and then shows how to make it feel like <em>your</em> shop.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"align":"center","width":"760px","sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/website-builder/templates/online-store/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/website-templates/og/online-store.jpg" alt="The Online Store website template: a store header with search and a mega menu above a hero for a headphones and home shop" style="width:760px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons">
+<!-- wp:button {} -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://webdevpuneet.com/website-builder/templates/online-store/" target="_blank" rel="noopener">Open the template</a></div>
+<!-- /wp:button -->
+<!-- wp:button {"className":"is-style-outline"} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="https://webdevpuneet.com/demos/website-templates/online-store/multi-page/" target="_blank" rel="noopener">Multi-page demo</a></div>
+<!-- /wp:button -->
+<!-- wp:button {"className":"is-style-outline"} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="https://webdevpuneet.com/demos/website-templates/online-store/one-page/" target="_blank" rel="noopener">One-page demo</a></div>
+<!-- /wp:button -->
+</div>
+<!-- /wp:buttons -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Try it first: the live demo</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/demos/website-templates/online-store/multi-page/" target="_blank" rel="noopener">Multi-page demo</a>: home, shop, product, cart, checkout, thank you, orders, wishlist and help pages, all linked together.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/demos/website-templates/online-store/one-page/" target="_blank" rel="noopener">One-page demo</a>: just the home page, a landing page for a store.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-builder/templates/online-store/" target="_blank" rel="noopener">Template page</a>: the full description, a long preview and a button to open it in the Website Builder.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>The demo is a sample shop called Sona that sells headphones, speakers and home pieces. Everything you see is editable text, images, colours and links.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Everything inside the template</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The template is a multi-page website. These are the pages and what each one gives you.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">1. The home page</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A store header (more on that below), a big hero, four reasons to shop with you, a swipeable best-sellers strip, a gift banner, customer reviews, a newsletter sign-up and a footer with link columns. It is set up so the first screen answers three questions: what do you sell, why should I trust you, and where do I click.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">2. The header and the mega menu</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The header is the <a href="https://webdevpuneet.com/website-section-templates/mega-menu-columns/" target="_blank" rel="noopener">Link Columns mega menu</a>: a thin top bar for delivery news, a search field, account, wishlist and cart icons (with live count badges), and category links that open a full-width panel of link columns with a featured card. Hover or click opens it, Esc closes it, Arrow Down moves into it, and on a phone it turns into a burger menu with tap-to-open accordions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"align":"center","width":"760px","sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/website-section-templates/mega-menu-columns/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/section-templates/previews/mega-menu-columns.png" alt="Ecommerce mega menu with three link columns and a featured headphones card" style="width:760px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>Prefer a different look? Swap it for the <a href="https://webdevpuneet.com/website-section-templates/mega-menu-visual/" target="_blank" rel="noopener">Image Tiles mega menu</a> (big category photos, great for fashion and home) or the <a href="https://webdevpuneet.com/website-section-templates/mega-menu-departments/" target="_blank" rel="noopener">Department Sidebar mega menu</a> (an All categories button with a department list, built for big catalogues). All three work with the cart and wishlist badges.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">3. The shop page, with filters</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The <a href="https://webdevpuneet.com/website-section-templates/product-listing/" target="_blank" rel="noopener">Product Listing</a> is the page people use most. It has a search box, sorting (featured, price low to high, price high to low, newest, best rated) and a filter panel for <strong>category, price range, colour, rating, in stock only and on sale</strong>. Results update instantly, with a live count, a friendly no-results message and a Load more button. On phones the filters slide up as a panel.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"align":"center","width":"760px","sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/website-section-templates/product-listing/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/section-templates/previews/product-listing.png" alt="Shop page with a filter panel, sort menu and a grid of product cards" style="width:760px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>Here is the part I like most: the filters are written into the page address. A link such as <code>shop.html?cat=Audio&amp;sort=price-asc</code> opens the shop already filtered, so your menu, emails and ads can link straight to "On sale" or "Audio under $100". The mega menu in the template already does exactly that.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">4. The product page</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The <a href="https://webdevpuneet.com/website-section-templates/product-detail/" target="_blank" rel="noopener">Product Detail Page</a> has a gallery with thumbnails, swipe, arrow keys and a hover zoom, colour swatches that switch the photo, optional sizes with sold-out sizes crossed out, a quantity stepper, <strong>Add to cart</strong>, <strong>Buy now</strong> and a wishlist heart. Under the buttons come stock and delivery notes, trust badges and details accordions. On a phone a sticky Add to cart bar slides up whenever the main button scrolls out of view.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"align":"center","width":"760px","sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/website-section-templates/product-detail/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/section-templates/previews/product-detail.png" alt="Product page with a photo gallery, colour swatches, price, quantity and Add to cart" style="width:760px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>Below it sit two <a href="https://webdevpuneet.com/website-section-templates/product-strip/" target="_blank" rel="noopener">You might also like strips</a>: one for <em>Customers also bought</em> and one for <em>You might also like</em>, plus a reviews summary. Change the heading and the same strip becomes "Complete the look" or "Recently viewed".</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">5. The cart drawer and the cart page</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Press Add to cart anywhere and the <a href="https://webdevpuneet.com/website-section-templates/cart-drawer/" target="_blank" rel="noopener">Cart Drawer</a> slides in with the items, quantity steppers, a <strong>free-shipping progress bar</strong> ("You are $42 away from free shipping"), the subtotal and a Checkout button. The <a href="https://webdevpuneet.com/website-section-templates/cart-page/" target="_blank" rel="noopener">Cart Page</a> is the full version: items on the left, a sticky order summary on the right, a promo code box and the shipping line.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"align":"center","width":"760px","sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/website-section-templates/cart-page/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/section-templates/previews/cart-page.png" alt="Shopping cart page with items, a promo code box and an order summary" style="width:760px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">6. Checkout</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The <a href="https://webdevpuneet.com/website-section-templates/checkout-page/" target="_blank" rel="noopener">Checkout Page</a> collects contact details, a shipping address, a shipping method and a payment option, with the order summary beside it. When the shopper presses Place order, the page can do one of three things, and you choose which:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Send the order to a form service</strong> such as Formspree. You receive the items, totals, address and notes.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Open WhatsApp</strong> with a ready-written order message. Perfect for bakeries, local shops and markets.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Go to a payment link</strong> from Stripe, PayPal or Razorpay, after saving the order.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>There are no card fields anywhere on your page, so card numbers never touch your site. Required fields use the browser&#8217;s own validation, a honeypot field catches simple bots, and if sending fails the shopper sees a clear message and the cart is kept, so nothing is lost.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">7. Thank you, My orders and Wishlist</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>After checkout the <a href="https://webdevpuneet.com/website-section-templates/order-confirmation/" target="_blank" rel="noopener">Order Confirmation</a> page greets the shopper by name and shows the order number, the items, the totals, the delivery details and a "what happens next" list. The <a href="https://webdevpuneet.com/website-section-templates/order-history/" target="_blank" rel="noopener">Order History</a> page lists past purchases with an <strong>Order again</strong> button, and the <a href="https://webdevpuneet.com/website-section-templates/wishlist-page/" target="_blank" rel="noopener">Wishlist Page</a> keeps everything saved with the heart buttons, with an Add all to cart action.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"align":"center","width":"760px","sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/website-section-templates/order-confirmation/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/section-templates/previews/order-confirmation.png" alt="Order confirmation page with a green check, order number, items and what happens next" style="width:760px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">8. Help</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A help page with an accordion of delivery, returns and payment questions and a contact form, linked from the header and footer. Answers to these questions are what stop people abandoning a cart.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Every section template in this shop (all linked)</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The Online Store is built from the same free section templates you can use on their own. Each one opens a page where you can edit it in your browser, see the code and export it. Here is the full list, grouped by job.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Header and navigation</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/mega-menu-columns/" target="_blank" rel="noopener">Ecommerce Mega Menu: Link Columns</a>: the header used in the template, with search, account, wishlist and cart icons and panels of link columns plus a featured card.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/mega-menu-visual/" target="_blank" rel="noopener">Ecommerce Mega Menu: Image Tiles</a>: an editorial header whose panels show large category photos.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/mega-menu-departments/" target="_blank" rel="noopener">Ecommerce Mega Menu: Department Sidebar</a>: an All categories button with a department list, for big catalogues.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/navbar-announcement/" target="_blank" rel="noopener">Navbar With Announcement Bar</a>: a simpler header with a dismissible bar for sales and news. More in the <a href="https://webdevpuneet.com/website-section-templates/category/navbar/" target="_blank" rel="noopener">Navbar category</a>.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Browsing and the product page</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/product-listing/" target="_blank" rel="noopener">Product Listing with Filters</a>: the shop page with search, sort and filters.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/product-detail/" target="_blank" rel="noopener">Product Detail Page</a>: gallery, colour and size options, quantity, Add to cart and a sticky buy bar.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/product-strip/" target="_blank" rel="noopener">You Might Also Like (Product Strip)</a>: a swipeable row of recommended products.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/product-grid/" target="_blank" rel="noopener">Product Grid</a>: product cards for a home page or a simple shop, with an optional built-in cart. See the <a href="https://webdevpuneet.com/website-section-templates/category/listings/" target="_blank" rel="noopener">Menus &amp; listings category</a>.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Cart, checkout and orders</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/cart-drawer/" target="_blank" rel="noopener">Cart Drawer (Mini Cart)</a>: the slide-in cart with a free-shipping progress bar.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/cart-page/" target="_blank" rel="noopener">Cart Page</a>: items, promo code and order summary.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/checkout-page/" target="_blank" rel="noopener">Checkout Page</a>: delivery details, shipping and payment options, order by form, WhatsApp or payment link.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/order-confirmation/" target="_blank" rel="noopener">Order Confirmation (Thank You)</a>: the page after the order.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/order-history/" target="_blank" rel="noopener">Order History (My Orders)</a>: past purchases with Order again.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/wishlist-page/" target="_blank" rel="noopener">Wishlist Page</a>: saved products. The whole group lives in the <a href="https://webdevpuneet.com/website-section-templates/category/checkout/" target="_blank" rel="noopener">Cart, checkout &amp; orders category</a>.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Home page and trust sections</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/image-background-hero/" target="_blank" rel="noopener">Image Background Hero</a>: the big hero with a photo, two buttons and three stats.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/features-icon-grid/" target="_blank" rel="noopener">Icon Grid Features</a>: the four reasons to shop with you.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/cta-gradient-banner/" target="_blank" rel="noopener">Gradient CTA Banner</a>: the gift banner.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/testimonials-grid/" target="_blank" rel="noopener">Testimonial Wall</a>: customer reviews on the home page.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/reviews-summary/" target="_blank" rel="noopener">Reviews Summary &amp; Rating</a>: the rating average, star bars and review cards on the product page.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/cta-newsletter/" target="_blank" rel="noopener">Newsletter Signup CTA</a>: the 10% off sign-up.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/footer-columns/" target="_blank" rel="noopener">Multi-Column Footer</a>: link columns for shop, account and help.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Help page</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/faq-accordion/" target="_blank" rel="noopener">FAQ Accordion</a>: delivery, returns and payment answers.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/website-section-templates/contact-split-form/" target="_blank" rel="noopener">Contact Form With Details</a>: a contact form beside your details.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Extras you can drop in</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Want more? Add a <a href="https://webdevpuneet.com/website-section-templates/popup-modal/" target="_blank" rel="noopener">Popup &amp; Promo Modal</a> for a first-order discount, a <a href="https://webdevpuneet.com/website-section-templates/floating-social-share/" target="_blank" rel="noopener">Floating Social Share Bar</a>, a <a href="https://webdevpuneet.com/website-section-templates/back-to-top/" target="_blank" rel="noopener">Back to Top Button</a>, an <a href="https://webdevpuneet.com/website-section-templates/accessibility-toolbar/" target="_blank" rel="noopener">Accessibility Toolbar</a>, a <a href="https://webdevpuneet.com/website-section-templates/gallery-grid/" target="_blank" rel="noopener">Filterable Image Gallery</a> for lookbooks, a <a href="https://webdevpuneet.com/website-section-templates/video-section/" target="_blank" rel="noopener">Video Section</a> for product films, a <a href="https://webdevpuneet.com/website-section-templates/logo-cloud/" target="_blank" rel="noopener">Logo Cloud</a> for brands you stock or <a href="https://webdevpuneet.com/website-section-templates/blog-cards/" target="_blank" rel="noopener">Blog Post Cards</a> for a journal. Browse them all in the <a href="https://webdevpuneet.com/website-section-templates/" target="_blank" rel="noopener">section template library</a>. The floating ones take no space in the page, so they never leave gaps between sections.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">How the cart works (and what that means for you)</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>All the shop pages share one small cart that lives in the visitor&#8217;s own browser. That is why the template works on any cheap static host with no database, no login and no monthly fee. It also means a few honest limits you should know before you launch:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li>The cart, wishlist and order history belong to one browser, so they do not follow a shopper to another device.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>There is no stock control, tax calculation or order management. Orders reach you through the form, WhatsApp or payment link you set up.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Promo codes are checked on the page, so anyone can read them in the source. Check them again when you process the order.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>It is a great fit for small shops, makers, merchandise, one-product launches and order-by-message businesses. For hundreds of products and automatic inventory, use a hosted shop platform and keep this design as your front end.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">How to make it yours</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This is where the template earns its keep. Everything is editable in the <a href="https://webdevpuneet.com/website-builder/" target="_blank" rel="noopener">Website Builder</a> (free, in your browser, nothing to install). Here is a good order to work in.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Open the template.</strong> Go to the <a href="https://webdevpuneet.com/website-builder/templates/online-store/" target="_blank" rel="noopener">Online Store template page</a> and press the button to open it in the builder. Choose the multi-page version to get all the pages.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Set your brand in the Theme tab.</strong> Pick a colour preset or type exact brand, background, text and surface colours, choose a heading and body font pair, and set the corner radius. One change restyles every section on every page, so the shop looks like one brand in a minute.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Replace the logo and the top bar.</strong> In the header section, type your shop name and pick an icon, or upload a logo image. Edit the top bar message ("Free delivery over $150") and its small links.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Rebuild the mega menu.</strong> Add up to six menu items. Each can have three link columns written as simple "Label | URL" lines and a featured card with a photo, tag, title and button. Leave the first column empty and an item becomes a plain link such as Sale. Point links at filtered shop pages like <code>shop.html?cat=Lighting</code>.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Add your products.</strong> On the Shop page edit the product list: photo, name, category, price, old price, colours (comma separated), rating, date added and sold out or in stock. Categories, colour chips and the price limits in the filters are created from your products automatically. Do the same for the product page and the strips.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Set shipping and promo codes.</strong> In the cart and checkout sections set the free-shipping amount, the flat shipping cost, up to four shipping methods and your promo codes (written as <code>WELCOME10 | 10</code> for 10% off).</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Choose how orders reach you.</strong> In the Checkout section pick form service, WhatsApp or payment link, then paste the form address, WhatsApp number or payment URL. Add your payment options and your order-number prefix.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Tune the product page.</strong> Switch sizes on if you sell clothing, tag each gallery photo with a colour so the swatches switch the picture, edit the trust badges and details, and turn the wishlist heart or sticky bar on or off.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Write your own words.</strong> Click any text in the preview to edit it. Rewrite the hero headline, the reasons to shop, the reviews and the help answers so they sound like you. Wrap words in asterisks to highlight them in your brand colour.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Add or remove sections.</strong> Drop in a blog section, a gallery, a team, a FAQ or a contact map from the library, reorder sections by dragging, and delete anything you do not need.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Fill in the page titles and descriptions.</strong> Each page has an SEO title and description field in the Pages tab. A clear title like "Sona One Headphones: Noise Cancelling" beats the default.</li>
+<!-- /wp:list-item -->
+</ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Because every section reads the same theme, you can change your mind later (a new colour, a different font) without redoing anything.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Ideas for who this fits</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>A bakery or local food business:</strong> list your products on the shop page and set the checkout to WhatsApp, so orders arrive as a message with the address and delivery notes.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A maker or artist:</strong> sell prints and handmade goods, send orders to a form, and invoice or share a payment link.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Merchandise for a creator or band:</strong> shirts and prints with colours and sizes, sold-out sizes marked, and checkout through a payment link.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A one-product launch:</strong> keep one item on the product page, remove the shop page, and let the sticky buy bar do the work.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A design or prototype:</strong> show a client how their shop could look and behave before choosing a platform.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Export it and put it live</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>When you are happy, export the site as clean HTML and CSS in a ZIP (or as React or Vue components if you prefer) and upload it to any host: Netlify, GitHub Pages, Cloudflare Pages or normal cPanel hosting. There is no build step and no server code. You own the files, you can keep editing them, and you can even fork the result into My Code to change the HTML directly.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Quick answers</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can it take card payments?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Not by itself, on purpose. It never shows card fields. It sends the order to you or sends the shopper to a payment link from Stripe, PayPal or Razorpay, which handle payment securely.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Is it really free?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes. Using the template, editing it and exporting it are free, with no watermark and no account.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Will it work on phones?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes. Every page is responsive: the mega menu becomes a burger menu with accordions, the filters become a slide-up panel, and the product page gets a sticky Add to cart bar. I checked the whole shop at phone width for sideways scrolling.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can I use only some of it?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes. Every part is also a separate section in the <a href="https://webdevpuneet.com/website-section-templates/" target="_blank" rel="noopener">section template library</a>, so you can add just a cart drawer or a filtered shop page to a site you already have.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">A small favour, if it helped you</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Everything on webdevpuneet.com is free, including this whole shop, and I want to keep it that way. If the template saved you time and you would like to help me keep building free tools and templates, I would be very grateful for your support on <a href="https://www.patreon.com/c/webdevpuneet" target="_blank" rel="noopener">Patreon</a> from just <strong>$1 a month</strong>. It pays for hosting and gives me the time to make the next template. No pressure at all: using it, sharing it with someone who is building a shop, or leaving a comment with what you made is already a big help.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Ready to start? <a href="https://webdevpuneet.com/demos/website-templates/online-store/multi-page/" target="_blank" rel="noopener">Open the demo</a>, then <a href="https://webdevpuneet.com/website-builder/templates/online-store/" target="_blank" rel="noopener">open the template in the builder</a> and make it yours.</p>
+<!-- /wp:paragraph -->
