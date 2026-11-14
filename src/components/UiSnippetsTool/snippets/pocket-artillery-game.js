@@ -108,6 +108,7 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 .pa-weapon { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 6px; font-size: 12px; font-weight: 700; font-family: inherit; color: #334155; background: #fff; border: 2px solid #d5e2ee; border-radius: 9px; cursor: pointer; }
 .pa-weapon i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
 .pa-weapon.on { border-color: #e8553a; background: #fff3ef; }
+.pa-weapon.shuffling { background: #fff7e6; border-color: #f59e0b; color: #92400e; }
 .pa-weapon.used { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; }
 
 .pa-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 11px; color: #64748b; font-weight: 600; }
@@ -126,18 +127,40 @@ const angleIn = $('pa-angle'), powerIn = $('pa-power');
 const overlay = $('pa-overlay'), panel = $('pa-panel');
 const GRAVITY = 0.11, WIND_K = 0.0025, POWER_K = 0.085, SHOTS = 6;
 
-/* Nine weapons, each usable once per match. r = blast radius, pts = points for a direct hit. */
-const WEAPONS = [
-  { id: 'missile', name: 'Missile', r: 22, pts: 100, col: '#e8553a' },
-  { id: 'big', name: 'Big Boom', r: 36, pts: 90, col: '#f59e0b' },
-  { id: 'triple', name: 'Triple', r: 16, pts: 60, col: '#8b5cf6' },
-  { id: 'bouncer', name: 'Bouncer', r: 24, pts: 100, col: '#10b981' },
-  { id: 'nuke', name: 'Mini Nuke', r: 54, pts: 70, col: '#ef4444' },
-  { id: 'roller', name: 'Roller', r: 20, pts: 110, col: '#0ea5e9' },
-  { id: 'digger', name: 'Digger', r: 14, pts: 120, col: '#64748b' },
-  { id: 'napalm', name: 'Napalm', r: 16, pts: 40, col: '#f97316' },
-  { id: 'dirt', name: 'Dirt Ball', r: 30, pts: 0, col: '#a16207' },
+/* The pool: 16 weapons. Every match deals a shuffled hand of 9 from it (the daily map deals the same hand to everyone), each usable once.
+   r = blast radius, pts = points for a direct hit, g / wd = gravity and wind multipliers, nocpu = the CPU does not pick it. */
+const POOL = [
+  { id: 'missile', name: 'Missile', r: 22, pts: 100, col: '#e8553a', tip: 'Reliable all-rounder' },
+  { id: 'big', name: 'Big Boom', r: 36, pts: 90, col: '#f59e0b', tip: 'Big blast radius' },
+  { id: 'triple', name: 'Triple', r: 16, pts: 60, col: '#8b5cf6', tip: 'Three shells in a spread' },
+  { id: 'bouncer', name: 'Bouncer', r: 24, pts: 100, col: '#10b981', tip: 'Hops twice before it blows' },
+  { id: 'nuke', name: 'Mini Nuke', r: 54, pts: 70, col: '#ef4444', tip: 'Huge crater, fewer points' },
+  { id: 'roller', name: 'Roller', r: 20, pts: 110, col: '#0ea5e9', tip: 'Lands, then rolls to the target' },
+  { id: 'digger', name: 'Digger', r: 14, pts: 120, col: '#64748b', tip: 'Tunnels straight down' },
+  { id: 'napalm', name: 'Napalm', r: 16, pts: 40, col: '#f97316', tip: 'Leaves a burning patch' },
+  { id: 'dirt', name: 'Dirt Ball', r: 30, pts: 0, col: '#a16207', tip: 'Buries a tank: it must fire Dirt Remover first or it blows itself up' },
+  { id: 'remover', name: 'Dirt Remover', r: 18, pts: 0, col: '#78716c', nocpu: true, tip: 'Clears dirt in the direction you fire. Needed after being buried' },
+  { id: 'cluster', name: 'Cluster', r: 22, pts: 0, col: '#d946ef', tip: 'Splits into 5 bomblets at the top of its arc' },
+  { id: 'zap', name: 'Zapper', r: 14, pts: 50, col: '#eab308', tip: 'Lightning jumps to a tank within 130 px' },
+  { id: 'homing', name: 'Homing', r: 14, pts: 90, col: '#14b8a6', tip: 'Bends toward the enemy tank' },
+  { id: 'sticky', name: 'Sticky', r: 34, pts: 130, col: '#84cc16', tip: 'Sticks to what it hits, blows up after a moment' },
+  { id: 'balloon', name: 'Balloon', r: 32, pts: 70, col: '#ec4899', g: 0.35, wd: 3.5, nocpu: true, tip: 'Floats, and the wind carries it a long way' },
+  { id: 'meteor', name: 'Meteors', r: 14, pts: 40, col: '#fb7185', tip: 'Calls four meteors from the sky around the impact' },
 ];
+const BOMBLET = { id: 'bomblet', name: 'Bomblet', r: 12, pts: 55, col: '#d946ef' };
+const METEOR = { id: 'piece', name: 'Meteor', r: 15, pts: 50, col: '#f59e0b' };
+let WEAPONS = POOL.slice(0, 9);
+function dealHand(seed) {
+  const rr = mulberry32((seed | 0) ^ 0x2545f491), a = POOL.slice();
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rr() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; }
+  const h = a.slice(0, 9);
+  /* A hand with the Dirt Ball always has the Dirt Remover too, so a buried tank can dig itself out. */
+  if (h.some(w => w.id === 'dirt') && !h.some(w => w.id === 'remover')) {
+    h[h[8].id === 'dirt' ? 7 : 8] = POOL.find(w => w.id === 'remover');
+  }
+  return h;
+}
+let bolts = [];
 /* Themes only change colours. The seed picks one, so the daily map always looks the same for everyone that day. */
 const THEMES = [
   { name: 'Meadow', sky: ['#bfe6ff', '#fff3dc'], sun: '#ffe9a8', hills: '#d6ecd9', soil: ['#f1d5a2', '#d9a76a'], grass: '#7ccf7a', cloud: 'rgba(255,255,255,0.85)', ink: '#334155' },
@@ -168,9 +191,10 @@ let moveLeft = MOVE, moveDir = 0, cpuGoal = null;
 let lastPath = [[], []], fires = [], isDaily = false, dly = {};
 let shots = [], parts = [], rings = [], floats = [], shake = 0, muted = false, audio = null;
 const clouds = [{ x: 90, y: 40, s: 1 }, { x: 330, y: 70, s: 0.8 }, { x: 540, y: 34, s: 1.2 }];
-/* Hard level only: birds cross the sky. A shell that touches one is wasted: the bird drops and the turn passes on. */
+/* Birds cross the sky: 1 on Easy, 2 on Normal and in 2-player, 3 on Hard. A shell that touches one is wasted: the bird drops and the turn passes on. */
 const birds = [];
-const birdsOn = () => mode === 'cpu' && diff === 2;
+const birdCount = () => (mode === 'two' ? 2 : diff + 1);
+const liveBirds = () => birds.slice(0, birdCount());
 function spawnBird(b, fromEdge) {
   const dir = Math.random() < 0.5 ? 1 : -1;
   b.dir = dir; b.speed = 0.45 + Math.random() * 0.6;
@@ -180,8 +204,7 @@ function spawnBird(b, fromEdge) {
 }
 for (let i = 0; i < 3; i++) birds.push(spawnBird({}, false));
 function birdsStep() {
-  if (!birdsOn()) return;
-  birds.forEach(b => {
+  liveBirds().forEach(b => {
     if (b.alive) {
       b.x += b.dir * b.speed; b.ph += 0.2; b.y = b.base + Math.sin(b.ph * 0.35) * 6;
       if (b.x < -40 || b.x > W + 40) spawnBird(b, true);
@@ -192,9 +215,9 @@ function birdsStep() {
   });
 }
 function birdHit(s) {
-  if (!birdsOn()) return false;
-  for (let i = 0; i < birds.length; i++) {
-    const b = birds[i];
+  const lb = liveBirds();
+  for (let i = 0; i < lb.length; i++) {
+    const b = lb[i];
     if (b.alive && Math.hypot(s.x - b.x, s.y - b.y) < 12) {
       b.alive = false; b.fall = -1.2; s.dead = true;
       for (let k = 0; k < 14; k++) parts.push({ x: b.x, y: b.y, vx: (Math.random() - 0.5) * 3, vy: -Math.random() * 2, life: 30 + Math.random() * 20, col: k % 2 ? '#ffffff' : '#94a3b8' });
@@ -283,9 +306,11 @@ const cur = () => tanks[who()];
 function startTurn() {
   moveLeft = MOVE; moveDir = 0; cpuGoal = null;
   wind = Math.round(rng() * 10 - 5);
+  if (mode === 'cpu' && diff === 0) wind = 0; /* Easy: no wind (the number is still drawn so the map sequence stays the same) */
   if (who() === 0 || mode === 'two') {
     phase = 'aim';
     if (cur().used[sel]) sel = WEAPONS.findIndex((w, i) => !cur().used[i]);
+    if (cur().buried) { const ri = WEAPONS.findIndex((w, i) => w.id === 'remover' && !cur().used[i]); if (ri >= 0) sel = ri; }
     syncUi();
   } else {
     phase = 'cpu';
@@ -305,6 +330,29 @@ function fire(wi) {
   const t = tanks[who()], w = WEAPONS[wi];
   t.used[wi] = true;
   lastPath[who()] = [];
+  if (t.buried && w.id !== 'remover') {
+    /* Buried under dirt: the shell has nowhere to go and goes off on its own tank. */
+    crater(t.x, t.y - 8, Math.max(w.r, 28));
+    t.buried = false;
+    t.score = Math.max(0, t.score - 40);
+    rings.push({ x: t.x, y: t.y - 8, r: 4, max: 44, col: '#dc2626' });
+    for (let i = 0; i < 22; i++) { const a = Math.random() * 6.28, v = 1 + Math.random() * 3; parts.push({ x: t.x, y: t.y - 8, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1, life: 30 + Math.random() * 20, col: i % 2 ? '#c99a62' : '#ef4444' }); }
+    floats.push({ x: t.x, y: t.y - 34, t: 70, txt: '-40 Self blast!', col: '#dc2626' });
+    shake = Math.max(shake, 8); ensureAudio(); sfxBoom(true);
+    phase = 'fly'; syncUi();
+    return;
+  }
+  if (w.id === 'remover') {
+    /* Dirt Remover: digs a short trench along the barrel direction, which also clears the dirt on top of the tank. */
+    const ra = t.a * Math.PI / 180;
+    for (let k = 0; k < 6; k++) crater(t.x + Math.cos(ra) * k * 12, t.y - 8 - Math.sin(ra) * k * 12, 17);
+    if (t.buried) floats.push({ x: t.x, y: t.y - 34, t: 60, txt: 'Dug out!', col: '#16a34a' });
+    t.buried = false;
+    for (let k = 0; k < 18; k++) parts.push({ x: t.x + Math.cos(ra) * k * 3, y: t.y - 10 - Math.sin(ra) * k * 3, vx: Math.cos(ra) * 2 + (Math.random() - 0.5) * 2, vy: -Math.sin(ra) * 2 - Math.random() * 2, life: 28, col: '#c99a62' });
+    ensureAudio(); tone(200, 80, 0.3, 'sawtooth', 0.1);
+    phase = 'fly'; syncUi();
+    return;
+  }
   const offs = w.id === 'triple' ? [-7, 0, 7] : [0];
   offs.forEach(o => {
     const rad = (t.a + o) * Math.PI / 180, sp = t.p * POWER_K;
@@ -327,10 +375,38 @@ function explode(s) {
       floats.push({ x: enemy.x, y: enemy.y - 24, t: 60, txt: '+' + pts, col: tanks[s.owner].col });
     }
   }
+  if (w.id === 'zap') {
+    const zd = Math.hypot(s.x - enemy.x, s.y - (enemy.y - 8));
+    if (zd < 130) {
+      tanks[s.owner].score += 25;
+      bolts.push({ x1: s.x, y1: s.y, x2: enemy.x, y2: enemy.y - 8, t: 18 });
+      floats.push({ x: enemy.x, y: enemy.y - 34, t: 50, txt: '+25 zap', col: '#ca8a04' });
+      tone(1200, 90, 0.25, 'sawtooth', 0.08);
+    }
+  }
+  if (w.id === 'meteor') {
+    for (let i = 0; i < 4; i++) shots.push({ x: s.x + (i - 1.5) * 34, y: -10 - i * 45, vx: 0, vy: 1.5, w: METEOR, owner: s.owner, age: 7, bounces: 0, dead: false, trail: [] });
+  }
   if (w.id === 'napalm') fires.push({ x: s.x, t: 150, owner: s.owner });
-  if (w.id === 'dirt') addDirt(s.x, s.y, w.r);
+  if (w.id === 'dirt') {
+    tanks.forEach(tk => {
+      if (Math.hypot(s.x - tk.x, s.y - (tk.y - 8)) < w.r + 8) {
+        tk.buried = true;
+        floats.push({ x: tk.x, y: tk.y - 34, t: 70, txt: 'Buried!', col: '#a16207' });
+      }
+    });
+    addDirt(s.x, s.y, w.r);
+  }
   else if (w.id === 'digger') { for (let i = 0; i < 5; i++) crater(s.x, s.y + i * 11, w.r); }
   else crater(s.x, s.y, w.r);
+  if (w.id !== 'dirt') {
+    tanks.forEach(tk => {
+      if (tk.buried && Math.hypot(s.x - tk.x, s.y - (tk.y - 8)) < w.r + 14) {
+        tk.buried = false;
+        floats.push({ x: tk.x, y: tk.y - 34, t: 60, txt: 'Freed!', col: '#16a34a' });
+      }
+    });
+  }
   rings.push({ x: s.x, y: s.y, r: 4, max: w.r * 1.5, col: w.col });
   const n = w.id === 'dirt' ? 14 : 24;
   for (let i = 0; i < n; i++) {
@@ -383,9 +459,27 @@ function step() {
   shots.forEach(s => {
     if (s.dead) return;
     if (s.rolling) { roll(s); return; }
+    if (s.stuck) {
+      /* Sticky: glued to a tank or the ground, blinks, then blows up. */
+      if (s.stuckTo !== null) { s.x = tanks[s.stuckTo].x; s.y = tanks[s.stuckTo].y - 8; }
+      else s.y = ground[Math.max(0, Math.min(W, Math.round(s.x)))] - 2;
+      if (--s.timer <= 0) explode(s);
+      return;
+    }
     s.age++;
-    s.vx += wind * WIND_K; s.vy += GRAVITY;
+    const sw = s.w;
+    s.vx += wind * WIND_K * (sw.wd || 1); s.vy += GRAVITY * (sw.g === undefined ? 1 : sw.g);
+    if (sw.id === 'homing' && s.age > 10) {
+      const he = tanks[1 - s.owner], hx = he.x - s.x, hy = (he.y - 8) - s.y, hd = Math.hypot(hx, hy) || 1;
+      s.vx += hx / hd * 0.018; s.vy += hy / hd * 0.018 - GRAVITY * 0.4;
+    }
     s.x += s.vx; s.y += s.vy;
+    if (sw.id === 'cluster' && s.vy > 0) {
+      s.dead = true;
+      for (let i = 0; i < 5; i++) shots.push({ x: s.x, y: s.y, vx: s.vx + (i - 2) * 0.5, vy: s.vy * 0.6, w: BOMBLET, owner: s.owner, age: 7, bounces: 0, dead: false, trail: [] });
+      tone(900, 400, 0.12, 'square', 0.06);
+      return;
+    }
     if (s.rec && s.age % 2 === 0) lastPath[s.owner].push({ x: s.x, y: s.y });
     if (s.age % 2 === 0) { s.trail.push({ x: s.x, y: s.y }); if (s.trail.length > 26) s.trail.shift(); }
     if (s.x < -30 || s.x > W + 30 || s.y > H + 40) { s.dead = true; return; }
@@ -398,15 +492,22 @@ function step() {
           for (let i = 0; i < 6; i++) parts.push({ x: s.x, y: g, vx: (Math.random() - 0.5) * 2, vy: -Math.random() * 2, life: 18, col: '#c99a62' });
         } else if (s.w.id === 'roller') {
           s.rolling = true; s.roll = 0; s.speed = 1.6; s.y = g - 3;
+        } else if (s.w.id === 'sticky') {
+          s.stuck = true; s.stuckTo = null; s.timer = 85; s.y = g - 2; return;
         } else { explode(s); return; }
       }
     }
     if (s.age > 6) {
       for (let i = 0; i < 2; i++) {
-        if (Math.hypot(s.x - tanks[i].x, s.y - (tanks[i].y - 8)) < 11) { explode(s); return; }
+        if (Math.hypot(s.x - tanks[i].x, s.y - (tanks[i].y - 8)) < 11) {
+          if (s.w.id === 'sticky') { s.stuck = true; s.stuckTo = i; s.timer = 85; return; }
+          explode(s); return;
+        }
       }
     }
   });
+  bolts.forEach(b => { b.t--; });
+  bolts = bolts.filter(b => b.t > 0);
   if (phase === 'fly' && shots.every(s => s.dead)) { phase = 'wait'; waitFrames = 50; shots = []; }
   else if (phase === 'wait' && --waitFrames <= 0 && !fires.length) nextTurn();
   fires.forEach(f => {
@@ -455,11 +556,12 @@ function cpuShoot() {
   if (phase !== 'cpu') return;
   const t = tanks[1], me = tanks[0];
   const free = WEAPONS.map((w, i) => i).filter(i => !t.used[i]);
-  const real = free.filter(i => WEAPONS[i].id !== 'dirt');
+  const real = free.filter(i => WEAPONS[i].id !== 'dirt' && !WEAPONS[i].nocpu);
   const pool = real.length ? real : free;
-  const wi = pool[Math.floor(Math.random() * pool.length)];
+  let wi = pool[Math.floor(Math.random() * pool.length)];
+  if (t.buried) { const ri = free.find(i => WEAPONS[i].id === 'remover'); if (ri !== undefined) wi = ri; }
   let bestA = 120, bestP = 60, bestD = 1e9;
-  if (WEAPONS[wi].id === 'dirt') {
+  if (WEAPONS[wi].id === 'dirt' || WEAPONS[wi].id === 'remover') {
     bestA = 100 + Math.random() * 60; bestP = 30 + Math.random() * 60;
   } else {
     for (let a = 10; a <= 170; a += 3) {
@@ -494,19 +596,43 @@ function syncUi() {
   }
   panel.classList.toggle('off', phase !== 'aim');
   const box = $('pa-weapons');
-  if (!box.children.length) {
-    WEAPONS.forEach((w, i) => {
-      const b = document.createElement('button');
-      b.type = 'button'; b.className = 'pa-weapon'; b.dataset.i = i;
-      b.innerHTML = '<i style="background:' + w.col + '"></i>' + w.name;
-      b.addEventListener('click', () => { if (phase === 'aim' && !(my && my.used[i])) { sel = i; syncUi(); } });
-      box.appendChild(b);
-    });
-  }
+  if (!box.children.length) buildWeapons();
   [].forEach.call(box.children, (b, i) => {
     b.classList.toggle('on', i === sel && phase === 'aim');
     b.classList.toggle('used', !!(my && my.used[i]));
   });
+}
+
+function wLabel(w) { return '<i style="background:' + w.col + '"></i>' + w.name; }
+function buildWeapons() {
+  const box = $('pa-weapons');
+  box.innerHTML = '';
+  WEAPONS.forEach((w, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'pa-weapon'; b.dataset.i = i; b.title = w.tip || '';
+    b.innerHTML = wLabel(w);
+    b.addEventListener('click', () => { if (phase === 'aim' && !cur().used[i]) { sel = i; syncUi(); } });
+    box.appendChild(b);
+  });
+}
+/* Start of a match: the weapon buttons flicker through random names, then settle on this match's hand. */
+function shuffleIn(done) {
+  phase = 'shuffle';
+  buildWeapons();
+  const box = $('pa-weapons');
+  let n = 0;
+  syncUi();
+  const iv = setInterval(() => {
+    n++;
+    const last = n >= 14;
+    [].forEach.call(box.children, (b, i) => {
+      const w = last ? WEAPONS[i] : POOL[Math.floor(Math.random() * POOL.length)];
+      b.innerHTML = wLabel(w); b.title = last ? (w.tip || '') : '';
+      b.classList.toggle('shuffling', !last);
+    });
+    tone(300 + n * 35, 340 + n * 35, 0.04, 'square', 0.03);
+    if (last) { clearInterval(iv); done(); }
+  }, 70);
 }
 
 function setAim(a, p) {
@@ -590,9 +716,10 @@ function newGame(seed, daily) {
   if (mode === 'two') { tanks[0].name = 'P1'; tanks[1].name = 'P2'; }
   $('pa-name-you').textContent = tanks[0].name;
   $('pa-name-cpu').textContent = tanks[1].name;
-  turn = 0; sel = 0; shots = []; parts = []; rings = []; floats = []; fires = []; lastPath = [[], []];
+  WEAPONS = dealHand(seed);
+  turn = 0; sel = 0; bolts = []; shots = []; parts = []; rings = []; floats = []; fires = []; lastPath = [[], []];
   overlay.classList.add('hide');
-  startTurn();
+  shuffleIn(startTurn);
 }
 function showBest() {
   const bits = [];
@@ -673,6 +800,12 @@ function drawTank(t, active) {
   const rad = t.a * Math.PI / 180;
   ctx.strokeStyle = t.dark; ctx.lineWidth = 4; ctx.lineCap = 'round';
   ctx.beginPath(); ctx.moveTo(t.x, y - 14); ctx.lineTo(t.x + Math.cos(rad) * 17, y - 14 - Math.sin(rad) * 17); ctx.stroke();
+  if (t.buried) {
+    ctx.fillStyle = theme.soil[0]; ctx.beginPath(); ctx.arc(t.x, y + 3, 21, Math.PI, 0); ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.14)';
+    for (let k = 0; k < 9; k++) ctx.fillRect(t.x - 16 + k * 4, y - 3 - ((k * 7) % 12), 2, 2);
+    ctx.strokeStyle = theme.grass; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(t.x, y + 3, 21, Math.PI * 1.08, Math.PI * 1.92); ctx.stroke();
+  }
   ctx.fillStyle = theme.ink; ctx.font = '700 9px system-ui, sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(t.name, t.x, y - 28);
   if (active) {
@@ -703,7 +836,7 @@ function draw() {
   for (let x = 0; x <= W; x += 8) ctx.lineTo(x, H * 0.55 + Math.sin(x / 70 + 1) * 26 + Math.sin(x / 29) * 8);
   ctx.lineTo(W, H); ctx.fill();
 
-  if (birdsOn()) birds.forEach(b => {
+  liveBirds().forEach(b => {
     ctx.save(); ctx.translate(b.x, b.y);
     if (b.alive) ctx.scale(b.dir, 1); else { ctx.rotate(b.spin); ctx.globalAlpha = Math.max(0.2, 1 - b.fall / 6); }
     const w = b.alive ? Math.sin(b.ph) * 6 : 5;
@@ -773,7 +906,7 @@ function draw() {
     }
     shots.forEach(s => {
       s.trail.forEach((p, i) => { ctx.fillStyle = 'rgba(71,85,105,' + (i / s.trail.length * 0.4) + ')'; ctx.beginPath(); ctx.arc(p.x, p.y, 1.6, 0, 7); ctx.fill(); });
-      if (!s.dead) { ctx.fillStyle = s.w.col; ctx.beginPath(); ctx.arc(s.x, s.y, 4, 0, 7); ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke(); }
+      if (!s.dead) { ctx.fillStyle = s.stuck && Math.floor(s.timer / 6) % 2 ? '#ffffff' : s.w.col; ctx.beginPath(); ctx.arc(s.x, s.y, 4, 0, 7); ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke(); }
     });
     fires.forEach(f => {
       const gx = ground[Math.max(0, Math.min(W, Math.round(f.x)))], fade = Math.min(1, f.t / 30), tm = performance.now() / 90;
@@ -782,6 +915,12 @@ function draw() {
         ctx.fillStyle = k % 2 ? '#f97316' : '#fbbf24';
         ctx.beginPath(); ctx.moveTo(fx - 6, gx + 1); ctx.lineTo(fx, gx - h); ctx.lineTo(fx + 6, gx + 1); ctx.fill();
       }
+    });
+    bolts.forEach(b => {
+      ctx.strokeStyle = '#facc15'; ctx.lineWidth = 3; ctx.lineJoin = 'round'; ctx.globalAlpha = Math.min(1, b.t / 8);
+      ctx.beginPath(); ctx.moveTo(b.x1, b.y1);
+      for (let k = 1; k < 7; k++) ctx.lineTo(b.x1 + (b.x2 - b.x1) * k / 7 + (Math.random() - 0.5) * 16, b.y1 + (b.y2 - b.y1) * k / 7 + (Math.random() - 0.5) * 16);
+      ctx.lineTo(b.x2, b.y2); ctx.stroke(); ctx.globalAlpha = 1;
     });
     rings.forEach(r => { ctx.strokeStyle = r.col; ctx.globalAlpha = 0.6; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(r.x, r.y, r.r, 0, 7); ctx.stroke(); ctx.globalAlpha = 1; });
     parts.forEach(p => { ctx.fillStyle = p.col; ctx.globalAlpha = Math.min(1, p.life / 20); ctx.fillRect(p.x, p.y, 3, 3); ctx.globalAlpha = 1; });
@@ -796,6 +935,10 @@ function draw() {
   if (tanks.length) {
     ctx.fillStyle = theme.ink; ctx.globalAlpha = 0.7; ctx.font = '700 11px system-ui, sans-serif'; ctx.textAlign = 'left';
     ctx.fillText(theme.name + ' · ' + mapKind, 10, 19); ctx.globalAlpha = 1;
+    if (phase === 'aim' && cur().buried) {
+      ctx.fillStyle = '#dc2626'; ctx.font = '800 12px system-ui, sans-serif';
+      ctx.fillText('Buried! Fire Dirt Remover first, or you blow yourself up', 10, 38);
+    }
   }
   ctx.restore();
 }
@@ -816,10 +959,10 @@ requestAnimationFrame(frame);`,
 
   seo: {
     title: 'Pocket Artillery – Free HTML, CSS & JS Tank Duel Game',
-    description: 'Artillery tank duel in plain JavaScript: drag to aim, destructible terrain, wind, 9 weapons, 3 CPU levels, daily streak. Free canvas game code to copy.',
+    description: 'Artillery tank duel in plain JavaScript: drag to aim, destructible terrain, 16 weapons dealt each match, birds and a daily streak. Free canvas game code.',
     about: {
-      title: 'Pocket Artillery — Drag-to-Aim, Destructible Terrain, Nine Weapons & an AI That Simulates Its Shots',
-      description: `Artillery duels are one of the oldest game ideas on the PC: two tanks, a hill between them, and a guess at angle and power. This snippet is a bright, light-themed canvas version you can play at once: six shots each, nine weapons to choose from that can each be fired only once, wind that changes every turn, and terrain that really crumbles when it is hit. Pull back on the field like a slingshot to aim, play the CPU on three levels, or hand the device to a friend for a two-player duel.
+      title: 'Pocket Artillery — Drag-to-Aim, Destructible Terrain, a Shuffled Hand of Weapons & an AI That Simulates Its Shots',
+      description: `Artillery duels are one of the oldest game ideas on the PC: two tanks, a hill between them, and a guess at angle and power. This snippet is a bright, light-themed canvas version you can play at once: six shots each, a hand of nine weapons dealt from a pool of sixteen when the match starts (each fired only once), wind on the harder levels, birds crossing the sky, and terrain that really crumbles when it is hit. Pull back on the field like a slingshot to aim, drive your tank a short way to find a better spot, play the CPU on three levels, or hand the device to a friend for a two-player duel. Four colour themes, a Valley map and a streak counter on the Daily map give you a reason to come back tomorrow.
 
 **Terrain as a height map you can carve**
 
@@ -827,7 +970,7 @@ The ground is one array, \`ground[x]\`, holding the surface height of every pixe
 
 **Ballistics with wind on a fixed time step**
 
-Each shell gets a velocity from the angle and power (\`speed = power * 0.085\`), then gravity pulls \`vy\` down and the wind adds a small sideways push each step. The loop runs on a 60 Hz accumulator, so the flight is identical on a 144 Hz monitor, and the same step rule is reused by the CPU when it plans a shot.
+Each shell gets a velocity from the angle and power (\`speed = power * 0.085\`), then gravity pulls \`vy\` down and the wind adds a small sideways push each step (the Easy level switches the wind off so beginners can learn angle and power first). The loop runs on a 60 Hz accumulator, so the flight is identical on a 144 Hz monitor, and the same step rule is reused by the CPU when it plans a shot.
 
 **A CPU that tests shots before it fires**
 
@@ -835,11 +978,23 @@ On its turn the computer tries about 1,300 angle and power pairs through \`simul
 
 **Scoring by closeness**
 
-A blast scores \`pts * (1 - distance / reach)\` for the enemy tank, so a direct hit is worth the full value and a near miss still pays a little. Each weapon trades radius against points: the Mini Nuke covers a huge area for fewer points, and the Dirt Ball scores nothing but can bury a tank.
+A blast scores \`pts * (1 - distance / reach)\` for the enemy tank, so a direct hit is worth the full value and a near miss still pays a little. Each weapon trades radius against points: the Mini Nuke covers a huge area for fewer points, and the Dirt Ball scores nothing but buries a tank: the buried tank must fire a Dirt Remover first, because any other shot goes off on its own tank.
 
 **Weapons with their own behaviour**
 
-The Roller lands, then runs along the height map, faster downhill, until it meets a wall, a tank or runs out of steps. The Digger carves five stacked craters straight down and scores only on a tight radius. The Triple fires three shells 7 degrees apart, the Bouncer hops twice before it explodes, and the Napalm leaves a flame patch that keeps scoring while an enemy tank stands in it. Each one is a few lines in fire() or step(), keyed by its id.
+The Roller lands, then runs along the height map, faster downhill, until it meets a wall, a tank or runs out of steps. The Digger carves five stacked craters straight down and scores only on a tight radius. The Triple fires three shells 7 degrees apart, the Bouncer hops twice before it explodes, and the Napalm leaves a flame patch that keeps scoring while an enemy tank stands in it. The Cluster splits into five bomblets at the top of its arc, the Zapper arcs lightning to a tank within 130 pixels, the Homing dart bends toward its target, the Sticky bomb glues itself to whatever it touches and blows up after a blink, the light Balloon is carried far by the wind, and Meteors rain from the sky around the impact. Each one is a few lines in fire(), step() or explode(), keyed by its id.
+
+**A fresh hand every match**
+
+At the start of a match the weapon buttons flicker through random names, then settle on nine weapons dealt from the pool of sixteen with a seeded shuffle. Six shots each means you decide which three to skip. The Daily map uses the date as the seed, so everyone gets the same map, theme and hand that day.
+
+**Move, bury and dig out**
+
+Hold the move buttons or the A and D keys to drive up to 50 pixels a turn. Slopes that are too steep, craters, the field edge and the other tank all block the move. A Dirt Ball that lands on a tank buries it, and a buried tank that fires anything but the Dirt Remover blows itself up for a 40 point penalty, so the Remover digs a trench in the fired direction to set it free. A hand with a Dirt Ball always includes a Remover.
+
+**A sky with birds, four themes and textured soil**
+
+Birds flap across the sky, one on Easy, two on Normal and three on Hard, and a shell that touches one is wasted. The seed picks one of four colour themes (Meadow, Desert, Snow or Night with twinkling stars) and sometimes a Valley map with high ridges and a deep dip. The soil texture is drawn once per theme to a hidden canvas and clipped to the live terrain, so craters cut straight through it.
 
 **Drag to aim, or play two-player**
 
@@ -851,15 +1006,17 @@ On the field, a pointer drag measures the pull from the tank: the direction give
         { title: 'Start a match', text: 'Choose "vs CPU" (Easy, Normal or Hard) or "2 players", then press "Play" for a random map or "Daily map" for the same map everyone gets today. You are the coral tank on the left.' },
         { title: 'Set angle and power', text: 'Drag on the field away from your tank like a slingshot (the pull sets both), or use the sliders, or the arrow keys (Shift moves five at a time). A dotted line shows where the barrel points, and on Easy a dotted arc previews the first part of the flight while you drag and a faint ghost line shows where your previous shot went.' },
         { title: 'Move your tank', text: 'Hold the left and right arrow buttons beside the Fire button, or the A and D keys, to drive up to 50 pixels each turn. Steep slopes, craters (holes), the field edge and the other tank block you, and the Move number shows how much is left.' },
-      { title: 'Read the wind', text: 'The Wind badge at the top shows the direction and strength for this turn. Aim a little into it so the shell drifts back onto the target.' },
-        { title: 'Pick a weapon and fire', text: 'Choose one of the nine weapons (keys 1 to 9) and press "Fire!" or Space. Each weapon can be used once per match, and you get six shots, so you choose which two to skip.' },
+      { title: 'Read the wind', text: 'On Normal, Hard and 2-player the Wind badge at the top shows the direction and strength for this turn (Easy has no wind, so you can learn angle and power first). Aim a little into it so the shell drifts back onto the target.' },
+        { title: 'Pick a weapon and fire', text: 'The weapon list shuffles at the start of every match and deals you nine of sixteen weapons (the Daily map deals everyone the same hand). Choose one (keys 1 to 9, hover for a tip) and press "Fire!" or Space. Each weapon can be used once per match, and you get six shots, so you choose which three to skip.' },
         { title: 'Score the closest blast', text: 'After six shots each the higher score wins. Your best score is saved in the browser. Finish the Daily map on consecutive days to build a streak.' },
       ],
     },
     features: [
       'Destructible terrain stored as a one-dimensional height map, carved by craters and raised by dirt',
-      'Wind that changes every turn and bends the shells, shown in a badge on the field',
-      'Nine weapons, each usable once, six shots per player: Missile, Big Boom, Triple, Bouncer, Mini Nuke, Roller, Digger, Napalm and Dirt Ball',
+      'Wind that changes every turn on Normal, Hard and 2-player (Easy has none) and bends the shells, shown in a badge on the field',
+      'A shuffled hand of nine weapons from a pool of sixteen, each usable once, six shots per player: Missile, Big Boom, Triple, Bouncer, Mini Nuke, Roller, Digger, Napalm, Dirt Ball, Cluster, Zapper, Homing, Sticky, Balloon, Meteors and Dirt Remover',
+      'Bury and dig out: a Dirt Ball that lands on a tank buries it, a buried tank that fires anything else blows itself up (-40 points), and the Dirt Remover digs a trench in the fired direction to free it; a hand with a Dirt Ball always includes a Dirt Remover',
+      'Creative weapons: Cluster splits into bomblets, Zapper arcs lightning to a nearby tank, Homing bends toward the target, Sticky glues to a tank and blows up, Balloon drifts in the wind, Meteors rain from the sky',
       'Drag-to-aim on the field, slingshot style, plus sliders and keyboard controls',
       'Easy level also keeps a faint ghost of your previous shot on the field, like Worms, so the next aim can be corrected from it',
       'Wind badge shows one chevron per wind point in the direction it blows',
@@ -869,7 +1026,7 @@ On the field, a pointer drag measures the pull from the tank: the direction give
       'Distance-based scoring, so near misses still earn points',
       'Daily map from a date seed plus a random map button, using a small seeded random generator',
       'Tank movement: hold the move buttons or A and D for up to 50 pixels per turn, blocked by steep slopes, craters, the edges and the other tank; the CPU shuffles a little on Normal and Hard',
-      'On the Hard level, birds flap across the sky; a shell that hits one is wasted, the bird tumbles down with feathers, and the next turn begins',
+      'Birds flap across the sky (one on Easy, two on Normal, three on Hard); a shell that hits one is wasted, the bird tumbles down with feathers, and the next turn begins',
       'Textured ground: soil strata, speckles and pebbles drawn once to a hidden canvas per theme and clipped to the terrain, plus grass tufts that follow the surface',
       'Four colour themes (Meadow, Desert, Snow, Night with twinkling stars) and a Valley map type with high ridges and a deep dip, all chosen from the map seed',
       'Daily streak and the best daily score kept in localStorage, so there is a reason to come back tomorrow',
@@ -884,37 +1041,40 @@ On the field, a pointer drag measures the pull from the tank: the direction give
       { icon: 'FLOW', title: 'Example of an AI that plans by simulation', desc: 'The CPU does not cheat: it runs the same physics offline, scores each result and picks the best, a pattern reused in many turn-based games.' },
       { icon: 'DESIGN', title: 'Branded reskin for a campaign', desc: 'Swap the tank colours, the sky and the weapon names for brand versions to make a "beat our mascot" promo game.' },
       { icon: 'APP', title: 'Local two-player duel on one screen', desc: 'The built-in 2 players mode hands the same controls to each tank in turn, which suits a classroom, a break room or a phone passed between friends.' },
+      { icon: 'APP', title: 'Daily challenge with a streak', desc: 'The Daily map gives everyone the same map and weapon hand, and the saved streak and best daily score show a simple way to bring visitors back each day without a server.' },
       { icon: 'CODE', title: 'Related: Tank Arena', desc: 'See the [Tank Arena](/ui-snippets/tank-arena-game/) for a top-down tank shooter that pairs well with this turn-based duel.' },
     ],
     faqs: [
       { q: 'How does the terrain get destroyed?', a: 'The ground is an array with one surface height per pixel column. A blast lowers every column inside its circle to the bottom of that circle, so the hole is round, and the tanks then read the new height and drop down into it.' },
-      { q: 'Why does the CPU not always hit me?', a: 'It finds the best angle and power by simulating many shots, then adds a random error of a couple of degrees, and now and then a bigger one. Lower the error values in cpuTurn() for a harder opponent or raise them for an easier one.' },
-      { q: 'How is the wind applied?', a: 'Each physics step adds wind * 0.0025 to the shell\'s horizontal speed. The wind is a whole number from -5 to 5 picked from the seeded generator at the start of every turn.' },
+      { q: 'Why does the CPU not always hit me?', a: 'It finds the best angle and power by simulating many shots, then adds a random error of a couple of degrees, and now and then a bigger one. Lower the error values in LEVELS for a harder opponent or raise them for an easier one.' },
+      { q: 'How is the wind applied?', a: 'Each physics step adds wind * 0.0025 to the shell\'s horizontal speed. The wind is a whole number from -5 to 5 picked from the seeded generator at the start of every turn, and it is forced to 0 on the Easy CPU level.' },
       { q: 'How does the daily streak work?', a: 'Finishing a vs-CPU match on the Daily map stores the date and score in localStorage. If the last finished daily was yesterday the streak goes up by one, otherwise it restarts at 1. Two-player matches do not count.' },
       { q: 'How does Napalm work?', a: 'It makes a small crater, then adds a fire object at that spot that lasts 150 steps. Every 25 steps an enemy tank within about 30 pixels of it gives the shooter 12 points, and the next turn waits until the flames die out.' },
       { q: 'How do I add a new theme?', a: 'Add an object to the THEMES array with a name, two sky colours, a sun colour, hill colour, two soil colours, a grass colour, a cloud colour and a text colour. Themes change colours only, so no other code needs to change.' },
-      { q: 'What happens when a shell hits a bird?', a: 'Birds appear on the Hard CPU level only. Each bird is a small object with a position, speed and flap phase. If a shell comes within about 12 pixels, the shell is marked dead without exploding, the bird switches to a falling state with feather particles, and the turn moves on. It respawns off screen after it drops.' },
+      { q: 'What happens when a shell hits a bird?', a: 'The number of birds depends on the level: one on Easy, two on Normal and in 2-player, three on Hard. Each bird is a small object with a position, speed and flap phase. If a shell comes within about 12 pixels, the shell is marked dead without exploding, the bird switches to a falling state with feather particles, and the turn moves on. It respawns off screen after it drops.' },
       { q: 'How does tank movement work?', a: 'While a move button or the A or D key is held, the active tank moves 1.5 pixels per physics step, up to 50 pixels per turn. A move is refused if the new column is more than 3 pixels higher or lower, if the spot is a hole (clearly lower than the ground 12 pixels away on both sides), if it leaves the field, or if it would come within 36 pixels of the other tank. The tank then reads the height of its new column, so it follows the terrain.' },
+      { q: 'How does the weapon shuffle work?', a: 'When a match starts, dealHand(seed) shuffles the POOL array with a seeded Fisher-Yates shuffle and keeps the first nine. The buttons flicker through random names for about a second as a shuffle effect, then show the hand. Because the Daily map uses the date as the seed, everyone gets the same hand that day.' },
+      { q: 'What happens when a tank is buried?', a: 'A Dirt Ball that lands within its blast radius of a tank sets that tank buried flag and draws a mound over it. While buried, any weapon except the Dirt Remover explodes on the tank itself, costs the shooter 40 points and clears the dirt. The Dirt Remover carves a short trench along the barrel direction and clears the flag. A nearby blast from a normal weapon also frees a buried tank. The hand dealer always adds a Dirt Remover when the hand contains a Dirt Ball.' },
       { q: 'What is the daily map?', a: 'It seeds the random generator with today\'s date as a number, so the terrain, the theme, the tank positions and the wind sequence are the same for everyone that day.' },
-      { q: 'How do I add a new weapon?', a: 'Add an entry to the WEAPONS array with a name, blast radius, points and colour. Special behaviour such as the Triple spread, the Bouncer hops, the Roller run or the Digger tunnel lives in fire(), step() and explode(), keyed by the weapon id. The weapon buttons are built from the array, so a new entry shows up by itself.' },
+      { q: 'How do I add a new weapon?', a: 'Add an entry to the POOL array with a name, blast radius, points and colour. Special behaviour such as the Triple spread, the Bouncer hops, the Roller run or the Digger tunnel lives in fire(), step() and explode(), keyed by the weapon id. The weapon buttons are built from the array, so a new entry shows up by itself.' },
       { q: 'How do I change the CPU difficulty?', a: 'Edit the LEVELS array: err is the aim error in degrees and slip is the chance of a bigger mistake. Easy, Normal and Hard just select one of the three rows, and the search over angles and powers stays the same.' },
       { q: 'How does drag-to-aim work?', a: 'A pointerdown on the canvas starts a drag. The vector from the pointer to the tank gives the angle (atan2) and its length divided by 1.3 gives the power, and both are clamped. Pointer events and touch-action: none make it work for mouse and touch.' },
     ],
     aiPrompt: {
-      paragraph: `Paste this snippet's HTML, CSS, and JS into an AI coding assistant like Claude and ask it to explain how the height-map terrain, the fixed-step physics and the simulate() function the CPU uses fit together, then ask for a new weapon such as a Napalm shell that leaves a burning patch, or a campaign of maps with rising CPU levels.`,
+      paragraph: `Paste this snippet's HTML, CSS, and JS into an AI coding assistant like Claude and ask it to explain how the height-map terrain, the fixed-step physics and the simulate() function the CPU uses fit together, then ask for a new weapon such as a Boomerang that flies back, or a campaign of maps with rising CPU levels.`,
       prompt: `Build a turn-based artillery tank duel with the HTML5 Canvas API in plain HTML, CSS and JavaScript, no frameworks and no audio files.
 - Light, bright look: pale sky gradient, clouds, soft hills, green-topped soil, one coral tank (player, left) and one blue tank (CPU, right).
 - Store terrain as a height array with one value per pixel column. Explosions carve a circular crater by lowering columns; a Dirt Ball weapon raises them. Tanks sit on the surface and settle after each blast.
 - Controls: Angle slider 0-180, Power slider 10-100, Fire button, arrow keys to aim (Shift for bigger steps), Space to fire, keys 1-9 to choose a weapon, and slingshot-style drag on the field (pull back from the tank: direction = angle, length = power). Works with touch.
-- Physics on a fixed 60 Hz step: shell velocity from angle and power, constant gravity, and a per-turn wind from -5 to 5 shown in a badge.
-- Nine weapons, each usable once per match: Missile, Big Boom (large radius), Triple (three shells spread by 7 degrees), Bouncer (two hops), Mini Nuke (huge crater, fewer points), Roller (rolls along the ground after landing), Digger (five stacked craters straight down), Napalm (small blast that leaves a burning patch scoring 12 points every 25 frames an enemy tank stands in it), Dirt Ball (no points).
+- Physics on a fixed 60 Hz step: shell velocity from angle and power, constant gravity, and a per-turn wind from -5 to 5 shown in a badge (no wind on the Easy level).
+- A pool of sixteen weapons; at the start of each match the weapon buttons flicker through random names (a shuffle animation) and settle on a hand of nine, the Daily map dealing everyone the same hand. Hover shows a tip. Each usable once per match. Extra pool weapons: Cluster (splits into 5 bomblets at the apex), Zapper (lightning to a tank within 130 px, +25), Homing (steers toward the enemy), Sticky (sticks to a tank or the ground, blinks, explodes after about 1.4 s), Balloon (light, wind carries it 3.5x), Meteors (four meteors fall around the impact). Base weapons: Missile, Big Boom (large radius), Triple (three shells spread by 7 degrees), Bouncer (two hops), Mini Nuke (huge crater, fewer points), Roller (rolls along the ground after landing), Digger (five stacked craters straight down), Napalm (small blast that leaves a burning patch scoring 12 points every 25 frames an enemy tank stands in it), Dirt Ball (no points, but it buries a tank that lands inside its radius). Also a Dirt Remover weapon: a buried tank that fires anything else blows up on itself for a 40 point penalty, the Dirt Remover digs a trench along the barrel direction and frees it, and a dealt hand with a Dirt Ball always includes a Dirt Remover.
 - Six shots each, alternating, so players choose which weapons to skip. Score the enemy by blast distance: pts * (1 - distance / (radius + 13)), with floating +points text.
 - CPU opponent with Easy, Normal and Hard levels (aim error and slip chance): pick an unused weapon, try many angle and power pairs with an offline simulate() copy of the physics, choose the closest landing to the player, add a random error. Also a 2 players mode on one device that swaps the controls between the tanks.
 - On the Easy level only, while dragging, draw a short dotted trajectory preview using the same gravity and wind as a real shell.
 - On Easy, also keep a faint dashed ghost arc of the previous shot visible during the next aim. The wind badge shows one chevron per wind point in the wind direction.
 - Give the soil a texture (wavy strata lines, speckles, pebbles) pre-rendered to an offscreen canvas per theme and clipped to the terrain shape each frame, with a soft shadow under the grass edge and small grass tufts along the surface.
 - Four colour-only themes (Meadow, Desert, Snow, Night with twinkling stars) and a Valley map type (high ridges at both ends, deep dip in the middle), both picked from a hash of the map seed and named in a small label on the field.
-- On the Hard level only, three birds fly across the sky with flapping wings. A shell that touches a bird is wasted: the bird falls with feather particles and the turn passes on.
+- Birds fly across the sky (one on Easy, two on Normal and 2-player, three on Hard) with flapping wings. A shell that touches a bird is wasted: the bird falls with feather particles and the turn passes on.
 - Tank movement: hold on-screen left/right buttons or the A and D keys to drive up to 50 pixels per turn (1.5 px per step), blocked by slopes steeper than 3 px per step, holes (a spot more than 6 px below the ground 12 px away on both sides), the field edge and the other tank. The CPU on Normal and Hard moves 15-50 px on its own half before shooting.
 - Random map button, Daily map button seeded from the date, best score and a daily streak (consecutive days the daily map was finished, with today's score) saved in localStorage inside try/catch.
 - Particles, expanding rings, screen shake, Web Audio synth sounds with a mute button, a start overlay and a results overlay.`,
