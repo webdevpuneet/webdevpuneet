@@ -45,11 +45,16 @@ const pocketArtilleryGame = {
     <label class="pa-ctl"><span>Power <strong id="pa-power-val">60</strong></span>
       <input id="pa-power" type="range" min="10" max="100" value="60" aria-label="Power">
     </label>
+    <div class="pa-move" role="group" aria-label="Move tank">
+      <button type="button" id="pa-left" aria-label="Move left">&#9664;</button>
+      <span>Move <strong id="pa-fuel">50</strong></span>
+      <button type="button" id="pa-right" aria-label="Move right">&#9654;</button>
+    </div>
     <button class="pa-fire" id="pa-fire" type="button">Fire!</button>
   </div>
   <div class="pa-weapons" id="pa-weapons" role="group" aria-label="Weapons"></div>
   <div class="pa-foot">
-    <span>Drag the field or arrows to aim &middot; Space: fire &middot; 1-9: weapon</span>
+    <span>Drag the field or arrows to aim &middot; A / D: move &middot; Space: fire &middot; 1-9: weapon</span>
     <button class="pa-mute" id="pa-mute" type="button" aria-pressed="false">Sound on</button>
   </div>
 </div>`,
@@ -92,6 +97,10 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 .pa-ctl input { width: 100%; accent-color: #e8553a; }
 .pa-fire { padding: 11px 26px; font-size: 14px; font-weight: 800; border: none; border-radius: 10px; background: #e8553a; color: #fff; cursor: pointer; font-family: inherit; box-shadow: 0 3px 0 #b83f28; }
 .pa-fire:active { transform: translateY(2px); box-shadow: none; }
+.pa-move { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #64748b; }
+.pa-move strong { color: #1e293b; display: inline-block; min-width: 22px; text-align: center; }
+.pa-move button { width: 38px; height: 38px; border: 2px solid #d5e2ee; background: #fff; border-radius: 10px; font-size: 14px; color: #334155; cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; }
+.pa-move button:active { background: #fff3ef; border-color: #e8553a; }
 .pa-panel.off { opacity: 0.5; pointer-events: none; }
 
 .pa-weapons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
@@ -154,6 +163,8 @@ let rng = mulberry32(1);
 let ground = new Float32Array(W + 1);
 let tanks = [];
 let turn = 0, phase = 'menu', wind = 0, sel = 0, waitFrames = 0, mode = 'cpu', diff = 1, drag = null;
+const MOVE = 50;
+let moveLeft = MOVE, moveDir = 0, cpuGoal = null;
 let lastPath = [[], []], fires = [], isDaily = false, dly = {};
 let shots = [], parts = [], rings = [], floats = [], shake = 0, muted = false, audio = null;
 const clouds = [{ x: 90, y: 40, s: 1 }, { x: 330, y: 70, s: 0.8 }, { x: 540, y: 34, s: 1.2 }];
@@ -270,6 +281,7 @@ const who = () => turn % 2;
 const cur = () => tanks[who()];
 
 function startTurn() {
+  moveLeft = MOVE; moveDir = 0; cpuGoal = null;
   wind = Math.round(rng() * 10 - 5);
   if (who() === 0 || mode === 'two') {
     phase = 'aim';
@@ -289,6 +301,7 @@ function nextTurn() {
 }
 
 function fire(wi) {
+  moveDir = 0;
   const t = tanks[who()], w = WEAPONS[wi];
   t.used[wi] = true;
   lastPath[who()] = [];
@@ -344,7 +357,29 @@ function roll(s) {
   }
 }
 
+/* A hole = a spot clearly lower than the ground 12 px away on both sides (a crater). Tanks will not drive into one. */
+function inHole(x) {
+  const i = Math.round(x), a = ground[Math.max(0, i - 12)], b = ground[Math.min(W, i + 12)];
+  return ground[i] - a > 6 && ground[i] - b > 6;
+}
+function canStand(t, nx, o) {
+  return !inHole(nx) && nx >= 18 && nx <= W - 18 && Math.abs(nx - o.x) >= 36 && Math.abs(ground[Math.round(nx)] - ground[Math.round(t.x)]) <= 3;
+}
 function step() {
+  /* Move: 1.5 px per step while a button or key is held, up to MOVE pixels per turn; blocked by steep slopes, edges and the other tank. */
+  if (phase === 'aim' && moveDir && moveLeft > 0) {
+    const t = cur(), nx = t.x + moveDir * 1.5;
+    if (canStand(t, nx, tanks[1 - who()])) {
+      t.x = nx; moveLeft = Math.max(0, moveLeft - 1.5);
+      $('pa-fuel').textContent = Math.round(moveLeft);
+      if (Math.random() < 0.35) parts.push({ x: t.x - moveDir * 10, y: t.y, vx: -moveDir * 0.5, vy: -0.6, life: 14, col: '#c99a62' });
+    }
+  }
+  if (phase === 'cpu' && cpuGoal !== null) {
+    const t = tanks[1], dir = Math.sign(cpuGoal - t.x), nx = t.x + dir * 1.5;
+    if (Math.abs(cpuGoal - t.x) < 1.5 || !canStand(t, nx, tanks[0])) { cpuGoal = null; setTimeout(cpuShoot, 350); }
+    else { t.x = nx; if (Math.random() < 0.35) parts.push({ x: t.x - dir * 10, y: t.y, vx: -dir * 0.5, vy: -0.6, life: 14, col: '#c99a62' }); }
+  }
   shots.forEach(s => {
     if (s.dead) return;
     if (s.rolling) { roll(s); return; }
@@ -409,6 +444,15 @@ function simulate(x, y, vx, vy) {
 
 function cpuTurn() {
   if (phase !== 'cpu') return;
+  /* Normal and Hard shuffle a little before shooting, always staying on their half of the field. */
+  if (diff > 0) {
+    const goal = Math.max(W / 2 + 40, Math.min(W - 18, tanks[1].x + (Math.random() < 0.5 ? -1 : 1) * (15 + Math.random() * 35)));
+    if (Math.abs(goal - tanks[1].x) > 3) { cpuGoal = goal; return; }
+  }
+  cpuShoot();
+}
+function cpuShoot() {
+  if (phase !== 'cpu') return;
   const t = tanks[1], me = tanks[0];
   const free = WEAPONS.map((w, i) => i).filter(i => !t.used[i]);
   const real = free.filter(i => WEAPONS[i].id !== 'dirt');
@@ -441,6 +485,7 @@ function cpuTurn() {
 function syncUi() {
   $('pa-score-you').textContent = tanks.length ? tanks[0].score : 0;
   $('pa-score-cpu').textContent = tanks.length ? tanks[1].score : 0;
+  $('pa-fuel').textContent = Math.round(moveLeft);
   $('pa-shot').textContent = 'Shot ' + Math.min(SHOTS, Math.floor(turn / 2) + 1) + ' / ' + SHOTS;
   const my = tanks.length ? (phase === 'cpu' ? tanks[1] : cur()) : null;
   if (my) {
@@ -493,12 +538,23 @@ canvas.addEventListener('pointermove', e => { if (drag) { drag = pointer(e); dra
 ['pointerup', 'pointercancel'].forEach(n => canvas.addEventListener(n, () => { drag = null; }));
 angleIn.addEventListener('input', () => setAim(Number(angleIn.value), null));
 powerIn.addEventListener('input', () => setAim(null, Number(powerIn.value)));
-$('pa-fire').addEventListener('click', () => { if (phase === 'aim') fire(sel); });
+$('pa-fire').addEventListener('click', () => { if (phase === 'aim') { moveDir = 0; fire(sel); } });
 
+[['pa-left', -1], ['pa-right', 1]].forEach(a => {
+  const b = $(a[0]);
+  b.addEventListener('pointerdown', e => { e.preventDefault(); if (phase === 'aim') moveDir = a[1]; });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(n => b.addEventListener(n, () => { if (moveDir === a[1]) moveDir = 0; }));
+});
+document.addEventListener('keyup', e => {
+  const k = e.key.toLowerCase();
+  if ((k === 'a' && moveDir < 0) || (k === 'd' && moveDir > 0)) moveDir = 0;
+});
 document.addEventListener('keydown', e => {
   if (phase !== 'aim' || (e.target && e.target.tagName === 'INPUT')) return;
   const k = e.key, big = e.shiftKey ? 5 : 1;
-  if (k === 'ArrowLeft') setAim(cur().a + big, null);
+  if (k === 'a' || k === 'A') moveDir = -1;
+  else if (k === 'd' || k === 'D') moveDir = 1;
+  else if (k === 'ArrowLeft') setAim(cur().a + big, null);
   else if (k === 'ArrowRight') setAim(cur().a - big, null);
   else if (k === 'ArrowUp') setAim(null, cur().p + big);
   else if (k === 'ArrowDown') setAim(null, cur().p - big);
@@ -794,7 +850,8 @@ On the field, a pointer drag measures the pull from the tank: the direction give
       items: [
         { title: 'Start a match', text: 'Choose "vs CPU" (Easy, Normal or Hard) or "2 players", then press "Play" for a random map or "Daily map" for the same map everyone gets today. You are the coral tank on the left.' },
         { title: 'Set angle and power', text: 'Drag on the field away from your tank like a slingshot (the pull sets both), or use the sliders, or the arrow keys (Shift moves five at a time). A dotted line shows where the barrel points, and on Easy a dotted arc previews the first part of the flight while you drag and a faint ghost line shows where your previous shot went.' },
-        { title: 'Read the wind', text: 'The Wind badge at the top shows the direction and strength for this turn. Aim a little into it so the shell drifts back onto the target.' },
+        { title: 'Move your tank', text: 'Hold the left and right arrow buttons beside the Fire button, or the A and D keys, to drive up to 50 pixels each turn. Steep slopes, craters (holes), the field edge and the other tank block you, and the Move number shows how much is left.' },
+      { title: 'Read the wind', text: 'The Wind badge at the top shows the direction and strength for this turn. Aim a little into it so the shell drifts back onto the target.' },
         { title: 'Pick a weapon and fire', text: 'Choose one of the nine weapons (keys 1 to 9) and press "Fire!" or Space. Each weapon can be used once per match, and you get six shots, so you choose which two to skip.' },
         { title: 'Score the closest blast', text: 'After six shots each the higher score wins. Your best score is saved in the browser. Finish the Daily map on consecutive days to build a streak.' },
       ],
@@ -811,6 +868,7 @@ On the field, a pointer drag measures the pull from the tank: the direction give
       'CPU opponent that simulates around 1,300 shots, picks the closest and adds a level-based human-like error',
       'Distance-based scoring, so near misses still earn points',
       'Daily map from a date seed plus a random map button, using a small seeded random generator',
+      'Tank movement: hold the move buttons or A and D for up to 50 pixels per turn, blocked by steep slopes, craters, the edges and the other tank; the CPU shuffles a little on Normal and Hard',
       'On the Hard level, birds flap across the sky; a shell that hits one is wasted, the bird tumbles down with feathers, and the next turn begins',
       'Textured ground: soil strata, speckles and pebbles drawn once to a hidden canvas per theme and clipped to the terrain, plus grass tufts that follow the surface',
       'Four colour themes (Meadow, Desert, Snow, Night with twinkling stars) and a Valley map type with high ridges and a deep dip, all chosen from the map seed',
@@ -836,6 +894,7 @@ On the field, a pointer drag measures the pull from the tank: the direction give
       { q: 'How does Napalm work?', a: 'It makes a small crater, then adds a fire object at that spot that lasts 150 steps. Every 25 steps an enemy tank within about 30 pixels of it gives the shooter 12 points, and the next turn waits until the flames die out.' },
       { q: 'How do I add a new theme?', a: 'Add an object to the THEMES array with a name, two sky colours, a sun colour, hill colour, two soil colours, a grass colour, a cloud colour and a text colour. Themes change colours only, so no other code needs to change.' },
       { q: 'What happens when a shell hits a bird?', a: 'Birds appear on the Hard CPU level only. Each bird is a small object with a position, speed and flap phase. If a shell comes within about 12 pixels, the shell is marked dead without exploding, the bird switches to a falling state with feather particles, and the turn moves on. It respawns off screen after it drops.' },
+      { q: 'How does tank movement work?', a: 'While a move button or the A or D key is held, the active tank moves 1.5 pixels per physics step, up to 50 pixels per turn. A move is refused if the new column is more than 3 pixels higher or lower, if the spot is a hole (clearly lower than the ground 12 pixels away on both sides), if it leaves the field, or if it would come within 36 pixels of the other tank. The tank then reads the height of its new column, so it follows the terrain.' },
       { q: 'What is the daily map?', a: 'It seeds the random generator with today\'s date as a number, so the terrain, the theme, the tank positions and the wind sequence are the same for everyone that day.' },
       { q: 'How do I add a new weapon?', a: 'Add an entry to the WEAPONS array with a name, blast radius, points and colour. Special behaviour such as the Triple spread, the Bouncer hops, the Roller run or the Digger tunnel lives in fire(), step() and explode(), keyed by the weapon id. The weapon buttons are built from the array, so a new entry shows up by itself.' },
       { q: 'How do I change the CPU difficulty?', a: 'Edit the LEVELS array: err is the aim error in degrees and slip is the chance of a bigger mistake. Easy, Normal and Hard just select one of the three rows, and the search over angles and powers stays the same.' },
@@ -856,6 +915,7 @@ On the field, a pointer drag measures the pull from the tank: the direction give
 - Give the soil a texture (wavy strata lines, speckles, pebbles) pre-rendered to an offscreen canvas per theme and clipped to the terrain shape each frame, with a soft shadow under the grass edge and small grass tufts along the surface.
 - Four colour-only themes (Meadow, Desert, Snow, Night with twinkling stars) and a Valley map type (high ridges at both ends, deep dip in the middle), both picked from a hash of the map seed and named in a small label on the field.
 - On the Hard level only, three birds fly across the sky with flapping wings. A shell that touches a bird is wasted: the bird falls with feather particles and the turn passes on.
+- Tank movement: hold on-screen left/right buttons or the A and D keys to drive up to 50 pixels per turn (1.5 px per step), blocked by slopes steeper than 3 px per step, holes (a spot more than 6 px below the ground 12 px away on both sides), the field edge and the other tank. The CPU on Normal and Hard moves 15-50 px on its own half before shooting.
 - Random map button, Daily map button seeded from the date, best score and a daily streak (consecutive days the daily map was finished, with today's score) saved in localStorage inside try/catch.
 - Particles, expanding rings, screen shake, Web Audio synth sounds with a mute button, a start overlay and a results overlay.`,
     },
