@@ -7,7 +7,7 @@ import s from '../HeroSnippetPreview/styles.module.css';
 
 // One row of the latest blog posts with their featured images. Posts load in the browser
 // (the 404 page is a client component); nothing is drawn if the blog can't be reached.
-export default function NotFoundBlogStrip({ count = 4, columns = 4 }) {
+export default function NotFoundBlogStrip({ count = 4, columns = 4, flush = false, panelClass = '' }) {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     let live = true;
@@ -17,11 +17,11 @@ export default function NotFoundBlogStrip({ count = 4, columns = 4 }) {
   if (!posts.length) return null;
 
   return (
-    <div className={s.wrap} style={{ '--cols': columns, marginTop: 28, marginBottom: 36 }}>
+    <div className={panelClass ? `${s.wrap} ${panelClass}` : s.wrap} style={flush ? { '--cols': columns } : { '--cols': columns, marginTop: 28, marginBottom: 36 }}>
       <div className={s.head}>
         <div className={s.headLeft}>
           <span className={s.label}>Latest From the Blog</span>
-          <span className={s.sub}>Practical front-end tutorials with live, forkable demos</span>
+          <span className={s.sub}>Tutorials, guides and new template announcements</span>
         </div>
         <div className={s.headRight}>
           <a href={BLOG_URL} className={s.seeAll}>See all →</a>

@@ -1,0 +1,316 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  Free HTML Email Templates for Stores and SaaS: 6 to Send
+
+  SEO TITLE (52 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  Free HTML Email Templates: Sales, Orders and Welcome
+
+  SEO DESCRIPTION (156 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  Free responsive HTML email templates for Gmail, Outlook and Apple Mail: Black Friday sale, abandoned cart, order, shipping, welcome. Edit online, copy HTML.
+
+  IMAGES: the 6 pictures below load straight from webdevpuneet.com/images/email-templates/previews/ (same domain, no upload needed).
+  They are the real template previews, shown 420 px wide and centred. They only show once the latest site build is live on the server
+  (these previews already exist from earlier deploys, so they should load now).
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Most "free email template" pages hand you a pretty screenshot and a download that falls apart in Outlook. A real email has a harder job: it has to survive Gmail, Outlook and Apple Mail, read well on a phone, look right in dark mode, stay under Gmail's clipping limit and still carry an unsubscribe link and a postal address. That is a lot to get right by hand.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>So we built a library of <a href="https://webdevpuneet.com/email-templates/" target="_blank" rel="noopener">37 free responsive HTML email templates</a> that already handle all of it, and an editor that checks the details before you send. This post walks through six of them that cover the emails an online store or a software product sends most: a <strong>Black Friday sale</strong>, an <strong>abandoned cart</strong> reminder, an <strong>order confirmation</strong>, a <strong>shipping update</strong>, a <strong>welcome email</strong> and a <strong>holiday gift guide</strong>. Every picture below is the real preview from the library, so what you see is what you get.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Six emails, six jobs</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Different emails do different work, so they should not look the same. A sale email sells, a receipt reassures, a shipping email answers "where is it?". The six templates below map onto the moments in a customer's journey:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Before the sale:</strong> <a href="#black-friday-sale">Black Friday Sale</a> and <a href="#holiday-gift-guide">Holiday Gift Guide</a> bring people to the shop.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Almost a sale:</strong> <a href="#abandoned-cart">Abandoned Cart</a> brings back the shopper who left.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>After the sale:</strong> <a href="#order-confirmation">Order Confirmation</a> and <a href="#shipping-confirmation">Shipping Confirmation</a> keep them calm and informed.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>For new sign-ups:</strong> <a href="#welcome">Welcome</a> turns a new account into an active one.</li>
+<!-- /wp:list-item -->
+</ol>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="black-friday-sale">1. Black Friday Sale: a dark, loud promo that ends on a date</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"align":"center","width":"420px","sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/email-templates/black-friday-sale/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/email-templates/previews/black-friday-sale.png" alt="Black Friday Sale email template: dark email with a yellow price tag reading Black Friday 40% off, a dashed promo code box, an ends-on deadline line, a Shop the sale button and two product picks with was and now prices" style="width:420px"/></a><figcaption class="wp-element-caption">Black Friday Sale: a dark card, a yellow price-tag hero, a dashed promo-code box and two product picks with crossed-out prices.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>Black Friday lands on <strong>27 November</strong> this year and Cyber Monday on <strong>30 November</strong>, and every inbox will be full. The <a href="https://webdevpuneet.com/email-templates/black-friday-sale/" target="_blank" rel="noopener">Black Friday Sale email</a> is built to stand out: a near-black card, a bright yellow price-tag hero, a big "40% off everything" headline and a dashed <strong>promo code box</strong> that is easy to spot and easy to copy.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Under the code sits an "Ends Monday" deadline line (the single strongest nudge in a sale email), a bold "Shop the sale" button and two product picks with the old price crossed out and the sale price highlighted. The fine print is already there for you: offer dates, exclusions and a footer with an unsubscribe link and your postal address. Change the discount, the code, the dates and the two products and it is ready.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> flash sales, Black Friday and Cyber Monday, end-of-season clearance. If the first send goes quiet, <a href="https://webdevpuneet.com/email-templates/last-chance-sale/" target="_blank" rel="noopener">Last Chance Sale</a> is the matching follow-up for the final hours.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="abandoned-cart">2. Abandoned Cart: bring the shopper back</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"align":"center","width":"420px","sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/email-templates/abandoned-cart/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/email-templates/previews/abandoned-cart.png" alt="Abandoned Cart email template: You left something behind headline, two cart items with product photos and prices, an orange Return to your cart button, a COMEBACK10 discount code box and free shipping and returns reassurance" style="width:420px"/></a><figcaption class="wp-element-caption">Abandoned Cart: the items they left, one orange button back to the cart, an optional discount code and three reassurance lines.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>Most carts are abandoned, and a gentle reminder often wins back a share of them. The <a href="https://webdevpuneet.com/email-templates/abandoned-cart/" target="_blank" rel="noopener">Abandoned Cart email</a> says "You left something behind" in a friendly tone, then shows what is actually in the cart: up to <strong>three items with product photos, details and prices</strong>. Showing the product is what makes the reminder work, because the shopper recognises it instantly.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>One strong orange <strong>"Return to your cart"</strong> button does the main job. Below it is an optional discount code box (set it to expire in 48 hours to add urgency, or delete it if you do not discount), a row of reassurance lines (free shipping, easy returns, secure checkout) and a note that a real person will answer if they reply. It is persuasive without being pushy.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> Shopify, WooCommerce and any store that can send a cart-recovery flow. Pair it with <a href="https://webdevpuneet.com/email-templates/back-in-stock/" target="_blank" rel="noopener">Back in Stock</a> for shoppers who were waiting on an item.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="order-confirmation">3. Order Confirmation: the receipt people actually read</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"align":"center","width":"420px","sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/email-templates/order-confirmation/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/email-templates/previews/order-confirmation.png" alt="Order Confirmation email template: Thanks for your order headline, order number and date, three line items with quantity and price, subtotal, discount, shipping, tax and total, shipping address and a green View your order button" style="width:420px"/></a><figcaption class="wp-element-caption">Order Confirmation: order number and date, itemised lines, a clear total, the shipping address and a green "View your order" button.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>An order confirmation is the most opened email a store sends, so it deserves care. The <a href="https://webdevpuneet.com/email-templates/order-confirmation/" target="_blank" rel="noopener">Order Confirmation email</a> opens with a warm "Thanks for your order" and the <strong>order number and date</strong> in a tidy box. Then come up to three line items with details and quantity, followed by subtotal, discount, shipping, tax and a bold <strong>total</strong>, plus the payment method.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Below that are two columns: <strong>where it ships</strong> and <strong>the estimated delivery window</strong>. A green "View your order" button links to the order page, and a closing line explains returns and invites a reply. Because the layout is plain and well spaced, it reads clearly on a phone, which is where most confirmations are opened.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> online shops and anyone who sells through a checkout. For services rather than products, <a href="https://webdevpuneet.com/email-templates/booking-confirmation/" target="_blank" rel="noopener">Booking Confirmation</a> and <a href="https://webdevpuneet.com/email-templates/receipt/" target="_blank" rel="noopener">Payment Receipt</a> follow the same idea.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="shipping-confirmation">4. Shipping Confirmation: answer "where is my order?" before they ask</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"align":"center","width":"420px","sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/email-templates/shipping-confirmation/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/email-templates/previews/shipping-confirmation.png" alt="Shipping Confirmation email template: Your order has shipped headline, a four-step progress bar from Ordered to Delivered, carrier, tracking number and estimated delivery, a blue Track your package button and the items in the parcel" style="width:420px"/></a><figcaption class="wp-element-caption">Shipping Confirmation: a four-step progress bar, carrier and tracking details, a "Track your package" button and what is in the box.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>The best way to cut "where is my order?" messages is to answer the question in the inbox. The <a href="https://webdevpuneet.com/email-templates/shipping-confirmation/" target="_blank" rel="noopener">Shipping Confirmation email</a> shows a <strong>four-step progress bar</strong> (Ordered, Shipped, Out for delivery, Delivered) so the customer sees at a glance how far along the parcel is. You choose the current stage, so the same template also works for the "out for delivery" update.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>A details box lists the order number, carrier, <strong>tracking number</strong> and estimated delivery, and a blue "Track your package" button goes to the carrier. Underneath are the items in this parcel with quantities and the shipping address, plus a note about safe places and pick-up points. If something goes wrong, the <a href="https://webdevpuneet.com/email-templates/shipping-delay/" target="_blank" rel="noopener">Shipping Delay</a> email keeps the same look so the message feels consistent.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any physical-goods shop, print-on-demand and dropshipping stores.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="welcome">5. Welcome Email: make the first ten minutes count</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"align":"center","width":"420px","sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/email-templates/welcome/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/email-templates/previews/welcome.png" alt="Welcome email template: purple hero image with a dashboard illustration, Welcome aboard headline, an Open your dashboard button, three numbered getting-started steps and a personal note from the founder" style="width:420px"/></a><figcaption class="wp-element-caption">Welcome Email: a hero image, one clear button, three numbered first steps and a personal note from the founder.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>The first email after sign-up is the one most likely to be read, and the one that decides whether a new user comes back. The <a href="https://webdevpuneet.com/email-templates/welcome/" target="_blank" rel="noopener">Welcome email</a> keeps to one goal: get them to take a first step. A friendly headline, a short intro and a single <strong>"Open your dashboard"</strong> button sit under a hero image, followed by <strong>three numbered steps</strong> ("Create your first project", "Invite your team", "Connect your tools") so they know exactly what to do next.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The personal note from a founder, with a reply invitation, makes it feel human, and social links and a CAN-SPAM-ready footer finish the job. This one has dark mode built in and an Outlook-safe button. After it, the <a href="https://webdevpuneet.com/email-templates/getting-started-checklist/" target="_blank" rel="noopener">Getting Started Checklist</a> and <a href="https://webdevpuneet.com/email-templates/trial-ending/" target="_blank" rel="noopener">Trial Ending</a> emails continue the story.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> SaaS products, apps, communities, memberships and newsletters with a welcome sequence.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="holiday-gift-guide">6. Holiday Gift Guide: a festive grid that sells</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"align":"center","width":"420px","sizeSlug":"large","linkDestination":"custom"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/email-templates/holiday-gift-guide/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/email-templates/previews/holiday-gift-guide.png" alt="Holiday Gift Guide email template: dark red hero with wrapped gift boxes, a serif headline Gifts they will actually love, a two-by-two grid of products with photos, prices and tags, an order-by shipping deadline banner and a Shop all gifts button" style="width:420px"/></a><figcaption class="wp-element-caption">Holiday Gift Guide: a 2×2 product grid with tags like "Bestseller" and "Under $25", a shipping cut-off banner and one "Shop all gifts" button.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>December inboxes reward emails that do the choosing for the reader. The <a href="https://webdevpuneet.com/email-templates/holiday-gift-guide/" target="_blank" rel="noopener">Holiday Gift Guide email</a> opens with a festive hero and a warm serif headline, then lays out a <strong>2×2 grid of gifts</strong>, each with a photo, a price and a small tag such as "Bestseller", "For coffee lovers" or "Under $25". Tags are a quiet way to help someone pick, and they let you reuse the grid for different budgets.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>A pink <strong>order-by banner</strong> ("Order by December 18 for delivery before Christmas") adds a real reason to act now, and one "Shop all gifts" button keeps the email focused. Swap the sample products for yours, adjust the dates and send. For a plain thank-you instead of a sale, use <a href="https://webdevpuneet.com/email-templates/holiday-greetings/" target="_blank" rel="noopener">Holiday Greetings</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> shops running Christmas, Hanukkah, Diwali or any gifting season, and brands that want a seasonal email without a heavy design job.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">What the editor does before you hit send</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The templates are only half of it. Open any email in the <a href="https://webdevpuneet.com/email-templates/" target="_blank" rel="noopener">Email Templates editor</a> and you can change every word, colour, link and image in your browser, with no sign-up. A few things that save real trouble:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Live preview on desktop and mobile,</strong> with a dark-mode view, so you see what Apple Mail, iOS Mail and Outlook.com users will see.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Merge tags for your platform.</strong> Pick Mailchimp, Klaviyo, HubSpot or Brevo and "first name" and the unsubscribe link are swapped for that platform's own tags in the export.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A pre-send checklist.</strong> It warns when the email is close to <strong>Gmail's 102 KB clipping limit</strong> (Gmail hides the rest of a longer message, including your unsubscribe link), when an image is missing alt text or is not an https link, when preview text is too short or too long, and when a marketing email is missing an unsubscribe link or a postal address.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Outlook-safe buttons</strong> and layouts built from tables, so they do not fall apart in desktop Outlook.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Your own images.</strong> Upload product photos and download a ZIP that holds the HTML, a plain-text version and an images folder.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Saved designs.</strong> Your work is kept in your own browser, so you can come back to it. Export a backup now and then.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Four ways to get your email out</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>When the email looks right, the Export menu gives you four options: <strong>Copy HTML</strong> (paste into a Mailchimp, Klaviyo, HubSpot or Brevo custom-HTML block, or into your own code), <strong>Download ZIP</strong> (HTML, plain text and your uploaded images), <strong>Download .html</strong> (a single file) and <strong>Copy plain text</strong> (the text version for multipart email). Sending both an HTML and a plain-text version helps deliverability and covers readers who prefer text.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Browse all 37 templates by category</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These six are a slice of the library. Everything is sorted into five groups, with newly added and recently updated emails listed first:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/email-templates/category/onboarding/" target="_blank" rel="noopener">Onboarding &amp; Lifecycle</a> (8): welcome, getting started, team invitation, trial ending, re-engagement, birthday, NPS survey, subscription cancelled.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/email-templates/category/transactional/" target="_blank" rel="noopener">Transactional</a> (12): verify email, one-time code, password reset, magic link, security alert, receipt, payment reminder, failed payment, booking confirmation, appointment reminder, booking rescheduled, contact form auto-reply.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/email-templates/category/ecommerce/" target="_blank" rel="noopener">E-commerce</a> (9): abandoned cart, back in stock, order confirmation, order cancelled, shipping confirmation, shipping delay, order delivered, refund confirmation, review request.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/email-templates/category/marketing/" target="_blank" rel="noopener">Marketing</a> (6): newsletter, product update, webinar invitation, refer a friend, Black Friday sale, last chance sale.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="https://webdevpuneet.com/email-templates/category/holidays/" target="_blank" rel="noopener">Holidays &amp; Seasonal</a> (2): holiday gift guide and holiday greetings.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">A short checklist before you send any email</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Send a test to yourself</strong> and open it on a phone and a desktop, in at least Gmail and one other client.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Replace every placeholder link,</strong> sample name and "yoursite.com" address. The checklist in the editor flags them.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Write the preview text.</strong> The line next to the subject in the inbox is free real estate. Aim for roughly 40 to 130 characters.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Add an unsubscribe link and your postal address</strong> to every marketing email.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Keep the email light.</strong> Short HTML and compressed images stay well under Gmail's limit.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Add alt text to images,</strong> because many people read with images off.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Are these HTML email templates really free?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes. You can edit them, copy the HTML and use them for your own business or for clients without paying or signing up. They are part of the free Email Templates library on webdevpuneet.com.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Will they work in Gmail and Outlook?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>They are built for Gmail, Outlook and Apple Mail, using table-based layouts, inline styles and Outlook-safe buttons, with a responsive layout for phones. Email clients still differ, so always send yourself a test before a big send. Web fonts show in Apple Mail and iOS Mail, while Gmail and Outlook fall back to a similar system font.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">How do I use an email template in Mailchimp or Klaviyo?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Choose your platform in the editor so the merge tags and unsubscribe link match it, then use Copy HTML and paste the code into a custom-HTML (code your own) email in Mailchimp, Klaviyo, HubSpot or Brevo. Upload your images to a host first, or use the ZIP and upload the images folder.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Does the email work in dark mode?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes. The templates include dark-mode styling for clients that support it, such as Apple Mail, iOS Mail and Outlook.com, and the editor has a dark preview so you can check it. Some clients, such as the Gmail app on some devices, apply their own colour changes that no email can fully control.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Why does Gmail say "message clipped"?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Gmail cuts off messages larger than about 102 KB and shows a "View entire message" link, which can hide your footer and unsubscribe link. The editor warns you as you approach the limit. Keep copy tight, compress images and avoid pasting huge blocks of code.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Ready to send one?</strong> Start with <a href="https://webdevpuneet.com/email-templates/black-friday-sale/" target="_blank" rel="noopener">Black Friday Sale</a> for the season, win shoppers back with <a href="https://webdevpuneet.com/email-templates/abandoned-cart/" target="_blank" rel="noopener">Abandoned Cart</a>, confirm with <a href="https://webdevpuneet.com/email-templates/order-confirmation/" target="_blank" rel="noopener">Order Confirmation</a> and <a href="https://webdevpuneet.com/email-templates/shipping-confirmation/" target="_blank" rel="noopener">Shipping Confirmation</a>, or browse the full <a href="https://webdevpuneet.com/email-templates/" target="_blank" rel="noopener">Email Templates library</a>.</p>
+<!-- /wp:paragraph -->

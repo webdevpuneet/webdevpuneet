@@ -2,6 +2,7 @@ import HomeOmniSearch from '@/components/HomeOmniSearch';
 import HomeToolSearch from '@/components/HomeToolSearch';
 import ProfileHeroCard from '@/components/ProfileHeroCard';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
+import NotFoundBlogStrip from '@/components/NotFoundBlogStrip';
 import { getLatestSnippets } from '@/lib/snippet-related';
 import InViewImg from '@/components/InViewImg';
 import AdSlot from '@/components/AdSlot';
@@ -265,6 +266,12 @@ export default async function Home() {
             <div className={styles.latestStrip}><HomeSnippetsCarousel items={RANDOM_SNIPPETS} games={RANDOM_GAMES} total={RANDOM_SNIPPETS.length} title="Random UI Snippets" shuffle flush /></div>
             <div className={styles.latestStrip}><HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} flush /></div>
           </div>
+        </section>
+
+        {/* Latest 4 blog posts (2026-11-14). Loaded in the visitor's browser from the WordPress blog, so the posts are always the newest
+            even though the site is a static export; the strip draws nothing if the blog can't be reached. */}
+        <section aria-label="Latest blog posts">
+          <NotFoundBlogStrip count={4} columns={4} flush panelClass={styles.snipPanel} />
         </section>
 
         {/* ── 3. Featured product: Website Builder ── */}
