@@ -1,5 +1,5 @@
 WEEKEND TO-DO
-Last updated 2026-11-03
+Last updated 2026-11-14
 
 Rule: these are for weekends, not weekdays (decided 2026-11-02 / 2026-11-03). Do not start them
 on a weekday unless asked. Ideas and the full detail live in roadmaps/SUGGESTIONS-*.html.
@@ -17,8 +17,13 @@ on a weekday unless asked. Ideas and the full detail live in roadmaps/SUGGESTION
        more display options, text-to-speech, and more (10 items).
        Detail: roadmaps/SUGGESTIONS-WEBSITE.html, "Accessibility widget" idea.
 
-[ ] 3. Floating sections (popups, cursor effects, widgets) take no space in the Website Builder
-       Shown as overlays; popups appear only on their trigger button.
+[x] 3. Floating sections (popups, cursor effects, widgets) take no space in the Website Builder
+       DONE 2026-11-14 (not deployed). Popup, accessibility toolbar and share bar were already 0 px tall in the
+       builder canvas (ST_POPUP_BUTTON button mode); Cursor Follower (557 px) and Back to Top (397 px) still showed
+       demo stages. Now they work like the live page in the canvas; Back to Top shows while its section is selected.
+       All 5 carry overlay: true and the section list says "Floating, takes no space".
+       Still open: popup trigger choice in the editor is unchanged (delay / exit intent / scroll); a11y toolbar and
+       Back to Top both default to Bottom right and overlap (see roadmaps/SUGGESTIONS-WEBSITE.html).
        Detail: roadmaps/SUGGESTIONS-WEBSITE.html, "Floating sections" idea.
 
 Also waiting (not weekend-only, just not done yet)

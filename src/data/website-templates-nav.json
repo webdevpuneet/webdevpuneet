@@ -123,5 +123,10 @@
   "id": "corporate",
   "name": "Corporate & Consulting Website",
   "industry": "Business"
+ },
+ {
+  "id": "online-store",
+  "name": "Online Store Website (Full Shop)",
+  "industry": "Retail"
  }
 ]

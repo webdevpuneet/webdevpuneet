@@ -50,6 +50,7 @@ export default {
   name: 'Floating Social Share Bar',
   version: '1.0.0',
   category: 'social',
+  overlay: true, // floating: takes no space in the page; the Website Builder labels it "Floating" in the section list
   tags: ['social-share', 'share-buttons', 'sticky', 'floating', 'sidebar', 'facebook', 'whatsapp', 'linkedin', 'collapsible', 'light'],
   created: '2026-10-24',
   updated: '2026-10-24',

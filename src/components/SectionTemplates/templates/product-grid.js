@@ -1,4 +1,5 @@
 import { IMG } from './meta.js';
+import { ICONS } from './icons.js';
 
 const plain = s => String(s ?? '').replace(/\*/g, '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 const CURRENCY = { '$': 'USD', '£': 'GBP', '€': 'EUR', '₹': 'INR' };
@@ -55,6 +56,7 @@ export default {
     { key: 'heading', group: 'header', label: 'Heading', type: 'textarea', value: 'Best sellers *this season*' },
     { key: 'allLink', group: 'header', label: 'View-all link text (optional)', type: 'text', value: 'Shop everything' },
     { key: 'allUrl', group: 'header', label: 'View-all link', type: 'url', value: '/shop/' },
+    { key: 'wishLabel', group: 'header', label: 'Wishlist heart label (screen readers)', type: 'text', value: 'Save to wishlist' },
   ],
   lists: [{
     key: 'products', group: 'items', label: 'Products', itemLabel: 'Product', titleKey: 'name', min: 1, max: 12,
@@ -78,7 +80,8 @@ export default {
       { image: IMG('product-stand.png'), imageAlt: 'Sona Neckband earphones', badge: '-20%', name: 'Sona Neckband', text: 'Comfortable all-day earphones', price: '$47', oldPrice: '$59', rating: '4.5', reviews: '178', button: 'Add to cart', url: '#' },
     ],
   }],
-  toggles: [],
+  behaviors: ['cartcore'],
+  toggles: [{ key: 'useCart', label: 'Built-in cart (Add to cart fills the cart)', value: false }, { key: 'showWishlist', label: 'Wishlist heart on each card', value: false }],
   theme: { brand: '#0284c7', brandText: '#ffffff', bg: '#ffffff', surface: '#f5f8fb', text: '#0f172a', muted: '#64748b', radius: '16' },
   fonts: { heading: 'jakarta', body: 'inter' },
 
@@ -91,20 +94,22 @@ export default {
     <a class="pg-all" data-anim="item" data-href="allUrl" data-show-if="allLink"><span data-edit="allLink"></span> <span aria-hidden="true">→</span></a>
   </div>
   <ul class="pg-grid" data-list="products">
-    <li class="pg-card" data-anim="item">
+    <li class="pg-card" data-anim="item" data-cart-card>
+      <button type="button" class="pg-heart" data-wish-toggle aria-pressed="false" data-show="showWishlist" data-set="aria-label:wishLabel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS['heart'][1]}</svg></button>
       <a class="pg-media" data-href="url" tabindex="-1" aria-hidden="true">
-        <img class="pg-img" data-image="image" alt="" width="800" height="1000" loading="lazy">
+        <img class="pg-img" data-image="image" data-cart-image alt="" width="800" height="1000" loading="lazy">
         <span class="pg-badge" data-show-if="badge" data-edit="badge"></span>
       </a>
       <div class="pg-body">
-        <h3 class="pg-name"><a data-href="url"><span data-edit="name"></span></a></h3>
+        <h3 class="pg-name" data-cart-name><a data-href="url"><span data-edit="name"></span></a></h3>
         <p class="pg-text" data-show-if="text" data-edit="text"></p>
         <p class="pg-rating" data-show-if="rating"><span aria-hidden="true">★</span> <span data-edit="rating"></span><span class="pg-reviews" data-show-if="reviews">(<span data-edit="reviews"></span>)</span></p>
-        <p class="pg-price"><strong data-edit="price"></strong><s class="pg-old" data-show-if="oldPrice" data-edit="oldPrice"></s></p>
-        <a class="st-btn pg-btn" data-href="url" data-show-if="button"><span data-edit="button"></span></a>
+        <p class="pg-price"><strong data-cart-price data-edit="price"></strong><s class="pg-old" data-show-if="oldPrice" data-edit="oldPrice"></s></p>
+        <a class="st-btn pg-btn" data-cart-add data-cart-added="Added to cart" data-href="url" data-show-if="button"><span data-edit="button"></span></a>
       </div>
     </li>
   </ul>
+  <i hidden data-cart-flag data-show="useCart"></i>
 </div>`,
   css: `.st-product-grid{padding:clamp(56px,7cqi,104px) 0}
 .pg-top{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:clamp(24px,3cqi,40px)}
@@ -117,6 +122,13 @@ export default {
 .pg-media{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;background:color-mix(in srgb,var(--st-brand) 8%,var(--st-surface))}
 .pg-img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
 .pg-card:hover .pg-img{transform:scale(1.05)}
+.pg-card{position:relative}
+.pg-heart{position:absolute;top:10px;right:10px;z-index:2;display:grid;place-items:center;width:38px;height:38px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--st-bg) 92%,transparent);color:var(--st-text);box-shadow:0 4px 14px rgba(15,23,42,.18);cursor:pointer;transition:color .2s ease,transform .15s ease}
+.pg-heart svg{width:19px;height:19px}
+.pg-heart:hover{transform:scale(1.08)}
+.pg-heart[aria-pressed="true"]{color:#e11d48}
+.pg-heart[aria-pressed="true"] svg{fill:currentColor}
+.pg-heart:focus-visible{outline:3px solid color-mix(in srgb,var(--st-brand) 50%,transparent);outline-offset:2px}
 .pg-badge{position:absolute;top:12px;left:12px;padding:5px 11px;border-radius:999px;background:var(--st-text);color:var(--st-bg);font:800 12px/1 var(--st-font-body);letter-spacing:.03em}
 .pg-body{display:flex;flex-direction:column;gap:6px;padding:16px 18px 18px;flex:1}
 .pg-name{font-size:17px;line-height:1.3;letter-spacing:-.01em}

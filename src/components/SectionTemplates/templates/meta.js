@@ -25,9 +25,10 @@ export const SECTION_CATEGORIES = [
   { id: 'listings',     label: 'Menus & listings', blurb: 'Industry sections: restaurant menus with prices, property listings and class timetables.' },
   { id: 'music',       label: 'Music',           blurb: 'Sections for bands, artists and labels: a music hero, an audio player with a track list, tour dates with tickets, a discography grid, a release countdown and streaming links.' },
   { id: 'auth',         label: 'Login & Sign up', blurb: 'Login and register screens with email and password, social sign-in buttons, show password and a password strength hint.' },
+  { id: 'checkout',     label: 'Cart, checkout & orders', blurb: 'The pages after Add to cart: cart page with promo code and shipping, checkout with order-by-message or payment link, order confirmation, order history and a wishlist.' },
   { id: 'popup',        label: 'Popups',          blurb: 'Popups that open after a delay, on exit intent or on scroll, for sign-ups, offers and announcements.' },
   { id: 'accessibility', label: 'Accessibility', blurb: 'Floating accessibility toolbars that let visitors enlarge text, change contrast, hide images, pause animations and more.' },
-  { id: 'effects',       label: 'Cursor & page effects', blurb: 'Page-wide effects that take no space in the layout: cursor followers that invert what is under them and floating back-to-top buttons.' },
+  { id: 'effects',       label: 'Cursor & page effects', blurb: 'Page-wide effects that take no space in the layout: cursor followers that invert what is under them, floating back-to-top buttons and a slide-in cart drawer.' },
   { id: 'timeline',      label: 'Timelines',       blurb: 'Timelines for company history, roadmaps and milestones, laid out along a scrollable line.' },
   { id: 'social',       label: 'Social share',    blurb: 'Floating social share bars that take no space in the layout, with share buttons for the popular networks.' },
   { id: 'footer',       label: 'Footer',         blurb: 'Website footers with link columns, newsletter sign-up and social links.' },
@@ -179,7 +180,7 @@ export function safeUrl(u) {
   if (/^(https?:|mailto:|tel:|#|\/)/i.test(v)) return v.replace(/"/g, '%22');
   if (/^(blob:|data:image\/(png|jpe?g|gif|webp|svg\+xml);base64,)/i.test(v)) return v;
   if (/^(images|assets)\/[\w.-]+$/.test(v)) return v; // uploaded images next to the page (code view: images/, ZIPs: assets/)
-  if (/^[\w-]+\.html(#[\w-]*)?$/i.test(v)) return v; // another page of a multi-page site (about.html#team)
+  if (/^[\w-]+\.html(\?[\w=&%.,+-]*)?(#[\w-]*)?$/i.test(v)) return v; // another page of a multi-page site (about.html#team, shop.html?cat=Audio)
   if (/^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(v)) return `https://${v.replace(/"/g, '%22')}`;
   return '#';
 }

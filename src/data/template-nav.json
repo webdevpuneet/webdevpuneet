@@ -492,7 +492,7 @@
   ]
  },
  "section": {
-  "total": 94,
+  "total": 106,
   "categories": [
    {
     "id": "hero",
@@ -535,6 +535,18 @@
      {
       "id": "navbar-announcement",
       "name": "Navbar With Announcement Bar"
+     },
+     {
+      "id": "mega-menu-columns",
+      "name": "Ecommerce Mega Menu — Link Columns"
+     },
+     {
+      "id": "mega-menu-visual",
+      "name": "Ecommerce Mega Menu — Image Tiles"
+     },
+     {
+      "id": "mega-menu-departments",
+      "name": "Ecommerce Mega Menu — Department Sidebar"
      }
     ]
    },
@@ -889,6 +901,18 @@
       "name": "Product Grid"
      },
      {
+      "id": "product-detail",
+      "name": "Product Detail Page"
+     },
+     {
+      "id": "product-listing",
+      "name": "Product Listing with Filters"
+     },
+     {
+      "id": "product-strip",
+      "name": "You Might Also Like (Product Strip)"
+     },
+     {
       "id": "class-timetable",
       "name": "Class Timetable"
      }
@@ -939,6 +963,32 @@
     ]
    },
    {
+    "id": "checkout",
+    "label": "Cart, checkout & orders",
+    "items": [
+     {
+      "id": "cart-page",
+      "name": "Cart Page"
+     },
+     {
+      "id": "checkout-page",
+      "name": "Checkout Page"
+     },
+     {
+      "id": "order-confirmation",
+      "name": "Order Confirmation (Thank You)"
+     },
+     {
+      "id": "order-history",
+      "name": "Order History (My Orders)"
+     },
+     {
+      "id": "wishlist-page",
+      "name": "Wishlist Page"
+     }
+    ]
+   },
+   {
     "id": "popup",
     "label": "Popups",
     "items": [
@@ -969,6 +1019,10 @@
      {
       "id": "back-to-top",
       "name": "Back to Top Button"
+     },
+     {
+      "id": "cart-drawer",
+      "name": "Cart Drawer (Mini Cart)"
      }
     ]
    },

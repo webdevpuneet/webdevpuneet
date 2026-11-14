@@ -55,3 +55,7 @@ GOTCHAS FOUND
     Found on 2026-10-30 for htimeline and kenburns. Test it by building the preview document the editor builds
     (documentHtml with ST_PREVIEW + the scroll head) inside an iframe.
   - Counters (counter()) cannot be read back through getComputedStyle in tests; check them in a screenshot.
+  - Floating sections (popup, accessibility toolbar, cursor follower, back to top, share bar) carry overlay: true in their template and
+    must be 0 px tall in the page. The Website Builder canvas sets window.ST_POPUP_BUTTON: in that mode a floating section must behave
+    like the live page (no inline demo stage); only the single-section editor shows demo stages. Measure with the canvas flags
+    (ST_PREVIEW + ST_POPUP_BUTTON), not with plain documentHtml: the 'still' flag alone gives misleading heights.

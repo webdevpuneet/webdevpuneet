@@ -22,6 +22,7 @@ export default {
   name: 'Popup & Promo Modal',
   version: '1.0.0',
   category: 'popup',
+  overlay: true, // floating: takes no space in the page; the Website Builder labels it "Floating" in the section list
   tags: ['popup', 'modal', 'exit-intent', 'promo', 'sidekick', 'newsletter', 'lead-capture', 'carousel', 'overlay', 'light'],
   created: '2026-10-25',
   updated: '2026-10-25',

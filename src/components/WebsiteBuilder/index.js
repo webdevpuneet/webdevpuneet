@@ -390,7 +390,7 @@ function SectionList({ sections, selected, shared, onOpen, onMove, onReorder, on
             <button type="button" className={b.rowMain} onClick={() => onOpen(x.uid)} title="Edit this section">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img className={b.thumb} src={previewOf(x.tpl)} alt="" loading="lazy" draggable="false" />
-              <span className={b.rowText}><b>{t?.name}</b><small>{shared?.has(x.uid) ? 'Shared on every page' : (sectionCategoryById(t?.category)?.label || (t?.custom ? 'Custom section' : ''))}{x.anchor ? ` · #${x.anchor}` : ''}</small></span>
+              <span className={b.rowText} title={t?.overlay ? 'Floating: it sits over the page like on the live site and takes no space between sections' : undefined}><b>{t?.name}</b><small>{shared?.has(x.uid) ? 'Shared on every page' : (sectionCategoryById(t?.category)?.label || (t?.custom ? 'Custom section' : ''))}{t?.overlay ? ' · Floating, takes no space' : ''}{x.anchor ? ` · #${x.anchor}` : ''}</small></span>
             </button>
             <button type="button" className={b.rowBtn} onClick={() => onMove(x.uid, -1)} disabled={i === 0} title="Move up" aria-label={`Move ${t?.name} up`}>↑</button>
             <button type="button" className={b.rowBtn} onClick={() => onMove(x.uid, 1)} disabled={i === sections.length - 1} title="Move down" aria-label={`Move ${t?.name} down`}>↓</button>

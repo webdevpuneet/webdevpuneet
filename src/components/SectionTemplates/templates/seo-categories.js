@@ -143,19 +143,40 @@ The counters keep any format ($2.5M, 99.9%, 4.9/5) and leave the real values in 
       { q: 'Do I need permission to show customer logos?', a: 'Usually yes. Check your customer agreements or ask before showing a company’s logo. The built-in wordmarks keep the section looking finished in the meantime.' },
     ],
   },
+  checkout: {
+    title: 'Cart, Checkout & Order Templates — Free Shop Page HTML',
+    description: 'Free shop pages: a cart page with promo code, a checkout that sends orders by form, WhatsApp or payment link, order confirmation, order history and a wishlist.',
+    h1: 'Cart, Checkout & Orders',
+    keywords: ['cart page template', 'checkout page template', 'order confirmation template', 'order history page', 'wishlist page template', 'ecommerce pages html'],
+    intro: `A shop is more than a product page. These sections are the pages after Add to cart, all sharing one small cart that lives in the visitor's browser, so they work on a static site with no server and no account.
+
+The **[Cart Page](/website-section-templates/cart-page/)** shows the items with quantity steppers, a free-shipping bar, a promo code box and a sticky order summary. The **[Checkout Page](/website-section-templates/checkout-page/)** collects contact details, an address, a shipping method and a payment option, then sends the order to your form service or WhatsApp, or on to a payment link, with no card fields on your page. The **[Order Confirmation](/website-section-templates/order-confirmation/)** thanks the shopper and shows the saved order and what happens next.
+
+The **[Order History](/website-section-templates/order-history/)** lists past purchases with an Order again button, and the **[Wishlist Page](/website-section-templates/wishlist-page/)** keeps the products shoppers saved with the heart. The slide-in **[Cart Drawer](/website-section-templates/cart-drawer/)** and the **[Product Listing](/website-section-templates/product-listing/)**, **[Product Detail](/website-section-templates/product-detail/)** and **[Product Strip](/website-section-templates/product-strip/)** complete the shop, and the **[Online Store website template](/website-builder/templates/online-store/)** joins them all.
+
+Be clear about the limits: there is no stock control, tax engine or order management in the plain version, so for a large catalogue use a hosted shop platform and keep these pages as the design.`,
+    faqs: [
+      { q: 'Do these sections take card payments?', a: 'No. The checkout never shows card fields. It sends the order to a form service or WhatsApp, or sends the shopper to a payment link from Stripe, PayPal or Razorpay, which take the payment securely.' },
+      { q: 'Where does the cart live?', a: 'In the browser of the visitor (localStorage), shared by every shop section on your site. It works without an account or a server, but it is not shared between devices.' },
+      { q: 'Can I use only one of them?', a: 'Yes, but they are designed to work together: Add to cart fills the cart, the drawer and cart page show it, the checkout saves the order and the confirmation and history pages read it.' },
+    ],
+  },
   navbar: {
     title: 'Navbar Templates — Free Responsive Header HTML, React & Vue',
-    description: 'Free responsive navbar templates: a sticky header, a floating glass pill and a header with an announcement bar, each with an accessible animated mobile menu.',
+    description: 'Free responsive navbar templates: sticky, floating and announcement headers plus three ecommerce mega menus with search, cart and dropdown panels. Export HTML.',
     h1: 'Navbar Templates',
     keywords: ['navbar template', 'responsive navbar html css', 'sticky header', 'mobile menu', 'website header'],
     intro: `The navbar is on every page, so it has to be clear, fast and work perfectly on phones. These headers handle the hard parts for you: a mobile menu that's accessible, a sticky bar that can get out of the way, and a layout that adapts to any number of links.
 
 The **[Simple Sticky Navbar](/website-section-templates/navbar-simple/)** is a clean, frosted header with links, log-in and a CTA. The **[Floating Pill Navbar](/website-section-templates/navbar-floating/)** hovers over the page as a dark glass pill and opens a full-screen menu on phones. The **[Navbar With Announcement Bar](/website-section-templates/navbar-announcement/)** adds a dismissible bar on top for sales, launches and news.
 
+For online stores there are three **ecommerce mega menus** with a search field, account, wishlist and cart icons and full-width dropdown panels: the **[Link Columns Mega Menu](/website-section-templates/mega-menu-columns/)** with three link columns and a featured card, the **[Image Tiles Mega Menu](/website-section-templates/mega-menu-visual/)** with large category photos, and the **[Department Sidebar Mega Menu](/website-section-templates/mega-menu-departments/)** for big catalogues, with a department list and an All categories button.
+
 Every mobile menu opens with GSAP, closes on Esc, keeps keyboard focus inside while open, announces its state to screen readers and shows the links even without JavaScript. Switch the sticky header and hide-on-scroll options on or off, upload your logo, and export to HTML, React or Vue.`,
     faqs: [
       { q: 'What makes a navbar accessible?', a: 'A real button for the mobile menu with aria-expanded and a label, keyboard support (Tab, Enter, Esc), focus moving into the menu when it opens and back to the button when it closes, and links that still work without JavaScript. These navbars do all of that.' },
       { q: 'Should my header be sticky?', a: 'For most marketing sites, yes: it keeps navigation and the main button in reach. On long reading pages, the hide-on-scroll option gives readers more space and brings the header back when they scroll up.' },
+      { q: 'What is a mega menu and when should a store use one?', a: 'A mega menu is a large dropdown that shows many links at once, grouped into columns, often with an image. Use one when a shop has more categories than fit in a simple row of links, so shoppers can see every sub-category in one place.' },
       { q: 'How many links should a navbar have?', a: 'Four to six top-level links is ideal. Put secondary pages in the footer, and keep one clear call-to-action button on the right.' },
     ],
   },

@@ -7,6 +7,9 @@ import { NEW_SECTIONS_SEO } from './seo-content-new.js';
 import { MORE_SECTIONS_SEO } from './seo-content-more.js';
 import { WAVE2_SEO } from './seo-content-wave2.js';
 import { FORMS_SECTIONS_SEO } from './seo-content-forms.js';
+import { MEGA_MENU_SEO } from './seo-content-mega.js';
+import { SHOP_SEO } from './seo-content-shop.js';
+import { CART_SEO } from './seo-content-cart.js';
 
 export const SECTION_SEO = {
   'saas-split-hero': {
@@ -2656,6 +2659,9 @@ Download HTML, a ZIP, React or Vue with the hover script, or fork into [My Code]
   ...WAVE2_SEO, // Opening hours, About us, Reviews summary (seo-content-wave2.js)
   ...NEW_SECTIONS_SEO, // Gallery & media, comparison table, booking form, case study, legal text (seo-content-new.js)
   ...FORMS_SECTIONS_SEO, // Forms category (seo-content-forms.js)
+  ...MEGA_MENU_SEO, // Ecommerce mega menus (seo-content-mega.js)
+  ...SHOP_SEO, // Product detail page (seo-content-shop.js)
+  ...CART_SEO, // Product listing and strip, cart drawer, cart, checkout, confirmation, orders, wishlist (seo-content-cart.js)
 };
 
 export const SECTION_DIFFERENT = [

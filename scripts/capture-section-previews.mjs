@@ -48,6 +48,14 @@ function mockPage(brand) {
 </main>`;
 }
 
+// Mega menus are shown with their first dropdown open (a click pins it; a viewport resize closes it,
+// so this runs again after every resize)
+async function openMega(page, t) {
+  if (!(t.behaviors || []).includes('mega')) return;
+  await page.locator('.mm-trigger').first().click();
+  await page.waitForTimeout(500);
+}
+
 async function main() {
   await mkdir(PREVIEW_DIR, { recursive: true });
   await mkdir(OG_DIR, { recursive: true });
@@ -66,6 +74,7 @@ async function main() {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.setContent(html, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
+    await openMega(page, t);
     const shot = t.previewMinHeight
       ? await page.screenshot({ type: 'png', clip: { x: 0, y: 0, width: 1280, height: 800 } })
       : await page.locator('section.st').screenshot({ type: 'png' });
@@ -74,6 +83,7 @@ async function main() {
     // Share image: the section at a wide desktop size, cropped to 1200×630
     await page.setViewportSize({ width: 1440, height: 756 });
     await page.evaluate(() => document.fonts.ready);
+    await openMega(page, t);
     const wide = await page.screenshot({ type: 'png', clip: { x: 0, y: 0, width: 1440, height: 756 } });
     await sharp(wide).resize(1200, 630).jpeg({ quality: 80, mozjpeg: true }).toFile(ogPath);
     made++;

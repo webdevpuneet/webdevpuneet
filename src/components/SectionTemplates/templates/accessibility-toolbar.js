@@ -32,6 +32,7 @@ export default {
   name: 'Accessibility Toolbar Widget',
   version: '1.0.0',
   category: 'accessibility',
+  overlay: true, // floating: takes no space in the page; the Website Builder labels it "Floating" in the section list
   tags: ['accessibility', 'a11y', 'toolbar', 'widget', 'floating', 'high-contrast', 'bigger-text', 'reading-mask', 'ally', 'wcag', 'light'],
   created: '2026-10-30',
   updated: '2026-10-30',

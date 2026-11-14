@@ -20,6 +20,7 @@ export default {
   name: 'Cursor Follower (Blend Mode Circle)',
   version: '1.0.0',
   category: 'effects',
+  overlay: true, // floating: takes no space in the page; the Website Builder labels it "Floating" in the section list
   tags: ['cursor', 'cursor-follower', 'mix-blend-mode', 'invert', 'mouse', 'effect', 'difference', 'gsap-free', 'dark'],
   created: '2026-10-30',
   updated: '2026-10-30',

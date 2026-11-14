@@ -234,7 +234,7 @@
   </div>
 
   <div class="sug top">
-    <div class="sug-head"><h3>12. Ecommerce kit: shop, cart, add to cart, checkout</h3><span class="pill todo">Suggested</span><span class="pill done">Top pick</span></div>
+    <div class="sug-head"><h3>12. Ecommerce kit: shop, cart, add to cart, checkout</h3><span class="pill done">Done (v1)</span><span class="pill done">Top pick</span></div>
     <p class="muted">Category: new sections + a website template · Added 2026-10-31 · Today only <code>product-grid</code> (a button that links out), the <code>listings</code> sections and the Product Landing Page Store template exist, so nobody can build a real shop with a cart.</p>
     <div class="callout"><strong>The constraint:</strong> exports are plain HTML with no server, so the kit cannot take payments or keep stock by itself. The cart can live in the browser (a few lines of JavaScript and <code>localStorage</code>); the payment must go to a hosted checkout. The site's card details must never touch our HTML. This also suits the site's angle: people see exactly how a cart works.</div>
 
@@ -252,7 +252,7 @@
     <h3>Sections to build</h3>
     <ul>
       <li><strong>1. Product grid with working Add to cart</strong> (upgrade <code>product-grid</code>): quantity, a cart counter in the navbar, filters and search.</li>
-      <li><strong>2. Product detail:</strong> the product page itself, the most important page of a shop. What it should have is listed in full under "The product page" below.</li>
+      <li><strong>2. Product detail (built 2026-11-14, v1):</strong> the product page itself, the most important page of a shop. Built: gallery with thumbnails, arrows, swipe, keys and hover zoom; colour swatches that switch the photo; size buttons with sold-out sizes; quantity; Add to cart / Buy now links that carry ?colour=&amp;size=&amp;qty=; wishlist; stock and delivery notes; trust badges; details accordions; sticky Add to cart bar on phones; Product data. Still to do from the list below: lightbox with pinch zoom, size guide modal, cross-sell carousel, product video / 360 spin, a delivery estimate, and the cart script so Add to cart really adds to a cart.</li>
       <li><strong>3. Cart drawer / mini cart:</strong> slides in from the right, line items, quantity steppers, subtotal, Checkout button.</li>
       <li><strong>4. Cart page:</strong> full table of items, promo code box (display only unless the shop widget handles it), shipping estimate, order summary.</li>
       <li><strong>5. Checkout page:</strong> contact and shipping form, order summary, payment choices from the table above, trust badges and policy links. No card fields in our markup.</li>
@@ -280,6 +280,27 @@
     <h3>Website template</h3>
     <p>An <strong>Online Store</strong> multi-page template: Home, Shop (all products), Product, Cart, Checkout, Order confirmed, About, Contact, plus Privacy, Shipping &amp; returns and Terms (a shop needs these pages). Variants by industry: fashion, electronics, food and bakery, handmade, digital products.</p>
 
+    <h3>Status and full component list (updated 2026-11-14: "all ecommerce components")</h3>
+    <p>The user asked for every ecommerce template and component to be done. Status against the list above:</p>
+    <ul>
+      <li><strong>Done:</strong> Product Grid (cards only), Product Detail Page, three ecommerce mega menus (header, search, cart icon), trust badges and a sticky Add to cart bar (inside Product Detail), wishlist heart button (inside Product Detail, not saved yet).</li>
+      <li><strong>Built 2026-11-14 (v1): product filtering, sorting and search</strong> as <code>product-listing</code>, plus <code>product-strip</code>, <code>cart-drawer</code>, <code>cart-page</code>, <code>checkout-page</code>, <code>order-confirmation</code>, <code>order-history</code>, <code>wishlist-page</code> and the <code>online-store</code> website template, all on one browser-side cart. <em>Original plan, kept for reference:</em> <strong>Product filtering, sorting and search.</strong> The Product Grid has none of it. Planned as a new section, <code>product-listing</code> (the shop / collection page): category chips, price range, in-stock and sale toggles, colour and size filters, sort (featured, price low to high, price high to low, newest, best rated), search box, a result count with "no results" state, "Load more" or pagination, the filters in a drawer on phones, URL parameters so a filtered page can be shared, and Add to cart on each card. Works from a product list in the editor, no server.</li>
+      <li><strong>Being built now:</strong> the shared cart script (<code>cartcore</code>: add, remove, quantity, subtotal, saved in the browser, a cart counter in the navbar), Cart Drawer (mini cart with a free-shipping progress bar), Cart Page (items table, promo code box, shipping estimate, order summary), Checkout Page (contact, shipping, shipping method, payment choice: send the order by form service or WhatsApp, or go to a payment link; no card fields) and Order Confirmation.</li>
+      <li><strong>Then:</strong> collection banner, recently viewed, size guide modal, cross-sell ("You may also like") carousel, a wishlist page, and the Online Store website template that joins them all.</li>
+    </ul>
+    <h3>Everything else an online shop needs (added 2026-11-14, nothing here is built yet)</h3>
+    <p>Gathered while building the cart kit, so nothing is forgotten. Grouped by where the shopper is. "Order history" is the one the user asked for next and is part of the current build.</p>
+    <ul>
+      <li><strong>After the purchase:</strong> <em>Order history / My orders</em> (past purchases from this browser: order number, date, status, items, total, Reorder; being built now). <em>Order tracking</em> (a status timeline: placed, packed, shipped, delivered, with an order-number lookup from saved orders; real tracking needs a server or the shop platform). <em>Invoice / receipt</em> page that prints cleanly. <em>Returns and refunds</em>: a return request form and a returns policy page. Ecommerce <em>email templates</em> for the Email Templates library: order confirmation, shipping notification, delivery follow-up with a review request, abandoned cart reminder, back-in-stock.</li>
+      <li><strong>Account:</strong> account dashboard (profile, addresses, orders, wishlist), the login and register sections already exist and could link to it; saved addresses; guest checkout versus account. Needs the optional accounts idea (16) for anything beyond one browser.</li>
+      <li><strong>Browsing and finding:</strong> <em>Product listing with filters, sort, search and pagination</em> (the product listing section, being built now); category tiles ("shop by category"), a collection banner, brand logos strip (logo cloud exists), a mega-search with suggestions, a "no results" page, product compare table, quick view modal, recently viewed.</li>
+      <li><strong>On the product page:</strong> lightbox with pinch zoom, size guide modal, product video and 360 spin, cross-sell ("You may also like"), frequently bought together with a running total, bundles, reviews list with a write-a-review form and photo reviews (the reviews summary exists), questions and answers, back-in-stock notify form, pre-order and waitlist (the waitlist form exists), subscribe and save, a delivery-date estimate, stock notes that are only shown when true.</li>
+      <li><strong>Cart and checkout extras:</strong> gift message and order notes, delivery date picker, pick up in store with a store locator, VAT / tax note and multi-currency display, address autocomplete (needs a service), a saved cart across devices (needs accounts), abandoned cart (needs a server, so email service integration only), upsell in the drawer, gift cards (buy and redeem).</li>
+      <li><strong>Marketing:</strong> sale and flash-sale banner with a countdown (the countdown behaviour exists), promo bar, deals page, newsletter popup (popup exists), cookie banner (idea 7), social proof toasts ("Sam in Leeds just bought…", only with real data), loyalty and referral blocks.</li>
+      <li><strong>Data and platform:</strong> import products from a CSV or JSON file into the section lists (so a shop of 50 items is not typed by hand), a product feed export, Product / Offer / BreadcrumbList / MerchantReturnPolicy structured data, hosted-widget options (Snipcart, Shopify Buy Button, Ecwid) and payment links (Stripe, PayPal, Razorpay), an honest "what the plain version cannot do" note (stock, tax rules, order management).</li>
+      <li><strong>Website templates:</strong> an Online Store template, then store types with their own needs: fashion (size guide, lookbook), electronics (specs and compare), grocery (order by message, delivery slots), bakery and restaurant (preorder, order by message), digital downloads (Gumroad-style), handmade and Etsy-style, furniture (room photos, delivery notes).</li>
+      <li><strong>Social and email assets:</strong> sale, new arrival, restock and gift guide social post templates; the ecommerce email set listed above.</li>
+    </ul>
     <h3>Build order</h3>
     <ol>
       <li>A small shared cart script (add, remove, quantity, total, <code>localStorage</code>, a cart counter) used by every shop section, written so people can read it.</li>
@@ -305,7 +326,7 @@
   </div>
 
   <div class="sug">
-    <div class="sug-head"><h3>Ecommerce menu navbar</h3><span class="pill todo">Suggested</span></div>
+    <div class="sug-head"><h3>Ecommerce menu navbar</h3><span class="pill doing">Partly built</span></div>
     <p class="muted">Added 2026-11-02 · belongs with idea 12 (ecommerce kit) and the Online Store website template</p>
     <p>The navigation a shop needs, as one section: a strip above the bar, then the main bar with search and the cart.</p>
     <ul>
@@ -316,6 +337,7 @@
       <li><strong>Mini cart:</strong> clicking the cart icon opens a small side panel with items, subtotal and a checkout button (needs the cart logic from idea 12; until then a static preview).</li>
     </ul>
     <p><strong>Build order:</strong> the mega menu navbar first (the ecommerce menu is the same mechanics with shop extras), then the ecommerce version together with the product grid and cart sections.</p>
+    <p><strong>Built 2026-11-14 (3 sections, Navbar category):</strong> Link Columns (top bar, search, account / wishlist / cart with count badge, category bar with panels of three link columns + a featured card), Image Tiles (centred editorial header, panels of up to four photo tiles) and Department Sidebar (All categories button, department list with icons, a pane per department, quick links). Hover with intent delay, click to pin, Esc, Arrow Down, mobile accordions. <strong>Not built yet:</strong> search suggestions, the mini-cart side panel, currency / language pickers, a slide-in drawer on phones, shrink-on-scroll, the dismissible announcement strip inside the same section (the existing Navbar With Announcement Bar covers that), and using the mega menus in the Online Store website template (the template does not exist yet).</p>
   </div>
 
   <div class="sug">
@@ -502,7 +524,7 @@
   <p class="muted">Ideas for the builder (the multi-page site editor) and how templates behave inside it.</p>
 
   <div class="sug">
-    <div class="sug-head"><h3>Floating sections (popups, cursor effects, widgets) should not take up space in the Website Builder</h3><span class="pill todo">Suggested</span></div>
+    <div class="sug-head"><h3>Floating sections (popups, cursor effects, widgets) should not take up space in the Website Builder</h3><span class="pill done">Done</span></div>
     <p class="muted">Added 2026-11-02</p>
     <p>Some sections are not really a block in the page flow: popups, cookie banners, the accessibility toolbar, chat buttons, back-to-top buttons, custom cursors and anything that hovers over the page. In the Website Builder (and the Website Sections editor) they currently sit between two sections like any other block and leave a gap. They should behave the way they will on the live site.</p>
     <ul>
@@ -514,6 +536,7 @@
     </ul>
     <p><strong>Plan:</strong> do this on a weekend (decided 2026-11-02), not on weekdays.</p>
     <p>First step: list which existing sections are overlays (Accessibility Toolbar and any popup, banner or cursor sections) and add the flag to them.</p>
+    <p><strong>Done 2026-11-14:</strong> measured the real builder canvas first. The popup, accessibility toolbar and social share bar were already 0 px (popups and the toolbar use the button mode, <code>ST_POPUP_BUTTON</code>); only the Cursor Follower (557 px) and Back to Top (397 px) still showed inline demo stages. In the Website Builder canvas both now behave like the live page (the cursor dot follows the pointer but never hides the real cursor; Back to Top is visible while its section is selected or after scrolling). The five sections carry <code>overlay: true</code> and the section list shows "Floating, takes no space". The single-section editor keeps the demo stages on purpose, and exports are unchanged (all five 0 px). <strong>Left over:</strong> popup trigger picker in the editor (delay / exit intent / scroll exist; a "Preview popup" button does not), and a default-position clash: the Accessibility Toolbar and Back to Top both default to Bottom right, so the toolbar button covers the Back to Top button.</p>
   </div>
 
   <div class="sug">
@@ -605,6 +628,9 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-11-14</td><td>Idea 12 started: Product Detail Page built (v1) as a Menus &amp; listings section, after the three ecommerce mega menus. Next in the build order: the small shared cart script, then the cart drawer, cart page, checkout page and confirmation page.</td></tr>
+      <tr><td>2026-11-14</td><td>Floating sections idea done: Cursor Follower and Back to Top behave like the live page in the Website Builder canvas, <code>overlay: true</code> flag on the five floating sections, "Floating" label in the section list. Left over: popup preview button, a11y toolbar vs Back to Top default-position overlap.</td></tr>
+      <tr><td>2026-11-14</td><td>Ecommerce menu navbar built as three Navbar sections (Link Columns, Image Tiles, Department Sidebar); idea marked partly built with the remaining extras listed. The generic Mega menu navbar (SaaS-style panels with icon + description links) stays suggested: it can reuse the new <code>mega</code> behaviour and <code>mega-parts.js</code>.</td></tr>
       <tr><td>2026-11-10</td><td>Idea added (Site &amp; SEO): 7-day free trial of the supporter membership, shown next to the Patreon buttons; Patreon's trial and billing terms to be checked first.</td></tr>
       <tr><td>2026-11-03</td><td>Idea added (weekend): "My projects" group in the left sidebar showing work started in the Website Builder, website templates, social posts and email templates, with a welcome message.</td></tr>
       <tr><td>2026-11-02</td><td>Ideas added: Mega menu navbar and Ecommerce menu navbar (section templates).</td></tr>

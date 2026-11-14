@@ -558,7 +558,7 @@ The **[Restaurant Menu](/website-section-templates/restaurant-menu/)** lists dis
 
 Each one is editable in the browser, matches the rest of the library's theme and exports as HTML, a ZIP, React or Vue. Combine them with heroes, galleries and contact sections in the [Website Builder](/website-builder/) to build a restaurant, agency or gym website in minutes.
 
-New: the **[Product Grid](/website-section-templates/product-grid/)** shows products with photos, badges, prices, sale prices and ratings, and links each one to your own checkout.`,
+New: the **[Product Grid](/website-section-templates/product-grid/)** shows products with photos, badges, prices, sale prices and ratings, and links each one to your own checkout. Its partner, the **[Product Detail Page](/website-section-templates/product-detail/)**, is a full product page with a zoomable gallery, colour and size options, a quantity stepper, Add to cart and a sticky buy bar on phones.`,
     faqs: [
       { q: 'Are these better than a PDF menu or an image timetable?', a: 'Yes for most sites: real text loads faster, reads well on phones, works with screen readers and can be found by search engines.' },
       { q: 'Can I use them for other industries?', a: 'Yes. The menu works for services with prices, the listings for any catalogue of cards, and the timetable for courses, events and conferences, since every label is editable.' },

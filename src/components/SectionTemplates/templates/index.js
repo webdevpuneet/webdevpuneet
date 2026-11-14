@@ -34,6 +34,9 @@ import statsDarkSplit from './stats-dark-split.js';
 import navbarSimple from './navbar-simple.js';
 import navbarFloating from './navbar-floating.js';
 import navbarAnnouncement from './navbar-announcement.js';
+import megaMenuColumns from './mega-menu-columns.js';
+import megaMenuVisual from './mega-menu-visual.js';
+import megaMenuDepartments from './mega-menu-departments.js';
 import footerColumns from './footer-columns.js';
 import footerGiant from './footer-giant.js';
 import footerNewsletter from './footer-newsletter.js';
@@ -77,6 +80,9 @@ import scrollRing from './scroll-ring.js';
 import restaurantMenu from './restaurant-menu.js';
 import propertyListings from './property-listings.js';
 import productGrid from './product-grid.js';
+import productDetail from './product-detail.js';
+import productListing from './product-listing.js';
+import productStrip from './product-strip.js';
 import classTimetable from './class-timetable.js';
 import musicHero from './music-hero.js';
 import audioPlayer from './audio-player.js';
@@ -91,10 +97,16 @@ import scrollZoom from './scroll-zoom.js';
 import cursorFollower from './cursor-follower.js';
 import timelineHorizontal from './timeline-horizontal.js';
 import backToTop from './back-to-top.js';
+import cartDrawer from './cart-drawer.js';
 import blogPost from './blog-post.js';
 import blogGridPagination from './blog-grid-pagination.js';
 import loginForm from './login-form.js';
 import registerForm from './register-form.js';
+import cartPage from './cart-page.js';
+import checkoutPage from './checkout-page.js';
+import orderConfirmation from './order-confirmation.js';
+import orderHistory from './order-history.js';
+import wishlistPage from './wishlist-page.js';
 import customSection, { defaultCustom, cleanCustom, customImageKeys } from './custom-section.js';
 import { DEFAULT_THEME, DEFAULT_MOTION } from './meta.js';
 import { cleanArt } from './art.js';
@@ -138,6 +150,9 @@ export const SECTION_TEMPLATES = [
   navbarSimple,
   navbarFloating,
   navbarAnnouncement,
+  megaMenuColumns,
+  megaMenuVisual,
+  megaMenuDepartments,
   footerColumns,
   footerGiant,
   footerNewsletter,
@@ -181,6 +196,9 @@ export const SECTION_TEMPLATES = [
   restaurantMenu,
   propertyListings,
   productGrid,
+  productDetail,
+  productListing,
+  productStrip,
   classTimetable,
   musicHero,
   audioPlayer,
@@ -195,10 +213,16 @@ export const SECTION_TEMPLATES = [
   cursorFollower,
   timelineHorizontal,
   backToTop,
+  cartDrawer,
   blogPost,
   blogGridPagination,
   loginForm,
   registerForm,
+  cartPage,
+  checkoutPage,
+  orderConfirmation,
+  orderHistory,
+  wishlistPage,
 ];
 /* Sections that belong to no category: not listed in the gallery, the category pages, the sidebar or the counts.
    They have their own page and are started from the "Create custom section" cards. */
