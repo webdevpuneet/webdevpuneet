@@ -181,12 +181,12 @@ const FOOTER = ['footer-columns', {
 export const YOGA_WEBSITE_TEMPLATES = [
   {
     id: 'yoga', name: 'Yoga & Wellness Studio Website', industry: 'Health & fitness',
-    blurb: 'A calm yoga and Pilates studio: weekly class timetable with day tabs and filters, class styles, memberships, teachers, class booking and opening hours with a map.',
+    blurb: 'A calm yoga and Pilates studio: weekly class timetable with day tabs and filters, class styles, memberships, teachers, class booking and the studio\'s location.',
     theme: { brand: '#4a6b5a', brandText: '#ffffff', bg: '#fbf9f4', surface: '#eef2ec', text: '#1f2f27', muted: '#586a60', radius: '16', maxWidth: '1200' }, fonts: { heading: 'lora', body: 'dmsans' },
     seoTitle: 'Yoga Studio Website Template — Free Class Schedule HTML',
     seoDescription: 'Free yoga studio website template: weekly class timetable with day tabs and filters, memberships, teachers, class booking form and opening hours. Export HTML.',
     keywords: ['yoga studio website template', 'yoga website template', 'pilates studio website template', 'class schedule website template', 'wellness website template html', 'yoga landing page html'],
-    intro: 'A calm, airy website for a yoga, Pilates or meditation studio. A sunlit photo hero invites a free first class, and the weekly timetable lets visitors pick a day and filter by class type, with teachers, levels and spots left on every row. Class style tiles, a studio story, memberships, teachers, reviews, a class reservation form and live opening hours with a map complete the page.',
+    intro: 'A calm, airy website for a yoga, Pilates or meditation studio. A sunlit photo hero invites a free first class, and the weekly timetable lets visitors pick a day and filter by class type, with teachers, levels and spots left on every row. Class style tiles, a studio story, memberships, teachers, reviews, a class reservation form and the studio\'s hours and location complete the page.',
     bestFor: ['Yoga and Pilates studios', 'Dance, barre and fitness studios', 'Wellness centres and meditation groups'],
     sections: [NAV, HERO, STYLES('styles'), TIMETABLE('schedule'), STUDIO, BANNER, PRICING('pricing'), TEACHERS('teachers'), REVIEWS, BOOKING, HOURS(), FOOTER],
     multiLinks: { '#book': 'visit.html#book', '#contact': 'visit.html#contact', '#story': 'teachers.html#story' },

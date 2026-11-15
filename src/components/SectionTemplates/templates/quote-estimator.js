@@ -15,7 +15,7 @@ export default {
   created: '2026-11-15',
   updated: '2026-11-15',
   seoTitle: 'Price Estimator Section — Free Service Quote Calculator HTML',
-  seoDescription: 'Free price estimator section: visitors pick a service and vehicle size and see an estimated price and time with a Book button. No server needed. Edit and export HTML.',
+  seoDescription: 'Free price estimator section: visitors choose a job and a vehicle or home size and see an instant estimate and time, with a Book button. Runs in the browser.',
   description: 'An instant price check for businesses that charge by size or type. Visitors pick what they need (an MOT, a service, new brake pads) and the size of their vehicle, and the estimate and the time it takes appear straight away, with a note that the final price is confirmed after inspection and a Book button. Every service has three prices, for small, medium and large vehicles, and every vehicle choice maps to one of them. Everything runs in the browser, so there is nothing to host. Made for garages, but it works for any service priced by size.',
   bestFor: ['Garages, MOT and tyre centres', 'Car washes, valeting and detailing', 'Removals, cleaning and other services priced by size'],
 

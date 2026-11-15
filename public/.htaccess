@@ -1,5 +1,14 @@
 Options -Indexes
 
+# Demo sites (/demos/…) are previews of the templates, not pages to rank: tell search engines not to index them.
+# The demo pages also carry <meta name="robots" content="noindex, follow">; this header covers every file under /demos/.
+<IfModule mod_setenvif.c>
+SetEnvIf Request_URI "^/demos/" WDP_DEMO=1
+</IfModule>
+<IfModule mod_headers.c>
+Header set X-Robots-Tag "noindex, follow" env=WDP_DEMO
+</IfModule>
+
 <IfModule mod_rewrite.c>
 
 RewriteEngine On

@@ -15,7 +15,7 @@ export default {
   created: '2026-11-15',
   updated: '2026-11-15',
   seoTitle: 'Class Timetable Section — Free Weekly Schedule HTML',
-  seoDescription: 'Free class timetable section: day tabs with today highlighted, class type filters, teacher, level, spots left and a Book button per class. Edit and export HTML.',
+  seoDescription: 'Free weekly class timetable: day tabs that open on today, class type filters, and rows with time, teacher, level, spots left and a Book button per class.',
   description: 'A weekly schedule people can actually use. Day tabs run from Monday to Sunday with today marked and opened first, filter chips are built from your class types, and every class is a row with the time, name, teacher, duration, level, spots left and a Book button. Each day is sorted by time automatically, so you can type the classes in any order. Made for yoga, Pilates and dance studios, gyms, swimming schools and any business that runs a weekly timetable.',
   bestFor: ['Yoga, Pilates and dance studios', 'Gyms, boxing clubs and swim schools', 'Community centres and after-school clubs'],
 

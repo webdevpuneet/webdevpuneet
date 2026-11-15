@@ -226,7 +226,10 @@ export function scrollScript(m = {}) {
       var all = Array.prototype.filter.call(document.body.children, function (el) { return el.classList && el.classList.contains('st') && !el.classList.contains('st-floating-social-share'); });
       var head = [];
       while (head.length < all.length && all[head.length].querySelector('[data-sticky-flag]')) head.push(all[head.length]);
-      var rest = all.slice(head.length);
+      // Floating sections (back to top, popups, share bars, cursor follower, accessibility toolbar) are 0 px tall in the page and
+      // hold position:fixed parts. Inside the transformed #smooth-content "fixed" would mean fixed to the content, so the button
+      // would sit at the bottom of the page and scroll away. They stay outside the wrapper, fixed to the screen.
+      var rest = all.slice(head.length).filter(function (el) { return el.offsetHeight > 0; });
       if (!rest.length) return;
       var wrap = document.createElement('div'), content = document.createElement('div');
       wrap.id = 'smooth-wrapper'; content.id = 'smooth-content';

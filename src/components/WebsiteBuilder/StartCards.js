@@ -13,9 +13,8 @@ import x from '../SectionTemplates/styles.module.css';
 import b from '../SavedDesignsStrip/styles.module.css';
 import { PremiumBadge } from '@/components/PremiumGate';
 import w from './styles.module.css';
-import { TRASH } from '@/components/SavedDesignsStrip';
+import { TRASH, PagerArrows } from '@/components/SavedDesignsStrip';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
-import { LoadMore } from '@/components/UiSnippetsGallery';
 import { makeDesignStore } from '@/lib/design-store';
 import { restoreSite, siteDocumentHtml, isSite } from '@/components/SectionTemplates/templates/site.js';
 import { getAsset } from '@/components/SectionTemplates/storage';
@@ -152,16 +151,28 @@ function PageCard({ href, page, cat, title, meta, onDelete }) {
   );
 }
 
-/* "Your pages": the blank card plus FIRST of the visitor's pages (autosave first, then My pages,
-   newest first) fill one row of 5; Load more adds MORE (another full row). Live page previews
-   render only for the cards shown. */
-const FIRST = 4;
-const MORE = 5;
+/* The card grid, reporting how many columns it has (the CSS grid decides, so a row always fills it) */
+function GridCols({ className, onCols, gridRef, children }) {
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return undefined;
+    const ro = new ResizeObserver(() => onCols(getComputedStyle(el).gridTemplateColumns.split(' ').filter(Boolean).length));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [gridRef, onCols]);
+  return <div ref={gridRef} className={className}>{children}</div>;
+}
 
+/* "Your pages": the visitor's pages (autosave first, then My pages, newest first), one row of the
+   grid at a time; the ‹ › arrows in the header show the previous or next row. The row size is
+   measured from the grid, so it follows the screen width. Live page previews render only for the
+   cards shown. */
 export default function StartCards() {
   const [auto, setAuto] = useState(null);
   const [pages, setPages] = useState([]);
-  const [count, setCount] = useState(FIRST);
+  const [page, setPage] = useState(0); // which row of pages is showing
+  const [cols, setCols] = useState(0); // cards that fit one row of the grid
+  const gridRef = useRef(null);
   const [confirm, setConfirm] = useState(null);
 
   useEffect(() => {
@@ -184,7 +195,10 @@ export default function StartCards() {
       remove: () => store.deleteDesign(d.id) })),
   ];
   const total = items.length;
-  const shown = items.slice(0, count);
+  const perRow = cols || 4;
+  const pageCount = Math.max(1, Math.ceil(total / perRow));
+  const cur = Math.min(page, pageCount - 1);
+  const shown = items.slice(cur * perRow, cur * perRow + perRow);
 
   return (
     <>
@@ -192,16 +206,16 @@ export default function StartCards() {
           (autosave + My pages) only appears once there is something to show */}
       {total > 0 && (
         <>
-          <div className={s.sectionHead}>
+          <div className={`${s.sectionHead} ${b.head}`}>
             <h2>Your pages</h2>
             <span>{total}</span>
+            <PagerArrows page={cur} pages={pageCount} onPage={setPage} label="saved pages" />
           </div>
-          <div className={`${s.grid} ${s.grid5}`}>
+          <GridCols className={`${s.grid} ${s.grid5}`} onCols={setCols} gridRef={gridRef}>
             {shown.map(it => <PageCard key={it.key} href={it.href} page={it.page} cat={it.cat} title={it.title} meta={it.meta} onDelete={() => setConfirm({ ...it.ask, danger: true, onOk: () => it.remove().catch(() => {}) })} />)}
-          </div>
+          </GridCols>
         </>
       )}
-      <LoadMore shown={shown.length} total={total} onLoadMore={() => setCount(n => n + MORE)} />
       {confirm && <ConfirmDialog {...confirm} onCancel={() => setConfirm(null)} onOk={() => { const go = confirm.onOk; setConfirm(null); go(); }} />}
     </>
   );

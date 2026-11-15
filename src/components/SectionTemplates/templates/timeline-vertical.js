@@ -11,7 +11,7 @@ export default {
   created: '2026-11-15',
   updated: '2026-11-15',
   seoTitle: 'Vertical Timeline Section — Free Experience & CV HTML',
-  seoDescription: 'Free vertical timeline section for experience, education and history: a line with dots, period, title, company, text and tags per entry. Edit online and export HTML.',
+  seoDescription: 'Free vertical timeline section for experience, education or company history: a glowing line with period, role, company, text and tags. Reads well on phones.',
   description: 'A timeline that reads from top to bottom, so it works for a CV, a company history or the steps of a project as well on a phone as on a desktop. A thin line runs down the left with a glowing dot for each entry, and every entry carries a period, a title, an organisation, a short description and optional tags such as the technologies used. Add up to twelve entries, in any order you like. Made for the experience section of a portfolio, an about page or a roadmap.',
   bestFor: ['Developer and designer experience sections', 'Company history and milestone pages', 'Education, certifications and roadmaps'],
 

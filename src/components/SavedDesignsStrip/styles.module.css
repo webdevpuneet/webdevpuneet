@@ -1,5 +1,14 @@
-/* My designs on gallery pages: the gallery's own card grid, one row at a time (Load more) */
+/* My designs on gallery pages: the gallery's own card grid, one row at a time (‹ › arrows in the header) */
 .wrap { width: 100%; box-sizing: border-box; padding-left: 0 !important; padding-right: 0 !important; margin-bottom: 10px; }
+
+/* Header row with the pager pushed to the right (also used by the Website Builder's "Your pages") */
+.head { display: flex; flex-wrap: wrap; align-items: center; }
+.pager { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; }
+.pagerPos { font-size: 12.5px; font-weight: 600; color: var(--text2, #64748b); margin-right: 4px; font-variant-numeric: tabular-nums; }
+.pagerBtn { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 1px solid var(--border, #e3e5ea); border-radius: 10px; background: var(--surface, #fff); color: var(--text, #0f172a); cursor: pointer; transition: border-color 0.15s, color 0.15s, background 0.15s, opacity 0.15s; }
+.pagerBtn:hover:not(:disabled) { border-color: var(--accent, #6366f1); color: var(--accent, #6366f1); }
+.pagerBtn:focus-visible { outline: 2px solid var(--accent, #6366f1); outline-offset: 2px; }
+.pagerBtn:disabled { opacity: 0.35; cursor: default; }
 
 /* Saved-design cards with a delete button over the preview, shown on hover (always shown on
    touch screens, which have no hover). Also used by the Website Builder's "Your pages". */

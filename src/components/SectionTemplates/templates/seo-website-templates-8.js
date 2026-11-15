@@ -8,9 +8,9 @@ Shop the Look is the section that sets it apart. One styled photograph carries t
 
 The Shop page lists every piece with a search box, sorting and filters for category, colour, price, rating and sale items. The Product page has a gallery, colour swatches that switch the photo, size buttons with sold-out sizes, a quantity stepper, Add to bag and Buy now, a wishlist heart, trust badges, care and fit accordions, a sticky buy bar on phones and reviews. A slide-in bag drawer, a Cart page with a promo code, a Checkout page, a Thank you page, My orders and a Wishlist page complete the journey, and a Help page covers sizing, delivery and returns.
 
-The bag, wishlist and orders live in the visitor's browser, so the shop works on any static host with no server or account. That also sets honest limits: there is no stock control, tax engine or order management, and orders reach you through the form service, WhatsApp or payment link you choose. For a large catalogue or international tax rules, use a hosted shop platform and keep this design as the front end.
+Ora Studio stores the bag, wishlist and order history in the shopper's browser, so the whole store is static files with no accounts and no database. What it does not do matters as much: no stock levels, no tax calculation and no order dashboard, and each order reaches you through a form service, a WhatsApp message or a payment link. For a few hundred products sold in one country that is enough; a big catalogue or cross-border tax rules call for a hosted shop platform behind this front end.
 
-Every exported page has one main heading, descriptive image text, clean internal links and Product structured data, all as plain HTML, CSS and a little JavaScript you can edit or move to another host.`,
+Product cards and the product page carry Product data with price and availability, every page has one clear heading, and the lookbook photo and collection tiles have written descriptions, which helps fashion photos turn up in image search.`,
     checklist: [
       'Photography that shows the clothes on real people, with a strong first image on the home page',
       'Collections that are one tap away, so shoppers reach the right range without searching',
@@ -21,9 +21,9 @@ Every exported page has one main heading, descriptive image text, clean internal
     ],
     faqs: [
       { q: 'What is the Shop the Look section?', a: 'A lookbook photograph with tappable dots. Each dot opens a card with the product photo, name, price and an Add to bag button that adds the item to the shop bag, so a styled outfit can sell its pieces directly.' },
-      { q: 'Can this template take payments?', a: 'It does not handle card numbers. The checkout sends the order to a form service or WhatsApp, or sends the shopper to a payment link from Stripe, PayPal or Razorpay, which take the payment securely. For on-site card payments use a hosted shop platform.' },
-      { q: 'How do I add my own clothes?', a: 'Edit the product lists on the Shop page, the Product page and the strips: photo, name, category, price, colours and links. Categories, colour chips and price limits for the filters are built from the products you enter.' },
-      { q: 'Does it work as a multi-page site?', a: 'Yes. The multi-page version has Home, Shop, Product, Cart, Checkout, Thank you, Orders, Wishlist, Our story and Help pages sharing one header, footer and bag drawer, with filtered shop links such as shop.html?cat=Women already set up.' },
+      { q: 'Can this template take payments?', a: 'Not on the page itself: card details are never collected here. An order can go to your inbox through a form service, open a WhatsApp chat with the order typed out, or move the shopper to a Stripe, PayPal or Razorpay payment link. Shops that want card checkout inside the site should use a hosted platform.' },
+      { q: 'How do I add my own clothes?', a: 'Edit the product list on the Shop page, the Product page and the strips: photo, name, category, price, colours and links. The Shop filters build themselves from that list, so a new colour or category appears as a filter the moment a product uses it.' },
+      { q: 'What pages does the multi-page store include?', a: 'Ten: Home, Shop, Product, Cart, Checkout, Thank you, Orders, Wishlist, Our story and Help. One header, footer and bag drawer are shared, and menu links such as shop.html?cat=Women open the shop already filtered.' },
       { q: 'Can I use it for shoes, jewellery or homeware?', a: 'Yes. Replace the products and photographs, rename the collections, and move the Shop the Look dots onto your own items. The filters, bag and checkout work for any physical product.' },
     ],
   },

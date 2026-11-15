@@ -11,7 +11,7 @@ export default {
   created: '2026-11-15',
   updated: '2026-11-15',
   seoTitle: 'Loyalty Stamp Card Section — Free Rewards Card HTML',
-  seoDescription: 'Free loyalty stamp card section: an interactive "collect stamps, get one free" card with a progress message, reward and three steps. Edit online and export HTML.',
+  seoDescription: 'Free loyalty stamp card section: a coffee-shop style card that visitors fill one stamp at a time, saved in their browser, with a reward and how-it-works steps.',
   description: 'A rewards card visitors can actually play with. A grid of stamps fills as they press "Add a stamp", a progress line says how many are left, and the last stamp turns into the reward ("Free drink"). The card remembers its progress in the visitor’s browser, so it is still there on the next visit. Beside it sit a heading, a short explanation and three “how it works” steps. Choose 6 to 12 stamps, change the glyph, the reward and every label, or turn the demo buttons off to show a fixed card for a café, bakery, salon or shop.',
   bestFor: ['Cafés, bakeries and juice bars', 'Salons, barbers and car washes', 'Shops that want a simple rewards scheme'],
 

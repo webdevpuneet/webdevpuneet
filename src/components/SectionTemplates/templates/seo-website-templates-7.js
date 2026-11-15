@@ -8,9 +8,9 @@ The Menu page lists every drink, bake and bag of beans with a search box and fil
 
 The Loyalty Stamp Card is a section made for this template: visitors press a button to add a stamp, the card remembers its progress in their browser and the last stamp turns into a free drink. The Our story page has the founders, your values and the team, and the Visit page repeats the opening hours with a live "Open now" badge, directions, and answers about dogs, wifi, allergens and group bookings.
 
-The cart, orders and stamps live in the visitor's browser, so the site works on any static host with no server or account. That sets honest limits: there is no stock control, no card processing on your page and no staff tablet, and orders reach you through the form, WhatsApp or payment link you choose. It suits a café with an ordering flow you can manage by hand; if you need a kitchen display and live payments, use a hosted ordering platform and keep this design for the website.
+Bean & Bloom keeps the cart, past orders and loyalty stamps in each visitor's own browser, which is why the site runs on cheap static hosting with nothing to log into. The trade-off is plain: there is no stock count, no card terminal on the page and no kitchen screen, and orders arrive through whichever form service, WhatsApp number or payment link you set. That suits a café taking a few dozen orders a day by hand; a busy counter with live payments is better served by a hosted ordering system, with this design kept as the shop window.
 
-Every exported page has one main heading, descriptive image text, clean internal links, local business data for the opening hours and Product data for the menu, in plain HTML, CSS and a little JavaScript that you can edit or move to another host.`,
+Behind the photos, the menu page carries Product data for every drink and bake, the opening hours are written as CafeOrCoffeeShop data, and each page has a single main heading and described images, so search engines read the café as clearly as customers do.`,
     checklist: [
       'Opening hours with a live "Open now" badge, the address and a map on the first screen visitors can reach',
       'A menu people can scan quickly, with photos, prices and filters for coffee, pastries, lunch and beans',
@@ -23,7 +23,7 @@ Every exported page has one main heading, descriptive image text, clean internal
       { q: 'Can customers order and pay online with this template?', a: 'They can build an order with a cart and checkout, but the template does not handle card numbers. The checkout sends the order to a form service or WhatsApp, or sends the customer to a payment link from Stripe, PayPal or Square. For on-site card payments use a hosted ordering platform.' },
       { q: 'How does the loyalty stamp card work?', a: 'Visitors press "Add a stamp" and the card fills, remembering its progress in their own browser. It is a friendly demonstration of your scheme, not a customer account system, so back it with real stamp cards or a loyalty tool in the shop.' },
       { q: 'How do I put my own menu in?', a: 'Edit the product list on the Menu page: photo, name, category, price, badge and rating. Categories and price limits in the filters are built from what you enter, and the favourites strip on the home page uses its own short list.' },
-      { q: 'Does it work as a multi-page site?', a: 'Yes. The multi-page version has Home, Menu, Our story, Visit, Cart, Checkout, Thank you and Orders pages sharing one header, footer and cart drawer, with filtered menu links such as menu.html?cat=Coffee already set up.' },
+      { q: 'Which pages come with the multi-page café site?', a: 'Eight: Home, Menu, Our story, Visit, Cart, Checkout, Thank you and Orders. They share the header, footer and order drawer, and the menu links already open filtered views such as menu.html?cat=Coffee.' },
       { q: 'Can I use it for a bakery or a juice bar?', a: 'Yes. Replace the menu items and photos, change the stamp symbol and reward, and rename the sections. The ordering flow, opening hours and stamp card work for any food and drink business.' },
     ],
   },

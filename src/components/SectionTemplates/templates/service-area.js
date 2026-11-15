@@ -14,7 +14,7 @@ export default {
   created: '2026-11-15',
   updated: '2026-11-15',
   seoTitle: 'Service Area Checker — Free Postcode Coverage Section HTML',
-  seoDescription: 'Free service area checker section: visitors type a postcode and see if you cover them and how fast you can arrive. Runs in the browser. Edit and export HTML.',
+  seoDescription: 'Free service area checker: visitors type a postcode and learn at once if you cover them and how soon you can arrive, with your covered areas listed as chips.',
   description: 'The question every local customer asks: do you cover my area? A visitor types a postcode and gets an answer at once, with the area name and how soon you can be there, and a Book button when they are covered. Beside the checker, the areas you cover are listed as chips, each with its code. Works with UK postcodes (matched on their first part) or with ZIP and other postal codes that start with a code you list. It runs entirely in the browser, so nothing is sent anywhere. Made for plumbers, electricians, cleaners, delivery services and any business with a local patch.',
   bestFor: ['Plumbers, electricians and other trades', 'Cleaners, locksmiths and mobile services', 'Local delivery, florists and takeaways'],
 

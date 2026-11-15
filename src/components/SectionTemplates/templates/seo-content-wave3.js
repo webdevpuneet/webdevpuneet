@@ -20,11 +20,11 @@ Choose 6, 8, 10 or 12 stamps, set how many are already collected on a new visito
 
 Keep the "Add a stamp" button on for a website where visitors try the card, or turn the demo buttons off to show a fixed card that only illustrates your scheme. The stamps are real list items with screen reader labels, the progress message is announced politely, and the pop animation is skipped for visitors who prefer reduced motion.
 
-**Export it**
+**Exporting the card**
 
-Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). It sits well after a [menu or product grid](/website-section-templates/product-grid/) and before a [newsletter sign-up](/website-section-templates/cta-newsletter/), and it is used in the Cafe & Coffee Shop website template.
+The export includes the card, the steps and the small script that stores progress, so it works on any static host. Renaming the card gives visitors a fresh card, because progress is saved under the card’s name. Place it after a [menu or product grid](/website-section-templates/product-grid/) or above a [newsletter sign-up](/website-section-templates/cta-newsletter/), as the Cafe & Coffee Shop website template does.
 
-**Getting the most from it**
+**Running a scheme people finish**
 
 Keep the goal reachable: eight stamps for a free drink is easier to finish than twenty. Say what counts as a stamp, put the card near the menu, and train staff to mention it when someone orders. A real stamp card at the counter or a loyalty tool should back the page up, because this section is a demonstration and not a customer account system.`,
     },
@@ -38,7 +38,7 @@ Keep the goal reachable: eight stamps for a free drink is easier to finish than 
       'Three "how it works" steps with icons',
       'Demo buttons can be switched off for a fixed card',
       'Screen reader labels, polite progress announcements and reduced-motion support',
-      'Export HTML, a ZIP, React or Vue',
+      'Progress kept per card name, so renaming starts a fresh card',
     ],
     why: [
       { icon: '☕', title: 'Rewards in seconds', desc: 'Visitors see how the scheme works by trying the card, which is clearer than a paragraph of rules.' },
@@ -58,7 +58,7 @@ Keep the goal reachable: eight stamps for a free drink is easier to finish than 
       { q: 'Can I show the card without the add button?', a: 'Yes. Turn off the demo buttons and the card becomes a fixed illustration showing the number of collected stamps you set, which suits a simple explanation.' },
     ],
     aiPrompt: {
-      paragraph: 'Ask an AI assistant to connect the card to real data: load a customer’s stamp count from your own API, add a QR code the staff scan to add a stamp, or send an email when the card is full.',
+      paragraph: 'Want stamps that follow a customer between devices? An AI assistant can load the stamp count from your own API, add a QR code the staff scan to add a stamp, or email the customer when the card is full.',
       prompt: `Create a loyalty stamp card section in HTML, CSS and JavaScript.
 
 - Two columns: on the left a heading, a short paragraph and three "how it works" steps with icons; on the right a brown gradient card titled "Daily Grind Rewards" with a grid of 8 round stamps (4 per row).
@@ -86,11 +86,11 @@ When the page also has the cart drawer, the Add to bag button adds the item and 
 
 Every dot is a real button with a text label and an expanded state, the cards can be reached with the keyboard, and the pulsing ring around each dot stops for visitors who prefer reduced motion. Add a clear description of the photo as alt text.
 
-**Export it**
+**Using it in your own shop**
 
-Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). It pairs well with the [Product Strip](/website-section-templates/product-strip/) and the [Collection Tiles](/website-section-templates/collection-tiles/).
+Exported on its own, the Add to bag buttons work as plain links to your product pages; next to the cart drawer they fill the cart instead. Swap the photo and move the dots in the editor, then add a [Product Strip](/website-section-templates/product-strip/) of best sellers below it, or lead into it from the [Collection Tiles](/website-section-templates/collection-tiles/).
 
-**Getting the most from it**
+**Choosing the right photo**
 
 Choose a photo where every product is clearly visible, tag no more than four or five items, and only tag things that are in stock. Link each card to the real product page, and keep the heading about the occasion ("the weekend look") rather than the products.`,
     },
@@ -104,7 +104,7 @@ Choose a photo where every product is clearly visible, tag no more than four or 
       'Heading, text and button beside the photo',
       'Pulsing dots stop for reduced motion',
       'Button labels and screen reader text editable',
-      'Export HTML, a ZIP, React or Vue',
+      'Plain product links when the page has no cart',
     ],
     why: [
       { icon: '👗', title: 'Inspire, then sell', desc: 'Shoppers see the whole outfit first and buy the pieces they like without leaving the photo.' },
@@ -124,7 +124,7 @@ Choose a photo where every product is clearly visible, tag no more than four or 
       { q: 'Does it work on phones?', a: 'Yes. A tap opens a product card, and a tap elsewhere or on the dot again closes it. With a mouse, the card also opens on hover.' },
     ],
     aiPrompt: {
-      paragraph: 'Ask an AI assistant to extend the section: load the looks from your own API, add a "Shop the full look" button that adds every tagged item at once, or add a second look with a tab switcher.',
+      paragraph: 'To grow it into a full lookbook, an AI assistant can load looks from your own API, add a "Shop the full look" button that adds every tagged item at once, or switch between several outfits with tabs.',
       prompt: `Create a "shop the look" section in HTML, CSS and JavaScript.
 
 - Two columns: a portrait lookbook photo (4:5) on the left and a heading, short paragraph and button on the right.
@@ -151,11 +151,11 @@ On hover or keyboard focus the photograph zooms slowly and the arrow slides a fe
 
 Point each tile at a filtered shop view, for example the Shop page with a category in the address, or at a collection page. In the Fashion Boutique website template the tiles link to filtered shop pages in the multi-page version.
 
-**Export it**
+**Linking the tiles to your shop**
 
-Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). Pair it with the [Product Strip](/website-section-templates/product-strip/) for best sellers and the [Shop the Look](/website-section-templates/shop-the-look/) section for outfits.
+Each tile is a single link, so it can open a category page, a filtered view such as shop.html?cat=Women, or a landing page for a sale. The export is plain HTML and CSS with no script at all. A [Product Strip](/website-section-templates/product-strip/) of best sellers under the tiles, or a [Shop the Look](/website-section-templates/shop-the-look/) photo above them, turns a home page into a shop window.
 
-**Getting the most from it**
+**Making the row look like a set**
 
 Use photographs with the same lighting and background so the row feels like a set, keep names to one or two words, and show real item counts that you update. Lead with the collection most visitors want.`,
     },
@@ -169,7 +169,7 @@ Use photographs with the same lighting and background so the row feels like a se
       'Reduced-motion friendly',
       'Optional heading and intro text',
       'Image focus point for cropped photos',
-      'Export HTML, a ZIP, React or Vue',
+      'Pure HTML and CSS, no JavaScript needed',
     ],
     why: [
       { icon: '🧭', title: 'Fast navigation', desc: 'Big, clear photographs let shoppers pick a category in one glance, before they use search or the menu.' },
@@ -189,7 +189,7 @@ Use photographs with the same lighting and background so the row feels like a se
       { q: 'Does the zoom effect respect reduced motion?', a: 'Yes. Visitors who ask their device for reduced motion see no zoom or arrow movement. The tiles still show a clear outline when focused by keyboard.' },
     ],
     aiPrompt: {
-      paragraph: 'Ask an AI assistant to build on the tiles: load collections from your own API, show the live item count for each, or highlight a "new" collection with a badge.',
+      paragraph: 'An AI assistant can turn the tiles into a live menu of your catalogue: load collections from your shop’s API, show the current item count on each tile, or add a "New" badge to the latest collection.',
       prompt: `Create a "shop by collection" section in HTML and CSS.
 
 - A heading, then a responsive grid of 4 tall tiles (aspect-ratio 4/5, auto-fit with a 220px minimum, two across on phones).
@@ -216,11 +216,11 @@ The price field takes a symbol and a number, with an optional word before it suc
 
 Every row has its own link, so Book can open a booking form on the same page, a calendar tool or a phone call. In the Veterinary Clinic template the Book buttons jump to an appointment request form.
 
-**Export it**
+**From price list to appointment**
 
-Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). It pairs well with the [Opening Hours](/website-section-templates/opening-hours/) section and a [booking form](/website-section-templates/booking-form/).
+The Book button on each row can open a booking form on the same page, a calendar tool or a phone call, and the structured data travels with the export, so search engines still read your prices. Put live [Opening Hours](/website-section-templates/opening-hours/) next to it and a [booking form](/website-section-templates/booking-form/) below it, as the Veterinary Clinic website template does.
 
-**Getting the most from it**
+**Writing a price list people trust**
 
 Group services into three to five categories, put the most-booked one first, and keep descriptions to a sentence. Say what is included, and note when the price depends on the pet, the size or the time needed.`,
     },
@@ -234,7 +234,7 @@ Group services into three to five categories, put the most-booked one first, and
       'Chips are real buttons with a pressed state for keyboard users',
       'Up to 24 services in one list',
       'Every label editable, including the "All services" chip',
-      'Export HTML, a ZIP, React or Vue',
+      'Service structured data included in the export',
     ],
     why: [
       { icon: '💬', title: 'Fewer price calls', desc: 'Clear prices and durations answer the questions people usually phone to ask, so the front desk is busier with real bookings.' },
@@ -254,7 +254,7 @@ Group services into three to five categories, put the most-booked one first, and
       { q: 'Does it write structured data?', a: 'Yes. Each service is written as schema.org Service data with an Offer price and its category, which helps search engines understand your price list.' },
     ],
     aiPrompt: {
-      paragraph: 'Ask an AI assistant to extend the list: load services and prices from your own API, pre-fill the booking form with the chosen service, or add a "Most booked" badge to one row.',
+      paragraph: 'If your prices live in practice software, an AI assistant can load the list from its API, pre-fill the booking form with the service someone chose, or highlight the most booked service with a badge.',
       prompt: `Create a services and prices section in HTML, CSS and JavaScript.
 
 - A centered heading and intro, then a row of filter chips ("All services" plus one chip per category) and a vertical list of service cards.
@@ -281,11 +281,11 @@ The spots-left field is free text, so you can write "4 spots left" or "Full" whe
 
 Tabs and chips are real buttons with a pressed state for keyboard and screen reader users. Without JavaScript, every class shows in the order typed, each with its day.
 
-**Export it**
+**Keeping the timetable current**
 
-Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). It pairs well with a [booking form](/website-section-templates/booking-form/) and the [Services & Booking List](/website-section-templates/services-booking/).
+Classes are one simple list of day, time, name, type and teacher, so a new term is a few minutes of editing, and the export carries the small script that builds the tabs and sorts each day. Point each Book button at a [booking form](/website-section-templates/booking-form/) for class requests, or show memberships and prices beside it with the [Services & Booking List](/website-section-templates/services-booking/).
 
-**Getting the most from it**
+**Helping a beginner pick a class**
 
 Show only the next few weeks of real classes, mark beginner-friendly sessions clearly, and put your most popular class types first in the list. Keep teacher names consistent, because visitors often choose a class by who teaches it.`,
     },
@@ -299,7 +299,7 @@ Show only the next few weeks of real classes, mark beginner-friendly sessions cl
       'Friendly message when no class matches',
       'Tabs and chips are real buttons with pressed states',
       'All labels editable for any language',
-      'Export HTML, a ZIP, React or Vue',
+      'A new term is a quick edit of one list',
     ],
     why: [
       { icon: '📅', title: 'See the week at a glance', desc: 'Visitors pick a day or a class type and find a time that suits them without scrolling a long list.' },
@@ -319,7 +319,7 @@ Show only the next few weeks of real classes, mark beginner-friendly sessions cl
       { q: 'How do the type filters work?', a: 'The chips are made from the class types you enter. Choosing one shows only that type on the selected day, and the first chip shows all types again.' },
     ],
     aiPrompt: {
-      paragraph: 'Ask an AI assistant to connect the timetable to real data: load classes and live spots from your booking system, add a "my classes" saved list, or add a button that adds the class to the visitor’s calendar.',
+      paragraph: 'To show live availability, an AI assistant can load classes and spots from your booking system, let visitors save their favourite classes, or add an "Add to calendar" button to each row.',
       prompt: `Create a weekly class timetable section in HTML, CSS and JavaScript.
 
 - A centered heading and intro, then a row of day tabs (Mon to Sun, only days that have classes) with today marked "Today" and selected first, and a row of class-type filter chips ("All classes" plus one per type).
@@ -346,11 +346,11 @@ The typing speed is a choice of slow, normal or fast. Visitors who ask their dev
 
 The section is designed for a dark theme with a single bright accent, and the terminal itself stays dark on any theme. Social icons use the same icon picker as the rest of the library, so GitHub, LinkedIn and X are one click away.
 
-**Export it**
+**Putting it on your portfolio**
 
-Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). Pair it with the [Project Cards](/website-section-templates/project-cards/) and the [Vertical Timeline](/website-section-templates/timeline-vertical/).
+The typing effect is a few lines of plain JavaScript in the export, with no libraries, so the hero loads fast on GitHub Pages or any static host. Follow it with [Project Cards](/website-section-templates/project-cards/) for your work and a [Vertical Timeline](/website-section-templates/timeline-vertical/) for your experience, the order used in the Developer Portfolio website template.
 
-**Getting the most from it**
+**Writing a terminal that sells you**
 
 Keep the terminal to ten lines or fewer, put the most important line first, and end on a call to action. Make the headline about what you do for other people, not about the tools you use.`,
     },
@@ -364,7 +364,7 @@ Keep the terminal to ten lines or fewer, put the most important line first, and 
       'Reduced motion and the editors show every line at once',
       'The terminal stays dark on any theme',
       'Terminal description for screen readers',
-      'Export HTML, a ZIP, React or Vue',
+      'Typing effect in plain JavaScript, no libraries',
     ],
     why: [
       { icon: '💻', title: 'Shows, not tells', desc: 'A working terminal tells visitors you are a developer in a second, and the lines you write carry your stack and your story.' },
@@ -384,7 +384,7 @@ Keep the terminal to ten lines or fewer, put the most important line first, and 
       { q: 'Is it the main heading of the page?', a: 'Yes. The headline is the page’s one h1, so place this section first, and use h2 headings in the sections below it.' },
     ],
     aiPrompt: {
-      paragraph: 'Ask an AI assistant to extend the hero: fetch your latest GitHub commit and type it as a line, rotate between several scripts, or add a "copy email" command that copies your address.',
+      paragraph: 'Make the terminal personal: an AI assistant can type your latest GitHub commit as a line, rotate between several short scripts, or add a "copy email" command that copies your address.',
       prompt: `Create a developer portfolio hero in HTML, CSS and JavaScript.
 
 - Two columns on a dark page: on the left an availability badge with a pulsing dot, a large heading, a short paragraph, two buttons and three social icon links; on the right a terminal window with a title bar (three coloured dots and a title).
@@ -410,11 +410,11 @@ Every card has a primary link, usually a live demo, docs or case study, and a qu
 
 Screenshots are cropped to a 16 by 10 frame and aligned to the top, which suits web pages and dashboards. Use consistent screenshots, with the same browser frame or none, so the grid looks like a set. Add alt text that describes what the screenshot shows.
 
-**Export it**
+**Hosting your portfolio**
 
-Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). It pairs well with the [Terminal Hero](/website-section-templates/terminal-hero/) and the [Vertical Timeline](/website-section-templates/timeline-vertical/).
+The grid needs no JavaScript, so the export works on GitHub Pages, Netlify or any static host, and it stays fast with a dozen screenshots because each one loads only when it scrolls near the screen. Open the page with a [Terminal Hero](/website-section-templates/terminal-hero/) and follow the grid with a [Vertical Timeline](/website-section-templates/timeline-vertical/) of your experience.
 
-**Getting the most from it**
+**Choosing which projects to show**
 
 Show your best six projects rather than everything you have built. Lead with the one you are proudest of, explain the result in the description, and make sure every demo link still works.`,
     },
@@ -428,7 +428,7 @@ Show your best six projects rather than everything you have built. Lead with the
       'Dark-theme styling with a bright accent border on hover',
       'Reduced-motion friendly',
       'Alt text and visible focus styles for links',
-      'Export HTML, a ZIP, React or Vue',
+      'Lazy-loaded screenshots and no JavaScript',
     ],
     why: [
       { icon: '🗂️', title: 'Scannable work', desc: 'Screenshot, name, one sentence and tags give a recruiter the picture of a project in a few seconds.' },
@@ -448,7 +448,7 @@ Show your best six projects rather than everything you have built. Lead with the
       { q: 'How many projects should I show?', a: 'Up to twelve fit, but four to six of your best projects work better. Fewer, stronger cards are easier to judge than a long list.' },
     ],
     aiPrompt: {
-      paragraph: 'Ask an AI assistant to make the grid dynamic: load repositories from the GitHub API, add category filter chips, or open a modal with a longer case study when a card is clicked.',
+      paragraph: 'Rather than editing cards by hand, ask an AI assistant to load your repositories from the GitHub API, add filter chips by category, or open a longer case study in a modal when a card is clicked.',
       prompt: `Create a developer portfolio projects grid in HTML and CSS.
 
 - A heading and intro, then a responsive grid (auto-fit, 320px minimum) of project cards on a dark theme.
@@ -475,11 +475,11 @@ A horizontal timeline needs width; this one needs none. The line and dots stay o
 
 The line fades from the accent colour to nothing, the dots glow softly, and the section uses the same heading and text styles as the rest of the library, so it fits any theme. There is no animation to switch off.
 
-**Export it**
+**Where it fits on a page**
 
-Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). It pairs well with the [Project Cards](/website-section-templates/project-cards/) and an [About us](/website-section-templates/about-story/) section.
+The timeline is plain HTML and CSS, so it prints cleanly and doubles as a one-page CV. Place it under [Project Cards](/website-section-templates/project-cards/) on a portfolio, or after an [About us](/website-section-templates/about-story/) section to tell a company’s history.
 
-**Getting the most from it**
+**Writing entries recruiters read**
 
 Describe results, not duties: what changed because you were there. Keep each description to two sentences, show the last ten years in detail and compress anything older into a single entry.`,
     },
@@ -493,7 +493,7 @@ Describe results, not duties: what changed because you were there. Keep each des
       'Line fades from the accent colour',
       'Works on light and dark themes',
       'Optional heading and intro text',
-      'Export HTML, a ZIP, React or Vue',
+      'Prints cleanly as a one-page CV',
     ],
     why: [
       { icon: '📜', title: 'A CV that reads', desc: 'A clear top-to-bottom list is how recruiters scan experience, so the section matches how people already read.' },
@@ -513,7 +513,7 @@ Describe results, not duties: what changed because you were there. Keep each des
       { q: 'Does it work on light themes?', a: 'Yes. The line, dots and tags use the theme colours, so the timeline looks right on light and dark pages alike.' },
     ],
     aiPrompt: {
-      paragraph: 'Ask an AI assistant to extend the timeline: reveal each entry as it scrolls into view, add expandable details to each entry, or load the entries from a JSON resume.',
+      paragraph: 'For a CV that updates itself, an AI assistant can load the entries from a JSON Resume file, reveal each one as it scrolls into view, or add an expandable "more detail" panel to each role.',
       prompt: `Create a vertical experience timeline in HTML and CSS for a dark developer portfolio.
 
 - A heading and intro, then an ordered list with a 2px vertical line on the left that fades from the accent colour to transparent.
@@ -543,11 +543,11 @@ The estimate is worked out in the browser from the numbers you typed, so there i
 
 The choices are real radio buttons in labelled groups, so they work with the keyboard and screen readers. The estimate sits in a region that announces changes politely.
 
-**Export it**
+**Putting prices live**
 
-Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). It pairs well with the [Services & Booking List](/website-section-templates/services-booking/) and a [booking form](/website-section-templates/booking-form/).
+The estimate is worked out by a short plain-JavaScript script inside the export, so prices change by editing the list, with no rebuild and no plugin. Show the full menu of jobs above it with the [Services & Booking List](/website-section-templates/services-booking/), and let the Book button lead to a [booking form](/website-section-templates/booking-form/) where the visitor names the job.
 
-**Getting the most from it**
+**Pricing jobs honestly**
 
 Offer the four or five jobs people ask about most, use plain vehicle names with examples, and keep the note honest about what can change the price. Update the prices whenever they change.`,
     },
@@ -561,7 +561,7 @@ Offer the four or five jobs people ask about most, use plain vehicle names with 
       'Real radio buttons in labelled groups',
       'Estimate announced to screen readers',
       'Works with any currency and any wording',
-      'Export HTML, a ZIP, React or Vue',
+      'Prices change by editing one list, no rebuild',
     ],
     why: [
       { icon: '💷', title: 'Answers the first question', desc: 'Most people want a rough price before they call. Showing it removes the biggest reason not to book.' },
@@ -581,7 +581,7 @@ Offer the four or five jobs people ask about most, use plain vehicle names with 
       { q: 'Is the estimate a binding quote?', a: 'Not unless you say so. The note under the price is yours to write, so make clear that the final price is confirmed after inspection if that is the case.' },
     ],
     aiPrompt: {
-      paragraph: 'Ask an AI assistant to extend the estimator: add extras with checkboxes that add to the price, load prices from your own API, or pre-fill the booking form with the chosen service.',
+      paragraph: 'For quotes with extras, an AI assistant can add checkboxes such as collection and delivery that add to the price, load your price list from an API, or carry the chosen job into the booking form.',
       prompt: `Create a service price estimator in HTML, CSS and JavaScript.
 
 - A heading and intro, then a card with two columns: on the left two groups of choice chips built from real radio inputs (group 1 "What do you need?" with MOT, Full service, Brake pads, Diagnostics; group 2 "What do you drive?" with Small car, Family car and Large car or van, each with example models in small text); on the right a dark result panel.
@@ -607,11 +607,11 @@ The messages for "covered", "not covered" and "incomplete postcode" are fields y
 
 The lookup runs in the visitor's browser against the list you typed, so no postcode is sent or stored. The covered area is highlighted in the chip list, which confirms the answer visually, and the result is announced politely to screen readers.
 
-**Export it**
+**Setting up your patch**
 
-Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). It pairs well with the [Services & Booking List](/website-section-templates/services-booking/) and a [booking form](/website-section-templates/booking-form/).
+Add one chip per postcode district you serve, with an honest arrival time, and the checker uses that same list. The export carries the short checking script, so nothing depends on an outside postcode service. A [Services & Booking List](/website-section-templates/services-booking/) above it and a [booking form](/website-section-templates/booking-form/) below shorten the path from "do you cover me?" to a booked visit.
 
-**Getting the most from it**
+**Keeping the list clear**
 
 List every outward code you really serve, give honest arrival times, and put the checker near your booking button. If you cover a whole city, a short list of the main districts is clearer than fifty codes.`,
     },
@@ -625,7 +625,7 @@ List every outward code you really serve, give honest arrival times, and put the
       'Your own messages with {p}, {area} and {eta} placeholders',
       'Result announced to screen readers',
       'Runs in the browser, nothing is sent or stored',
-      'Export HTML, a ZIP, React or Vue',
+      'No postcode service or API key needed',
     ],
     why: [
       { icon: '📍', title: 'Answers before the call', desc: 'Customers learn straight away whether you serve them, so fewer wasted calls reach your phone and more real bookings do.' },
@@ -645,7 +645,7 @@ List every outward code you really serve, give honest arrival times, and put the
       { q: 'Can I change the messages?', a: 'Yes. The covered, not covered and incomplete messages are text fields, and you can use {p} for the postcode, {area} for the area name and {eta} for the arrival time.' },
     ],
     aiPrompt: {
-      paragraph: 'Ask an AI assistant to extend the checker: look postcodes up in a real postcode API, show the area on a map, or let people leave their email when they are outside your area.',
+      paragraph: 'To cover every street exactly, an AI assistant can check postcodes against a real postcode API, draw your area on a map, or collect an email from visitors outside it so you know where demand is.',
       prompt: `Create a service area checker section in HTML, CSS and JavaScript.
 
 - Two columns: on the left a heading, a short paragraph, a postcode field with a "Check my area" button and a result message; on the right a panel titled "Areas we cover" with chips, each showing a code in monospace (M1, M20) and an area name.

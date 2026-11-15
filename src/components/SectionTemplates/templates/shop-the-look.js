@@ -12,7 +12,7 @@ export default {
   created: '2026-11-15',
   updated: '2026-11-15',
   seoTitle: 'Shop the Look Section — Free Lookbook With Hotspots HTML',
-  seoDescription: 'Free shop-the-look section: a lookbook photo with tappable product hotspots that open a card with price and Add to cart. Works with the built-in cart. Export HTML.',
+  seoDescription: 'Free shop the look section: dots on a lookbook photo open a product card with photo, price and an Add to bag button that fills the same cart as your shop.',
   description: 'A lookbook photo that sells. Dots sit on the garments in the picture; tap or hover one and a small card opens with the product photo, name, price and an Add to cart button that fills the same cart as the rest of your shop. Place each dot by typing how far it is from the left and the top of the photo, add up to six products, and write the heading and text beside it. Works for fashion, furniture, interiors and any outfit or set that is sold piece by piece.',
   bestFor: ['Fashion and accessories shops', 'Furniture and interior stores showing a styled room', 'Lookbooks and seasonal campaigns'],
 

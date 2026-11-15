@@ -20,7 +20,7 @@ export default {
   created: '2026-11-15',
   updated: '2026-11-15',
   seoTitle: 'Services & Booking List — Free Price List Section HTML',
-  seoDescription: 'Free services price list section: service rows with duration, price and a Book button, filter chips by category, and schema.org Service data. Edit and export HTML.',
+  seoDescription: 'Free services and prices section: rows with duration, a from-price and a Book button, filter chips from your categories, and Service data for search engines.',
   description: 'The price list appointment businesses need. Every service is a clear row with an icon, a name and a short description, a duration chip, a price such as “from $65” and a Book button that links to your booking form or calendar. Filter chips are built from the categories you type, so visitors can narrow a long list to Check-ups, Vaccines or Dental in one tap. The services are also written as schema.org Service data with their prices, so search engines can read them. Made for veterinary clinics, dentists, salons, physios and any business that sells time.',
   bestFor: ['Vet clinics, dentists and physiotherapists', 'Salons, barbers and spas', 'Studios, coaches and repair shops that sell appointments'],
   schema: state => {

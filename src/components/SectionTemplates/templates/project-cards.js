@@ -11,7 +11,7 @@ export default {
   created: '2026-11-15',
   updated: '2026-11-15',
   seoTitle: 'Project Cards Section — Free Developer Portfolio Grid HTML',
-  seoDescription: 'Free project cards section for portfolios: screenshot, year, description, tech tags and live demo and source links on every card. Edit online and export HTML.',
+  seoDescription: 'Free portfolio projects grid: a screenshot, year, short description, tech tags and live demo and source links on every card. No JavaScript, lazy images.',
   description: 'The projects grid every developer portfolio needs. Each card shows a screenshot with a year badge, the project name and a one-sentence description, a row of technology tags and two links: a live demo and the source code. The screenshot zooms gently on hover, the grid adapts from three columns to one, and every card is easy to scan. Use it for client work, side projects, open-source libraries or case studies. Tags are typed one per line, so there is nothing to configure.',
   bestFor: ['Developer, designer and data portfolios', 'Open-source maintainers listing projects', 'Agencies and freelancers showing selected work'],
 

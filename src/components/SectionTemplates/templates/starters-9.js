@@ -163,12 +163,12 @@ const FOOTER = ['footer-columns', {
 export const VET_WEBSITE_TEMPLATES = [
   {
     id: 'vet', name: 'Veterinary & Pet Clinic Website', industry: 'Health & fitness',
-    blurb: 'A friendly vet clinic: services and prices with filters, emergency line, wellness plans, team, online appointment request and opening hours with a map.',
+    blurb: 'A friendly vet clinic: services and prices with filters, emergency line, wellness plans, team, online appointment request and clinic hours.',
     theme: { brand: '#1d7a6c', brandText: '#ffffff', bg: '#fbfaf5', surface: '#eef4ef', text: '#16302b', muted: '#53695f', radius: '16', maxWidth: '1200' }, fonts: { heading: 'lora', body: 'dmsans' },
     seoTitle: 'Veterinary Website Template — Free Vet Clinic HTML',
     seoDescription: 'Free vet clinic website template: services and prices with filters, emergency call strip, wellness plans, team, booking request form and opening hours.',
     keywords: ['veterinary website template', 'vet clinic website template', 'pet clinic website template', 'animal hospital website template html', 'veterinarian landing page html', 'vet website with booking form'],
-    intro: 'A warm website for a vet clinic, animal hospital or pet care practice. A photo hero with a "Book a visit" button leads into a 24/7 emergency strip, a services and prices list that filters by check-ups, vaccines, dental and surgery, reasons to choose you, wellness plans, the team, reviews and an appointment request form beside live opening hours and a map.',
+    intro: 'A warm website for a vet clinic, animal hospital or pet care practice. Owners see a "Book a visit" button and the 24/7 emergency number first, then services and prices they can narrow to check-ups, vaccines, dental or surgery, wellness plans, the vets and nurses, reviews and an appointment request next to the clinic hours.',
     bestFor: ['Veterinary clinics and animal hospitals', 'Pet groomers, trainers and boarding kennels', 'Dentists and other appointment-led clinics'],
     sections: [NAV, HERO, EMERGENCY, SERVICES_SECTION('services'), WHY, CARE, PLANS, TEAM, REVIEWS, BOOKING, HOURS(), FOOTER],
     multiLinks: { '#book': 'book.html', '#plans': 'services.html#plans', '#contact': 'visit.html#contact', '#story': 'team.html#story' },

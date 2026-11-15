@@ -11,7 +11,7 @@ export default {
   created: '2026-11-15',
   updated: '2026-11-15',
   seoTitle: 'Terminal Hero Section — Free Developer Portfolio Hero HTML',
-  seoDescription: 'Free terminal hero section for developer portfolios: headline, buttons and a terminal window that types its lines. Reduced-motion friendly. Edit online and export.',
+  seoDescription: 'Free developer portfolio hero: your headline and buttons beside a terminal that types out who you are, line by line. Calm for reduced motion, no libraries.',
   description: 'A first screen that looks like the work. The left side holds an availability badge, a large headline, a short introduction, two buttons and social icons; the right side is a terminal window whose lines type themselves out, with commands, output, success lines and comments in their own colours. You write every line, so it can say who you are, what your stack is and what you are working on now. Visitors who prefer reduced motion see the finished terminal at once. Made for developer, engineer and DevOps portfolios.',
   bestFor: ['Developer, engineer and DevOps portfolios', 'Open-source project and library landing pages', 'Bootcamp, dev-tool and API product sites'],
 

@@ -176,7 +176,7 @@ export const CAFE_WEBSITE_TEMPLATES = [
     seoTitle: 'Cafe Website Template — Free Coffee Shop HTML Template',
     seoDescription: 'Free cafe website template with online ordering: menu with filters, cart and checkout, loyalty stamp card, opening hours with a map and reviews. Export HTML.',
     keywords: ['cafe website template', 'coffee shop website template', 'cafe template with online ordering', 'bakery website template', 'coffee shop html template free', 'cafe landing page html'],
-    intro: 'A warm website for a café, coffee shop or bakery that also takes orders. A header with search, a mega menu and a cart leads into a photo hero, customer favourites you can add to an order, a loyalty stamp card visitors can try, a story about your roastery, reviews and live opening hours with a map. The menu page filters coffee, tea, pastries, lunch and beans, and the order flows through a cart drawer, checkout and thank you page.',
+    intro: 'A warm website for a café, coffee shop or bakery that also takes orders. A header with search, a mega menu and a cart leads into a photo hero, customer favourites you can add to an order, a loyalty stamp card visitors can try, a story about your roastery, reviews and today\'s opening hours beside a map of the café. The menu page filters coffee, tea, pastries, lunch and beans, and the order flows through a cart drawer, checkout and thank you page.',
     bestFor: ['Cafés and coffee shops', 'Bakeries and juice bars', 'Roasters selling beans online'],
     sections: [HEADER, HERO, STRIP('Customer *favourites*', 'Popular right now', FAVOURITES, 'menu'), WHY, LOYALTY, BEANS, REVIEWS, HOURS(), NEWSLETTER, FOOTER, DRAWER],
     multiLinks: {

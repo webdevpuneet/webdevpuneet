@@ -11,7 +11,7 @@ export default {
   created: '2026-11-15',
   updated: '2026-11-15',
   seoTitle: 'Collection Tiles Section — Free Shop by Category HTML',
-  seoDescription: 'Free shop-by-category section: tall photo tiles with a collection name, short text and arrow that zoom on hover. Two to six tiles. Edit online and export HTML.',
+  seoDescription: 'Free shop by category section: tall photo tiles for Women, Men, Shoes or any collection, each one big link with a slow zoom on hover. No script needed.',
   description: 'The tile row that sends shoppers into the right part of your shop. Each tile is a tall photograph with the collection name over a soft gradient, a short line such as “48 pieces” and an arrow, and the whole tile is one link. Choose two to six tiles, change the photos and labels, and the grid adapts from four across on a desktop to two on a phone. The photo zooms gently on hover and stays still for visitors who prefer reduced motion.',
   bestFor: ['Fashion, homeware and gift shops', 'Home pages that lead into collections', 'Category landing pages'],
 
