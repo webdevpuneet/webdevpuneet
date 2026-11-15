@@ -171,8 +171,12 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
   // The main gallery (/ui-snippets/) is a filterable library: categories and tags as checkboxes with counts, active
   // filters as chips, Ctrl/⌘ K for search. Category and tag pages keep their plain layout (they are their own filter).
   const isMain = !initialTag && initialCategory === 'all';
-  const [cats, setCats] = useState([]);
-  const [tagSel, setTagSel] = useState([]);
+  // Selected categories and tags live in the URL (?category=buttons,forms&tag=hover), like ?filter=bookmarked, so a
+  // refresh or a shared link opens with the same filters applied. Unknown ids in a hand-typed link are ignored.
+  const catParam = searchParams.get('category') || '';
+  const tagParam = searchParams.get('tag') || '';
+  const cats = useMemo(() => (isMain ? [...new Set(catParam.split(',').filter(id => CATEGORIES.some(c => c.id === id && c.id !== 'all')))] : []), [isMain, catParam]);
+  const tagSel = useMemo(() => (isMain ? [...new Set(tagParam.split(',').filter(id => TAG_BY_ID.has(id)))] : []), [isMain, tagParam]);
   const { open: panelOpen, auto: panelAuto, toggle: togglePanel, close: closePanel } = useFilterPanel();
   const [allTags, setAllTags] = useState(false);
   const [mac, setMac] = useState(false);
@@ -199,8 +203,16 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
   // just local state, so pagination on a search's page 2+ keeps the search
   // term instead of losing it (the pagination links below are real <a href>
   // navigations, so whatever isn't in the URL doesn't survive a click).
-  function syncToUrl({ page: p, q, filter, type } = {}) {
+  function syncToUrl({ page: p, q, filter, type, cat, tag } = {}) {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
+    if (cat !== undefined) {
+      if (cat.length) params.set('category', cat.join(','));
+      else params.delete('category');
+    }
+    if (tag !== undefined) {
+      if (tag.length) params.set('tag', tag.join(','));
+      else params.delete('tag');
+    }
     if (type !== undefined) {
       if (type && type !== 'all') params.set('type', type);
       else params.delete('type');
@@ -333,6 +345,9 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
     syncToUrl({ page: 0, q: value });
   }
 
+  const toggleIn = (list, id) => (list.includes(id) ? list.filter(x => x !== id) : [...list, id]);
+  const toggleCat = id => { setPage(0); syncToUrl({ page: 0, cat: toggleIn(cats, id) }); };
+  const toggleTag = id => { setPage(0); syncToUrl({ page: 0, tag: toggleIn(tagSel, id) }); };
   const toggleBookmarkedView = () => { setPage(0); syncToUrl({ page: 0, filter: bookmarkedOn ? '' : 'bookmarked' }); };
   const setSort = v => { setSortOrder(v); try { localStorage.setItem('uis_sort', v); } catch {} };
 
@@ -384,11 +399,11 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
   // ── Main gallery: the filterable library ──
   if (isMain) {
     const chips = [
-      ...cats.map(id => ({ key: `c:${id}`, label: CATEGORIES.find(c => c.id === id)?.label || id, clear: () => setCats(v => v.filter(x => x !== id)) })),
-      ...tagSel.map(id => ({ key: `t:${id}`, label: TAG_BY_ID.get(id)?.label || id, clear: () => setTagSel(v => v.filter(x => x !== id)) })),
+      ...cats.map(id => ({ key: `c:${id}`, label: CATEGORIES.find(c => c.id === id)?.label || id, clear: () => toggleCat(id) })),
+      ...tagSel.map(id => ({ key: `t:${id}`, label: TAG_BY_ID.get(id)?.label || id, clear: () => toggleTag(id) })),
       ...(bookmarkedOn ? [{ key: 'bm', label: 'Bookmarked', clear: toggleBookmarkedView }] : []),
     ];
-    const clearAll = () => { setCats([]); setTagSel([]); if (bookmarkedOn) toggleBookmarkedView(); };
+    const clearAll = () => { setPage(0); syncToUrl({ page: 0, cat: [], tag: [], ...(bookmarkedOn ? { filter: '' } : {}) }); };
     const tagsList = allTags ? tagOptions : tagOptions.slice(0, TAGS_SHOWN);
     return (
       <div className={s.wrap}>
@@ -431,13 +446,13 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
                   <fieldset className={g.group}>
                     <legend>Category</legend>
                     {catOptions.map(c => (c.n || cats.includes(c.id)
-                      ? <Check key={c.id} checked={cats.includes(c.id)} onChange={() => { setPage(0); setCats(v => (v.includes(c.id) ? v.filter(x => x !== c.id) : [...v, c.id])); }} label={c.label} count={c.n} />
+                      ? <Check key={c.id} checked={cats.includes(c.id)} onChange={() => toggleCat(c.id)} label={c.label} count={c.n} />
                       : null))}
                   </fieldset>
                   <fieldset className={g.group}>
                     <legend>Tags</legend>
                     {tagsList.map(t => (t.n || tagSel.includes(t.id)
-                      ? <Check key={t.id} checked={tagSel.includes(t.id)} onChange={() => { setPage(0); setTagSel(v => (v.includes(t.id) ? v.filter(x => x !== t.id) : [...v, t.id])); }} label={t.label} count={t.n} />
+                      ? <Check key={t.id} checked={tagSel.includes(t.id)} onChange={() => toggleTag(t.id)} label={t.label} count={t.n} />
                       : null))}
                     {tagOptions.length > TAGS_SHOWN && (
                       <button type="button" className={g.linkBtn} style={{ alignSelf: 'flex-start', margin: '4px 6px 0', fontSize: 12 }} onClick={() => setAllTags(v => !v)}>

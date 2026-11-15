@@ -9,6 +9,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import useFilterPanel from '@/lib/use-filter-panel';
+import { readList as readUrlList, readText as readUrlText, writeParams, slugOf } from '@/lib/url-filters';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
 import g from './TemplateGallery.module.css';
@@ -73,6 +74,25 @@ export default function TemplateGallery({ templates, industries }) {
     setRecent(readList(RECENT_KEY));
     setMac(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || ''));
   }, []);
+  // The filters in the address bar: ?industry=food-and-drink,retail &include=pricing &pages=one|multi &access=free|patreon
+  // &q= &sort= &filter=favourites. Read once after mount, then kept in step with replaceState (no navigation); the first
+  // write is skipped so the mount pass cannot wipe the link before it has been applied.
+  const urlMounted = useRef(false);
+  useEffect(() => {
+    const names = readUrlList('industry').map(sl => industries.find(i => slugOf(i) === sl)).filter(Boolean);
+    if (names.length) setInds([...new Set(names)]);
+    const inc = readUrlList('include').filter(id => INCLUDES.some(([k]) => k === id));
+    if (inc.length) setIncs([...new Set(inc)]);
+    const pg = readUrlText('pages'); if (pg === 'one' || pg === 'multi') setPages(pg);
+    const ac = readUrlText('access'); if (ac === 'free' || ac === 'patreon') setAccess(ac);
+    const uq = readUrlText('q'); if (uq) setQ(uq);
+    const us = readUrlText('sort'); if (SORTS.some(([k]) => k === us)) setSort(us);
+    if (readUrlText('filter') === 'favourites') setFavOnly(true);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!urlMounted.current) { urlMounted.current = true; return; }
+    writeParams({ industry: inds.map(slugOf), include: incs, pages, access, q: q.trim(), sort: sort === 'new' ? '' : sort, filter: favOnly ? 'favourites' : '' });
+  }, [q, inds, incs, pages, access, favOnly, sort]);
   // Ctrl/⌘ K jumps to the search box
   useEffect(() => {
     const onKey = e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); searchRef.current?.focus(); } };

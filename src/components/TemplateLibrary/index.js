@@ -23,6 +23,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import useFilterPanel from '@/lib/use-filter-panel';
+import { readList as readUrlList, readText as readUrlText, writeParams } from '@/lib/url-filters';
 import s from '../SocialPostTemplates/styles.module.css';
 import g from '../WebsiteBuilder/TemplateGallery.module.css';
 
@@ -109,6 +110,28 @@ export default function TemplateLibrary({
     setRecent(readList(recentKey));
     setMac(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || ''));
   }, [favKey, recentKey]);
+  // The filters in the address bar: ?category=a,b (a facet's key, "cat" shown as "category"), ?q=, ?sort=, ?filter=favourites.
+  // Read once after mount, then kept in step on every change (replaceState, no navigation). The first write is skipped
+  // so the mount pass cannot wipe the link before it has been applied.
+  const urlName = key => (key === 'cat' ? 'category' : key);
+  const urlMounted = useRef(false);
+  useEffect(() => {
+    const next = {};
+    for (const f of facets) {
+      const ids = readUrlList(urlName(f.key)).filter(id => f.options.some(o => o.id === id));
+      if (ids.length) next[f.key] = [...new Set(ids)];
+    }
+    if (Object.keys(next).length) setSel(next);
+    const uq = readUrlText('q'); if (uq) setQ(uq);
+    const us = readUrlText('sort'); if (SORTS.some(([k]) => k === us)) setSort(us);
+    if (readUrlText('filter') === 'favourites') setFavOnly(true);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!urlMounted.current) { urlMounted.current = true; return; }
+    const v = { q: q.trim(), sort: sort === 'new' ? '' : sort, filter: favOnly ? 'favourites' : '' };
+    for (const f of facets) v[urlName(f.key)] = sel[f.key] || [];
+    writeParams(v);
+  }, [q, sel, favOnly, sort]); // eslint-disable-line react-hooks/exhaustive-deps
   // #events in the address picks that option of the hash facet
   useEffect(() => {
     if (!hashFacet) return undefined;

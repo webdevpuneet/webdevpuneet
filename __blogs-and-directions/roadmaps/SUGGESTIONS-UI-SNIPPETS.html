@@ -101,6 +101,15 @@
   </div>
 
   <div class="sug">
+    <div class="sug-head"><h3>New UI snippet categories (after Text Animations)</h3><span class="pill todo">Suggested</span></div>
+    <p class="muted">Added 2026-11-15 · not started · counts are a keyword scan of the 2,090 snippet files (id/CSS), so rough</p>
+    <p><strong>Order to build:</strong> 1) Hover Effects (name-matched snippets are spread over Buttons, Cards, Animations; high search volume). 2) Backgrounds (~69 existing: Animations 31, Scroll 9, Text Animations 7, Heroes 5). 3) Accordions, Tabs &amp; Toggles (~89: Navigation 17, Buttons 15, Pricing 10, Layouts 8).</p>
+    <p><strong>Then:</strong> Cursor Effects (~31, mostly Animations 15), Scroll-Driven CSS (~54, mostly already in Scroll, so better as a tag or filter than a category), Toasts &amp; Notifications (~36, Modals 18), Icons &amp; Badges (~100, noisy count), 3D &amp; Transforms (~47).</p>
+    <p><strong>Thin, need new snippets first:</strong> Styles (glass, neumorphism, brutalism; ~13) and Empty States &amp; Error Pages (~17).</p>
+    <p><strong>Blocker:</strong> a snippet has one <code>category</code> field today, so the "snippet in several categories" decision (2026-11-13) is not supported yet. Add a secondary-categories field (or tags) and teach counts, category pages, sitemap and Related to use it before adding these categories; otherwise snippets would have to be moved out of their current category.</p>
+  </div>
+
+  <div class="sug">
     <div class="sug-head"><h3>Gap check for new snippets</h3><span class="pill todo">Suggested</span></div>
     <p class="muted">Added 2026-11-02 · not started</p>
     <p>No list of missing snippets exists yet. Before building more, compare the 24 categories with what developers search for (trending effects, new component types, modern CSS features such as scroll-driven animation and anchor positioning) and write the gaps here. Remember the update checklist for any snippet change (SEO text, AI prompt, preview image, lastmod; see 06-QUALITY-BARS.txt).</p>
@@ -138,6 +147,7 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-11-15</td><td>Added the new UI snippet categories shortlist with existing-snippet counts.</td></tr>
       <tr><td>2026-11-13</td><td>Added the Pocket Artillery upgrade ideas.</td></tr>
       <tr><td>2026-11-11</td><td>Added the game engagement tracking idea (from ChatGPT).</td></tr>
       <tr><td>2026-11-11</td><td>Added the wide train switch puzzle game idea.</td></tr>
