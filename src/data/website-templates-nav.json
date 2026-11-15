@@ -138,5 +138,30 @@
   "id": "fashion",
   "name": "Fashion Boutique Website (Online Store)",
   "industry": "Retail"
+ },
+ {
+  "id": "vet",
+  "name": "Veterinary & Pet Clinic Website",
+  "industry": "Health & fitness"
+ },
+ {
+  "id": "yoga",
+  "name": "Yoga & Wellness Studio Website",
+  "industry": "Health & fitness"
+ },
+ {
+  "id": "developer",
+  "name": "Developer Portfolio Website (Dark)",
+  "industry": "Software"
+ },
+ {
+  "id": "garage",
+  "name": "Auto Repair Garage Website",
+  "industry": "Cars & transport"
+ },
+ {
+  "id": "plumber",
+  "name": "Plumber & Heating Engineer Website",
+  "industry": "Local business"
  }
 ]

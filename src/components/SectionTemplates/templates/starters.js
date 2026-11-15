@@ -12,6 +12,11 @@ import { CORPORATE_WEBSITE_TEMPLATES } from './starters-5.js';
 import { ONLINE_STORE_WEBSITE_TEMPLATES } from './starters-6.js';
 import { CAFE_WEBSITE_TEMPLATES } from './starters-7.js';
 import { FASHION_WEBSITE_TEMPLATES } from './starters-8.js';
+import { VET_WEBSITE_TEMPLATES } from './starters-9.js';
+import { YOGA_WEBSITE_TEMPLATES } from './starters-10.js';
+import { DEVELOPER_WEBSITE_TEMPLATES } from './starters-11.js';
+import { GARAGE_WEBSITE_TEMPLATES } from './starters-12.js';
+import { PLUMBER_WEBSITE_TEMPLATES } from './starters-13.js';
 import { applyExtras } from './starters-extras.js';
 
 const av = n => IMG(`avatar-${n}.jpg`);
@@ -556,6 +561,16 @@ const BASE_TEMPLATES = [
   ...CAFE_WEBSITE_TEMPLATES,
   // Fashion boutique with collection tiles and Shop the Look (starters-8.js)
   ...FASHION_WEBSITE_TEMPLATES,
+  // Veterinary and pet clinic with services and prices (starters-9.js)
+  ...VET_WEBSITE_TEMPLATES,
+  // Yoga and wellness studio with a class timetable (starters-10.js)
+  ...YOGA_WEBSITE_TEMPLATES,
+  // Developer portfolio with a terminal hero and project cards (starters-11.js)
+  ...DEVELOPER_WEBSITE_TEMPLATES,
+  // Auto repair garage with a price estimator (starters-12.js)
+  ...GARAGE_WEBSITE_TEMPLATES,
+  // Plumber and heating engineer with a service area checker (starters-13.js)
+  ...PLUMBER_WEBSITE_TEMPLATES,
 ];
 
 // The sections added later (gallery, video, before / after, booking form, case studies, product grid)

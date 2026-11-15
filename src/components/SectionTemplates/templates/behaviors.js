@@ -3719,6 +3719,304 @@ BEHAVIORS.lookhot = {
 })();`,
 };
 
+/* Services & Booking: builds a row of filter chips from the categories typed on the services and shows only the rows of the chosen
+   category. Markup: [data-svc] (data-all = text of the "all" chip, data-group = aria-label of the chip group) holding
+   [data-svc-filters] and rows .sb-item with data-cat. Chips are buttons with aria-pressed; with one category (or without
+   JavaScript) there are no chips and every service shows. */
+BEHAVIORS.svcfilter = {
+  plugins: [],
+  js: `(function () {
+  document.querySelectorAll('.st [data-svc]').forEach(function (root) {
+    var box = root.querySelector('[data-svc-filters]');
+    var rows = root.querySelectorAll('.sb-item');
+    if (!box || !rows.length) return;
+    var cats = [];
+    Array.prototype.forEach.call(rows, function (r) {
+      var c = (r.getAttribute('data-cat') || '').trim();
+      if (c && cats.indexOf(c) < 0) cats.push(c);
+    });
+    if (cats.length < 2) { box.hidden = true; return; }
+    box.hidden = false;
+    var group = root.getAttribute('data-group');
+    if (group) box.setAttribute('aria-label', group);
+    var current = '';
+    function make(label, value) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'sb-chipbtn';
+      b.textContent = label;
+      b.setAttribute('data-value', value);
+      b.setAttribute('aria-pressed', value === current ? 'true' : 'false');
+      b.addEventListener('click', function () { apply(value); });
+      return b;
+    }
+    function apply(value) {
+      current = value;
+      Array.prototype.forEach.call(rows, function (r) {
+        r.hidden = !!value && (r.getAttribute('data-cat') || '').trim() !== value;
+      });
+      Array.prototype.forEach.call(box.children, function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-value') === value ? 'true' : 'false');
+      });
+    }
+    box.innerHTML = '';
+    box.appendChild(make(root.getAttribute('data-all') || 'All', ''));
+    cats.forEach(function (c) { box.appendChild(make(c, c)); });
+    apply('');
+  });
+})();`,
+};
+
+/* Class Timetable: builds the day tabs and class-type chips from the classes, sorts each day by start time, opens today's tab (or the
+   first day that has classes) and shows one day at a time. Markup: [data-tt] (data-all, data-type-label, data-day-label, data-today,
+   data-empty) holding [data-tt-days], [data-tt-types], rows .tt-row with data-day / data-type / data-time, and [data-tt-empty].
+   Tabs and chips are buttons with aria-pressed. Without JavaScript every class shows. */
+BEHAVIORS.timetable = {
+  plugins: [],
+  js: `(function () {
+  var ORDER = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  var FULL = { Mon: 'Monday', Tue: 'Tuesday', Wed: 'Wednesday', Thu: 'Thursday', Fri: 'Friday', Sat: 'Saturday', Sun: 'Sunday' };
+  function minutes(t) {
+    var m = String(t || '').trim().toLowerCase().match(/^(\\d{1,2})[:.](\\d{2})\\s*(am|pm)?$/);
+    if (!m) { var h = String(t || '').trim().toLowerCase().match(/^(\\d{1,2})\\s*(am|pm)$/); if (!h) return 0; m = [0, h[1], '00', h[2]]; }
+    var hh = parseInt(m[1], 10), mm = parseInt(m[2], 10);
+    if (m[3] === 'pm' && hh < 12) hh += 12;
+    if (m[3] === 'am' && hh === 12) hh = 0;
+    return hh * 60 + mm;
+  }
+  document.querySelectorAll('.st [data-tt]').forEach(function (root) {
+    var daysBox = root.querySelector('[data-tt-days]');
+    var typesBox = root.querySelector('[data-tt-types]');
+    var empty = root.querySelector('[data-tt-empty]');
+    var list = root.querySelector('.tt-list');
+    var rows = Array.prototype.slice.call(root.querySelectorAll('.tt-row'));
+    if (!daysBox || !typesBox || !list || !rows.length) return;
+    rows.sort(function (a, b) {
+      var da = ORDER.indexOf(a.getAttribute('data-day')), db = ORDER.indexOf(b.getAttribute('data-day'));
+      if (da !== db) return da - db;
+      return minutes(a.getAttribute('data-time')) - minutes(b.getAttribute('data-time'));
+    });
+    rows.forEach(function (r) { list.appendChild(r); });
+    var days = [], types = [];
+    rows.forEach(function (r) {
+      var d = r.getAttribute('data-day'), t = (r.getAttribute('data-type') || '').trim();
+      if (d && days.indexOf(d) < 0) days.push(d);
+      if (t && types.indexOf(t) < 0) types.push(t);
+    });
+    days.sort(function (a, b) { return ORDER.indexOf(a) - ORDER.indexOf(b); });
+    var todayKey = ORDER[(new Date().getDay() + 6) % 7];
+    var day = days.indexOf(todayKey) >= 0 ? todayKey : days[0];
+    var type = '';
+    root.setAttribute('data-ready', '');
+    daysBox.hidden = false;
+    daysBox.setAttribute('aria-label', root.getAttribute('data-day-label') || 'Days of the week');
+    typesBox.setAttribute('aria-label', root.getAttribute('data-type-label') || 'Class types');
+    function button(cls, label, sub, value, aria) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = cls;
+      b.setAttribute('data-value', value);
+      if (aria) b.setAttribute('aria-label', aria);
+      b.appendChild(document.createTextNode(label));
+      if (sub) { var s = document.createElement('small'); s.textContent = sub; b.appendChild(s); }
+      return b;
+    }
+    function render() {
+      var shown = 0;
+      rows.forEach(function (r) {
+        var ok = r.getAttribute('data-day') === day && (!type || (r.getAttribute('data-type') || '').trim() === type);
+        r.hidden = !ok;
+        if (ok) shown++;
+      });
+      Array.prototype.forEach.call(daysBox.children, function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-value') === day ? 'true' : 'false'); });
+      Array.prototype.forEach.call(typesBox.children, function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-value') === type ? 'true' : 'false'); });
+      if (empty) { empty.hidden = shown > 0; empty.textContent = root.getAttribute('data-empty') || ''; }
+    }
+    daysBox.innerHTML = '';
+    days.forEach(function (d) {
+      var b = button('tt-daybtn', d, d === todayKey ? (root.getAttribute('data-today') || 'Today') : '', d, FULL[d] || d);
+      b.addEventListener('click', function () { day = d; render(); });
+      daysBox.appendChild(b);
+    });
+    typesBox.innerHTML = '';
+    if (types.length > 1) {
+      typesBox.hidden = false;
+      var all = button('tt-typebtn', root.getAttribute('data-all') || 'All', '', '', '');
+      all.addEventListener('click', function () { type = ''; render(); });
+      typesBox.appendChild(all);
+      types.forEach(function (t) {
+        var b = button('tt-typebtn', t, '', t, '');
+        b.addEventListener('click', function () { type = t; render(); });
+        typesBox.appendChild(b);
+      });
+    } else { typesBox.hidden = true; }
+    render();
+  });
+})();`,
+};
+
+/* Terminal Hero: types the terminal lines one after another. Markup: [data-termtype] (data-speed slow|normal|fast, data-prompt) holding
+   .th-line items (data-kind cmd | out | ok | dim) with a .th-p prompt span and a .th-t text span. Command lines type character by
+   character, other lines appear at once. A blinking cursor follows the typing. With reduced motion, in the editors
+   (window.ST_STILL) or without JavaScript, every line shows at once. */
+BEHAVIORS.termtype = {
+  plugins: [],
+  js: `(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var still = !!window.ST_STILL;
+  document.querySelectorAll('.st [data-termtype]').forEach(function (root) {
+    var lines = Array.prototype.slice.call(root.querySelectorAll('.th-line'));
+    if (!lines.length) return;
+    var prompt = root.getAttribute('data-prompt') || '$';
+    var speed = { slow: 70, normal: 38, fast: 16 }[root.getAttribute('data-speed')] || 38;
+    lines.forEach(function (li) {
+      var p = li.querySelector('.th-p');
+      if (p) p.textContent = li.getAttribute('data-kind') === 'cmd' ? prompt : '';
+    });
+    if (reduce || still) return;
+    var items = lines.map(function (li) {
+      var t = li.querySelector('.th-t');
+      var text = t ? t.textContent : '';
+      return { li: li, t: t, text: text, cmd: li.getAttribute('data-kind') === 'cmd' };
+    });
+    items.forEach(function (it) { it.li.hidden = true; if (it.t) it.t.textContent = ''; });
+    var cursor = document.createElement('span');
+    cursor.className = 'th-cursor';
+    cursor.setAttribute('aria-hidden', 'true');
+    var i = 0;
+    function next() {
+      if (i >= items.length) { return; }
+      var it = items[i++];
+      it.li.hidden = false;
+      it.li.appendChild(cursor);
+      if (!it.t) { setTimeout(next, 200); return; }
+      if (!it.cmd) { it.t.textContent = it.text; setTimeout(next, 220); return; }
+      var n = 0;
+      (function type() {
+        n++;
+        it.t.textContent = it.text.slice(0, n);
+        if (n < it.text.length) setTimeout(type, speed);
+        else setTimeout(next, 380);
+      })();
+    }
+    setTimeout(next, 500);
+  });
+})();`,
+};
+
+/* Price Estimator: picks a price from the chosen service and vehicle. Markup: [data-qe] (data-from = word before the price, data-time = text
+   before the duration) holding two radio groups: service options (.qe-opt with data-s / data-m / data-l prices and data-time) and
+   vehicle options (.qe-opt--car with data-size s | m | l), and a result box (.qe-from, .qe-amount, .qe-time). The first option of each
+   group is selected at start so an estimate shows at once. Without JavaScript the estimate stays empty and the services are
+   still listed. */
+BEHAVIORS.estimator = {
+  plugins: [],
+  js: `(function () {
+  var uid = 0;
+  document.querySelectorAll('.st [data-qe]').forEach(function (root) {
+    var services = Array.prototype.slice.call(root.querySelectorAll('.qe-opt:not(.qe-opt--car)'));
+    var vehicles = Array.prototype.slice.call(root.querySelectorAll('.qe-opt--car'));
+    var from = root.querySelector('.qe-from');
+    var amount = root.querySelector('.qe-amount');
+    var time = root.querySelector('.qe-time');
+    if (!services.length || !vehicles.length || !amount) return;
+    uid++;
+    var sName = 'qe-service-' + uid, vName = 'qe-vehicle-' + uid;
+    var sIdx = 0, vIdx = 0;
+    function sync(list, idx) {
+      list.forEach(function (el, i) {
+        el.classList.toggle('is-on', i === idx);
+        var input = el.querySelector('input');
+        if (input) input.checked = i === idx;
+      });
+    }
+    function update() {
+      var s = services[sIdx], v = vehicles[vIdx];
+      var size = (v.getAttribute('data-size') || 's').toLowerCase();
+      var price = s.getAttribute('data-' + size) || s.getAttribute('data-s') || '';
+      amount.textContent = price || '-';
+      if (from) from.textContent = root.getAttribute('data-from') || '';
+      var t = s.getAttribute('data-time') || '';
+      if (time) time.textContent = t ? ((root.getAttribute('data-time') || '') + ' ' + t).trim() : '';
+      sync(services, sIdx);
+      sync(vehicles, vIdx);
+    }
+    services.forEach(function (el, i) {
+      var input = el.querySelector('input');
+      if (input) { input.name = sName; input.addEventListener('change', function () { sIdx = i; update(); }); }
+    });
+    vehicles.forEach(function (el, i) {
+      var input = el.querySelector('input');
+      if (input) { input.name = vName; input.addEventListener('change', function () { vIdx = i; update(); }); }
+    });
+    update();
+  });
+})();`,
+};
+
+/* Service Area Checker: checks a typed postcode against the listed area codes. Markup: [data-area] (data-mode uk | prefix, data-yes, data-no,
+   data-bad messages with {p} {area} {eta}) holding a form with .sa-input, a result paragraph .sa-result, an optional .sa-cta button and chips
+   .sa-chip with data-code and data-eta (the area name is the text of the second span). In uk mode the postcode is cut before its last
+   three characters and matched exactly (M20 4BT -> M20); in prefix mode the longest listed code the input starts with wins. Nothing
+   is sent anywhere. Without JavaScript the chips still list the areas. */
+BEHAVIORS.areacheck = {
+  plugins: [],
+  js: `(function () {
+  function clean(s) {
+    var out = '', up = String(s || '').toUpperCase();
+    for (var i = 0; i < up.length; i++) {
+      var c = up.charAt(i);
+      if ((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')) out += c;
+    }
+    return out;
+  }
+  function fill(t, p, area, eta) { return String(t || '').split('{p}').join(p).split('{area}').join(area).split('{eta}').join(eta); }
+  document.querySelectorAll('.st [data-area]').forEach(function (root) {
+    var form = root.querySelector('.sa-form');
+    var input = root.querySelector('.sa-input');
+    var result = root.querySelector('.sa-result');
+    var cta = root.querySelector('.sa-cta');
+    var chips = Array.prototype.slice.call(root.querySelectorAll('.sa-chip'));
+    if (!form || !input || !result) return;
+    var mode = root.getAttribute('data-mode') === 'prefix' ? 'prefix' : 'uk';
+    function show(kind, text) {
+      result.hidden = false;
+      result.className = 'sa-result is-' + kind;
+      result.textContent = text;
+      if (cta) cta.hidden = kind !== 'yes';
+    }
+    function check() {
+      var raw = input.value;
+      var c = clean(raw);
+      chips.forEach(function (ch) { ch.classList.remove('is-match'); });
+      var found = null, shown = '';
+      if (mode === 'uk') {
+        if (c.length < 5 || c.length > 7) { show('bad', root.getAttribute('data-bad') || ''); return; }
+        var outward = c.slice(0, c.length - 3);
+        shown = outward + ' ' + c.slice(c.length - 3);
+        chips.forEach(function (ch) { if (!found && clean(ch.getAttribute('data-code')) === outward) found = ch; });
+      } else {
+        if (c.length < 3) { show('bad', root.getAttribute('data-bad') || ''); return; }
+        shown = String(raw).trim().toUpperCase();
+        var best = 0;
+        chips.forEach(function (ch) {
+          var code = clean(ch.getAttribute('data-code'));
+          if (code && c.indexOf(code) === 0 && code.length > best) { best = code.length; found = ch; }
+        });
+      }
+      if (found) {
+        found.classList.add('is-match');
+        var nameEl = found.querySelector('span');
+        show('yes', fill(root.getAttribute('data-yes'), shown, nameEl ? nameEl.textContent : '', found.getAttribute('data-eta') || ''));
+      } else {
+        show('no', fill(root.getAttribute('data-no'), shown, '', ''));
+      }
+    }
+    form.addEventListener('submit', function (e) { e.preventDefault(); check(); });
+  });
+})();`,
+};
+
 BEHAVIORS.formkit = {
   /* The interactive parts of the Forms category (form.fk), all plain JavaScript on top of normal inputs, so a form
      still posts without it: multi-step wizard ([data-fk-wizard] with [data-fk-step] panels, a progress list,

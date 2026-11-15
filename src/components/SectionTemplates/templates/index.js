@@ -68,6 +68,7 @@ import reviewsSummary from './reviews-summary.js';
 import loyaltyCard from './loyalty-card.js';
 import shopTheLook from './shop-the-look.js';
 import collectionTiles from './collection-tiles.js';
+import servicesBooking from './services-booking.js';
 import blogCards from './blog-cards.js';
 import blogFeatured from './blog-featured.js';
 import blogList from './blog-list.js';
@@ -87,6 +88,11 @@ import productDetail from './product-detail.js';
 import productListing from './product-listing.js';
 import productStrip from './product-strip.js';
 import classTimetable from './class-timetable.js';
+import terminalHero from './terminal-hero.js';
+import projectCards from './project-cards.js';
+import timelineVertical from './timeline-vertical.js';
+import quoteEstimator from './quote-estimator.js';
+import serviceArea from './service-area.js';
 import musicHero from './music-hero.js';
 import audioPlayer from './audio-player.js';
 import tourDates from './tour-dates.js';
@@ -187,6 +193,7 @@ export const SECTION_TEMPLATES = [
   loyaltyCard,
   shopTheLook,
   collectionTiles,
+  servicesBooking,
   blogCards,
   blogFeatured,
   blogList,
@@ -206,6 +213,11 @@ export const SECTION_TEMPLATES = [
   productListing,
   productStrip,
   classTimetable,
+  terminalHero,
+  projectCards,
+  timelineVertical,
+  quoteEstimator,
+  serviceArea,
   musicHero,
   audioPlayer,
   tourDates,

@@ -492,7 +492,7 @@
   ]
  },
  "section": {
-  "total": 109,
+  "total": 115,
   "categories": [
    {
     "id": "hero",
@@ -517,6 +517,10 @@
      {
       "id": "portfolio-hero",
       "name": "Personal Portfolio Hero"
+     },
+     {
+      "id": "terminal-hero",
+      "name": "Terminal Hero"
      }
     ]
    },
@@ -749,6 +753,10 @@
      {
       "id": "opening-hours",
       "name": "Opening Hours & Location"
+     },
+     {
+      "id": "service-area",
+      "name": "Service Area Checker"
      }
     ]
    },
@@ -901,6 +909,10 @@
       "name": "Collection Tiles"
      },
      {
+      "id": "services-booking",
+      "name": "Services & Booking List"
+     },
+     {
       "id": "restaurant-menu",
       "name": "Restaurant Menu"
      },
@@ -927,6 +939,14 @@
      {
       "id": "class-timetable",
       "name": "Class Timetable"
+     },
+     {
+      "id": "project-cards",
+      "name": "Project Cards"
+     },
+     {
+      "id": "quote-estimator",
+      "name": "Price Estimator"
      }
     ]
    },
@@ -1042,6 +1062,10 @@
     "id": "timeline",
     "label": "Timelines",
     "items": [
+     {
+      "id": "timeline-vertical",
+      "name": "Vertical Timeline"
+     },
      {
       "id": "timeline-horizontal",
       "name": "Horizontal Timeline"
