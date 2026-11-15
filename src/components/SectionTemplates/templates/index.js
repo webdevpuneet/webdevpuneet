@@ -65,6 +65,9 @@ import formSplitImage from './form-split-image.js';
 import openingHours from './opening-hours.js';
 import aboutStory from './about-story.js';
 import reviewsSummary from './reviews-summary.js';
+import loyaltyCard from './loyalty-card.js';
+import shopTheLook from './shop-the-look.js';
+import collectionTiles from './collection-tiles.js';
 import blogCards from './blog-cards.js';
 import blogFeatured from './blog-featured.js';
 import blogList from './blog-list.js';
@@ -181,6 +184,9 @@ export const SECTION_TEMPLATES = [
   openingHours,
   aboutStory,
   reviewsSummary,
+  loyaltyCard,
+  shopTheLook,
+  collectionTiles,
   blogCards,
   blogFeatured,
   blogList,

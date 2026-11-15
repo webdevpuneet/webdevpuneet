@@ -219,6 +219,8 @@ export const MEGA_CSS = `${NAV_CSS}
 @container st (max-width:860px){
 .st-wrap.mm-main{flex-wrap:wrap;gap:10px 8px;min-height:64px;padding-top:10px;padding-bottom:10px}
 .mm-main .st-burger{display:inline-block;order:3}
+.mm-main .st-brand{flex:1 1 0;min-width:0;order:1}
+.mm-main .st-brand-mark{min-width:0;white-space:nowrap;overflow:hidden}
 .mm-actions{margin-left:auto;order:2}
 .mm-search{order:5;flex:1 1 100%;max-width:none;margin:0}
 .mm-nav{position:absolute;left:0;right:0;top:100%;z-index:6;max-height:72vh;overflow:auto;padding:6px var(--st-pad) 22px;background:var(--st-bg);border-top:1px solid color-mix(in srgb,var(--st-text) 10%,transparent);box-shadow:0 30px 50px -30px rgba(15,23,42,.4)}

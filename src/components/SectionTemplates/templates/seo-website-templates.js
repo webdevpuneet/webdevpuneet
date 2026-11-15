@@ -7,5 +7,7 @@ import { WEBSITE_TEMPLATE_SEO_3 } from './seo-website-templates-3.js';
 import { WEBSITE_TEMPLATE_SEO_4 } from './seo-website-templates-4.js';
 import { WEBSITE_TEMPLATE_SEO_5 } from './seo-website-templates-5.js';
 import { WEBSITE_TEMPLATE_SEO_6 } from './seo-website-templates-6.js';
+import { WEBSITE_TEMPLATE_SEO_7 } from './seo-website-templates-7.js';
+import { WEBSITE_TEMPLATE_SEO_8 } from './seo-website-templates-8.js';
 
-export const WEBSITE_TEMPLATE_SEO = { ...WEBSITE_TEMPLATE_SEO_1, ...WEBSITE_TEMPLATE_SEO_2, ...WEBSITE_TEMPLATE_SEO_3, ...WEBSITE_TEMPLATE_SEO_4, ...WEBSITE_TEMPLATE_SEO_5, ...WEBSITE_TEMPLATE_SEO_6 };
+export const WEBSITE_TEMPLATE_SEO = { ...WEBSITE_TEMPLATE_SEO_1, ...WEBSITE_TEMPLATE_SEO_2, ...WEBSITE_TEMPLATE_SEO_3, ...WEBSITE_TEMPLATE_SEO_4, ...WEBSITE_TEMPLATE_SEO_5, ...WEBSITE_TEMPLATE_SEO_6, ...WEBSITE_TEMPLATE_SEO_7, ...WEBSITE_TEMPLATE_SEO_8 };

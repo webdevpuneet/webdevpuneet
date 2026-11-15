@@ -3629,6 +3629,96 @@ BEHAVIORS.revfilter = {
 })();`,
 };
 
+/* Loyalty stamp card: draws the stamps and lets the visitor add one. Markup: [data-loyalty] with data-total, data-start,
+   data-glyph, data-last (label of the reward stamp), data-progress and data-done (messages, {n} and {t} placeholders) and
+   data-key (card name, part of the storage key), holding [data-stamps], [data-progress-out], [data-add] and [data-reset].
+   Progress is kept in localStorage (wrapped; a private window just forgets it). Without JavaScript the card shows the
+   progress message and no stamps. */
+BEHAVIORS.loyalty = {
+  plugins: [],
+  js: `(function () {
+  document.querySelectorAll('.st [data-loyalty]').forEach(function (root) {
+    var total = Math.max(2, Math.min(16, parseInt(root.getAttribute('data-total'), 10) || 8));
+    var start = Math.max(0, Math.min(total, parseInt(root.getAttribute('data-start'), 10) || 0));
+    var glyph = root.getAttribute('data-glyph') || '';
+    var last = root.getAttribute('data-last') || '';
+    var tpl = root.getAttribute('data-progress') || '{n} of {t} stamps collected';
+    var doneText = root.getAttribute('data-done') || '';
+    var key = 'st-loyalty-' + (root.getAttribute('data-key') || 'card') + '-' + total;
+    var list = root.querySelector('[data-stamps]');
+    var out = root.querySelector('[data-progress-out]');
+    var add = root.querySelector('[data-add]');
+    var reset = root.querySelector('[data-reset]');
+    if (!list) return;
+    var count = start;
+    try { var saved = localStorage.getItem(key); if (saved !== null && saved !== '') count = Math.max(0, Math.min(total, parseInt(saved, 10) || 0)); } catch (e) {}
+    function save() { try { localStorage.setItem(key, String(count)); } catch (e) {} }
+    function draw(popIndex) {
+      list.innerHTML = '';
+      for (var i = 0; i < total; i++) {
+        var li = document.createElement('li');
+        var isLast = i === total - 1;
+        li.className = 'lc-stamp' + (i < count ? ' is-on' : '') + (isLast ? ' is-last' : '') + (i === popIndex ? ' pop' : '');
+        var vs = String.fromCharCode(65038); /* text presentation, so an emoji takes the stamp colour */
+        li.textContent = isLast ? (last || String(i + 1)) : (i < count ? (glyph ? glyph + vs : String.fromCharCode(10003)) : String(i + 1));
+        if (isLast && i < count && glyph) li.textContent = glyph + vs;
+        li.setAttribute('aria-label', (i < count ? 'Collected stamp ' : 'Empty stamp ') + (i + 1) + ' of ' + total);
+        list.appendChild(li);
+      }
+      var full = count >= total;
+      root.classList.toggle('is-done', full);
+      if (out) out.textContent = full && doneText ? doneText : tpl.replace('{n}', count).replace('{t}', total);
+      if (add) add.disabled = full;
+      if (reset) reset.hidden = !full;
+    }
+    if (add) add.addEventListener('click', function () {
+      if (count >= total) return;
+      count++; save(); draw(count - 1);
+    });
+    if (reset) reset.addEventListener('click', function () { count = 0; save(); draw(-1); });
+    draw(-1);
+  });
+})();`,
+};
+
+/* Shop the Look: places each hotspot (data-x / data-y, percent of the photo) and opens its product card on tap or click, closing it on
+   an outside click or Escape. Markup: [data-lookhot] holding .stl-spot items with a .stl-dot button and a .stl-pop card. The card also
+   opens on hover through CSS. Spots in the right half open to the left and in the lower half upwards. */
+BEHAVIORS.lookhot = {
+  plugins: [],
+  js: `(function () {
+  document.querySelectorAll('.st [data-lookhot]').forEach(function (root) {
+    var spots = root.querySelectorAll('.stl-spot');
+    function closeAll() {
+      Array.prototype.forEach.call(spots, function (s) {
+        s.classList.remove('is-open');
+        var d = s.querySelector('.stl-dot');
+        if (d) d.setAttribute('aria-expanded', 'false');
+      });
+    }
+    Array.prototype.forEach.call(spots, function (s) {
+      var x = parseFloat(s.getAttribute('data-x')), y = parseFloat(s.getAttribute('data-y'));
+      if (isNaN(x)) x = 50;
+      if (isNaN(y)) y = 50;
+      s.style.left = Math.max(0, Math.min(100, x)) + '%';
+      s.style.top = Math.max(0, Math.min(100, y)) + '%';
+      if (x > 55) s.classList.add('flip-x');
+      if (y > 58) s.classList.add('flip-y');
+      var dot = s.querySelector('.stl-dot');
+      if (!dot) return;
+      dot.addEventListener('click', function (e) {
+        var open = !s.classList.contains('is-open');
+        closeAll();
+        if (open) { s.classList.add('is-open'); dot.setAttribute('aria-expanded', 'true'); }
+        e.stopPropagation();
+      });
+    });
+    document.addEventListener('click', function (e) { if (!e.target.closest || !e.target.closest('.stl-spot')) closeAll(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
+  });
+})();`,
+};
+
 BEHAVIORS.formkit = {
   /* The interactive parts of the Forms category (form.fk), all plain JavaScript on top of normal inputs, so a form
      still posts without it: multi-step wizard ([data-fk-wizard] with [data-fk-step] panels, a progress list,

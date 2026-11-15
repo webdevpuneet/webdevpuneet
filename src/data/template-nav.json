@@ -492,7 +492,7 @@
   ]
  },
  "section": {
-  "total": 106,
+  "total": 109,
   "categories": [
    {
     "id": "hero",
@@ -669,6 +669,10 @@
      {
       "id": "cta-strip",
       "name": "CTA Strip"
+     },
+     {
+      "id": "loyalty-card",
+      "name": "Loyalty Stamp Card"
      }
     ]
    },
@@ -888,6 +892,14 @@
     "id": "listings",
     "label": "Menus & listings",
     "items": [
+     {
+      "id": "shop-the-look",
+      "name": "Shop the Look"
+     },
+     {
+      "id": "collection-tiles",
+      "name": "Collection Tiles"
+     },
      {
       "id": "restaurant-menu",
       "name": "Restaurant Menu"

@@ -10,6 +10,8 @@ import { EVEN_MORE_WEBSITE_TEMPLATES } from './starters-3.js';
 import { MUSIC_WEBSITE_TEMPLATES } from './starters-4.js';
 import { CORPORATE_WEBSITE_TEMPLATES } from './starters-5.js';
 import { ONLINE_STORE_WEBSITE_TEMPLATES } from './starters-6.js';
+import { CAFE_WEBSITE_TEMPLATES } from './starters-7.js';
+import { FASHION_WEBSITE_TEMPLATES } from './starters-8.js';
 import { applyExtras } from './starters-extras.js';
 
 const av = n => IMG(`avatar-${n}.jpg`);
@@ -550,6 +552,10 @@ const BASE_TEMPLATES = [
   ...CORPORATE_WEBSITE_TEMPLATES,
   // Online store: mega menu, shop with filters, product, cart, checkout, orders, wishlist (starters-6.js)
   ...ONLINE_STORE_WEBSITE_TEMPLATES,
+  // Cafe and coffee shop with online ordering and a loyalty card (starters-7.js)
+  ...CAFE_WEBSITE_TEMPLATES,
+  // Fashion boutique with collection tiles and Shop the Look (starters-8.js)
+  ...FASHION_WEBSITE_TEMPLATES,
 ];
 
 // The sections added later (gallery, video, before / after, booking form, case studies, product grid)

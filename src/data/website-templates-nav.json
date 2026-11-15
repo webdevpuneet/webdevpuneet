@@ -128,5 +128,15 @@
   "id": "online-store",
   "name": "Online Store Website (Full Shop)",
   "industry": "Retail"
+ },
+ {
+  "id": "cafe",
+  "name": "Cafe & Coffee Shop Website (Order Online)",
+  "industry": "Food & drink"
+ },
+ {
+  "id": "fashion",
+  "name": "Fashion Boutique Website (Online Store)",
+  "industry": "Retail"
  }
 ]

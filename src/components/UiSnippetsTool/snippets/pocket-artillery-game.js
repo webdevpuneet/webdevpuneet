@@ -34,8 +34,18 @@ const pocketArtilleryGame = {
         <button class="pa-btn" id="pa-play" type="button">Play</button>
         <button class="pa-btn pa-btn-alt" id="pa-daily" type="button">Daily map</button>
       </div>
+      <button class="pa-btn pa-btn-share" id="pa-share" type="button" hidden>Share result</button>
       <p class="pa-best" id="pa-best"></p>
     </div>
+  </div>
+  <div class="pa-sharebox" id="pa-sharebox" hidden>
+    <span id="pa-sharemsg">Share your result:</span>
+    <button type="button" id="pa-copyimg">Copy image</button>
+    <a id="pa-dl" download="pocket-artillery-result.png">Download image</a>
+    <button type="button" id="pa-more" hidden>More&hellip;</button>
+    <a id="pa-sh-wa" target="_blank" rel="noopener">WhatsApp</a>
+    <a id="pa-sh-x" target="_blank" rel="noopener">X</a>
+    <a id="pa-sh-fb" target="_blank" rel="noopener">Facebook</a>
   </div>
 
   <div class="pa-panel" id="pa-panel">
@@ -82,6 +92,10 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 .pa-btn { padding: 10px 24px; font-size: 14px; font-weight: 800; border: none; border-radius: 10px; background: #e8553a; color: #fff; cursor: pointer; font-family: inherit; box-shadow: 0 3px 0 #b83f28; }
 .pa-btn-alt { background: #3b63e0; box-shadow: 0 3px 0 #2a47a8; }
 .pa-btn:active { transform: translateY(2px); box-shadow: none; }
+.pa-btn-share { background: #16a34a; box-shadow: 0 3px 0 #11793a; }
+.pa-btn[hidden], .pa-sharebox[hidden], .pa-sharebox [hidden] { display: none; }
+.pa-sharebox { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; background: #fff; border: 1px solid #d5e2ee; border-radius: 12px; padding: 8px 12px; font-size: 12px; font-weight: 700; color: #64748b; }
+.pa-sharebox button, .pa-sharebox a { border: 1px solid #d5e2ee; background: #f8fafc; color: #1e293b; border-radius: 99px; padding: 5px 12px; font-size: 12px; font-weight: 700; font-family: inherit; text-decoration: none; cursor: pointer; }
 .pa-best { font-size: 12px; font-weight: 700; color: #64748b; min-height: 16px; }
 .pa-opts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .pa-seg { display: inline-flex; background: #fff; border: 1px solid #d5e2ee; border-radius: 99px; padding: 3px; }
@@ -719,6 +733,7 @@ function newGame(seed, daily) {
   WEAPONS = dealHand(seed);
   turn = 0; sel = 0; bolts = []; shots = []; parts = []; rings = []; floats = []; fires = []; lastPath = [[], []];
   overlay.classList.add('hide');
+  $('pa-share').hidden = true; $('pa-sharebox').hidden = true;
   shuffleIn(startTurn);
 }
 function showBest() {
@@ -739,9 +754,86 @@ function endGame() {
   $('pa-sub').textContent = two ? 'Good duel. Swap sides and go again.' : a > b ? 'Nice shooting. Try the daily map or a fresh one.' : 'So close. Mind the wind and go again.';
   $('pa-play').textContent = 'New map';
   showBest();
+  $('pa-share').hidden = false;
   overlay.classList.remove('hide');
   syncUi();
 }
+
+/* ---------- share the result (win, loss or draw) ---------- */
+const SHARE_URL = 'https://webdevpuneet.com';
+function shareText() {
+  const a = tanks[0].score, b = tanks[1].score, two = mode === 'two';
+  const res = a === b ? 'drew ' + a + '-' + b : a > b ? (two ? 'Player 1 won ' : 'I won ') + a + '-' + b : (two ? 'Player 2 won ' : 'I lost ') + b + '-' + a;
+  return 'Pocket Artillery: ' + res + (two ? '' : ' vs the CPU') + '. Can you beat it? ' + SHARE_URL;
+}
+/* Draws a 1080 x 1080 result card in memory (no screenshot, no download): title, score and the final battlefield. */
+function makeCard(cb) {
+  const S = 1080, c = document.createElement('canvas');
+  c.width = S; c.height = S;
+  const g = c.getContext('2d');
+  const grad = g.createLinearGradient(0, 0, 0, S);
+  grad.addColorStop(0, '#eaf4ff'); grad.addColorStop(1, '#fff3ef');
+  g.fillStyle = grad; g.fillRect(0, 0, S, S);
+  const a = tanks[0].score, b = tanks[1].score, two = mode === 'two';
+  g.textAlign = 'center'; g.fillStyle = '#1e293b';
+  g.font = '800 64px system-ui, sans-serif'; g.fillText('Pocket Artillery', S / 2, 130);
+  g.font = '800 120px system-ui, sans-serif';
+  g.fillStyle = a === b ? '#475569' : a > b ? '#e8553a' : '#3b63e0';
+  g.fillText(a + '  :  ' + b, S / 2, 290);
+  g.fillStyle = '#475569'; g.font = '700 44px system-ui, sans-serif';
+  g.fillText(a === b ? 'A draw' : a > b ? (two ? 'Player 1 wins' : 'You win!') : (two ? 'Player 2 wins' : 'The CPU wins'), S / 2, 360);
+  const w = 960, h = Math.round(w * H / W), x = (S - w) / 2, y = 410;
+  g.save(); g.shadowColor = 'rgba(60,100,140,0.3)'; g.shadowBlur = 30; g.shadowOffsetY = 10;
+  g.fillStyle = '#fff'; g.fillRect(x - 8, y - 8, w + 16, h + 16); g.restore();
+  g.drawImage(canvas, x, y, w, h);
+  g.fillStyle = '#1e293b'; g.font = '800 46px system-ui, sans-serif';
+  g.fillText('Can you beat it?', S / 2, 1000);
+  g.fillStyle = '#64748b'; g.font = '700 34px system-ui, sans-serif';
+  g.fillText('Play free at webdevpuneet.com', S / 2, 1050);
+  c.toBlob(cb, 'image/png');
+}
+let cardBlob = null;
+function openFallback() {
+  const t = encodeURIComponent(shareText());
+  $('pa-sh-wa').href = 'https://wa.me/?text=' + t;
+  $('pa-sh-x').href = 'https://twitter.com/intent/tweet?text=' + t;
+  $('pa-sh-fb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE_URL) + '&quote=' + t;
+  $('pa-sharebox').hidden = false;
+}
+$('pa-share').addEventListener('click', () => {
+  makeCard(blob => {
+    cardBlob = blob;
+    if (!blob) { openFallback(); return; }
+    const file = new File([blob], 'pocket-artillery-result.png', { type: 'image/png' });
+    const canNative = !!(navigator.canShare && navigator.canShare({ files: [file] }));
+    const desktop = !(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    try { if (cardUrl) URL.revokeObjectURL(cardUrl); cardUrl = URL.createObjectURL(blob); $('pa-dl').href = cardUrl; } catch (e) {}
+    $('pa-more').hidden = !canNative;
+    if (canNative && !desktop) {
+      /* phone or tablet: straight to the native share sheet with the image attached */
+      doNativeShare(file);
+    } else {
+      /* desktop (or no file sharing): Copy image, Download image and links are always shown */
+      openFallback();
+    }
+  });
+});
+let cardUrl = '';
+function doNativeShare(file) {
+  navigator.share({ files: [file], title: 'Pocket Artillery', text: shareText() }).catch(() => {});
+}
+$('pa-more').addEventListener('click', () => {
+  if (cardBlob) doNativeShare(new File([cardBlob], 'pocket-artillery-result.png', { type: 'image/png' }));
+});
+$('pa-copyimg').addEventListener('click', () => {
+  const msg = $('pa-sharemsg');
+  try {
+    navigator.clipboard.write([new ClipboardItem({ 'image/png': cardBlob })]).then(
+      () => { msg.textContent = 'Image copied. Paste it into your chat or post.'; },
+      () => { msg.textContent = 'Could not copy here. Try Download image.'; }
+    );
+  } catch (e) { msg.textContent = 'Copying images is not supported here. Try Download image.'; }
+});
 $('pa-play').addEventListener('click', () => newGame(Math.floor(Math.random() * 1e9)));
 $('pa-daily').addEventListener('click', () => {
   newGame(todayKey(), true);
