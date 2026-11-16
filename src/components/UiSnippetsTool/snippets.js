@@ -143,6 +143,16 @@ import hangmanWordGame from './snippets/hangman-word-game.js';
 import snakeGame from './snippets/snake-game.js';
 import pongGame from './snippets/pong-game.js';
 import pocketArtilleryGame from './snippets/pocket-artillery-game.js';
+import neonFlickerSign from './snippets/neon-flicker-sign.js';
+import slotReelLetters from './snippets/slot-reel-letters.js';
+import blurFocusPull from './snippets/blur-focus-pull.js';
+import mouseTilt3dExtrudedText from './snippets/mouse-tilt-3d-extruded-text.js';
+import circularTextSpin from './snippets/circular-text-spin.js';
+import markerHighlightSweep from './snippets/marker-highlight-sweep.js';
+import redlineEditReplace from './snippets/redline-edit-replace.js';
+import perspectiveCrawlCredits from './snippets/perspective-crawl-credits.js';
+import karaokeWordHighlight from './snippets/karaoke-word-highlight.js';
+import pixelResolveText from './snippets/pixel-resolve-text.js';
 import breakoutBrickGame from './snippets/breakout-brick-game.js';
 import minesweeperGame from './snippets/minesweeper-game.js';
 import tileMerge2048Game from './snippets/tile-merge-2048-game.js';
@@ -4284,6 +4294,16 @@ export const SNIPPETS = [
   accessibilityToolbarWidget,
   switchyardTrainPuzzleGame,
   pocketArtilleryGame,
+  neonFlickerSign,
+  slotReelLetters,
+  blurFocusPull,
+  mouseTilt3dExtrudedText,
+  circularTextSpin,
+  markerHighlightSweep,
+  redlineEditReplace,
+  perspectiveCrawlCredits,
+  karaokeWordHighlight,
+  pixelResolveText,
 ];
 
 // Snippets visible in production listings/sitemaps — noindex/test snippets only show on localhost

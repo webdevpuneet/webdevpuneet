@@ -1,0 +1,285 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Free Text Animation Snippets: Neon Signs, Slot Reels, Karaoke Lyrics and Pixel Resolve
+
+  SEO TITLE (53 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Free Text Animations: Neon, Slot Reels and Karaoke
+
+  SEO DESCRIPTION (156 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free text animation snippets in HTML, CSS and JS: neon sign, slot reels, blur focus, 3D tilt, marker highlight, karaoke and pixel resolve. Copy the code.
+
+  FEATURED IMAGE: blog47-text-animations-featured.jpg (same folder), 1200 x 630 px, 62 KB, progressive JPEG. Upload it in the post sidebar → Featured image.
+  ALT TEXT: Collage of ten text animation snippet previews, including a neon OPEN sign, slot machine letters and karaoke lyrics, with the title 10 Free Text Animations
+
+  NOTE: the 10 live previews are iframes of https://webdevpuneet.com/ui-snippets/<id>/embed/ and the snippet links point to the new snippet pages,
+  so they only work once the latest site deploy is extracted on the server. Publish the post after that.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Text is the cheapest thing on a page to animate and the easiest to get wrong. A typewriter, a gradient and a scramble effect have been done thousands of times, and a visitor's eye slides straight past them. This batch goes after text effects that are less common: ones with a mechanism you can actually see, such as a reel that has to travel before it lands, a sign tube that fails, or a word that sharpens like a lens finding focus.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Below are ten free, self-contained snippets for the <a href="https://webdevpuneet.com/ui-snippets/text-animations/">Text Animations category</a>, written in plain HTML, CSS and JavaScript with no animation library. Every one is a <strong>live, interactive preview</strong> you can try right in this article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page. None repeats an effect that is already in the collection.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">What these ten get right</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>A believable effect borrows its pattern from the real thing.</strong> A failing neon tube is steady with short dropouts, a slot reel overshoots slightly, and a highlighter stripe has soft ends. Copying the physical behaviour matters more than the CSS used.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>One variable per word can replace a pile of timers.</strong> Focus Pull, Slot Reel and Marker Highlight all compute a delay from the element's index and let CSS transitions do the rest, so the sequences replay cleanly.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Drive the display from a single value.</strong> Karaoke and Pixel Resolve draw everything from one number (time, block size), which is why seeking, reversing or syncing to audio is a one-line change.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Real text stays real text.</strong> Where a canvas or SVG is used, a hidden heading or an <code>aria-label</code> carries the words, and every effect has a <code>prefers-reduced-motion</code> path that shows the final state.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Neon Flicker Sign</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/neon-flicker-sign/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Neon Flicker Sign — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>A diner-style "OPEN" sign where two of the four letters keep failing, like tubes that are about to die. <a href="https://webdevpuneet.com/ui-snippets/neon-flicker-sign/">Open Neon Flicker Sign and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> The glow is a stack of five <code>text-shadow</code> layers: a tight white core and wide coloured halos out to 90px. The flicker is a keyframe that stays at full brightness for most of the cycle and dips in short, uneven bursts, and the second broken letter runs on a different duration with a delay so the pattern never lines up. A "Cut the power" button kills the glow and relights each letter in turn with a one-shot animation delayed by its index.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> Real flicker is mostly steady with brief dropouts, not a smooth pulse. Long gaps in the keyframes are what make it believable.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Slot Reel Letters</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/slot-reel-letters/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Slot Reel Letters — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>Every letter is its own little reel that spins through random characters and clicks into place, left to right. <a href="https://webdevpuneet.com/ui-snippets/slot-reel-letters/">Open Slot Reel Letters and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> JavaScript builds a tall strip per letter: sixteen random characters followed by the real one, inside a window with <code>overflow:hidden</code>. The strip slides up with a cubic-bezier whose end value is slightly above 1, which gives each reel a small mechanical bounce as it lands, and each reel's duration is a little longer than the last so the word locks in in order. Before every spin the code reads <code>getBoundingClientRect()</code> so the browser registers the start position and animates instead of jumping.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> A reveal feels physical when something has to travel before it arrives. Random filler plus a staggered landing sells the mechanism.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Blur Focus Pull</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/blur-focus-pull/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Blur Focus Pull — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>A headline and subtitle start out of focus and sharpen word by word, like a camera pulling focus. <a href="https://webdevpuneet.com/ui-snippets/blur-focus-pull/">Open Blur Focus Pull and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> Each word transitions <code>filter: blur()</code>, opacity and a scale from 1.12 back to 1 together. There are no timers: JavaScript sets a per-word <code>--d</code> variable that counts up by 0.16s across both lines, and the CSS transition reads it as <code>transition-delay</code>. A slider writes the starting blur to a custom property, which is handy because large blur on big text is the expensive part of the effect.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> A custom property per element plus <code>transition-delay</code> replaces a chain of setTimeouts, and it replays cleanly by removing the class, forcing a reflow and adding it back.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Mouse-Tilt 3D Extruded Text</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/mouse-tilt-3d-extruded-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mouse-Tilt 3D Extruded Text — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>A chunky word with real-looking depth that turns toward your cursor while its sides swing with it. <a href="https://webdevpuneet.com/ui-snippets/mouse-tilt-3d-extruded-text/">Open Mouse-Tilt 3D Extruded Text and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> CSS can't extrude text, but 22 zero-blur shadows, each one step further along the same direction and each darker than the last, merge into a solid side wall. JavaScript rebuilds that <code>text-shadow</code> on every frame from the pointer position, and the same position drives a <code>rotateX/rotateY</code> tilt inside a 900px perspective. The values are smoothed with a per-frame lerp, so the word keeps drifting after you stop and settles flat when the pointer leaves.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> Depth reads as depth when the sides get darker toward the back. Offsetting the shadows alone looks like a smear.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Circular Text Spin</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/circular-text-spin/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Circular Text Spin — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>Two round badges with text running around the edge: an "Available for work" link and a smaller "Scroll down" cue spinning the other way. <a href="https://webdevpuneet.com/ui-snippets/circular-text-spin/">Open Circular Text Spin and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> The words are real text on an SVG <code>textPath</code> that follows a circle drawn with two arc commands. <code>textLength</code> with <code>lengthAdjust="spacing"</code> makes the phrase fill the circumference exactly, and the script recomputes it as 2πr so changing the radius still closes the ring. The spin is one CSS rotation, faster on hover, and it stops under reduced motion and pauses when the tab is hidden.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> A rotating ring of words is poor for screen readers, so the link carries its own <code>aria-label</code> and the SVG is hidden from assistive tech.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Marker Highlight Sweep</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/marker-highlight-sweep/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Marker Highlight Sweep — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>Highlighter stripes draw across the key phrases of a paragraph, one after another, even where a phrase wraps onto a second line. <a href="https://webdevpuneet.com/ui-snippets/marker-highlight-sweep/">Open Marker Highlight Sweep and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> Each phrase is a real <code>&lt;mark&gt;</code> whose background is an angled gradient with soft transparent ends, so it looks like felt tip, animated from 0 to 100% width with <code>background-size</code>. The detail that makes it work on wrapped text is <code>box-decoration-break: clone</code>, which gives every line fragment its own complete stripe, something a pseudo-element can't do. An IntersectionObserver starts the sweep when the note is 40% visible.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> Highlight with a background on an inline element, not a pseudo-element, and the effect survives line breaks and font changes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. Redline Edit Replace</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/redline-edit-replace/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Redline Edit Replace — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>A sentence rewrites itself the way tracked changes do: strike the old word in red, type the new one in green, accept. <a href="https://webdevpuneet.com/ui-snippets/redline-edit-replace/">Open Redline Edit Replace and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> Each edit moves through three classes. <code>struck</code> grows a red line across the old word, <code>typing</code> opens the insert and types the replacement one letter at a time, and <code>accepted</code> collapses the old word to zero width so the sentence closes up smoothly. All steps go through one helper that stores every timer, so "Replay edits" can cancel a half-finished run without overlap.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> Animate <code>max-width</code>, not <code>display</code>. It is what lets the surrounding text slide into place instead of jumping.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. Perspective Crawl Credits</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/perspective-crawl-credits/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Perspective Crawl Credits — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>Credits that tilt back and shrink into a star field as they scroll away, with pause and three speeds. <a href="https://webdevpuneet.com/ui-snippets/perspective-crawl-credits/">Open Perspective Crawl Credits and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> A wrapper with <code>perspective: 340px</code> and a bottom-centre <code>perspective-origin</code> makes the vanishing point sit in the middle of the screen, and the text is <code>rotateX(26deg)</code> animated only with <code>translateY</code>. Order matters: rotate first and translate second so the movement follows the tilted plane. A gradient overlay fades the text out at the horizon and the stars are layered radial gradients, so there are no images.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> Changing <code>animation-duration</code> mid-run makes the animation jump, so the speed control restarts the crawl instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">9. Karaoke Word Highlight</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/karaoke-word-highlight/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Karaoke Word Highlight — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>Lyrics where each word fills with colour in time with a clock, with the current line brightened and a play, pause and restart bar. <a href="https://webdevpuneet.com/ui-snippets/karaoke-word-highlight/">Open Karaoke Word Highlight and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> Each word's background is a two-colour gradient sized to 200% width and clipped to the text, and sliding <code>background-position</code> from 100% to 0% wipes the bright half across it, whatever the word's length. The lyrics are a plain array of <code>[word, start, length]</code>, and one render function turns the current time into every word's fill, the active line, the progress bar and the time label.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> Because the display is a pure function of time, hooking it to a real audio element is one line: set <code>t = audio.currentTime</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">10. Pixel Resolve Text</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/pixel-resolve-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pixel Resolve Text — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>A headline on a canvas that starts as huge pixel blocks and sharpens in steps into crisp type, or pixelates back out. <a href="https://webdevpuneet.com/ui-snippets/pixel-resolve-text/">Open Pixel Resolve Text and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> The sharp text is drawn once offscreen. To show it at a block size, the code draws it into a much smaller canvas and stretches that back up with <code>imageSmoothingEnabled = false</code>, so each pixel becomes a hard-edged square. Block sizes shrink by a constant factor so the sharpening looks even, and the last step is forced to 1 for a retina-sharp finish. A hidden heading and an <code>aria-label</code> keep the text readable to search engines and screen readers.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> Real resolution change looks different from blur. Downscale then nearest-neighbour upscale gives you true pixel-art frames.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Which one should you use?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>A hero headline that has to feel premium:</strong> Blur Focus Pull, or Mouse-Tilt 3D Extruded Text for something more playful.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A themed page, such as a bar, a game or an event:</strong> Neon Flicker Sign or Slot Reel Letters.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A portfolio or agency homepage:</strong> Circular Text Spin for the "available for work" badge, and Marker Highlight Sweep inside the intro paragraph.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Explaining or demonstrating something:</strong> Redline Edit Replace for writing and review tools, Karaoke Word Highlight for lyrics, captions and read-alongs.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A title screen, a loading moment or a credits section:</strong> Pixel Resolve Text or Perspective Crawl Credits.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>A word of restraint: one attention-grabbing text effect per screen is plenty. These work because they are rare on the page, and stacking three of them makes each one weaker.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Find these ten and every other text effect in the collection in one place via the <a href="https://webdevpuneet.com/ui-snippets/text-animations/">Text Animations category</a> or the <a href="https://webdevpuneet.com/ui-snippets/tag/text-effects/">Text Effects tag</a>. Open any of them above and you land straight in the live editor, HTML/CSS/JS tabs and all; click <strong>Save as</strong> to copy it into <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and start changing it.</p>
+<!-- /wp:paragraph -->
+
