@@ -110,8 +110,7 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
         <div className={s.story}>
           <strong>Built with passion. Shared with everyone.</strong>
           <p>WebDevPuneet is an independent project made with countless hours of work. <b>If it has helped you or saved you time, please consider becoming a supporter</b> and help keep it alive and growing.</p>
-          <p>Got a project of your own? <b>I can help you build it, so hire me</b> on Upwork or send an email.</p>
-        </div>
+          <p>Got a project of your own? <b>I can help you build it, so hire me</b> on Upwork or send an email.</p>        </div>
         <div className={s.head}>
           <span className={s.lockIcon}>♥</span>
           <h2 id="prem-title" className={s.title}>Support WebDevPuneet: $1/month</h2>

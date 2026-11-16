@@ -15,7 +15,7 @@ import ThemeToggle from '@/components/ThemeToggle';
 import CookieSettingsButton from '@/components/CookieSettingsButton';
 // The lightweight index + categories, not UiSnippetsTool/snippets (which bundles every snippet's source).
 import { CATEGORIES as SNIPPET_CATEGORIES } from '@/components/UiSnippetsTool/categories';
-import { SNIPPET_INDEX as SNIPPETS, VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
+import { SNIPPET_INDEX as SNIPPETS } from '@/lib/snippet-index';
 import { dbGetAll as dbGetAllCustomSnippets } from '@/lib/uiSnippetsDb';
 import { useBookmarks, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
 import { useProjects, ResumeCard } from './MyProjects';
@@ -463,19 +463,18 @@ function SidebarLink({ href, icon, label, active, count = 0 }) {
   );
 }
 
-/* The Games row: same shape as the other rows, with a bobbing controller, an animated "Enjoy!" chip and the number of games */
-const GAME_COUNT = VISIBLE_SNIPPETS.filter(sn => sn.category === 'games').length;
+/* The Games row: same shape as the other rows, with a bobbing controller and an animated "Enjoy!" chip; links straight to Pocket Artillery */
 function GamesLink({ active }) {
   return (
     <a
-      href="/ui-snippets/games/"
+      href="/ui-snippets/pocket-artillery-game/"
       className={`${styles.playgroundsHeader} ${styles.plainLink} ${styles.gamesLink} ${active ? `${styles.groupOpen} ${styles.linkActive}` : ''}`}
       style={{ textDecoration: 'none' }}
-      title={`Play ${GAME_COUNT} free browser games: physics, puzzles, racing and more`}
+      title="Play Pocket Artillery, a quick free tank duel in your browser"
     >
       <span className={styles.railIcon}><img src="/icons/games.svg" alt="" width={13} height={13} /></span>
       <span className={styles.frontIcon}><img src="/icons/games.svg" alt="" width={16} height={16} /></span>
-      <span className={styles.groupLabel}>Games <span className={styles.gamesChip}>Enjoy!</span></span>
+      <span className={styles.groupLabel}><span className={styles.gamesName}>Blast Tanks</span> <span className={styles.gamesChip}>Enjoy! Free game</span></span>
     </a>
   );
 }
@@ -1512,7 +1511,7 @@ export default function Sidebar() {
                   />
                   <ResumeCard snippets={customSnippets} projects={projects} />
                   {/* Games sit first, above UI Snippets */}
-                  <GamesLink active={(pathname || '').startsWith('/ui-snippets/games')} />
+                  <GamesLink active={(pathname || '').startsWith('/ui-snippets/games') || (pathname || '').startsWith('/ui-snippets/pocket-artillery-game')} />
                   <UiSnippetsCategories pathname={pathname} />
                   {/* Learn to Code sits right after UI Snippets */}
                   <PlaygroundsGroup

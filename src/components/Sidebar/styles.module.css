@@ -2124,6 +2124,7 @@ a.sortBtn { text-decoration: none; }
 .gamesChip { display: inline-block; margin-left: 4px; padding: 1px 7px; border-radius: 99px; font-size: 9.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff; vertical-align: 1px;
   background: linear-gradient(110deg, #6366f1, #ec4899, #f59e0b, #6366f1); background-size: 300% 100%; animation: gamesShift 4s linear infinite; }
 @keyframes gamesShift { to { background-position: -300% 0; } }
+.gamesName { font-weight: 800; background: linear-gradient(100deg, #f97316, #ef4444 55%, #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
 .gamesLink img { transform-origin: 50% 60%; animation: gamesBob 6s ease-in-out infinite; }
 .gamesLink:hover img { animation: gamesWiggle .6s ease-in-out; }
 @keyframes gamesBob { 0%, 84%, 100% { transform: none; } 88% { transform: translateY(-2px) rotate(-10deg); } 92% { transform: translateY(0) rotate(8deg); } 96% { transform: rotate(-4deg); } }
