@@ -61,6 +61,11 @@ import lunarNewYear from './lunar-new-year.js';
 import ramadanEid from './ramadan-eid.js';
 import nationalDay from './national-day.js';
 import fiveStarReview from './five-star-review.js';
+import blackFriday from './black-friday.js';
+import tierList from './tier-list.js';
+import commentToGet from './comment-to-get.js';
+import redGreenFlags from './red-green-flags.js';
+import receipt from './receipt.js';
 export { SIZES, sizeById, TEMPLATE_CATEGORIES, categoryById, BASE_CSS, richText } from './meta.js';
 
 const ORDER = [
@@ -70,12 +75,16 @@ const ORDER = [
   codeTip,
   mythVsFact,
   bigStat,
+  receipt,
   numberedList,
   qaPost,
   checklist,
   howToSteps,
   mistakesToAvoid,
   thisOrThat,
+  tierList,
+  commentToGet,
+  redGreenFlags,
   hotTake,
   productLaunch,
   milestone,
@@ -90,6 +99,7 @@ const ORDER = [
   discountBadge,
   pricingCard,
   holidaySale,
+  blackFriday,
   cyberMonday,
   adventCalendar,
   productSpotlight,

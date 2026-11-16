@@ -183,7 +183,7 @@
   ]
  },
  "social": {
-  "total": 61,
+  "total": 66,
   "categories": [
    {
     "id": "quotes",
@@ -212,6 +212,10 @@
      {
       "id": "big-stat",
       "name": "Big Stat"
+     },
+     {
+      "id": "receipt",
+      "name": "Receipt Post"
      },
      {
       "id": "numbered-list",
@@ -248,6 +252,18 @@
      {
       "id": "this-or-that",
       "name": "This or That"
+     },
+     {
+      "id": "tier-list",
+      "name": "Tier List Post"
+     },
+     {
+      "id": "comment-to-get",
+      "name": "Comment to Get"
+     },
+     {
+      "id": "red-green-flags",
+      "name": "Red Flag / Green Flag"
      },
      {
       "id": "hot-take",
@@ -315,6 +331,10 @@
      },
      {
       "id": "holiday-sale",
+      "name": "Black Friday Sale"
+     },
+     {
+      "id": "black-friday",
       "name": "Black Friday Sale"
      },
      {
