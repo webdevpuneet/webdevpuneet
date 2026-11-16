@@ -42,3 +42,11 @@
 .followBtn:hover { filter: brightness(1.1); }
 .followFb { background: #1877f2; }
 .followX { background: #0f1419; }
+.followUpwork { background: #14a800; }
+.followMail { background: #475569; border: 0; cursor: pointer; }
+.mailWrap { position: relative; display: inline-flex; }
+.mailPop { position: absolute; top: calc(100% + 8px); right: 0; z-index: 5; display: flex; flex-direction: column; gap: 8px; align-items: stretch; min-width: 220px; padding: 12px; border-radius: 10px; background: #fff; color: #0f172a; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25); border: 1px solid #e2e8f0; text-align: center; }
+.mailAddr { font: 700 13px var(--font-ui, system-ui); user-select: all; }
+.mailCopy { padding: 7px 10px; border: 0; border-radius: 8px; background: #0f1419; color: #fff; font: 700 12px var(--font-ui, system-ui); cursor: pointer; }
+.mailCopy:hover { filter: brightness(1.2); }
+.mailOpenApp { font: 600 12px var(--font-ui, system-ui); color: #475569; text-decoration: underline; }

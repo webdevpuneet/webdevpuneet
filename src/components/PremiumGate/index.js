@@ -29,6 +29,8 @@ export function useSupporterThanks() {
   return on;
 }
 
+const MAIL = 'puneet438@gmail.com';
+
 const LOCK = (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
 );
@@ -47,7 +49,16 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
   const [state, setState] = useState(''); // '', 'checking', 'wrong', 'done'
   const input = useRef(null);
   const thanked = useSupporterThanks(); // already said so (or has the passcode): no need to ask again
-  useEffect(() => { if (open) { setCode(''); setState(''); setTimeout(() => input.current?.focus(), 50); } }, [open]);
+  const [mailOpen, setMailOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const copyMail = async () => {
+    try { await navigator.clipboard.writeText(MAIL); } catch {
+      const t = document.createElement('textarea'); t.value = MAIL; document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); } catch {} t.remove();
+    }
+    setCopied(true);
+  };
+  useEffect(() => { if (open) { setMailOpen(false); setCopied(false); setCode(''); setState(''); setTimeout(() => input.current?.focus(), 50); } }, [open]);
   useEffect(() => {
     if (!open) return undefined;
     const esc = e => { if (e.key === 'Escape') onClose(); };
@@ -71,35 +82,51 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
         <div className={s.xWrap}><button type="button" className={s.xClose} onClick={() => onClose('x')} aria-label="Close">×</button></div>
         <img className={s.hero} src="/images/patreon-supporter.webp" alt="Puneet at his desk building webdevpuneet.com" width="880" height="880" loading="lazy" />
         <div className={s.follow}>
-          <span className={s.followLabel}>Follow</span>
-          <a className={`${s.followBtn} ${s.followFb}`} href="https://www.facebook.com/profile.php?id=61595046687403" target="_blank" rel="noopener noreferrer">
+          <span className={s.followLabel}>Connect</span>
+          <a className={`${s.followBtn} ${s.followFb}`} aria-label="Follow on Facebook" title="Follow on Facebook" href="https://www.facebook.com/profile.php?id=61595046687403" target="_blank" rel="noopener noreferrer">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z" /></svg>
-            Follow on Facebook
           </a>
-          <a className={`${s.followBtn} ${s.followX}`} href="https://x.com/webdevpuneet" target="_blank" rel="noopener noreferrer">
+          <a className={`${s.followBtn} ${s.followX}`} aria-label="Follow on X" title="Follow on X" href="https://x.com/webdevpuneet" target="_blank" rel="noopener noreferrer">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
-            Follow on X
           </a>
+          <a className={`${s.followBtn} ${s.followUpwork}`} href="https://www.upwork.com/freelancers/~017de423dd2d0e2767" target="_blank" rel="noopener noreferrer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" /></svg>
+            Hire me on Upwork
+          </a>
+          <span className={s.mailWrap}>
+            <button type="button" className={`${s.followBtn} ${s.followMail}`} onClick={() => { setMailOpen(o => !o); setCopied(false); }} aria-expanded={mailOpen}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
+              Email
+            </button>
+            {mailOpen && (
+              <span className={s.mailPop} role="status">
+                <span className={s.mailAddr}>{MAIL}</span>
+                <button type="button" className={s.mailCopy} onClick={copyMail}>{copied ? 'Copied ✓' : 'Copy email address'}</button>
+                <a className={s.mailOpenApp} href={`mailto:${MAIL}`}>Open mail app</a>
+              </span>
+            )}
+          </span>
         </div>
         <div className={s.story}>
           <strong>Built with passion. Shared with everyone.</strong>
           <p>WebDevPuneet is an independent project made with countless hours of work. <b>If it has helped you or saved you time, please consider becoming a supporter</b> and help keep it alive and growing.</p>
+          <p>Got a project of your own? <b>I can help you build it, so hire me</b> on Upwork or send an email.</p>
         </div>
         <div className={s.head}>
           <span className={s.lockIcon}>♥</span>
-          <h2 id="prem-title" className={s.title}>Support the site: $1/month</h2>
+          <h2 id="prem-title" className={s.title}>Support WebDevPuneet: $1/month</h2>
         </div>
         <ul className={s.list}>
           <li>Everything stays free for everyone: every tool, template, snippet, game, export and fork</li>
-          <li>Your support pays for hosting and keeps new tools, templates and games coming</li>
+          <li>Your support helps cover hosting costs and gives me more time to build new tools, templates, snippets and games</li>
         </ul>
         {state === 'thanks' ? (
           <p className={s.ok} role="status" style={{ textAlign: 'center', fontSize: 15, fontWeight: 700, margin: '8px 0 4px' }}>♥ Thank you for supporting WebDevPuneet! It means a lot.</p>
         ) : (
           <>
             <a className={s.patreon} href={PATREON_URL} target="_blank" rel="noopener noreferrer" onClick={() => onSupport?.()}>Support on Patreon</a>
-            <button type="button" className={s.close} onClick={() => onClose('notnow')}>Not now, will think about it later on...</button>
-            {!thanked && <button type="button" className={s.close} onClick={() => { markSupporter(); onAlreadySupporter?.(); setState('thanks'); setTimeout(onClose, 2200); }}>I'm already a supporter</button>}
+            <button type="button" className={s.close} onClick={() => onClose('notnow')}>Maybe later</button>
+            {!thanked && <button type="button" className={s.close} onClick={() => { markSupporter(); onAlreadySupporter?.(); setState('thanks'); setTimeout(onClose, 2200); }}>Already supporting ♥</button>}
           </>
         )}
       </form>
