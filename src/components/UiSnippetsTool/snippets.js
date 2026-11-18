@@ -153,6 +153,12 @@ import redlineEditReplace from './snippets/redline-edit-replace.js';
 import perspectiveCrawlCredits from './snippets/perspective-crawl-credits.js';
 import karaokeWordHighlight from './snippets/karaoke-word-highlight.js';
 import pixelResolveText from './snippets/pixel-resolve-text.js';
+import scrollZipperReveal from './snippets/scroll-zipper-reveal.js';
+import scrollReceiptPrinter from './snippets/scroll-receipt-printer.js';
+import scrollSafeDialUnlock from './snippets/scroll-safe-dial-unlock.js';
+import pullCordThemeToggle from './snippets/pull-cord-theme-toggle.js';
+import cursorTrackingEyesMascot from './snippets/cursor-tracking-eyes-mascot.js';
+import scrollTapeMeasureProgress from './snippets/scroll-tape-measure-progress.js';
 import breakoutBrickGame from './snippets/breakout-brick-game.js';
 import minesweeperGame from './snippets/minesweeper-game.js';
 import tileMerge2048Game from './snippets/tile-merge-2048-game.js';
@@ -4304,6 +4310,12 @@ export const SNIPPETS = [
   perspectiveCrawlCredits,
   karaokeWordHighlight,
   pixelResolveText,
+  scrollZipperReveal,
+  scrollReceiptPrinter,
+  scrollSafeDialUnlock,
+  pullCordThemeToggle,
+  cursorTrackingEyesMascot,
+  scrollTapeMeasureProgress,
 ];
 
 // Snippets visible in production listings/sitemaps — noindex/test snippets only show on localhost

@@ -1,0 +1,232 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  6 Free Scroll and Cursor Interactions You Haven't Seen: Zipper, Receipt Printer, Safe Dial and More
+
+  SEO TITLE (55 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  6 Free Scroll Animations: Zipper, Receipt and Safe Dial
+
+  SEO DESCRIPTION (153 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  6 free scroll and cursor snippets: zipper reveal, receipt printer, safe dial unlock, pull-cord dark mode, eyes that follow the cursor and a tape measure.
+
+  FEATURED IMAGE: blog48-scroll-cursor-featured.jpg (same folder), 1200 x 630 px. Upload it in the post sidebar → Featured image.
+  ALT TEXT: Collage of six interactive snippet previews: a zipper opening, a receipt printer, a safe dial, a pull-cord lamp, a pair of eyes and a tape measure
+
+  NOTE: the 6 live previews are iframes of https://webdevpuneet.com/ui-snippets/<id>/embed/ and the snippet links point to the new snippet pages,
+  so they only work once the latest site deploy is extracted on the server. Publish the post after that.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Most scroll animations on the web are fade-ins, parallax layers and horizontal galleries. They work, but a visitor has seen them hundreds of times. This batch tries something different: each of the six snippets below is built around a physical object with a mechanism you can see. There is a zipper, a receipt printer, a safe dial, a lamp cord, a pair of eyes and a tape measure.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>All six are free and self-contained, and they are spread across the <a href="https://webdevpuneet.com/ui-snippets/scroll/">Scroll Effects</a>, <a href="https://webdevpuneet.com/ui-snippets/buttons/">Buttons</a> and <a href="https://webdevpuneet.com/ui-snippets/animations/">Animations</a> categories. Each one is a <strong>live, interactive preview</strong> you can try right in this article, written in plain HTML, CSS and JavaScript (with GSAP where it helps). Each exports to React, Vue, Angular or Tailwind in one click from its snippet page, and none of them repeats an effect that is already in the collection.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>A tip for the previews:</strong> the scroll-driven ones pin themselves inside their frame, so scroll with your mouse wheel or finger while the pointer is over the preview. If the page scrolls instead, move the pointer into the frame and try again.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">What these six have in common</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>A believable effect copies the real object.</strong> A receipt advances in steps, a safe dial turns in alternating directions, and a pull cord stretches and then rebounds. The CSS is secondary to the behaviour you are imitating.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>One value drives the whole thing.</strong> The zipper uses a single progress number, the safe uses one timeline and the tape measure uses one ScrollTrigger. That is what makes scrolling backward work for free.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Only transforms, clip-paths and opacity move.</strong> Nothing here animates width, height or top, so the effects stay smooth on a mid-range phone.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Real content stays real.</strong> The receipt, the vault contents and the article are ordinary HTML, the toggle is a true switch, the progress bar has ARIA values, and every effect has a <code>prefers-reduced-motion</code> path.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Scroll Zipper Reveal</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/scroll-zipper-reveal/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Zipper Reveal — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>A dark fabric cover with a gold zipper pull. As you scroll, the pull slides down the page, the cloth peels back in a widening V and the section underneath shows through. <a href="https://webdevpuneet.com/ui-snippets/scroll-zipper-reveal/">Open Scroll Zipper Reveal and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> A single object, <code>{ p: 0 }</code>, is tweened from 0 to 1 by a pinned ScrollTrigger. One <code>draw(p)</code> function turns that number into everything you see: two mirrored <code>clip-path</code> polygons for the cloth, three dashed SVG lines for the teeth, and the pull's position. Because nothing else is animated, scrolling back up closes the zip exactly as it opened. Once the pull reaches the bottom edge it keeps travelling below the screen while the opening widens with it, so the teeth stay attached to the fabric edge until none is left in the way.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> Drive a complicated effect from one progress number. Reversing, scrubbing and reduced-motion fallbacks all become trivial.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Scroll Receipt Printer</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/scroll-receipt-printer/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Receipt Printer — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>A thermal printer at the bottom of the screen feeds an itemized receipt upward as you scroll: shop name, six line items, tax, a total, a barcode and a red PAID stamp that lands last. <a href="https://webdevpuneet.com/ui-snippets/scroll-receipt-printer/">Open Scroll Receipt Printer and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> The receipt is one block that moves from <code>yPercent: 100</code> to <code>0</code> inside a window with <code>overflow: hidden</code>. The printer body sits above it with a higher <code>z-index</code>, so the paper really seems to leave the slot. The detail that sells it is the easing: <code>steps(28)</code> makes the paper advance in small mechanical jerks instead of gliding. The torn top edge is a CSS <code>mask</code> and the barcode is a repeating gradient, so there are no image files.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> A stepped ease turns a generic slide into a machine. If the real object moves in increments, make the animation do the same.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Scroll Safe Dial Unlock</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/scroll-safe-dial-unlock/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Safe Dial Unlock — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>A steel vault fills the stage. Scrolling turns the combination dial clockwise to 24, back to 07 and forward to 61, lights three LEDs, retracts the bolts and swings the door open on a 3D hinge. <a href="https://webdevpuneet.com/ui-snippets/scroll-safe-dial-unlock/">Open Scroll Safe Dial Unlock and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> Everything lives on one GSAP timeline mapped to a pinned ScrollTrigger: the first 30% is the three dial turns, then the bolts, then the door, then the contents. The dial is a single rotation value, and a small function converts the angle into one of 100 numbers (3.6 degrees each) for the readout, so the number on the display always matches the marks. The door uses <code>perspective</code> on the parent and <code>transform-origin: left center</code> with <code>rotationY</code> for the hinge.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> Make the visitor earn the reveal. A short sequence with feedback at every stage (an LED, a number) feels like progress, where a plain fade just feels like a page loading.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Pull Cord Dark Mode Toggle</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/pull-cord-theme-toggle/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pull Cord Dark Mode Toggle — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>A hanging lamp with a brass bead on a cord. Drag the bead down, the cord stretches, and past a threshold the lamp switches on and the whole page changes theme. On release the bead springs back. <a href="https://webdevpuneet.com/ui-snippets/pull-cord-theme-toggle/">Open Pull Cord Dark Mode Toggle and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> GSAP <code>Draggable</code> limits the bead to the Y axis. On each drag update the cord, a thin element with <code>transform-origin: top</code>, is scaled so it always reaches the bead. In <code>onRelease</code>, a pull of at least 44px toggles <code>data-theme</code> on the scene, and a tween returns the bead with <code>elastic.out(1, 0.3)</code>. All colours are CSS variables redefined for the light theme, so the page, card, bulb and glow change together. The bead is a real <code>&lt;button role="switch"&gt;</code> with <code>aria-checked</code>, and Enter or Space gives the cord a tug and toggles.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> A playful control still needs a keyboard path and a proper role. Here the fun layer and the accessible layer are the same element.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Cursor-Tracking Eyes Mascot</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/cursor-tracking-eyes-mascot/embed/" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Cursor-Tracking Eyes Mascot — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>A purple mascot whose pupils follow your mouse or finger. It blinks at random, glances down when you scroll, wanders when you stop moving, and raises its brows when you go near the button. <a href="https://webdevpuneet.com/ui-snippets/cursor-tracking-eyes-mascot/">Open Cursor-Tracking Eyes Mascot and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> No library is needed. Every animation frame, each eye measures its own centre with <code>getBoundingClientRect()</code>, works out the direction to the pointer and moves its pupil by <code>Math.min(max, distance * 0.3)</code>, where <code>max</code> keeps the pupil inside the white. Easing the position toward the target with a factor of 0.2 gives the eyes natural inertia. Blinking, the scroll glance and idle wandering are small timers layered on top, and hover or focus on the button toggles an <code>excited</code> class.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> Compute each eye's direction separately. When the cursor is close, the pupils converge slightly, which is the difference between a living face and two dots moving together.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Scroll Tape Measure Progress</h2>
+<!-- /wp:heading -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/scroll-tape-measure-progress/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Tape Measure Progress — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>A yellow tape measure fixed to the top of the page. The blade pulls out of its case as you read, a metal hook rides at the tip, and a live counter shows centimetres from 0 to 100, one for each percent of the page. <a href="https://webdevpuneet.com/ui-snippets/scroll-tape-measure-progress/">Open Scroll Tape Measure Progress and copy the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> The tape is always full width inside a mask, and GSAP animates <code>clipPath</code> from <code>inset(0 100% 0 0)</code> to <code>inset(0 0% 0 0)</code>. Revealing instead of stretching keeps the tick marks from squashing, and clip-path repaints without layout. The graduations are two stacked <code>linear-gradient</code> layers, minor ticks every 1% and major ticks every 10%. A ScrollTrigger with no trigger element, <code>start: 0</code> and <code>end: 'max'</code> measures the whole document, and the track is a <code>role="progressbar"</code> with a live <code>aria-valuenow</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Worth stealing:</strong> A progress bar can carry your brand. A tape measure suits a how-to guide, a furniture shop or a craft blog far better than a generic line.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Which one should you use?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>An apparel, bag or packaging brand:</strong> <a href="https://webdevpuneet.com/ui-snippets/scroll-zipper-reveal/">Scroll Zipper Reveal</a> opens the product before the story starts.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Pricing, quotes or &ldquo;what you get&rdquo; pages:</strong> <a href="https://webdevpuneet.com/ui-snippets/scroll-receipt-printer/">Scroll Receipt Printer</a> gives an itemized breakdown.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Security, fintech or early-access pages:</strong> <a href="https://webdevpuneet.com/ui-snippets/scroll-safe-dial-unlock/">Scroll Safe Dial Unlock</a> makes a reveal that feels earned.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A portfolio, blog or documentation theme:</strong> <a href="https://webdevpuneet.com/ui-snippets/pull-cord-theme-toggle/">Pull Cord Dark Mode Toggle</a> is a memorable, accessible theme switch.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A 404 page, a hero or a kids' site:</strong> <a href="https://webdevpuneet.com/ui-snippets/cursor-tracking-eyes-mascot/">Cursor-Tracking Eyes Mascot</a> adds a character that reacts to the visitor.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Long guides, DIY and furniture content:</strong> <a href="https://webdevpuneet.com/ui-snippets/scroll-tape-measure-progress/">Scroll Tape Measure Progress</a> works as a branded reading meter.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>A word of restraint: one signature interaction per page is plenty. These work because they are surprising, and putting a zipper, a safe and a mascot on the same page makes each of them weaker. Pick the one that fits your subject and let the rest of the page stay quiet.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><strong>Do these need a JavaScript library?</strong> Five of the six use GSAP, loaded from a CDN: the zipper, receipt, safe and tape measure use ScrollTrigger, and the pull cord uses Draggable. The eyes mascot is plain JavaScript. Every snippet lists its CDN links in the editor, so you can copy them with the code.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Will the scroll effects work on phones?</strong> Yes. Pinned scrubbing follows the browser's own scroll position, so touch scrolling works the same as a mouse wheel. The layouts adapt to narrow screens, and the pull cord and the mascot respond to touch through pointer events.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Are they accessible?</strong> Each one keeps its content as real HTML and respects <code>prefers-reduced-motion</code>. The scroll effects skip the pin and show their finished state, the pull cord drops its spring, and the mascot stops blinking and wandering. The theme switch has <code>role="switch"</code> and works with Enter and Space, and the tape measure is a labelled progress bar.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Can I use them on a client or commercial project?</strong> Yes. The code is free to copy and adapt. Open a snippet, change the colours, text and timing in the live editor, then copy the code or export it for your framework.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Find all six, plus the rest of the scroll and cursor effects, in the <a href="https://webdevpuneet.com/ui-snippets/scroll/">Scroll Effects category</a>. Open any snippet above and you land straight in the live editor with its HTML, CSS and JS tabs. Click <strong>Save as</strong> to copy it into <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and start changing it.</p>
+<!-- /wp:paragraph -->
+
