@@ -2770,8 +2770,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               className={s.iframe}
               srcDoc={srcDoc}
               title="Preview"
-              sandbox="allow-scripts allow-forms"
-              allow="clipboard-write"
+              sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads"
+              allow="clipboard-write *; web-share *"
               style={{
                 ...(previewMode === 'mobile' ? { width: '375px' } : previewMode === 'tablet' ? { width: '768px' } : {}),
                 visibility: previewVisible ? 'visible' : 'hidden',

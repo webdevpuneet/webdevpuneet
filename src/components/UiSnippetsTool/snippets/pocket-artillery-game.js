@@ -1481,7 +1481,7 @@ function endGame() {
 }
 
 /* ---------- share the result (win, loss or draw) ---------- */
-const SHARE_URL = 'https://webdevpuneet.com';
+const SHARE_URL = 'https://webdevpuneet.com/ui-snippets/pocket-artillery-game/';
 function shareText() {
   const a = tanks[0].score, b = tanks[1].score, two = mode === 'two';
   const res = a === b ? 'drew ' + a + '-' + b : a > b ? (two ? 'Player 1 won ' : 'I won ') + a + '-' + b : (two ? 'Player 2 won ' : 'I lost ') + b + '-' + a;
@@ -1541,7 +1541,8 @@ $('pa-share').addEventListener('click', () => {
 });
 let cardUrl = '';
 function doNativeShare(file) {
-  navigator.share({ files: [file], title: 'Pocket Artillery', text: shareText() }).catch(() => {});
+  /* if the share sheet is not allowed here (for example inside an iframe), show Copy / Download / links instead; a user cancel does nothing */
+  navigator.share({ files: [file], title: 'Pocket Artillery', text: shareText() }).catch(e => { if (!e || e.name !== 'AbortError') openFallback(); });
 }
 $('pa-more').addEventListener('click', () => {
   if (cardBlob) doNativeShare(new File([cardBlob], 'pocket-artillery-result.png', { type: 'image/png' }));
