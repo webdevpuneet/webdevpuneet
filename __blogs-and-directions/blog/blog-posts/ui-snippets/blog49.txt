@@ -1,0 +1,222 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  5 Free Browser Games You Can Play, Copy and Make Your Own: Tank Duel, Space Shooter and More
+
+  SEO TITLE (52 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  5 Free Browser Games: Play, Copy and Make Them Yours
+
+  SEO DESCRIPTION (160 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  5 free browser games to play now: Pocket Artillery tank duel, Space Blaster, Sky Hopper, Switchyard and Mini Sudoku. Share them, copy the code or make your own.
+
+  FEATURED IMAGE: blog49-games-featured.jpg (same folder), 1200 x 630 px. Upload it in the post sidebar → Featured image.
+  ALT TEXT: Collage of five browser game previews: Pocket Artillery tank duel, Space Blaster, Sky Hopper, Switchyard and Mini Sudoku
+
+  NOTE: the 5 live games are iframes of https://webdevpuneet.com/ui-snippets/<id>/embed/ and the screenshots are the site's own preview images
+  (https://webdevpuneet.com/images/ui-snippets/previews/<id>.png), so they only match the latest games once the newest site deploy is extracted on the server.
+  Publish the post after that.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Browser games do not have to be a throwaway time-waster. A good one teaches you something about physics, probability, pathfinding or game feel, and you can play it in two seconds with no download. This post is five of our own games that we <strong>built or polished recently</strong>, and the first one has just had its biggest update yet.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every game below is a <strong>live, playable embed</strong> you can try right here in the article. Each is plain HTML, CSS and JavaScript on one canvas, with no engine and no image files, so you can read it, <strong>copy it, share it, or extend it into your own version</strong>. There is a section at the end on exactly how to do that.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>A tip for the embeds:</strong> click inside a game once so it gets keyboard focus, then play. On a phone, the games use touch controls and the page will not scroll while your finger is on the playfield.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Pocket Artillery: our flagship tank duel, now with 22 weapons</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center"} -->
+<figure class="wp-block-image aligncenter size-large"><a href="https://webdevpuneet.com/ui-snippets/pocket-artillery-game/"><img src="https://webdevpuneet.com/images/ui-snippets/previews/pocket-artillery-game.png" alt="Pocket Artillery tank duel showing a coral tank and a blue tank on rolling hills with a Night sky and a colourful firework burst" style="max-width:560px;width:100%;height:auto;border-radius:12px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/pocket-artillery-game/embed/" style="width:100%;height:780px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pocket Artillery Tank Duel — Free Browser Game by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>Two tanks, a hill between them, and a guess at angle and power. Pocket Artillery is a <strong>reimagined game, inspired by the classic Pocket Tanks</strong>, rebuilt from scratch with its own look, its own weapons and its own code. Drag back on the field like a slingshot to aim, pick a weapon, and fire. <a href="https://webdevpuneet.com/ui-snippets/pocket-artillery-game/">Play Pocket Artillery on its own page</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What is new in this update</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Ten shots each and 22 weapons.</strong> Every match deals a shuffled hand of ten from the pool, and each weapon can be fired once, so choosing what to skip is gone and every pick matters.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Weapons that are fun to throw.</strong> A Firework that bursts into ten coloured sparks, Popcorn that pops four times along the ground, a Mole that burrows towards the enemy, a Snowball that grows as it rolls, a Black Hole that swallows a crater, and a Boomerang that curves back. Every weapon has its own drawn sprite and icon.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Blasts that match the weapon.</strong> Fireballs with embers, shockwave rings and a white flash for the Mini Nuke, radial lightning for the Zapper, rainbow streaks for fireworks and ice spikes for the Snowball.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Choose your weapons.</strong> On the start menu pick Random weapons, or open the picker and choose up to ten. Both tanks get the same hand.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Choose your terrain.</strong> Meadow, Desert, Snow or Night, or Random. The Daily map stays fixed so everyone gets the same one.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Friendly fire.</strong> A blast that reaches your own tank costs you points, and your score can go below zero. Aim carefully.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A living sky and field.</strong> Birds on harder levels, a propeller plane you can shoot down (it crashes in a fireball and scores 100 if it lands on the enemy tank), and a deer, camel or polar bear that wanders in to watch the battle. Blasts can kill it, and it comes back later.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> The ground is a single array, <code>ground[x]</code>, holding the surface height of every pixel column. A blast lowers the columns inside a circle, a Dirt Ball raises them, and collision is just one lookup. The CPU does not cheat: on its turn it tests about 1,300 angle and power pairs through a copy of the physics, keeps the one that lands closest, then adds a human-sized error that depends on the level.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Make it yours:</strong> add a weapon by adding one entry to the <code>POOL</code> array (name, radius, points, colour), then give it a sprite and a blast style. Swap the tanks for your mascot, rename the weapons for a brand campaign, or add a campaign of maps with rising CPU levels.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Space Blaster: a Galaga-style shooter in one canvas</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center"} -->
+<figure class="wp-block-image aligncenter size-large"><a href="https://webdevpuneet.com/ui-snippets/space-blaster-game/"><img src="https://webdevpuneet.com/images/ui-snippets/previews/space-blaster-game.png" alt="Space Blaster arcade game with pixel aliens in formation above a small player ship firing upward" style="max-width:560px;width:100%;height:auto;border-radius:12px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/space-blaster-game/embed/" style="width:100%;height:680px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Space Blaster Arcade Game — Free Browser Game by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>Alien formations fly in along curved paths, sway in place, and then break off a few at a time to dive-bomb your ship. Every fifth wave brings a mothership boss with its own attack patterns, and falling power-ups give you double shots, a spread, rapid fire or a shield. <a href="https://webdevpuneet.com/ui-snippets/space-blaster-game/">Play Space Blaster and see the code</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> Each alien has a slot in a drifting formation and follows a quadratic Bézier curve from off-screen to that slot, staggered so the formation streams in. The aliens are pixel art drawn to small off-screen canvases, so there are no image files at all. Dragging a finger moves the ship and turns on auto-fire, so it plays well on a phone.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Make it yours:</strong> change the alien sprites, tune the wave table, or add a new power-up. A combo multiplier up to x4 is already there to build a scoring system on.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Sky Hopper: an endless climber with a real physics rule</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center"} -->
+<figure class="wp-block-image aligncenter size-large"><a href="https://webdevpuneet.com/ui-snippets/sky-hopper-game/"><img src="https://webdevpuneet.com/images/ui-snippets/previews/sky-hopper-game.png" alt="Sky Hopper endless climber game with a small hopper bouncing up platforms through a bright sky with clouds" style="max-width:560px;width:100%;height:auto;border-radius:12px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/sky-hopper-game/embed/" style="width:100%;height:680px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sky Hopper Game — Free Browser Game by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>The hopper never stops bouncing, so you only steer left and right. That makes it learnable in a second. The challenge comes from the world, which is generated as you climb: platforms get narrower, sliding ones get faster, some crumble, springs launch you high, and past about 130 metres birds and spiked orbs drift through the gaps. <a href="https://webdevpuneet.com/ui-snippets/sky-hopper-game/">Play Sky Hopper</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> The simulation runs on a fixed 1/60-second step, and the landing test only fires while you are falling and only when your feet were above a platform last step. That one rule is why you can jump up through platforms and still land on them coming down. The generator keeps every gap smaller than the bounce height, so the game is always winnable.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Make it yours:</strong> add a new platform type, change the gravity and bounce numbers for a floaty moon version, or re-skin the sky biomes for your brand.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Switchyard: flip the junctions, route the trains</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center"} -->
+<figure class="wp-block-image aligncenter size-large"><a href="https://webdevpuneet.com/ui-snippets/switchyard-train-puzzle-game/"><img src="https://webdevpuneet.com/images/ui-snippets/previews/switchyard-train-puzzle-game.png" alt="Switchyard train puzzle showing coloured tracks branching across a wide yard with coloured trains heading to matching stations" style="max-width:560px;width:100%;height:auto;border-radius:12px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/switchyard-train-puzzle-game/embed/" style="width:100%;height:540px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Switchyard Train Switch Puzzle — Free Browser Game by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>Coloured trains roll out of tunnels on the left and run to the right along branching tracks. Each station on the right has a colour, and you flip the junctions so every train reaches the matching station. Three misses end the run. There are 20 levels, tunnels that hide trains, crossing tracks that can crash, and a Daily Route with a streak. <a href="https://webdevpuneet.com/ui-snippets/switchyard-train-puzzle-game/">Play Switchyard</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> Each level is a small object of numbers, and a generator turns it into a track network by splitting the stations into a random binary tree, where every split is a junction. Tracks are Bézier curves with arc-length lookup tables, so trains move at an even speed round the bends. It is a great example of building a level from data instead of drawing it by hand.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Make it yours:</strong> add levels by adding rows to the <code>LEVELS</code> array, change the colours, or theme the yard as a canal system or a factory floor.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Mini Sudoku: a full 6x6 puzzle with a generator that checks itself</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center"} -->
+<figure class="wp-block-image aligncenter size-large"><a href="https://webdevpuneet.com/ui-snippets/mini-sudoku-game/"><img src="https://webdevpuneet.com/images/ui-snippets/previews/mini-sudoku-game.png" alt="Mini Sudoku 6x6 puzzle board with numbers, pencil notes and a row of three lives and a hint button" style="max-width:560px;width:100%;height:auto;border-radius:12px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/ui-snippets/mini-sudoku-game/embed/" style="width:100%;height:700px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mini Sudoku Puzzle — Free Browser Game by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>Every row, column and 3x2 box must hold the digits 1 to 6 exactly once. It is a complete game, not a demo: 24 levels in four tiers, a Daily Puzzle with a streak, three lives, pencil notes, undo, stars, and hints that explain their own logic in words. <a href="https://webdevpuneet.com/ui-snippets/mini-sudoku-game/">Play Mini Sudoku</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works.</strong> A puzzle starts from a full grid built with randomised backtracking, then digits are removed one at a time. After each removal a solver counts solutions and puts the digit back if a second one appears, so every puzzle has exactly one answer. A separate logic solver grades the difficulty.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Make it yours:</strong> change the grid size, make a kids version with pictures instead of numbers, or tune the tiers for your audience.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Copy it, share it, make it your own</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These are not locked-away demos. Every game is written to be read, changed and reused, and each one has a game page with the full code.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Play it first.</strong> Playing and embedding the games is free for everyone. Open any game page from the links above.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Copy or export the code.</strong> The game page has the HTML, CSS and JavaScript in editable tabs, and exports to React, Vue or Angular. Code copying, exporting and forking are unlocked for supporters on <a href="https://www.patreon.com/c/webdevpuneet">Patreon</a> ($1 a month), which also keeps every other tool and template on the site free.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Change something small.</strong> Swap a colour, rename a weapon, edit the <code>LEVELS</code> or <code>POOL</code> array, or change one number such as gravity. Then check the result in the live preview.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Add your own twist.</strong> A new weapon, a new platform type, a new level pack, or your own characters. The games are small enough to read in one sitting.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Share it.</strong> Most games have a Share result button that makes a picture card of your score for WhatsApp, X or Facebook, and you can embed a game on your own page with the same iframe used in this post.</li>
+<!-- /wp:list-item -->
+</ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Want to see them all? Browse the full <a href="https://webdevpuneet.com/ui-snippets/games/">Games collection</a>, or start with the flagship: <a href="https://webdevpuneet.com/ui-snippets/pocket-artillery-game/">Pocket Artillery</a>. If you build your own version of any of these, I would love to see it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><em>Pocket Artillery is a reimagined game inspired by the classic Pocket Tanks. It is an original build with its own code, art and weapons.</em></p>
+<!-- /wp:paragraph -->
