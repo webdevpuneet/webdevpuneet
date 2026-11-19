@@ -227,16 +227,16 @@ const POOL = [
   { id: 'remover', name: 'Dirt Remover', r: 18, pts: 0, col: '#78716c', nocpu: true, tip: 'Clears dirt in the direction you fire. Needed after being buried' },
   { id: 'cluster', name: 'Cluster', r: 22, pts: 0, col: '#d946ef', tip: 'Splits into 5 bomblets at the top of its arc' },
   { id: 'zap', name: 'Zapper', r: 14, pts: 50, col: '#eab308', tip: 'Lightning jumps to a tank within 130 px' },
-  { id: 'homing', name: 'Homing', r: 14, pts: 90, col: '#14b8a6', tip: 'Bends toward the enemy tank' },
+  { id: 'homing', name: 'Homing', r: 14, pts: 90, col: '#14b8a6', tip: 'Flies the normal arc and locks on if it passes close to the enemy tank' },
   { id: 'sticky', name: 'Sticky', r: 34, pts: 130, col: '#84cc16', tip: 'Sticks to what it hits, blows up after a moment' },
-  { id: 'balloon', name: 'Balloon', r: 32, pts: 70, col: '#ec4899', g: 0.35, wd: 3.5, nocpu: true, tip: 'Floats, and the wind carries it a long way' },
+  { id: 'balloon', name: 'Balloon', r: 32, pts: 70, col: '#ec4899', nocpu: true, tip: 'Floats down slowly along the same arc, then a big soft blast' },
   { id: 'meteor', name: 'Meteors', r: 14, pts: 40, col: '#fb7185', tip: 'Calls four meteors from the sky around the impact' },
   { id: 'firework', name: 'Firework', r: 12, pts: 0, col: '#f43f5e', tip: 'Bursts into ten coloured sparks at the top of its arc' },
   { id: 'popcorn', name: 'Popcorn', r: 16, pts: 80, col: '#f59e0b', tip: 'Pops four times along the ground, then a final bang' },
   { id: 'mole', name: 'Mole', r: 22, pts: 110, col: '#a16207', tip: 'Lands, then burrows towards the enemy and digs a trench' },
   { id: 'snowball', name: 'Snowball', r: 14, pts: 60, col: '#38bdf8', tip: 'Rolls along the ground and grows bigger the further it goes' },
   { id: 'blackhole', name: 'Black Hole', r: 44, pts: 70, col: '#7c3aed', tip: 'Swallows a huge hole in the ground' },
-  { id: 'boomerang', name: 'Boomerang', r: 22, pts: 100, col: '#f97316', g: 0.75, nocpu: true, tip: 'Curves back towards you in flight: throw past the target and let it return' },
+  { id: 'boomerang', name: 'Boomerang', r: 22, pts: 100, col: '#f97316', nocpu: true, tip: 'Swings out past the arc and curves back to land where a normal shell would' },
 ];
 const ICONS = { missile: '🚀', big: '💣', triple: '🔱', bouncer: '🏀', nuke: '☢️', roller: '🛞', digger: '⛏️', napalm: '🔥', dirt: '🟤', remover: '🧹', cluster: '🍇', zap: '⚡', homing: '🎯', sticky: '🍭', balloon: '🎈', meteor: '☄️', firework: '🎆', popcorn: '🍿', mole: '🐹', snowball: '⛄', blackhole: '🌀', boomerang: '🌙' };
 const POP = { id: 'pop', name: 'Pop', r: 11, pts: 40, col: '#f59e0b' };
@@ -567,7 +567,7 @@ const cur = () => tanks[who()];
 function startTurn() {
   moveLeft = MOVE; moveDir = 0; cpuGoal = null;
   wind = Math.round(rng() * 10 - 5);
-  if (mode === 'cpu' && diff === 0) wind = 0; /* Easy: no wind (the number is still drawn so the map sequence stays the same) */
+  if (!(mode === 'cpu' && diff === 2)) wind = 0; /* Wind only on Hard; Easy, Normal and 2-player are calm (the number is still drawn so the map sequence stays the same) */
   if (who() === 0 || mode === 'two') {
     phase = 'aim';
     if (cur().used[sel]) sel = WEAPONS.findIndex((w, i) => !cur().used[i]);
@@ -617,12 +617,27 @@ function fire(wi) {
   const offs = w.id === 'triple' ? [-7, 0, 7] : [0];
   offs.forEach(o => {
     const rad = (t.a + o) * Math.PI / 180, sp = t.p * POWER_K;
-    shots.push({ x: t.x + Math.cos(rad) * 18, y: t.y - 12 - Math.sin(rad) * 18, vx: Math.cos(rad) * sp, vy: -Math.sin(rad) * sp, w: w, owner: who(), age: 0, bounces: 0, dead: false, trail: [], rec: o === 0, dir: Math.cos(rad) >= 0 ? 1 : -1 });
+    const sh = { x: t.x + Math.cos(rad) * 18, y: t.y - 12 - Math.sin(rad) * 18, vx: Math.cos(rad) * sp, vy: -Math.sin(rad) * sp, w: w, owner: who(), age: 0, bounces: 0, dead: false, trail: [], rec: o === 0, dir: Math.cos(rad) >= 0 ? 1 : -1 };
+    if (w.id === 'boomerang') sh.T = flightFrames(sh.x, sh.y, sh.vx, sh.vy);
+    shots.push(sh);
   });
   phase = 'fly';
   ensureAudio();
   sfxFire();
   syncUi();
+}
+
+/* One physics step of the standard shell flight (60 Hz): wind pushes sideways, gravity pulls down. Every shell uses it. */
+function ballistic(o) { o.vx += wind * WIND_K; o.vy += GRAVITY; o.x += o.vx; o.y += o.vy; }
+/* How many steps the standard arc takes to reach the ground (used to time the Boomerang's swing). */
+function flightFrames(x, y, vx, vy) {
+  const o = { x: x, y: y, vx: vx, vy: vy };
+  for (let n = 1; n < 1500; n++) {
+    ballistic(o);
+    if (o.x < 0 || o.x > W || o.y > H) return n;
+    if (o.y >= ground[Math.round(o.x)]) return n;
+  }
+  return 1500;
 }
 
 function explode(s) {
@@ -760,13 +775,29 @@ function step() {
     }
     s.age++;
     const sw = s.w;
-    s.vx += wind * WIND_K * (sw.wd || 1); s.vy += GRAVITY * (sw.g === undefined ? 1 : sw.g);
-    if (sw.id === 'boomerang' && s.age > 12) s.vx -= s.dir * 0.014;
-    if (sw.id === 'homing' && s.age > 10) {
+    /* Same angle + power (+ wind) = same landing spot with every weapon. Balloon, Boomerang and Homing keep their character
+       but ride the standard arc underneath, so they still come down where a Missile would. */
+    if (sw.id === 'balloon') {
+      /* slow motion: the standard arc advanced every other frame, drawn halfway between steps */
+      if (!s.base) s.base = { x: s.x, y: s.y, vx: s.vx, vy: s.vy, px: s.x, py: s.y };
+      const bs = s.base, odd = s.age % 2 === 1;
+      if (odd) { bs.px = bs.x; bs.py = bs.y; ballistic(bs); }
+      const f = odd ? 0.5 : 1;
+      s.x = bs.px + (bs.x - bs.px) * f; s.y = bs.py + (bs.y - bs.py) * f; s.vx = bs.vx; s.vy = bs.vy;
+    } else if (sw.id === 'boomerang' && s.T) {
+      /* swings out past the arc and curves back onto it: the sideways offset is zero again at the standard landing frame */
+      if (!s.base) s.base = { x: s.x, y: s.y, vx: s.vx, vy: s.vy };
+      const bs = s.base, amp = Math.min(46, s.T * 0.6), k = Math.PI / s.T, u = Math.min(s.age, s.T);
+      ballistic(bs);
+      s.x = bs.x + s.dir * amp * Math.sin(k * u); s.y = bs.y;
+      s.vx = bs.vx + (s.age < s.T ? s.dir * amp * k * Math.cos(k * u) : 0); s.vy = bs.vy;
+    } else if (sw.id === 'homing') {
+      /* normal arc; locks on only if it passes within 60 px of the enemy tank */
       const he = tanks[1 - s.owner], hx = he.x - s.x, hy = (he.y - 8) - s.y, hd = Math.hypot(hx, hy) || 1;
-      s.vx += hx / hd * 0.018; s.vy += hy / hd * 0.018 - GRAVITY * 0.4;
-    }
-    s.x += s.vx; s.y += s.vy;
+      if (!s.lock && s.age > 10 && hd < 60) { s.lock = true; floats.push({ x: s.x, y: s.y - 12, t: 40, txt: 'Locked!', col: '#14b8a6' }); }
+      if (s.lock) { const sp = Math.max(2.6, Math.hypot(s.vx, s.vy)); s.vx += (hx / hd * sp - s.vx) * 0.25; s.vy += (hy / hd * sp - s.vy) * 0.25; s.x += s.vx; s.y += s.vy; }
+      else ballistic(s);
+    } else ballistic(s);
     if (s.age % 2 === 0) {
       if (sw.id === 'missile' || sw.id === 'homing' || sw.id === 'nuke' || sw.id === 'piece' || sw.id === 'napalm' || sw.id === 'meteor') parts.push({ x: s.x - s.vx * 2, y: s.y - s.vy * 2, vx: (Math.random() - 0.5) * 0.8, vy: (Math.random() - 0.5) * 0.8, life: 12 + Math.random() * 8, col: Math.random() < 0.5 ? '#fb923c' : '#fde047' });
       else if (sw.id === 'spark') parts.push({ x: s.x, y: s.y, vx: (Math.random() - 0.5) * 0.6, vy: (Math.random() - 0.5) * 0.6, life: 14, col: s.col });
@@ -1310,7 +1341,7 @@ function endGame() {
   if (!two && isDaily) recordDaily(a);
   const n0 = two ? 'Player 1' : 'You', n1 = two ? 'Player 2' : 'CPU';
   $('pa-title').textContent = a === b ? 'Draw at ' + a : a > b ? n0 + (two ? ' wins ' : ' win! ') + a + ' to ' + b : n1 + ' wins ' + b + ' to ' + a;
-  $('pa-sub').textContent = two ? 'Good duel. Swap sides and go again.' : a > b ? 'Nice shooting. Try the daily map or a fresh one.' : 'So close. Mind the wind and go again.';
+  $('pa-sub').textContent = two ? 'Good duel. Swap sides and go again.' : a > b ? 'Nice shooting. Try the daily map or a fresh one.' : (mode === 'cpu' && diff === 2 ? 'So close. Mind the wind and go again.' : 'So close. Tweak the angle or power and go again.');
   $('pa-play').textContent = 'New map';
   showBest();
   $('pa-share').hidden = false;
@@ -1639,7 +1670,7 @@ The ground is one array, \`ground[x]\`, holding the surface height of every pixe
 
 **Ballistics with wind on a fixed time step**
 
-Each shell gets a velocity from the angle and power (\`speed = power * 0.085\`), then gravity pulls \`vy\` down and the wind adds a small sideways push each step (the Easy level switches the wind off so beginners can learn angle and power first). The loop runs on a 60 Hz accumulator, so the flight is identical on a 144 Hz monitor, and the same step rule is reused by the CPU when it plans a shot.
+Each shell gets a velocity from the angle and power (\`speed = power * 0.085\`), then gravity pulls \`vy\` down and the wind adds a small sideways push each step (only on Hard; Easy, Normal and 2-player have no wind, so the same angle and power always land in the same spot). The loop runs on a 60 Hz accumulator, so the flight is identical on a 144 Hz monitor, and the same step rule is reused by the CPU when it plans a shot.
 
 **A CPU that tests shots before it fires**
 
@@ -1655,7 +1686,7 @@ The same formula runs for your own tank. If a blast reaches the tank that fired 
 
 **Weapons with their own behaviour**
 
-The Roller lands, then runs along the height map, faster downhill, until it meets a wall, a tank or runs out of steps. The Digger carves five stacked craters straight down and scores only on a tight radius. The Triple fires three shells 7 degrees apart, the Bouncer hops twice before it explodes, and the Napalm leaves a flame patch that keeps scoring while an enemy tank stands in it. The Cluster splits into five bomblets at the top of its arc, the Zapper arcs lightning to a tank within 130 pixels, the Homing dart bends toward its target, the Sticky bomb glues itself to whatever it touches and blows up after a blink, the light Balloon is carried far by the wind, and Meteors rain from the sky around the impact. Six more were added for fun: the Firework bursts into ten coloured sparks at the top of its arc, the Popcorn pops four times along the ground, the Mole lands and burrows toward the enemy digging a trench, the Snowball rolls and grows bigger as it goes, the Black Hole swallows a huge crater with a spinning vortex, and the Boomerang curves back toward you in flight. Each one is a few lines in fire(), step() or explode(), keyed by its id.
+The Roller lands, then runs along the height map, faster downhill, until it meets a wall, a tank or runs out of steps. The Digger carves five stacked craters straight down and scores only on a tight radius. The Triple fires three shells 7 degrees apart, the Bouncer hops twice before it explodes, and the Napalm leaves a flame patch that keeps scoring while an enemy tank stands in it. The Cluster splits into five bomblets at the top of its arc, the Zapper arcs lightning to a tank within 130 pixels, the Homing dart locks on when it passes close to its target, the Sticky bomb glues itself to whatever it touches and blows up after a blink, the light Balloon is carried far by the wind, and Meteors rain from the sky around the impact. Six more were added for fun: the Firework bursts into ten coloured sparks at the top of its arc, the Popcorn pops four times along the ground, the Mole lands and burrows toward the enemy digging a trench, the Snowball rolls and grows bigger as it goes, the Black Hole swallows a huge crater with a spinning vortex, and the Boomerang curves back toward you in flight. Each one is a few lines in fire(), step() or explode(), keyed by its id.
 
 **Explosions that match the weapon**
 
@@ -1683,17 +1714,17 @@ On the field, a pointer drag measures the pull from the tank: the direction give
         { title: 'Start a match', text: 'Choose "vs CPU" (Easy, Normal or Hard) or "2 players", pick a terrain (Random, Meadow, Desert, Snow or Night), choose Random weapons or pick up to ten yourself (both tanks get the same ones), then press "Play" for a map or "Daily map" for the same map everyone gets today. You are the coral tank on the left.' },
         { title: 'Set angle and power', text: 'Drag on the field away from your tank like a slingshot (the pull sets both), or use the sliders, or the arrow keys (Shift moves five at a time). A dotted line shows where the barrel points, and on Easy a dotted arc previews the first part of the flight while you drag and a faint ghost line shows where your previous shot went.' },
         { title: 'Move your tank', text: 'Hold the left and right arrow buttons beside the Fire button, or the A and D keys, to drive up to 50 pixels each turn. Steep slopes, craters (holes), the field edge and the other tank block you, and the Move number shows how much is left.' },
-      { title: 'Read the wind', text: 'On Normal, Hard and 2-player the Wind badge at the top shows the direction and strength for this turn (Easy has no wind, so you can learn angle and power first). Aim a little into it so the shell drifts back onto the target.' },
+      { title: 'Read the wind', text: 'On Hard the Wind badge at the top shows the direction and strength for this turn (Easy, Normal and 2-player have no wind, so the same angle and power always land in the same spot). Aim a little into it so the shell drifts back onto the target.' },
         { title: 'Pick a weapon and fire', text: 'The weapon list shuffles at the start of every match and deals you ten of 22 weapons (the Daily map deals everyone the same hand). Choose one (keys 1 to 9 and 0, hover for a tip) and press "Fire!" or Space. Each weapon can be used once per match, and you get ten shots, so every weapon in your hand gets used once.' },
         { title: 'Score the closest blast', text: 'Watch your own tank: a blast that reaches it costs you points, and the score can go negative. Shoot down the plane for a bonus if it crashes on the enemy. After ten shots each the higher score wins. Your best score is saved in the browser. Finish the Daily map on consecutive days to build a streak.' },
       ],
     },
     features: [
       'Destructible terrain stored as a one-dimensional height map, carved by craters and raised by dirt',
-      'Wind that changes every turn on Normal, Hard and 2-player (Easy has none) and bends the shells, shown in a badge on the field',
+      'Wind that changes every turn on Hard and bends the shells, shown in a badge on the field; Easy, Normal and 2-player are calm',
       'A shuffled hand of ten weapons from a pool of 22, each usable once, ten shots per player: Missile, Big Boom, Triple, Bouncer, Mini Nuke, Roller, Digger, Napalm, Dirt Ball, Cluster, Zapper, Homing, Sticky, Balloon, Meteors, Dirt Remover, Firework, Popcorn, Mole, Snowball, Black Hole and Boomerang',
       'Bury and dig out: a Dirt Ball that lands on a tank buries it, a buried tank that fires anything else blows itself up (-40 points), and the Dirt Remover digs a trench in the fired direction to free it; a hand with a Dirt Ball always includes a Dirt Remover',
-      'Creative weapons: Cluster splits into bomblets, Zapper arcs lightning to a nearby tank, Homing bends toward the target, Sticky glues to a tank and blows up, Balloon drifts in the wind, Meteors rain from the sky',
+      'Creative weapons: Cluster splits into bomblets, Zapper arcs lightning to a nearby tank, Homing locks on when it passes close to the enemy, Sticky glues to a tank and blows up, Balloon floats down in slow motion, Meteors rain from the sky',
       'Friendly fire: any weapon whose blast reaches your own tank costs you points, and the score can go below zero',
       'Dramatic blast effects per weapon: fireballs with embers, shockwave rings, lightning, rainbow streaks, ice spikes and dust',
       'A plane you can shoot down: it tumbles, crashes in a fireball, and scores 100 points if it lands on the enemy tank (or costs 100 on your own)',
@@ -1728,7 +1759,7 @@ On the field, a pointer drag measures the pull from the tank: the direction give
     faqs: [
       { q: 'How does the terrain get destroyed?', a: 'The ground is an array with one surface height per pixel column. A blast lowers every column inside its circle to the bottom of that circle, so the hole is round, and the tanks then read the new height and drop down into it.' },
       { q: 'Why does the CPU not always hit me?', a: 'It finds the best angle and power by simulating many shots, then adds a random error of a couple of degrees, and now and then a bigger one. Lower the error values in LEVELS for a harder opponent or raise them for an easier one.' },
-      { q: 'How is the wind applied?', a: 'Each physics step adds wind * 0.0025 to the shell\'s horizontal speed. The wind is a whole number from -5 to 5 picked from the seeded generator at the start of every turn, and it is forced to 0 on the Easy CPU level.' },
+      { q: 'How is the wind applied?', a: 'Each physics step adds wind * 0.0025 to the shell\'s horizontal speed. The wind is a whole number from -5 to 5 picked from the seeded generator at the start of every turn, and it is forced to 0 everywhere except the Hard CPU level.' },
       { q: 'How does the daily streak work?', a: 'Finishing a vs-CPU match on the Daily map stores the date and score in localStorage. If the last finished daily was yesterday the streak goes up by one, otherwise it restarts at 1. Two-player matches do not count.' },
       { q: 'What is friendly fire?', a: 'If a blast reaches the tank that fired it, the shooter loses points using the same distance formula as a hit on the enemy, with a minimum of 5. Weapons that normally score nothing count as 50. The score can go below zero.' },
       { q: 'Can I shoot the plane or the animals?', a: 'Yes. A shell that touches the plane shoots it down; if it crashes onto a tank, the shooter gets 100 points for the enemy tank or loses 100 for their own. Blasts can also kill the animal at the field edge, which returns later.' },
@@ -1749,8 +1780,8 @@ On the field, a pointer drag measures the pull from the tank: the direction give
 - Light, bright look: pale sky gradient, clouds, soft hills, green-topped soil, one coral tank (player, left) and one blue tank (CPU, right).
 - Store terrain as a height array with one value per pixel column. Explosions carve a circular crater by lowering columns; a Dirt Ball weapon raises them. Tanks sit on the surface and settle after each blast.
 - Controls: Angle slider 0-180, Power slider 10-100, Fire button, arrow keys to aim (Shift for bigger steps), Space to fire, keys 1-9 and 0 to choose a weapon, and slingshot-style drag on the field (pull back from the tank: direction = angle, length = power). Works with touch.
-- Physics on a fixed 60 Hz step: shell velocity from angle and power, constant gravity, and a per-turn wind from -5 to 5 shown in a badge (no wind on the Easy level).
-- A pool of 22 weapons; at the start of each match the weapon buttons flicker through random names (a shuffle animation) and settle on a hand of ten, the Daily map dealing everyone the same hand. Hover shows a tip. Each usable once per match. Extra pool weapons: Cluster (splits into 5 bomblets at the apex), Zapper (lightning to a tank within 130 px, +25), Homing (steers toward the enemy), Sticky (sticks to a tank or the ground, blinks, explodes after about 1.4 s), Balloon (light, wind carries it 3.5x), Meteors (four meteors fall around the impact). Base weapons: Missile, Big Boom (large radius), Triple (three shells spread by 7 degrees), Bouncer (two hops), Mini Nuke (huge crater, fewer points), Roller (rolls along the ground after landing), Digger (five stacked craters straight down), Napalm (small blast that leaves a burning patch scoring 12 points every 25 frames an enemy tank stands in it), Dirt Ball (no points, but it buries a tank that lands inside its radius). Also a Dirt Remover weapon: a buried tank that fires anything else blows up on itself for a 40 point penalty, the Dirt Remover digs a trench along the barrel direction and frees it, and a dealt hand with a Dirt Ball always includes a Dirt Remover.
+- Physics on a fixed 60 Hz step: shell velocity from angle and power, constant gravity, and a per-turn wind from -5 to 5 shown in a badge (wind only on the Hard level).
+- A pool of 22 weapons; at the start of each match the weapon buttons flicker through random names (a shuffle animation) and settle on a hand of ten, the Daily map dealing everyone the same hand. Hover shows a tip. Each usable once per match. Extra pool weapons: Cluster (splits into 5 bomblets at the apex), Zapper (lightning to a tank within 130 px, +25), Homing (steers toward the enemy), Sticky (sticks to a tank or the ground, blinks, explodes after about 1.4 s), Balloon (floats down the standard arc in slow motion), Meteors (four meteors fall around the impact). Base weapons: Missile, Big Boom (large radius), Triple (three shells spread by 7 degrees), Bouncer (two hops), Mini Nuke (huge crater, fewer points), Roller (rolls along the ground after landing), Digger (five stacked craters straight down), Napalm (small blast that leaves a burning patch scoring 12 points every 25 frames an enemy tank stands in it), Dirt Ball (no points, but it buries a tank that lands inside its radius). Also a Dirt Remover weapon: a buried tank that fires anything else blows up on itself for a 40 point penalty, the Dirt Remover digs a trench along the barrel direction and frees it, and a dealt hand with a Dirt Ball always includes a Dirt Remover.
 - Ten shots each, alternating, one per weapon in the hand. Score the enemy by blast distance: pts * (1 - distance / (radius + 13)), with floating +points text.
 - CPU opponent with Easy, Normal and Hard levels (aim error and slip chance): pick an unused weapon, try many angle and power pairs with an offline simulate() copy of the physics, choose the closest landing to the player, add a random error. Also a 2 players mode on one device that swaps the controls between the tanks.
 - On the Easy level only, while dragging, draw a short dotted trajectory preview using the same gravity and wind as a real shell.
