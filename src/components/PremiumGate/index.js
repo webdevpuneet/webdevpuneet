@@ -94,9 +94,8 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
             Hire me on Upwork
           </a>
           <span className={s.mailWrap}>
-            <button type="button" className={`${s.followBtn} ${s.followMail}`} onClick={() => { setMailOpen(o => !o); setCopied(false); }} aria-expanded={mailOpen}>
+            <button type="button" className={`${s.followBtn} ${s.followMail}`} onClick={() => { setMailOpen(o => !o); setCopied(false); }} aria-expanded={mailOpen} aria-label="Email" title="Email">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
-              Email
             </button>
             {mailOpen && (
               <span className={s.mailPop} role="status">
@@ -107,6 +106,10 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
             )}
           </span>
         </div>
+        <a className={s.playGame} href="/ui-snippets/pocket-artillery-game/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+          Play Blast Tanks, the free game
+        </a>
         <div className={s.story}>
           <strong>Built with passion. Shared with everyone.</strong>
           <p>WebDevPuneet is an independent project made with countless hours of work. <b>If it has helped you or saved you time, please consider becoming a supporter</b> and help keep it alive and growing.</p>

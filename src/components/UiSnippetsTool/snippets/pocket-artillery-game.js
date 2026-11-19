@@ -1,7 +1,7 @@
 const pocketArtilleryGame = {
   id: 'pocket-artillery-game',
   title: 'Pocket Artillery Tank Duel',
-  lastmod: '2026-11-14',
+  lastmod: '2026-11-19',
   category: 'games',
   previewCss: '.pa-overlay{display:none}', // thumbnail only: show the field with both tanks, not the start card
   html: `<div class="pa-wrap">
@@ -9,7 +9,7 @@ const pocketArtilleryGame = {
     <h2>Pocket Artillery</h2>
     <div class="pa-scores">
       <span class="pa-you"><span id="pa-name-you">You</span> <strong id="pa-score-you">0</strong></span>
-      <span class="pa-shot" id="pa-shot">Shot 1 / 6</span>
+      <span class="pa-shot" id="pa-shot">Shot 1 / 10</span>
       <span class="pa-cpu"><span id="pa-name-cpu">CPU</span> <strong id="pa-score-cpu">0</strong></span>
     </div>
   </div>
@@ -18,7 +18,7 @@ const pocketArtilleryGame = {
     <canvas id="pa-canvas" aria-label="Artillery battlefield with two tanks"></canvas>
     <div class="pa-overlay" id="pa-overlay">
       <p class="pa-title" id="pa-title">Pocket Artillery</p>
-      <p class="pa-sub" id="pa-sub">Drag on the field to aim. Six shots each, closest blasts score most.</p>
+      <p class="pa-sub" id="pa-sub">Drag on the field to aim. Ten shots each, closest blasts score most.</p>
       <div class="pa-opts">
         <div class="pa-seg" id="pa-mode" role="group" aria-label="Mode">
           <button type="button" data-v="cpu" class="on">vs CPU</button>
@@ -28,6 +28,13 @@ const pocketArtilleryGame = {
           <button type="button" data-v="0">Easy</button>
           <button type="button" data-v="1" class="on">Normal</button>
           <button type="button" data-v="2">Hard</button>
+        </div>
+        <div class="pa-seg" id="pa-terrain" role="group" aria-label="Terrain">
+          <button type="button" data-v="-1" class="on">Random</button>
+          <button type="button" data-v="0">Meadow</button>
+          <button type="button" data-v="1">Desert</button>
+          <button type="button" data-v="2">Snow</button>
+          <button type="button" data-v="3">Night</button>
         </div>
       </div>
       <div class="pa-btns">
@@ -64,7 +71,7 @@ const pocketArtilleryGame = {
   </div>
   <div class="pa-weapons" id="pa-weapons" role="group" aria-label="Weapons"></div>
   <div class="pa-foot">
-    <span>Drag the field or arrows to aim &middot; A / D: move &middot; Space: fire &middot; 1-9: weapon</span>
+    <span>Drag the field or arrows to aim &middot; A / D: move &middot; Space: fire &middot; 1-9, 0: weapon</span>
     <button class="pa-mute" id="pa-mute" type="button" aria-pressed="false">Sound on</button>
   </div>
 </div>`,
@@ -120,7 +127,7 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 .pa-weapons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
 @media (max-width: 520px) { .pa-weapons { grid-template-columns: repeat(3, 1fr); } }
 .pa-weapon { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 6px; font-size: 12px; font-weight: 700; font-family: inherit; color: #334155; background: #fff; border: 2px solid #d5e2ee; border-radius: 9px; cursor: pointer; }
-.pa-weapon i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.pa-ico { font-size: 15px; line-height: 1; flex: none; }
 .pa-weapon.on { border-color: #e8553a; background: #fff3ef; }
 .pa-weapon.shuffling { background: #fff7e6; border-color: #f59e0b; color: #92400e; }
 .pa-weapon.used { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; }
@@ -139,9 +146,9 @@ ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 const $ = id => document.getElementById(id);
 const angleIn = $('pa-angle'), powerIn = $('pa-power');
 const overlay = $('pa-overlay'), panel = $('pa-panel');
-const GRAVITY = 0.11, WIND_K = 0.0025, POWER_K = 0.085, SHOTS = 6;
+const GRAVITY = 0.11, WIND_K = 0.0025, POWER_K = 0.085, SHOTS = 10;
 
-/* The pool: 16 weapons. Every match deals a shuffled hand of 9 from it (the daily map deals the same hand to everyone), each usable once.
+/* The pool: 22 weapons. Every match deals a shuffled hand of 10 from it (the daily map deals the same hand to everyone), each usable once.
    r = blast radius, pts = points for a direct hit, g / wd = gravity and wind multipliers, nocpu = the CPU does not pick it. */
 const POOL = [
   { id: 'missile', name: 'Missile', r: 22, pts: 100, col: '#e8553a', tip: 'Reliable all-rounder' },
@@ -160,17 +167,26 @@ const POOL = [
   { id: 'sticky', name: 'Sticky', r: 34, pts: 130, col: '#84cc16', tip: 'Sticks to what it hits, blows up after a moment' },
   { id: 'balloon', name: 'Balloon', r: 32, pts: 70, col: '#ec4899', g: 0.35, wd: 3.5, nocpu: true, tip: 'Floats, and the wind carries it a long way' },
   { id: 'meteor', name: 'Meteors', r: 14, pts: 40, col: '#fb7185', tip: 'Calls four meteors from the sky around the impact' },
+  { id: 'firework', name: 'Firework', r: 12, pts: 0, col: '#f43f5e', tip: 'Bursts into ten coloured sparks at the top of its arc' },
+  { id: 'popcorn', name: 'Popcorn', r: 16, pts: 80, col: '#f59e0b', tip: 'Pops four times along the ground, then a final bang' },
+  { id: 'mole', name: 'Mole', r: 22, pts: 110, col: '#a16207', tip: 'Lands, then burrows towards the enemy and digs a trench' },
+  { id: 'snowball', name: 'Snowball', r: 14, pts: 60, col: '#38bdf8', tip: 'Rolls along the ground and grows bigger the further it goes' },
+  { id: 'blackhole', name: 'Black Hole', r: 44, pts: 70, col: '#7c3aed', tip: 'Swallows a huge hole in the ground' },
+  { id: 'boomerang', name: 'Boomerang', r: 22, pts: 100, col: '#f97316', g: 0.75, nocpu: true, tip: 'Curves back towards you in flight: throw past the target and let it return' },
 ];
+const ICONS = { missile: '🚀', big: '💣', triple: '🔱', bouncer: '🏀', nuke: '☢️', roller: '🛞', digger: '⛏️', napalm: '🔥', dirt: '🟤', remover: '🧹', cluster: '🍇', zap: '⚡', homing: '🎯', sticky: '🍭', balloon: '🎈', meteor: '☄️', firework: '🎆', popcorn: '🍿', mole: '🐹', snowball: '⛄', blackhole: '🌀', boomerang: '🌙' };
+const POP = { id: 'pop', name: 'Pop', r: 11, pts: 40, col: '#f59e0b' };
+const SPARK = { id: 'spark', name: 'Spark', r: 11, pts: 45, col: '#fde047' };
 const BOMBLET = { id: 'bomblet', name: 'Bomblet', r: 12, pts: 55, col: '#d946ef' };
 const METEOR = { id: 'piece', name: 'Meteor', r: 15, pts: 50, col: '#f59e0b' };
-let WEAPONS = POOL.slice(0, 9);
+let WEAPONS = POOL.slice(0, 10);
 function dealHand(seed) {
   const rr = mulberry32((seed | 0) ^ 0x2545f491), a = POOL.slice();
   for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rr() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; }
-  const h = a.slice(0, 9);
+  const h = a.slice(0, 10);
   /* A hand with the Dirt Ball always has the Dirt Remover too, so a buried tank can dig itself out. */
   if (h.some(w => w.id === 'dirt') && !h.some(w => w.id === 'remover')) {
-    h[h[8].id === 'dirt' ? 7 : 8] = POOL.find(w => w.id === 'remover');
+    h[h[9].id === 'dirt' ? 8 : 9] = POOL.find(w => w.id === 'remover');
   }
   return h;
 }
@@ -182,7 +198,7 @@ const THEMES = [
   { name: 'Snow', sky: ['#cfe3f5', '#f4f8fc'], sun: '#ffffff', hills: '#e3edf5', soil: ['#e8eef4', '#b7c6d6'], grass: '#ffffff', cloud: 'rgba(255,255,255,0.95)', ink: '#334155' },
   { name: 'Night', sky: ['#0f172a', '#3b3f73'], sun: '#e2e8f0', hills: '#27305a', soil: ['#4a4e7a', '#2a2c52'], grass: '#4fb3a0', cloud: 'rgba(148,163,184,0.25)', ink: '#e2e8f0', stars: true },
 ];
-let theme = THEMES[0], mapKind = 'Hills';
+let theme = THEMES[0], mapKind = 'Hills', terrain = -1; /* -1 = random from the seed; 0-3 = the player's pick (the Daily map ignores it) */
 
 /* CPU skill: aim error in degrees, and the chance of a bigger slip. */
 const LEVELS = [{ err: 6, slip: 0.4 }, { err: 2.4, slip: 0.25 }, { err: 0.7, slip: 0.05 }];
@@ -203,11 +219,11 @@ let turn = 0, phase = 'menu', wind = 0, sel = 0, waitFrames = 0, mode = 'cpu', d
 const MOVE = 50;
 let moveLeft = MOVE, moveDir = 0, cpuGoal = null;
 let lastPath = [[], []], fires = [], isDaily = false, dly = {};
-let shots = [], parts = [], rings = [], floats = [], shake = 0, muted = false, audio = null;
+let blasts = [], flashA = 0, vort = [], shots = [], parts = [], rings = [], floats = [], shake = 0, muted = false, audio = null;
 const clouds = [{ x: 90, y: 40, s: 1 }, { x: 330, y: 70, s: 0.8 }, { x: 540, y: 34, s: 1.2 }];
-/* Birds cross the sky: 1 on Easy, 2 on Normal and in 2-player, 3 on Hard. A shell that touches one is wasted: the bird drops and the turn passes on. */
+/* Birds cross the sky: none on Easy, 1 on Normal and in 2-player, 2 on Hard. A shell that touches one is wasted: the bird drops and the turn passes on. */
 const birds = [];
-const birdCount = () => (mode === 'two' ? 2 : diff + 1);
+const birdCount = () => (mode === 'two' ? 1 : diff);
 const liveBirds = () => birds.slice(0, birdCount());
 function spawnBird(b, fromEdge) {
   const dir = Math.random() < 0.5 ? 1 : -1;
@@ -216,8 +232,169 @@ function spawnBird(b, fromEdge) {
   b.base = 55 + Math.random() * 100; b.y = b.base; b.ph = Math.random() * 6; b.fall = 0; b.spin = 0; b.alive = true;
   return b;
 }
-for (let i = 0; i < 3; i++) birds.push(spawnBird({}, false));
+for (let i = 0; i < 2; i++) birds.push(spawnBird({}, false));
+/* A little propeller plane now and then flies past up near the high clouds. It is only scenery. */
+const plane = { on: false, x: 0, y: 40, dir: 1, wait: 420, ph: 0 };
+function planeStep() {
+  if (!plane.on) {
+    if (--plane.wait <= 0) { plane.on = true; plane.dir = Math.random() < 0.5 ? 1 : -1; plane.x = plane.dir > 0 ? -60 : W + 60; plane.y = 26 + Math.random() * 30; }
+    return;
+  }
+  if (plane.down) {
+    /* Shot down: it tumbles, trailing smoke and fire, and crashes into the ground. */
+    plane.vy += 0.06; plane.x += plane.vx; plane.y += plane.vy; plane.rot += 0.07 * plane.dir; plane.ph += 0.9;
+    if (Math.random() < 0.7) parts.push({ x: plane.x - plane.dir * 12, y: plane.y, vx: (Math.random() - 0.5) * 0.6, vy: -0.3 - Math.random() * 0.5, life: 26, col: Math.random() < 0.5 ? '#475569' : '#fb923c' });
+    const gx = Math.round(plane.x);
+    if (gx < 0 || gx > W) { if (plane.y > H || gx < -70 || gx > W + 70) { plane.on = false; plane.down = false; plane.wait = 1200 + Math.random() * 1200; } return; }
+    if (plane.y >= ground[gx] - 4) planeCrash();
+    return;
+  }
+  plane.x += plane.dir * 1.25; plane.ph += 0.9;
+  if (plane.x < -70 || plane.x > W + 70) { plane.on = false; plane.wait = 600 + Math.random() * 900; }
+}
+const CRASH = { id: 'planecrash', name: 'Plane', r: 30, pts: 0, col: '#f97316' };
+function planeHit(s) {
+  const p = plane;
+  if (!p.on || p.down || Math.hypot(s.x - p.x, s.y - p.y) > 17) return false;
+  p.down = true; p.owner = s.owner; p.vx = p.dir * 1.1; p.vy = 0; p.rot = 0;
+  s.dead = true;
+  blast(POP, p.x, p.y);
+  for (let i = 0; i < 18; i++) { const a = Math.random() * 6.283, v = 1 + Math.random() * 2.4; parts.push({ x: p.x, y: p.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 30 + Math.random() * 20, col: i % 3 === 0 ? '#ef4444' : i % 3 === 1 ? '#fb923c' : '#e2e8f0' }); }
+  floats.push({ x: p.x, y: p.y - 16, t: 60, txt: 'Plane hit!', col: '#ef4444' });
+  tone(700, 120, 0.3, 'sawtooth', 0.08);
+  return true;
+}
+function planeCrash() {
+  const p = plane, gx = Math.max(0, Math.min(W, Math.round(p.x))), gy = ground[gx];
+  crater(p.x, gy, CRASH.r);
+  blast(CRASH, p.x, gy - 4); blast({ id: 'big', r: 34, col: '#f97316' }, p.x, gy - 4);
+  rings.push({ x: p.x, y: gy, r: 4, max: 46, col: '#f97316' });
+  for (let i = 0; i < 30; i++) { const a = Math.random() * 6.283, v = 1 + Math.random() * 3.4; parts.push({ x: p.x, y: gy - 6, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.5, life: 34 + Math.random() * 20, col: i % 3 === 0 ? '#475569' : i % 3 === 1 ? '#fb923c' : '#c99a62' }); }
+  shake = Math.max(shake, 10); sfxBoom(true);
+  tanks.forEach((tk, i) => {
+    if (Math.hypot(p.x - tk.x, gy - (tk.y - 8)) < 30) {
+      if (i !== p.owner) { tanks[p.owner].score += 100; floats.push({ x: tk.x, y: tk.y - 30, t: 80, txt: '+100 Plane crash!', col: tanks[p.owner].col }); }
+      else { tk.score -= 100; floats.push({ x: tk.x, y: tk.y - 30, t: 80, txt: '-100 Plane crash!', col: '#dc2626' }); }
+    }
+  });
+  p.on = false; p.down = false; p.wait = 1200 + Math.random() * 1200;
+  syncUi();
+}
+function drawPlane() {
+  if (!plane.on) return;
+  const p = plane;
+  ctx.save(); ctx.translate(p.x, p.down ? p.y : p.y + Math.sin(p.ph * 0.05) * 2); if (p.down) ctx.rotate(p.rot); ctx.scale(p.dir, 1);
+  const tr = ctx.createLinearGradient(-16, 0, -70, 0);
+  tr.addColorStop(0, 'rgba(255,255,255,0.35)'); tr.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.strokeStyle = tr; ctx.lineWidth = 1; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(-16, 1); ctx.lineTo(-70, 1); ctx.stroke();
+  ctx.fillStyle = '#e2e8f0'; ctx.beginPath(); ctx.ellipse(0, 0, 15, 4.5, 0, 0, 6.3); ctx.fill();
+  ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.moveTo(-12, -1); ctx.lineTo(-19, -9); ctx.lineTo(-15, -9); ctx.lineTo(-8, -1); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#94a3b8'; ctx.beginPath(); ctx.moveTo(-2, 1); ctx.lineTo(-7, 8); ctx.lineTo(3, 8); ctx.lineTo(5, 1); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#7dd3fc'; ctx.beginPath(); ctx.ellipse(5, -2, 4, 2.4, 0, 0, 6.3); ctx.fill();
+  ctx.fillStyle = '#ef4444'; ctx.fillRect(-9, -1, 14, 1.6);
+  ctx.fillStyle = '#475569'; ctx.save(); ctx.translate(15, 0); ctx.scale(0.5, Math.abs(Math.sin(p.ph)) * 9 + 1); ctx.beginPath(); ctx.arc(0, 0, 1, 0, 7); ctx.fill(); ctx.restore();
+  ctx.restore();
+}
+/* A wild animal that matches the terrain (deer on Meadow, camel on Desert, polar bear on Snow, deer or bear at Night) walks in at one edge of
+   the field, stops to watch the battle, then wanders off. It follows the ground height and slope. Scenery only. */
+const critter = { on: false, wait: 420, side: 1, kind: 'deer', x: 0, st: 'in', t: 0, ph: 0 };
+function critterStep() {
+  if (!tanks.length || phase === 'menu') return;
+  const c = critter;
+  if (!c.on) {
+    if (--c.wait > 0) return;
+    c.on = true; c.st = 'in'; c.t = 0; c.side = Math.random() < 0.5 ? 1 : -1;
+    const n = theme.name;
+    c.kind = n === 'Desert' ? 'camel' : n === 'Snow' ? 'bear' : n === 'Night' ? (Math.random() < 0.5 ? 'deer' : 'bear') : 'deer';
+    c.x = c.side > 0 ? -34 : W + 34;
+    return;
+  }
+  const inward = c.side, goal = c.side > 0 ? 22 : W - 22;
+  c.ph += 0.16;
+  if (c.st === 'in') {
+    c.x += inward * 0.35;
+    if ((c.side > 0 && c.x >= goal) || (c.side < 0 && c.x <= goal)) { c.st = 'look'; c.t = 0; c.hold = 260 + Math.random() * 200; }
+  } else if (c.st === 'look') {
+    if (++c.t > c.hold) c.st = 'out';
+  } else if (c.st === 'dead') {
+    if (++c.t > 120) { c.on = false; c.wait = 800 + Math.random() * 900; }
+  } else {
+    c.x -= inward * 0.5;
+    if (c.x < -40 || c.x > W + 40) { c.on = false; c.wait = 900 + Math.random() * 1200; }
+  }
+}
+/* Blasts and shells can kill the animal: it flips over, fades away, and returns later in the war. */
+function critterHit(x, y, rad) {
+  const c = critter;
+  if (!c.on || c.st === 'dead') return false;
+  const gx = Math.max(0, Math.min(W, Math.round(c.x))), gy = ground[gx];
+  if (Math.hypot(x - c.x, y - (gy - 10)) >= rad + 12) return false;
+  c.st = 'dead'; c.t = 0; c.dy = gy;
+  for (let i = 0; i < 20; i++) { const a = Math.random() * 6.283, v = 1 + Math.random() * 2.4; parts.push({ x: c.x, y: gy - 10, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.5, life: 30 + Math.random() * 20, col: i % 3 === 0 ? '#ffffff' : i % 3 === 1 ? '#c99a62' : '#94a3b8' }); }
+  floats.push({ x: c.x, y: gy - 34, t: 60, txt: 'Oh no!', col: '#64748b' });
+  tone(520, 140, 0.25, 'square', 0.06);
+  return true;
+}
+function drawCritter() {
+  const c = critter;
+  if (!c.on) return;
+  const dead = c.st === 'dead', gx = Math.max(0, Math.min(W, Math.round(c.x))), gy = dead ? c.dy : ground[gx];
+  const sx0 = Math.max(0, gx - 6), sx1 = Math.min(W, gx + 6), slope = Math.max(-0.6, Math.min(0.6, Math.atan2(ground[sx1] - ground[sx0], Math.max(1, sx1 - sx0))));
+  const walking = c.st !== 'look' && !dead, face = c.st === 'out' ? -c.side : c.side;
+  const look = c.st === 'look' ? Math.min(1, c.t / 30) : 0, k = c.kind, snow = theme.name === 'Snow';
+  const leg = (x, y0, y1, ph, w, col) => { const sw = walking ? Math.sin(c.ph + ph) * 3 : 0; ctx.strokeStyle = col; ctx.lineWidth = w; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(x, y0); ctx.lineTo(x + sw, y1); ctx.stroke(); };
+  ctx.save(); ctx.translate(c.x, gy + 2); ctx.rotate(slope); ctx.scale(face * 1.05, 1.05);
+  if (dead) { const u = Math.min(1, c.t / 40); ctx.translate(0, -Math.sin(u * Math.PI) * 22 - 10); ctx.rotate(u * 3.6); ctx.translate(0, 10); ctx.globalAlpha = c.t > 70 ? Math.max(0, 1 - (c.t - 70) / 40) : 1; }
+  if (k === 'deer') {
+    const body = '#a16a3a', dark = '#7c4f26', head = Math.sin(c.ph * 0.5) * (walking ? 1 : 0.4);
+    leg(-7, -12, 0, 0, 2, dark); leg(-4, -12, 0, 3.1, 2, dark); leg(5, -12, 0, 3.1, 2, dark); leg(8, -12, 0, 0, 2, dark);
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(-10.5, -16, 2.2, 0, 7); ctx.fill();
+    ctx.fillStyle = body; ctx.beginPath(); ctx.ellipse(0, -15, 10.5, 5, 0, 0, 6.3); ctx.fill();
+    ctx.fillStyle = '#e7c9a0'; ctx.beginPath(); ctx.ellipse(1, -12.5, 8, 2.2, 0, 0, 6.3); ctx.fill();
+    ctx.save(); ctx.translate(8, -17); ctx.rotate(-look * 0.25 + head * 0.05);
+    ctx.strokeStyle = body; ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(5, -9); ctx.stroke();
+    ctx.fillStyle = body; ctx.beginPath(); ctx.ellipse(7, -10.5, 4.2, 2.6, -0.3, 0, 6.3); ctx.fill();
+    ctx.fillStyle = dark; ctx.beginPath(); ctx.ellipse(3.8, -13, 1.2, 2.4, -0.5, 0, 6.3); ctx.fill();
+    ctx.strokeStyle = '#6b4423'; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.moveTo(5, -12); ctx.lineTo(3, -18); ctx.moveTo(4, -16); ctx.lineTo(7, -18); ctx.moveTo(5.6, -12.2); ctx.lineTo(8, -17); ctx.stroke();
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(8, -11.2, 1, 0, 7); ctx.fill(); ctx.fillStyle = '#111827'; ctx.beginPath(); ctx.arc(8.3, -11.2, 0.5, 0, 7); ctx.fill();
+    ctx.restore();
+  } else if (k === 'camel') {
+    const body = '#c99a4a', dark = '#a77a30';
+    leg(-8, -13, 0, 0, 2.4, dark); leg(-5, -13, 0, 3.1, 2.4, dark); leg(6, -13, 0, 3.1, 2.4, dark); leg(9, -13, 0, 0, 2.4, dark);
+    ctx.strokeStyle = dark; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(-11, -16); ctx.lineTo(-13, -9); ctx.stroke();
+    ctx.fillStyle = body; ctx.beginPath(); ctx.ellipse(0, -16, 11.5, 5.5, 0, 0, 6.3); ctx.fill();
+    ctx.beginPath(); ctx.arc(-3.5, -21, 4.6, Math.PI, 0); ctx.arc(4, -20.5, 4, Math.PI, 0); ctx.fill();
+    ctx.save(); ctx.translate(10, -18); ctx.rotate(-look * 0.2);
+    ctx.strokeStyle = body; ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(7, -3, 5, -11); ctx.stroke();
+    ctx.fillStyle = body; ctx.beginPath(); ctx.ellipse(8, -12.5, 4.6, 2.6, 0.1, 0, 6.3); ctx.fill();
+    ctx.fillStyle = dark; ctx.beginPath(); ctx.arc(4.5, -14, 1.3, 0, 7); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(8.6, -13.4, 1, 0, 7); ctx.fill(); ctx.fillStyle = '#111827'; ctx.beginPath(); ctx.arc(8.9, -13.4, 0.5, 0, 7); ctx.fill();
+    ctx.restore();
+  } else {
+    /* Bear: simple side view. Long low body, head held out front in line with the body, small ears on top, short snout, four stubby legs. */
+    const body = snow ? '#f8fafc' : '#7a5233', line = snow ? '#9db2c9' : '#4a2f1a', snout = snow ? '#e3ebf4' : '#c9a37a';
+    ctx.scale(1.6, 1.6);
+    const sw = walking ? Math.sin(c.ph) * 2 : 0;
+    ctx.lineCap = 'round';
+    [[-7, 3.1], [-3, 0], [5, 0], [9, 3.1]].forEach(l => {
+      const x = l[0] + (l[1] ? -sw : sw);
+      ctx.strokeStyle = line; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(l[0], -6); ctx.lineTo(x, 1.5); ctx.stroke();
+      ctx.strokeStyle = body; ctx.lineWidth = 4.6; ctx.beginPath(); ctx.moveTo(l[0], -6); ctx.lineTo(x, 1.5); ctx.stroke();
+    });
+    ctx.fillStyle = body; ctx.strokeStyle = line; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.ellipse(0, -10, 12, 7.5, -0.06, 0, 6.3); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.arc(-12, -11, 2.3, 0, 7); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.arc(11.5, -11.5, 5.2, 0, 7); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.arc(8.6, -16, 2, 0, 7); ctx.arc(13.2, -16.6, 2, 0, 7); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = snout; ctx.beginPath(); ctx.ellipse(15.6, -9.6, 3.2, 2.4, 0.1, 0, 6.3); ctx.fill(); ctx.stroke();
+    dot(18.2, -10.4, 1.3, '#111827'); dot(12.2, -12.8, 1.1, '#111827');
+  }
+  ctx.restore();
+}
 function birdsStep() {
+  planeStep();
+  critterStep();
   liveBirds().forEach(b => {
     if (b.alive) {
       b.x += b.dir * b.speed; b.ph += 0.2; b.y = b.base + Math.sin(b.ph * 0.35) * 6;
@@ -279,7 +456,7 @@ const sfxBoom = big => tone(big ? 110 : 160, 30, big ? 0.55 : 0.35, 'sawtooth', 
 function buildMap(seed) {
   rng = mulberry32(seed);
   const hh = Math.imul(seed | 0, 2654435761) >>> 0;
-  theme = THEMES[(hh >>> 8) % 4];
+  theme = THEMES[!isDaily && terrain >= 0 ? terrain : (hh >>> 8) % 4];
   const valley = (hh >>> 4) % 4 === 0;
   mapKind = valley ? 'Valley' : 'Hills';
   const p1 = rng() * 6, p2 = rng() * 6, p3 = rng() * 6;
@@ -348,7 +525,7 @@ function fire(wi) {
     /* Buried under dirt: the shell has nowhere to go and goes off on its own tank. */
     crater(t.x, t.y - 8, Math.max(w.r, 28));
     t.buried = false;
-    t.score = Math.max(0, t.score - 40);
+    t.score -= 40;
     rings.push({ x: t.x, y: t.y - 8, r: 4, max: 44, col: '#dc2626' });
     for (let i = 0; i < 22; i++) { const a = Math.random() * 6.28, v = 1 + Math.random() * 3; parts.push({ x: t.x, y: t.y - 8, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1, life: 30 + Math.random() * 20, col: i % 2 ? '#c99a62' : '#ef4444' }); }
     floats.push({ x: t.x, y: t.y - 34, t: 70, txt: '-40 Self blast!', col: '#dc2626' });
@@ -370,7 +547,7 @@ function fire(wi) {
   const offs = w.id === 'triple' ? [-7, 0, 7] : [0];
   offs.forEach(o => {
     const rad = (t.a + o) * Math.PI / 180, sp = t.p * POWER_K;
-    shots.push({ x: t.x + Math.cos(rad) * 18, y: t.y - 12 - Math.sin(rad) * 18, vx: Math.cos(rad) * sp, vy: -Math.sin(rad) * sp, w: w, owner: who(), age: 0, bounces: 0, dead: false, trail: [], rec: o === 0 });
+    shots.push({ x: t.x + Math.cos(rad) * 18, y: t.y - 12 - Math.sin(rad) * 18, vx: Math.cos(rad) * sp, vy: -Math.sin(rad) * sp, w: w, owner: who(), age: 0, bounces: 0, dead: false, trail: [], rec: o === 0, dir: Math.cos(rad) >= 0 ? 1 : -1 });
   });
   phase = 'fly';
   ensureAudio();
@@ -380,6 +557,8 @@ function fire(wi) {
 
 function explode(s) {
   s.dead = true;
+  critterHit(s.x, s.y, s.w.r);
+  if (s.snow) s.w = Object.assign({}, s.w, { r: Math.round(s.size * 1.35), pts: 50 + Math.round(s.size * 2.5) });
   const w = s.w, enemy = tanks[1 - s.owner];
   if (w.pts) {
     const d = Math.hypot(s.x - enemy.x, s.y - (enemy.y - 8)), reach = w.r + 13;
@@ -388,6 +567,13 @@ function explode(s) {
       tanks[s.owner].score += pts;
       floats.push({ x: enemy.x, y: enemy.y - 24, t: 60, txt: '+' + pts, col: tanks[s.owner].col });
     }
+  }
+  /* Friendly fire: ANY weapon whose blast reaches the firing tank's own side costs points (weapons worth 0 count as 50), and the score can go below zero. */
+  const own = tanks[s.owner], od = Math.hypot(s.x - own.x, s.y - (own.y - 8)), oreach = w.r + 13;
+  if (od < oreach) {
+    const loss = Math.max(5, Math.round((w.pts || 50) * (1 - od / oreach)));
+    own.score -= loss;
+    floats.push({ x: own.x, y: own.y - 30, t: 70, txt: '-' + loss + ' Friendly fire!', col: '#dc2626' });
   }
   if (w.id === 'zap') {
     const zd = Math.hypot(s.x - enemy.x, s.y - (enemy.y - 8));
@@ -421,7 +607,14 @@ function explode(s) {
       }
     });
   }
-  rings.push({ x: s.x, y: s.y, r: 4, max: w.r * 1.5, col: w.col });
+  rings.push({ x: s.x, y: s.y, r: 4, max: w.r * 1.5, col: s.col || w.col });
+  blast(w, s.x, s.y);
+  if (w.id === 'blackhole') {
+    vort.push({ x: s.x, y: s.y, t: 45 });
+    for (let i = 0; i < 36; i++) { const a = Math.random() * 6.283, r0 = 50 + Math.random() * 30; parts.push({ x: s.x + Math.cos(a) * r0, y: s.y + Math.sin(a) * r0, vx: -Math.cos(a) * 2.6, vy: -Math.sin(a) * 2.6, life: 26, col: i % 3 ? '#a78bfa' : '#1e1b4b' }); }
+    tone(600, 60, 0.5, 'sine', 0.1);
+  }
+  if (s.snow) for (let i = 0; i < 22; i++) { const a = Math.random() * 6.283, v = 1 + Math.random() * 3; parts.push({ x: s.x, y: s.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.5, life: 34, col: i % 2 ? '#f8fafc' : '#bae6fd' }); }
   const n = w.id === 'dirt' ? 14 : 24;
   for (let i = 0; i < n; i++) {
     const a = Math.random() * Math.PI * 2, v = 1 + Math.random() * 3.2;
@@ -433,17 +626,32 @@ function explode(s) {
 }
 
 function roll(s) {
-  /* Roller: after landing it runs along the ground, faster downhill, and blows up on a wall, a tank or after 130 steps. */
+  /* Roller and Snowball run along the ground (the snowball grows); the Mole burrows and digs a trench. They blow up on a wall, a tank or when the run ends. */
   const dir = s.vx >= 0 ? 1 : -1, nx = s.x + dir * s.speed;
   if (nx < 0 || nx > W) { s.dead = true; return; }
-  const g0 = ground[Math.round(s.x)], g1 = ground[Math.round(nx)];
   s.roll++;
+  if (s.mole) {
+    const ax = Math.max(0, Math.min(W, Math.round(nx + dir * 8))), ga = ground[ax];
+    if (s.roll > 80 || (s.lvl !== undefined && ga < s.lvl - 14)) { explode(s); return; }
+    s.lvl = ga;
+    crater(nx, ga - 1, 7);
+    s.x = nx; s.y = ground[Math.round(nx)] - 3;
+    for (let i = 0; i < 2; i++) parts.push({ x: s.x, y: s.y + 2, vx: -dir * (0.4 + Math.random()), vy: -1 - Math.random() * 1.4, life: 16, col: i ? '#8b5a2b' : '#c99a62' });
+    if (s.roll % 8 === 0) tone(140, 90, 0.08, 'square', 0.04);
+    for (let i = 0; i < 2; i++) {
+      if (Math.hypot(s.x - tanks[i].x, s.y - (tanks[i].y - 8)) < 15) { explode(s); return; }
+    }
+    return;
+  }
+  const g0 = ground[Math.round(s.x)], g1 = ground[Math.round(nx)];
   if (g1 < g0 - 5 || s.roll > 130) { explode(s); return; }
   s.speed = Math.max(1.1, Math.min(3.4, s.speed + (g1 - g0) * 0.12 - 0.01));
-  s.x = nx; s.y = g1 - 3;
-  if (s.roll % 3 === 0) parts.push({ x: s.x, y: g1, vx: -dir * 0.6, vy: -0.8, life: 14, col: '#c99a62' });
+  if (s.snow) s.size = Math.min(34, s.size + 0.3);
+  s.x = nx; s.y = g1 - (s.snow ? s.size * 0.75 : 3);
+  if (s.roll % 3 === 0) parts.push({ x: s.x, y: g1, vx: -dir * 0.6, vy: -0.8, life: 14, col: s.snow ? '#f1f5f9' : '#c99a62' });
+  const reach = 12 + (s.snow ? s.size * 0.4 : 0);
   for (let i = 0; i < 2; i++) {
-    if (Math.hypot(s.x - tanks[i].x, s.y - (tanks[i].y - 8)) < 12) { explode(s); return; }
+    if (Math.hypot(s.x - tanks[i].x, s.y - (tanks[i].y - 8)) < reach) { explode(s); return; }
   }
 }
 
@@ -483,11 +691,28 @@ function step() {
     s.age++;
     const sw = s.w;
     s.vx += wind * WIND_K * (sw.wd || 1); s.vy += GRAVITY * (sw.g === undefined ? 1 : sw.g);
+    if (sw.id === 'boomerang' && s.age > 12) s.vx -= s.dir * 0.014;
     if (sw.id === 'homing' && s.age > 10) {
       const he = tanks[1 - s.owner], hx = he.x - s.x, hy = (he.y - 8) - s.y, hd = Math.hypot(hx, hy) || 1;
       s.vx += hx / hd * 0.018; s.vy += hy / hd * 0.018 - GRAVITY * 0.4;
     }
     s.x += s.vx; s.y += s.vy;
+    if (s.age % 2 === 0) {
+      if (sw.id === 'missile' || sw.id === 'homing' || sw.id === 'nuke' || sw.id === 'piece' || sw.id === 'napalm' || sw.id === 'meteor') parts.push({ x: s.x - s.vx * 2, y: s.y - s.vy * 2, vx: (Math.random() - 0.5) * 0.8, vy: (Math.random() - 0.5) * 0.8, life: 12 + Math.random() * 8, col: Math.random() < 0.5 ? '#fb923c' : '#fde047' });
+      else if (sw.id === 'spark') parts.push({ x: s.x, y: s.y, vx: (Math.random() - 0.5) * 0.6, vy: (Math.random() - 0.5) * 0.6, life: 14, col: s.col });
+    }
+    if (sw.id === 'firework' && s.vy > 0 && s.age > 8) {
+      s.dead = true;
+      const cols = ['#f43f5e', '#fde047', '#38bdf8', '#a3e635', '#c084fc', '#fb923c'];
+      for (let i = 0; i < 10; i++) {
+        const a = i / 10 * 6.283 + Math.random() * 0.4, v = 1.3 + Math.random() * 0.6;
+        shots.push({ x: s.x, y: s.y, vx: s.vx * 0.7 + Math.cos(a) * v, vy: s.vy * 0.3 + Math.sin(a) * v, w: SPARK, col: cols[i % cols.length], owner: s.owner, age: 7, bounces: 0, dead: false, trail: [] });
+      }
+      for (let i = 0; i < 26; i++) { const a = Math.random() * 6.283, v = 1 + Math.random() * 2.6; parts.push({ x: s.x, y: s.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 26, col: cols[i % cols.length] }); }
+      rings.push({ x: s.x, y: s.y, r: 4, max: 34, col: '#fde047' });
+      tone(500, 1400, 0.25, 'triangle', 0.07);
+      return;
+    }
     if (sw.id === 'cluster' && s.vy > 0) {
       s.dead = true;
       for (let i = 0; i < 5; i++) shots.push({ x: s.x, y: s.y, vx: s.vx + (i - 2) * 0.5, vy: s.vy * 0.6, w: BOMBLET, owner: s.owner, age: 7, bounces: 0, dead: false, trail: [] });
@@ -498,12 +723,21 @@ function step() {
     if (s.age % 2 === 0) { s.trail.push({ x: s.x, y: s.y }); if (s.trail.length > 26) s.trail.shift(); }
     if (s.x < -30 || s.x > W + 30 || s.y > H + 40) { s.dead = true; return; }
     if (birdHit(s)) return;
+    if (planeHit(s)) return;
+    if (critterHit(s.x, s.y, 2)) { explode(s); return; }
     if (s.x >= 0 && s.x <= W) {
       const g = ground[Math.round(s.x)];
       if (s.y >= g) {
         if (s.w.id === 'bouncer' && s.bounces < 2) {
           s.y = g - 1; s.vy = -Math.abs(s.vy) * 0.62; s.vx *= 0.85; s.bounces++;
           for (let i = 0; i < 6; i++) parts.push({ x: s.x, y: g, vx: (Math.random() - 0.5) * 2, vy: -Math.random() * 2, life: 18, col: '#c99a62' });
+        } else if (s.w.id === 'popcorn' && s.bounces < 4) {
+          explode({ x: s.x, y: g, w: POP, owner: s.owner, dead: false });
+          s.bounces++; s.y = ground[Math.max(0, Math.min(W, Math.round(s.x)))] - 2; s.vy = -Math.max(1.8, Math.abs(s.vy) * 0.7); s.vx *= 0.9;
+        } else if (s.w.id === 'mole') {
+          s.rolling = true; s.mole = true; s.roll = 0; s.speed = 1.4; s.y = g - 3;
+        } else if (s.w.id === 'snowball') {
+          s.rolling = true; s.snow = true; s.size = 7; s.roll = 0; s.speed = 1.5; s.y = g - 5;
         } else if (s.w.id === 'roller') {
           s.rolling = true; s.roll = 0; s.speed = 1.6; s.y = g - 3;
         } else if (s.w.id === 'sticky') {
@@ -520,6 +754,11 @@ function step() {
       }
     }
   });
+  blasts.forEach(b => { b.t++; });
+  blasts = blasts.filter(b => b.t < b.max);
+  flashA *= 0.9;
+  vort.forEach(v => { v.t--; });
+  vort = vort.filter(v => v.t > 0);
   bolts.forEach(b => { b.t--; });
   bolts = bolts.filter(b => b.t > 0);
   if (phase === 'fly' && shots.every(s => s.dead)) { phase = 'wait'; waitFrames = 50; shots = []; }
@@ -527,6 +766,12 @@ function step() {
   fires.forEach(f => {
     f.t--;
     const en = tanks[1 - f.owner];
+    const fo = tanks[f.owner];
+    if (f.t % 25 === 0 && Math.abs(fo.x - f.x) < 30 && Math.abs(fo.y - ground[Math.max(0, Math.min(W, Math.round(f.x)))]) < 22) {
+      fo.score -= 12;
+      floats.push({ x: fo.x, y: fo.y - 24, t: 50, txt: '-12 Friendly fire!', col: '#dc2626' });
+      syncUi();
+    }
     if (f.t % 25 === 0 && Math.abs(en.x - f.x) < 30 && Math.abs(en.y - ground[Math.max(0, Math.min(W, Math.round(f.x)))]) < 22) {
       tanks[f.owner].score += 12;
       floats.push({ x: en.x, y: en.y - 24, t: 40, txt: '+12', col: '#f97316' });
@@ -544,6 +789,204 @@ function step() {
   shake *= 0.86;
   clouds.forEach(c => { c.x += 0.05 * c.s; if (c.x > W + 60) c.x = -60; });
   tanks.forEach(t => { t.y = ground[Math.round(t.x)]; t.dy += (t.y - t.dy) * 0.25; });
+}
+
+/* ---------- dramatic blasts ---------- */
+/* Each weapon family gets its own explosion: fireball with rays, concentric shockwave rings, radial lightning with glowing discs,
+   rainbow streaks with a bead ring, or ice spikes rising from the ground. Purely visual; the real blast is the crater and the score. */
+function blast(w, x, y) {
+  const id = w.id;
+  const type = id === 'big' || id === 'nuke' || id === 'balloon' || id === 'sticky' ? 'shock' : id === 'zap' ? 'bolts' : id === 'spark' ? 'streaks' : id === 'snowball' ? 'spikes' : id === 'blackhole' ? '' : id === 'dirt' ? 'dust' : 'fire';
+  if (!type) return;
+  const R = type === 'bolts' ? 48 : type === 'streaks' ? 26 : w.r;
+  const b = { type: type, x: x, y: y, R: R, t: 0, max: type === 'fire' ? 26 : 36, seed: Math.random() * 6.28, col: w.col };
+  if (type === 'bolts') b.lines = Array.from({ length: 12 }, (_, k) => ({ a: k / 12 * 6.283 + Math.random() * 0.3, j: Array.from({ length: 8 }, () => (Math.random() - 0.5) * 14) }));
+  if (type === 'spikes') b.sp = Array.from({ length: 9 }, (_, k) => ({ dx: (k - 4) * R * 0.32 + (Math.random() - 0.5) * 6, h: R * (0.9 + Math.random() * 1.1), d: Math.random() * 0.25 }));
+  if (type === 'fire' || type === 'shock' || type === 'dust') {
+    const n = type === 'dust' ? 14 : 8 + Math.round(R / 4);
+    b.em = Array.from({ length: n }, (_, k) => { const a = -Math.PI / 2 + (Math.random() - 0.5) * 2.6, v = 1.4 + Math.random() * 2.4; return { vx: Math.cos(a) * v, vy: Math.sin(a) * v, c: k % 2 }; });
+  }
+  blasts.push(b);
+  if (id === 'nuke') flashA = 0.8; else if (id === 'big') flashA = Math.max(flashA, 0.35);
+}
+function drawBlasts() {
+  blasts.forEach(b => {
+    const p = b.t / b.max, e = 1 - (1 - p) * (1 - p), fade = 1 - p * p;
+    ctx.save();
+    if (b.type === 'fire') {
+      const r = b.R * (0.7 + e) + 4, g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, r);
+      g.addColorStop(0, 'rgba(255,251,224,' + fade + ')'); g.addColorStop(0.35, 'rgba(253,224,71,' + fade + ')');
+      g.addColorStop(0.7, 'rgba(249,115,22,' + fade * 0.85 + ')'); g.addColorStop(1, 'rgba(220,38,38,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(b.x, b.y, r, 0, 7); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,237,160,' + fade + ')'; ctx.lineWidth = 2;
+      for (let k = 0; k < 10; k++) {
+        const a = k * 0.628 + b.seed, d0 = r * 0.7, d1 = r * (0.95 + 0.5 * e);
+        ctx.beginPath(); ctx.moveTo(b.x + Math.cos(a) * d0, b.y + Math.sin(a) * d0); ctx.lineTo(b.x + Math.cos(a) * d1, b.y + Math.sin(a) * d1); ctx.stroke();
+      }
+      if (p > 0.4) { ctx.fillStyle = 'rgba(71,85,105,' + 0.3 * (1 - p) + ')'; ctx.beginPath(); ctx.arc(b.x, b.y - p * 18, b.R * 0.7, 0, 7); ctx.fill(); }
+    } else if (b.type === 'shock') {
+      const R = b.R * 1.8, g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, R * e + 1);
+      g.addColorStop(0, 'rgba(255,255,255,' + fade * 0.9 + ')'); g.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(b.x, b.y, R * e + 1, 0, 7); ctx.fill();
+      for (let k = 0; k < 6; k++) {
+        const rr = R * e - k * R * 0.1; if (rr <= 1) continue;
+        ctx.strokeStyle = k % 2 ? b.col : '#fde68a'; ctx.globalAlpha = fade; ctx.lineWidth = 4 - k * 0.4;
+        ctx.beginPath(); ctx.arc(b.x, b.y, rr, 0, 7); ctx.stroke();
+      }
+    } else if (b.type === 'bolts') {
+      const reach = b.R * (0.5 + e);
+      ctx.strokeStyle = '#a5f3fc'; ctx.lineWidth = 1.6; ctx.lineJoin = 'round'; ctx.globalAlpha = Math.min(1, fade * 1.6);
+      b.lines.forEach(l => {
+        ctx.beginPath(); ctx.moveTo(b.x, b.y);
+        for (let j = 0; j < 8; j++) { const d = reach * (j + 1) / 8, o = l.j[j]; ctx.lineTo(b.x + Math.cos(l.a) * d - Math.sin(l.a) * o, b.y + Math.sin(l.a) * d + Math.cos(l.a) * o); }
+        ctx.stroke();
+      });
+      for (let k = 0; k < 4; k++) {
+        const a = b.seed + k * 1.6, d = b.R * 0.3 * (k % 2 + 1), cx = b.x + Math.cos(a) * d, cy = b.y + Math.sin(a) * d, rr = 9 + e * 9, g = ctx.createRadialGradient(cx, cy, 1, cx, cy, rr);
+        g.addColorStop(0, 'rgba(255,255,255,0.9)'); g.addColorStop(0.5, 'rgba(34,211,238,0.7)'); g.addColorStop(1, 'rgba(34,211,238,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, rr, 0, 7); ctx.fill();
+      }
+    } else if (b.type === 'streaks') {
+      ctx.lineWidth = 2; ctx.globalAlpha = fade;
+      for (let k = 0; k < 14; k++) {
+        const a = k * 0.449 + b.seed, d0 = b.R * e * 0.5;
+        ctx.strokeStyle = 'hsl(' + k * 26 + ',90%,60%)';
+        ctx.beginPath(); ctx.moveTo(b.x + Math.cos(a) * d0, b.y + Math.sin(a) * d0); ctx.lineTo(b.x + Math.cos(a) * (d0 + 7), b.y + Math.sin(a) * (d0 + 7)); ctx.stroke();
+      }
+      ctx.fillStyle = '#fde047';
+      for (let k = 0; k < 10; k++) { const a = k * 0.628; ctx.beginPath(); ctx.arc(b.x + Math.cos(a) * b.R * e * 0.9, b.y + Math.sin(a) * b.R * e * 0.9, 2.2 * fade + 0.4, 0, 7); ctx.fill(); }
+    } else if (b.type === 'spikes') {
+      b.sp.forEach(q => {
+        const u = Math.max(0, Math.min(1, (p - q.d) * 1.6)), h = q.h * Math.sin(u * Math.PI), x = b.x + q.dx;
+        if (h < 1 || x < 0 || x > W) return;
+        const y0 = ground[Math.round(x)];
+        ctx.fillStyle = 'rgba(224,242,254,0.95)'; ctx.strokeStyle = '#7dd3fc'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(x - 4, y0 + 2); ctx.lineTo(x + 0.5, y0 - h); ctx.lineTo(x + 4, y0 + 2); ctx.closePath(); ctx.fill(); ctx.stroke();
+      });
+    }
+    if (b.em) {
+      ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.globalAlpha = Math.min(1, fade * 1.4);
+      b.em.forEach(m => {
+        const t1 = b.t, t0 = Math.max(0, b.t - 3);
+        ctx.strokeStyle = b.type === 'dust' ? (m.c ? '#a16207' : '#c99a62') : (m.c ? '#fb923c' : '#fbbf24');
+        ctx.beginPath(); ctx.moveTo(b.x + m.vx * t0, b.y + m.vy * t0 + 0.04 * t0 * t0); ctx.lineTo(b.x + m.vx * t1, b.y + m.vy * t1 + 0.04 * t1 * t1); ctx.stroke();
+      });
+    }
+    ctx.restore();
+  });
+  if (flashA > 0.02) { ctx.fillStyle = 'rgba(255,255,255,' + flashA + ')'; ctx.fillRect(0, 0, W, H); }
+}
+
+/* ---------- weapon sprites ---------- */
+function flame(len) {
+  const f = len * (0.7 + Math.random() * 0.6);
+  ctx.fillStyle = '#fb923c'; ctx.beginPath(); ctx.moveTo(-7, -2.5); ctx.lineTo(-7 - f, 0); ctx.lineTo(-7, 2.5); ctx.fill();
+  ctx.fillStyle = '#fde047'; ctx.beginPath(); ctx.moveTo(-7, -1.3); ctx.lineTo(-7 - f * 0.6, 0); ctx.lineTo(-7, 1.3); ctx.fill();
+}
+function dot(x, y, r, col) { ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); }
+function drawShot(s) {
+  const w = s.w, id = w.id, t = s.age, ang = Math.atan2(s.vy, s.vx), dirn = s.vx >= 0 ? 1 : -1;
+  ctx.save(); ctx.translate(s.x, s.y);
+  ctx.shadowColor = s.col || w.col; ctx.shadowBlur = 8;
+  if (id === 'missile' || id === 'homing' || id === 'nuke') {
+    const k = id === 'nuke' ? 1.35 : 1;
+    ctx.rotate(ang); ctx.scale(k, k);
+    flame(7);
+    ctx.fillStyle = '#334155';
+    ctx.beginPath(); ctx.moveTo(-6, 0); ctx.lineTo(-10, -6); ctx.lineTo(-2, -3); ctx.lineTo(-2, 3); ctx.lineTo(-10, 6); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = w.col; ctx.beginPath(); ctx.roundRect(-8, -3.2, 15, 6.4, 3); ctx.fill();
+    ctx.fillStyle = '#fff7ed'; ctx.beginPath(); ctx.moveTo(6, -3.2); ctx.lineTo(12, 0); ctx.lineTo(6, 3.2); ctx.closePath(); ctx.fill();
+    if (id === 'nuke') { ctx.fillStyle = '#fde047'; ctx.fillRect(-2, -3.2, 3.5, 6.4); }
+    if (id === 'homing') { dot(2, 0, 2.2, '#fff'); dot(2.8, 0, 1.1, '#0f172a'); } else dot(1, 0, 1.5, '#bae6fd');
+  } else if (id === 'big') {
+    dot(0, 1, 6.5, '#1f2937'); dot(-2, -1.5, 2, 'rgba(255,255,255,0.35)');
+    ctx.strokeStyle = '#92400e'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(2, -5); ctx.quadraticCurveTo(5, -9, 8, -8); ctx.stroke();
+    dot(8, -8, 2.2, Math.random() < 0.5 ? '#fde047' : '#fb923c');
+  } else if (id === 'triple') {
+    ctx.rotate(ang); ctx.fillStyle = w.col;
+    ctx.beginPath(); ctx.moveTo(6, 0); ctx.lineTo(-4, -3); ctx.lineTo(-2, 0); ctx.lineTo(-4, 3); ctx.closePath(); ctx.fill();
+    dot(2, 0, 1, '#fff');
+  } else if (id === 'bouncer') {
+    ctx.rotate(t * 0.2); dot(0, 0, 5.5, w.col);
+    ctx.strokeStyle = '#d1fae5'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.arc(0, 0, 3.6, 0.3, 2.4); ctx.stroke();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(0, 0, 5.5, 0, 7); ctx.stroke();
+  } else if (id === 'snowball') {
+    const rad = s.size || 7;
+    ctx.rotate((s.rolling ? s.roll * 0.3 : t * 0.2) * dirn);
+    dot(0, 0, rad, '#f8fafc'); dot(rad * 0.25, rad * 0.25, rad * 0.7, 'rgba(148,163,184,0.5)');
+    dot(-rad * 0.35, -rad * 0.2, rad * 0.14, '#94a3b8'); dot(rad * 0.3, -rad * 0.4, rad * 0.12, '#94a3b8'); dot(-rad * 0.1, rad * 0.4, rad * 0.13, '#94a3b8');
+    ctx.strokeStyle = '#bae6fd'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(0, 0, rad, 0, 7); ctx.stroke();
+  } else if (id === 'roller') {
+    ctx.rotate((s.rolling ? s.roll * 0.35 : t * 0.3) * dirn); dot(0, 0, 5.5, w.col); dot(0, 0, 2, '#e0f2fe');
+    ctx.strokeStyle = '#0c4a6e'; ctx.lineWidth = 1.4;
+    for (let k = 0; k < 4; k++) { const a = k * 0.785; ctx.beginPath(); ctx.moveTo(Math.cos(a) * 5, Math.sin(a) * 5); ctx.lineTo(-Math.cos(a) * 5, -Math.sin(a) * 5); ctx.stroke(); }
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(0, 0, 5.5, 0, 7); ctx.stroke();
+  } else if (id === 'digger') {
+    ctx.rotate(ang); ctx.fillStyle = '#94a3b8';
+    ctx.beginPath(); ctx.moveTo(9, 0); ctx.lineTo(-6, -5); ctx.lineTo(-6, 5); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#475569'; ctx.lineWidth = 1.5;
+    for (let k = 0; k < 3; k++) { const x = ((t * 1.2 + k * 5) % 15) - 6, h = 5 * (9 - x) / 15; ctx.beginPath(); ctx.moveTo(x, -h); ctx.lineTo(x + 2.5, h); ctx.stroke(); }
+    ctx.fillStyle = '#475569'; ctx.fillRect(-8, -5, 3, 10);
+  } else if (id === 'napalm') {
+    ctx.rotate(ang); ctx.fillStyle = '#f97316';
+    ctx.beginPath(); ctx.moveTo(-12 - Math.random() * 3, 0); ctx.lineTo(-1, -4.5); ctx.lineTo(-1, 4.5); ctx.closePath(); ctx.fill();
+    dot(0, 0, 4.8, '#f97316'); dot(1, 0, 2.6, '#fde047');
+  } else if (id === 'dirt') {
+    dot(0, 0, 5.5, '#a16207'); dot(-2, -1, 1.4, '#78350f'); dot(2, 2, 1.6, '#78350f'); dot(1.5, -2.5, 1, '#78350f');
+  } else if (id === 'cluster') {
+    dot(0, 0, 5.5, w.col);
+    for (let k = 0; k < 5; k++) { const a = k * 1.2566 + t * 0.1; dot(Math.cos(a) * 3, Math.sin(a) * 3, 0.9, '#fdf4ff'); }
+    ctx.strokeStyle = '#fdf4ff'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(0, 0, 5.5, 0, 7); ctx.stroke();
+  } else if (id === 'zap') {
+    ctx.rotate(t * 0.25); ctx.fillStyle = '#fde047'; ctx.beginPath();
+    for (let k = 0; k < 8; k++) { const r = k % 2 ? 2.2 : 7, a = k * 0.785; if (k) ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r); else ctx.moveTo(r, 0); }
+    ctx.closePath(); ctx.fill(); dot(0, 0, 1.8, '#fff');
+  } else if (id === 'sticky') {
+    const wob = 1 + Math.sin(t * 0.4) * 0.12;
+    ctx.scale(wob, 2 - wob); dot(0, 0, 6, s.stuck && Math.floor(s.timer / 6) % 2 ? '#ecfccb' : w.col);
+    dot(-2, -1.5, 1.7, '#fff'); dot(2, -1.5, 1.7, '#fff'); dot(-1.7, -1.4, 0.8, '#14532d'); dot(2.3, -1.4, 0.8, '#14532d');
+  } else if (id === 'balloon') {
+    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, 8); ctx.quadraticCurveTo(3 * Math.sin(t * 0.2), 13, 0, 18); ctx.stroke();
+    ctx.fillStyle = w.col; ctx.beginPath(); ctx.ellipse(0, 0, 6, 7.5, 0, 0, 6.3); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(0, 7.5); ctx.lineTo(-2, 10); ctx.lineTo(2, 10); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.beginPath(); ctx.ellipse(-2, -2.5, 1.6, 2.6, 0.5, 0, 6.3); ctx.fill();
+  } else if (id === 'meteor' || id === 'piece') {
+    ctx.rotate(ang); flame(10);
+    dot(0, 0, 5, '#6b4423'); dot(-1, -1, 2.5, '#8b5a2b');
+    ctx.strokeStyle = w.col; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(0, 0, 5, 0, 7); ctx.stroke();
+  } else if (id === 'bomblet') {
+    dot(0, 0, 3.4, w.col); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(0, 0, 3.4, 0, 7); ctx.stroke();
+  } else if (id === 'spark') {
+    dot(0, 0, 3.6, s.col || w.col); dot(0, 0, 1.5, '#fff');
+  } else if (id === 'firework') {
+    ctx.rotate(ang); flame(6);
+    ctx.fillStyle = '#b91c1c'; ctx.fillRect(-7, -2.4, 12, 4.8);
+    ctx.fillStyle = '#fde047'; ctx.fillRect(-3, -2.4, 2, 4.8);
+    ctx.fillStyle = '#fff7ed'; ctx.beginPath(); ctx.moveTo(5, -2.4); ctx.lineTo(9, 0); ctx.lineTo(5, 2.4); ctx.closePath(); ctx.fill();
+  } else if (id === 'popcorn') {
+    ctx.rotate(t * 0.15);
+    dot(-2.5, 0, 3.4, '#fef3c7'); dot(2.5, 0.5, 3.4, '#fef3c7'); dot(0, -2.5, 3.6, '#fffbeb'); dot(0.5, 2.5, 3, '#fef3c7'); dot(0, 0, 1.6, '#fbbf24');
+  } else if (id === 'mole') {
+    if (s.rolling) {
+      ctx.shadowBlur = 0; ctx.fillStyle = '#8b5a2b'; ctx.beginPath(); ctx.arc(0, 3, 8, Math.PI, 0); ctx.closePath(); ctx.fill();
+      dot(-3 * dirn, 0, 2, '#6b4423'); dot(3 * dirn, -1.5, 1.7, '#fff'); dot(3.4 * dirn, -1.5, 0.8, '#0f172a'); dot(7 * dirn, 1.5, 1.8, '#f9a8d4');
+    } else {
+      dot(0, 0, 5.5, '#a16207'); dot(-3.5, -4.5, 2, '#78350f'); dot(3.5, -4.5, 2, '#78350f');
+      dot(-2, -0.5, 1.5, '#fff'); dot(2, -0.5, 1.5, '#fff'); dot(-2, -0.4, 0.7, '#0f172a'); dot(2, -0.4, 0.7, '#0f172a'); dot(0, 2, 1.4, '#f9a8d4');
+    }
+  } else if (id === 'blackhole') {
+    dot(0, 0, 5.5, '#0b0b14');
+    ctx.strokeStyle = '#7c3aed'; ctx.lineWidth = 2;
+    for (let k = 0; k < 3; k++) { ctx.beginPath(); ctx.arc(0, 0, 8, t * 0.3 + k * 2.09, t * 0.3 + k * 2.09 + 1.2); ctx.stroke(); }
+    ctx.strokeStyle = '#c4b5fd'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(0, 0, 5.5, 0, 7); ctx.stroke();
+  } else if (id === 'boomerang') {
+    ctx.rotate(t * 0.4); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.strokeStyle = w.col; ctx.lineWidth = 4.5; ctx.beginPath(); ctx.moveTo(-7, -5); ctx.lineTo(0, 3); ctx.lineTo(7, -5); ctx.stroke();
+    ctx.strokeStyle = '#fde68a'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(-6, -4); ctx.lineTo(0, 2); ctx.lineTo(6, -4); ctx.stroke();
+  } else {
+    dot(0, 0, 4, w.col); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(0, 0, 4, 0, 7); ctx.stroke();
+  }
+  ctx.restore();
 }
 
 /* ---------- CPU ---------- */
@@ -583,7 +1026,7 @@ function cpuShoot() {
         const rad = a * Math.PI / 180, sp = p * POWER_K;
         const hit = simulate(t.x + Math.cos(rad) * 18, t.y - 12 - Math.sin(rad) * 18, Math.cos(rad) * sp, -Math.sin(rad) * sp);
         /* a Roller should land a little short of the target and roll the rest of the way */
-        const tx = me.x + (WEAPONS[wi].id === 'roller' ? 45 : 0);
+        const tx = me.x + (WEAPONS[wi].id === 'roller' || WEAPONS[wi].id === 'snowball' || WEAPONS[wi].id === 'mole' ? 45 : 0);
         const d = Math.hypot(hit.x - tx, hit.y - (me.y - 8));
         if (d < bestD) { bestD = d; bestA = a; bestP = p; }
       }
@@ -617,7 +1060,7 @@ function syncUi() {
   });
 }
 
-function wLabel(w) { return '<i style="background:' + w.col + '"></i>' + w.name; }
+function wLabel(w) { return '<span class="pa-ico">' + (ICONS[w.id] || '') + '</span>' + w.name; }
 function buildWeapons() {
   const box = $('pa-weapons');
   box.innerHTML = '';
@@ -699,7 +1142,7 @@ document.addEventListener('keydown', e => {
   else if (k === 'ArrowUp') setAim(null, cur().p + big);
   else if (k === 'ArrowDown') setAim(null, cur().p - big);
   else if ((k === ' ' || k === 'Enter') && !(e.target && e.target.tagName === 'BUTTON')) fire(sel);
-  else if (k >= '1' && k <= '9' && !cur().used[Number(k) - 1]) { sel = Number(k) - 1; syncUi(); }
+  else if (k >= '0' && k <= '9' && !cur().used[(Number(k) + 9) % 10]) { sel = (Number(k) + 9) % 10; syncUi(); }
   else return;
   e.preventDefault();
 });
@@ -721,6 +1164,7 @@ function setupSeg(id, onPick) {
 }
 setupSeg('pa-mode', v => { mode = v; $('pa-diff').classList.toggle('dim', v === 'two'); });
 setupSeg('pa-diff', v => { diff = Number(v); });
+setupSeg('pa-terrain', v => { terrain = Number(v); });
 
 function newGame(seed, daily) {
   isDaily = !!daily;
@@ -731,7 +1175,7 @@ function newGame(seed, daily) {
   $('pa-name-you').textContent = tanks[0].name;
   $('pa-name-cpu').textContent = tanks[1].name;
   WEAPONS = dealHand(seed);
-  turn = 0; sel = 0; bolts = []; shots = []; parts = []; rings = []; floats = []; fires = []; lastPath = [[], []];
+  turn = 0; sel = 0; bolts = []; vort = []; blasts = []; critter.on = false; critter.wait = 300 + Math.random() * 300; plane.on = false; plane.down = false; plane.wait = 400; flashA = 0; shots = []; parts = []; rings = []; floats = []; fires = []; lastPath = [[], []];
   overlay.classList.add('hide');
   $('pa-share').hidden = true; $('pa-sharebox').hidden = true;
   shuffleIn(startTurn);
@@ -923,6 +1367,7 @@ function draw() {
   }
   ctx.fillStyle = theme.sun; ctx.beginPath(); ctx.arc(W - 70, 52, 24, 0, 7); ctx.fill();
   clouds.forEach(c => cloud(c.x, c.y, c.s));
+  drawPlane();
   ctx.fillStyle = theme.hills;
   ctx.beginPath(); ctx.moveTo(0, H);
   for (let x = 0; x <= W; x += 8) ctx.lineTo(x, H * 0.55 + Math.sin(x / 70 + 1) * 26 + Math.sin(x / 29) * 8);
@@ -961,6 +1406,7 @@ function draw() {
       ctx.moveTo(x, gy); ctx.lineTo(x + ((x * 31) % 3) - 1, gy - h - 1);
     }
     ctx.stroke();
+    drawCritter();
     tanks.forEach((t, i) => drawTank(t, (phase === 'aim' || phase === 'cpu') && who() === i));
 
     if (phase === 'aim') {
@@ -997,8 +1443,20 @@ function draw() {
       ctx.globalAlpha = 1;
     }
     shots.forEach(s => {
-      s.trail.forEach((p, i) => { ctx.fillStyle = 'rgba(71,85,105,' + (i / s.trail.length * 0.4) + ')'; ctx.beginPath(); ctx.arc(p.x, p.y, 1.6, 0, 7); ctx.fill(); });
-      if (!s.dead) { ctx.fillStyle = s.stuck && Math.floor(s.timer / 6) % 2 ? '#ffffff' : s.w.col; ctx.beginPath(); ctx.arc(s.x, s.y, 4, 0, 7); ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke(); }
+      const tc = s.col || s.w.col;
+      s.trail.forEach((p, i) => { const q = i / s.trail.length; ctx.fillStyle = tc; ctx.globalAlpha = q * 0.4; ctx.beginPath(); ctx.arc(p.x, p.y, 0.8 + q * 2.2, 0, 7); ctx.fill(); });
+      ctx.globalAlpha = 1;
+      if (!s.dead) drawShot(s);
+    });
+    vort.forEach(v => {
+      const q = v.t / 45;
+      ctx.strokeStyle = '#7c3aed'; ctx.lineWidth = 2.5; ctx.globalAlpha = Math.min(1, q * 1.5);
+      for (let k = 0; k < 3; k++) {
+        ctx.beginPath();
+        for (let j = 0; j <= 16; j++) { const u = j / 16, rr = (1 - u) * 46 * q + 2, a = k * 2.094 + u * 5 + (1 - q) * 9, px = v.x + Math.cos(a) * rr, py = v.y + Math.sin(a) * rr; if (j) ctx.lineTo(px, py); else ctx.moveTo(px, py); }
+        ctx.stroke();
+      }
+      ctx.fillStyle = '#0b0b14'; ctx.beginPath(); ctx.arc(v.x, v.y, 7 * q + 2, 0, 7); ctx.fill(); ctx.globalAlpha = 1;
     });
     fires.forEach(f => {
       const gx = ground[Math.max(0, Math.min(W, Math.round(f.x)))], fade = Math.min(1, f.t / 30), tm = performance.now() / 90;
@@ -1014,6 +1472,7 @@ function draw() {
       for (let k = 1; k < 7; k++) ctx.lineTo(b.x1 + (b.x2 - b.x1) * k / 7 + (Math.random() - 0.5) * 16, b.y1 + (b.y2 - b.y1) * k / 7 + (Math.random() - 0.5) * 16);
       ctx.lineTo(b.x2, b.y2); ctx.stroke(); ctx.globalAlpha = 1;
     });
+    drawBlasts();
     rings.forEach(r => { ctx.strokeStyle = r.col; ctx.globalAlpha = 0.6; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(r.x, r.y, r.r, 0, 7); ctx.stroke(); ctx.globalAlpha = 1; });
     parts.forEach(p => { ctx.fillStyle = p.col; ctx.globalAlpha = Math.min(1, p.life / 20); ctx.fillRect(p.x, p.y, 3, 3); ctx.globalAlpha = 1; });
     floats.forEach(f => { ctx.globalAlpha = Math.min(1, f.t / 20); ctx.fillStyle = f.col; ctx.font = '800 16px system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.fillText(f.txt, f.x, f.y); ctx.globalAlpha = 1; });
@@ -1051,10 +1510,10 @@ requestAnimationFrame(frame);`,
 
   seo: {
     title: 'Pocket Artillery – Free HTML, CSS & JS Tank Duel Game',
-    description: 'Artillery tank duel in plain JavaScript: drag to aim, destructible terrain, 16 weapons dealt each match, birds and a daily streak. Free canvas game code.',
+    description: 'Artillery tank duel in plain JavaScript: drag to aim, destructible terrain, 22 weapons dealt each match, birds, a passing plane and a daily streak. Free canvas game code.',
     about: {
       title: 'Pocket Artillery — Drag-to-Aim, Destructible Terrain, a Shuffled Hand of Weapons & an AI That Simulates Its Shots',
-      description: `Artillery duels are one of the oldest game ideas on the PC: two tanks, a hill between them, and a guess at angle and power. This snippet is a bright, light-themed canvas version you can play at once: six shots each, a hand of nine weapons dealt from a pool of sixteen when the match starts (each fired only once), wind on the harder levels, birds crossing the sky, and terrain that really crumbles when it is hit. Pull back on the field like a slingshot to aim, drive your tank a short way to find a better spot, play the CPU on three levels, or hand the device to a friend for a two-player duel. Four colour themes, a Valley map and a streak counter on the Daily map give you a reason to come back tomorrow.
+      description: `Artillery duels are one of the oldest game ideas on the PC: two tanks, a hill between them, and a guess at angle and power. Pocket Artillery is a reimagined game inspired by the classic Pocket Tanks, rebuilt from scratch with its own look, weapons and code. This snippet is a bright, light-themed canvas version you can play at once: ten shots each, a hand of ten weapons dealt from a pool of 22 when the match starts (each fired only once), wind on the harder levels, birds crossing the sky, and terrain that really crumbles when it is hit. Pull back on the field like a slingshot to aim, drive your tank a short way to find a better spot, play the CPU on three levels, or hand the device to a friend for a two-player duel. Four colour themes, a Valley map and a streak counter on the Daily map give you a reason to come back tomorrow.
 
 **Terrain as a height map you can carve**
 
@@ -1078,7 +1537,7 @@ The Roller lands, then runs along the height map, faster downhill, until it meet
 
 **A fresh hand every match**
 
-At the start of a match the weapon buttons flicker through random names, then settle on nine weapons dealt from the pool of sixteen with a seeded shuffle. Six shots each means you decide which three to skip. The Daily map uses the date as the seed, so everyone gets the same map, theme and hand that day.
+At the start of a match the weapon buttons flicker through random names, then settle on ten weapons dealt from the pool of 22 with a seeded shuffle. Ten shots each means every weapon in your hand gets fired once. The Daily map uses the date as the seed, so everyone gets the same map, theme and hand that day.
 
 **Move, bury and dig out**
 
@@ -1086,7 +1545,7 @@ Hold the move buttons or the A and D keys to drive up to 50 pixels a turn. Slope
 
 **A sky with birds, four themes and textured soil**
 
-Birds flap across the sky, one on Easy, two on Normal and three on Hard, and a shell that touches one is wasted. The seed picks one of four colour themes (Meadow, Desert, Snow or Night with twinkling stars) and sometimes a Valley map with high ridges and a deep dip. The soil texture is drawn once per theme to a hidden canvas and clipped to the live terrain, so craters cut straight through it.
+Birds flap across the sky, none on Easy, one on Normal and two on Hard, and a little plane drifts past near the high clouds. Now and then a deer (Meadow), camel (Desert) or polar bear (Snow) walks in at the edge of the field, watches the battle and wanders off, and a shell that touches one is wasted. The seed picks one of four colour themes (Meadow, Desert, Snow or Night with twinkling stars) and sometimes a Valley map with high ridges and a deep dip. The soil texture is drawn once per theme to a hidden canvas and clipped to the live terrain, so craters cut straight through it.
 
 **Drag to aim, or play two-player**
 
@@ -1099,14 +1558,14 @@ On the field, a pointer drag measures the pull from the tank: the direction give
         { title: 'Set angle and power', text: 'Drag on the field away from your tank like a slingshot (the pull sets both), or use the sliders, or the arrow keys (Shift moves five at a time). A dotted line shows where the barrel points, and on Easy a dotted arc previews the first part of the flight while you drag and a faint ghost line shows where your previous shot went.' },
         { title: 'Move your tank', text: 'Hold the left and right arrow buttons beside the Fire button, or the A and D keys, to drive up to 50 pixels each turn. Steep slopes, craters (holes), the field edge and the other tank block you, and the Move number shows how much is left.' },
       { title: 'Read the wind', text: 'On Normal, Hard and 2-player the Wind badge at the top shows the direction and strength for this turn (Easy has no wind, so you can learn angle and power first). Aim a little into it so the shell drifts back onto the target.' },
-        { title: 'Pick a weapon and fire', text: 'The weapon list shuffles at the start of every match and deals you nine of sixteen weapons (the Daily map deals everyone the same hand). Choose one (keys 1 to 9, hover for a tip) and press "Fire!" or Space. Each weapon can be used once per match, and you get six shots, so you choose which three to skip.' },
-        { title: 'Score the closest blast', text: 'After six shots each the higher score wins. Your best score is saved in the browser. Finish the Daily map on consecutive days to build a streak.' },
+        { title: 'Pick a weapon and fire', text: 'The weapon list shuffles at the start of every match and deals you ten of 22 weapons (the Daily map deals everyone the same hand). Choose one (keys 1 to 9 and 0, hover for a tip) and press "Fire!" or Space. Each weapon can be used once per match, and you get ten shots, so every weapon in your hand gets used once.' },
+        { title: 'Score the closest blast', text: 'After ten shots each the higher score wins. Your best score is saved in the browser. Finish the Daily map on consecutive days to build a streak.' },
       ],
     },
     features: [
       'Destructible terrain stored as a one-dimensional height map, carved by craters and raised by dirt',
       'Wind that changes every turn on Normal, Hard and 2-player (Easy has none) and bends the shells, shown in a badge on the field',
-      'A shuffled hand of nine weapons from a pool of sixteen, each usable once, six shots per player: Missile, Big Boom, Triple, Bouncer, Mini Nuke, Roller, Digger, Napalm, Dirt Ball, Cluster, Zapper, Homing, Sticky, Balloon, Meteors and Dirt Remover',
+      'A shuffled hand of ten weapons from a pool of 22, each usable once, ten shots per player: Missile, Big Boom, Triple, Bouncer, Mini Nuke, Roller, Digger, Napalm, Dirt Ball, Cluster, Zapper, Homing, Sticky, Balloon, Meteors, Dirt Remover, Firework, Popcorn, Mole, Snowball, Black Hole and Boomerang',
       'Bury and dig out: a Dirt Ball that lands on a tank buries it, a buried tank that fires anything else blows itself up (-40 points), and the Dirt Remover digs a trench in the fired direction to free it; a hand with a Dirt Ball always includes a Dirt Remover',
       'Creative weapons: Cluster splits into bomblets, Zapper arcs lightning to a nearby tank, Homing bends toward the target, Sticky glues to a tank and blows up, Balloon drifts in the wind, Meteors rain from the sky',
       'Drag-to-aim on the field, slingshot style, plus sliders and keyboard controls',
@@ -1118,9 +1577,9 @@ On the field, a pointer drag measures the pull from the tank: the direction give
       'Distance-based scoring, so near misses still earn points',
       'Daily map from a date seed plus a random map button, using a small seeded random generator',
       'Tank movement: hold the move buttons or A and D for up to 50 pixels per turn, blocked by steep slopes, craters, the edges and the other tank; the CPU shuffles a little on Normal and Hard',
-      'Birds flap across the sky (one on Easy, two on Normal, three on Hard); a shell that hits one is wasted, the bird tumbles down with feathers, and the next turn begins',
+      'Birds flap across the sky (none on Easy, one on Normal, two on Hard); a shell that hits one is wasted, the bird tumbles down with feathers, and the next turn begins',
       'Textured ground: soil strata, speckles and pebbles drawn once to a hidden canvas per theme and clipped to the terrain, plus grass tufts that follow the surface',
-      'Four colour themes (Meadow, Desert, Snow, Night with twinkling stars) and a Valley map type with high ridges and a deep dip, all chosen from the map seed',
+      'Choose your terrain (Random, Meadow, Desert, Snow or Night; the Daily map stays fixed for everyone): four colour themes (Meadow, Desert, Snow, Night with twinkling stars) and a Valley map type with high ridges and a deep dip, all chosen from the map seed',
       'Daily streak and the best daily score kept in localStorage, so there is a reason to come back tomorrow',
       'Fixed 60 Hz physics step, so shell flight is the same on every screen refresh rate',
       'Bright light theme with a sky, clouds and soft hills, plus particles, rings and screen shake',
@@ -1143,9 +1602,9 @@ On the field, a pointer drag measures the pull from the tank: the direction give
       { q: 'How does the daily streak work?', a: 'Finishing a vs-CPU match on the Daily map stores the date and score in localStorage. If the last finished daily was yesterday the streak goes up by one, otherwise it restarts at 1. Two-player matches do not count.' },
       { q: 'How does Napalm work?', a: 'It makes a small crater, then adds a fire object at that spot that lasts 150 steps. Every 25 steps an enemy tank within about 30 pixels of it gives the shooter 12 points, and the next turn waits until the flames die out.' },
       { q: 'How do I add a new theme?', a: 'Add an object to the THEMES array with a name, two sky colours, a sun colour, hill colour, two soil colours, a grass colour, a cloud colour and a text colour. Themes change colours only, so no other code needs to change.' },
-      { q: 'What happens when a shell hits a bird?', a: 'The number of birds depends on the level: one on Easy, two on Normal and in 2-player, three on Hard. Each bird is a small object with a position, speed and flap phase. If a shell comes within about 12 pixels, the shell is marked dead without exploding, the bird switches to a falling state with feather particles, and the turn moves on. It respawns off screen after it drops.' },
+      { q: 'What happens when a shell hits a bird?', a: 'The number of birds depends on the level: none on Easy, one on Normal and in 2-player, two on Hard. Each bird is a small object with a position, speed and flap phase. If a shell comes within about 12 pixels, the shell is marked dead without exploding, the bird switches to a falling state with feather particles, and the turn moves on. It respawns off screen after it drops.' },
       { q: 'How does tank movement work?', a: 'While a move button or the A or D key is held, the active tank moves 1.5 pixels per physics step, up to 50 pixels per turn. A move is refused if the new column is more than 3 pixels higher or lower, if the spot is a hole (clearly lower than the ground 12 pixels away on both sides), if it leaves the field, or if it would come within 36 pixels of the other tank. The tank then reads the height of its new column, so it follows the terrain.' },
-      { q: 'How does the weapon shuffle work?', a: 'When a match starts, dealHand(seed) shuffles the POOL array with a seeded Fisher-Yates shuffle and keeps the first nine. The buttons flicker through random names for about a second as a shuffle effect, then show the hand. Because the Daily map uses the date as the seed, everyone gets the same hand that day.' },
+      { q: 'How does the weapon shuffle work?', a: 'When a match starts, dealHand(seed) shuffles the POOL array with a seeded Fisher-Yates shuffle and keeps the first ten. The buttons flicker through random names for about a second as a shuffle effect, then show the hand. Because the Daily map uses the date as the seed, everyone gets the same hand that day.' },
       { q: 'What happens when a tank is buried?', a: 'A Dirt Ball that lands within its blast radius of a tank sets that tank buried flag and draws a mound over it. While buried, any weapon except the Dirt Remover explodes on the tank itself, costs the shooter 40 points and clears the dirt. The Dirt Remover carves a short trench along the barrel direction and clears the flag. A nearby blast from a normal weapon also frees a buried tank. The hand dealer always adds a Dirt Remover when the hand contains a Dirt Ball.' },
       { q: 'What is the daily map?', a: 'It seeds the random generator with today\'s date as a number, so the terrain, the theme, the tank positions and the wind sequence are the same for everyone that day.' },
       { q: 'How do I add a new weapon?', a: 'Add an entry to the POOL array with a name, blast radius, points and colour. Special behaviour such as the Triple spread, the Bouncer hops, the Roller run or the Digger tunnel lives in fire(), step() and explode(), keyed by the weapon id. The weapon buttons are built from the array, so a new entry shows up by itself.' },
@@ -1157,16 +1616,16 @@ On the field, a pointer drag measures the pull from the tank: the direction give
       prompt: `Build a turn-based artillery tank duel with the HTML5 Canvas API in plain HTML, CSS and JavaScript, no frameworks and no audio files.
 - Light, bright look: pale sky gradient, clouds, soft hills, green-topped soil, one coral tank (player, left) and one blue tank (CPU, right).
 - Store terrain as a height array with one value per pixel column. Explosions carve a circular crater by lowering columns; a Dirt Ball weapon raises them. Tanks sit on the surface and settle after each blast.
-- Controls: Angle slider 0-180, Power slider 10-100, Fire button, arrow keys to aim (Shift for bigger steps), Space to fire, keys 1-9 to choose a weapon, and slingshot-style drag on the field (pull back from the tank: direction = angle, length = power). Works with touch.
+- Controls: Angle slider 0-180, Power slider 10-100, Fire button, arrow keys to aim (Shift for bigger steps), Space to fire, keys 1-9 and 0 to choose a weapon, and slingshot-style drag on the field (pull back from the tank: direction = angle, length = power). Works with touch.
 - Physics on a fixed 60 Hz step: shell velocity from angle and power, constant gravity, and a per-turn wind from -5 to 5 shown in a badge (no wind on the Easy level).
-- A pool of sixteen weapons; at the start of each match the weapon buttons flicker through random names (a shuffle animation) and settle on a hand of nine, the Daily map dealing everyone the same hand. Hover shows a tip. Each usable once per match. Extra pool weapons: Cluster (splits into 5 bomblets at the apex), Zapper (lightning to a tank within 130 px, +25), Homing (steers toward the enemy), Sticky (sticks to a tank or the ground, blinks, explodes after about 1.4 s), Balloon (light, wind carries it 3.5x), Meteors (four meteors fall around the impact). Base weapons: Missile, Big Boom (large radius), Triple (three shells spread by 7 degrees), Bouncer (two hops), Mini Nuke (huge crater, fewer points), Roller (rolls along the ground after landing), Digger (five stacked craters straight down), Napalm (small blast that leaves a burning patch scoring 12 points every 25 frames an enemy tank stands in it), Dirt Ball (no points, but it buries a tank that lands inside its radius). Also a Dirt Remover weapon: a buried tank that fires anything else blows up on itself for a 40 point penalty, the Dirt Remover digs a trench along the barrel direction and frees it, and a dealt hand with a Dirt Ball always includes a Dirt Remover.
-- Six shots each, alternating, so players choose which weapons to skip. Score the enemy by blast distance: pts * (1 - distance / (radius + 13)), with floating +points text.
+- A pool of 22 weapons; at the start of each match the weapon buttons flicker through random names (a shuffle animation) and settle on a hand of ten, the Daily map dealing everyone the same hand. Hover shows a tip. Each usable once per match. Extra pool weapons: Cluster (splits into 5 bomblets at the apex), Zapper (lightning to a tank within 130 px, +25), Homing (steers toward the enemy), Sticky (sticks to a tank or the ground, blinks, explodes after about 1.4 s), Balloon (light, wind carries it 3.5x), Meteors (four meteors fall around the impact). Base weapons: Missile, Big Boom (large radius), Triple (three shells spread by 7 degrees), Bouncer (two hops), Mini Nuke (huge crater, fewer points), Roller (rolls along the ground after landing), Digger (five stacked craters straight down), Napalm (small blast that leaves a burning patch scoring 12 points every 25 frames an enemy tank stands in it), Dirt Ball (no points, but it buries a tank that lands inside its radius). Also a Dirt Remover weapon: a buried tank that fires anything else blows up on itself for a 40 point penalty, the Dirt Remover digs a trench along the barrel direction and frees it, and a dealt hand with a Dirt Ball always includes a Dirt Remover.
+- Ten shots each, alternating, one per weapon in the hand. Score the enemy by blast distance: pts * (1 - distance / (radius + 13)), with floating +points text.
 - CPU opponent with Easy, Normal and Hard levels (aim error and slip chance): pick an unused weapon, try many angle and power pairs with an offline simulate() copy of the physics, choose the closest landing to the player, add a random error. Also a 2 players mode on one device that swaps the controls between the tanks.
 - On the Easy level only, while dragging, draw a short dotted trajectory preview using the same gravity and wind as a real shell.
 - On Easy, also keep a faint dashed ghost arc of the previous shot visible during the next aim. The wind badge shows one chevron per wind point in the wind direction.
 - Give the soil a texture (wavy strata lines, speckles, pebbles) pre-rendered to an offscreen canvas per theme and clipped to the terrain shape each frame, with a soft shadow under the grass edge and small grass tufts along the surface.
 - Four colour-only themes (Meadow, Desert, Snow, Night with twinkling stars) and a Valley map type (high ridges at both ends, deep dip in the middle), both picked from a hash of the map seed and named in a small label on the field.
-- Birds fly across the sky (one on Easy, two on Normal and 2-player, three on Hard) with flapping wings. A shell that touches a bird is wasted: the bird falls with feather particles and the turn passes on.
+- Birds fly across the sky (none on Easy, one on Normal and 2-player, two on Hard) with flapping wings. A shell that touches a bird is wasted: the bird falls with feather particles and the turn passes on.
 - Tank movement: hold on-screen left/right buttons or the A and D keys to drive up to 50 pixels per turn (1.5 px per step), blocked by slopes steeper than 3 px per step, holes (a spot more than 6 px below the ground 12 px away on both sides), the field edge and the other tank. The CPU on Normal and Hard moves 15-50 px on its own half before shooting.
 - Random map button, Daily map button seeded from the date, best score and a daily streak (consecutive days the daily map was finished, with today's score) saved in localStorage inside try/catch.
 - Particles, expanding rings, screen shake, Web Audio synth sounds with a mute button, a start overlay and a results overlay.`,

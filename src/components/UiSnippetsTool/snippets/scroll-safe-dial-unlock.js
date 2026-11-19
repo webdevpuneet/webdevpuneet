@@ -1,7 +1,7 @@
 const scrollSafeDialUnlock = {
   id: 'scroll-safe-dial-unlock',
   title: 'Scroll Safe Dial Unlock: GSAP Vault Door Open Effect',
-  lastmod: '2026-11-18',
+  lastmod: '2026-11-19',
   category: 'scroll',
   cdnUrls: [
     'https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js',
@@ -21,7 +21,22 @@ const scrollSafeDialUnlock = {
     </div>
     <div class="sf-door" id="sfDoor">
       <span class="sf-bolt" id="sfB1"></span><span class="sf-bolt" id="sfB2"></span><span class="sf-bolt" id="sfB3"></span>
-      <div class="sf-dial" id="sfDial" aria-hidden="true"><i class="sf-notch"></i><span class="sf-knob"></span></div>
+      <span class="sf-hinge" style="top:16%"></span><span class="sf-hinge" style="bottom:16%"></span>
+      <i class="sf-rivet" style="top:9px;left:9px"></i><i class="sf-rivet" style="top:9px;right:9px"></i><i class="sf-rivet" style="bottom:9px;left:9px"></i><i class="sf-rivet" style="bottom:9px;right:9px"></i>
+      <div class="sf-dial" aria-hidden="true">
+        <i class="sf-notch"></i>
+        <svg class="sf-ring" id="sfDial" viewBox="0 0 200 200">
+          <defs>
+            <radialGradient id="sfFace" cx="50%" cy="40%" r="70%"><stop offset="0" stop-color="#2f3544"/><stop offset="1" stop-color="#161a23"/></radialGradient>
+            <linearGradient id="sfKnob" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b9c1d4"/><stop offset=".55" stop-color="#6c758b"/><stop offset="1" stop-color="#3a4152"/></linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="99" fill="url(#sfFace)"/>
+          <g id="sfTicks"></g>
+          <circle cx="100" cy="100" r="38" fill="url(#sfKnob)" stroke="#161a23" stroke-width="2"/>
+          <circle cx="100" cy="100" r="30" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+          <rect x="97.5" y="68" width="5" height="17" rx="2.5" fill="#161a23"/>
+        </svg>
+      </div>
       <div class="sf-handle" aria-hidden="true"></div>
     </div>
   </div>
@@ -42,12 +57,14 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0c0f16;color:#e9
 .sf-inside h2{font-size:clamp(16px,2.6vw,20px);color:#f5c451}
 .sf-inside ul{list-style:none;display:grid;gap:7px;font-size:clamp(12px,1.8vw,14px);color:#f0e6cf}
 .sf-inside li::before{content:'\\2713  ';color:#f5c451}
-.sf-door{position:absolute;inset:14px;border-radius:12px;transform-origin:left center;background:linear-gradient(145deg,#5a6275,#2d3342);box-shadow:inset 0 0 0 3px #1a1e29,inset 0 0 28px rgba(0,0,0,.45);display:grid;place-items:center}
-.sf-dial{position:relative;width:56%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#2a2f3c 52%,transparent 53%),repeating-conic-gradient(#e9ecf4 0 .8deg,#1c202b .8deg 3.6deg);border:6px solid #1a1e29;box-shadow:0 6px 16px rgba(0,0,0,.5)}
-.sf-notch{position:absolute;left:50%;top:-10px;width:0;height:0;margin-left:-7px;border:7px solid transparent;border-top-color:#f5c451}
-.sf-knob{position:absolute;inset:26%;border-radius:50%;background:linear-gradient(145deg,#8e97ad,#444c5e);box-shadow:0 3px 8px rgba(0,0,0,.5)}
-.sf-knob::after{content:'';position:absolute;left:50%;top:6%;width:4px;height:26%;margin-left:-2px;border-radius:2px;background:#1a1e29}
-.sf-handle{position:absolute;right:8%;bottom:8%;width:14%;height:14%;border-radius:50%;background:linear-gradient(145deg,#8e97ad,#444c5e)}
+.sf-door{position:absolute;inset:14px;border-radius:12px;transform-origin:left center;background:repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 2px,transparent 2px 5px),linear-gradient(145deg,#5f687c,#2d3342);box-shadow:inset 0 0 0 3px #1a1e29,inset 0 2px 2px rgba(255,255,255,.12),inset 0 0 28px rgba(0,0,0,.45);display:grid;place-items:center}
+.sf-dial{position:relative;width:58%;aspect-ratio:1;border-radius:50%;padding:5px;background:linear-gradient(145deg,#8f98ad,#2a3040 55%,#69718a);box-shadow:0 10px 22px rgba(0,0,0,.55),inset 0 1px 1px rgba(255,255,255,.35)}
+.sf-ring{display:block;width:100%;height:100%;border-radius:50%;box-shadow:inset 0 3px 10px rgba(0,0,0,.7)}
+.sf-ring text{font:600 8.5px system-ui,sans-serif;fill:#e9ecf4;text-anchor:middle}
+.sf-notch{position:absolute;left:50%;top:-11px;width:0;height:0;margin-left:-7px;border:7px solid transparent;border-top:11px solid #f5c451;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));z-index:2}
+.sf-hinge{position:absolute;left:-5px;width:10px;height:18%;border-radius:3px;background:linear-gradient(90deg,#8e97ad,#3a4152)}
+.sf-rivet{position:absolute;width:7px;height:7px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c7cddc,#4a5266);box-shadow:0 1px 2px rgba(0,0,0,.6)}
+.sf-handle{position:absolute;right:8%;bottom:8%;width:15%;height:15%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c7cddc,#444c5e);border:3px solid #1f2430;box-shadow:0 3px 8px rgba(0,0,0,.5)}
 .sf-bolt{position:absolute;right:-12px;width:26px;height:16px;border-radius:3px;background:linear-gradient(#c7cddc,#7d8599)}
 #sfB1{top:14%}#sfB2{top:32%}#sfB3{top:50%}
 .sf-panel{display:flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:#151923;border:1px solid #262c3a}
@@ -59,6 +76,21 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0c0f16;color:#e9
 
 var stage = document.getElementById('sfStage');
 var dial = document.getElementById('sfDial');
+var NS = 'http://www.w3.org/2000/svg';
+
+// Draw 100 crisp tick marks as SVG. Numbers rise counter-clockwise,
+// so turning the ring clockwise by n x 3.6 degrees brings number n to the top notch.
+(function () {
+  var g = document.getElementById('sfTicks');
+  var out = '';
+  for (var i = 0; i < 100; i++) {
+    var rot = -i * 3.6;
+    var major = i % 10 === 0, mid = i % 5 === 0;
+    out += '<line x1="100" y1="6" x2="100" y2="' + (major ? 16 : mid ? 13 : 11) + '" stroke="' + (major ? '#f5c451' : '#e9ecf4') + '" stroke-width="' + (major ? 1.8 : mid ? 1.3 : 0.9) + '" stroke-linecap="round" transform="rotate(' + rot + ' 100 100)"/>';
+    if (major) out += '<text x="100" y="29" transform="rotate(' + rot + ' 100 100)">' + i + '</text>';
+  }
+  g.innerHTML = out;
+})();
 var door = document.getElementById('sfDoor');
 var inside = document.getElementById('sfInside');
 var read = document.getElementById('sfRead');
@@ -71,7 +103,7 @@ var spin = { a: 0 };
 var turns = [360 + 24 * 3.6, 7 * 3.6 - 360, 360 + 61 * 3.6];
 
 function show() {
-  gsap.set(dial, { rotation: spin.a });
+  gsap.set(dial, { rotation: spin.a, transformOrigin: '50% 50%' });
   var n = Math.round((((spin.a % 360) + 360) % 360) / 3.6) % 100;
   read.textContent = (n < 10 ? '0' : '') + n;
 }
@@ -141,7 +173,7 @@ Change the \`turns\` array to set your own combination, restyle the contents, or
       { title: 'Live number readout', text: `The display shows the number currently at the top of the dial.` },
       { title: 'Retracting bolts', text: `Three bolts slide into the door once the code is complete.` },
       { title: '3D hinged door', text: `perspective plus rotationY from the left edge swings the door open.` },
-      { title: 'Pure CSS dial marks', text: `A repeating-conic-gradient draws the tick marks without images.` },
+      { title: 'Crisp SVG dial marks', text: `100 tick marks and numbers are generated as SVG, so they stay sharp at any size.` },
       { title: 'Pinned and reversible', text: `Scroll back up and the door closes, the dial reverses, LEDs reset.` },
       { title: 'Editable code', text: `One array holds the combination; change three numbers and it still works.` },
       { title: 'Reduced-motion safe', text: `With reduced motion the vault renders already open and no pin is used.` },
@@ -164,7 +196,7 @@ Change the \`turns\` array to set your own combination, restyle the contents, or
 
 Requirements:
 - A pinned full-viewport stage with a kicker, a title, a square steel vault, and a small panel under it containing three LEDs and a two-digit number readout.
-- Inside the vault frame, an interior panel (heading plus three checklist items) starts dimmed and slightly scaled down. A door sits over it with transform-origin left center inside a parent with perspective. The door holds a round combination dial (tick marks drawn with repeating-conic-gradient, a notch at the top, a knob), a handle and three bolts on its right edge.
+- Inside the vault frame, an interior panel (heading plus three checklist items) starts dimmed and slightly scaled down. A door sits over it with transform-origin left center inside a parent with perspective. The door holds a round combination dial (100 crisp SVG tick marks with numbers every 10, a fixed notch at the top, a knob), a handle and three bolts on its right edge.
 - One GSAP timeline with a pinned ScrollTrigger (pin: true, scrub about 0.4, end: '+=2400'): the dial turns clockwise to 24, then counter-clockwise to 07, then clockwise to 61 (3.6 degrees per number, using an object tween and gsap.set for rotation). After each turn an LED switches from dark red to glowing green. Then bolts retract, the door rotates on Y to about -112 degrees, and the interior brightens and scales to 1.
 - Update the readout from the current dial angle on every tween update.
 - Scrolling back up must reverse everything.
