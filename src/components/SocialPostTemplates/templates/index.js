@@ -66,6 +66,11 @@ import tierList from './tier-list.js';
 import commentToGet from './comment-to-get.js';
 import redGreenFlags from './red-green-flags.js';
 import receipt from './receipt.js';
+import podcastEpisode from './podcast-episode.js';
+import newVideo from './new-video.js';
+import flashSale from './flash-sale.js';
+import nowBooking from './now-booking.js';
+import referral from './referral.js';
 export { SIZES, sizeById, TEMPLATE_CATEGORIES, categoryById, BASE_CSS, richText } from './meta.js';
 
 const ORDER = [
@@ -90,14 +95,19 @@ const ORDER = [
   milestone,
   yearInReview,
   newBlogArticle,
+  podcastEpisode,
+  newVideo,
   thankYou,
   hiring,
   weAreLive,
   meetTheTeam,
+  nowBooking,
   comingSoon,
   holidayHours,
   discountBadge,
+  flashSale,
   pricingCard,
+  referral,
   holidaySale,
   blackFriday,
   cyberMonday,

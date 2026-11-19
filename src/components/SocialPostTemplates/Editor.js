@@ -935,6 +935,7 @@ export default function TemplateEditor({ id, aiPrompt = '' }) {
                 {f.type === 'textarea'
                   ? <textarea id={`f-${f.key}`} data-rich={f.key} className={s.textarea} rows={f.key === 'code' ? 5 : 2} value={slide.fields[f.key] ?? ''} onChange={e => setField(f.key, e.target.value)} spellCheck={f.key !== 'code'} />
                   : <input id={`f-${f.key}`} data-rich={f.key} className={s.input} value={slide.fields[f.key] ?? ''} onChange={e => setField(f.key, e.target.value)} />}
+                {f.hint && <p className={s.hint}>{f.hint}</p>}
               </div>
             ))}
             <p className={s.hint}>Tip: click text in the preview to edit it there. Wrap words in *asterisks* to colour them; select text for bold, italic and underline.</p>

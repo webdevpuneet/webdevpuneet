@@ -4,6 +4,7 @@
 
 import { BASE_CSS, SIZES, richText } from './templates/index.js';
 import { resolveFont } from '../../lib/fonts.js';
+import { calendarGrid } from './templates/calendar.js';
 
 // Built-in picks and any Google font id ('g:Family|weights|cat')
 const fontById = resolveFont;
@@ -25,7 +26,7 @@ export function templateSource(t, size) {
   const values = Object.fromEntries(t.fields.filter(f => f.type !== 'image').map(f => [f.key, f.value || '']));
   // Every [data-edit] element in a template is empty; fill it with the default text
   const body = t.html.replace(/(<([a-z0-9]+)\b[^>]*\bdata-edit="([^"]+)"[^>]*>)(<\/\2>)/gi,
-    (m, open, tag, key, close) => open + richText(values[key] ?? '') + close);
+    (m, open, tag, key, close) => open + richText(String(values[key] ?? '').replace(/\{spots\}/g, () => String(calendarGrid({ month: values.month, open: values.open }).openCount))) + close);
   const families = fonts.filter(f => f.family);
   const html = `<!-- ${t.name} v${t.version} · ${z.label} ${z.w}×${z.h} -->\n<div class="spt is-${z.id}${z.shape ? ` is-${z.shape}` : ''}" style="${vars}">\n${body}\n</div>\n`;
   const css = `${families.length ? `@import url('https://fonts.googleapis.com/css2?${families.map(f => `family=${f.family.replace(/ /g, '+')}:wght@${f.weights.join(';')}`).join('&')}&display=swap');\n\n` : ''}/* Shared base (every template) */\n${BASE_CSS.trim()}\n\n/* ${t.name} */\n${t.css}\n`;

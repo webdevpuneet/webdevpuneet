@@ -183,7 +183,7 @@
   ]
  },
  "social": {
-  "total": 66,
+  "total": 71,
   "categories": [
    {
     "id": "quotes",
@@ -292,6 +292,14 @@
       "name": "New Blog Article"
      },
      {
+      "id": "podcast-episode",
+      "name": "New Podcast Episode"
+     },
+     {
+      "id": "new-video",
+      "name": "New Video Is Live"
+     },
+     {
       "id": "thank-you",
       "name": "Thank You"
      },
@@ -306,6 +314,10 @@
      {
       "id": "meet-the-team",
       "name": "Meet the Team"
+     },
+     {
+      "id": "now-booking",
+      "name": "Now Booking"
      },
      {
       "id": "coming-soon",
@@ -326,8 +338,16 @@
       "name": "Discount Badge"
      },
      {
+      "id": "flash-sale",
+      "name": "Flash Sale Countdown"
+     },
+     {
       "id": "pricing-card",
       "name": "Pricing Card"
+     },
+     {
+      "id": "referral",
+      "name": "Refer a Friend"
      },
      {
       "id": "holiday-sale",

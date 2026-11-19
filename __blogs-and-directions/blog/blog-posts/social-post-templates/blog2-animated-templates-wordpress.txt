@@ -1,0 +1,221 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  5 New Animated Social Post Templates: Podcast, Video, Flash Sale, Booking and Referral
+
+  SEO TITLE (55 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  5 Free Animated Social Post Templates for Your Business
+
+  SEO DESCRIPTION (154 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  Free animated social post templates for a new podcast episode, new video, flash sale, booking calendar and referral offer. Edit online, export PNG or MP4.
+
+  IMAGES: the 5 pictures below load straight from webdevpuneet.com/images/social-post-templates/previews/ (same domain, no upload needed).
+  They and the 5 template links only work once the latest site build (2026-11-19 templates) is deployed and live.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Most post templates are built for one moment: the still image you upload. But Reels and Stories reward movement, and a moving post gets a second look in a feed full of flat graphics. The trick is to make the movement <em>mean something</em>. A sale timer should tick. A podcast should look like it is playing. A booking calendar should fill up in front of you.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>That is the idea behind five new templates in the free <a href="https://webdevpuneet.com/social-post-templates/" target="_blank" rel="noopener">Social Post Templates</a> library. Each one covers a post that businesses and creators publish again and again, and each one animates in a way that tells the story of the post. Edit them in your browser, add your own photos, colours and logo, then download a PNG or JPG, or an <strong>animated MP4 for Reels and Stories</strong>. No sign-up and no watermark.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The five at a glance</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><a href="#podcast-episode"><strong>New Podcast Episode</strong></a>: cover art on a spinning record, a bouncing waveform and a player that plays.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="#new-video"><strong>New Video Is Live</strong></a>: your thumbnail, a play button that gets tapped and a progress bar that fills.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="#flash-sale"><strong>Flash Sale Countdown</strong></a>: a flashing bolt, a ticking stopwatch and a timer that counts down.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="#now-booking"><strong>Now Booking</strong></a>: a month calendar where booked days are stamped out and the last spots glow.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="#referral"><strong>Refer a Friend</strong></a>: two reward cards, hopping gift boxes and a give-and-get that is clear at a glance.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="podcast-episode">1. New Podcast Episode: make sound visible</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center","width":"420px"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/social-post-templates/podcast-episode/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/social-post-templates/previews/podcast-episode.png" alt="New podcast episode post template: orange cover art in front of a black vinyl record, an EP 42 tag, the episode title and a player with a waveform and progress bar on a dark purple background" style="width:420px"/></a><figcaption class="wp-element-caption">New Podcast Episode: cover art, a vinyl record, the episode number and a mini player.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>The feed is silent, so a podcast post has to <em>look</em> like audio. This template puts your square cover art in front of a vinyl record, stamps the episode number on a tilted tag, and adds a mini player under the title and guest line: a round play button, a 30-bar waveform and a progress bar with the episode length.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it moves:</strong> the record spins behind the cover, the waveform bars rise and fall like a live audiogram, rings pulse out of the play button and the progress knob travels along the bar. Export the 9:16 video, add a 20-second clip of the episode in Instagram or TikTok, and you have an audiogram Reel.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Use it for:</strong> weekly episode drops, guest episodes (tag the guest so they reshare), trailers and season premieres. <a href="https://webdevpuneet.com/social-post-templates/podcast-episode/" target="_blank" rel="noopener">Open New Podcast Episode →</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="new-video">2. New Video Is Live: reuse your best thumbnail</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center","width":"420px"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/social-post-templates/new-video/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/social-post-templates/previews/new-video.png" alt="New video announcement post template: a 16:9 thumbnail with a red play button, a pointer, a 12:48 duration chip and a progress bar, with the video title and a red Watch now button below" style="width:420px"/></a><figcaption class="wp-element-caption">New Video Is Live: the thumbnail becomes a player, with a duration chip and a Watch now button.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>You already designed a thumbnail to earn clicks on YouTube. This template puts it to work everywhere else. Upload the 16:9 image and it fills a rounded player with a play button, a duration chip and a progress bar. An optional sticker adds thumbnail text such as "30 DAYS LATER", and below it sit the title, your channel line and a Watch now button.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it moves:</strong> a pointer glides in and taps play, rings spread out from the button, the red progress bar fills along the bottom edge and the Watch now arrow nudges forward. It reads like a real player, which is exactly why people stop on it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Use it for:</strong> upload-day posts on Instagram, X and LinkedIn, new course lessons, webinar replays and bringing back an older video. <a href="https://webdevpuneet.com/social-post-templates/new-video/" target="_blank" rel="noopener">Open New Video Is Live →</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="flash-sale">3. Flash Sale Countdown: show the clock, not just "limited time"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center","width":"420px"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/social-post-templates/flash-sale/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/social-post-templates/previews/flash-sale.png" alt="Flash sale post template: slanted FLASH SALE headline, a big yellow 50% OFF EVERYTHING, a lightning bolt, a stopwatch with hours minutes seconds timer tiles and a FLASH50 promo code on deep purple" style="width:420px"/></a><figcaption class="wp-element-caption">Flash Sale Countdown: a giant discount, a lightning bolt and an "ends in" timer.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>A flash sale works only when people believe it ends soon. Most sale graphics say "limited time" without showing any time at all. This one puts hours, minutes and seconds tiles in the post, next to a stopwatch, under a slanted Flash Sale headline and a discount big enough to read from across the room. A dashed promo-code box and a note line (end time, free shipping) finish it off.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it moves:</strong> speed lines race in the background, the lightning bolt flashes twice every couple of seconds, the discount counts up from zero, the stopwatch hand ticks once a second, the minutes and seconds count down and the colons blink. Every few seconds the timer gives a small shake, the way a notification asks for attention.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Tip:</strong> a post image cannot count down on its own, so type the time left when you publish, then post again with fresh numbers in the final hours. <a href="https://webdevpuneet.com/social-post-templates/flash-sale/" target="_blank" rel="noopener">Open Flash Sale Countdown →</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="now-booking">4. Now Booking: let the calendar do the selling</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center","width":"420px"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/social-post-templates/now-booking/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/social-post-templates/previews/now-booking.png" alt="Now booking post template: serif headline December is open for bookings, service chips, and a December calendar with booked days crossed out, three open days in terracotta and an Only 3 spots left badge on sage green" style="width:420px"/></a><figcaption class="wp-element-caption">Now Booking: a month calendar with booked days crossed out and the last open days highlighted.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>"DM me to book" is easy to scroll past. A calendar that is nearly full is not, because it proves other people already booked. This template is made for freelancers, photographers, salons, tutors and coaches: a calm serif headline, up to three service chips, a month calendar card with a "spots left" badge, and a button that says exactly how to book.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it moves:</strong> the booked days are stamped with a cross one after another, then the three open days pop in and glow. The spots badge pulses and the arrow on the booking button nudges. Viewers literally watch your month fill up.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Use it for:</strong> opening next month's dates, last-spots reminders, and even a "fully booked" post that builds demand for the following month. <a href="https://webdevpuneet.com/social-post-templates/now-booking/" target="_blank" rel="noopener">Open Now Booking →</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="referral">5. Refer a Friend: both sides of the deal in one glance</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center","width":"420px"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/social-post-templates/referral/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/social-post-templates/previews/referral.png" alt="Refer a friend post template: Give $20, get $20 headline, a coral You get $20 card and a mint Your friend gets $20 card with white gift boxes, and three numbered steps on pale lilac" style="width:420px"/></a><figcaption class="wp-element-caption">Refer a Friend: two reward cards with gift boxes and three simple steps.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>A referral programme spreads only when people understand it in a second: what I get, what my friend gets, and what I have to do. This template answers all three. A coral card shows your reward, a mint card shows your friend's, the headline repeats the deal in matching colours, and three numbered steps explain how it works. The last line says where the link or code lives.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>How it moves:</strong> the two cards slide in from opposite sides, the amounts count up, the gift boxes take turns hopping, two arrows between the cards move in opposite directions to show the exchange, and the step numbers pop in order.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Use it for:</strong> shops, apps and SaaS, gyms and salons ("bring a friend"), and "double rewards this week" pushes. <a href="https://webdevpuneet.com/social-post-templates/referral/" target="_blank" rel="noopener">Open Refer a Friend →</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">How to turn any of them into a video</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list">
+<!-- wp:list-item -->
+<li>Open the template and type your text. Highlight a word in the headline by wrapping it in <code>*asterisks*</code>.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Upload your photo, cover or thumbnail, and add your logo if you like. You can drag a photo inside the preview to reposition it. Images stay in your browser.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Pick a size: 4:5 portrait for the feed, 9:16 for Reels and Stories, or square, landscape, LinkedIn and Pinterest.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Press <strong>Play</strong> to preview the animation, then choose <strong>Export → Animated video</strong> for an MP4 or WebM, or export a PNG or JPG for a still post.</li>
+<!-- /wp:list-item -->
+</ol>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">70+ more templates in the library</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These five join more than 70 free designs in the <a href="https://webdevpuneet.com/social-post-templates/" target="_blank" rel="noopener">Social Post Templates gallery</a>: quotes and tips, how-to checklists, announcements, sales, events, testimonials, carousels, Stories and seasonal holidays. A few that pair well with this set: <a href="https://webdevpuneet.com/social-post-templates/black-friday/" target="_blank" rel="noopener">Black Friday Sale</a> for the big weekend, <a href="https://webdevpuneet.com/social-post-templates/new-blog-article/" target="_blank" rel="noopener">New Blog Article</a> for written content, and <a href="https://webdevpuneet.com/social-post-templates/five-star-review/" target="_blank" rel="noopener">5-Star Review</a> once those bookings turn into happy clients.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Are these social post templates free?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes. You can edit and export all five, as images or animated videos, for your own posts and your clients', with no account and no watermark.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Do the animations work on Instagram?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Instagram does not play animated images, so export the <strong>animated video</strong> and post it as a Reel or Story. For a normal feed post, export the PNG; the still version is designed to work without the motion.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can I change the colours and fonts?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes. Every template has editable colours and fonts, and your brand kit (logo, colours, fonts) can fill them in for you. Keep strong contrast between the text and the background so the post stays readable on a small screen.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What size should I use for Reels and Stories?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>1080&times;1920 (9:16). The Story size in each template keeps the text and buttons away from the top and bottom areas where Instagram and Facebook place their own controls.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Pick the one you need this week:</strong> <a href="https://webdevpuneet.com/social-post-templates/podcast-episode/" target="_blank" rel="noopener">New Podcast Episode</a>, <a href="https://webdevpuneet.com/social-post-templates/new-video/" target="_blank" rel="noopener">New Video Is Live</a>, <a href="https://webdevpuneet.com/social-post-templates/flash-sale/" target="_blank" rel="noopener">Flash Sale Countdown</a>, <a href="https://webdevpuneet.com/social-post-templates/now-booking/" target="_blank" rel="noopener">Now Booking</a> or <a href="https://webdevpuneet.com/social-post-templates/referral/" target="_blank" rel="noopener">Refer a Friend</a>. Press Play and see it move.</p>
+<!-- /wp:paragraph -->

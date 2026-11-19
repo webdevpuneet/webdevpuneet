@@ -4,7 +4,7 @@ const pocketArtilleryGame = {
   lastmod: '2026-11-19',
   category: 'games',
   previewCss: '.pa-overlay{display:none}', // thumbnail only: show the field with both tanks, not the start card
-  html: `<div class="pa-wrap">
+  html: `<div class="pa-wrap menu" id="pa-wrap">
   <div class="pa-header">
     <h2>Pocket Artillery</h2>
     <div class="pa-scores">
@@ -48,7 +48,8 @@ const pocketArtilleryGame = {
       <button class="pa-btn pa-btn-share" id="pa-share" type="button" hidden>Share result</button>
       <p class="pa-best" id="pa-best"></p>
     </div>
-    <div class="pa-pick" id="pa-pick" hidden>
+    <div class="pa-pick" id="pa-pick" role="dialog" aria-label="Choose your weapons" hidden>
+      <button class="pa-x" id="pa-pick-x" type="button" aria-label="Close weapon picker">&times;</button>
       <p class="pa-pick-title">Choose your weapons <span id="pa-pick-n">0 / 10</span></p>
       <p class="pa-pick-sub">Both tanks get the same weapons. Anything you leave out is picked at random. A Dirt Ball always comes with a Dirt Remover.</p>
       <div class="pa-pick-grid" id="pa-pick-grid"></div>
@@ -66,6 +67,7 @@ const pocketArtilleryGame = {
     <a id="pa-sh-wa" target="_blank" rel="noopener">WhatsApp</a>
     <a id="pa-sh-x" target="_blank" rel="noopener">X</a>
     <a id="pa-sh-fb" target="_blank" rel="noopener">Facebook</a>
+    <button type="button" class="pa-x pa-x-share" id="pa-share-x" aria-label="Close share options">&times;</button>
   </div>
 
   <div class="pa-panel" id="pa-panel">
@@ -84,7 +86,8 @@ const pocketArtilleryGame = {
   </div>
   <div class="pa-weapons" id="pa-weapons" role="group" aria-label="Weapons"></div>
   <div class="pa-foot">
-    <span>Drag the field or arrows to aim &middot; A / D: move &middot; Space: fire &middot; 1-9, 0: weapon</span>
+    <span class="pa-keys">Drag the field or arrows to aim &middot; A / D: move &middot; Space: fire &middot; 1-9, 0: weapon</span>
+    <span class="pa-touch">Drag on the field to aim &middot; hold &#9664; &#9654; to move</span>
     <button class="pa-mute" id="pa-mute" type="button" aria-pressed="false">Sound on</button>
   </div>
 </div>`,
@@ -104,7 +107,7 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 .pa-stage { position: relative; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 26px rgba(60, 100, 140, 0.22); border: 2px solid #fff; }
 #pa-canvas { display: block; width: 100%; aspect-ratio: 16 / 9; touch-action: none; background: #cfeaff; }
 
-.pa-overlay { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: min(92%, 330px); background: rgba(255, 255, 255, 0.92); border-radius: 14px; box-shadow: 0 6px 22px rgba(60, 100, 140, 0.25); display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; padding: 10px 14px 12px; }
+.pa-overlay { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: min(92%, 330px); background: rgba(255, 255, 255, 0.92); border-radius: 14px; box-shadow: 0 6px 22px rgba(60, 100, 140, 0.25); display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; padding: 10px 14px 12px; max-height: calc(100% - 20px); overflow: auto; }
 .pa-overlay.hide { display: none; }
 .pa-pick { position: absolute; inset: 8px; background: #fff; border-radius: 14px; box-shadow: 0 6px 22px rgba(60, 100, 140, 0.25); display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 10px 10px; overflow: auto; text-align: center; z-index: 3; }
 .pa-pick[hidden] { display: none; }
@@ -115,7 +118,10 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 .pa-chip { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 3px; font-size: 11px; font-weight: 700; font-family: inherit; color: #334155; background: #fff; border: 2px solid #d5e2ee; border-radius: 8px; cursor: pointer; white-space: nowrap; }
 .pa-chip.on { border-color: #e8553a; background: #fff3ef; color: #b83f28; }
 .pa-pick .pa-btn { padding: 7px 18px; font-size: 13px; }
-@media (max-width: 520px) { .pa-pick-grid { grid-template-columns: repeat(3, 1fr); } .pa-pick-sub { display: none; } .pa-chip { font-size: 10.5px; } }
+.pa-x { position: absolute; top: 6px; right: 6px; width: 34px; height: 34px; border: none; border-radius: 99px; background: #f1f5f9; color: #334155; font-size: 22px; line-height: 1; cursor: pointer; font-family: inherit; }
+.pa-x:active { background: #e2e8f0; }
+.pa-pick-title { padding: 0 34px; }
+.pa-x-share { position: static; width: 30px; height: 30px; padding: 0 !important; font-size: 19px; margin-left: auto; }
 .pa-title { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; }
 .pa-sub { font-size: 12px; line-height: 1.4; color: #475569; max-width: 360px; }
 .pa-btns { display: flex; gap: 8px; }
@@ -133,7 +139,8 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 .pa-seg button.on { background: #1e293b; color: #fff; }
 .pa-seg.dim { opacity: 0.35; pointer-events: none; }
 .pa-btn { padding: 8px 20px; font-size: 13px; }
-@media (max-width: 520px) { .pa-overlay { top: 6px; gap: 5px; padding: 6px 10px 8px; } .pa-sub { display: none; } .pa-title { font-size: 17px; } .pa-seg button { padding: 4px 9px; font-size: 11px; } .pa-btn { padding: 6px 16px; } }
+.pa-touch { display: none; }
+@media (pointer: coarse) { .pa-keys { display: none; } .pa-touch { display: inline; } }
 
 .pa-panel { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; background: #fff; border: 1px solid #d5e2ee; border-radius: 12px; padding: 10px 12px; }
 .pa-ctl { flex: 1 1 140px; display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 700; color: #64748b; }
@@ -148,7 +155,6 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 .pa-panel.off { opacity: 0.5; pointer-events: none; }
 
 .pa-weapons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-@media (max-width: 520px) { .pa-weapons { grid-template-columns: repeat(3, 1fr); } }
 .pa-weapon { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 6px; font-size: 12px; font-weight: 700; font-family: inherit; color: #334155; background: #fff; border: 2px solid #d5e2ee; border-radius: 9px; cursor: pointer; }
 .pa-ico { font-size: 15px; line-height: 1; flex: none; }
 .pa-weapon.on { border-color: #e8553a; background: #fff3ef; }
@@ -156,7 +162,42 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 .pa-weapon.used { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; }
 
 .pa-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 11px; color: #64748b; font-weight: 600; }
-.pa-mute { background: #fff; color: #64748b; border: 1px solid #d5e2ee; border-radius: 8px; padding: 4px 10px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; }`,
+.pa-mute { background: #fff; color: #64748b; border: 1px solid #d5e2ee; border-radius: 8px; padding: 4px 10px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; white-space: nowrap; }
+
+/* Phones: the start / results menu and the weapon picker no longer float over the small field (they were cut off).
+   They sit in the page flow right under the field, full size, and the unused controls hide while a menu is open. */
+@media (max-width: 700px) {
+  body { padding: 12px; align-items: flex-start; }
+  .pa-overlay, .pa-pick { position: static; transform: none; inset: auto; width: auto; border-radius: 0; box-shadow: none; background: #fff; border-top: 1px solid #e2ecf5; overflow: visible; }
+  .pa-overlay { gap: 10px; padding: 14px 12px 16px; }
+  .pa-pick { gap: 10px; padding: 14px 10px 16px; position: relative; }
+  .pa-title { font-size: 19px; }
+  .pa-sub { font-size: 13px; }
+  .pa-opts { gap: 8px; }
+  .pa-seg { flex-wrap: wrap; justify-content: center; border-radius: 20px; }
+  .pa-seg button { padding: 8px 10px; font-size: 13px; }
+  .pa-btns { width: 100%; }
+  .pa-btns .pa-btn { flex: 1; padding: 12px 10px; font-size: 15px; }
+  .pa-btn-share { width: 100%; padding: 12px 10px; font-size: 15px; }
+  .pa-pick-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .pa-chip { padding: 10px 4px; font-size: 13px; }
+  .pa-pick .pa-btn { padding: 12px 10px; font-size: 15px; }
+  .pa-wrap.menu .pa-panel, .pa-wrap.menu .pa-weapons, .pa-wrap.menu .pa-foot .pa-touch, .pa-wrap.menu .pa-foot .pa-keys { display: none; }
+  .pa-wrap.picking .pa-overlay { display: none; }
+  .pa-panel { gap: 10px; }
+  .pa-ctl input { height: 28px; }
+  .pa-fire { flex: 1 1 auto; padding: 13px 20px; font-size: 16px; }
+  .pa-move button { width: 44px; height: 44px; }
+  .pa-weapons { grid-template-columns: repeat(5, 1fr); gap: 5px; }
+  .pa-weapon { flex-direction: column; gap: 3px; padding: 7px 2px; font-size: 10px; line-height: 1.15; text-align: center; border-radius: 10px; }
+  .pa-weapon .pa-ico { font-size: 18px; }
+  .pa-sharebox { justify-content: center; }
+  .pa-sharebox > span { width: 100%; text-align: center; }
+  .pa-sharebox button, .pa-sharebox a { padding: 9px 14px; font-size: 13px; }
+  .pa-x-share { position: absolute; top: 4px; right: 4px; }
+  .pa-sharebox { position: relative; padding: 10px 12px; }
+  .pa-mute { padding: 8px 12px; font-size: 12px; }
+}`,
 
   js: `const canvas = document.getElementById('pa-canvas');
 const ctx = canvas.getContext('2d');
@@ -1217,11 +1258,26 @@ function openPicker() {
   }
   pickLabel();
   $('pa-pick').hidden = false;
+  $('pa-wrap').classList.add('picking');
+  $('pa-pick-x').focus({ preventScroll: true });
+  /* phones: the picker sits under the field, so bring its top into view */
+  if (window.matchMedia && window.matchMedia('(max-width: 700px)').matches) $('pa-pick').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+function closePicker() {
+  if ($('pa-pick').hidden) return;
+  $('pa-pick').hidden = true;
+  $('pa-wrap').classList.remove('picking');
+  if (!picked.length) { weaponMode = 'random'; [].forEach.call($('pa-wmode').children, c => c.classList.toggle('on', c.dataset.v === 'random')); }
+  $('pa-wpick').focus({ preventScroll: true });
 }
 $('pa-pick-clear').addEventListener('click', () => { picked = []; pickLabel(); });
-$('pa-pick-done').addEventListener('click', () => {
-  $('pa-pick').hidden = true;
-  if (!picked.length) { weaponMode = 'random'; [].forEach.call($('pa-wmode').children, c => c.classList.toggle('on', c.dataset.v === 'random')); }
+$('pa-pick-done').addEventListener('click', closePicker);
+$('pa-pick-x').addEventListener('click', closePicker);
+$('pa-share-x').addEventListener('click', () => { $('pa-sharebox').hidden = true; });
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (!$('pa-pick').hidden) closePicker();
+  else if (!$('pa-sharebox').hidden) $('pa-sharebox').hidden = true;
 });
 
 function newGame(seed, daily) {
@@ -1235,6 +1291,7 @@ function newGame(seed, daily) {
   WEAPONS = dealHand(seed);
   turn = 0; sel = 0; bolts = []; vort = []; blasts = []; critter.on = false; critter.wait = 300 + Math.random() * 300; plane.on = false; plane.down = false; plane.wait = 400; flashA = 0; shots = []; parts = []; rings = []; floats = []; fires = []; lastPath = [[], []];
   overlay.classList.add('hide');
+  $('pa-wrap').classList.remove('menu');
   $('pa-share').hidden = true; $('pa-sharebox').hidden = true;
   shuffleIn(startTurn);
 }
@@ -1258,7 +1315,10 @@ function endGame() {
   showBest();
   $('pa-share').hidden = false;
   overlay.classList.remove('hide');
+  $('pa-wrap').classList.add('menu');
   syncUi();
+  /* phones: the results sit under the field; scroll so the score and buttons are on screen */
+  if (window.matchMedia && window.matchMedia('(max-width: 700px)').matches) setTimeout(() => $('pa-wrap').scrollIntoView({ block: 'start', behavior: 'smooth' }), 50);
 }
 
 /* ---------- share the result (win, loss or draw) ---------- */

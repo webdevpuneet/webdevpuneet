@@ -57,7 +57,7 @@
 <p class="back"><a href="SUGGESTIONS.html">← All suggestions</a></p>
 <header>
   <h1>Social Post Templates suggestions</h1>
-  <p>Next posts and categories, based on gaps in the 34 built so far. Last updated: 2026-11-16.</p>
+  <p>Next posts and categories, based on gaps in the 34 built so far. Last updated: 2026-11-19.</p>
 </header>
 
 <nav class="toc" aria-label="Contents">
@@ -95,6 +95,18 @@
       <li><strong>Search and favourites</strong> in the gallery (the UI snippet bookmark pattern can be reused).</li>
       <li><strong>Post series:</strong> one design, many posts (Advent day 1–24, "tip 1 of 10", carousel slides) with the number filled in automatically and one ZIP export.</li>
       <li><strong>Collections / packs:</strong> "Black Friday pack" (teaser, countdown, sale, last chance, thank you), "Launch pack", "Restaurant month": a ready set per campaign, paired with the matching emails.</li>
+    </ul>
+  </div>
+
+  <div class="sug">
+    <div class="sug-head"><h3>5 evergreen "batch 2" templates with meaningful motion</h3><span class="pill done">Done 2026-11-19</span></div>
+    <p class="muted">Built 2026-11-19 (ids podcast-episode, new-video, flash-sale, now-booking, referral). Picked from the batch-2 list because they are posts businesses publish again and again, with clear search intent ("podcast episode template", "new video post", "flash sale template", "now booking post", "refer a friend post"). SEO in seo-content-media.js, previews captured, nav regenerated, category blurbs updated, blog post blog-posts/social-post-templates/blog2-animated-templates-wordpress.txt. NOT deployed yet.</p>
+    <ul>
+      <li><strong>New motions added to render.js:</strong> <code>eq</code> (audio level bar), <code>ripple</code> (ring spreading from a button), <code>tock</code> (stopwatch hand, one step a second), <code>zap</code> (lightning double flash), <code>hop</code> (gift box hop and squash), <code>shake</code> (urgent shake every few seconds), <code>tap</code> (pointer glides in and presses), <code>progress</code> + <code>playhead</code> (a media bar that fills while its knob rides along; both take data-at / data-dur).</li>
+      <li><strong>Motion per template:</strong> Podcast: record spins, waveform bounces, play rings, progress plays. Video: pointer taps play, rings, progress fills, arrow nudges. Flash sale: bolt zaps, speed lines scroll, discount counts up, minutes/seconds count down, stopwatch ticks, timer shakes. Now booking: booked days stamped one by one, open days pop, spots badge pulses. Referral: cards slide in from both sides, amounts count up, gift boxes hop in turn, arrows pass both ways, step numbers pop.</li>
+      <li><strong>Test helper:</strong> <code>node scripts/_frames.mjs &lt;id&gt; &lt;size&gt; &lt;out.png&gt;</code> renders 5 frames of the theme motion using the real applyAmbient code from render.js (headless, no dev server).</li>
+      <li><strong>Gotcha found again:</strong> fitted headlines in Bebas / Playfair / Jakarta need line-height ≥ 1.28, or glyph overflow makes the fitter shrink them; and a fit box aligned to the bottom (flex-end) hides overflow from the fitter, so use <code>margin-top:auto</code> on the text instead.</li>
+      <li><strong>Still open from batch 2:</strong> free resource / lead magnet, new arrival, weekly roundup, anniversary.</li>
     </ul>
   </div>
 

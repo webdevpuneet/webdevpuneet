@@ -7,6 +7,7 @@
    are inlined and uploads are kept as data URLs. */
 
 import { BASE_CSS, sizeById, richText } from './templates/index.js';
+import { calendarGrid } from './templates/calendar.js';
 import { canvasToBlob } from '../OgImageGenerator/utils';
 import { flagFrame, flagRest } from './flag-cloth.js';
 import { resolveFont, fontStack as anyFontStack, ensureFont, googleCssUrl, customFontFaceCss } from '../../lib/fonts';
@@ -25,10 +26,16 @@ export function defaultState(t) {
   };
 }
 
-/* Carousel tokens in any text field: {n} slide number, {nn} two-digit, {total} slide count */
+/* Carousel tokens in any text field: {n} slide number, {nn} two-digit, {total} slide count.
+   Calendar token: {spots} = how many open days the "open" field lists (Now Booking's badge). */
 export function fillTokens(text, state) {
   const n = state.slideNo || 1, total = state.slideTotal || 1;
-  return String(text ?? '').replace(/\{nn\}/g, String(n).padStart(2, '0')).replace(/\{n\}/g, String(n)).replace(/\{total\}/g, String(total));
+  let s = String(text ?? '').replace(/\{nn\}/g, String(n).padStart(2, '0')).replace(/\{n\}/g, String(n)).replace(/\{total\}/g, String(total));
+  if (s.includes('{spots}')) {
+    const f = state.fields || {};
+    s = s.replace(/\{spots\}/g, String(calendarGrid({ month: f.month, open: f.open }).openCount));
+  }
+  return s;
 }
 
 /* Photo crop: scales each photo to cover its frame times its zoom, then positions it.
@@ -129,6 +136,16 @@ export function mountTemplate(shadow, t, state, { editable = false } = {}) {
     const ok = Number.isFinite(n);
     el.style.setProperty('--bar', ok ? `${Math.max(0, Math.min(100, n))}%` : '0%');
     el.parentElement?.toggleAttribute('hidden', !ok);
+  });
+  // Month calendars built from text fields (Now Booking): data-cal="month field",
+  // data-cal-open / data-cal-off = the open-days and days-off fields. Rebuilt only when they change.
+  root.querySelectorAll('[data-cal]').forEach(el => {
+    const fv = k => state.fields[k] ?? t.fields.find(x => x.key === k)?.value ?? '';
+    const v = { month: fv(el.dataset.cal), open: fv(el.dataset.calOpen), off: fv(el.dataset.calOff) };
+    const key = JSON.stringify(v);
+    if (el.dataset.calKey === key) return;
+    const g = calendarGrid(v);
+    el.innerHTML = g.html; el.dataset.rows = g.rows; el.dataset.calKey = key;
   });
   applyTextAlign(root, lay.align || '');
   return root;
@@ -382,7 +399,8 @@ const restoreAnim = base => base.forEach(b => { b.el.style.transform = b.transfo
    Reveals (play once, in reading order): pop, tick, stamp, draw-x, draw-y, wipe-r, wipe-u, slide-l,
    slide-r, slide-t, slide-b, settle, count, countdown, type.
    Loops: pulse, breathe, wobble, sway, bob, nudge-x, nudge-y, twinkle, blink, spin, fly, burst, fall,
-   scroll-bg, scroll-y, wave, flag, flicker, float, drift. */
+   scroll-bg, scroll-y, wave, flag, flicker, float, drift, eq, ripple, tock, zap, hop, shake, tap.
+   Media timing: progress (a bar fills, clip-path) and playhead (its knob rides along); both take data-at / data-dur. */
 const clamp01 = x => Math.max(0, Math.min(1, x));
 const easeOut = p => 1 - (1 - p) ** 3;
 const easeOutBack = p => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * (p - 1) ** 3 + c1 * (p - 1) ** 2; };
@@ -548,6 +566,63 @@ function applyAmbient(items, time, u = 10) {
         const y = (2.8 * Math.sin(t * 0.7 + ph * 1.2) + 1.0 * Math.sin(t * 1.7 + ph)) * u;
         st.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${(1 + 0.18 * Math.sin(t * 1.4 + ph)).toFixed(3)})`;
         opacity(0.8 + 0.2 * Math.sin(t * 1.1 + ph));
+        break;
+      }
+      // ---- added 2026-11-19 (podcast, video, flash sale, booking, referral templates)
+      case 'eq': { // an audio level bar: jumps from its base like a live equaliser, each bar on its own rhythm
+        const q = Math.abs(0.62 * Math.sin(t * (4.1 + (r % 4) * 1.15) + r * 1.31) + 0.38 * Math.sin(t * (7.3 + (r % 3) * 1.7) + r * 0.67));
+        st.transformOrigin = a.el.dataset.origin || '50% 100%';
+        st.scale = `1 ${(0.18 + 0.82 * q).toFixed(3)}`;
+        break;
+      }
+      case 'ripple': { // a ring that spreads out from a button and fades, like sound or a tap
+        const cyc = ((t + r * 0.8) % 2.4) / 2.4;
+        st.scale = String(+(1 + 0.75 * easeOut(cyc)).toFixed(3)); opacity(a.baseOpacity * (1 - cyc) ** 1.4);
+        break;
+      }
+      case 'tock': { // a stopwatch hand: one snappy step every second
+        const s = Math.floor(t) + easeOutBack(clamp01((t % 1) / 0.2));
+        st.transformOrigin = a.el.dataset.origin || '50% 100%';
+        st.rotate = `${(s * 30).toFixed(2)}deg`;
+        break;
+      }
+      case 'zap': { // a lightning bolt: a double flash every couple of seconds
+        const tau = (t + ph * 0.3) % 2.2;
+        const on = tau < 0.09 || (tau > 0.17 && tau < 0.26);
+        st.scale = on ? '1.14' : '1'; st.rotate = on ? '-5deg' : '0deg'; opacity(on ? 1 : a.baseOpacity * 0.82);
+        break;
+      }
+      case 'hop': { // a gift box: hops, squashes on landing, rests
+        const tau = (t + r * 0.55) % 1.9;
+        st.transformOrigin = '50% 100%';
+        if (tau < 0.55) { const p = tau / 0.55; st.translate = `0 ${(-5 * u * Math.sin(Math.PI * p)).toFixed(2)}px`; st.scale = '1'; }
+        else if (tau < 0.8) { const p = (tau - 0.55) / 0.25; const k = Math.sin(Math.PI * p); st.translate = '0 0'; st.scale = `${(1 + 0.12 * k).toFixed(3)} ${(1 - 0.12 * k).toFixed(3)}`; }
+        else { st.translate = '0 0'; st.scale = '1'; }
+        break;
+      }
+      case 'shake': { // urgency: a quick sideways shake every few seconds
+        const tau = (t + ph * 0.2) % 3;
+        st.translate = tau < 0.5 ? `${(0.9 * u * Math.sin(tau * 62) * (1 - tau / 0.5)).toFixed(2)}px 0` : '0 0';
+        break;
+      }
+      case 'tap': { // a pointer: glides in to its spot, presses, lifts, waits, again
+        const tau = (t + r * 0.4) % 2.6;
+        const inP = easeOut(clamp01(tau / 0.6)), outP = clamp01((tau - 2.1) / 0.5);
+        const off = (1 - inP + outP) * 7 * u;
+        const press = tau > 0.7 && tau < 1.05 ? Math.sin(Math.PI * (tau - 0.7) / 0.35) : 0;
+        st.translate = `${off.toFixed(1)}px ${off.toFixed(1)}px`; st.scale = String(+(1 - 0.16 * press).toFixed(3));
+        opacity(1 - outP);
+        break;
+      }
+      case 'progress': { // a video / audio progress bar: fills steadily from the left while it plays
+        const p = clamp01((t - (a.at ?? 0.6)) / (a.dur ?? 7));
+        st.clipPath = `inset(0 ${((1 - p) * 100).toFixed(2)}% 0 0)`;
+        break;
+      }
+      case 'playhead': { // the knob riding the progress bar: same timing as 'progress', moves across its (positioned) parent
+        const p = clamp01((t - (a.at ?? 0.6)) / (a.dur ?? 7));
+        const w = a.el.parentElement ? a.el.parentElement.offsetWidth : 0;
+        st.translate = `${(p * w - a.left).toFixed(1)}px 0`; // the still post parks the knob part-way (CSS left), so move relative to that
         break;
       }
       default: break;
