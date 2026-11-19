@@ -18,7 +18,7 @@ const pocketArtilleryGame = {
     <canvas id="pa-canvas" aria-label="Artillery battlefield with two tanks"></canvas>
     <div class="pa-overlay" id="pa-overlay">
       <p class="pa-title" id="pa-title">Pocket Artillery</p>
-      <p class="pa-sub" id="pa-sub">Drag on the field to aim. Ten shots each, closest blasts score most.</p>
+      <p class="pa-sub" id="pa-sub">Drag on the field to aim. Pick 6, 10 or 15 shots each, closest blasts score most.</p>
       <div class="pa-opts">
         <div class="pa-seg" id="pa-mode" role="group" aria-label="Mode">
           <button type="button" data-v="cpu" class="on">vs CPU</button>
@@ -28,6 +28,11 @@ const pocketArtilleryGame = {
           <button type="button" data-v="0">Easy</button>
           <button type="button" data-v="1" class="on">Normal</button>
           <button type="button" data-v="2">Hard</button>
+        </div>
+        <div class="pa-seg" id="pa-shots" role="group" aria-label="Shots each">
+          <button type="button" data-v="6">6 shots</button>
+          <button type="button" data-v="10" class="on">10 shots</button>
+          <button type="button" data-v="15">15 shots</button>
         </div>
         <div class="pa-seg" id="pa-terrain" role="group" aria-label="Terrain">
           <button type="button" data-v="-1" class="on">Random</button>
@@ -51,7 +56,7 @@ const pocketArtilleryGame = {
     <div class="pa-pick" id="pa-pick" role="dialog" aria-label="Choose your weapons" hidden>
       <button class="pa-x" id="pa-pick-x" type="button" aria-label="Close weapon picker">&times;</button>
       <p class="pa-pick-title">Choose your weapons <span id="pa-pick-n">0 / 10</span></p>
-      <p class="pa-pick-sub">Both tanks get the same weapons. Anything you leave out is picked at random. A Dirt Ball always comes with a Dirt Remover.</p>
+      <p class="pa-pick-sub">Pick up to one weapon per shot. Both tanks get the same weapons. Anything you leave out is picked at random. A Dirt Ball always comes with a Dirt Remover.</p>
       <div class="pa-pick-grid" id="pa-pick-grid"></div>
       <div class="pa-btns">
         <button class="pa-btn pa-btn-alt" id="pa-pick-clear" type="button">Clear</button>
@@ -95,7 +100,7 @@ const pocketArtilleryGame = {
   css: `* { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; color: #1e293b; }
 
-.pa-wrap { width: 100%; max-width: 640px; display: flex; flex-direction: column; gap: 10px; }
+.pa-wrap { width: 100%; max-width: max(640px, min(1100px, calc((100vh - 270px) * 1.7778))); display: flex; flex-direction: column; gap: 10px; }
 .pa-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .pa-header h2 { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
 .pa-scores { display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 700; color: #64748b; }
@@ -107,7 +112,7 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 .pa-stage { position: relative; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 26px rgba(60, 100, 140, 0.22); border: 2px solid #fff; }
 #pa-canvas { display: block; width: 100%; aspect-ratio: 16 / 9; touch-action: none; background: #cfeaff; }
 
-.pa-overlay { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: min(92%, 330px); background: rgba(255, 255, 255, 0.92); border-radius: 14px; box-shadow: 0 6px 22px rgba(60, 100, 140, 0.25); display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; padding: 10px 14px 12px; max-height: calc(100% - 20px); overflow: auto; }
+.pa-overlay { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: min(92%, 440px); background: rgba(255, 255, 255, 0.92); border-radius: 14px; box-shadow: 0 6px 22px rgba(60, 100, 140, 0.25); display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; padding: 10px 14px 12px; max-height: calc(100% - 20px); overflow-x: hidden; overflow-y: auto; }
 .pa-overlay.hide { display: none; }
 .pa-pick { position: absolute; inset: 8px; background: #fff; border-radius: 14px; box-shadow: 0 6px 22px rgba(60, 100, 140, 0.25); display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 10px 10px; overflow: auto; text-align: center; z-index: 3; }
 .pa-pick[hidden] { display: none; }
@@ -134,7 +139,7 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 .pa-sharebox button, .pa-sharebox a { border: 1px solid #d5e2ee; background: #f8fafc; color: #1e293b; border-radius: 99px; padding: 5px 12px; font-size: 12px; font-weight: 700; font-family: inherit; text-decoration: none; cursor: pointer; }
 .pa-best { font-size: 12px; font-weight: 700; color: #64748b; min-height: 16px; }
 .pa-opts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-.pa-seg { display: inline-flex; background: #fff; border: 1px solid #d5e2ee; border-radius: 99px; padding: 3px; }
+.pa-seg { display: inline-flex; flex-wrap: wrap; justify-content: center; background: #fff; border: 1px solid #d5e2ee; border-radius: 99px; padding: 3px; }
 .pa-seg button { border: none; background: transparent; padding: 5px 12px; font-size: 12px; font-weight: 700; color: #64748b; border-radius: 99px; cursor: pointer; font-family: inherit; }
 .pa-seg button.on { background: #1e293b; color: #fff; }
 .pa-seg.dim { opacity: 0.35; pointer-events: none; }
@@ -155,6 +160,7 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 .pa-panel.off { opacity: 0.5; pointer-events: none; }
 
 .pa-weapons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.pa-weapons[data-n="6"] { grid-template-columns: repeat(6, 1fr); }
 .pa-weapon { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 6px; font-size: 12px; font-weight: 700; font-family: inherit; color: #334155; background: #fff; border: 2px solid #d5e2ee; border-radius: 9px; cursor: pointer; }
 .pa-ico { font-size: 15px; line-height: 1; flex: none; }
 .pa-weapon.on { border-color: #e8553a; background: #fff3ef; }
@@ -189,6 +195,7 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
   .pa-fire { flex: 1 1 auto; padding: 13px 20px; font-size: 16px; }
   .pa-move button { width: 44px; height: 44px; }
   .pa-weapons { grid-template-columns: repeat(5, 1fr); gap: 5px; }
+  .pa-weapons[data-n="6"] { grid-template-columns: repeat(3, 1fr); }
   .pa-weapon { flex-direction: column; gap: 3px; padding: 7px 2px; font-size: 10px; line-height: 1.15; text-align: center; border-radius: 10px; }
   .pa-weapon .pa-ico { font-size: 18px; }
   .pa-sharebox { justify-content: center; }
@@ -203,16 +210,26 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 const ctx = canvas.getContext('2d');
 const W = 640, H = 360;
 const dpr = Math.min(window.devicePixelRatio || 1, 2);
-canvas.width = W * dpr;
-canvas.height = H * dpr;
-ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+/* The field is drawn in 640 x 360 game units; the backing store follows the on-screen size so a big desktop field stays sharp. */
+let SCALE = 0;
+function fitCanvas() {
+  const k = Math.min(3, Math.max(1, (canvas.clientWidth || W) / W) * dpr);
+  if (Math.abs(k - SCALE) < 0.05) return;
+  SCALE = k;
+  canvas.width = Math.round(W * k); canvas.height = Math.round(H * k);
+  ctx.setTransform(k, 0, 0, k, 0, 0);
+}
+fitCanvas();
+window.addEventListener('resize', fitCanvas);
 
 const $ = id => document.getElementById(id);
 const angleIn = $('pa-angle'), powerIn = $('pa-power');
 const overlay = $('pa-overlay'), panel = $('pa-panel');
-const GRAVITY = 0.11, WIND_K = 0.0025, POWER_K = 0.085, SHOTS = 10;
+const GRAVITY = 0.11, WIND_K = 0.0025, POWER_K = 0.085;
+/* Shots each = weapons in the hand (each weapon fires once). The player picks 6, 10 or 15; the Daily map is always 10 so scores compare. */
+let SHOTS = 10, shotsPick = 10;
 
-/* The pool: 22 weapons. Every match deals a shuffled hand of 10 from it (the daily map deals the same hand to everyone), each usable once.
+/* The pool: 27 weapons. Every match deals a shuffled hand of 10 from it (the daily map deals the same hand to everyone), each usable once.
    r = blast radius, pts = points for a direct hit, g / wd = gravity and wind multipliers, nocpu = the CPU does not pick it. */
 const POOL = [
   { id: 'missile', name: 'Missile', r: 22, pts: 100, col: '#e8553a', tip: 'Reliable all-rounder' },
@@ -237,26 +254,34 @@ const POOL = [
   { id: 'snowball', name: 'Snowball', r: 14, pts: 60, col: '#38bdf8', tip: 'Rolls along the ground and grows bigger the further it goes' },
   { id: 'blackhole', name: 'Black Hole', r: 44, pts: 70, col: '#7c3aed', tip: 'Swallows a huge hole in the ground' },
   { id: 'boomerang', name: 'Boomerang', r: 22, pts: 100, col: '#f97316', nocpu: true, tip: 'Swings out past the arc and curves back to land where a normal shell would' },
+  { id: 'laser', name: 'Laser Strike', r: 12, pts: 0, col: '#06b6d4', tip: 'Calls a beam from orbit: cuts a deep shaft and hits any tank in that column, even behind a hill' },
+  { id: 'quake', name: 'Quake', r: 12, pts: 40, col: '#b45309', tip: 'Two shockwaves race along the ground left and right and hit the first tank they reach' },
+  { id: 'magnet', name: 'Magnet', r: 14, pts: 50, col: '#e11d48', tip: 'Drags the enemy tank up to 44 px toward where it lands (if it is within 160 px)' },
+  { id: 'volcano', name: 'Volcano', r: 16, pts: 40, col: '#dc2626', tip: 'Builds a mound and spits six lava blobs around it' },
+  { id: 'teleport', name: 'Teleporter', r: 0, pts: 0, col: '#a855f7', nocpu: true, tip: 'No damage: your tank jumps to where it lands' },
 ];
-const ICONS = { missile: '🚀', big: '💣', triple: '🔱', bouncer: '🏀', nuke: '☢️', roller: '🛞', digger: '⛏️', napalm: '🔥', dirt: '🟤', remover: '🧹', cluster: '🍇', zap: '⚡', homing: '🎯', sticky: '🍭', balloon: '🎈', meteor: '☄️', firework: '🎆', popcorn: '🍿', mole: '🐹', snowball: '⛄', blackhole: '🌀', boomerang: '🌙' };
+const ICONS = { missile: '🚀', big: '💣', triple: '🔱', bouncer: '🏀', nuke: '☢️', roller: '🛞', digger: '⛏️', napalm: '🔥', dirt: '🟤', remover: '🧹', cluster: '🍇', zap: '⚡', homing: '🎯', sticky: '🍭', balloon: '🎈', meteor: '☄️', firework: '🎆', popcorn: '🍿', mole: '🐹', snowball: '⛄', blackhole: '🌀', boomerang: '🌙', laser: '🛰️', quake: '〰️', magnet: '🧲', volcano: '🌋', teleport: '✨' };
 const POP = { id: 'pop', name: 'Pop', r: 11, pts: 40, col: '#f59e0b' };
 const SPARK = { id: 'spark', name: 'Spark', r: 11, pts: 45, col: '#fde047' };
 const BOMBLET = { id: 'bomblet', name: 'Bomblet', r: 12, pts: 55, col: '#d946ef' };
 const METEOR = { id: 'piece', name: 'Meteor', r: 15, pts: 50, col: '#f59e0b' };
+const LAVA = { id: 'lava', name: 'Lava', r: 10, pts: 30, col: '#f97316' };
+const WAVE = { id: 'wave', name: 'Quake', r: 6, pts: 0, col: '#b45309' };
 let WEAPONS = POOL.slice(0, 10);
 let weaponMode = 'random', picked = []; /* picked = ids chosen on the start menu */
 function dealHand(seed) {
   const rr = mulberry32((seed | 0) ^ 0x2545f491), a = POOL.slice();
   for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rr() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; }
-  let h = a.slice(0, 10);
+  const N = SHOTS;
+  let h = a.slice(0, N);
   /* Player's picks: those weapons first, the rest of the 10 filled at random. Both tanks share the hand. The Daily map ignores picks. */
   if (!isDaily && weaponMode === 'pick' && picked.length) {
     const mine = POOL.filter(w => picked.indexOf(w.id) >= 0);
-    h = mine.concat(a.filter(w => picked.indexOf(w.id) < 0)).slice(0, 10);
+    h = mine.concat(a.filter(w => picked.indexOf(w.id) < 0)).slice(0, N);
   }
   /* A hand with the Dirt Ball always has the Dirt Remover too, so a buried tank can dig itself out. */
   if (h.some(w => w.id === 'dirt') && !h.some(w => w.id === 'remover')) {
-    h[h[9].id === 'dirt' ? 8 : 9] = POOL.find(w => w.id === 'remover');
+    h[h[N - 1].id === 'dirt' ? N - 2 : N - 1] = POOL.find(w => w.id === 'remover');
   }
   return h;
 }
@@ -289,6 +314,7 @@ let turn = 0, phase = 'menu', wind = 0, sel = 0, waitFrames = 0, mode = 'cpu', d
 const MOVE = 50;
 let moveLeft = MOVE, moveDir = 0, cpuGoal = null;
 let lastPath = [[], []], fires = [], isDaily = false, dly = {};
+let beams = [], pulls = [];
 let blasts = [], flashA = 0, vort = [], shots = [], parts = [], rings = [], floats = [], shake = 0, muted = false, audio = null;
 const clouds = [{ x: 90, y: 40, s: 1 }, { x: 330, y: 70, s: 0.8 }, { x: 540, y: 34, s: 1.2 }];
 /* Birds cross the sky: none on Easy, 1 on Normal and in 2-player, 2 on Hard. A shell that touches one is wasted: the bird drops and the turn passes on. */
@@ -316,7 +342,8 @@ function planeStep() {
     if (Math.random() < 0.7) parts.push({ x: plane.x - plane.dir * 12, y: plane.y, vx: (Math.random() - 0.5) * 0.6, vy: -0.3 - Math.random() * 0.5, life: 26, col: Math.random() < 0.5 ? '#475569' : '#fb923c' });
     const gx = Math.round(plane.x);
     if (gx < 0 || gx > W) { if (plane.y > H || gx < -70 || gx > W + 70) { plane.on = false; plane.down = false; plane.wait = 1200 + Math.random() * 1200; } return; }
-    if (plane.y >= ground[gx] - 4) planeCrash();
+    /* it crashes on the ground, or straight into a tank it falls onto */
+    if (plane.y >= ground[gx] - 4 || tanks.some(tk => Math.abs(tk.x - plane.x) < 26 && plane.y > tk.y - 22)) planeCrash();
     return;
   }
   plane.x += plane.dir * 1.25; plane.ph += 0.9;
@@ -326,7 +353,8 @@ const CRASH = { id: 'planecrash', name: 'Plane', r: 30, pts: 0, col: '#f97316' }
 function planeHit(s) {
   const p = plane;
   if (!p.on || p.down || Math.hypot(s.x - p.x, s.y - p.y) > 17) return false;
-  p.down = true; p.owner = s.owner; p.vx = p.dir * 1.1; p.vy = 0; p.rot = 0;
+  /* a shot-down plane nose-dives close to where it was hit (about 25 px of drift), so it lands on what is below it */
+  p.down = true; p.owner = s.owner; p.vx = p.dir * 0.35; p.vy = 0; p.rot = 0;
   s.dead = true;
   blast(POP, p.x, p.y);
   for (let i = 0; i < 18; i++) { const a = Math.random() * 6.283, v = 1 + Math.random() * 2.4; parts.push({ x: p.x, y: p.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 30 + Math.random() * 20, col: i % 3 === 0 ? '#ef4444' : i % 3 === 1 ? '#fb923c' : '#e2e8f0' }); }
@@ -342,7 +370,8 @@ function planeCrash() {
   for (let i = 0; i < 30; i++) { const a = Math.random() * 6.283, v = 1 + Math.random() * 3.4; parts.push({ x: p.x, y: gy - 6, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.5, life: 34 + Math.random() * 20, col: i % 3 === 0 ? '#475569' : i % 3 === 1 ? '#fb923c' : '#c99a62' }); }
   shake = Math.max(shake, 10); sfxBoom(true);
   tanks.forEach((tk, i) => {
-    if (Math.hypot(p.x - tk.x, gy - (tk.y - 8)) < 30) {
+    /* own tank: -100 (you shot it down onto yourself); enemy tank: +100 to whoever shot it */
+    if (Math.hypot(p.x - tk.x, gy - (tk.y - 8)) < 36) {
       if (i !== p.owner) { tanks[p.owner].score += 100; floats.push({ x: tk.x, y: tk.y - 30, t: 80, txt: '+100 Plane crash!', col: tanks[p.owner].col }); }
       else { tk.score -= 100; floats.push({ x: tk.x, y: tk.y - 30, t: 80, txt: '-100 Plane crash!', col: '#dc2626' }); }
     }
@@ -640,8 +669,57 @@ function flightFrames(x, y, vx, vy) {
   return 1500;
 }
 
+/* Laser Strike: a beam from orbit at the landing x. Hits the enemy anywhere in that column, even behind a hill.
+   (The firing tank's own side is covered by the normal friendly-fire check in explode.) */
+function laserStrike(s) {
+  beams.push({ x: s.x, t: 34 });
+  const en = tanks[1 - s.owner], dx = Math.abs(en.x - s.x);
+  if (dx < 24) {
+    const pts = Math.max(10, Math.round(120 * (1 - dx / 24)));
+    tanks[s.owner].score += pts;
+    floats.push({ x: en.x, y: en.y - 30, t: 70, txt: '+' + pts + ' Laser!', col: tanks[s.owner].col });
+  }
+  flashA = Math.max(flashA, 0.45); tone(1800, 180, 0.5, 'sawtooth', 0.07);
+}
+/* Quake: each shockwave runs 3 px a frame along the surface, cracking it, and stops at the first tank it reaches. */
+function waveStep(s) {
+  s.n++; s.x += s.dir * 3;
+  if (s.x < 2 || s.x > W - 2 || s.n > 48) { s.dead = true; return; }
+  s.y = ground[Math.round(s.x)];
+  if (s.n % 4 === 0) {
+    crater(s.x, s.y + 3, 5);
+    for (let k = 0; k < 3; k++) parts.push({ x: s.x, y: s.y, vx: (Math.random() - 0.5) * 1.6, vy: -1 - Math.random() * 1.8, life: 18, col: k % 2 ? '#c99a62' : '#78350f' });
+  }
+  shake = Math.max(shake, 2.5);
+  for (let i = 0; i < 2; i++) {
+    const tk = tanks[i];
+    if (s.n > 2 && Math.abs(tk.x - s.x) < 10) {
+      if (i !== s.owner) { tanks[s.owner].score += 50; floats.push({ x: tk.x, y: tk.y - 30, t: 70, txt: '+50 Quake!', col: tanks[s.owner].col }); }
+      else { tk.score -= 50; floats.push({ x: tk.x, y: tk.y - 30, t: 70, txt: '-50 Friendly fire!', col: '#dc2626' }); }
+      rings.push({ x: tk.x, y: tk.y - 6, r: 4, max: 26, col: '#b45309' });
+      s.dead = true; syncUi(); return;
+    }
+  }
+}
+/* Teleporter: the firing tank jumps to the landing spot, if a tank can stand there. */
+function teleport(s) {
+  const t = tanks[s.owner], o = tanks[1 - s.owner], x = Math.round(s.x);
+  rings.push({ x: s.x, y: s.y, r: 4, max: 30, col: '#a855f7' });
+  if (x < 18 || x > W - 18 || Math.abs(x - o.x) < 36 || inHole(x)) {
+    floats.push({ x: s.x, y: s.y - 16, t: 60, txt: 'No room to land', col: '#7c3aed' });
+    tone(300, 150, 0.25, 'sine', 0.06); syncUi(); return;
+  }
+  const sparkle = () => { for (let k = 0; k < 18; k++) { const a = Math.random() * 6.283, v = 0.6 + Math.random() * 1.8; parts.push({ x: t.x, y: t.y - 8, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 0.6, life: 30, col: k % 2 ? '#c084fc' : '#f5d0fe' }); } };
+  sparkle(); rings.push({ x: t.x, y: t.y - 8, r: 4, max: 26, col: '#a855f7' });
+  t.x = x; t.y = ground[x]; t.dy = t.y; t.buried = false;
+  sparkle();
+  floats.push({ x: t.x, y: t.y - 34, t: 60, txt: 'Teleported!', col: '#7c3aed' });
+  tone(400, 1600, 0.3, 'sine', 0.08); syncUi();
+}
+
 function explode(s) {
   s.dead = true;
+  if (s.w.id === 'teleport') { teleport(s); return; }
   critterHit(s.x, s.y, s.w.r);
   if (s.snow) s.w = Object.assign({}, s.w, { r: Math.round(s.size * 1.35), pts: 50 + Math.round(s.size * 2.5) });
   const w = s.w, enemy = tanks[1 - s.owner];
@@ -673,6 +751,19 @@ function explode(s) {
     for (let i = 0; i < 4; i++) shots.push({ x: s.x + (i - 1.5) * 34, y: -10 - i * 45, vx: 0, vy: 1.5, w: METEOR, owner: s.owner, age: 7, bounces: 0, dead: false, trail: [] });
   }
   if (w.id === 'napalm') fires.push({ x: s.x, t: 150, owner: s.owner });
+  if (w.id === 'laser') laserStrike(s);
+  if (w.id === 'quake') {
+    [-1, 1].forEach(d => shots.push({ wave: true, dir: d, x: s.x, y: s.y, w: WAVE, owner: s.owner, age: 0, n: 0, bounces: 0, dead: false, trail: [] }));
+    shake = Math.max(shake, 12); tone(90, 35, 0.7, 'sawtooth', 0.12);
+  }
+  if (w.id === 'magnet' && Math.abs(enemy.x - s.x) < 160 && Math.abs(enemy.x - s.x) > 4) {
+    pulls.push({ i: 1 - s.owner, x: s.x, left: 44 });
+    floats.push({ x: enemy.x, y: enemy.y - 40, t: 60, txt: 'Pulled!', col: '#e11d48' });
+    tone(220, 520, 0.4, 'square', 0.05);
+  }
+  if (w.id === 'volcano') {
+    for (let k = 0; k < 6; k++) shots.push({ x: s.x, y: s.y - 14, vx: (k - 2.5) * 0.75 + (Math.random() - 0.5) * 0.4, vy: -3.3 - Math.random() * 1.6, w: LAVA, owner: s.owner, age: 7, bounces: 0, dead: false, trail: [], delay: 10 + k * 8 });
+  }
   if (w.id === 'dirt') {
     tanks.forEach(tk => {
       if (Math.hypot(s.x - tk.x, s.y - (tk.y - 8)) < w.r + 8) {
@@ -683,6 +774,8 @@ function explode(s) {
     addDirt(s.x, s.y, w.r);
   }
   else if (w.id === 'digger') { for (let i = 0; i < 5; i++) crater(s.x, s.y + i * 11, w.r); }
+  else if (w.id === 'laser') { for (let i = 0; i < 9; i++) crater(s.x, s.y + i * 10, 8); }
+  else if (w.id === 'volcano') { crater(s.x, s.y, 8); addDirt(s.x, s.y + 2, 24); }
   else crater(s.x, s.y, w.r);
   if (w.id !== 'dirt') {
     tanks.forEach(tk => {
@@ -765,6 +858,8 @@ function step() {
   }
   shots.forEach(s => {
     if (s.dead) return;
+    if (s.wave) { waveStep(s); return; }
+    if (s.delay > 0) { if (--s.delay === 0) tone(160, 90, 0.15, 'sawtooth', 0.05); return; }
     if (s.rolling) { roll(s); return; }
     if (s.stuck) {
       /* Sticky: glued to a tank or the ground, blinks, then blows up. */
@@ -862,8 +957,18 @@ function step() {
   vort = vort.filter(v => v.t > 0);
   bolts.forEach(b => { b.t--; });
   bolts = bolts.filter(b => b.t > 0);
+  beams.forEach(b => { b.t--; });
+  beams = beams.filter(b => b.t > 0);
+  /* Magnet: the pulled tank slides toward the impact, stopping at crater edges, steep slopes and the other tank */
+  pulls.forEach(pl => {
+    const t = tanks[pl.i], o = tanks[1 - pl.i], dir = Math.sign(pl.x - t.x), nx = t.x + dir * 1.5;
+    if (pl.left <= 0 || Math.abs(pl.x - t.x) < 3 || !canStand(t, nx, o)) { pl.done = true; return; }
+    t.x = nx; pl.left -= 1.5;
+    if (Math.random() < 0.5) parts.push({ x: t.x - dir * 10, y: t.y, vx: -dir * 0.6, vy: -0.7, life: 14, col: '#c99a62' });
+  });
+  pulls = pulls.filter(pl => !pl.done);
   if (phase === 'fly' && shots.every(s => s.dead)) { phase = 'wait'; waitFrames = 50; shots = []; }
-  else if (phase === 'wait' && --waitFrames <= 0 && !fires.length) nextTurn();
+  else if (phase === 'wait' && --waitFrames <= 0 && !fires.length && !pulls.length) nextTurn();
   fires.forEach(f => {
     f.t--;
     const en = tanks[1 - f.owner];
@@ -986,6 +1091,7 @@ function flame(len) {
 }
 function dot(x, y, r, col) { ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); }
 function drawShot(s) {
+  if (s.wave || s.delay > 0) return;
   const w = s.w, id = w.id, t = s.age, ang = Math.atan2(s.vy, s.vx), dirn = s.vx >= 0 ? 1 : -1;
   ctx.save(); ctx.translate(s.x, s.y);
   ctx.shadowColor = s.col || w.col; ctx.shadowBlur = 8;
@@ -1084,6 +1190,25 @@ function drawShot(s) {
     ctx.rotate(t * 0.4); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
     ctx.strokeStyle = w.col; ctx.lineWidth = 4.5; ctx.beginPath(); ctx.moveTo(-7, -5); ctx.lineTo(0, 3); ctx.lineTo(7, -5); ctx.stroke();
     ctx.strokeStyle = '#fde68a'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(-6, -4); ctx.lineTo(0, 2); ctx.lineTo(6, -4); ctx.stroke();
+  } else if (id === 'laser') {
+    ctx.rotate(t * 0.08); ctx.fillStyle = '#475569'; ctx.fillRect(-11, -2.5, 6, 5); ctx.fillRect(5, -2.5, 6, 5);
+    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(-5, 0); ctx.lineTo(5, 0); ctx.stroke();
+    dot(0, 0, 4, w.col); dot(0, 0, 1.7, '#ecfeff');
+  } else if (id === 'quake') {
+    ctx.rotate(t * 0.15); dot(0, 0, 5.5, '#92400e');
+    ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(-5, 0); ctx.lineTo(-2.5, -2.5); ctx.lineTo(0, 2.5); ctx.lineTo(2.5, -2.5); ctx.lineTo(5, 0); ctx.stroke();
+  } else if (id === 'magnet') {
+    ctx.rotate(ang + Math.PI / 2); ctx.lineCap = 'butt';
+    ctx.strokeStyle = w.col; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(0, 0, 5, 0, Math.PI); ctx.stroke();
+    ctx.fillStyle = '#e2e8f0'; ctx.fillRect(-7, -3, 4, 3); ctx.fillRect(3, -3, 4, 3);
+  } else if (id === 'volcano' || id === 'lava') {
+    const r0 = id === 'lava' ? 3.8 : 5.5;
+    dot(0, 0, r0, '#7f1d1d'); dot(0, 0, r0 * 0.62, Math.random() < 0.5 ? '#f97316' : '#fbbf24');
+  } else if (id === 'teleport') {
+    ctx.rotate(t * 0.2); ctx.fillStyle = w.col; ctx.beginPath();
+    for (let k = 0; k < 8; k++) { const r = k % 2 ? 2.4 : 6.5, a = k * 0.785; if (k) ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r); else ctx.moveTo(r, 0); }
+    ctx.closePath(); ctx.fill(); dot(0, 0, 1.8, '#faf5ff');
+    ctx.strokeStyle = 'rgba(216,180,254,0.8)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(0, 0, 8 + Math.sin(t * 0.3) * 1.5, 0, 7); ctx.stroke();
   } else {
     dot(0, 0, 4, w.col); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(0, 0, 4, 0, 7); ctx.stroke();
   }
@@ -1165,6 +1290,7 @@ function wLabel(w) { return '<span class="pa-ico">' + (ICONS[w.id] || '') + '</s
 function buildWeapons() {
   const box = $('pa-weapons');
   box.innerHTML = '';
+  box.dataset.n = WEAPONS.length;
   WEAPONS.forEach((w, i) => {
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'pa-weapon'; b.dataset.i = i; b.title = w.tip || '';
@@ -1265,11 +1391,12 @@ function setupSeg(id, onPick) {
 }
 setupSeg('pa-mode', v => { mode = v; $('pa-diff').classList.toggle('dim', v === 'two'); });
 setupSeg('pa-diff', v => { diff = Number(v); });
+setupSeg('pa-shots', v => { shotsPick = Number(v); if (picked.length > shotsPick) picked = picked.slice(0, shotsPick); pickLabel(); });
 setupSeg('pa-terrain', v => { terrain = Number(v); });
 setupSeg('pa-wmode', v => { weaponMode = v; if (v === 'pick') openPicker(); });
 function pickLabel() {
   $('pa-wpick').textContent = picked.length ? 'Choose weapons (' + picked.length + ')' : 'Choose weapons';
-  $('pa-pick-n').textContent = picked.length + ' / 10';
+  $('pa-pick-n').textContent = picked.length + ' / ' + shotsPick;
   [].forEach.call($('pa-pick-grid').children, b => b.classList.toggle('on', picked.indexOf(b.dataset.id) >= 0));
 }
 function openPicker() {
@@ -1281,7 +1408,7 @@ function openPicker() {
       b.innerHTML = '<span class="pa-ico">' + (ICONS[w.id] || '') + '</span>' + w.name;
       b.addEventListener('click', () => {
         const i = picked.indexOf(w.id);
-        if (i >= 0) picked.splice(i, 1); else if (picked.length < 10) picked.push(w.id);
+        if (i >= 0) picked.splice(i, 1); else if (picked.length < shotsPick) picked.push(w.id);
         pickLabel();
       });
       grid.appendChild(b);
@@ -1319,8 +1446,9 @@ function newGame(seed, daily) {
   if (mode === 'two') { tanks[0].name = 'P1'; tanks[1].name = 'P2'; }
   $('pa-name-you').textContent = tanks[0].name;
   $('pa-name-cpu').textContent = tanks[1].name;
+  SHOTS = isDaily ? 10 : shotsPick;
   WEAPONS = dealHand(seed);
-  turn = 0; sel = 0; bolts = []; vort = []; blasts = []; critter.on = false; critter.wait = 300 + Math.random() * 300; plane.on = false; plane.down = false; plane.wait = 400; flashA = 0; shots = []; parts = []; rings = []; floats = []; fires = []; lastPath = [[], []];
+  turn = 0; sel = 0; bolts = []; beams = []; pulls = []; vort = []; blasts = []; critter.on = false; critter.wait = 300 + Math.random() * 300; plane.on = false; plane.down = false; plane.wait = 400; flashA = 0; shots = []; parts = []; rings = []; floats = []; fires = []; lastPath = [[], []];
   overlay.classList.add('hide');
   $('pa-wrap').classList.remove('menu');
   $('pa-share').hidden = true; $('pa-sharebox').hidden = true;
@@ -1445,11 +1573,11 @@ function cloud(x, y, s) {
 /* Ground texture: drawn once per theme on a hidden canvas (strata, speckles, pebbles), then clipped to the live terrain shape every frame so craters cut through it. */
 const texCache = {};
 function groundTex() {
-  if (texCache[theme.name]) return texCache[theme.name];
+  if (texCache[theme.name] && texCache[theme.name].k === SCALE) return texCache[theme.name];
   const c = document.createElement('canvas');
-  c.width = W * dpr; c.height = H * dpr;
+  c.width = Math.round(W * SCALE); c.height = Math.round(H * SCALE); c.k = SCALE;
   const g = c.getContext('2d'), rr = mulberry32(99);
-  g.scale(dpr, dpr);
+  g.scale(SCALE, SCALE);
   for (let b = 0; b < 8; b++) {
     const y0 = 140 + b * 30;
     g.beginPath();
@@ -1621,16 +1749,25 @@ function draw() {
       for (let k = 1; k < 7; k++) ctx.lineTo(b.x1 + (b.x2 - b.x1) * k / 7 + (Math.random() - 0.5) * 16, b.y1 + (b.y2 - b.y1) * k / 7 + (Math.random() - 0.5) * 16);
       ctx.lineTo(b.x2, b.y2); ctx.stroke(); ctx.globalAlpha = 1;
     });
+    beams.forEach(b => {
+      const q = b.t / 34, gy = ground[Math.max(0, Math.min(W, Math.round(b.x)))] + 8, wd = 12 * q + 3;
+      ctx.globalAlpha = Math.min(1, q * 1.6);
+      ctx.fillStyle = 'rgba(103,232,249,0.35)'; ctx.fillRect(b.x - wd, 0, wd * 2, gy);
+      ctx.fillStyle = '#ecfeff'; ctx.fillRect(b.x - (2.5 * q + 1), 0, (2.5 * q + 1) * 2, gy);
+      ctx.globalAlpha = 1;
+    });
     drawBlasts();
     rings.forEach(r => { ctx.strokeStyle = r.col; ctx.globalAlpha = 0.6; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(r.x, r.y, r.r, 0, 7); ctx.stroke(); ctx.globalAlpha = 1; });
     parts.forEach(p => { ctx.fillStyle = p.col; ctx.globalAlpha = Math.min(1, p.life / 20); ctx.fillRect(p.x, p.y, 3, 3); ctx.globalAlpha = 1; });
     floats.forEach(f => { ctx.globalAlpha = Math.min(1, f.t / 20); ctx.fillStyle = f.col; ctx.font = '800 16px system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.fillText(f.txt, f.x, f.y); ctx.globalAlpha = 1; });
 
-    ctx.fillStyle = 'rgba(255,255,255,0.85)';
-    ctx.beginPath(); ctx.roundRect(W / 2 - 56, 8, 112, 22, 11); ctx.fill();
-    ctx.fillStyle = '#334155'; ctx.font = '700 12px system-ui, sans-serif'; ctx.textAlign = 'center';
-    /* one chevron per wind point, pointing the way the wind blows */
-    ctx.fillText('Wind ' + (wind === 0 ? 'calm' : (wind < 0 ? '\\u2039' : '\\u203a').repeat(Math.abs(wind)) + ' ' + Math.abs(wind)), W / 2, 23);
+    /* Wind badge only when there is wind (Hard): one chevron per wind point, pointing the way the wind blows */
+    if (wind !== 0) {
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.beginPath(); ctx.roundRect(W / 2 - 56, 8, 112, 22, 11); ctx.fill();
+      ctx.fillStyle = '#334155'; ctx.font = '700 12px system-ui, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('Wind ' + (wind < 0 ? '\\u2039' : '\\u203a').repeat(Math.abs(wind)) + ' ' + Math.abs(wind), W / 2, 23);
+    }
   }
   if (tanks.length) {
     ctx.fillStyle = theme.ink; ctx.globalAlpha = 0.7; ctx.font = '700 11px system-ui, sans-serif'; ctx.textAlign = 'left';
@@ -1659,10 +1796,10 @@ requestAnimationFrame(frame);`,
 
   seo: {
     title: 'Pocket Artillery – Free HTML, CSS & JS Tank Duel Game',
-    description: 'Free tank duel game in plain JavaScript: destructible terrain, 22 weapons with big blasts, a plane to shoot down, wildlife and a daily streak. Copy it.',
+    description: 'Free tank duel game in plain JavaScript: destructible terrain, 27 weapons with big blasts, a plane to shoot down, wildlife and a daily streak. Copy it.',
     about: {
       title: 'Pocket Artillery — Drag-to-Aim, Destructible Terrain, a Shuffled Hand of Weapons & an AI That Simulates Its Shots',
-      description: `Artillery duels are one of the oldest game ideas on the PC: two tanks, a hill between them, and a guess at angle and power. Pocket Artillery is a reimagined game inspired by the classic Pocket Tanks, rebuilt from scratch with its own look, weapons and code. This snippet is a bright, light-themed canvas version you can play at once: ten shots each, a hand of ten weapons dealt from a pool of 22 when the match starts (each fired only once), wind on the harder levels, birds, a plane and wildlife in the sky, big explosions that fit each weapon, and terrain that really crumbles when it is hit. Careful where you aim: a blast that lands on your own tank costs you points. Pull back on the field like a slingshot to aim, drive your tank a short way to find a better spot, play the CPU on three levels, or hand the device to a friend for a two-player duel. Pick your terrain (Meadow, Desert, Snow or Night), try the Valley map, and use the streak counter on the Daily map give you a reason to come back tomorrow.
+      description: `Artillery duels are one of the oldest game ideas on the PC: two tanks, a hill between them, and a guess at angle and power. Pocket Artillery is a reimagined game inspired by the classic Pocket Tanks, rebuilt from scratch with its own look, weapons and code. This snippet is a bright, light-themed canvas version you can play at once: 6, 10 or 15 shots each (10 by default), a hand of one weapon per shot dealt from a pool of 27 when the match starts (each fired only once), wind on the Hard level, birds, a plane and wildlife in the sky, big explosions that fit each weapon, and terrain that really crumbles when it is hit. Careful where you aim: a blast that lands on your own tank costs you points. Pull back on the field like a slingshot to aim, drive your tank a short way to find a better spot, play the CPU on three levels, or hand the device to a friend for a two-player duel. Pick your terrain (Meadow, Desert, Snow or Night), try the Valley map, and use the streak counter on the Daily map give you a reason to come back tomorrow.
 
 **Terrain as a height map you can carve**
 
@@ -1694,7 +1831,7 @@ A visual-only layer draws a different blast for each weapon family. Missiles and
 
 **A fresh hand every match**
 
-At the start of a match the weapon buttons flicker through random names, then settle on ten weapons dealt from the pool of 22 with a seeded shuffle. Ten shots each means every weapon in your hand gets fired once. The Daily map uses the date as the seed, so everyone gets the same map, theme and hand that day.
+At the start of a match the weapon buttons flicker through random names, then settle on ten weapons dealt from the pool of 27 with a seeded shuffle. You pick 6, 10 or 15 shots each on the start menu (the Daily map is always 10) and the hand has one weapon per shot, so every weapon in it gets fired once. The Daily map uses the date as the seed, so everyone gets the same map, theme and hand that day.
 
 **Move, bury and dig out**
 
@@ -1715,14 +1852,14 @@ On the field, a pointer drag measures the pull from the tank: the direction give
         { title: 'Set angle and power', text: 'Drag on the field away from your tank like a slingshot (the pull sets both), or use the sliders, or the arrow keys (Shift moves five at a time). A dotted line shows where the barrel points, and on Easy a dotted arc previews the first part of the flight while you drag and a faint ghost line shows where your previous shot went.' },
         { title: 'Move your tank', text: 'Hold the left and right arrow buttons beside the Fire button, or the A and D keys, to drive up to 50 pixels each turn. Steep slopes, craters (holes), the field edge and the other tank block you, and the Move number shows how much is left.' },
       { title: 'Read the wind', text: 'On Hard the Wind badge at the top shows the direction and strength for this turn (Easy, Normal and 2-player have no wind, so the same angle and power always land in the same spot). Aim a little into it so the shell drifts back onto the target.' },
-        { title: 'Pick a weapon and fire', text: 'The weapon list shuffles at the start of every match and deals you ten of 22 weapons (the Daily map deals everyone the same hand). Choose one (keys 1 to 9 and 0, hover for a tip) and press "Fire!" or Space. Each weapon can be used once per match, and you get ten shots, so every weapon in your hand gets used once.' },
-        { title: 'Score the closest blast', text: 'Watch your own tank: a blast that reaches it costs you points, and the score can go negative. Shoot down the plane for a bonus if it crashes on the enemy. After ten shots each the higher score wins. Your best score is saved in the browser. Finish the Daily map on consecutive days to build a streak.' },
+        { title: 'Pick a weapon and fire', text: 'The weapon list shuffles at the start of every match and deals you ten of 27 weapons (the Daily map deals everyone the same hand). Choose one (keys 1 to 9 and 0, hover for a tip) and press "Fire!" or Space. Each weapon can be used once per match, and you get one shot per weapon (6, 10 or 15, chosen on the start menu), so every weapon in your hand gets used once.' },
+        { title: 'Score the closest blast', text: 'Watch your own tank: a blast that reaches it costs you points, and the score can go negative. Shoot down the plane for a bonus if it crashes on the enemy. After the last shot the higher score wins. Your best score is saved in the browser. Finish the Daily map on consecutive days to build a streak.' },
       ],
     },
     features: [
       'Destructible terrain stored as a one-dimensional height map, carved by craters and raised by dirt',
       'Wind that changes every turn on Hard and bends the shells, shown in a badge on the field; Easy, Normal and 2-player are calm',
-      'A shuffled hand of ten weapons from a pool of 22, each usable once, ten shots per player: Missile, Big Boom, Triple, Bouncer, Mini Nuke, Roller, Digger, Napalm, Dirt Ball, Cluster, Zapper, Homing, Sticky, Balloon, Meteors, Dirt Remover, Firework, Popcorn, Mole, Snowball, Black Hole and Boomerang',
+      'A shuffled hand of ten weapons from a pool of 27, each usable once, 6, 10 or 15 shots per player: Missile, Big Boom, Triple, Bouncer, Mini Nuke, Roller, Digger, Napalm, Dirt Ball, Cluster, Zapper, Homing, Sticky, Balloon, Meteors, Dirt Remover, Firework, Popcorn, Mole, Snowball, Black Hole, Boomerang, Laser Strike, Quake, Magnet, Volcano and Teleporter',
       'Bury and dig out: a Dirt Ball that lands on a tank buries it, a buried tank that fires anything else blows itself up (-40 points), and the Dirt Remover digs a trench in the fired direction to free it; a hand with a Dirt Ball always includes a Dirt Remover',
       'Creative weapons: Cluster splits into bomblets, Zapper arcs lightning to a nearby tank, Homing locks on when it passes close to the enemy, Sticky glues to a tank and blows up, Balloon floats down in slow motion, Meteors rain from the sky',
       'Friendly fire: any weapon whose blast reaches your own tank costs you points, and the score can go below zero',
@@ -1781,8 +1918,9 @@ On the field, a pointer drag measures the pull from the tank: the direction give
 - Store terrain as a height array with one value per pixel column. Explosions carve a circular crater by lowering columns; a Dirt Ball weapon raises them. Tanks sit on the surface and settle after each blast.
 - Controls: Angle slider 0-180, Power slider 10-100, Fire button, arrow keys to aim (Shift for bigger steps), Space to fire, keys 1-9 and 0 to choose a weapon, and slingshot-style drag on the field (pull back from the tank: direction = angle, length = power). Works with touch.
 - Physics on a fixed 60 Hz step: shell velocity from angle and power, constant gravity, and a per-turn wind from -5 to 5 shown in a badge (wind only on the Hard level).
-- A pool of 22 weapons; at the start of each match the weapon buttons flicker through random names (a shuffle animation) and settle on a hand of ten, the Daily map dealing everyone the same hand. Hover shows a tip. Each usable once per match. Extra pool weapons: Cluster (splits into 5 bomblets at the apex), Zapper (lightning to a tank within 130 px, +25), Homing (steers toward the enemy), Sticky (sticks to a tank or the ground, blinks, explodes after about 1.4 s), Balloon (floats down the standard arc in slow motion), Meteors (four meteors fall around the impact). Base weapons: Missile, Big Boom (large radius), Triple (three shells spread by 7 degrees), Bouncer (two hops), Mini Nuke (huge crater, fewer points), Roller (rolls along the ground after landing), Digger (five stacked craters straight down), Napalm (small blast that leaves a burning patch scoring 12 points every 25 frames an enemy tank stands in it), Dirt Ball (no points, but it buries a tank that lands inside its radius). Also a Dirt Remover weapon: a buried tank that fires anything else blows up on itself for a 40 point penalty, the Dirt Remover digs a trench along the barrel direction and frees it, and a dealt hand with a Dirt Ball always includes a Dirt Remover.
-- Ten shots each, alternating, one per weapon in the hand. Score the enemy by blast distance: pts * (1 - distance / (radius + 13)), with floating +points text.
+- A pool of 27 weapons; at the start of each match the weapon buttons flicker through random names (a shuffle animation) and settle on a hand of ten, the Daily map dealing everyone the same hand. Hover shows a tip. Each usable once per match. Extra pool weapons: Cluster (splits into 5 bomblets at the apex), Zapper (lightning to a tank within 130 px, +25), Homing (normal arc, locks on within 60 px of the enemy), Sticky (sticks to a tank or the ground, blinks, explodes after about 1.4 s), Balloon (floats down the standard arc in slow motion), Meteors (four meteors fall around the impact). Base weapons: Missile, Big Boom (large radius), Triple (three shells spread by 7 degrees), Bouncer (two hops), Mini Nuke (huge crater, fewer points), Roller (rolls along the ground after landing), Digger (five stacked craters straight down), Napalm (small blast that leaves a burning patch scoring 12 points every 25 frames an enemy tank stands in it), Dirt Ball (no points, but it buries a tank that lands inside its radius). Also a Dirt Remover weapon: a buried tank that fires anything else blows up on itself for a 40 point penalty, the Dirt Remover digs a trench along the barrel direction and frees it, and a dealt hand with a Dirt Ball always includes a Dirt Remover.
+- Every weapon flies the same standard arc, so the same angle and power (and wind) always land on the same spot; weapons only differ in what happens at the apex or on landing (Balloon is the same arc in slow motion, Boomerang swings out and returns to it, Homing only locks on near the enemy).
+- 6, 10 or 15 shots each (picked on the start menu, 10 by default, the Daily map always 10), alternating, one per weapon in the hand. Score the enemy by blast distance: pts * (1 - distance / (radius + 13)), with floating +points text.
 - CPU opponent with Easy, Normal and Hard levels (aim error and slip chance): pick an unused weapon, try many angle and power pairs with an offline simulate() copy of the physics, choose the closest landing to the player, add a random error. Also a 2 players mode on one device that swaps the controls between the tanks.
 - On the Easy level only, while dragging, draw a short dotted trajectory preview using the same gravity and wind as a real shell.
 - On Easy, also keep a faint dashed ghost arc of the previous shot visible during the next aim. The wind badge shows one chevron per wind point in the wind direction.
@@ -1791,7 +1929,7 @@ On the field, a pointer drag measures the pull from the tank: the direction give
 - Birds fly across the sky (none on Easy, one on Normal and 2-player, two on Hard) with flapping wings. A shell that touches a bird is wasted: the bird falls with feather particles and the turn passes on.
 - Tank movement: hold on-screen left/right buttons or the A and D keys to drive up to 50 pixels per turn (1.5 px per step), blocked by slopes steeper than 3 px per step, holes (a spot more than 6 px below the ground 12 px away on both sides), the field edge and the other tank. The CPU on Normal and Hard moves 15-50 px on its own half before shooting.
 - Random map button, Daily map button seeded from the date, best score and a daily streak (consecutive days the daily map was finished, with today's score) saved in localStorage inside try/catch.
-- Also six extra weapons: Firework (bursts into ten coloured sparks at the apex), Popcorn (four small pops along the ground, then a final bang), Mole (lands, then burrows towards the enemy digging a trench and explodes on a tank or after about 80 steps), Snowball (rolls and grows, bigger blast the further it rolls), Black Hole (huge crater with a spinning vortex and particles pulled inward) and Boomerang (a sideways pull curves it back; the CPU never picks it).
+- Also six extra weapons: Firework (bursts into ten coloured sparks at the apex), Popcorn (four small pops along the ground, then a final bang), Mole (lands, then burrows towards the enemy digging a trench and explodes on a tank or after about 80 steps), Snowball (rolls and grows, bigger blast the further it rolls), Black Hole (huge crater with a spinning vortex and particles pulled inward) and Boomerang (swings out past the standard arc and curves back to the same landing spot; the CPU never picks it). Laser Strike (a beam from orbit at the landing x: deep shaft, hits the enemy anywhere in that column), Quake (two shockwaves run 3 px a frame along the surface, cracking it, +50 to the first tank reached), Magnet (drags the enemy up to 44 px toward the impact, stopping at crater edges and steep slopes), Volcano (raises a mound and spits six lava blobs, 30 pts each) and Teleporter (no damage, moves your own tank to the landing spot if it can stand there; the CPU never picks it).
 - Friendly fire: any weapon whose blast reaches the tank that fired it subtracts pts * (1 - distance / reach) (min 5, zero-point weapons count as 50) from the shooter, with a red floating label; scores may go negative.
 - Per-weapon blast effects: fireball with rays and embers, concentric shockwave rings (white flash for the nuke), radial lightning with glowing discs, rainbow streaks with a bead ring, ice spikes, dust.
 - Each weapon has its own drawn sprite while flying (rocket, round bomb with a fuse, spinning wheel, drill, flame drop, balloon on a string and so on) and a matching emoji icon on its button.
