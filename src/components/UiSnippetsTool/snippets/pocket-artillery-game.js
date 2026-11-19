@@ -36,6 +36,10 @@ const pocketArtilleryGame = {
           <button type="button" data-v="2">Snow</button>
           <button type="button" data-v="3">Night</button>
         </div>
+        <div class="pa-seg" id="pa-wmode" role="group" aria-label="Weapons">
+          <button type="button" data-v="random" class="on">Random weapons</button>
+          <button type="button" data-v="pick" id="pa-wpick">Choose weapons</button>
+        </div>
       </div>
       <div class="pa-btns">
         <button class="pa-btn" id="pa-play" type="button">Play</button>
@@ -43,6 +47,15 @@ const pocketArtilleryGame = {
       </div>
       <button class="pa-btn pa-btn-share" id="pa-share" type="button" hidden>Share result</button>
       <p class="pa-best" id="pa-best"></p>
+    </div>
+    <div class="pa-pick" id="pa-pick" hidden>
+      <p class="pa-pick-title">Choose your weapons <span id="pa-pick-n">0 / 10</span></p>
+      <p class="pa-pick-sub">Both tanks get the same weapons. Anything you leave out is picked at random. A Dirt Ball always comes with a Dirt Remover.</p>
+      <div class="pa-pick-grid" id="pa-pick-grid"></div>
+      <div class="pa-btns">
+        <button class="pa-btn pa-btn-alt" id="pa-pick-clear" type="button">Clear</button>
+        <button class="pa-btn" id="pa-pick-done" type="button">Done</button>
+      </div>
     </div>
   </div>
   <div class="pa-sharebox" id="pa-sharebox" hidden>
@@ -93,6 +106,16 @@ body { font-family: system-ui, sans-serif; background: #eef6fb; min-height: 100v
 
 .pa-overlay { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: min(92%, 330px); background: rgba(255, 255, 255, 0.92); border-radius: 14px; box-shadow: 0 6px 22px rgba(60, 100, 140, 0.25); display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; padding: 10px 14px 12px; }
 .pa-overlay.hide { display: none; }
+.pa-pick { position: absolute; inset: 8px; background: #fff; border-radius: 14px; box-shadow: 0 6px 22px rgba(60, 100, 140, 0.25); display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 10px 10px; overflow: auto; text-align: center; z-index: 3; }
+.pa-pick[hidden] { display: none; }
+.pa-pick-title { font-size: 17px; font-weight: 800; }
+.pa-pick-title span { font-size: 12px; font-weight: 800; color: #e8553a; margin-left: 6px; }
+.pa-pick-sub { font-size: 11px; line-height: 1.35; color: #475569; }
+.pa-pick-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; width: 100%; }
+.pa-chip { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 3px; font-size: 11px; font-weight: 700; font-family: inherit; color: #334155; background: #fff; border: 2px solid #d5e2ee; border-radius: 8px; cursor: pointer; white-space: nowrap; }
+.pa-chip.on { border-color: #e8553a; background: #fff3ef; color: #b83f28; }
+.pa-pick .pa-btn { padding: 7px 18px; font-size: 13px; }
+@media (max-width: 520px) { .pa-pick-grid { grid-template-columns: repeat(3, 1fr); } .pa-pick-sub { display: none; } .pa-chip { font-size: 10.5px; } }
 .pa-title { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; }
 .pa-sub { font-size: 12px; line-height: 1.4; color: #475569; max-width: 360px; }
 .pa-btns { display: flex; gap: 8px; }
@@ -180,10 +203,16 @@ const SPARK = { id: 'spark', name: 'Spark', r: 11, pts: 45, col: '#fde047' };
 const BOMBLET = { id: 'bomblet', name: 'Bomblet', r: 12, pts: 55, col: '#d946ef' };
 const METEOR = { id: 'piece', name: 'Meteor', r: 15, pts: 50, col: '#f59e0b' };
 let WEAPONS = POOL.slice(0, 10);
+let weaponMode = 'random', picked = []; /* picked = ids chosen on the start menu */
 function dealHand(seed) {
   const rr = mulberry32((seed | 0) ^ 0x2545f491), a = POOL.slice();
   for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rr() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; }
-  const h = a.slice(0, 10);
+  let h = a.slice(0, 10);
+  /* Player's picks: those weapons first, the rest of the 10 filled at random. Both tanks share the hand. The Daily map ignores picks. */
+  if (!isDaily && weaponMode === 'pick' && picked.length) {
+    const mine = POOL.filter(w => picked.indexOf(w.id) >= 0);
+    h = mine.concat(a.filter(w => picked.indexOf(w.id) < 0)).slice(0, 10);
+  }
   /* A hand with the Dirt Ball always has the Dirt Remover too, so a buried tank can dig itself out. */
   if (h.some(w => w.id === 'dirt') && !h.some(w => w.id === 'remover')) {
     h[h[9].id === 'dirt' ? 8 : 9] = POOL.find(w => w.id === 'remover');
@@ -1165,6 +1194,35 @@ function setupSeg(id, onPick) {
 setupSeg('pa-mode', v => { mode = v; $('pa-diff').classList.toggle('dim', v === 'two'); });
 setupSeg('pa-diff', v => { diff = Number(v); });
 setupSeg('pa-terrain', v => { terrain = Number(v); });
+setupSeg('pa-wmode', v => { weaponMode = v; if (v === 'pick') openPicker(); });
+function pickLabel() {
+  $('pa-wpick').textContent = picked.length ? 'Choose weapons (' + picked.length + ')' : 'Choose weapons';
+  $('pa-pick-n').textContent = picked.length + ' / 10';
+  [].forEach.call($('pa-pick-grid').children, b => b.classList.toggle('on', picked.indexOf(b.dataset.id) >= 0));
+}
+function openPicker() {
+  const grid = $('pa-pick-grid');
+  if (!grid.children.length) {
+    POOL.forEach(w => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'pa-chip'; b.dataset.id = w.id; b.title = w.tip || '';
+      b.innerHTML = '<span class="pa-ico">' + (ICONS[w.id] || '') + '</span>' + w.name;
+      b.addEventListener('click', () => {
+        const i = picked.indexOf(w.id);
+        if (i >= 0) picked.splice(i, 1); else if (picked.length < 10) picked.push(w.id);
+        pickLabel();
+      });
+      grid.appendChild(b);
+    });
+  }
+  pickLabel();
+  $('pa-pick').hidden = false;
+}
+$('pa-pick-clear').addEventListener('click', () => { picked = []; pickLabel(); });
+$('pa-pick-done').addEventListener('click', () => {
+  $('pa-pick').hidden = true;
+  if (!picked.length) { weaponMode = 'random'; [].forEach.call($('pa-wmode').children, c => c.classList.toggle('on', c.dataset.v === 'random')); }
+});
 
 function newGame(seed, daily) {
   isDaily = !!daily;
@@ -1510,10 +1568,10 @@ requestAnimationFrame(frame);`,
 
   seo: {
     title: 'Pocket Artillery – Free HTML, CSS & JS Tank Duel Game',
-    description: 'Artillery tank duel in plain JavaScript: drag to aim, destructible terrain, 22 weapons dealt each match, birds, a passing plane and a daily streak. Free canvas game code.',
+    description: 'Free tank duel game in plain JavaScript: destructible terrain, 22 weapons with big blasts, a plane to shoot down, wildlife and a daily streak. Copy it.',
     about: {
       title: 'Pocket Artillery — Drag-to-Aim, Destructible Terrain, a Shuffled Hand of Weapons & an AI That Simulates Its Shots',
-      description: `Artillery duels are one of the oldest game ideas on the PC: two tanks, a hill between them, and a guess at angle and power. Pocket Artillery is a reimagined game inspired by the classic Pocket Tanks, rebuilt from scratch with its own look, weapons and code. This snippet is a bright, light-themed canvas version you can play at once: ten shots each, a hand of ten weapons dealt from a pool of 22 when the match starts (each fired only once), wind on the harder levels, birds crossing the sky, and terrain that really crumbles when it is hit. Pull back on the field like a slingshot to aim, drive your tank a short way to find a better spot, play the CPU on three levels, or hand the device to a friend for a two-player duel. Four colour themes, a Valley map and a streak counter on the Daily map give you a reason to come back tomorrow.
+      description: `Artillery duels are one of the oldest game ideas on the PC: two tanks, a hill between them, and a guess at angle and power. Pocket Artillery is a reimagined game inspired by the classic Pocket Tanks, rebuilt from scratch with its own look, weapons and code. This snippet is a bright, light-themed canvas version you can play at once: ten shots each, a hand of ten weapons dealt from a pool of 22 when the match starts (each fired only once), wind on the harder levels, birds, a plane and wildlife in the sky, big explosions that fit each weapon, and terrain that really crumbles when it is hit. Careful where you aim: a blast that lands on your own tank costs you points. Pull back on the field like a slingshot to aim, drive your tank a short way to find a better spot, play the CPU on three levels, or hand the device to a friend for a two-player duel. Pick your terrain (Meadow, Desert, Snow or Night), try the Valley map, and use the streak counter on the Daily map give you a reason to come back tomorrow.
 
 **Terrain as a height map you can carve**
 
@@ -1531,9 +1589,17 @@ On its turn the computer tries about 1,300 angle and power pairs through \`simul
 
 A blast scores \`pts * (1 - distance / reach)\` for the enemy tank, so a direct hit is worth the full value and a near miss still pays a little. Each weapon trades radius against points: the Mini Nuke covers a huge area for fewer points, and the Dirt Ball scores nothing but buries a tank: the buried tank must fire a Dirt Remover first, because any other shot goes off on its own tank.
 
+**Friendly fire**
+
+The same formula runs for your own tank. If a blast reaches the tank that fired it, the shooter loses \`pts * (1 - distance / reach)\` points (at least 5, and weapons worth 0 count as 50), a red "Friendly fire!" label floats up, and the score is allowed to go below zero. A burning Napalm patch costs 12 points per tick if you stand in your own flames.
+
 **Weapons with their own behaviour**
 
-The Roller lands, then runs along the height map, faster downhill, until it meets a wall, a tank or runs out of steps. The Digger carves five stacked craters straight down and scores only on a tight radius. The Triple fires three shells 7 degrees apart, the Bouncer hops twice before it explodes, and the Napalm leaves a flame patch that keeps scoring while an enemy tank stands in it. The Cluster splits into five bomblets at the top of its arc, the Zapper arcs lightning to a tank within 130 pixels, the Homing dart bends toward its target, the Sticky bomb glues itself to whatever it touches and blows up after a blink, the light Balloon is carried far by the wind, and Meteors rain from the sky around the impact. Each one is a few lines in fire(), step() or explode(), keyed by its id.
+The Roller lands, then runs along the height map, faster downhill, until it meets a wall, a tank or runs out of steps. The Digger carves five stacked craters straight down and scores only on a tight radius. The Triple fires three shells 7 degrees apart, the Bouncer hops twice before it explodes, and the Napalm leaves a flame patch that keeps scoring while an enemy tank stands in it. The Cluster splits into five bomblets at the top of its arc, the Zapper arcs lightning to a tank within 130 pixels, the Homing dart bends toward its target, the Sticky bomb glues itself to whatever it touches and blows up after a blink, the light Balloon is carried far by the wind, and Meteors rain from the sky around the impact. Six more were added for fun: the Firework bursts into ten coloured sparks at the top of its arc, the Popcorn pops four times along the ground, the Mole lands and burrows toward the enemy digging a trench, the Snowball rolls and grows bigger as it goes, the Black Hole swallows a huge crater with a spinning vortex, and the Boomerang curves back toward you in flight. Each one is a few lines in fire(), step() or explode(), keyed by its id.
+
+**Explosions that match the weapon**
+
+A visual-only layer draws a different blast for each weapon family. Missiles and rollers get a fireball with rays and embers, the Big Boom and Mini Nuke send out concentric shockwave rings (the nuke adds a white flash), the Zapper throws radial lightning with glowing discs, each Firework spark leaves rainbow streaks and a ring of beads, the Snowball raises ice spikes, and the Dirt Ball sprays dust. The real blast is still just a crater and a score, so these effects can be changed freely.
 
 **A fresh hand every match**
 
@@ -1545,7 +1611,7 @@ Hold the move buttons or the A and D keys to drive up to 50 pixels a turn. Slope
 
 **A sky with birds, four themes and textured soil**
 
-Birds flap across the sky, none on Easy, one on Normal and two on Hard, and a little plane drifts past near the high clouds. Now and then a deer (Meadow), camel (Desert) or polar bear (Snow) walks in at the edge of the field, watches the battle and wanders off, and a shell that touches one is wasted. The seed picks one of four colour themes (Meadow, Desert, Snow or Night with twinkling stars) and sometimes a Valley map with high ridges and a deep dip. The soil texture is drawn once per theme to a hidden canvas and clipped to the live terrain, so craters cut straight through it.
+Birds flap across the sky, none on Easy, one on Normal and two on Hard, and a shell that touches one is wasted. A little propeller plane drifts past near the high clouds, and a shell that hits it shoots it down: it tumbles, trailing smoke, and crashes in a fireball. If it lands on a tank, the shooter scores 100 points when it is the enemy tank and loses 100 when it is their own. Now and then a deer (Meadow), camel (Desert) or polar bear (Snow) walks in at the edge of the field and watches the battle. Blasts and shells can kill it; it vanishes and walks back in later, with no score change. The seed picks one of four colour themes unless you choose a terrain (Meadow, Desert, Snow or Night with twinkling stars) and sometimes a Valley map with high ridges and a deep dip. The soil texture is drawn once per theme to a hidden canvas and clipped to the live terrain, so craters cut straight through it.
 
 **Drag to aim, or play two-player**
 
@@ -1554,12 +1620,12 @@ On the field, a pointer drag measures the pull from the tank: the direction give
     howToUse: {
       type: 'steps',
       items: [
-        { title: 'Start a match', text: 'Choose "vs CPU" (Easy, Normal or Hard) or "2 players", then press "Play" for a random map or "Daily map" for the same map everyone gets today. You are the coral tank on the left.' },
+        { title: 'Start a match', text: 'Choose "vs CPU" (Easy, Normal or Hard) or "2 players", pick a terrain (Random, Meadow, Desert, Snow or Night), choose Random weapons or pick up to ten yourself (both tanks get the same ones), then press "Play" for a map or "Daily map" for the same map everyone gets today. You are the coral tank on the left.' },
         { title: 'Set angle and power', text: 'Drag on the field away from your tank like a slingshot (the pull sets both), or use the sliders, or the arrow keys (Shift moves five at a time). A dotted line shows where the barrel points, and on Easy a dotted arc previews the first part of the flight while you drag and a faint ghost line shows where your previous shot went.' },
         { title: 'Move your tank', text: 'Hold the left and right arrow buttons beside the Fire button, or the A and D keys, to drive up to 50 pixels each turn. Steep slopes, craters (holes), the field edge and the other tank block you, and the Move number shows how much is left.' },
       { title: 'Read the wind', text: 'On Normal, Hard and 2-player the Wind badge at the top shows the direction and strength for this turn (Easy has no wind, so you can learn angle and power first). Aim a little into it so the shell drifts back onto the target.' },
         { title: 'Pick a weapon and fire', text: 'The weapon list shuffles at the start of every match and deals you ten of 22 weapons (the Daily map deals everyone the same hand). Choose one (keys 1 to 9 and 0, hover for a tip) and press "Fire!" or Space. Each weapon can be used once per match, and you get ten shots, so every weapon in your hand gets used once.' },
-        { title: 'Score the closest blast', text: 'After ten shots each the higher score wins. Your best score is saved in the browser. Finish the Daily map on consecutive days to build a streak.' },
+        { title: 'Score the closest blast', text: 'Watch your own tank: a blast that reaches it costs you points, and the score can go negative. Shoot down the plane for a bonus if it crashes on the enemy. After ten shots each the higher score wins. Your best score is saved in the browser. Finish the Daily map on consecutive days to build a streak.' },
       ],
     },
     features: [
@@ -1568,6 +1634,10 @@ On the field, a pointer drag measures the pull from the tank: the direction give
       'A shuffled hand of ten weapons from a pool of 22, each usable once, ten shots per player: Missile, Big Boom, Triple, Bouncer, Mini Nuke, Roller, Digger, Napalm, Dirt Ball, Cluster, Zapper, Homing, Sticky, Balloon, Meteors, Dirt Remover, Firework, Popcorn, Mole, Snowball, Black Hole and Boomerang',
       'Bury and dig out: a Dirt Ball that lands on a tank buries it, a buried tank that fires anything else blows itself up (-40 points), and the Dirt Remover digs a trench in the fired direction to free it; a hand with a Dirt Ball always includes a Dirt Remover',
       'Creative weapons: Cluster splits into bomblets, Zapper arcs lightning to a nearby tank, Homing bends toward the target, Sticky glues to a tank and blows up, Balloon drifts in the wind, Meteors rain from the sky',
+      'Friendly fire: any weapon whose blast reaches your own tank costs you points, and the score can go below zero',
+      'Dramatic blast effects per weapon: fireballs with embers, shockwave rings, lightning, rainbow streaks, ice spikes and dust',
+      'A plane you can shoot down: it tumbles, crashes in a fireball, and scores 100 points if it lands on the enemy tank (or costs 100 on your own)',
+      'Wildlife that matches the terrain (deer, camel or polar bear) walks in to watch the battle; blasts can kill it and it returns later',
       'Drag-to-aim on the field, slingshot style, plus sliders and keyboard controls',
       'Easy level also keeps a faint ghost of your previous shot on the field, like Worms, so the next aim can be corrected from it',
       'Wind badge shows one chevron per wind point in the direction it blows',
@@ -1579,7 +1649,7 @@ On the field, a pointer drag measures the pull from the tank: the direction give
       'Tank movement: hold the move buttons or A and D for up to 50 pixels per turn, blocked by steep slopes, craters, the edges and the other tank; the CPU shuffles a little on Normal and Hard',
       'Birds flap across the sky (none on Easy, one on Normal, two on Hard); a shell that hits one is wasted, the bird tumbles down with feathers, and the next turn begins',
       'Textured ground: soil strata, speckles and pebbles drawn once to a hidden canvas per theme and clipped to the terrain, plus grass tufts that follow the surface',
-      'Choose your terrain (Random, Meadow, Desert, Snow or Night; the Daily map stays fixed for everyone): four colour themes (Meadow, Desert, Snow, Night with twinkling stars) and a Valley map type with high ridges and a deep dip, all chosen from the map seed',
+      'Choose your terrain (Random, Meadow, Desert, Snow or Night) and your weapons (random, or pick up to ten that both tanks share; the Daily map stays fixed for everyone): four colour themes (Meadow, Desert, Snow, Night with twinkling stars) and a Valley map type with high ridges and a deep dip, all chosen from the map seed',
       'Daily streak and the best daily score kept in localStorage, so there is a reason to come back tomorrow',
       'Fixed 60 Hz physics step, so shell flight is the same on every screen refresh rate',
       'Bright light theme with a sky, clouds and soft hills, plus particles, rings and screen shake',
@@ -1600,6 +1670,8 @@ On the field, a pointer drag measures the pull from the tank: the direction give
       { q: 'Why does the CPU not always hit me?', a: 'It finds the best angle and power by simulating many shots, then adds a random error of a couple of degrees, and now and then a bigger one. Lower the error values in LEVELS for a harder opponent or raise them for an easier one.' },
       { q: 'How is the wind applied?', a: 'Each physics step adds wind * 0.0025 to the shell\'s horizontal speed. The wind is a whole number from -5 to 5 picked from the seeded generator at the start of every turn, and it is forced to 0 on the Easy CPU level.' },
       { q: 'How does the daily streak work?', a: 'Finishing a vs-CPU match on the Daily map stores the date and score in localStorage. If the last finished daily was yesterday the streak goes up by one, otherwise it restarts at 1. Two-player matches do not count.' },
+      { q: 'What is friendly fire?', a: 'If a blast reaches the tank that fired it, the shooter loses points using the same distance formula as a hit on the enemy, with a minimum of 5. Weapons that normally score nothing count as 50. The score can go below zero.' },
+      { q: 'Can I shoot the plane or the animals?', a: 'Yes. A shell that touches the plane shoots it down; if it crashes onto a tank, the shooter gets 100 points for the enemy tank or loses 100 for their own. Blasts can also kill the animal at the field edge, which returns later.' },
       { q: 'How does Napalm work?', a: 'It makes a small crater, then adds a fire object at that spot that lasts 150 steps. Every 25 steps an enemy tank within about 30 pixels of it gives the shooter 12 points, and the next turn waits until the flames die out.' },
       { q: 'How do I add a new theme?', a: 'Add an object to the THEMES array with a name, two sky colours, a sun colour, hill colour, two soil colours, a grass colour, a cloud colour and a text colour. Themes change colours only, so no other code needs to change.' },
       { q: 'What happens when a shell hits a bird?', a: 'The number of birds depends on the level: none on Easy, one on Normal and in 2-player, two on Hard. Each bird is a small object with a position, speed and flap phase. If a shell comes within about 12 pixels, the shell is marked dead without exploding, the bird switches to a falling state with feather particles, and the turn moves on. It respawns off screen after it drops.' },
@@ -1612,7 +1684,7 @@ On the field, a pointer drag measures the pull from the tank: the direction give
       { q: 'How does drag-to-aim work?', a: 'A pointerdown on the canvas starts a drag. The vector from the pointer to the tank gives the angle (atan2) and its length divided by 1.3 gives the power, and both are clamped. Pointer events and touch-action: none make it work for mouse and touch.' },
     ],
     aiPrompt: {
-      paragraph: `Paste this snippet's HTML, CSS, and JS into an AI coding assistant like Claude and ask it to explain how the height-map terrain, the fixed-step physics and the simulate() function the CPU uses fit together, then ask for a new weapon such as a Boomerang that flies back, or a campaign of maps with rising CPU levels.`,
+      paragraph: `Paste this snippet's HTML, CSS, and JS into an AI coding assistant like Claude and ask it to explain how the height-map terrain, the fixed-step physics and the simulate() function the CPU uses fit together, then ask for a new weapon such as a freeze ray that locks a tank for a turn, or a campaign of maps with rising CPU levels.`,
       prompt: `Build a turn-based artillery tank duel with the HTML5 Canvas API in plain HTML, CSS and JavaScript, no frameworks and no audio files.
 - Light, bright look: pale sky gradient, clouds, soft hills, green-topped soil, one coral tank (player, left) and one blue tank (CPU, right).
 - Store terrain as a height array with one value per pixel column. Explosions carve a circular crater by lowering columns; a Dirt Ball weapon raises them. Tanks sit on the surface and settle after each blast.
@@ -1624,10 +1696,17 @@ On the field, a pointer drag measures the pull from the tank: the direction give
 - On the Easy level only, while dragging, draw a short dotted trajectory preview using the same gravity and wind as a real shell.
 - On Easy, also keep a faint dashed ghost arc of the previous shot visible during the next aim. The wind badge shows one chevron per wind point in the wind direction.
 - Give the soil a texture (wavy strata lines, speckles, pebbles) pre-rendered to an offscreen canvas per theme and clipped to the terrain shape each frame, with a soft shadow under the grass edge and small grass tufts along the surface.
-- Four colour-only themes (Meadow, Desert, Snow, Night with twinkling stars) and a Valley map type (high ridges at both ends, deep dip in the middle), both picked from a hash of the map seed and named in a small label on the field.
+- Four colour-only themes (Meadow, Desert, Snow, Night with twinkling stars) and a Valley map type (high ridges at both ends, deep dip in the middle), the theme is chosen by the player or, on Random, from a hash of the map seed and named in a small label on the field.
 - Birds fly across the sky (none on Easy, one on Normal and 2-player, two on Hard) with flapping wings. A shell that touches a bird is wasted: the bird falls with feather particles and the turn passes on.
 - Tank movement: hold on-screen left/right buttons or the A and D keys to drive up to 50 pixels per turn (1.5 px per step), blocked by slopes steeper than 3 px per step, holes (a spot more than 6 px below the ground 12 px away on both sides), the field edge and the other tank. The CPU on Normal and Hard moves 15-50 px on its own half before shooting.
 - Random map button, Daily map button seeded from the date, best score and a daily streak (consecutive days the daily map was finished, with today's score) saved in localStorage inside try/catch.
+- Also six extra weapons: Firework (bursts into ten coloured sparks at the apex), Popcorn (four small pops along the ground, then a final bang), Mole (lands, then burrows towards the enemy digging a trench and explodes on a tank or after about 80 steps), Snowball (rolls and grows, bigger blast the further it rolls), Black Hole (huge crater with a spinning vortex and particles pulled inward) and Boomerang (a sideways pull curves it back; the CPU never picks it).
+- Friendly fire: any weapon whose blast reaches the tank that fired it subtracts pts * (1 - distance / reach) (min 5, zero-point weapons count as 50) from the shooter, with a red floating label; scores may go negative.
+- Per-weapon blast effects: fireball with rays and embers, concentric shockwave rings (white flash for the nuke), radial lightning with glowing discs, rainbow streaks with a bead ring, ice spikes, dust.
+- Each weapon has its own drawn sprite while flying (rocket, round bomb with a fuse, spinning wheel, drill, flame drop, balloon on a string and so on) and a matching emoji icon on its button.
+- A propeller plane flies across near the clouds now and then. A shell that hits it makes it fall in a spin with smoke and crash with a fireball; if it lands within 30 px of a tank the shooter gets +100 for the enemy tank or -100 for their own.
+- A wild animal that fits the terrain (deer on Meadow, camel on Desert, polar bear on Snow, deer or bear at Night) walks in at a field edge, watches, then leaves. Blasts and shells kill it (tumble and fade); it returns after 15-30 seconds. No score effect.
+- A terrain picker on the start menu (Random, Meadow, Desert, Snow, Night) and a weapons option: Random weapons, or a picker panel where the player chooses up to 10 of the 22 (the rest are filled at random, both tanks share the hand, a Dirt Ball always brings a Dirt Remover). The Daily map ignores both.
 - Particles, expanding rings, screen shake, Web Audio synth sounds with a mute button, a start overlay and a results overlay.`,
     },
   },
