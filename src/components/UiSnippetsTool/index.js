@@ -2580,13 +2580,10 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           {/* Phones: mount point for the console bar, last in the layout (order 5), under the HTML / CSS / JS panels */}
           {showEditor && isMobile && <div ref={setConsoleHost} className={s.mobileConsole} />}
           {/* The shared leaderboard (components/PlaygroundTopAd, slot 7360198340, the same component every other page
-              uses) directly above the Preview toolbar, on library snippets AND My Code snippets (saved and new ones;
+              uses) directly BELOW the Preview toolbar (moved 2026-11-20; it was above it), on library snippets AND My Code snippets (saved and new ones;
               added 2026-11-09). The My Code gallery has no editor, so no leaderboard. Keyed by snippet id so each snippet
               view mounts a fresh ad (AdSense forbids refreshing one without new content). Collapses itself when
               unfilled; shown on phones too (320x50). Switched off with SNIPPET_TOP_AD_ENABLED in lib/ads-config.js. */}
-          {showEditor && SNIPPET_TOP_AD_ENABLED && !adFree && (
-            <PlaygroundTopAd key={activeId || 'none'} className={s.topAdSlot} />
-          )}
           {showEditor && <div ref={previewHdrRef} className={`${s.previewHeader} ${navCentered ? s.previewHeaderCentered : ''} ${navCentered === null ? s.previewHeaderMeasuring : ''}`} data-scroll-toolbar>
             {/* Everything but the action menus scrolls sideways in one row when space is
                 short; Fork / Export stay pinned outside so their menus aren't clipped. */}
@@ -2751,6 +2748,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           {/* Phones: the toolbar has no room for the title, so it gets its own strip under it */}
           {showEditor && (activeSn?.title || activeSn?.name) && (
             <div className={s.mobileTitle} title={activeSn.title || activeSn.name}>{activeSn.title || activeSn.name}</div>
+          )}
+          {showEditor && SNIPPET_TOP_AD_ENABLED && !adFree && (
+            <PlaygroundTopAd key={activeId || 'none'} className={s.topAdSlot} />
           )}
           {showEditor && <div ref={stageRef} className={s.previewStage}>
           <div className={s.iframeWrap}>
