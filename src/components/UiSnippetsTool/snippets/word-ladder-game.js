@@ -246,7 +246,7 @@ loadPuzzle(puzzleIndex);
   /* ---- UI ---- */
   var st = document.createElement('style');
   st.textContent =
-    '.wdps-in{display:block;margin:12px auto 0;border:0;border-radius:12px;padding:11px 22px;font:800 15px/1 system-ui,sans-serif;background:#16a34a;color:#fff;cursor:pointer;box-shadow:0 3px 0 #11793a;pointer-events:auto;position:relative;z-index:5}' +
+    '.wdps-in,.wdps-btn,.wdps-box{touch-action:manipulation;-webkit-tap-highlight-color:transparent}.wdps-in{display:block;margin:12px auto 0;border:0;border-radius:12px;padding:11px 22px;font:800 15px/1 system-ui,sans-serif;background:#16a34a;color:#fff;cursor:pointer;box-shadow:0 3px 0 #11793a;pointer-events:auto;position:relative;z-index:5}' +
     '.wdps-in:hover{background:#15803d}.wdps-in:active{transform:translateY(2px);box-shadow:0 1px 0 #11793a}' +
     '.wdps-btn{position:fixed;right:12px;bottom:12px;z-index:2147483000;border:0;border-radius:99px;padding:9px 16px;font:700 13px/1 system-ui,sans-serif;background:#16a34a;color:#fff;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.3)}' +
     '.wdps-btn.wdps-hot{animation:wdps-p 1.4s ease-in-out infinite}' +
@@ -495,8 +495,22 @@ loadPuzzle(puzzleIndex);
       else openFallback();
     });
   }
-  pill.addEventListener('click', onShare);
-  inl.addEventListener('click', function (e) { e.stopPropagation(); onShare(); });
+  /* Games often have document/window level touch and pointer handlers (some call preventDefault, which cancels the tap's
+     click on phones, others restart the game on touchstart). So: keep every pointer event on our controls away from the
+     game, and fire on touchend as well as click (guarded so one tap shares once). */
+  var busy = 0;
+  function trigger() { if (busy) return; busy = 1; setTimeout(function () { busy = 0; }, 700); onShare(); }
+  function guard(el, act) {
+    var evs = ['pointerdown', 'pointerup', 'mousedown', 'mouseup', 'touchstart', 'touchend', 'click'];
+    for (var i = 0; i < evs.length; i++) el.addEventListener(evs[i], function (e) { e.stopPropagation(); });
+    if (act) {
+      el.addEventListener('touchend', function (e) { if (e.cancelable) e.preventDefault(); act(); });
+      el.addEventListener('click', function () { act(); });
+    }
+  }
+  guard(pill, trigger);
+  guard(inl, trigger);
+  guard(box);
   q('more').addEventListener('click', function () { if (file) nativeShare(); });
   q('close').addEventListener('click', function () { box.hidden = true; });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !box.hidden) box.hidden = true; });
