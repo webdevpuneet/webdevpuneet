@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import s from './styles.module.css';
 import TextToolsTopNav from '@/components/TextToolsTopNav';
 
@@ -24,6 +24,13 @@ const FAMILY = {
   claude: { label: 'Claude-style', scale: 1.12 },
 };
 
+const SAMPLES = [
+  { id: 'prompt', name: 'Support email prompt', text: null },
+  { id: 'article', name: 'Long article', text: null },
+  { id: 'code', name: 'Code file', text: null },
+  { id: 'json', name: 'JSON data', text: null },
+];
+
 const SAMPLE = `Summarise the customer email below in two sentences, then list any action items as bullet points.
 
 Hi team, our checkout page has been throwing a 500 error since Tuesday. Three customers have emailed us, and one of them says the discount code SAVE20 is also being rejected. Can someone look at this before Friday's sale starts?`;
@@ -36,6 +43,39 @@ Hi team, our checkout page has been throwing a 500 error since Tuesday. Three cu
    - CJK characters cost about 1 token each, other non-Latin scripts about 1 per 2 letters, emoji about 2 */
 const CJK = /[぀-ヿ㐀-䶿一-鿿가-힯]/;
 const PIECES = /[A-Za-zÀ-ɏ]+|\d+|[぀-ヿ㐀-䶿一-鿿가-힯]|\p{L}+|\p{Extended_Pictographic}|\n+|[ \t]{2,}|[ \t]|([^\sA-Za-z\d\p{L}])\1*/gu;
+
+function sampleText(id) {
+  if (id === 'article') {
+    const p = 'Large language models read text as tokens, not words. A token is a chunk of characters, often a short word or part of a longer one, and every request is billed by the number of tokens that go in and come out. That is why a long document can cost far more than a short question, and why trimming a prompt saves real money when it runs thousands of times. ';
+    return (p + 'Teams that watch their token use early tend to avoid two surprises: a bill that is larger than planned, and a request that is rejected because it does not fit in the context window. ').repeat(14).trim();
+  }
+  if (id === 'code') {
+    return `export function groupBy(items, getKey) {
+  const groups = new Map();
+  for (const item of items) {
+    const key = getKey(item);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(item);
+  }
+  return groups;
+}
+
+export function summarise(orders) {
+  const byCustomer = groupBy(orders, o => o.customerId);
+  return [...byCustomer.entries()].map(([id, list]) => ({
+    customerId: id,
+    orders: list.length,
+    total: list.reduce((sum, o) => sum + o.total, 0),
+  }));
+}`;
+  }
+  if (id === 'json') {
+    const rows = [];
+    for (let i = 1; i <= 12; i++) rows.push({ id: 1000 + i, name: 'Customer ' + i, email: 'customer' + i + '@example.com', plan: i % 3 === 0 ? 'pro' : 'free', active: i % 2 === 0, tags: ['trial', 'newsletter'] });
+    return JSON.stringify(rows, null, 2);
+  }
+  return SAMPLE;
+}
 
 function estimateBase(text) {
   if (!text) return 0;
@@ -56,6 +96,10 @@ function estimateBase(text) {
   return n;
 }
 
+const STORE_KEY = 'wdp-token-counter-v1';
+const CACHE_READ = 0.1; // cached input is billed at about 10 percent of the normal input rate
+const BATCH_RATE = 0.5; // batch APIs are about half price
+
 const fmt = n => Math.round(n).toLocaleString('en-US');
 function money(v) {
   if (!isFinite(v)) return '-';
@@ -71,7 +115,31 @@ export default function TokenCounterTool() {
   const [calls, setCalls] = useState(1000);
   const [rows, setRows] = useState(() => MODELS.map(m => ({ ...m })));
   const [copied, setCopied] = useState(false);
+  const [cache, setCache] = useState(0);      // share of the input that is read from the prompt cache, 0 to 100
+  const [batch, setBatch] = useState(false);  // batch API discount
+  const [loaded, setLoaded] = useState(false);
   const fileRef = useRef(null);
+
+  /* remember the last session in this browser only */
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (raw) {
+        const d = JSON.parse(raw);
+        if (typeof d.text === 'string') setText(d.text);
+        if (d.outTokens !== undefined) setOutTokens(d.outTokens);
+        if (d.calls !== undefined) setCalls(d.calls);
+        if (d.cache !== undefined) setCache(d.cache);
+        if (typeof d.batch === 'boolean') setBatch(d.batch);
+        if (Array.isArray(d.rows) && d.rows.length === MODELS.length) setRows(MODELS.map((m, i) => ({ ...m, ...d.rows[i], id: m.id, family: m.family })));
+      }
+    } catch (e) {}
+    setLoaded(true);
+  }, []);
+  useEffect(() => {
+    if (!loaded) return;
+    try { localStorage.setItem(STORE_KEY, JSON.stringify({ text: text.length < 200000 ? text : '', outTokens, calls, cache, batch, rows })); } catch (e) {}
+  }, [loaded, text, outTokens, calls, cache, batch, rows]);
 
   const base = useMemo(() => estimateBase(text), [text]);
   const chars = text.length;
@@ -80,20 +148,26 @@ export default function TokenCounterTool() {
 
   const results = useMemo(() => rows.map(r => {
     const tokens = Math.round(base * FAMILY[r.family].scale);
-    const per = (tokens * r.input + Number(outTokens || 0) * r.output) / 1e6;
+    const share = Math.min(100, Math.max(0, Number(cache) || 0)) / 100;
+    const inRate = r.input * ((1 - share) + share * CACHE_READ);
+    const per = ((tokens * inRate + Number(outTokens || 0) * r.output) / 1e6) * (batch ? BATCH_RATE : 1);
     const need = tokens + Number(outTokens || 0);
     return { ...r, tokens, per, total: per * Number(calls || 0), pct: r.ctx ? (tokens / r.ctx) * 100 : 0, fits: need <= r.ctx };
-  }), [rows, base, outTokens, calls]);
+  }), [rows, base, outTokens, calls, cache, batch]);
 
   const cheapest = useMemo(() => {
     const live = results.filter(r => r.id !== 'custom');
     return live.length ? live.reduce((a, b) => (b.per < a.per ? b : a)).id : '';
   }, [results]);
 
+  const cheapestRow = results.find(r => r.id === cheapest);
+  const pages = Math.max(0, base) / 500; // about 500 tokens to a page of text
+  const sizeNote = !base ? 'Nothing pasted yet' : pages < 0.2 ? 'A few sentences' : pages < 1.5 ? 'About ' + (pages < 0.75 ? 'half a page' : 'a page') + ' of text' : 'About ' + fmt(pages) + ' pages of text';
+
   function setRate(id, key, value) {
     setRows(rows.map(r => (r.id === id ? { ...r, [key]: value === '' ? '' : Math.max(0, Number(value)) } : r)));
   }
-  function resetRates() { setRows(MODELS.map(m => ({ ...m }))); }
+  function resetRates() { setRows(MODELS.map(m => ({ ...m }))); setCache(0); setBatch(false); }
 
   function onFile(e) {
     const f = e.target.files && e.target.files[0];
@@ -106,9 +180,10 @@ export default function TokenCounterTool() {
   }
 
   function copySummary() {
+    const extras = (Number(cache) > 0 ? ', ' + cache + '% cached input' : '') + (batch ? ', batch pricing' : '');
     const lines2 = [
       'Token estimate (' + fmt(chars) + ' characters, ' + fmt(words) + ' words)',
-      ...results.map(r => r.name + ': ~' + fmt(r.tokens) + ' input tokens, about ' + money(r.per) + ' per call with ' + fmt(outTokens || 0) + ' output tokens'),
+      ...results.map(r => r.name + ': ~' + fmt(r.tokens) + ' input tokens, about ' + money(r.per) + ' per call with ' + fmt(outTokens || 0) + ' output tokens' + extras),
       'Counted at webdevpuneet.com/token-counter/',
     ];
     try { navigator.clipboard.writeText(lines2.join('\n')); } catch (e) {}
@@ -131,7 +206,10 @@ export default function TokenCounterTool() {
               <div className={s.actions}>
                 <button type="button" onClick={() => fileRef.current && fileRef.current.click()}>Open file</button>
                 <button type="button" onClick={() => setText('')}>Clear</button>
-                <button type="button" onClick={() => setText(SAMPLE)}>Sample</button>
+                <select className={s.sampleSel} value="" onChange={e => { if (e.target.value) setText(sampleText(e.target.value)); }} aria-label="Load a sample">
+                  <option value="">Sample...</option>
+                  {SAMPLES.map(x => <option key={x.id} value={x.id}>{x.name}</option>)}
+                </select>
                 <input ref={fileRef} type="file" accept=".txt,.md,.json,.csv,.html,.css,.js,.ts,.tsx,.jsx,.py,.log,text/*" hidden onChange={onFile} />
               </div>
             </div>
@@ -143,6 +221,11 @@ export default function TokenCounterTool() {
               <span className={s.pill}>GPT-style <strong>~{fmt(base)}</strong> tokens</span>
               <span className={s.pill}>Claude-style <strong>~{fmt(base * FAMILY.claude.scale)}</strong> tokens</span>
             </div>
+            <div className={s.cards}>
+              <div className={s.card}><span>Size</span><strong>{sizeNote}</strong></div>
+              <div className={s.card}><span>Cheapest per call</span><strong>{cheapestRow ? money(cheapestRow.per) : '-'}</strong><em>{cheapestRow ? cheapestRow.name : ''}</em></div>
+              <div className={s.card}><span>{fmt(calls || 0)} calls, cheapest</span><strong>{cheapestRow ? money(cheapestRow.total) : '-'}</strong><em>{batch ? 'batch price' : 'standard price'}</em></div>
+            </div>
           </section>
 
           <section className={s.panel}>
@@ -150,6 +233,11 @@ export default function TokenCounterTool() {
             <label className={s.field}><span>Expected reply length (output tokens)</span>
               <input type="number" min="0" value={outTokens} onChange={e => setOutTokens(e.target.value === '' ? '' : Math.max(0, Number(e.target.value)))} />
             </label>
+            <div className={s.presets}>
+              {[['Short', 200], ['Paragraph', 500], ['A page', 800], ['Long', 2000], ['Code file', 4000]].map(([n, v]) => (
+                <button key={n} type="button" className={Number(outTokens) === v ? s.presetOn : ''} onClick={() => setOutTokens(v)} title={v + ' tokens'}>{n}</button>
+              ))}
+            </div>
             <label className={s.field}><span>How many times will you send it? (calls)</span>
               <input type="number" min="0" value={calls} onChange={e => setCalls(e.target.value === '' ? '' : Math.max(0, Number(e.target.value)))} />
             </label>
@@ -158,6 +246,10 @@ export default function TokenCounterTool() {
                 <button key={n} type="button" className={Number(calls) === n ? s.presetOn : ''} onClick={() => setCalls(n)}>{n >= 1000 ? fmt(n / 1000) + 'k' : n} call{n === 1 ? '' : 's'}</button>
               ))}
             </div>
+            <label className={s.field}><span>Share of the input read from the prompt cache: {cache}%</span>
+              <input type="range" min="0" max="100" step="5" value={cache} onChange={e => setCache(Number(e.target.value))} aria-label="Share of input read from the prompt cache" />
+            </label>
+            <label className={s.check}><input type="checkbox" checked={batch} onChange={e => setBatch(e.target.checked)} /> Batch API (about half price, results come back later)</label>
             <div className={s.notice}>Token counts here are <strong>estimates</strong> (usually within about 10 to 15 percent for English). For an exact count, use the provider&apos;s own token-count endpoint before you send a big job.</div>
           </section>
         </div>
@@ -199,7 +291,7 @@ export default function TokenCounterTool() {
               </tbody>
             </table>
           </div>
-          <p className={s.foot}>Prices are US dollars per million tokens and can change, so edit any rate to match the provider&apos;s current pricing page. Some providers charge more above a long-prompt threshold (for example above 100,000 or 272,000 tokens), and cached input, batch jobs and images are priced differently. This table uses the plain standard rate.</p>
+          <p className={s.foot}>Prices are US dollars per million tokens and can change, so edit any rate to match the provider&apos;s current pricing page. The table uses the standard text rate. Cached input is counted at 10 percent of the input rate and batch jobs at 50 percent, which match the usual discounts, but the extra cost of writing a cache and any long-prompt surcharge (some models charge more above 100,000 or 272,000 tokens) are not included. Images, audio and tool calls are priced differently.</p>
         </section>
       </div>
     </div>

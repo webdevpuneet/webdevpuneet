@@ -40,6 +40,9 @@
 .msg{padding:20px;text-align:center;color:#64748b;font-size:13px;max-width:360px;line-height:1.5}
 .stale{position:absolute;left:10px;bottom:10px;font-size:11px;font-weight:700;color:#b45309;background:#fef3c7;border:1px solid #fcd34d;border-radius:99px;padding:3px 10px}
 .tip{padding:6px 12px;font-size:11px;color:var(--text3);border-top:1px solid var(--border);background:var(--surface);flex-shrink:0}
+.fixBtn{align-self:flex-start;margin-top:6px;border:1px solid color-mix(in srgb,#ef4444 50%,transparent);border-radius:7px;background:rgba(255,255,255,.04);color:var(--text);font:inherit;font-size:11.5px;font-weight:700;padding:6px 10px;cursor:pointer}
+.fixBtn:hover{border-color:var(--accent);color:var(--accent)}
+.previewFull{position:fixed;inset:0;z-index:2147483000;background:var(--bg)}
 @media(max-width:900px){
   .wrap{height:auto;overflow:visible}
   .main{grid-template-columns:1fr;grid-template-rows:auto auto}

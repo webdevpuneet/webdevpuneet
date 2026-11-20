@@ -155,6 +155,22 @@ function decodeShare(str) {
   } catch (e) { return ''; }
 }
 
+/* AI answers come wrapped in a fenced block (three backticks, the word mermaid, the code, three backticks). Take the
+   fence off when the whole text is one fenced block, so a straight paste just works. */
+function stripFence(text) {
+  const m = /^\s*(?:`{3}|~{3})\s*mermaid[^\n]*\n([\s\S]*?)\n?\s*(?:`{3}|~{3})\s*$/i.exec(text);
+  return m ? m[1] : text;
+}
+
+const DIRECTIONS = [['TD', 'Top to bottom'], ['LR', 'Left to right'], ['BT', 'Bottom to top'], ['RL', 'Right to left']];
+function flowDirection(code) {
+  const m = /^(\s*(?:flowchart|graph)\s+)(TD|TB|LR|RL|BT)\b/m.exec(code);
+  return m ? (m[2] === 'TB' ? 'TD' : m[2]) : '';
+}
+function setFlowDirection(code, dir) {
+  return code.replace(/^(\s*(?:flowchart|graph)\s+)(TD|TB|LR|RL|BT)\b/m, '$1' + dir);
+}
+
 function download(name, blob) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -187,6 +203,8 @@ export default function MermaidEditorTool() {
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [note, setNote] = useState('');
+  const [full, setFull] = useState(false);
+  const fileRef = useRef(null);
   const idRef = useRef(0);
   const noteTimer = useRef(0);
   const dragRef = useRef(null);
@@ -237,6 +255,13 @@ export default function MermaidEditorTool() {
     return () => clearTimeout(t);
   }, [code, theme, ready]);
 
+  useEffect(() => {
+    if (!full) return undefined;
+    const onKey = e => { if (e.key === 'Escape') setFull(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [full]);
+
   function flash(t) {
     setNote(t);
     clearTimeout(noteTimer.current);
@@ -246,6 +271,37 @@ export default function MermaidEditorTool() {
   const lineCount = useMemo(() => code.split('\n').length, [code]);
 
   function onScroll() { if (gutterRef.current && taRef.current) gutterRef.current.scrollTop = taRef.current.scrollTop; }
+
+  function onCodeChange(value) { setCode(stripFence(value)); }
+
+  function onKeyDown(e) {
+    if (e.key === 'Tab' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      const ta = e.target, a = ta.selectionStart, b = ta.selectionEnd;
+      const next = code.slice(0, a) + '  ' + code.slice(b);
+      setCode(next);
+      requestAnimationFrame(() => { ta.selectionStart = ta.selectionEnd = a + 2; });
+    }
+  }
+
+  function onFile(e) {
+    const f = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!f) return;
+    if (f.size > 1024 * 1024) { flash('That file is over 1 MB.'); return; }
+    const r = new FileReader();
+    r.onload = () => { setCode(stripFence(String(r.result || ''))); resetView(); flash('Opened ' + f.name); };
+    r.readAsText(f);
+  }
+
+  function downloadCode() { download('diagram.mmd', new Blob([code], { type: 'text/plain;charset=utf-8' })); }
+
+  function copyFixPrompt() {
+    const prompt = 'This Mermaid diagram fails to render. Fix the syntax and return only the corrected code in a mermaid code block. Keep the same meaning and labels.\n\nError: ' + error + '\n\nCode:\n```mermaid\n' + code + '\n```';
+    copyText(prompt, 'Fix prompt copied. Paste it into your AI assistant.');
+  }
+
+  const dir = useMemo(() => flowDirection(code), [code]);
 
   function pickTemplate(id) {
     const t = TEMPLATES.find(x => x.id === id);
@@ -328,7 +384,7 @@ export default function MermaidEditorTool() {
     <div className={s.wrap} style={{ '--accent': '#ff3670' }}>
       <DevGeneratorsTopNav active="mermaid-diagram-editor" />
       <div className={s.header}>
-        <div className={s.logo}><span className={s.logoIcon}>M</span><span>Mermaid <span className={s.accent}>Diagram Editor</span></span></div>
+        <div className={s.logo}><span className={s.logoIcon}>M</span><span>Mermaid <span className={s.accent}>Live Editor</span></span></div>
         <div className={s.headerRight}>
           {note && <span className={s.note} role="status">{note}</span>}
           <span className={s.hint}>Runs in your browser. Your diagram is not uploaded.</span>
@@ -347,12 +403,22 @@ export default function MermaidEditorTool() {
             {THEMES.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
           </select>
         </label>
+        {dir && (
+          <label className={s.tb}><span>Flow direction</span>
+            <select value={dir} onChange={e => setCode(setFlowDirection(code, e.target.value))} aria-label="Flowchart direction">
+              {DIRECTIONS.map(([v, n]) => <option key={v} value={v}>{n}</option>)}
+            </select>
+          </label>
+        )}
         <label className={s.tb}><span>Export background</span>
           <select value={bg} onChange={e => setBg(e.target.value)} aria-label="Export background">
             {BACKGROUNDS.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
           </select>
         </label>
         <div className={s.btns}>
+          <button type="button" onClick={() => fileRef.current && fileRef.current.click()} title="Open a .mmd, .md or .txt file">Open file</button>
+          <button type="button" onClick={downloadCode} disabled={!code.trim()} title="Download the Mermaid code as a .mmd file">Save .mmd</button>
+          <input ref={fileRef} type="file" accept=".mmd,.mermaid,.md,.txt,text/*" hidden onChange={onFile} />
           <button type="button" onClick={exportSvg} disabled={!svg}>SVG</button>
           <button type="button" onClick={() => exportPng(2)} disabled={!svg}>PNG</button>
           <button type="button" onClick={() => exportPng(4)} disabled={!svg} title="Large PNG, 4x">PNG 4x</button>
@@ -373,7 +439,8 @@ export default function MermaidEditorTool() {
               ref={taRef}
               className={s.ta}
               value={code}
-              onChange={e => setCode(e.target.value)}
+              onChange={e => onCodeChange(e.target.value)}
+              onKeyDown={onKeyDown}
               onScroll={onScroll}
               spellCheck={false}
               wrap="off"
@@ -381,10 +448,16 @@ export default function MermaidEditorTool() {
               aria-label="Mermaid diagram code"
             />
           </div>
-          {error && <div className={s.error} role="alert"><strong>{errLine ? 'Problem near line ' + errLine : 'Problem'}</strong><span>{error}</span></div>}
+          {error && (
+            <div className={s.error} role="alert">
+              <strong>{errLine ? 'Problem near line ' + errLine : 'Problem'}</strong>
+              <span>{error}</span>
+              <button type="button" className={s.fixBtn} onClick={copyFixPrompt}>Copy fix prompt for your AI</button>
+            </div>
+          )}
         </section>
 
-        <section className={s.preview} aria-label="Diagram preview">
+        <section className={`${s.preview} ${full ? s.previewFull : ''}`} aria-label="Diagram preview">
           <div className={s.paneHead}>
             <span>Preview</span>
             <div className={s.zoomBtns}>
@@ -392,6 +465,7 @@ export default function MermaidEditorTool() {
               <span className={s.zoomVal}>{Math.round(zoom * 100)}%</span>
               <button type="button" onClick={() => setZoom(z => Math.min(4, z * 1.2))} aria-label="Zoom in">+</button>
               <button type="button" onClick={resetView}>Reset</button>
+              <button type="button" onClick={() => setFull(v => !v)} aria-pressed={full}>{full ? 'Exit full screen' : 'Full screen'}</button>
             </div>
           </div>
           <div
