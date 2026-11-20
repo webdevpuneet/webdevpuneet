@@ -6,7 +6,11 @@ import { LIVE_TOOLS } from '@/lib/tools-registry';
 
 // UI Snippets, Website Builder, Website Sections, Email Templates, Social Posts and AI Prompts were taken out of the
 // top nav on 2026-11-03 (they are in the left sidebar). Add an item back here to show it again.
+// AI Prompts, Token Counter and Mermaid are the first items (2026-11-20).
 const NAV_ITEMS = [
+  { slug: 'ai-prompt-studio',            short: 'AI Prompts',   icon: '/icons/ai-prompt-studio.svg' },
+  { slug: 'token-counter',               short: 'Tokens',       icon: '/icons/token-counter.svg' },
+  { slug: 'mermaid-diagram-editor',      short: 'Mermaid',      icon: '/icons/mermaid-diagram-editor.svg' },
   { slug: 'html-playground',             short: 'HTML',         icon: '/icons/html-playground.svg' },
   { slug: 'css-playground',              short: 'CSS',          icon: '/icons/css-playground.svg' },
   { slug: 'js-playground',               short: 'JavaScript',   icon: '/icons/js-playground.svg' },

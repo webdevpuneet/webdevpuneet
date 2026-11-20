@@ -10,6 +10,7 @@ const toolHref = slug => (LOCAL_SLUGS.has(slug) ? `/${slug}/` : `https://fwdtool
 
 const NAV_ITEMS = [
   { slug: 'word-counter',              short: 'Word Counter',       icon: '/icons/word-counter.svg' },
+  { slug: 'token-counter',             short: 'Token Counter',      icon: '/icons/token-counter.svg' },
   { slug: 'reading-time-calculator',   short: 'Reading Time',       icon: '/icons/reading-time-calculator.svg' },
   { slug: 'text-case-converter',       short: 'Case Converter',     icon: '/icons/text-case-converter.svg' },
   { slug: 'lorem-ipsum-generator',     short: 'Lorem Ipsum',        icon: '/icons/lorem-ipsum-generator.svg' },

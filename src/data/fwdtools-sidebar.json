@@ -406,6 +406,11 @@
           "icon": "/icons/diff-checker.svg"
         },
         {
+          "slug": "mermaid-diagram-editor",
+          "name": "Mermaid Live Editor",
+          "icon": "/icons/mermaid-diagram-editor.svg"
+        },
+        {
           "slug": "responsive-preview-tool",
           "name": "Responsive Preview",
           "icon": "/icons/responsive-preview-tool.svg"
@@ -698,6 +703,11 @@
           "slug": "word-counter",
           "name": "Word Counter",
           "icon": "¶"
+        },
+        {
+          "slug": "token-counter",
+          "name": "Token Counter",
+          "icon": "/icons/token-counter.svg"
         },
         {
           "slug": "lorem-ipsum-generator",

@@ -16,6 +16,7 @@ const NAV_ITEMS = [
   { slug: 'number-base-converter',   short: 'Number Base',    icon: '/icons/number-base-converter.svg' },
   { slug: 'unit-converter',          short: 'Unit Converter', icon: '/icons/unit-converter.svg' },
   { slug: 'regex-tester',            short: 'Regex Tester',   icon: '/icons/regex-tester.svg' },
+  { slug: 'mermaid-diagram-editor',  short: 'Mermaid',        icon: '/icons/mermaid-diagram-editor.svg' },
 ];
 
 export default function DevGeneratorsTopNav({ active }) {

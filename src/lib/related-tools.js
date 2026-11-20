@@ -23,12 +23,12 @@ const RAW_RELATED_TOOLS = {
   'cron-expression-builder': ['timestamp-converter', 'regex-tester', 'json-formatter', 'daily-focus-log', 'mini-kanban', 'diff-checker', 'code-screenshot-generator'],
 
   // ── Code & Text tools ─────────────────────────────────────────────────────
-  'markdown-editor':         ['markdown-to-html', 'html-to-markdown', 'diff-checker', 'word-counter', 'html-formatter', 'code-screenshot-generator', 'ai-prompt-studio', 'lorem-ipsum-generator'],
+  'markdown-editor':         ['markdown-to-html', 'mermaid-diagram-editor', 'html-to-markdown', 'diff-checker', 'word-counter', 'html-formatter', 'code-screenshot-generator', 'ai-prompt-studio', 'lorem-ipsum-generator'],
   'notepad':                 ['markdown-editor', 'word-counter', 'daily-focus-log', 'mini-kanban', 'bookmark-keeper', 'daily-diary', 'diff-checker', 'html-to-markdown'],
   'diff-checker':            ['json-formatter', 'javascript-minifier', 'word-counter', 'html-formatter', 'regex-tester', 'code-screenshot-generator', 'css-minifier-beautifier'],
   'regex-tester':            ['diff-checker', 'word-counter', 'url-encoder-decoder', 'json-formatter', 'jwt-decoder', 'hash-generator', 'password-generator'],
   'code-screenshot-generator':['diff-checker', 'javascript-minifier', 'json-formatter', 'html-formatter', 'word-counter', 'ai-prompt-studio', 'markdown-editor'],
-  'word-counter':            ['text-case-converter', 'diff-checker', 'meta-tag-generator', 'ai-prompt-studio', 'lorem-ipsum-generator', 'regex-tester', 'markdown-editor', 'markdown-to-html'],
+  'word-counter':            ['text-case-converter', 'token-counter', 'diff-checker', 'meta-tag-generator', 'ai-prompt-studio', 'lorem-ipsum-generator', 'regex-tester', 'markdown-editor', 'markdown-to-html'],
   'lorem-ipsum-generator':   ['word-counter', 'markdown-to-html', 'diff-checker', 'html-formatter', 'meta-tag-generator', 'responsive-preview-tool', 'font-pairing-tool', 'code-screenshot-generator'],
   'svg-to-png':              ['image-to-svg', 'favicon-generator', 'image-compressor', 'image-to-base64', 'og-image-generator', 'animated-svg-icons', 'svg-animation-generator', 'color-palette-generator'],
   'text-case-converter':     ['word-counter', 'json-to-typescript', 'regex-tester', 'diff-checker', 'lorem-ipsum-generator', 'markdown-editor', 'html-formatter'],
@@ -41,7 +41,10 @@ const RAW_RELATED_TOOLS = {
   'markdown-to-html':        ['html-to-markdown', 'markdown-editor', 'html-formatter', 'diff-checker', 'word-counter', 'html-to-jsx-converter', 'css-minifier-beautifier', 'lorem-ipsum-generator'],
   'pomodoro-timer':           ['time-tracker', 'daily-focus-log', 'mini-kanban', 'word-counter', 'ai-prompt-studio', 'cron-expression-builder', 'timestamp-converter', 'markdown-editor'],
   'color-contrast-checker':  ['color-picker', 'color-palette-generator', 'gradient-generator', 'css-filter-generator', 'glassmorphism-generator', 'font-pairing-tool', 'box-shadow-generator', 'meta-tag-generator'],
-  'ai-prompt-studio':        ['word-counter', 'diff-checker', 'code-screenshot-generator', 'markdown-editor', 'meta-tag-generator', 'daily-focus-log', 'mini-kanban', 'regex-tester'],
+  'ai-prompt-studio':        ['token-counter', 'word-counter', 'diff-checker', 'code-screenshot-generator', 'markdown-editor', 'meta-tag-generator', 'daily-focus-log', 'mini-kanban', 'regex-tester'],
+
+  'token-counter':           ['ai-prompt-studio', 'word-counter', 'markdown-editor', 'diff-checker', 'text-case-converter', 'line-utilities', 'json-formatter', 'lorem-ipsum-generator'],
+  'mermaid-diagram-editor':  ['markdown-editor', 'diff-checker', 'ai-prompt-studio', 'code-screenshot-generator', 'html-to-markdown', 'markdown-to-html', 'svg-to-png', 'og-image-generator'],
 
   // ── Finance & Calculators ─────────────────────────────────────────────────
   'loan-payoff-calculator':        ['credit-card-payoff-calculator', 'budget-planner', 'mortgage-calculator', 'emi-calculator', 'compound-interest-calculator', 'paycheck-calculator', 'salary-to-hourly-calculator', 'inflation-calculator'],

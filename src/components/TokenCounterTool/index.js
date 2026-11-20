@@ -137,9 +137,9 @@ export default function TokenCounterTool() {
             </div>
             <textarea className={s.input} value={text} onChange={e => setText(e.target.value)} spellCheck={false} placeholder="Paste a prompt, document or code here to see how many tokens it uses..." aria-label="Text to count" />
             <div className={s.stats}>
-              <span className={s.pill}><strong>{fmt(chars)}</strong> characters</span>
-              <span className={s.pill}><strong>{fmt(words)}</strong> words</span>
-              <span className={s.pill}><strong>{fmt(lines)}</strong> lines</span>
+              <span className={s.pill}><strong>{fmt(chars)}</strong> character{chars === 1 ? '' : 's'}</span>
+              <span className={s.pill}><strong>{fmt(words)}</strong> word{words === 1 ? '' : 's'}</span>
+              <span className={s.pill}><strong>{fmt(lines)}</strong> line{lines === 1 ? '' : 's'}</span>
               <span className={s.pill}>GPT-style <strong>~{fmt(base)}</strong> tokens</span>
               <span className={s.pill}>Claude-style <strong>~{fmt(base * FAMILY.claude.scale)}</strong> tokens</span>
             </div>
