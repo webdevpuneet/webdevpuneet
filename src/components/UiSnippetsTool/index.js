@@ -2502,9 +2502,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
       {/* — Header — on editor pages (desktop) it sits at the top of the code column instead */}
       {!headerInCode && headerEl}
 
-      {/* Gallery pages (library, category, tag, My Code grid): a fully responsive ad just below the UI Snippets / My Code /
+      {/* Gallery pages (library, category, tag; NOT the My Code grid, removed 2026-11-20): a fully responsive ad just below the UI Snippets / My Code /
           Create bar. Keyed per view so each gallery view requests a fresh ad. Editor pages keep the fixed-size leaderboard. */}
-      {galleryMode && SNIPPET_TOP_AD_ENABLED && !adFree && (
+      {galleryMode && sidebarTab !== 'saved' && SNIPPET_TOP_AD_ENABLED && !adFree && (
         <GalleryTopAd key={(initialCategory || '') + '|' + (initialTag || '') + '|' + sidebarTab} />
       )}
 
