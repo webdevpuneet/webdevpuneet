@@ -1474,7 +1474,7 @@ function aiPromptSection(aiPrompt) {
   };
 }
 
-function normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel = 'About this tool', quickFacts = true, injectAfterAiPrompt, aiPromptLast = false, aiPromptFirst = false, featuresAfterAbout = true }) {
+function normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel = 'About this tool', quickFacts = true, injectAfterAiPrompt, aiPromptLast = false, aiPromptFirst = false, featuresAfterAbout = true, featuresBelowAbout = false }) {
   if (sections) return featuresBeforeAbout(flattenSections(sections));
   const result = [];
   // aiPromptFirst: the AI section leads the page, above Features
@@ -1484,10 +1484,12 @@ function normalizeSections({ sections, about, features, howToUse, useCases, faqs
     : null;
   // Features always lead, above About, on every page (the featuresAfterAbout prop that
   // used to flip this is still accepted by callers but no longer has any effect).
-  if (featuresSection) result.push(featuresSection);
+  // featuresBelowAbout (opt-in, UI snippet pages): Features come right after About instead.
+  if (featuresSection && !featuresBelowAbout) result.push(featuresSection);
   if (about) {
     result.push({ type: 'text', label: aboutLabel, heading: about?.title, text: about?.description || '', extra: aboutExtra, quickFacts });
   }
+  if (featuresSection && featuresBelowAbout) result.push(featuresSection);
   if (aiPrompt && !aiPromptLast && !aiPromptFirst) result.push(aiPromptSection(aiPrompt));
   // Lands right after "Build, Understand, Optimize, and Extend It With AI" —
   // or, on the handful of pages with no aiPrompt, right after About — rather
@@ -1515,11 +1517,11 @@ function normalizeSections({ sections, about, features, howToUse, useCases, faqs
 ───────────────────────────────────────────── */
 export default function SeoSection({
   // New API
-  slug, title, subtitle, sections, noShare, noRelated, injectAfterAbout, injectAfterAiPrompt, aboutExtra, aboutLabel, quickFacts, topExtra, bottomExtra, aiPromptLast, aiPromptFirst, featuresAfterAbout = true, titleExtra,
+  slug, title, subtitle, sections, noShare, noRelated, injectAfterAbout, injectAfterAiPrompt, aboutExtra, aboutLabel, quickFacts, topExtra, endExtra, bottomExtra, aiPromptLast, aiPromptFirst, featuresAfterAbout = true, featuresBelowAbout = false, titleExtra,
   // Legacy flat props (auto-converted to sections)
   about, features, howToUse, useCases, faqs, whatsNew, aiPrompt,
 }) {
-  const normalizedSections = normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel, quickFacts, injectAfterAiPrompt, aiPromptLast, aiPromptFirst, featuresAfterAbout });
+  const normalizedSections = normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel, quickFacts, injectAfterAiPrompt, aiPromptLast, aiPromptFirst, featuresAfterAbout, featuresBelowAbout });
 
   const [searchOpen,  setSearchOpen]  = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -1687,7 +1689,7 @@ export default function SeoSection({
       )}
 
       {/* Two-column body: content left, 300×600 ad right */}
-      {(topExtra || normalizedSections.length > 0 || bottomExtra || (aiPromptLast && aiPrompt)) && (
+      {(topExtra || normalizedSections.length > 0 || endExtra || bottomExtra || (aiPromptLast && aiPrompt)) && (
         <div className={styles.seoBody}>
           <div className={styles.seoMain}>
             {topExtra && (
@@ -1702,15 +1704,22 @@ export default function SeoSection({
                 <SectionBlock section={section} />
               </React.Fragment>
             ))}
-            {aiPromptLast && !aiPromptFirst && aiPrompt && (
+            {/* endExtra: after every section (FAQ included), before an aiPromptLast AI section */}
+            {endExtra && (
               <>
                 {normalizedSections.length > 0 && <div className={styles.sectionDivider} aria-hidden="true" />}
+                {endExtra}
+              </>
+            )}
+            {aiPromptLast && !aiPromptFirst && aiPrompt && (
+              <>
+                {(normalizedSections.length > 0 || endExtra) && <div className={styles.sectionDivider} aria-hidden="true" />}
                 <SectionBlock section={aiPromptSection(aiPrompt)} />
               </>
             )}
             {bottomExtra && (
               <>
-                {(normalizedSections.length > 0 || (aiPromptLast && aiPrompt)) && <div className={styles.sectionDivider} aria-hidden="true" />}
+                {(normalizedSections.length > 0 || endExtra || (aiPromptLast && aiPrompt)) && <div className={styles.sectionDivider} aria-hidden="true" />}
                 {bottomExtra}
               </>
             )}

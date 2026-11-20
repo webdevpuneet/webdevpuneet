@@ -1035,8 +1035,8 @@ Requirements:
     sn.js ? highlightCode(sn.js, 'javascript', 'github-light') : Promise.resolve(''),
   ]);
 
-  // Rendered right after the page title (SeoSection's topExtra), before the About / FAQ / AI sections.
-  // Related Snippets stay put, above.
+  // Order on the page: About -> Features -> How to Use -> Use Cases -> FAQ -> Source Code (SeoSection's endExtra)
+  // -> Take This Snippet Further With AI (aiPromptLast). Related Snippets stay put, above.
   const sourceCodeBlock = (
     <div key="source-code">
       <p className={styles.sourceCodeLabel}>{gameCodeLocked ? 'For supporters' : 'Copy & paste'}</p>
@@ -1101,12 +1101,12 @@ Requirements:
           : navRelated
             ? <div key="navbar-promo" className={styles.navbarPromoGap}><NavbarBuilderPromo /></div>
             : undefined}
-        topExtra={sourceCodeBlock}
+        endExtra={sourceCodeBlock}
         bottomExtra={start
           ? <div key="start-bottom"><div className={styles.startBottom}><StartTemplateButtons start={start} /></div></div>
           : undefined}
-        aiPromptFirst
-        featuresAfterAbout
+        aiPromptLast
+        featuresBelowAbout
       />
     </>
   );
