@@ -325,7 +325,7 @@ function spawnBird(b, fromEdge) {
   const dir = Math.random() < 0.5 ? 1 : -1;
   b.dir = dir; b.speed = 0.45 + Math.random() * 0.6;
   b.x = fromEdge ? (dir > 0 ? -30 : W + 30) : 40 + Math.random() * (W - 80);
-  b.base = 55 + Math.random() * 100; b.y = b.base; b.ph = Math.random() * 6; b.fall = 0; b.spin = 0; b.alive = true;
+  b.base = 22 + Math.random() * 70; b.y = b.base; b.ph = Math.random() * 6; b.fall = 0; b.spin = 0; b.alive = true;
   return b;
 }
 for (let i = 0; i < 2; i++) birds.push(spawnBird({}, false));

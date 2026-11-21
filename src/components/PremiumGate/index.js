@@ -78,26 +78,28 @@ export function PremiumUnlockDialog({ open, onClose, name = '', onUnlocked, relo
           <a className={`${s.followBtn} ${s.followX}`} aria-label="Follow on X" title="Follow on X" href="https://x.com/webdevpuneet" target="_blank" rel="noopener noreferrer">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
           </a>
-          <a className={`${s.followBtn} ${s.followGame}`} href="/ui-snippets/pocket-artillery-game/">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
-            Play Blast Tanks
-          </a>
           <a className={`${s.followBtn} ${s.followHire}`} href="/puneet/?ref=support-modal">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" /></svg>
             Hire me
           </a>
+          <a className={`${s.followBtn} ${s.followGame}`} href="/ui-snippets/pocket-artillery-game/">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+            Play Blast Tanks
+          </a>
         </div>
         <div className={s.story}>
           <strong>Built with passion. Shared with everyone.</strong>
-          <p>WebDevPuneet is an independent project made with countless hours of work. <b>If it has helped you or saved you time, please consider becoming a supporter</b> and help keep it alive and growing.</p>
-          <p>Got a project of your own? <b>I can help you build it, so hire me</b>.</p>        </div>
+          <p>WebDevPuneet is an independent project built with countless hours of work, creativity and dedication.</p>
+          <p>If you've found something useful here, please consider supporting the project. Even $1 a month helps cover hosting costs and gives me more time to create new tools, templates, snippets and games.</p>
+        </div>
         <div className={s.head}>
           <span className={s.lockIcon}>♥</span>
-          <h2 id="prem-title" className={s.title}>Support WebDevPuneet: $1/month</h2>
+          <h2 id="prem-title" className={s.title}>Support WebDevPuneet — Just $1/month</h2>
         </div>
         <ul className={s.list}>
-          <li>Everything stays free for everyone: every tool, template, snippet, game, export and fork</li>
-          <li>Your support helps cover hosting costs and gives me more time to build new tools, templates, snippets and games</li>
+          <li>Everything stays free for everyone.</li>
+          <li>Your support helps cover hosting costs.</li>
+          <li>Help me spend more time building new tools and resources.</li>
         </ul>
         {state === 'thanks' ? (
           <p className={s.ok} role="status" style={{ textAlign: 'center', fontSize: 15, fontWeight: 700, margin: '8px 0 4px' }}>♥ Thank you for supporting WebDevPuneet! It means a lot.</p>
