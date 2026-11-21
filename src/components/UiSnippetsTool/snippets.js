@@ -2172,6 +2172,12 @@ import schoolLandingPageTemplate from './snippets/school-landing-page-template.j
 import churchLandingPageTemplate from './snippets/church-landing-page-template.js';
 import musicLandingPageTemplate from './snippets/music-landing-page-template.js';
 import accessibilityToolbarWidget from './snippets/accessibility-toolbar-widget.js';
+import cssNativeCarouselScrollMarkers from './snippets/css-native-carousel-scroll-markers.js';
+import startingStyleAnimatedDialogPopover from './snippets/starting-style-animated-dialog-popover.js';
+import autoGrowingTextareaFieldSizing from './snippets/auto-growing-textarea-field-sizing.js';
+import animatedDetailsAccordionAutoHeight from './snippets/animated-details-accordion-auto-height.js';
+import squircleCornerCardsButtons from './snippets/squircle-corner-cards-buttons.js';
+
 export const SNIPPETS = [
   cubeCarousel,
   verticalStorySlider,
@@ -4316,6 +4322,11 @@ export const SNIPPETS = [
   pullCordThemeToggle,
   cursorTrackingEyesMascot,
   scrollTapeMeasureProgress,
+  cssNativeCarouselScrollMarkers,
+  startingStyleAnimatedDialogPopover,
+  autoGrowingTextareaFieldSizing,
+  animatedDetailsAccordionAutoHeight,
+  squircleCornerCardsButtons,
 ];
 
 // Snippets visible in production listings/sitemaps — noindex/test snippets only show on localhost

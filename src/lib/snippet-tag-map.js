@@ -2110,4 +2110,9 @@ export const SNIPPET_TAG_MAP = {
   'wow-js-staggered-testimonial-wall': ['landing-page', 'micro-interactions', 'css-grid', 'js-libraries'],
   'xp-level-progress-bar': ['css-animation', 'games', 'loading-states'],
   'zdog-orbit-scene': ['canvas', 'drag-and-drop', 'js-libraries'],
+  'css-native-carousel-scroll-markers': ['css-only', 'touch-gestures', 'keyboard-navigation', 'accessibility'],
+  'starting-style-animated-dialog-popover': ['css-animation', 'keyboard-navigation', 'accessibility'],
+  'auto-growing-textarea-field-sizing': ['css-only', 'form-validation', 'keyboard-navigation', 'ai-ui'],
+  'animated-details-accordion-auto-height': ['css-only', 'css-animation', 'accessibility'],
+  'squircle-corner-cards-buttons': ['css-only', 'micro-interactions'],
 };

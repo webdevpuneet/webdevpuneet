@@ -1,0 +1,214 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  5 Modern CSS Features That Replace JavaScript (With Copy-Paste Demos)
+
+  SEO TITLE (57 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  5 Modern CSS Features That Replace JavaScript: Live Demos
+
+  SEO DESCRIPTION (157 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  Native carousel dots, animated dialogs, auto-growing textareas, height auto accordions and squircle corners: five new CSS features with free copy-paste code.
+
+  IMAGES: the 5 pictures below load straight from webdevpuneet.com/images/ui-snippets/previews/ (same domain, no upload needed).
+  They and the 5 snippet links only work once the latest site build (2026-11-21 snippets) is deployed and live.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>For years, five very ordinary jobs on a web page needed JavaScript: dots under a carousel, a modal that fades out, a textarea that grows, an accordion that opens to its real height, and a button with properly smooth corners. Each one had a library, a snippet from a forum, or a hack with a made-up number in it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In the last two years browsers have quietly added a CSS feature for every one of them. Support is not equal yet, so each demo below detects the feature and falls back sensibly. I built all five as free, editable snippets in the <a href="https://webdevpuneet.com/ui-snippets/" target="_blank" rel="noopener">UI Snippets library</a>. Open one, read the code, copy it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The five at a glance</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><a href="#carousel"><strong>Carousel dots and arrows</strong></a> from <code>::scroll-marker</code> and <code>::scroll-button</code>.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="#dialog"><strong>Animated dialog and popover</strong></a> with <code>@starting-style</code>.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="#textarea"><strong>Auto-growing textarea</strong></a> with <code>field-sizing: content</code>.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="#accordion"><strong>Accordion that animates to height: auto</strong></a> with <code>interpolate-size</code>.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><a href="#squircle"><strong>Squircle corners</strong></a> with <code>corner-shape</code>.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="carousel">1. A carousel with no carousel code</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center","width":"560px"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/ui-snippets/css-native-carousel-scroll-markers/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/ui-snippets/previews/css-native-carousel-scroll-markers.png" alt="CSS carousel with generated arrows and a pill-shaped active dot, built without JavaScript" style="width:560px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>A scroll container with <code>scroll-snap-type</code> was always a decent swipeable carousel. What it lacked was controls. Chrome 135 added two pseudo-elements that generate them: a <code>::scroll-marker</code> dot for every slide, and <code>::scroll-button()</code> arrows that scroll one page and disable themselves at the ends. The active dot is styled with <code>:target-current</code>, so you can stretch it into a pill with a transition.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.carousel { scroll-marker-group: after; scroll-snap-type: x mandatory; }
+.slide::scroll-marker { content: ''; width: 12px; height: 12px; }
+.slide::scroll-marker:target-current { width: 34px; }
+.carousel::scroll-button(inline-end) { content: '→' / 'Next slide'; }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The text after the slash is the accessible name, so a screen reader says "Next slide" and not "right arrow". In browsers without support the snippet reveals two ordinary buttons; the swiping works everywhere. <a href="https://webdevpuneet.com/ui-snippets/css-native-carousel-scroll-markers/" target="_blank" rel="noopener">Open the carousel snippet</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="dialog">2. A dialog that fades out as well as in</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center","width":"560px"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/ui-snippets/starting-style-animated-dialog-popover/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/ui-snippets/previews/starting-style-animated-dialog-popover.png" alt="Buttons that open an animated native dialog and a share popover menu" style="width:560px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>A native <code>&lt;dialog&gt;</code> is <code>display: none</code> when closed, and you cannot transition from <code>none</code>. Two features fix both directions. <code>@starting-style</code> gives the element a first-frame look to animate from when it appears. <code>transition-behavior: allow-discrete</code> on <code>display</code> and <code>overlay</code> keeps it on screen until the fade-out ends.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>dialog { opacity: 0; transform: scale(.96);
+  transition: opacity .28s, transform .28s,
+              overlay .28s allow-discrete, display .28s allow-discrete; }
+dialog[open] { opacity: 1; transform: none; }
+@starting-style { dialog[open] { opacity: 0; transform: scale(.96); } }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>You keep everything the platform gives you for free: focus trapping, Escape to close, an inert page behind. The same recipe animates a <code>popover</code> menu, and the demo anchors it under its button. <a href="https://webdevpuneet.com/ui-snippets/starting-style-animated-dialog-popover/" target="_blank" rel="noopener">Open the dialog snippet</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="textarea">3. A textarea that grows by itself</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center","width":"560px"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/ui-snippets/auto-growing-textarea-field-sizing/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/ui-snippets/previews/auto-growing-textarea-field-sizing.png" alt="Chat message composer with a one-line textarea that grows as you type" style="width:560px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>Every chat box and AI prompt field starts at one line and grows. The old fix reset the height and copied <code>scrollHeight</code> on every keystroke. Now it is one declaration, and <code>lh</code> units cap it in lines instead of pixels.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>textarea { field-sizing: content; min-height: 1lh; max-height: 9lh; }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>That is the whole feature. The snippet wraps it in a message composer where Enter sends, Shift+Enter adds a line, and a Firefox fallback copies <code>scrollHeight</code> because Firefox has not shipped it yet. <a href="https://webdevpuneet.com/ui-snippets/auto-growing-textarea-field-sizing/" target="_blank" rel="noopener">Open the textarea snippet</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="accordion">4. An accordion that opens to its real height</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center","width":"560px"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/ui-snippets/animated-details-accordion-auto-height/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/ui-snippets/previews/animated-details-accordion-auto-height.png" alt="FAQ accordion built from details elements with one answer open" style="width:560px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>"How do I animate height: auto" has been asked for fifteen years, and the answers were all workarounds. <code>interpolate-size: allow-keywords</code> lets the browser interpolate between <code>0</code> and <code>auto</code>, and <code>::details-content</code> exposes the part of a <code>&lt;details&gt;</code> that collapses. Give several <code>&lt;details&gt;</code> the same <code>name</code> and they become an exclusive accordion without a click handler.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>:root { interpolate-size: allow-keywords; }
+details::details-content { block-size: 0; transition: block-size .35s, content-visibility .35s allow-discrete; }
+details[open]::details-content { block-size: auto; }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>It works in Chrome and Edge now; elsewhere the items still open and close, just without the animation. The answers stay plain text in the HTML, which suits an FAQ page. <a href="https://webdevpuneet.com/ui-snippets/animated-details-accordion-auto-height/" target="_blank" rel="noopener">Open the accordion snippet</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading" id="squircle">5. Squircle corners in one property</h2>
+<!-- /wp:heading -->
+
+<!-- wp:image {"sizeSlug":"large","linkDestination":"custom","align":"center","width":"560px"} -->
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://webdevpuneet.com/ui-snippets/squircle-corner-cards-buttons/" target="_blank" rel="noopener"><img src="https://webdevpuneet.com/images/ui-snippets/previews/squircle-corner-cards-buttons.png" alt="Two cards compared: a normal rounded corner and a CSS squircle corner" style="width:560px"/></a></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>A <code>border-radius</code> joins a circular arc to a flat edge, and your eye can pick out where. A squircle, the shape of an app icon, eases the curve into the edge. Designers faked it with SVG masks, which also cut off shadows and focus rings. <code>corner-shape</code> changes the border box itself, so shadows and outlines follow.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.card { border-radius: 48px; corner-shape: squircle; }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>It is new (Chrome and Edge 139), and unsupported browsers just keep the normal rounded corner, so it is a safe upgrade. The demo has a slider so you can see the difference between the two curves grow as the radius grows. <a href="https://webdevpuneet.com/ui-snippets/squircle-corner-cards-buttons/" target="_blank" rel="noopener">Open the squircle snippet</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">How to use them safely</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Detect, do not assume.</strong> <code>CSS.supports()</code> and <code>@supports</code> tell you what the browser understands. Every snippet here uses one.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Make the fallback acceptable.</strong> A carousel without arrows still swipes, an accordion without animation still opens, a squircle without support is a rounded corner.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Keep the native behaviour.</strong> Dialog focus trapping, details semantics and button names are what you get from the platform. Do not rebuild them.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Respect reduced motion.</strong> All five turn their transitions off under <code>prefers-reduced-motion</code>.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Are these safe to use in production today?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes, as progressive enhancements. Each feature degrades to something that still works: swipe without arrows, instant open and close, a normal rounded corner. Do not rely on them for anything a visitor must see, only for polish.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Which browsers support them?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Chrome and Edge support all five at the versions mentioned above. <code>@starting-style</code> and dialog transitions also work in Safari and recent Firefox, <code>field-sizing</code> is in Safari but not Firefox yet, and the rest are Chromium first. Check the support note inside each demo.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can I copy the code for client work?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes. Every snippet shows its HTML, CSS and JavaScript, which you can copy, edit and use in your own and your clients' projects, and each has an AI prompt if you would like an assistant to adapt it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Try them in the browser:</strong> <a href="https://webdevpuneet.com/ui-snippets/css-native-carousel-scroll-markers/" target="_blank" rel="noopener">carousel</a>, <a href="https://webdevpuneet.com/ui-snippets/starting-style-animated-dialog-popover/" target="_blank" rel="noopener">dialog and popover</a>, <a href="https://webdevpuneet.com/ui-snippets/auto-growing-textarea-field-sizing/" target="_blank" rel="noopener">textarea</a>, <a href="https://webdevpuneet.com/ui-snippets/animated-details-accordion-auto-height/" target="_blank" rel="noopener">accordion</a> and <a href="https://webdevpuneet.com/ui-snippets/squircle-corner-cards-buttons/" target="_blank" rel="noopener">squircle corners</a>.</p>
+<!-- /wp:paragraph -->
