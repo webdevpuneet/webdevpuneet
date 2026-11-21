@@ -60,7 +60,8 @@ const bootstrapNotificationCenterDropdown = {
     </div>
   </div>
 </div>`,
-  css: `.bsnotif-stage { min-height: 560px; align-items: flex-start; background: #f4f5fb; }
+  css: `html, body { min-height: 100%; background: #f4f5fb; }
+.bsnotif-stage { min-height: 100vh; align-items: flex-start; background: #f4f5fb; }
 .bsnotif-bell { width: 44px; height: 44px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: #fff; border: 1px solid #e3e5f0; color: #374151; box-shadow: 0 1px 2px rgba(16,24,40,.06); transition: box-shadow .2s, color .2s; }
 .bsnotif-bell:hover, .bsnotif-bell.show { box-shadow: 0 4px 14px rgba(99,102,241,.25); color: #4f46e5; }
 .bsnotif-bell.bsnotif-ring svg { animation: bsnotifRing .8s ease; transform-origin: 50% 0; }
@@ -144,9 +145,10 @@ document.querySelectorAll('.bsnotif-tab').forEach(t => {
 
 // Ring the bell on load, then open the panel so the design is visible straight away.
 bell.classList.add('bsnotif-ring');
-bootstrap.Dropdown.getOrCreateInstance(bell).show();
-
-render();`,
+render();
+window.addEventListener('load', () => {
+  if (window.bootstrap) bootstrap.Dropdown.getOrCreateInstance(bell).show();
+});`,
 
   seo: {
     title: 'Bootstrap Notification Center Dropdown — Free Snippet',
@@ -185,7 +187,7 @@ render();`,
       { q: 'Why doesn\'t the dropdown close when I click a notification?', a: 'The bell carries data-bs-auto-close="outside". With Bootstrap\'s default (autoClose: true) the menu would close on any click inside it, dismissing the panel after the very first notification you read.' },
       { q: 'How do the All and Unread tabs work?', a: 'The tabs only toggle a bsnotif-only-unread class on the panel. CSS then hides every item that lacks .bsnotif-unread, so no items are removed or re-rendered.' },
       { q: 'Can I add a new notification dynamically?', a: 'Yes — insert a new .dropdown-item.bsnotif-item.bsnotif-unread element into #bsnotifList and call render(); the click handler is delegated on the list, so new items work automatically.' },
-      { q: 'Does it open automatically?', a: 'Only in this demo, so the design is visible straight away. Delete the bootstrap.Dropdown.getOrCreateInstance(bell).show() line to keep it closed until clicked.' },
+      { q: 'Does it open automatically?', a: 'Only in this demo, so the design is visible straight away. Delete the window load listener at the bottom of the JS to keep it closed until clicked.' },
     ],
     aiPrompt: {
       paragraph: `Hand this snippet's HTML, CSS, and JS to an AI coding assistant like Claude and ask it to add real-time notifications via a WebSocket or polling connection that prepend new unread items, to add a per-item dismiss button, or to group notifications under Today / Earlier headings. It's also a good exercise to ask the assistant to persist read state to localStorage so it survives a page reload.`,
