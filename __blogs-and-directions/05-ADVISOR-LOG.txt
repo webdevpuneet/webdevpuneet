@@ -266,3 +266,5 @@ Format: date · area · suggested / chosen / done · note
 2026-11-22  UI SNIPPETS page: the top ad (PlaygroundTopAd) moved back ABOVE the Preview toolbar (JSX order in UiSnippetsTool/index.js; phones: .topAdSlot order 0, toolbar order 1). Was below the toolbar since 2026-11-20. Not deployed.
 
 2026-11-22  UI SNIPPETS page: the Related Snippets sheet no longer opens by itself 3 seconds after load; it stays hidden until the Related button is pressed (RelatedCodeOverlay in UiSnippetsTool/index.js). Not deployed.
+
+2026-11-22  UI SNIPPETS (modern HTML/CSS, batch 2): added 5 snippets, count 2110 -> 2115: css-base-select-custom-dropdown (forms), html-invoker-commands-dialog-popover (modals), scroll-state-sticky-header-stuck (navigation), css-scope-component-styles (cards), interest-invoker-hover-card (modals). All 0-coverage gaps; SEO hand-written, previews captured, behaviour tested in Chromium 148 (dialog/popover/hover card/sticky/select). Queued, NOT built: CSS scrollspy (scroll-target-group), scroll-snap wheel picker, contrast-color badges, grid-lanes masonry, forced-colors UI kit. Not deployed.

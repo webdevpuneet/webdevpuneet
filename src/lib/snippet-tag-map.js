@@ -2114,4 +2114,9 @@ export const SNIPPET_TAG_MAP = {
   'auto-growing-textarea-field-sizing': ['css-only', 'form-validation', 'keyboard-navigation', 'ai-ui'],
   'animated-details-accordion-auto-height': ['css-only', 'css-animation', 'accessibility'],
   'squircle-corner-cards-buttons': ['css-only', 'micro-interactions'],
+  'css-base-select-custom-dropdown': ['css-only', 'accessibility', 'keyboard-navigation'],
+  'html-invoker-commands-dialog-popover': ['accessibility', 'keyboard-navigation', 'css-animation'],
+  'scroll-state-sticky-header-stuck': ['css-only', 'scroll-animation'],
+  'css-scope-component-styles': ['css-only'],
+  'interest-invoker-hover-card': ['accessibility', 'keyboard-navigation', 'css-animation'],
 };

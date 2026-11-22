@@ -2177,6 +2177,12 @@ import autoGrowingTextareaFieldSizing from './snippets/auto-growing-textarea-fie
 import animatedDetailsAccordionAutoHeight from './snippets/animated-details-accordion-auto-height.js';
 import squircleCornerCardsButtons from './snippets/squircle-corner-cards-buttons.js';
 
+import cssBaseSelectCustomDropdown from './snippets/css-base-select-custom-dropdown.js';
+import htmlInvokerCommandsDialogPopover from './snippets/html-invoker-commands-dialog-popover.js';
+import scrollStateStickyHeaderStuck from './snippets/scroll-state-sticky-header-stuck.js';
+import cssScopeComponentStyles from './snippets/css-scope-component-styles.js';
+import interestInvokerHoverCard from './snippets/interest-invoker-hover-card.js';
+
 export const SNIPPETS = [
   cubeCarousel,
   verticalStorySlider,
@@ -4325,6 +4331,11 @@ export const SNIPPETS = [
   autoGrowingTextareaFieldSizing,
   animatedDetailsAccordionAutoHeight,
   squircleCornerCardsButtons,
+  cssBaseSelectCustomDropdown,
+  htmlInvokerCommandsDialogPopover,
+  scrollStateStickyHeaderStuck,
+  cssScopeComponentStyles,
+  interestInvokerHoverCard,
 ];
 
 // Snippets visible in production listings/sitemaps — noindex/test snippets only show on localhost
