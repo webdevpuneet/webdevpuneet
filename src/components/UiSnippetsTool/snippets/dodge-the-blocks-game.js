@@ -637,22 +637,86 @@ draw();
   later();
 
   /* ---- the card (1080 x 1080, drawn in memory, light like Pocket Artillery's) ---- */
+  var outline = 0;
+  function put(g, t, x, y) { if (outline) { g.lineJoin = 'round'; g.lineWidth = outline; g.strokeStyle = 'rgba(8,12,28,.85)'; g.strokeText(t, x, y); } g.fillText(t, x, y); }
   function wrap(g, text, x, y, maxW, lh, maxLines) {
     var words = text.split(' '), line = '', n = 0;
     for (var i = 0; i < words.length; i++) {
       var tst = line ? line + ' ' + words[i] : words[i];
       if (g.measureText(tst).width > maxW && line) {
-        g.fillText(line, x, y); y += lh; n++; line = words[i];
+        put(g, line, x, y); y += lh; n++; line = words[i];
         if (n >= maxLines - 1) { line = words.slice(i).join(' '); break; }
       } else line = tst;
     }
     if (line) {
       while (line.length > 3 && g.measureText(line).width > maxW) line = line.slice(0, -2);
-      g.fillText(line, x, y); y += lh;
+      put(g, line, x, y); y += lh;
     }
     return y;
   }
+  /* Biggest-screenshot card: the game frame fills the whole image, the text sits on top of it as an overlay. */
+  function bgOf(el) {
+    for (var n = el; n; n = n.parentElement) {
+      var c = getComputedStyle(n).backgroundColor;
+      if (c && c !== 'transparent' && c.slice(-4) !== ', 0)') return c;
+    }
+    return '#0f172a';
+  }
+  function drawBig(info, cv) {
+    var W = 1080, r = cv.width / cv.height, H = Math.max(810, Math.min(1350, Math.round(W / r)));
+    var c = document.createElement('canvas'); c.width = W; c.height = H;
+    var g = c.getContext('2d');
+    g.fillStyle = bgOf(cv.parentElement || cv); g.fillRect(0, 0, W, H);
+    var w = W, h = w / r;
+    if (h > H) { h = H; w = h * r; }
+    g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
+    try { g.drawImage(cv, (W - w) / 2, (H - h) / 2, w, h); } catch (e) { return null; }
+    /* dark fades under the text so it stays readable on any game colours */
+    var g1 = g.createLinearGradient(0, 0, 0, H * 0.55); g1.addColorStop(0, 'rgba(8,12,28,.74)'); g1.addColorStop(1, 'rgba(8,12,28,0)');
+    g.fillStyle = g1; g.fillRect(0, 0, W, H * 0.55);
+    var g2 = g.createLinearGradient(0, H - 200, 0, H); g2.addColorStop(0, 'rgba(8,12,28,0)'); g2.addColorStop(1, 'rgba(8,12,28,.85)');
+    g.fillStyle = g2; g.fillRect(0, H - 200, W, 200);
+    var head = info.head || 'Can you beat me?';
+    var kind = /draw|tie/i.test(head) ? 'draw' : LOSS.test(head) && !WIN.test(head) ? 'loss' : 'win';
+    g.textAlign = 'center';
+    var y = 36;
+    g.fillStyle = 'rgba(255,255,255,.93)'; g.font = '800 34px system-ui, sans-serif'; outline = 7;
+    y = wrap(g, TITLE.toUpperCase(), W / 2, y + 34, 1000, 42, 1);
+    g.fillStyle = kind === 'draw' ? '#e2e8f0' : kind === 'loss' ? '#9db8ff' : '#ffc233';
+    var big = head.length > 22 ? 84 : 112; g.font = '900 ' + big + 'px system-ui, sans-serif'; outline = 16;
+    y = wrap(g, head, W / 2, y + big * 0.85, 1000, big * 1.05, 2);
+    if (info.sub) { g.fillStyle = '#fff'; g.font = '700 40px system-ui, sans-serif'; outline = 9; y = wrap(g, info.sub, W / 2, y + 6, 980, 50, 2); }
+    outline = 0;
+    if (info.stats.length) {
+      g.font = '800 38px system-ui, sans-serif';
+      var gap = 16, pad = 26, ws = [], tot = -gap;
+      for (var i = 0; i < info.stats.length; i++) { ws.push(g.measureText(info.stats[i]).width + pad * 2); tot += ws[i] + gap; }
+      var sc = tot > 960 ? 960 / tot : 1, px = (W - tot * sc) / 2, py = y + 14;
+      for (var k = 0; k < info.stats.length; k++) {
+        var w0 = ws[k] * sc;
+        g.fillStyle = 'rgba(8,12,28,.72)'; g.strokeStyle = 'rgba(255,255,255,.55)'; g.lineWidth = 3;
+        g.beginPath();
+        if (g.roundRect) g.roundRect(px, py, w0, 68, 34); else g.rect(px, py, w0, 68);
+        g.fill(); g.stroke();
+        g.fillStyle = '#fff'; g.font = '800 ' + Math.round(38 * sc) + 'px system-ui, sans-serif';
+        g.fillText(info.stats[k], px + w0 / 2, py + 47);
+        px += w0 + gap * sc;
+      }
+    }
+    outline = 8;
+    g.fillStyle = '#fff'; g.font = '900 52px system-ui, sans-serif'; put(g, 'Can you beat it?', W / 2, H - 84);
+    g.fillStyle = 'rgba(255,255,255,.92)'; g.font = '700 34px system-ui, sans-serif'; outline = 6; put(g, 'Play free at webdevpuneet.com', W / 2, H - 34);
+    outline = 0;
+    return c;
+  }
+  function finish(c, cb) {
+    var dataUrl = '';
+    try { dataUrl = c.toDataURL('image/png'); } catch (e) {}
+    try { c.toBlob(function (b) { cb(b, dataUrl); }, 'image/png'); } catch (e) { cb(null, dataUrl); }
+  }
   function makeCard(info, cb) {
+    var cv0 = bestCanvas();
+    if (cv0) { var bc = drawBig(info, cv0); if (bc) { finish(bc, cb); return; } }
     var S = 1080, c = document.createElement('canvas');
     c.width = S; c.height = S;
     var g = c.getContext('2d');
