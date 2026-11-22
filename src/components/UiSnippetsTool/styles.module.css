@@ -1623,8 +1623,8 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
      before wading through HTML/CSS/JS tabs is the more useful default. */
   .previewHeader { order: 1; }
   /* The top ad is the shared components/PlaygroundTopAd (fully responsive on phones, see its CSS); this class only
-     places it under the preview toolbar and above the preview (DOM order breaks the tie with .previewStage). */
-  .topAdSlot     { order: 2; }
+     places it above the preview toolbar (order 0, the toolbar is order 1). */
+  .topAdSlot     { order: 0; }
   .previewStage  { order: 2; flex: none; }
   /* The snippet preview is a full screen tall on every phone / small-tablet width (the 600px block below did this only up to 600px) */
   .iframeWrap    { order: 2; flex: none; min-height: 100vh; min-height: 100dvh; }

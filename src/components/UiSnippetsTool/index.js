@@ -1039,8 +1039,8 @@ const HEADER_TAGS = publishedTags(SNIPPETS).map(t => ({ id: t.id, label: t.label
 
 /* — Related snippets overlay: covers only the code panels (HTML / CSS / JS), never the preview or the
    header. Library snippets, desktop only (it lives in the desktop editor pane; phones never get it). It
-   fades in 3 seconds after every page load or snippet change; closing it only closes it for that page (the next snippet opens it again) and the
-   "Related" button in the code header brings it back. The list is the whole category in gallery order
+   is hidden by default (since 2026-11-22 it no longer opens by itself) and opens only from the
+   "Related" button in the code header. The list is the whole category in gallery order
    (newest first): it opens on the open snippet (marked) with a few previous ones above, shows 10 at a time
    and loads 10 more as you scroll, down and up, until the ends ("see all" card at the bottom). Hovering a
    card shows a large preview beside the overlay. Real links with thumbnails, so each is a crawlable link. — */
@@ -1075,14 +1075,12 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
     setOpen(true);
   }, [paneRef, initial]);
 
-  // Opens by itself 3 seconds after every page load or snippet change (unless the visitor already used the Related button).
+  // Hidden by default (changed 2026-11-22: it used to open by itself 3 seconds after every load). It only opens from the Related button,
+  // and is closed again whenever the snippet changes.
   const touched = useRef(false);
   useEffect(() => {
     setOpen(false);
     touched.current = false;
-    const t = setTimeout(() => { if (!touched.current) reveal(); }, 3000);
-    return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId, pool.length]);
   const openRef = useRef(false);
   useEffect(() => {
@@ -2580,10 +2578,13 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           {/* Phones: mount point for the console bar, last in the layout (order 5), under the HTML / CSS / JS panels */}
           {showEditor && isMobile && <div ref={setConsoleHost} className={s.mobileConsole} />}
           {/* The shared leaderboard (components/PlaygroundTopAd, slot 7360198340, the same component every other page
-              uses) directly BELOW the Preview toolbar (moved 2026-11-20; it was above it), on library snippets only (My Code snippets, saved or new, have none since 2026-11-20; they had one from 2026-11-09).
+              uses) directly ABOVE the Preview toolbar (moved back above 2026-11-22; it was below it from 2026-11-20), on library snippets only (My Code snippets, saved or new, have none since 2026-11-20; they had one from 2026-11-09).
               The My Code gallery has no editor, so no leaderboard either. Keyed by snippet id so each snippet
               view mounts a fresh ad (AdSense forbids refreshing one without new content). Collapses itself when
               unfilled; shown on phones too (320x50). Switched off with SNIPPET_TOP_AD_ENABLED in lib/ads-config.js. */}
+          {showEditor && !activeIsCustom && SNIPPET_TOP_AD_ENABLED && !adFree && (
+            <PlaygroundTopAd key={activeId || 'none'} className={s.topAdSlot} />
+          )}
           {showEditor && <div ref={previewHdrRef} className={`${s.previewHeader} ${navCentered ? s.previewHeaderCentered : ''} ${navCentered === null ? s.previewHeaderMeasuring : ''}`} data-scroll-toolbar>
             {/* Everything but the action menus scrolls sideways in one row when space is
                 short; Fork / Export stay pinned outside so their menus aren't clipped. */}
@@ -2748,9 +2749,6 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           {/* Phones: the toolbar has no room for the title, so it gets its own strip under it */}
           {showEditor && (activeSn?.title || activeSn?.name) && (
             <div className={s.mobileTitle} title={activeSn.title || activeSn.name}>{activeSn.title || activeSn.name}</div>
-          )}
-          {showEditor && !activeIsCustom && SNIPPET_TOP_AD_ENABLED && !adFree && (
-            <PlaygroundTopAd key={activeId || 'none'} className={s.topAdSlot} />
           )}
           {showEditor && <div ref={stageRef} className={s.previewStage}>
           <div className={s.iframeWrap}>

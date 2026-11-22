@@ -262,3 +262,7 @@ Format: date · area · suggested / chosen / done · note
 2026-11-22  UI SNIPPETS (matter-js-stacking-tower-game): made mobile friendly - fits screen height (100dvh, no scroll), canvas size forced with !important (Matter inline pixel size stretched the board on narrow screens), touch-action none, 44px buttons, tap wording on coarse pointers, landscape layout with HUD column, safe-area padding, vibrate on Perfect/lost floor; SEO about/steps/feature/FAQ/AI prompt updated; preview recaptured; tested headless at 390x664, 360x560, 740x360 touch. Not deployed.
 
 2026-11-22  UI SNIPPETS: removed tower-stack-timing-game (redundant with matter-js-stacking-tower-game): file, preview, registry, tag map, genre + Patreon lists; links in sliding-puzzle and snake now point to the stacking tower; 301 in public/.htaccess; count 2111 -> 2110. Not deployed (the .htaccess ships with the next deploy).
+
+2026-11-22  UI SNIPPETS page: the top ad (PlaygroundTopAd) moved back ABOVE the Preview toolbar (JSX order in UiSnippetsTool/index.js; phones: .topAdSlot order 0, toolbar order 1). Was below the toolbar since 2026-11-20. Not deployed.
+
+2026-11-22  UI SNIPPETS page: the Related Snippets sheet no longer opens by itself 3 seconds after load; it stays hidden until the Related button is pressed (RelatedCodeOverlay in UiSnippetsTool/index.js). Not deployed.
