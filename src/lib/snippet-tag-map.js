@@ -1979,7 +1979,6 @@ export const SNIPPET_TAG_MAP = {
   'tooltip': ['svg', 'accessibility', 'onboarding'],
   'top-loading-bar': ['loading-states'],
   'tower-of-hanoi-game': ['games'],
-  'tower-stack-timing-game': ['local-storage', 'games'],
   'traffic-light-fsm-visualizer': ['svg', 'accessibility', 'css-grid'],
   'transaction-list': ['svg', 'css-animation', 'dashboard-ui'],
   'transfer-list': ['form-validation'],

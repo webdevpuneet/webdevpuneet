@@ -648,7 +648,7 @@ After every successful \`attemptMove()\`, \`checkWin()\` compares the live \`til
         title: 'Accessibility and keyboard-navigation extension exercise',
         desc: 'The current implementation is click/tap driven; it is a good exercise to extend with arrow-key support that moves whichever tile is adjacent to the blank in the pressed direction, plus aria-live region announcements of the move count and win state for screen reader users.',
       },
-      { icon: 'CODE', title: 'Related: Tower Stack Timing Game', desc: 'See the [Tower Stack Timing Game](/ui-snippets/tower-stack-timing-game/) for a related games pattern worth pairing with this one.' },
+      { icon: 'CODE', title: 'Related: Matter.js Stacking Tower Game', desc: 'See the [Matter.js Stacking Tower Game](/ui-snippets/matter-js-stacking-tower-game/) for a related games pattern worth pairing with this one.' },
     ],
     faqs: [
       {

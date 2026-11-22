@@ -1,7 +1,7 @@
 const matterJsStackingTowerGame = {
   id: 'matter-js-stacking-tower-game',
   title: 'Matter.js Stacking Tower Game',
-  lastmod: '2026-11-14',
+  lastmod: '2026-11-22',
   category: 'games',
   cdnUrls: [
     'https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js',
@@ -22,23 +22,26 @@ const matterJsStackingTowerGame = {
       <button type="button" id="stAgain">Start building</button>
     </div>
   </div>
-  <p class="st-hint">Click, tap or press <kbd>Space</kbd> to drop. Once the tower grows, wind pushes falling floors sideways.</p>
+  <p class="st-hint"><span class="st-keys">Click or press <kbd>Space</kbd> to drop.</span><span class="st-tap">Tap the tower to drop.</span> Once it grows, wind pushes falling floors sideways.</p>
 </div>`,
 
   css: `*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,sans-serif;background:#1e1b4b;color:#e0e7ff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
-.st{width:100%;max-width:520px}
-.st-hud{display:flex;align-items:center;gap:20px;margin-bottom:10px;flex-wrap:wrap}
+body{font-family:system-ui,-apple-system,sans-serif;background:#1e1b4b;color:#e0e7ff;min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));overscroll-behavior:none}
+/* the whole game (HUD + 3:4 board + hint) is sized to fit the screen height, so a phone never needs to scroll */
+.st{width:100%;max-width:520px;max-width:min(520px,calc((100dvh - 150px) * .75));min-width:280px;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.st-tap{display:none}
+.st-hud{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
 .st-hud>div{display:flex;flex-direction:column;gap:2px}
 .st-hud span{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:#a5b4fc;font-weight:700}
 .st-hud b{font:800 19px ui-monospace,monospace;color:#fff;font-variant-numeric:tabular-nums}
 #stLives{color:#fb7185;letter-spacing:2px}
 .st button{border:0;border-radius:10px;background:#818cf8;color:#1e1b4b;font:800 12.5px system-ui;padding:9px 16px;cursor:pointer}
 .st button:hover{background:#a5b4fc}
-.st-hud button{margin-left:auto}
+.st-hud button{margin-left:auto;min-height:40px}
 .st :focus-visible{outline:2px solid #c7d2fe;outline-offset:2px}
 .st-stage{position:relative;border-radius:18px;overflow:hidden;border:1px solid #312e81;background:#0f172a}
-.st-stage canvas{display:block;width:100%;height:auto;cursor:pointer;touch-action:manipulation}
+/* Matter writes a fixed pixel width and height onto the canvas; !important lets the board scale with the screen at its 3:4 shape */
+.st-stage canvas{display:block;width:100%!important;height:auto!important;aspect-ratio:3/4;cursor:pointer;touch-action:none;-webkit-tap-highlight-color:transparent}
 .st-over{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(15,23,42,.62);backdrop-filter:blur(2px);text-align:center;padding:24px}
 .st-over[hidden]{display:none}
 .st-over strong{font-size:36px;color:#fde68a;letter-spacing:-.01em;text-shadow:0 3px 0 rgba(0,0,0,.35)}
@@ -51,7 +54,29 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#1e1b4b;color:#e0
 .st-over button{margin-top:4px;padding:11px 24px;font-size:14px;background:#fbbf24;color:#1c1917}
 .st-over button:hover{background:#fde68a}
 .st-hint{font-size:12px;color:#a5b4fc;margin-top:8px;text-align:center}
-.st kbd{font:700 11px ui-monospace,monospace;background:#312e81;border:1px solid #4338ca;border-radius:5px;padding:1px 5px}`,
+.st kbd{font:700 11px ui-monospace,monospace;background:#312e81;border:1px solid #4338ca;border-radius:5px;padding:1px 5px}
+.st-over button{min-height:48px}
+
+/* touch screens: tap wording, bigger buttons */
+@media (pointer:coarse){.st-keys{display:none}.st-tap{display:inline}.st button{min-height:44px}.st-hud button{padding:9px 18px}}
+
+/* small phones */
+@media (max-width:420px){
+  .st-hud{gap:6px}.st-hud b{font-size:16px}.st-hud span{font-size:9.5px}
+  .st-over{padding:16px;gap:9px}.st-over strong{font-size:28px}.st-over>span{font-size:13px}
+  .st-stats{gap:6px}.st-stats div{padding:6px 10px}.st-stats b{font-size:16px}
+  .st-hint{font-size:11.5px}
+}
+
+/* phone held sideways: board on the left at full height, HUD in a column on the right */
+@media (orientation:landscape) and (max-height:520px){
+  body{padding:8px max(12px,env(safe-area-inset-right)) 8px max(12px,env(safe-area-inset-left))}
+  .st{max-width:none;min-width:0;display:flex;flex-direction:row-reverse;align-items:center;justify-content:center;gap:14px}
+  .st-hud{flex-direction:column;align-items:flex-start;justify-content:center;gap:10px;margin:0;width:118px}
+  .st-hud button{margin:0;width:100%}
+  .st-stage{flex:none;width:calc((100dvh - 16px) * .75);max-width:calc(100vw - 190px)}
+  .st-hint{display:none}
+}`,
 
   js: `var M = Matter, Engine = M.Engine, Render = M.Render, Runner = M.Runner, Bodies = M.Bodies, Body = M.Body,
     Composite = M.Composite, Events = M.Events;
@@ -130,6 +155,7 @@ function burst(x, y, colors, n, speed, life, grav) {
     particles.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1, g: grav, life: life * (0.6 + Math.random() * 0.4), max: life, r: 1.5 + Math.random() * 2.5, c: colors[i % colors.length] });
   }
 }
+function buzz(p) { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) {} }
 function floatText(x, y, text, color) { texts.push({ x: x, y: y, text: text, color: color, life: 70 }); }
 
 function heightM() { return Math.max(0, Math.round((BASE_TOP - towerTop) / PX_PER_M * 10) / 10); }
@@ -143,7 +169,7 @@ function hud() {
 
 function loseLife(b) {
   burst(b.position.x, Math.min(b.position.y, H + camY - 10), ['#fb7185', '#fda4af', '#fff'], 16, 4, 30, 0.15);
-  shake = 10;
+  shake = 10; buzz([30, 40, 30]);
   Composite.remove(engine.world, b);
   blocks.splice(blocks.indexOf(b), 1);
   lives--; combo = 0;
@@ -172,7 +198,7 @@ function judge(b) {
   var perfect = Math.abs(b.position.x - refX) < 8 && Math.abs(b.angle) < 0.08;
   var pts = 10;
   if (perfect) {
-    combo++; pts += 25 * combo; b.perfectUntil = performance.now() + 900;
+    buzz(14); combo++; pts += 25 * combo; b.perfectUntil = performance.now() + 900;
     floatText(b.position.x, b.position.y - 30, 'Perfect!' + (combo > 1 ? ' x' + combo : ''), '#fde047');
     burst(b.position.x, b.position.y, ['#fde047', '#fbbf24', '#fff'], 18, 4, 36, 0.08);
   } else {
@@ -721,13 +747,17 @@ From the fifth floor, a gust target is picked every few seconds and the wind eas
 
 Tall stacks are a stress test for a 2D engine, so the snippet raises \`positionIterations\` and \`velocityIterations\`, uses high static friction and zero restitution, and turns on \`enableSleeping\` so settled floors stop jittering. A floor that falls below the base platform or off its sides costs a life.
 
+**Built for phones**
+
+The board keeps its 3:4 shape and scales with CSS, so the canvas stays sharp (it renders at the device pixel ratio) while the whole game is sized to the screen height with \`100dvh\`: HUD, board and hint fit without scrolling. The canvas uses \`touch-action: none\` and any touch drops the floor at once, with no double-tap zoom delay or page scroll. On a sideways phone the HUD moves to a column beside a full-height board, buttons grow to 44 px tall on coarse pointers, safe-area insets keep it clear of notches, and Perfect landings and lost floors give a short vibration where the device supports it.
+
 **A camera that climbs**
 
 With \`hasBounds\`, the renderer draws only what is inside \`render.bounds\`, whose vertical position eases toward the tower top. Everything else is painted by hand in \`afterRender\`: floors with lit windows, the podium, height lines every 5 m, and the background last with \`destination-over\`, where the sky fades from dusk to deep space and the stars twinkle more with altitude.`,
     },
     howToUse: { type: 'steps', items: [
       { title: 'Press Start building', text: `The card explains the goal. Press the button or Space to begin, and the first floor swings on its rope above the tower.` },
-      { title: 'Time the drop', text: `Click, tap or press Space. The floor falls straight down; the faint column below it shows where it will land.` },
+      { title: 'Time the drop', text: `Click, tap anywhere on the tower, or press Space. The floor falls straight down; the faint column below it shows where it will land.` },
       { title: 'Land it centred', text: `Within 8px of the floor below and level counts as Perfect: a glow, gold sparks and a combo bonus that grows with each one.` },
       { title: 'Watch the wind', text: `From the fifth floor the wind meter appears. A strong gust pushes the falling floor sideways, so aim against it.` },
       { title: 'Keep your lives', text: `A floor that falls off the base costs one of three hearts and resets your combo. Climb as the camera rises into the stars.` },
@@ -741,7 +771,7 @@ With \`hasBounds\`, the renderer draws only what is inside \`render.bounds\`, wh
       { title: 'Rising camera', text: `Eased render.bounds keeps the tower top in view as it grows.` },
       { title: 'Dusk to night sky', text: `Gradient, twinkling stars and moon change with altitude, painted with destination-over.` },
       { title: 'Lives, score and best', text: `Three lives, floors and combos scored, and the best saved in localStorage.` },
-      { title: 'Hand-drawn floors', text: `Gradient floors with lit windows that narrow as the tower grows.` },
+      { title: 'Phone-ready layout', text: `Fits the screen height, switches to a side HUD in landscape, has 44px buttons, safe-area padding and haptic feedback.` },
     ],
     useCases: [
       { title: 'Casual web games', text: 'Ship a one-button game for any device: a pendulum drop, Perfect combos and a saved best score give it a reason to replay.' },
@@ -751,6 +781,7 @@ With \`hasBounds\`, the renderer draws only what is inside \`render.bounds\`, wh
       { title: 'Balance and centre-of-mass demos', text: 'Show why off-centre blocks tip, using the Perfect threshold and the narrower floors to make the effect easy to see.' },
     ],
     faqs: [
+      { q: 'Does the tower game work on phones?', a: `Yes. The board scales to the screen height so nothing scrolls, any tap on it drops the floor immediately, the HUD moves beside the board in landscape, and Perfect landings and lost floors vibrate on devices that allow it. Space and click still work on a desktop.` },
       { q: 'How do I make stacked boxes stable in Matter.js?', a: `Raise engine.positionIterations and velocityIterations, use high friction and frictionStatic, zero restitution, and enable sleeping so settled bodies stop jittering. Keep wind or other forces off bodies that have already landed.` },
       { q: 'Why is the swinging floor not a physics body?', a: `So nothing can collide with it while it hangs. On drop you create the body at the same position and angle and let it fall, which keeps the drop guide honest. Accumulating the pendulum phase also lets you change the speed smoothly.` },
       { q: 'How does Perfect detection work?', a: `When a floor lands, judge() finds the landed floor directly below it, or the base, and compares x positions. A difference under 8px with an angle under 0.08 radians is Perfect, which raises the combo and adds 25 points per combo level. Other landings reset the combo.` },
@@ -769,7 +800,8 @@ Requirements:
 - From the fifth floor, apply wind: a target changes every few seconds, the wind eases toward it, and Body.applyForce pushes only floors that have not landed. Show a wind meter and lean the drop guide.
 - A floor that falls off the base costs one of three lives with debris and shake. Game over shows height, floors and score; the best score is saved in localStorage with try/catch.
 - A camera using hasBounds that eases upward to keep the tower top in view, and a destination-over background with a sky that fades from dusk to space and twinkling stars that strengthen with altitude.
-- HUD with height, score, best and hearts, a start card and a Restart button.`,
+- HUD with height, score, best and hearts, a start card and a Restart button.
+- Make it mobile friendly: size the whole game to 100dvh so it never scrolls, canvas touch-action none with pointerdown to drop, a 44px minimum tap size on coarse pointers, a sideways layout with the HUD in a column, safe-area padding, user-select off, and navigator.vibrate on Perfect and on a lost floor.`,
     },
   },
 };

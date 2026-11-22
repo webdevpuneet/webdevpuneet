@@ -24,7 +24,7 @@ export const GAME_GENRES = [
   ] },
   { id: 'skill', label: 'Skill & Reflex', ids: [
     'typing-speed-test', 'reaction-time-tester', 'click-speed-test', 'precision-aim-trainer-game', 'rhythm-tap-game',
-    'color-match-reflex-game', 'tower-stack-timing-game',
+    'color-match-reflex-game',
   ] },
   { id: 'brain', label: 'Brain & Memory', ids: [
     'memory-match-game', 'simon-sequence-game', 'number-sequence-memory-game', 'quick-math-game', 'number-guessing-game',

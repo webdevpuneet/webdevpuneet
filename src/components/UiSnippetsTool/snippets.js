@@ -1678,7 +1678,6 @@ import stickySplitPaneLayout from './snippets/sticky-split-pane-layout.js';
 import pricingCommitmentDiscountLadder from './snippets/pricing-commitment-discount-ladder.js';
 import heroLiveSocialProofCounter from './snippets/hero-live-social-proof-counter.js';
 import mobileBiometricUnlockScreen from './snippets/mobile-biometric-unlock-screen.js';
-import towerStackTimingGame from './snippets/tower-stack-timing-game.js';
 import timezoneMeetingOverlapFinder from './snippets/timezone-meeting-overlap-finder.js';
 import asyncSubmitStateButton from './snippets/async-submit-state-button.js';
 import newsletterSubscribeFooterValidated from './snippets/newsletter-subscribe-footer-validated.js';
@@ -3591,7 +3590,6 @@ export const SNIPPETS = [
   pricingCommitmentDiscountLadder,
   heroLiveSocialProofCounter,
   mobileBiometricUnlockScreen,
-  towerStackTimingGame,
   timezoneMeetingOverlapFinder,
   asyncSubmitStateButton,
   newsletterSubscribeFooterValidated,

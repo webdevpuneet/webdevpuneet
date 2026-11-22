@@ -116,7 +116,6 @@ export const PATREON_GAME_IDS = [
   'sorting-swap-puzzle-game',
   'logic-gate-puzzle-game',
   'color-match-reflex-game',
-  'tower-stack-timing-game',
   'number-sequence-memory-game',
   'precision-aim-trainer-game',
   'word-ladder-game',

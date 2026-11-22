@@ -44,6 +44,9 @@ RewriteRule ^ %1/%2 [R=301,L,NE]
 # --------------------------------------------------
 RewriteRule ^ui-snippets/tag/?$ /ui-snippets/ [R=301,L]
 
+# /ui-snippets/tower-stack-timing-game/ was removed (overlapped the Matter.js stacking tower game)
+RewriteRule ^ui-snippets/tower-stack-timing-game/?$ /ui-snippets/matter-js-stacking-tower-game/ [R=301,L]
+
 # /website-section-templates/article-text/ was renamed to /website-section-templates/privacy-policy/
 RewriteRule ^website-section-templates/article-text/?$ /website-section-templates/privacy-policy/ [R=301,L]
 
