@@ -1054,7 +1054,10 @@ const previewSrc = id => `/images/ui-snippets/previews/${id}.png`;
 function RelatedCodeOverlay({ activeId, category, paneRef }) {
   const [open, setOpen] = useState(false);
   const [top, setTop] = useState(0);
-  const pool = useMemo(() => NEWEST_FIRST_SNIPPETS.filter(sn => sn.category === category), [category]);
+  const [tab, setTab] = useState('related'); // 'related' = this category, 'all' = every snippet
+  const related = useMemo(() => NEWEST_FIRST_SNIPPETS.filter(sn => sn.category === category), [category]);
+  const relatedCount = related.length;
+  const pool = tab === 'all' ? NEWEST_FIRST_SNIPPETS : related;
   const at = Math.max(0, pool.findIndex(sn => sn.id === activeId));
   // The loaded window [from, to) of the pool: starts with 2 previous ones, the open one and the next ones
   const initial = useMemo(() => {
@@ -1070,7 +1073,7 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
   const reveal = useCallback(() => {
     const first = paneRef.current?.querySelector('[data-panel="html"]');
     // start a little below the top of the HTML panel, so its header and first lines of code peek out above
-    setTop((first ? first.offsetTop : 0) + 64);
+    setTop(first ? first.offsetTop : 0);
     setRange(initial);
     setOpen(true);
   }, [paneRef, initial]);
@@ -1078,10 +1081,21 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
   // Hidden by default (changed 2026-11-22: it used to open by itself 3 seconds after every load). It only opens from the Related button,
   // and is closed again whenever the snippet changes.
   const touched = useRef(false);
+  // Changed 2026-11-23: open straight away on page load / snippet change, covering the whole code area.
   useEffect(() => {
-    setOpen(false);
+    setRange(initial);
+    setPeek(null);
+    const first = paneRef.current?.querySelector('[data-panel="html"]');
+    setTop(first ? first.offsetTop : 0); // starts exactly where the code starts, just under the Create / Related header
+    setOpen(true);
     touched.current = false;
-  }, [activeId, pool.length]);
+    // measure again once the header has finished laying out (fonts / wrapping can change its height)
+    const t = setTimeout(() => {
+      const f = paneRef.current?.querySelector('[data-panel="html"]');
+      if (f) setTop(f.offsetTop);
+    }, 300);
+    return () => clearTimeout(t);
+  }, [activeId, pool.length]); // eslint-disable-line react-hooks/exhaustive-deps
   const openRef = useRef(false);
   useEffect(() => {
     openRef.current = open;
@@ -1111,7 +1125,8 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
     if (!open) return;
     const g = gridRef.current, cur = g?.querySelector('[aria-current="page"]');
     if (g && cur) g.scrollTop = Math.max(0, cur.offsetTop - g.offsetTop - 12);
-  }, [open]);
+    else if (g) g.scrollTop = 0;
+  }, [open, tab]);
   // After earlier cards are added above, put the view back where it was
   useLayoutEffect(() => {
     const g = gridRef.current, a = anchor.current;
@@ -1155,10 +1170,10 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
 
   // Drag the grip at the top of the sheet to resize it: 50% (default) to 100% of the code panel, remembered for the session
   const asideRef = useRef(null);
-  const [pct, setPct] = useState(() => { try { const v = Number(sessionStorage.getItem('uis-related-pct')); return v >= 60 && v <= 100 ? v : 60; } catch { return 60; } });
+  const [pct, setPct] = useState(() => { try { const v = Number(sessionStorage.getItem('uis-related-pct-v2')); return v >= 60 && v <= 100 ? v : 100; } catch { return 100; } });
   const pctRef = useRef(pct);
   const applyPct = v => { pctRef.current = Math.max(60, Math.min(100, v)); setPct(pctRef.current); };
-  const savePct = () => { try { sessionStorage.setItem('uis-related-pct', String(pctRef.current)); } catch {} };
+  const savePct = () => { try { sessionStorage.setItem('uis-related-pct-v2',String(pctRef.current)); } catch {} };
   const startResize = e => {
     const aside = asideRef.current;
     const host = aside && (aside.offsetParent || aside.parentElement);
@@ -1187,33 +1202,15 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
   };
 
   if (!open) return null;
-  const close = () => { setOpen(false); setPeek(null); };
   const shown = pool.slice(range.from, range.to);
   return (
-    <aside ref={asideRef} className={s.codeOverlay} style={{ height: pct + '%' }} aria-label="Related snippets" onMouseLeave={() => setPeek(null)}>
-      <div
-        className={s.coGripHit}
-        role="separator"
-        aria-orientation="horizontal"
-        aria-label="Drag to resize the related snippets panel"
-        aria-valuemin={60}
-        aria-valuemax={100}
-        aria-valuenow={Math.round(pct)}
-        tabIndex={0}
-        title="Drag to resize (double-click to reset)"
-        onPointerDown={startResize}
-        onDoubleClick={() => { applyPct(60); savePct(); }}
-        onKeyDown={onGripKey}
-      >
-        <span className={s.coGrip} aria-hidden="true" />
-      </div>
-      <div className={s.coHead}>
-        <div className={s.coHeadText}>
-          <p className={s.coTitle}>Related Snippets</p>
-          {label ? <p className={s.coSub}>{pool.length} in {label}</p> : null}
-        </div>
-        <button type="button" className={s.coClose} onClick={close} title="Close and view the full code" aria-label="Close related snippets and view the full code">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <aside ref={asideRef} className={s.codeOverlay} style={{ top, height: 'auto' }} aria-label="Related snippets" onMouseLeave={() => setPeek(null)}>
+      <div className={s.coTabs} role="tablist" aria-label="Snippet lists">
+        <button type="button" role="tab" aria-selected={tab === 'related'} className={`${s.coTab} ${tab === 'related' ? s.coTabOn : ''}`} onClick={() => { setTab('related'); setPeek(null); }}>
+          Related <span>{relatedCount}</span>
+        </button>
+        <button type="button" role="tab" aria-selected={tab === 'all'} className={`${s.coTab} ${tab === 'all' ? s.coTabOn : ''}`} onClick={() => { setTab('all'); setPeek(null); }}>
+          All snippets <span>{shortCount(NEWEST_FIRST_SNIPPETS.length)}</span>
         </button>
       </div>
       <div className={s.coGrid} ref={gridRef} onScroll={onScroll}>
@@ -1227,7 +1224,7 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
           const inner = (
             <>
               <img className={s.coThumb} src={previewSrc(sn.id)} alt="" loading="lazy" decoding="async" onError={e => { e.currentTarget.style.visibility = 'hidden'; }} />
-              <span className={s.coName}><span className={s.coNameText}>{sn.title}</span>{current && <span className={s.coNow}>Open now</span>}</span>
+              <span className={s.coName}>{(tab === 'all' ? CATEGORIES.find(c => c.id === sn.category)?.label : label) && <span className={s.coCat}>{tab === 'all' ? CATEGORIES.find(c => c.id === sn.category)?.label : label}</span>}<span className={s.coNameText}>{sn.title}</span>{current && <span className={s.coNow}>Open now</span>}</span>
             </>
           );
           const hover = { onMouseEnter: e => showPeek(sn, e.currentTarget), onMouseLeave: () => setPeek(null) };
@@ -1242,9 +1239,9 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
             </button>
           )
           : (
-            <a href={`/ui-snippets/${category}/`} className={s.coAll} onClick={() => navStart()}>
+            <a href={tab === 'all' ? '/ui-snippets/' : `/ui-snippets/${category}/`} className={s.coAll} onClick={() => navStart()}>
               <span>See all {pool.length}</span>
-              <span className={s.coAllCat}>in {label || 'this category'} →</span>
+              <span className={s.coAllCat}>{tab === 'all' ? 'in the gallery →' : `in ${label || 'this category'} →`}</span>
             </a>
           )}
       </div>
@@ -2444,6 +2441,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             </button>
           )}
           <div className={s.createRow}>
+          {/* Create is hidden on library snippets (the Related / View Code button takes the whole row); My Code keeps it */}
+          {!(headerInCode && !inMyCode && activeSn?.category) && (
           <button
             className={s.headerBrand}
             onClick={() => {
@@ -2469,6 +2468,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             <span className={s.headerTitle}>Create</span>
           </button>
+          )}
           {/* Toggles the related-snippets overlay over the code (library snippets, desktop); active while it shows */}
           {headerInCode && !inMyCode && activeSn?.category && (
             <button
@@ -2476,11 +2476,11 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               className={`${s.headerBrand} ${s.relatedOpenBtn} ${relatedOpen ? s.relatedOpenBtnOn : ''}`}
               onClick={() => window.dispatchEvent(new Event(TOGGLE_RELATED_EVENT))}
               aria-pressed={relatedOpen}
-              title={relatedOpen ? 'Hide related snippets' : 'Show related snippets'}
-              aria-label="Related snippets"
+              title={relatedOpen ? 'Hide related snippets and view the code' : 'Show related snippets'}
+              aria-label={relatedOpen ? 'View / edit code' : 'Related snippets'}
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-              <span className={s.headerTitle}>Related</span>
+              <span className={s.headerTitle}>{relatedOpen ? 'View / Edit Code' : 'Related'}</span>
             </button>
           )}
           </div>
