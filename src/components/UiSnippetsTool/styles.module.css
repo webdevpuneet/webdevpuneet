@@ -2082,6 +2082,9 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
 .coTab:hover { color: var(--text); }
 .coTabOn { color: #6366f1; border-bottom-color: #6366f1; }
 .coTabOn:hover { color: #6366f1; }
+.coFilters { flex: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.coSelect { width: 100%; min-width: 0; height: 32px; padding: 0 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); font: 700 12px var(--font-ui); cursor: pointer; }
+.coSelect:focus-visible { outline: 2px solid #6366f1; outline-offset: -1px; }
 .coCat { display: block; width: max-content; max-width: 100%; margin-bottom: 4px; padding: 1px 7px; border-radius: 99px; background: color-mix(in srgb, #6366f1 12%, var(--surface)); color: #6366f1; font-size: 9.5px; font-weight: 700; line-height: 1.5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .coNameText { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
 .coAll { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; border: 1px dashed var(--border); border-radius: 10px; color: #6366f1; font-size: 13px; font-weight: 800; text-decoration: none; }

@@ -1057,7 +1057,13 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
   const [tab, setTab] = useState('related'); // 'related' = this category, 'all' = every snippet
   const related = useMemo(() => NEWEST_FIRST_SNIPPETS.filter(sn => sn.category === category), [category]);
   const relatedCount = related.length;
-  const pool = tab === 'all' ? NEWEST_FIRST_SNIPPETS : related;
+  const [catF, setCatF] = useState('');   // All snippets tab: category filter ('' = every category)
+  const [tagF, setTagF] = useState('');   // All snippets tab: tag filter ('' = every tag)
+  const allFiltered = useMemo(
+    () => (catF || tagF ? NEWEST_FIRST_SNIPPETS.filter(sn => (!catF || sn.category === catF) && (!tagF || (sn.tags || []).includes(tagF))) : NEWEST_FIRST_SNIPPETS),
+    [catF, tagF]
+  );
+  const pool = tab === 'all' ? allFiltered : related;
   const at = Math.max(0, pool.findIndex(sn => sn.id === activeId));
   // The loaded window [from, to) of the pool: starts with 2 previous ones, the open one and the next ones
   const initial = useMemo(() => {
@@ -1095,7 +1101,7 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
       if (f) setTop(f.offsetTop);
     }, 300);
     return () => clearTimeout(t);
-  }, [activeId, pool.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [activeId, pool.length, tab, catF, tagF]); // eslint-disable-line react-hooks/exhaustive-deps
   const openRef = useRef(false);
   useEffect(() => {
     openRef.current = open;
@@ -1213,6 +1219,18 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
           All snippets <span>{shortCount(NEWEST_FIRST_SNIPPETS.length)}</span>
         </button>
       </div>
+      {tab === 'all' && (
+        <div className={s.coFilters}>
+          <select className={s.coSelect} value={catF} onChange={e => { setCatF(e.target.value); setPeek(null); }} aria-label="Filter by category">
+            <option value="">All categories</option>
+            {CATEGORIES.filter(c => NEWEST_FIRST_SNIPPETS.some(sn => sn.category === c.id)).map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
+          </select>
+          <select className={s.coSelect} value={tagF} onChange={e => { setTagF(e.target.value); setPeek(null); }} aria-label="Filter by tag">
+            <option value="">All tags</option>
+            {HEADER_TAGS.map(t => <option key={t.id} value={t.id}>{t.label}</option>)}
+          </select>
+        </div>
+      )}
       <div className={s.coGrid} ref={gridRef} onScroll={onScroll}>
         {range.from > 0 && (
           <button type="button" className={s.coMoreBtn} onClick={loadNewer}>
