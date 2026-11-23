@@ -9,6 +9,8 @@
   SEO DESCRIPTION (157 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
   Native carousel dots, animated dialogs, auto-growing textareas, height auto accordions and squircle corners: five new CSS features with free copy-paste code.
 
+  FEATURED IMAGE (1200 x 630): modern-css-5-snippets-featured.jpg in this folder. Upload it in WordPress: Post settings -> Featured image.
+
   IMAGES: the 5 pictures below load straight from webdevpuneet.com/images/ui-snippets/previews/ (same domain, no upload needed).
   They and the 5 snippet links only work once the latest site build (2026-11-21 snippets) is deployed and live.
 
