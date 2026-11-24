@@ -6,7 +6,7 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import { websiteAiPrompt } from '@/components/SectionTemplates/templates/ai-prompts.js';
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import GalleryTopAd from '@/components/GalleryTopAd';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from '@/components/SectionTemplates/templates/starters.js';
 import { starterPageList } from '@/components/SectionTemplates/templates/site.js';
@@ -160,7 +160,7 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
   return (
     <div>
       {schemas.map((sc, i) => <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />)}
-      <PlaygroundTopAd />
+      <GalleryTopAd />
       <div className={st.wrap}>
         <nav className={st.crumbs} aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/website-builder/">Website Builder</a> / <span>{t.name}</span></nav>
         <h1 className={st.h1}>{t.name} Template</h1>
@@ -226,7 +226,9 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
             </div>
           </aside>
         </div>
-        {/* Same strip as the home page: full-page shots that scroll on hover. It sits ABOVE the page's ad. */}
+        {/* The page's ad, above More Templates (moved 2026-11-24) */}
+        <AdSlot related={false} adFirst />
+        {/* Same strip as the home page: full-page shots that scroll on hover. It sits UNDER the page's ad. */}
         <div className={st.related}>
           <HomeTemplatesCarousel
             title="More Templates"
@@ -238,8 +240,6 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
             flush
           />
         </div>
-        {/* The page's ad, under More Templates */}
-        <AdSlot related={false} contained />
       </div>
       <IndexOnly always>
         <SeoSection slug="website-builder" title={isPremiumTemplate(t.id) ? `${t.name} Template — Patreon, Editable, Export HTML` : `${t.name} Template — Free, Editable, Export HTML`} subtitle={`${t.industry} · ${multi ? `One page or ${pages.length} pages · ` : ''}${parts.length} sections · ${fonts[0]} + ${fonts[1]} · Responsive · GSAP animation`} sections={SECTIONS} />

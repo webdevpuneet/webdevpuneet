@@ -183,6 +183,7 @@ export default async function SocialPostTemplatePage({ params }) {
       <div className={styles.toolSection}><TemplateEditor id={t.id} aiPrompt={socialAi?.prompt || ''} /></div>
       <AdSlot
           adFirst
+          adAbove
           related={relatedItems.length ? (
             <HomeTemplatesCarousel
               title="Related Social Post Templates"

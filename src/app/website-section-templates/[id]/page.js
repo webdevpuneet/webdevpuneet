@@ -170,6 +170,7 @@ export default async function WebsiteSectionTemplatePage({ params }) {
       <div className={styles.toolSection}><SectionTemplateEditor id={t.id} aiPrompt={seo.aiPrompt?.prompt || ''} /></div>
       <AdSlot
         adFirst
+        adAbove
         related={(
           <HomeTemplatesCarousel
             title="Related Section Templates"

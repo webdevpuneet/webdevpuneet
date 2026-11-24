@@ -162,6 +162,7 @@ export default async function EmailTemplatePage({ params }) {
       <div className={styles.toolSection}><EmailTemplateEditor id={t.id} aiPrompt={emailAi?.prompt || ''} /></div>
       <AdSlot
           adFirst
+          adAbove
           related={(
             <HomeTemplatesCarousel
               title="Related Email Templates"
