@@ -6,7 +6,7 @@ import UiSnippetsTool from '@/components/UiSnippetsTool';
 import { CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import CategoryGalleryPage from './[slug]/CategoryGalleryPage';
 import TagGalleryPage from './tag/[tag]/TagGalleryPage';
-import SnippetsTopNav from '@/components/SnippetsTopNav';
+import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import styles from '../tool-page.module.css';
 import { isEmbedRoute } from '@/lib/is-embed-route';
 
@@ -126,6 +126,8 @@ export default function UiSnippetsLayout({ children }) {
   // individual snippet pages and My Code (gallery and editor).
   // It was switched off on 2026-11-03 to give the editor the full height; the editor now fills the screen BELOW the
   // nav (the layout measures it, see --pnav-h). Set to false to hide it everywhere. Embeds get none either way.
+  // 2026-11-24: the category row (SnippetsTopNav) was replaced by the playground nav (AI Prompts, Tokens, Mermaid, HTML, CSS,
+  // JavaScript ...); the sidebar's UI Snippets group now opens by itself and lists the categories.
   const showNav = true;
 
   // The snippet editor fills the screen BELOW the nav, so it needs the nav's real
@@ -160,7 +162,7 @@ export default function UiSnippetsLayout({ children }) {
       {/* Top nav of the UI Snippets pages and My Code: one scrollable row of the snippet categories, Games first
           (SnippetsTopNav). It replaced the playgrounds' language row (HTML, CSS, JavaScript…) again on 2026-11-11, as on
           2026-11-10; the sidebar's UI Snippets group lists the same categories. */}
-      {showNav && <div ref={navRef}><SnippetsTopNav /></div>}
+      {showNav && <div ref={navRef}><PlaygroundTopNav /></div>}
       <div
         data-uis-tool-section=""
         className={`${styles.toolSection} ${isGallery ? styles.toolSectionGallery : styles.toolSectionEditor}`}

@@ -12,7 +12,7 @@ import s from './styles.module.css';
 // Titles/categories come from the lightweight index; a snippet's own code is
 // fetched on demand by loadSnippet (one small chunk per snippet).
 import { SNIPPET_INDEX as SNIPPETS, VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
-import { publishedTags } from '@/lib/snippet-tags';
+import { publishedTags, tagsForSnippetId } from '@/lib/snippet-tags';
 import { usePremiumUnlocked, PremiumUnlockDialog } from '@/components/PremiumGate';
 import { LOCK_SNIPPET_AI } from '@/lib/premium';
 import { isPatreonGame } from '@/lib/patreon-settings';
@@ -1054,13 +1054,18 @@ const previewSrc = id => `/images/ui-snippets/previews/${id}.png`;
 function RelatedCodeOverlay({ activeId, category, paneRef }) {
   const [open, setOpen] = useState(false);
   const [top, setTop] = useState(0);
-  const [tab, setTab] = useState('related'); // 'related' = this category, 'all' = every snippet
+  // Tab + filters are remembered in localStorage and restored on load
+  const saved = useMemo(() => { try { return JSON.parse(localStorage.getItem('uis-related-panel') || '{}') || {}; } catch { return {}; } }, []);
+  const [tab, setTab] = useState(saved.tab === 'all' ? 'all' : 'related'); // 'related' = this category, 'all' = every snippet
   const related = useMemo(() => NEWEST_FIRST_SNIPPETS.filter(sn => sn.category === category), [category]);
   const relatedCount = related.length;
-  const [catF, setCatF] = useState('');   // All snippets tab: category filter ('' = every category)
-  const [tagF, setTagF] = useState('');   // All snippets tab: tag filter ('' = every tag)
+  const [catF, setCatF] = useState(typeof saved.cat === 'string' ? saved.cat : '');   // All snippets tab: category filter ('' = every category)
+  const [tagF, setTagF] = useState(typeof saved.tag === 'string' ? saved.tag : '');   // All snippets tab: tag filter ('' = every tag)
+  useEffect(() => {
+    try { localStorage.setItem('uis-related-panel', JSON.stringify({ tab, cat: catF, tag: tagF })); } catch {}
+  }, [tab, catF, tagF]);
   const allFiltered = useMemo(
-    () => (catF || tagF ? NEWEST_FIRST_SNIPPETS.filter(sn => (!catF || sn.category === catF) && (!tagF || (sn.tags || []).includes(tagF))) : NEWEST_FIRST_SNIPPETS),
+    () => (catF || tagF ? NEWEST_FIRST_SNIPPETS.filter(sn => (!catF || sn.category === catF) && (!tagF || tagsForSnippetId(sn.id).includes(tagF))) : NEWEST_FIRST_SNIPPETS),
     [catF, tagF]
   );
   const pool = tab === 'all' ? allFiltered : related;
@@ -1221,11 +1226,11 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
       </div>
       {tab === 'all' && (
         <div className={s.coFilters}>
-          <select className={s.coSelect} value={catF} onChange={e => { setCatF(e.target.value); setPeek(null); }} aria-label="Filter by category">
+          <select className={s.coSelect} value={catF} onChange={e => { setCatF(e.target.value); setTagF(''); setPeek(null); }} aria-label="Filter by category">
             <option value="">All categories</option>
             {CATEGORIES.filter(c => NEWEST_FIRST_SNIPPETS.some(sn => sn.category === c.id)).map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
           </select>
-          <select className={s.coSelect} value={tagF} onChange={e => { setTagF(e.target.value); setPeek(null); }} aria-label="Filter by tag">
+          <select className={s.coSelect} value={tagF} onChange={e => { setTagF(e.target.value); setCatF(''); setPeek(null); }} aria-label="Filter by tag">
             <option value="">All tags</option>
             {HEADER_TAGS.map(t => <option key={t.id} value={t.id}>{t.label}</option>)}
           </select>

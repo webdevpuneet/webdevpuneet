@@ -487,7 +487,9 @@ function GamesLink({ active }) {
 // The UI Snippets group in the sidebar stays folded on every page, the UI snippet pages and My Code included, because the
 // categories are in the top nav there (SnippetsTopNav) since 2026-11-11. The chevron opens it by hand and nothing is
 // remembered: the next page load folds it again. (The links stay in the page when folded, so crawlers still see them.)
-const startsOpen = () => false;
+// 2026-11-24: the top nav row was removed, so the group now opens by itself on the UI snippet pages (gallery, categories,
+// tags and snippets); it stays folded everywhere else, My Code and Games included.
+const startsOpen = pathname => /^\/ui-snippets(?!\/(mycode|games|pocket-artillery-game)(\/|$))(\/|$)/.test(pathname || '');
 
 function UiSnippetsCategories({ pathname }) {
   const [open, setOpen] = useState(() => startsOpen(pathname));
@@ -497,6 +499,9 @@ function UiSnippetsCategories({ pathname }) {
   const bookmarked = useBookmarks();
 
   const toggleOpen = () => setOpen(v => !v);
+  // The sidebar stays mounted while moving between pages, so also open it when you arrive on a UI snippet page.
+  const onSnippetPages = startsOpen(pathname);
+  useEffect(() => { if (onSnippetPages) setOpen(true); }, [onSnippetPages]);
 
   // The sidebar stays mounted while moving between pages, so a group opened by hand stays open until the next page load.
 

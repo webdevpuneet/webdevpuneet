@@ -6,12 +6,9 @@ import { LIVE_TOOLS } from '@/lib/tools-registry';
 
 // UI Snippets, Website Builder, Website Sections, Email Templates, Social Posts and AI Prompts were taken out of the
 // top nav on 2026-11-03 (they are in the left sidebar). Add an item back here to show it again.
-// AI Prompts, Token Counter and Mermaid are the first items (2026-11-20).
+// AI Prompts, Token Counter and Mermaid were the first items (2026-11-20); moved to the end on 2026-11-24.
 const NAV_ITEMS = [
-  { slug: 'ai-prompt-studio',            short: 'AI Prompts',   icon: '/icons/ai-prompt-studio.svg' },
-  { slug: 'token-counter',               short: 'Tokens',       icon: '/icons/token-counter.svg' },
-  { slug: 'mermaid-diagram-editor',      short: 'Mermaid',      icon: '/icons/mermaid-diagram-editor.svg' },
-  { slug: 'html-playground',             short: 'HTML',         icon: '/icons/html-playground.svg' },
+  { slug: 'html-playground',            short: 'HTML',         icon: '/icons/html-playground.svg' },
   { slug: 'css-playground',              short: 'CSS',          icon: '/icons/css-playground.svg' },
   { slug: 'js-playground',               short: 'JavaScript',   icon: '/icons/js-playground.svg' },
   { slug: 'jquery-playground',           short: 'jQuery',       icon: '/icons/jquery-playground.svg' },
@@ -25,6 +22,9 @@ const NAV_ITEMS = [
   { slug: 'tailwind-playground',         short: 'Tailwind',     icon: '/icons/tailwind-playground.svg' },
   { slug: 'bootstrap5-playground',       short: 'Bootstrap',    icon: '/icons/bootstrap5-playground.svg' },
   { slug: 'nextjs-playground',           short: 'Next.js',      icon: '/icons/nextjs-playground.svg' },
+  { slug: 'ai-prompt-studio',            short: 'AI Prompts',   icon: '/icons/ai-prompt-studio.svg' },
+  { slug: 'token-counter',               short: 'Tokens',       icon: '/icons/token-counter.svg' },
+  { slug: 'mermaid-diagram-editor',      short: 'Mermaid',      icon: '/icons/mermaid-diagram-editor.svg' },
 ];
 
 export default function PlaygroundTopNav({ active }) {
