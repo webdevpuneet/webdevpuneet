@@ -61,10 +61,11 @@
 
 /* ── Popover ── */
 .popover {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  z-index: 200;
+  position: fixed;
+  top: 60px;
+  right: 8px;
+  z-index: 100000;
+  max-width: calc(100vw - 16px);
   width: 280px;
   background: var(--surface, var(--bg));
   border: 1px solid var(--border);

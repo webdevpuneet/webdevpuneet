@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef, useCallback, useImperativeHandle, forwardRef } from 'react';
+import { createPortal } from 'react-dom';
 import styles from './styles.module.css';
 
 /* ── Shared localStorage keys (used by every tool) ──────────────────────── */
@@ -139,6 +140,8 @@ const GistSyncButton = forwardRef(function GistSyncButton(
   const [lastSynced,  setLastSynced]  = useState(null);
 
   const popRef      = useRef(null);
+  const popBoxRef   = useRef(null);
+  const [popPos, setPopPos] = useState(null);
   const debounceRef = useRef(null);
   const hiddenSince = useRef(null);
   const syncingRef  = useRef(false); // avoid re-entrant syncs
@@ -156,10 +159,23 @@ const GistSyncButton = forwardRef(function GistSyncButton(
     } catch {}
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  /* ── Popover is portaled to <body> (position: fixed) so no header/panel stacking context or overflow can hide it ── */
+  useEffect(() => {
+    if (!showPopover) return;
+    const place = () => {
+      const r = popRef.current?.getBoundingClientRect();
+      if (r) setPopPos({ top: r.bottom + 8, right: Math.max(8, window.innerWidth - r.right) });
+    };
+    place();
+    window.addEventListener('resize', place);
+    window.addEventListener('scroll', place, true);
+    return () => { window.removeEventListener('resize', place); window.removeEventListener('scroll', place, true); };
+  }, [showPopover]);
+
   /* ── Close popover on outside click ── */
   useEffect(() => {
     if (!showPopover) return;
-    const h = e => { if (popRef.current && !popRef.current.contains(e.target)) setShowPopover(false); };
+    const h = e => { if (popRef.current && !popRef.current.contains(e.target) && !(popBoxRef.current && popBoxRef.current.contains(e.target))) setShowPopover(false); };
     document.addEventListener('mousedown', h);
     return () => document.removeEventListener('mousedown', h);
   }, [showPopover]);
@@ -395,8 +411,8 @@ const GistSyncButton = forwardRef(function GistSyncButton(
         </svg>
       </button>
 
-      {showPopover && (
-        <div className={styles.popover}>
+      {showPopover && createPortal(
+        <div className={styles.popover} ref={popBoxRef} style={popPos}>
           <div className={styles.popHead}>
             <span className={styles.popTitle}>GitHub Gist Sync</span>
             <span className={styles.popSub}>optional</span>
@@ -468,7 +484,8 @@ const GistSyncButton = forwardRef(function GistSyncButton(
           {lastSynced && !syncMsg && (
             <p className={styles.popLast}>Last synced {lastSynced.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
           )}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
