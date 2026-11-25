@@ -18,6 +18,7 @@ import { LOCK_SNIPPET_AI } from '@/lib/premium';
 import { isPatreonGame } from '@/lib/patreon-settings';
 import { CATEGORIES } from './categories';
 import BookmarkButton from './BookmarkButton';
+import { useBookmarks, BOOKMARKED_HREF } from '@/lib/snippet-bookmarks';
 import { loadSnippet as fetchSnippet, getLoadedSnippet } from './loadSnippet';
 
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
@@ -1056,7 +1057,9 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
   const [top, setTop] = useState(0);
   // Tab + filters are remembered in localStorage and restored on load
   const saved = useMemo(() => { try { return JSON.parse(localStorage.getItem('uis-related-panel') || '{}') || {}; } catch { return {}; } }, []);
-  const [tab, setTab] = useState(saved.tab === 'all' ? 'all' : 'related'); // 'related' = this category, 'all' = every snippet
+  const [tab, setTab] = useState(saved.tab === 'all' || saved.tab === 'bookmarks' ? saved.tab : 'related'); // 'related' = this category, 'all' = every snippet, 'bookmarks' = the visitor's bookmarked snippets
+  const bookmarkIds = useBookmarks();
+  const bookmarked = useMemo(() => NEWEST_FIRST_SNIPPETS.filter(sn => bookmarkIds.includes(sn.id)), [bookmarkIds]);
   const related = useMemo(() => NEWEST_FIRST_SNIPPETS.filter(sn => sn.category === category), [category]);
   const relatedCount = related.length;
   const [catF, setCatF] = useState(typeof saved.cat === 'string' ? saved.cat : '');   // All snippets tab: category filter ('' = every category)
@@ -1068,7 +1071,7 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
     () => (catF || tagF ? NEWEST_FIRST_SNIPPETS.filter(sn => (!catF || sn.category === catF) && (!tagF || tagsForSnippetId(sn.id).includes(tagF))) : NEWEST_FIRST_SNIPPETS),
     [catF, tagF]
   );
-  const pool = tab === 'all' ? allFiltered : related;
+  const pool = tab === 'all' ? allFiltered : tab === 'bookmarks' ? bookmarked : related;
   const at = Math.max(0, pool.findIndex(sn => sn.id === activeId));
   // The loaded window [from, to) of the pool: starts with 2 previous ones, the open one and the next ones
   const initial = useMemo(() => {
@@ -1221,7 +1224,10 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
           Related <span>{relatedCount}</span>
         </button>
         <button type="button" role="tab" aria-selected={tab === 'all'} className={`${s.coTab} ${tab === 'all' ? s.coTabOn : ''}`} onClick={() => { setTab('all'); setPeek(null); }}>
-          All snippets <span>{shortCount(NEWEST_FIRST_SNIPPETS.length)}</span>
+          All <span>{shortCount(NEWEST_FIRST_SNIPPETS.length)}</span>
+        </button>
+        <button type="button" role="tab" aria-selected={tab === 'bookmarks'} className={`${s.coTab} ${tab === 'bookmarks' ? s.coTabOn : ''}`} onClick={() => { setTab('bookmarks'); setPeek(null); }}>
+          Saved <span>{bookmarked.length}</span>
         </button>
       </div>
       {tab === 'all' && (
@@ -1237,6 +1243,9 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
         </div>
       )}
       <div className={s.coGrid} ref={gridRef} onScroll={onScroll}>
+        {tab === 'bookmarks' && bookmarked.length === 0 && (
+          <p style={{ padding: '18px 14px', margin: 0, fontSize: 13, lineHeight: 1.5, opacity: 0.75 }}>No bookmarked snippets yet. Use the bookmark icon next to a snippet's title to save it here.</p>
+        )}
         {range.from > 0 && (
           <button type="button" className={s.coMoreBtn} onClick={loadNewer}>
             ↑ Show {Math.min(CODE_OVERLAY_PAGE, range.from)} newer <span>({range.from} above)</span>
@@ -1247,7 +1256,7 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
           const inner = (
             <>
               <img className={s.coThumb} src={previewSrc(sn.id)} alt="" loading="lazy" decoding="async" onError={e => { e.currentTarget.style.visibility = 'hidden'; }} />
-              <span className={s.coName}>{(tab === 'all' ? CATEGORIES.find(c => c.id === sn.category)?.label : label) && <span className={s.coCat}>{tab === 'all' ? CATEGORIES.find(c => c.id === sn.category)?.label : label}</span>}<span className={s.coNameText}>{sn.title}</span>{current && <span className={s.coNow}>Open now</span>}</span>
+              <span className={s.coName}>{(tab !== 'related' ? CATEGORIES.find(c => c.id === sn.category)?.label : label) && <span className={s.coCat}>{tab !== 'related' ? CATEGORIES.find(c => c.id === sn.category)?.label : label}</span>}<span className={s.coNameText}>{sn.title}</span>{current && <span className={s.coNow}>Open now</span>}</span>
             </>
           );
           const hover = { onMouseEnter: e => showPeek(sn, e.currentTarget), onMouseLeave: () => setPeek(null) };
@@ -1261,10 +1270,10 @@ function RelatedCodeOverlay({ activeId, category, paneRef }) {
               ↓ Load {Math.min(CODE_OVERLAY_PAGE, pool.length - range.to)} more <span>({pool.length - range.to} left)</span>
             </button>
           )
-          : (
-            <a href={tab === 'all' ? '/ui-snippets/' : `/ui-snippets/${category}/`} className={s.coAll} onClick={() => navStart()}>
+          : (tab === 'bookmarks' && !pool.length) ? null : (
+            <a href={tab === 'all' ? '/ui-snippets/' : tab === 'bookmarks' ? BOOKMARKED_HREF : `/ui-snippets/${category}/`} className={s.coAll} onClick={() => navStart()}>
               <span>See all {pool.length}</span>
-              <span className={s.coAllCat}>{tab === 'all' ? 'in the gallery →' : `in ${label || 'this category'} →`}</span>
+              <span className={s.coAllCat}>{tab === 'all' ? 'in the gallery →' : tab === 'bookmarks' ? 'bookmarked →' : `in ${label || 'this category'} →`}</span>
             </a>
           )}
       </div>
