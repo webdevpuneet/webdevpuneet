@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { ADS_ENABLED as ADS_CONFIG_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import RelatedStrip from '@/components/RelatedStrip';
+import { TOOLS } from '@/lib/tools-registry';
 import { useAdFreeOnLoad } from '@/lib/use-ad-free';
 import styles from './styles.module.css';
 
@@ -65,9 +66,13 @@ export function AdSlot300x600() {
   );
 }
 
-export default function AdSlot({ contained = false, related = null, adFirst = false, adAbove = false }) {
+// Tool pages (any slug in the tools registry) put the ad ABOVE the related strip (2026-11-25).
+const TOOL_SLUGS = new Set(TOOLS.map(t => t.slug));
+
+export default function AdSlot({ contained = false, related = null, adFirst = false, adAbove: adAboveProp }) {
   const pathname = usePathname();
   const slug = pathname?.split('/').filter(Boolean)[0];
+  const adAbove = adAboveProp ?? TOOL_SLUGS.has(slug);
   const ADS_ENABLED = useAdsEnabled();
 
   useEffect(() => {
@@ -111,7 +116,7 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
   // The related strip leads, ABOVE the ad (tool pages, snippet, email, social post and section pages alike),
   // so a visitor sees the related content before the advertisement (changed 2026-11-09; it used to be ad first).
   // adFirst now only switches the ad to the full-width, centered wrapper.
-  // adAbove: the ad goes ABOVE the related strip (email template pages, 2026-11-24).
+  // adAbove: the ad goes ABOVE the related strip (email template pages 2026-11-24; all tool pages by default 2026-11-25).
   return (
     <div className={styles.adShell}>
       {adAbove && ad}

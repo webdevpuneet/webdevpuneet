@@ -1453,11 +1453,22 @@ function flattenSections(sections) {
 
 // Pages that pass an explicit `sections` array: lift the first Features section above the
 // first About (text) section, so Features lead on those pages too.
+// Tool pages ("About this tool") are the exception: there Features sit right AFTER About (2026-11-25).
+const TOOL_ABOUT_LABEL = 'About this tool';
 function featuresBeforeAbout(list) {
   const aboutIdx = list.findIndex(sec => sec.type === 'text');
-  const featIdx = list.findIndex((sec, i) => i > aboutIdx && sec.type === 'features');
-  if (aboutIdx < 0 || featIdx < 0) return list;
+  if (aboutIdx < 0) return list;
+  const isTool = list[aboutIdx].label === TOOL_ABOUT_LABEL;
+  const featIdx = list.findIndex(sec => sec.type === 'features');
+  if (featIdx < 0) return list;
   const next = list.slice();
+  if (isTool) {
+    if (featIdx === aboutIdx + 1) return list;
+    const [feat] = next.splice(featIdx, 1);
+    next.splice(next.indexOf(list[aboutIdx]) + 1, 0, feat);
+    return next;
+  }
+  if (featIdx < aboutIdx) return list;
   const [feat] = next.splice(featIdx, 1);
   next.splice(aboutIdx, 0, feat);
   return next;
@@ -1485,11 +1496,13 @@ function normalizeSections({ sections, about, features, howToUse, useCases, faqs
   // Features always lead, above About, on every page (the featuresAfterAbout prop that
   // used to flip this is still accepted by callers but no longer has any effect).
   // featuresBelowAbout (opt-in, UI snippet pages): Features come right after About instead.
-  if (featuresSection && !featuresBelowAbout) result.push(featuresSection);
+  // Tool pages (aboutLabel 'About this tool', the default): Features always come right after About.
+  const featuresAfter = featuresBelowAbout || (about && aboutLabel === TOOL_ABOUT_LABEL);
+  if (featuresSection && !featuresAfter) result.push(featuresSection);
   if (about) {
     result.push({ type: 'text', label: aboutLabel, heading: about?.title, text: about?.description || '', extra: aboutExtra, quickFacts });
   }
-  if (featuresSection && featuresBelowAbout) result.push(featuresSection);
+  if (featuresSection && featuresAfter) result.push(featuresSection);
   if (aiPrompt && !aiPromptLast && !aiPromptFirst) result.push(aiPromptSection(aiPrompt));
   // Lands right after "Build, Understand, Optimize, and Extend It With AI" —
   // or, on the handful of pages with no aiPrompt, right after About — rather

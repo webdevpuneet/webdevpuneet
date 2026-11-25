@@ -184,6 +184,33 @@ export default function MeshGradientGeneratorTool() {
   const [tab,        setTab]        = useState('svg');
   const [copied,     setCopied]     = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
+  // Bottom code dock height, % of the preview column; drag the bar on its top edge to resize
+  const [dockPct,    setDockPct]    = useState(15);
+  const previewPaneRef = useRef(null);
+  const startDockDrag = (e) => {
+    e.preventDefault();
+    const pane = previewPaneRef.current;
+    if (!pane) return;
+    const onMove = (ev) => {
+      const r = pane.getBoundingClientRect();
+      const pct = ((r.bottom - ev.clientY) / r.height) * 100;
+      setDockPct(Math.min(75, Math.max(8, pct)));
+    };
+    const onUp = () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+    document.body.style.cursor = 'row-resize';
+    document.body.style.userSelect = 'none';
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+  };
+  const nudgeDock = (e) => {
+    if (e.key === 'ArrowUp')   { e.preventDefault(); setDockPct(p => Math.min(75, p + 2)); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); setDockPct(p => Math.max(8, p - 2)); }
+  };
   const [imgFormat,  setImgFormat]  = useState('png');
   const [pngSize,    setPngSize]    = useState('1600x1000');
   const [pngCustomW, setPngCustomW] = useState(1600);
@@ -526,7 +553,13 @@ ${cssString}`,
                 <button className={styles.randomBtn} onClick={randomize} aria-label="Randomize blob positions and colors">⟳ Randomize</button>
                 <button className={styles.resetBtn} onClick={reset} aria-label="Reset to default gradient">Reset</button>
               </div>
-              <ForkToMyCodeButton getSnippet={forkSnippet} />
+              <div className={styles.sideBtnPair}>
+                <ForkToMyCodeButton getSnippet={forkSnippet} label="Fork code" />
+                <button className={`${styles.shareBtn} ${shareCopied ? styles.shareBtnDone : ''}`} onClick={copyShareLink}
+                  title="Copy a shareable link to this gradient">
+                  {shareCopied ? '✓ Copied' : '🔗 Copy link'}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -549,6 +582,7 @@ ${cssString}`,
                     <button className={styles.customApply} onClick={() => applyPreset(p)}>
                       <span className={styles.presetDot} style={{ background: p.dot }} />
                       {p.label}
+                      <span className={styles.savedBadge}>Saved</span>
                     </button>
                     <button className={styles.blobRemoveBtn} onClick={() => deleteCustomPreset(p.label)} aria-label={`Delete ${p.label}`}>×</button>
                   </div>
@@ -757,11 +791,11 @@ ${cssString}`,
         </div>
 
         {/* ── Center: SVG Preview ── */}
-        <div className={styles.previewPane}>
+        <div className={styles.previewPane} ref={previewPaneRef}>
           {/* Ad space: top of the preview column */}
           <PlaygroundTopAd />
           <div className={styles.previewArea}>
-            <div className={styles.svgWrap} style={{ aspectRatio: `${W} / ${H}` }}>
+            <div className={styles.svgWrap} style={{ aspectRatio: `${W} / ${H}`, '--ar': W / H }}>
               <svg
                 ref={svgRef}
                 viewBox={`0 0 ${W} ${H}`}
@@ -816,22 +850,23 @@ ${cssString}`,
               </svg>
             </div>
           </div>
-        </div>
 
-        {/* ── Right: Export ── */}
-        <div className={styles.exportPane}>
-          <div className={styles.tabs}>
-            {['svg', 'css', 'react', 'tailwind'].map(t => (
-              <button key={t}
-                className={`${styles.tab} ${tab === t ? styles.tabActive : ''}`}
-                onClick={() => setTab(t)}>
-                {t === 'react' ? 'React' : t === 'tailwind' ? 'Tailwind' : t.toUpperCase()}
-              </button>
-            ))}
-          </div>
-
-          <div className={styles.exportBody}>
-            <div className={styles.codeHeader}>
+          {/* ── Bottom: code export ── */}
+          <div className={styles.codeDock} style={{ height: `${dockPct}%` }}>
+            <div className={styles.dockResizer}
+              role="separator" aria-orientation="horizontal" tabIndex={0}
+              aria-label="Resize code panel" aria-valuenow={Math.round(dockPct)} aria-valuemin={8} aria-valuemax={75}
+              title="Drag to resize"
+              onPointerDown={startDockDrag} onKeyDown={nudgeDock} />
+            <div className={styles.codeMain}>
+            <div className={styles.tabs}>
+              {['svg', 'css', 'react', 'tailwind'].map(t => (
+                <button key={t}
+                  className={`${styles.tab} ${tab === t ? styles.tabActive : ''}`}
+                  onClick={() => setTab(t)}>
+                  {t === 'react' ? 'React' : t === 'tailwind' ? 'Tailwind' : t.toUpperCase()}
+                </button>
+              ))}
               <span className={styles.codeLang}>{codeLang}</span>
               <button
                 className={`${styles.codeCopyBtn} ${copied ? styles.codeCopyBtnCopied : ''}`}
@@ -839,16 +874,12 @@ ${cssString}`,
                 {copied ? '✓ Copied' : 'Copy'}
               </button>
             </div>
-
             <div className={styles.codeScroll}>
               <pre className={styles.codeBlock}>{outputText}</pre>
             </div>
+            </div>
 
             <div className={styles.downloadSection}>
-              <button className={`${styles.shareBtn} ${shareCopied ? styles.shareBtnDone : ''}`} onClick={copyShareLink}>
-                {shareCopied ? '✓ Link copied' : '🔗 Copy shareable link'}
-              </button>
-
               <div className={styles.downloadTitle}>Download</div>
               <div className={styles.dlRow}>
                 <button className={`${styles.dlBtn} ${styles.dlBtnPrimary}`} onClick={downloadSvg}>↓ SVG</button>
