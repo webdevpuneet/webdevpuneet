@@ -354,9 +354,10 @@
 .dockResizer:hover, .dockResizer:focus-visible { background: color-mix(in srgb, var(--clr-violet) 25%, transparent); outline: none; }
 .codeMain { flex: 1; min-width: 0; display: flex; flex-direction: column; min-height: 0; }
 .codeDock .downloadSection {
-  width: 280px; flex-shrink: 0;
+  width: 450px; flex-shrink: 0;
   border-top: none; border-left: 1px solid var(--border);
   overflow-y: auto;
+  padding: 10px 12px;
 }
 .codeDock .tabs { align-items: center; padding-right: 10px; gap: 8px; }
 .codeDock .tab { flex: 0 0 auto; padding: 10px 14px; }
@@ -614,8 +615,15 @@
   margin-bottom: 2px;
 }
 .sideBtnPair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-.sideBtnPair > * { min-width: 0; width: 100%; }
-.sideActions .shareBtn { padding: 8px; font-size: 11px; margin-bottom: 0; white-space: nowrap; }
+/* Fork code + Copy link: same compact size */
+.sideBtnPair > button {
+  min-width: 0; width: 100%;
+  height: 28px; padding: 0 8px; margin: 0;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  font-size: 10.5px; font-weight: 600; line-height: 1;
+  border-radius: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sideBtnPair > button svg { width: 11px; height: 11px; flex-shrink: 0; }
 .shareBtn:hover { border-color: #a78bfa; color: var(--clr-violet); }
 .shareBtnDone { border-color: #4ade80 !important; color: #4ade80 !important; }
 
@@ -631,3 +639,62 @@
   line-height: 1.5;
   flex-shrink: 0;
 }
+
+/* ── Animation ── */
+.animHead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.animHint { margin: 0; font-size: 10.5px; line-height: 1.5; color: var(--text3); }
+.switch { position: relative; display: inline-flex; cursor: pointer; }
+.switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.switchTrack {
+  width: 30px; height: 17px; border-radius: 999px;
+  background: var(--border2); position: relative; transition: background 0.15s;
+}
+.switchTrack::after {
+  content: ''; position: absolute; top: 2px; left: 2px; width: 13px; height: 13px;
+  border-radius: 50%; background: #fff; transition: transform 0.15s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+.switch input:checked + .switchTrack { background: var(--clr-violet); }
+.switch input:checked + .switchTrack::after { transform: translateX(13px); }
+.switch input:focus-visible + .switchTrack { outline: 2px solid var(--clr-violet); outline-offset: 2px; }
+.animRow { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.playBtn {
+  height: 26px; padding: 0 10px; border-radius: 6px;
+  border: 1px solid var(--clr-violet); background: color-mix(in srgb, var(--clr-violet) 12%, transparent);
+  color: var(--clr-violet); font-family: var(--font-ui); font-size: 10.5px; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+}
+.seedBox { display: flex; align-items: center; gap: 5px; margin-left: auto; }
+.seedInput {
+  width: 58px; height: 26px; padding: 0 6px; border-radius: 6px;
+  border: 1px solid var(--border2); background: var(--surface2); color: var(--text);
+  font-family: var(--font-mono); font-size: 11px;
+}
+.animExport { margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; }
+.jobBox { display: flex; flex-direction: column; gap: 6px; }
+.jobLabel { font-size: 10.5px; color: var(--text2); font-family: var(--font-mono); }
+.jobBar { height: 5px; border-radius: 3px; background: var(--border); overflow: hidden; }
+.jobBar span { display: block; height: 100%; background: var(--clr-violet); transition: width 0.15s; }
+.dlBtn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* Download: three columns (vector / image / video) */
+.dlGrid { display: grid; grid-template-columns: 0.85fr 1fr 1.25fr; gap: 10px; align-items: start; }
+.dlCol { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.dlColHead {
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+  color: var(--text3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.dlCol .dlBtn { flex: none; width: 100%; height: 30px; padding: 0 6px; }
+.dlBtnPair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.dlBtnAnim { border-color: var(--clr-violet) !important; background: var(--clr-violet) !important; color: #fff !important; }
+.dlBtnAnim:hover:not(:disabled) { filter: brightness(1.08); }
+.dlSelects { display: flex; flex-direction: column; gap: 5px; }
+.dlSelects .pngSizeSelect { width: 100%; }
+.dlInfo { margin: 0; font-size: 9.5px; line-height: 1.45; color: var(--text3); }
+.dlBtnSmall {
+  height: 24px; border-radius: 5px; border: 1px solid var(--border2);
+  background: var(--surface2); color: var(--text2);
+  font-family: var(--font-ui); font-size: 10px; font-weight: 600; cursor: pointer;
+}
+.dlCol .pngCustomRow { gap: 4px; }
+.dlCol .pngDimInput { min-width: 0; width: 100%; }

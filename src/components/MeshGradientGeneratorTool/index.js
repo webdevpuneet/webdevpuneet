@@ -6,14 +6,14 @@ import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
-/* ── Helpers ──────────────────────────────────────────────────── */
-function hexToRgba(hex, alpha) {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
+import {
+  BLEND_MODES, DEFAULT_ANIM, blobRadius, blobAlpha, blobBlur, blobPose, svgTransform,
+  buildSvg, buildCss, cssParts, buildReact, buildTailwind,
+  svgToImage, fitSize, renderLoopFrames, renderGif,
+} from './mesh-engine';
+import { videoSupport, recordFrames } from '@/lib/frame-recorder';
 
+/* ── Helpers ──────────────────────────────────────────────────── */
 function isValidHex(h) { return /^#[0-9a-fA-F]{6}$/.test(h); }
 
 function hslToHex(h, s, l) {
@@ -28,80 +28,11 @@ function hslToHex(h, s, l) {
 let _id = 0;
 function mkId() { return ++_id; }
 
-/* Per-blob effective radius & opacity (blobs can override the globals) */
-function blobRadius(b, spread, W, H) {
-  return Math.round(Math.max(W, H) * spread * 0.5 * (b.scale ?? 1));
-}
-function blobAlpha(b, opacity) {
-  return ((b.op ?? opacity) / 100);
-}
-function blobBlur(b, blur) {
-  return b.blur ?? blur;
-}
-
-/* Single radial-gradient layer string used by CSS / React / Tailwind exports */
-function gradientLayers(blobs, spread, opacity) {
-  return blobs.map(b => {
-    const s = Math.round(spread * 200 * (b.scale ?? 1));
-    const x = Math.round(b.x * 100);
-    const y = Math.round(b.y * 100);
-    return `radial-gradient(ellipse ${s}% ${s}% at ${x}% ${y}%, ${hexToRgba(b.color, blobAlpha(b, opacity).toFixed(2))} 0%, transparent 70%)`;
-  });
-}
-
-/* Grayscale film-grain — inline SVG turbulence data URI for CSS/React */
-function grainDataUri(grain) {
-  const op = (grain / 100).toFixed(2);
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(#n)' opacity='${op}'/></svg>`;
-  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
-}
-
-function buildSvgString(blobs, bgColor, blur, spread, opacity, grain, W, H) {
-  const filters = blobs.map((b, i) =>
-    `    <filter id="blur${i}" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="${blobBlur(b, blur)}"/></filter>`
-  ).join('\n');
-  const circles = blobs.map((b, i) =>
-    `  <circle cx="${Math.round(b.x * W)}" cy="${Math.round(b.y * H)}" r="${blobRadius(b, spread, W, H)}" fill="${b.color}" opacity="${blobAlpha(b, opacity).toFixed(2)}" filter="url(#blur${i})"/>`
-  ).join('\n');
-  const grainDefs = grain > 0
-    ? `    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>`
-    : null;
-  const grainRect = grain > 0
-    ? `  <rect width="${W}" height="${H}" filter="url(#grain)" opacity="${(grain / 100).toFixed(2)}"/>`
-    : null;
-  return [
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">`,
-    `  <defs>`,
-    filters,
-    grainDefs,
-    `  </defs>`,
-    `  <rect width="${W}" height="${H}" fill="${bgColor}"/>`,
-    circles,
-    grainRect,
-    `</svg>`,
-  ].filter(Boolean).join('\n');
-}
-
-function buildCssString(blobs, bgColor, spread, opacity, grain) {
-  const layers = gradientLayers(blobs, spread, opacity);
-  if (grain > 0) layers.unshift(grainDataUri(grain));
-  const stops = layers.map(l => `    ${l}`).join(',\n');
-  return `.mesh-bg {\n  background-color: ${bgColor};\n  background-image:\n${stops};\n}`;
-}
-
-function buildReactString(blobs, bgColor, spread, opacity, grain) {
-  const layers = gradientLayers(blobs, spread, opacity);
-  if (grain > 0) layers.unshift(grainDataUri(grain));
-  const bg = layers.join(', ').replace(/'/g, "\\'");
-  return `export default function MeshBackground() {\n  return (\n    <div\n      style={{\n        width: '100%',\n        height: '100%',\n        backgroundColor: '${bgColor}',\n        backgroundImage:\n          '${bg}',\n      }}\n    />\n  );\n}`;
-}
-
-function buildTailwindString(blobs, bgColor, spread, opacity, grain) {
-  const layers = gradientLayers(blobs, spread, opacity);
-  if (grain > 0) layers.unshift(grainDataUri(grain));
-  // Tailwind arbitrary values: no spaces — replace with underscores
-  const img = layers.join(',').replace(/\s+/g, '_');
-  return `<div class="h-full w-full bg-[${bgColor}] bg-[image:${img}]"></div>`;
+function saveBlob(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
 /* ── Presets ──────────────────────────────────────────────────── */
@@ -118,6 +49,11 @@ const PRESETS = [
     blobs: [{ x:0.2, y:0.2,  color:'#c9b8f4' },{ x:0.8, y:0.3,  color:'#f7b8d3' },{ x:0.5, y:0.75, color:'#b8e4f7' },{ x:0.15,y:0.7,  color:'#b8f7c8' }] },
   { label: 'Dusk',    bgColor: '#1a0522', dot: '#c471ed',
     blobs: [{ x:0.3, y:0.2,  color:'#c471ed' },{ x:0.8, y:0.4,  color:'#12c2e9' },{ x:0.15,y:0.7,  color:'#f64f59' },{ x:0.7, y:0.8,  color:'#f093fb' }] },
+  // Shape-led presets: stretched, rotated ribbons with blend modes
+  { label: 'Silk',    bgColor: '#f6f1ff', dot: '#7c5cff', blur: 60, spread: 0.45, opacity: 90,
+    blobs: [{ x:0.25,y:0.3,  color:'#7c5cff', stretch:2.2, rot:-24, mode:'multiply' },{ x:0.7, y:0.25, color:'#ff8a5b', stretch:1.8, rot:18, mode:'multiply' },{ x:0.55,y:0.75, color:'#00c2d1', stretch:2.4, rot:-8, mode:'multiply' },{ x:0.15,y:0.8,  color:'#ffd166', stretch:1.6, rot:32 }] },
+  { label: 'Prism',   bgColor: '#05010f', dot: '#ff3cac', blur: 70, spread: 0.42, opacity: 85,
+    blobs: [{ x:0.3, y:0.35, color:'#ff3cac', stretch:2.0, rot:35, mode:'screen' },{ x:0.7, y:0.3,  color:'#784ba0', stretch:1.7, rot:-30, mode:'screen' },{ x:0.5, y:0.7,  color:'#2b86c5', stretch:2.3, rot:10, mode:'screen' },{ x:0.85,y:0.8,  color:'#00f5a0', stretch:1.4, rot:-15, mode:'screen' }] },
 ];
 
 const RATIOS = [
@@ -140,7 +76,10 @@ const RAND_COLORS = ['#4776e6','#8e54e9','#43e97b','#38f9d7','#f093fb','#f5576c'
 const DEFAULT = PRESETS[0];
 const CUSTOM_KEY = 'mesh_custom_presets';
 
-function makeBlobs(preset) { return preset.blobs.map(b => ({ ...b, scale: 1, op: null, id: mkId() })); }
+function normBlob(b) {
+  return { x: b.x, y: b.y, color: b.color, scale: b.scale ?? 1, op: b.op ?? null, blur: b.blur ?? null, stretch: b.stretch ?? 1, rot: b.rot ?? 0, mode: b.mode || 'normal', id: mkId() };
+}
+function makeBlobs(preset) { return preset.blobs.map(normBlob); }
 
 function harmonyColors(n, harmony) {
   if (harmony === 'random') {
@@ -159,10 +98,17 @@ function harmonyColors(n, harmony) {
 }
 
 /* Compact serialisable snapshot of the whole design (no React ids) */
-function snapshotOf(blobs, bgColor, blur, spread, opacity, grain, W, H) {
+function snapshotOf(blobs, bgColor, blur, spread, opacity, grain, W, H, anim) {
   return {
-    blobs: blobs.map(b => ({ x: +b.x.toFixed(4), y: +b.y.toFixed(4), color: b.color, scale: b.scale ?? 1, op: b.op ?? null, blur: b.blur ?? null })),
+    blobs: blobs.map(b => {
+      const o = { x: +b.x.toFixed(4), y: +b.y.toFixed(4), color: b.color, scale: b.scale ?? 1, op: b.op ?? null, blur: b.blur ?? null };
+      if ((b.stretch ?? 1) !== 1) o.stretch = b.stretch;
+      if (b.rot) o.rot = b.rot;
+      if (b.mode && b.mode !== 'normal') o.mode = b.mode;
+      return o;
+    }),
     bgColor, blur, spread, opacity, grain, w: W, h: H,
+    ...(anim?.on ? { anim: { on: true, dur: anim.dur, amount: anim.amount, seed: anim.seed } } : {}),
   };
 }
 function encodeState(s)  { return btoa(unescape(encodeURIComponent(JSON.stringify(s)))); }
@@ -217,6 +163,16 @@ export default function MeshGradientGeneratorTool() {
   const [pngCustomH, setPngCustomH] = useState(1000);
   const [customPresets, setCustomPresets] = useState([]);
   const [histVer,    setHistVer]    = useState(0);
+  // Animation: settings live in history/share links; play/pause is just the preview
+  const [anim,       setAnim]       = useState(DEFAULT_ANIM);
+  const [playing,    setPlaying]    = useState(true);
+  const [vidSize,    setVidSize]    = useState(1280);
+  const [job,        setJob]        = useState(null); // { kind, label, done, total } while a video/GIF renders
+  const jobAbortRef = useRef(null);
+  const phaseRef    = useRef(0);
+  const blobGRefs   = useRef([]);
+  const [vidSupport, setVidSupport] = useState(null);
+  useEffect(() => { setVidSupport(videoSupport()); }, []);
 
   const W = ratio.w;
   const H = ratio.h;
@@ -304,8 +260,8 @@ export default function MeshGradientGeneratorTool() {
 
   /* ── History (undo / redo) ── */
   const snap = useMemo(
-    () => snapshotOf(blobs, bgColor, blur, spread, opacity, grain, W, H),
-    [blobs, bgColor, blur, spread, opacity, grain, W, H]
+    () => snapshotOf(blobs, bgColor, blur, spread, opacity, grain, W, H, anim),
+    [blobs, bgColor, blur, spread, opacity, grain, W, H, anim]
   );
   const snapStr = JSON.stringify(snap);
 
@@ -326,7 +282,8 @@ export default function MeshGradientGeneratorTool() {
 
   function applySnapshot(s, isShare) {
     restoringRef.current = !isShare; // shared state should start a fresh history entry
-    setBlobs(s.blobs.map(b => ({ x: b.x, y: b.y, color: b.color, scale: b.scale ?? 1, op: b.op ?? null, blur: b.blur ?? null, id: mkId() })));
+    setBlobs(s.blobs.map(normBlob));
+    setAnim(s.anim ? { ...DEFAULT_ANIM, ...s.anim, on: true } : { ...DEFAULT_ANIM, on: false });
     setBgColor(s.bgColor); setBgRaw(s.bgColor);
     setBlur(s.blur); setSpread(s.spread); setOpacity(s.opacity); setGrain(s.grain ?? 0);
     setRatio(RATIOS.find(r => r.w === s.w && r.h === s.h) || { label: 'custom', w: s.w, h: s.h });
@@ -365,7 +322,7 @@ export default function MeshGradientGeneratorTool() {
     if (blobs.length >= 8) return;
     const color = RAND_COLORS[Math.floor(Math.random() * RAND_COLORS.length)];
     const id    = mkId();
-    setBlobs(prev => [...prev, { id, x: 0.2 + Math.random() * 0.6, y: 0.2 + Math.random() * 0.6, color, scale: 1, op: null }]);
+    setBlobs(prev => [...prev, { id, x: 0.2 + Math.random() * 0.6, y: 0.2 + Math.random() * 0.6, color, scale: 1, op: null, blur: null, stretch: 1, rot: 0, mode: 'normal' }]);
     setActiveBlob(id);
     setPreset('');
   }
@@ -391,6 +348,7 @@ export default function MeshGradientGeneratorTool() {
     if (p.spread != null) setSpread(p.spread);
     if (p.opacity != null) setOpacity(p.opacity);
     setGrain(p.grain ?? 0);
+    if (p.anim) setAnim({ ...DEFAULT_ANIM, ...p.anim });
     if (p.w && p.h) setRatio(RATIOS.find(r => r.w === p.w && r.h === p.h) || { label: 'custom', w: p.w, h: p.h });
     setPreset(p.label); setActiveBlob(null);
   }
@@ -407,13 +365,13 @@ export default function MeshGradientGeneratorTool() {
   }
 
   function reset() {
-    setRatio(RATIOS[0]); setGrain(0);
+    setRatio(RATIOS[0]); setGrain(0); setAnim(DEFAULT_ANIM); phaseRef.current = 0;
     applyPreset(DEFAULT); setBlur(80); setSpread(0.5); setOpacity(85);
   }
 
   /* ── Custom presets ── */
   function saveCustomPreset() {
-    const s = snapshotOf(blobs, bgColor, blur, spread, opacity, grain, W, H);
+    const s = snapshotOf(blobs, bgColor, blur, spread, opacity, grain, W, H, anim);
     const entry = { label: `Custom ${customPresets.length + 1}`, dot: blobs[0]?.color || '#888', ...s };
     const next = [...customPresets, entry];
     setCustomPresets(next);
@@ -427,12 +385,34 @@ export default function MeshGradientGeneratorTool() {
   }
 
   /* ── Code ── */
-  const svgString = useMemo(() => buildSvgString(blobs, bgColor, blur, spread, opacity, grain, W, H), [blobs, bgColor, blur, spread, opacity, grain, W, H]);
-  const cssString = useMemo(() => buildCssString(blobs, bgColor, spread, opacity, grain), [blobs, bgColor, spread, opacity, grain]);
-  const reactString = useMemo(() => buildReactString(blobs, bgColor, spread, opacity, grain), [blobs, bgColor, spread, opacity, grain]);
-  const twString  = useMemo(() => buildTailwindString(blobs, bgColor, spread, opacity, grain), [blobs, bgColor, spread, opacity, grain]);
+  const design = useMemo(() => ({ blobs, bgColor, blur, spread, opacity, grain, W, H, anim }), [blobs, bgColor, blur, spread, opacity, grain, W, H, anim]);
+  const svgString   = useMemo(() => buildSvg(design, { animated: true }), [design]);
+  const cssString   = useMemo(() => buildCss(design), [design]);
+  const reactString = useMemo(() => buildReact(design), [design]);
+  const twString    = useMemo(() => buildTailwind(design), [design]);
   const outputText = { svg: svgString, css: cssString, react: reactString, tailwind: twString }[tab];
-  const codeLang = { svg: 'svg', css: 'css', react: 'jsx', tailwind: 'html' }[tab];
+  const codeLang = { svg: 'svg', css: 'html + css', react: 'jsx', tailwind: 'html' }[tab];
+  const isAnimated = anim.on && anim.amount > 0;
+
+  /* ── Live preview animation: rAF moves the blob groups directly (no React re-render per frame) ── */
+  useEffect(() => {
+    if (!isAnimated || !playing) return;
+    let raf, last = performance.now();
+    const tick = now => {
+      phaseRef.current = (phaseRef.current + (now - last) / 1000 / anim.dur) % 1;
+      last = now;
+      blobs.forEach((b, i) => {
+        const g = blobGRefs.current[i];
+        if (g) g.setAttribute('transform', svgTransform(blobPose(b, i, phaseRef.current, anim), W, H));
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [isAnimated, playing, anim, blobs, W, H]);
+
+  const updateAnim = patch => setAnim(a => ({ ...a, ...patch }));
+  const newSeed = () => updateAnim({ seed: Math.floor(Math.random() * 9999) + 1 });
 
   function copy() {
     navigator.clipboard.writeText(outputText);
@@ -441,7 +421,7 @@ export default function MeshGradientGeneratorTool() {
 
   function copyShareLink() {
     try {
-      const s = snapshotOf(blobs, bgColor, blur, spread, opacity, grain, W, H);
+      const s = snapshotOf(blobs, bgColor, blur, spread, opacity, grain, W, H, anim);
       const url = `${window.location.origin}${window.location.pathname}?g=${encodeState(s)}`;
       navigator.clipboard.writeText(url);
       setShareCopied(true); setTimeout(() => setShareCopied(false), 1800);
@@ -450,11 +430,7 @@ export default function MeshGradientGeneratorTool() {
 
   /* ── Downloads ── */
   function downloadSvg() {
-    const blob = new Blob([svgString], { type: 'image/svg+xml' });
-    const url  = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'mesh-gradient.svg'; a.click();
-    URL.revokeObjectURL(url);
+    saveBlob(new Blob([svgString], { type: 'image/svg+xml' }), isAnimated ? 'mesh-gradient-animated.svg' : 'mesh-gradient.svg');
   }
 
   const PNG_PRESETS = [
@@ -476,21 +452,50 @@ export default function MeshGradientGeneratorTool() {
     const { w, h } = getPngDims();
     const mime = imgFormat === 'jpg' ? 'image/jpeg' : imgFormat === 'webp' ? 'image/webp' : 'image/png';
     const ext  = imgFormat === 'jpg' ? 'jpg' : imgFormat;
-    const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-    const url = URL.createObjectURL(svgBlob);
-    const img = new Image();
-    img.onload = () => {
+    // A still is the frame on screen now (the paused / current animation phase)
+    svgToImage(buildSvg(design, { phase: isAnimated ? phaseRef.current : 0 })).then(img => {
       const canvas = document.createElement('canvas');
       canvas.width = w; canvas.height = h;
       const ctx = canvas.getContext('2d');
       if (imgFormat === 'jpg') { ctx.fillStyle = bgColor; ctx.fillRect(0, 0, w, h); } // JPG has no alpha
       ctx.drawImage(img, 0, 0, w, h);
-      URL.revokeObjectURL(url);
-      const a = document.createElement('a');
-      a.download = `mesh-gradient-${w}x${h}.${ext}`;
-      a.href = canvas.toDataURL(mime, 0.92); a.click();
-    };
-    img.src = url;
+      canvas.toBlob(b => b && saveBlob(b, `mesh-gradient-${w}x${h}.${ext}`), mime, 0.92);
+    });
+  }
+
+  /* ── Animated exports: one seamless loop (video loops twice so players that don't loop still show it) ── */
+  async function runJob(kind, work) {
+    if (job) return;
+    const ctrl = new AbortController();
+    jobAbortRef.current = ctrl;
+    setJob({ kind, label: 'Rendering frames', done: 0, total: 1 });
+    try {
+      await work(ctrl.signal, ({ phase, done, total }) =>
+        setJob({ kind, label: phase === 'render' ? 'Rendering frames' : phase === 'encode' ? 'Encoding GIF' : 'Recording video', done, total }));
+    } catch (e) {
+      if (e?.name !== 'AbortError') alert(e?.message || 'Export failed');
+    } finally {
+      jobAbortRef.current = null;
+      setJob(null);
+    }
+  }
+  function downloadVideo() {
+    const d = design;
+    runJob('video', async (signal, onProgress) => {
+      const { w, h } = fitSize(d.W, d.H, vidSize);
+      const fps = 30;
+      const frames = await renderLoopFrames(d, { w, h, fps, onProgress, signal });
+      const { blob, ext } = await recordFrames(frames, { w, h, fps, loops: 2, onProgress, signal });
+      saveBlob(blob, `mesh-gradient-${w}x${h}.${ext}`);
+    });
+  }
+  function downloadGif() {
+    const d = design;
+    runJob('gif', async (signal, onProgress) => {
+      const { w, h } = fitSize(d.W, d.H, 480);
+      const blob = await renderGif(d, { w, h, fps: 20, onProgress, signal });
+      saveBlob(blob, `mesh-gradient-${w}x${h}.gif`);
+    });
   }
 
   /* ── Render ── */
@@ -500,6 +505,7 @@ export default function MeshGradientGeneratorTool() {
   const forkSnippet = () => ({
     name: 'Mesh Gradient Hero',
     html: `<section class="mesh-bg hero">
+${design.blobs.map((_, i) => `  <span class="mesh-blob b${i + 1}"></span>`).join('\n')}
   <h1>Mesh gradient background</h1>
   <p>Made with the Mesh Gradient Generator on webdevpuneet.com</p>
 </section>`,
@@ -519,7 +525,7 @@ body { margin: 0; font-family: system-ui, -apple-system, sans-serif; }
 .hero p { margin: 0; font-size: 17px; opacity: 0.85; }
 
 /* The mesh gradient you built */
-${cssString}`,
+${cssParts(design).css}`,
   });
 
   return (
@@ -545,7 +551,7 @@ ${cssString}`,
         </div>
               <div className={styles.headerTitle}><strong className={styles.accent}>Mesh</strong> <span className={styles.accent2}>Gradient</span> Generator</div>
             </div>
-            <code className={styles.sideCode} title={`${blobs.length} blobs · blur ${blur}px · spread ${Math.round(spread * 100)}%${grain > 0 ? ` · grain ${grain}%` : ''}`}>{`${blobs.length} blobs · blur ${blur}px · spread ${Math.round(spread * 100)}%${grain > 0 ? ` · grain ${grain}%` : ''}`}</code>
+            <code className={styles.sideCode} title={`${blobs.length} blobs · blur ${blur}px · spread ${Math.round(spread * 100)}%${grain > 0 ? ` · grain ${grain}%` : ''}`}>{`${blobs.length} blobs · blur ${blur}px · spread ${Math.round(spread * 100)}%${grain > 0 ? ` · grain ${grain}%` : ''}${isAnimated ? ` · ${anim.dur}s loop` : ''}`}</code>
             <div className={styles.sideActions}>
               <div className={styles.sideBtnRow}>
                 <button className={styles.histBtn} onClick={undo} disabled={!canUndo} aria-label="Undo" title="Undo (Ctrl+Z)">↶</button>
@@ -703,13 +709,93 @@ ${cssString}`,
                     onChange={e => updateBlob(active.id, { op: Number(e.target.value) })} />
                 </div>
 
-                {(active.op != null || active.blur != null || (active.scale ?? 1) !== 1) && (
+                <div className={styles.sliderRow}>
+                  <div className={styles.labelRow}>
+                    <span className={styles.label}>Stretch</span>
+                    <span className={styles.valBadge}>{(active.stretch ?? 1).toFixed(2)}×</span>
+                  </div>
+                  <input type="range" className={styles.slider}
+                    value={active.stretch ?? 1} min={0.4} max={3} step={0.05}
+                    aria-label="Blob stretch (ellipse width to height)"
+                    onChange={e => updateBlob(active.id, { stretch: Number(e.target.value) })} />
+                </div>
+
+                <div className={styles.sliderRow}>
+                  <div className={styles.labelRow}>
+                    <span className={styles.label}>Rotation</span>
+                    <span className={styles.valBadge}>{Math.round(active.rot ?? 0)}°</span>
+                  </div>
+                  <input type="range" className={styles.slider}
+                    value={active.rot ?? 0} min={-90} max={90} step={1}
+                    aria-label="Blob rotation"
+                    onChange={e => updateBlob(active.id, { rot: Number(e.target.value) })} />
+                </div>
+
+                <div className={styles.selectRow}>
+                  <span className={styles.label}>Blend</span>
+                  <select className={styles.miniSelect} value={active.mode || 'normal'}
+                    aria-label="Blob blend mode"
+                    onChange={e => updateBlob(active.id, { mode: e.target.value })}>
+                    {BLEND_MODES.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
+                  </select>
+                </div>
+
+                {(active.op != null || active.blur != null || (active.scale ?? 1) !== 1 || (active.stretch ?? 1) !== 1 || !!active.rot || (active.mode && active.mode !== 'normal')) && (
                   <button className={styles.resetInline}
-                    onClick={() => updateBlob(active.id, { op: null, blur: null, scale: 1 })}>
+                    onClick={() => updateBlob(active.id, { op: null, blur: null, scale: 1, stretch: 1, rot: 0, mode: 'normal' })}>
                     Reset blob overrides
                   </button>
                 )}
               </div>
+            )}
+          </div>
+
+          <div className={styles.section}>
+            <div className={styles.animHead}>
+              <div className={styles.sectionTitle} style={{ margin: 0 }}>Animation</div>
+              <label className={styles.switch}>
+                <input type="checkbox" checked={anim.on}
+                  aria-label="Animate the mesh"
+                  onChange={e => { updateAnim({ on: e.target.checked }); setPlaying(true); }} />
+                <span className={styles.switchTrack} />
+              </label>
+            </div>
+            {!anim.on && <p className={styles.animHint}>Blobs drift on a slow, seamless loop. Exports as animated SVG / CSS / React, MP4 or GIF.</p>}
+            {anim.on && (
+              <>
+                <div className={styles.animRow}>
+                  <button className={styles.playBtn} onClick={() => setPlaying(p => !p)} aria-label={playing ? 'Pause preview' : 'Play preview'}>
+                    {playing ? '❚❚ Pause' : '▶ Play'}
+                  </button>
+                  <div className={styles.seedBox}>
+                    <span className={styles.label}>Seed</span>
+                    <input type="number" className={styles.seedInput} value={anim.seed} min={1} max={99999}
+                      aria-label="Motion seed"
+                      onChange={e => updateAnim({ seed: Math.max(1, Math.min(99999, Math.round(Number(e.target.value) || 1))) })} />
+                    <button className={styles.histBtn} onClick={newSeed} title="New random motion" aria-label="New random seed">🎲</button>
+                  </div>
+                </div>
+                <div className={styles.sliderRow}>
+                  <div className={styles.labelRow}>
+                    <span className={styles.label}>Loop length</span>
+                    <span className={styles.valBadge}>{anim.dur}s</span>
+                  </div>
+                  <input type="range" className={styles.slider}
+                    value={anim.dur} min={4} max={40} step={1}
+                    aria-label="Loop length in seconds (lower is faster)"
+                    onChange={e => updateAnim({ dur: Number(e.target.value) })} />
+                </div>
+                <div className={styles.sliderRow}>
+                  <div className={styles.labelRow}>
+                    <span className={styles.label}>Motion</span>
+                    <span className={styles.valBadge}>{anim.amount}%</span>
+                  </div>
+                  <input type="range" className={styles.slider}
+                    value={anim.amount} min={5} max={100} step={5}
+                    aria-label="Motion amount"
+                    onChange={e => updateAnim({ amount: Number(e.target.value) })} />
+                </div>
+              </>
             )}
           </div>
 
@@ -816,12 +902,18 @@ ${cssString}`,
                   )}
                 </defs>
                 <rect width={W} height={H} fill={bgColor} />
-                {blobs.map((b, i) => (
-                  <circle key={b.id}
-                    cx={b.x * W} cy={b.y * H} r={blobRadius(b, spread, W, H)}
-                    fill={b.color} opacity={blobAlpha(b, opacity).toFixed(2)}
-                    filter={`url(#meshBlurLive${i})`} />
-                ))}
+                {blobs.map((b, i) => {
+                  const r = blobRadius(b, spread, W, H);
+                  const pose = blobPose(b, i, isAnimated ? phaseRef.current : 0, anim);
+                  return (
+                    <g key={b.id} ref={el => { blobGRefs.current[i] = el; }} transform={svgTransform(pose, W, H)}>
+                      <ellipse rx={r * (b.stretch ?? 1)} ry={r}
+                        fill={b.color} opacity={blobAlpha(b, opacity).toFixed(2)}
+                        filter={`url(#meshBlurLive${i})`}
+                        style={b.mode && b.mode !== 'normal' ? { mixBlendMode: b.mode } : undefined} />
+                    </g>
+                  );
+                })}
                 {grain > 0 && (
                   <rect width={W} height={H} filter="url(#meshGrainLive)" opacity={(grain / 100).toFixed(2)} />
                 )}
@@ -879,53 +971,91 @@ ${cssString}`,
             </div>
             </div>
 
+            {/* Download: three columns (vector, image, motion), each with its own settings */}
             <div className={styles.downloadSection}>
-              <div className={styles.downloadTitle}>Download</div>
-              <div className={styles.dlRow}>
-                <button className={`${styles.dlBtn} ${styles.dlBtnPrimary}`} onClick={downloadSvg}>↓ SVG</button>
-                <button className={styles.dlBtn} onClick={downloadRaster}>↓ {imgFormat.toUpperCase()}</button>
-              </div>
-              <div className={styles.pngSizeRow}>
-                <span className={styles.pngSizeLabel}>Format</span>
-                <select className={styles.pngSizeSelect} value={imgFormat}
-                  aria-label="Raster export format"
-                  onChange={e => setImgFormat(e.target.value)}>
-                  <option value="png">PNG</option>
-                  <option value="jpg">JPG</option>
-                  <option value="webp">WebP</option>
-                </select>
-              </div>
-              <div className={styles.pngSizeRow}>
-                <span className={styles.pngSizeLabel}>Size</span>
-                <select
-                  className={styles.pngSizeSelect}
-                  value={pngSize}
-                  aria-label="Raster export size"
-                  onChange={e => setPngSize(e.target.value)}>
-                  {PNG_PRESETS.map(p => (
-                    <option key={p.value} value={p.value}>{p.label}</option>
-                  ))}
-                </select>
-              </div>
-              {pngSize === 'custom' && (
-                <div className={styles.pngCustomRow}>
-                  <input
-                    type="number" className={styles.pngDimInput}
-                    value={pngCustomW} min={100} max={8000}
-                    aria-label="Custom width"
-                    onChange={e => setPngCustomW(Number(e.target.value))}
-                    placeholder="W" />
-                  <span className={styles.pngDimSep}>×</span>
-                  <input
-                    type="number" className={styles.pngDimInput}
-                    value={pngCustomH} min={100} max={8000}
-                    aria-label="Custom height"
-                    onChange={e => setPngCustomH(Number(e.target.value))}
-                    placeholder="H" />
-                  <span className={styles.pngDimUnit}>px</span>
+              <div className={styles.dlGrid}>
+                <div className={styles.dlCol}>
+                  <div className={styles.dlColHead}>Vector</div>
+                  <button className={`${styles.dlBtn} ${styles.dlBtnPrimary}`} onClick={downloadSvg}
+                    title={isAnimated ? 'SVG with the animation built in' : 'Scalable SVG'}>↓ SVG</button>
+                  <p className={styles.dlInfo}>Any size, sharp on every screen.{isAnimated ? ' Animated.' : ''}</p>
                 </div>
-              )}
-              <div className={styles.dlNote}>SVG is infinitely scalable · Raster at {pngSize === 'custom' ? `${pngCustomW}×${pngCustomH}` : pngSize.replace('x', '×')}px</div>
+
+                <div className={styles.dlCol}>
+                  <div className={styles.dlColHead}>Image</div>
+                  <button className={styles.dlBtn} onClick={downloadRaster}
+                    title={isAnimated ? 'Saves the frame on screen now (pause to choose it)' : 'Download as an image'}>↓ {imgFormat.toUpperCase()}</button>
+                  <div className={styles.dlSelects}>
+                    <select className={styles.pngSizeSelect} value={imgFormat}
+                      aria-label="Image format"
+                      onChange={e => setImgFormat(e.target.value)}>
+                      <option value="png">PNG</option>
+                      <option value="jpg">JPG</option>
+                      <option value="webp">WebP</option>
+                    </select>
+                    <select className={styles.pngSizeSelect} value={pngSize}
+                      aria-label="Image size"
+                      onChange={e => setPngSize(e.target.value)}>
+                      {PNG_PRESETS.map(p => (
+                        <option key={p.value} value={p.value}>{p.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                  {pngSize === 'custom' && (
+                    <div className={styles.pngCustomRow}>
+                      <input type="number" className={styles.pngDimInput}
+                        value={pngCustomW} min={100} max={8000}
+                        aria-label="Custom width"
+                        onChange={e => setPngCustomW(Number(e.target.value))}
+                        placeholder="W" />
+                      <span className={styles.pngDimSep}>×</span>
+                      <input type="number" className={styles.pngDimInput}
+                        value={pngCustomH} min={100} max={8000}
+                        aria-label="Custom height"
+                        onChange={e => setPngCustomH(Number(e.target.value))}
+                        placeholder="H" />
+                    </div>
+                  )}
+                </div>
+
+                <div className={styles.dlCol}>
+                  <div className={styles.dlColHead}>Video · GIF{isAnimated ? ` · ${anim.dur}s loop` : ''}</div>
+                  {job ? (
+                    <div className={styles.jobBox}>
+                      <div className={styles.jobLabel}>{job.label}… {Math.round((job.done / Math.max(1, job.total)) * 100)}%</div>
+                      <div className={styles.jobBar}><span style={{ width: `${(job.done / Math.max(1, job.total)) * 100}%` }} /></div>
+                      <button className={styles.dlBtnSmall} onClick={() => jobAbortRef.current?.abort()}>Cancel</button>
+                    </div>
+                  ) : !isAnimated ? (
+                    <>
+                      <button className={`${styles.dlBtn} ${styles.dlBtnAnim}`}
+                        onClick={() => { updateAnim({ on: true, amount: anim.amount || DEFAULT_ANIM.amount }); setPlaying(true); }}>
+                        ▶ Animate
+                      </button>
+                      <p className={styles.dlInfo}>Turn on motion to download an MP4 or a looping GIF.</p>
+                    </>
+                  ) : (
+                    <>
+                      <div className={styles.dlBtnPair}>
+                        <button className={`${styles.dlBtn} ${styles.dlBtnAnim}`} onClick={downloadVideo} disabled={!vidSupport}
+                          title={vidSupport ? 'Seamless loop video (the loop plays twice)' : 'This browser cannot record video. Try Chrome or Edge.'}>
+                          ↓ {vidSupport ? vidSupport.ext.toUpperCase() : 'Video'}
+                        </button>
+                        <button className={styles.dlBtn} onClick={downloadGif} title="Looping GIF, 480px wide, 20 fps">↓ GIF</button>
+                      </div>
+                      <div className={styles.dlSelects}>
+                        <select className={styles.pngSizeSelect} value={vidSize}
+                          aria-label="Video size (long edge)"
+                          onChange={e => setVidSize(Number(e.target.value))}>
+                          <option value={960}>Video 960px</option>
+                          <option value={1280}>Video 1280px</option>
+                          <option value={1920}>Video 1920px</option>
+                        </select>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -6,13 +6,13 @@ import styles from '../tool-page.module.css';
 
 export const metadata = {
   title: 'Mesh Gradient Generator — Free SVG & CSS Mesh Background Tool | webdevpuneet.com',
-  description: 'Free mesh gradient generator — drag colored blobs to create backgrounds like Stripe and Linear. Export SVG, PNG, or pure CSS. 6 presets, blur controls, free.',
+  description: 'Free mesh gradient generator: drag, stretch, rotate and blend soft blobs, animate them on a seamless loop, then export SVG, CSS, React, Tailwind, MP4 or GIF.',
   authors: [{ name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' }],
   robots: { index: true, follow: true },
   alternates: { canonical: 'https://webdevpuneet.com/mesh-gradient-generator/' },
   icons: { icon: '/icons/mesh-gradient-generator.svg', shortcut: '/icons/mesh-gradient-generator.svg' },
-  openGraph: { type: 'website', url: 'https://webdevpuneet.com/mesh-gradient-generator/', siteName: 'webdevpuneet.com', title: 'Mesh Gradient Generator — Free SVG & CSS Mesh Backgrounds', description: 'Drag blobs to create stunning mesh gradient backgrounds. Export as SVG, PNG, or CSS. 6 presets, blur & spread controls. Free.', images: [{ url: 'https://webdevpuneet.com/images/mesh-gradient-generator.png', width: 1200, height: 630, alt: 'Mesh Gradient Generator' }], locale: 'en_US' },
-  twitter: { card: 'summary_large_image', site: '@webdevpuneet', title: 'Mesh Gradient Generator — SVG & CSS Mesh Backgrounds', description: 'Create mesh gradient backgrounds by dragging blobs. Export SVG, PNG, or CSS. 6 presets. Free.', images: ['https://webdevpuneet.com/images/mesh-gradient-generator.png'] },
+  openGraph: { type: 'website', url: 'https://webdevpuneet.com/mesh-gradient-generator/', siteName: 'webdevpuneet.com', title: 'Mesh Gradient Generator — Free SVG & CSS Mesh Backgrounds', description: 'Drag blobs to create stunning mesh gradient backgrounds. Animate on a seamless loop. Export SVG, CSS, React, PNG, MP4 or GIF. Free.', images: [{ url: 'https://webdevpuneet.com/images/mesh-gradient-generator.png', width: 1200, height: 630, alt: 'Mesh Gradient Generator' }], locale: 'en_US' },
+  twitter: { card: 'summary_large_image', site: '@webdevpuneet', title: 'Mesh Gradient Generator — SVG & CSS Mesh Backgrounds', description: 'Create mesh gradient backgrounds by dragging blobs. Animate them, export SVG, CSS, MP4 or GIF. Free.', images: ['https://webdevpuneet.com/images/mesh-gradient-generator.png'] },
 };
 
 const faqSchema = {
@@ -31,7 +31,7 @@ const faqSchema = {
     {
       '@type': 'Question',
       name: 'What is the difference between the SVG and CSS export?',
-      acceptedAnswer: { '@type': 'Answer', text: 'The SVG export produces a complete SVG file containing a background rectangle and multiple blurred circle elements — this is the highest-quality output, is infinitely scalable, and can be embedded directly in HTML with an <img> tag, used as a CSS background-image, or referenced in a <use> element. The SVG feGaussianBlur filter produces smooth, accurate color blending that closely matches the preview. The CSS export produces a pure CSS background using multiple radial-gradient() calls — one per blob — layered via background-image. This requires no SVG file and can be pasted directly into any stylesheet, making it ideal for dynamic theming and CSS-only projects. The CSS version is a good approximation but lacks the Gaussian blur smoothness of the SVG approach, so edges between blobs are sharper. For the best visual quality, use SVG; for pure CSS without external files, use the CSS export.' }
+      acceptedAnswer: { '@type': 'Answer', text: 'The SVG export is a complete SVG file: a background rectangle and one blurred ellipse per blob, with rotation and blend modes applied, and a CSS animation inside when Animation is on. It is infinitely scalable and works as an <img>, a CSS background-image or inline markup. The HTML + CSS export builds the same mesh from elements instead: a .mesh-bg div with one span per blob, positioned and sized in percentages, blurred with filter: blur() in container units so it scales with the box, and animated with CSS keyframes. Use SVG for a single portable file; use HTML + CSS when the mesh should sit behind live content and resize with it.' }
     },
     {
       '@type': 'Question',
@@ -56,7 +56,7 @@ const faqSchema = {
     {
       '@type': 'Question',
       name: 'Can I animate a mesh gradient?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes — the exported SVG can be animated using CSS animations or SMIL SVG animation attributes. The simplest approach is to animate the cx and cy attributes of each circle element using SMIL <animate> tags inside the SVG, or to target the circles with CSS keyframe animations that translate the circle positions. For a JavaScript-powered animation like Stripe\'s, you can load the SVG inline and use JavaScript to smoothly update each circle\'s cx/cy values over time using requestAnimationFrame. Adding transition: cx 2s ease, cy 2s ease via CSS (cx and cy are animatable CSS properties in modern browsers) allows smooth blob movement when positions change. Start by exporting the SVG from this tool and then add animation on top of the generated markup.' }
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes, and this tool does it for you. Switch on Animation and every blob drifts, turns and gently scales on a seamless loop: set the loop length, the amount of motion and a seed number that fixes the pattern. The SVG, HTML + CSS, React and Tailwind exports then include the animation as CSS keyframes, with a prefers-reduced-motion rule that stops it for visitors who ask for less motion. If you need a file rather than code, download the loop as an MP4 (WebM in browsers that cannot record MP4) or a looping GIF.' }
     },
     {
       '@type': 'Question',
@@ -65,8 +65,8 @@ const faqSchema = {
     },
     {
       '@type': 'Question',
-      name: 'Why do my CSS radial-gradient blobs look sharper than the SVG version?',
-      acceptedAnswer: { '@type': 'Answer', text: 'The SVG export uses a true Gaussian blur (feGaussianBlur) applied to solid circles, which produces a physically accurate, smoothly falling-off edge — the same math a photo editor uses for its blur tool. The CSS export instead simulates each blob with a radial-gradient() that fades from a solid color to transparent. A radial-gradient falloff is a linear or eased ramp, not a true Gaussian curve, so the transition zone is narrower and the edges read as slightly crisper. This is a fundamental difference between the two rendering methods, not a bug. If edge softness matters — for a hero background, for example — export the SVG. If you need a self-contained CSS background with no external file (for runtime theming or a CSS-in-JS component), the radial-gradient version is an excellent, lightweight approximation. You can soften the CSS version further by increasing the transparent color stop percentage in each radial-gradient.' }
+      name: 'What do stretch, rotation and blend modes add to a mesh gradient?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Round blobs give soft, glowing meshes. Stretching a blob into a long ellipse and rotating it turns it into a ribbon of color, which is the look behind many Apple and Stripe backgrounds. Blend modes then change how overlapping blobs mix: screen brightens and glows on dark backgrounds, multiply deepens colors like overlapping ink on light ones, and overlay or soft light add contrast. Try the Silk preset for multiply ribbons on a light background and Prism for screen ribbons on a dark one.' }
     },
     {
       '@type': 'Question',
@@ -130,7 +130,7 @@ const softwareSchema = {
   operatingSystem: 'Web',
   browserRequirements: 'Requires JavaScript',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-  description: 'Free mesh gradient generator using SVG blobs with feGaussianBlur. Drag to reposition blobs, pick colors, adjust blur/spread/opacity, add film grain, and export as SVG, PNG/JPG/WebP, CSS, React, or Tailwind. Includes undo/redo, aspect-ratio presets, color-harmony randomize, custom presets, and shareable links.',
+  description: 'Free mesh gradient generator using SVG blobs with feGaussianBlur. Drag to reposition blobs, pick colors, stretch, rotate and blend each blob, animate them on a seamless loop, add film grain, and export as SVG, PNG/JPG/WebP, HTML + CSS, React, Tailwind, MP4/WebM or GIF. Includes undo/redo, aspect-ratio presets, color-harmony randomize, custom presets, and shareable links.',
   featureList: ['Drag-and-drop blob positioning (mouse & touch)', 'Individual color, size, and opacity per blob', 'Up to 8 blobs', '6 preset palettes + save your own', 'Film grain / noise overlay', 'Aspect-ratio presets (16:10, 16:9, 1:1, 4:3, 9:16)', 'Color-harmony randomize (analogous, complementary, triadic, monochrome)', 'Undo / redo with keyboard shortcuts', 'Blur, spread, and opacity controls', 'SVG, PNG, JPG, and WebP export up to 3200×2000px', 'CSS, React component, and Tailwind export', 'Shareable URL that restores your exact gradient'],
   author: { '@type': 'Person', name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' },
 };
@@ -149,7 +149,7 @@ const faqs = faqSchema.mainEntity.map(q => ({ q: q.name, a: q.acceptedAnswer.tex
 const SEO = {
   slug: 'mesh-gradient-generator',
   title: 'Mesh Gradient Generator — Free SVG & CSS Mesh Backgrounds',
-  subtitle: 'Drag soft color blobs to build the layered, Stripe-style mesh backgrounds modern products use — add film grain, fine-tune every blob, pick an aspect ratio, then export as SVG, PNG, JPG, WebP, CSS, React, or Tailwind. Free, private, and runs entirely in your browser.',
+  subtitle: 'Drag soft color blobs to build the layered, Stripe-style mesh backgrounds modern products use — stretch, rotate and blend each blob, set them drifting on a seamless loop, then export as SVG, CSS, React, Tailwind, PNG, MP4 or GIF. Free, private, and runs entirely in your browser.',
 
   sections: [
     /* ── About — deep dive ── */
@@ -160,15 +160,19 @@ const SEO = {
       quickFacts: true,
       text: `You want the kind of rich, layered gradient background that Stripe, Linear, Vercel, and Apple use — multiple soft color blobs blending into each other from different directions — but recreating it by hand with CSS \`radial-gradient()\` is fiddly, and hunting for a stock background image wastes time and rarely matches your brand. This mesh gradient generator lets you drag the blobs around a live canvas and watch the mesh build in real time, then copy production-ready code or download an image in seconds.
 
-Under the hood, each blob is an SVG \`<circle>\` with a \`feGaussianBlur\` filter applied. When several large, heavily blurred circles overlap on a colored background, their colors diffuse and mix at the edges to produce the characteristic soft, organic mesh — the same way light blends through frosted glass. You control up to eight blobs, each draggable with the mouse or a finger, plus global sliders for blur (10–150px), spread, and opacity. Six curated presets — Aurora, Sunset, Ocean, Neon, Pastel, and Dusk — cover both dark and light themes as instant starting points, and you can **save your own presets** to reuse across projects.
+Under the hood, each blob is an SVG \`<ellipse>\` with a \`feGaussianBlur\` filter applied. When several large, heavily blurred shapes overlap on a colored background, their colors diffuse and mix at the edges to produce the characteristic soft, organic mesh — the same way light blends through frosted glass. You control up to eight blobs, each draggable with the mouse or a finger, plus global sliders for blur (10–150px), spread, and opacity. Eight presets cover dark and light themes: Aurora, Sunset, Ocean, Neon, Pastel and Dusk, plus Silk and Prism, which are built from stretched, rotated ribbons with blend modes, and you can **save your own presets** to reuse across projects.
 
 ## Fine control over every blob
 
-Select any blob to open a full editor and override its **color, X/Y position, size, blur, and opacity** independently — the key to sophisticated meshes with one dominant blob and subtle accents. Add a **film grain / noise overlay** for the premium, textured finish top products use, choose an **aspect ratio** (16:10, 16:9, 1:1, 4:3, or 9:16) to match your target, and use **Randomize** with color-harmony modes (analogous, complementary, triadic, monochrome) so every shuffle looks designed. Full **undo/redo** (Ctrl+Z / Ctrl+Shift+Z) and arrow-key nudging keep experimentation safe and precise.
+Select any blob to open a full editor and override its **color, X/Y position, size, blur and opacity**, then shape it: **stretch** turns the circle into an ellipse (0.4× to 3×), **rotation** tilts it (−90° to 90°) and a **blend mode** (screen, multiply, overlay, soft light, color dodge, lighten, hard light) changes how it mixes with the blobs beneath. Long rotated ellipses with screen or multiply are what give meshes the ribbon-like look of Apple and Stripe backgrounds instead of round glows. Add a **film grain / noise overlay** for the premium, textured finish top products use, choose an **aspect ratio** (16:10, 16:9, 1:1, 4:3, or 9:16) to match your target, and use **Randomize** with color-harmony modes (analogous, complementary, triadic, monochrome) so every shuffle looks designed. Full **undo/redo** (Ctrl+Z / Ctrl+Shift+Z) and arrow-key nudging keep experimentation safe and precise.
+
+## Animate it on a seamless loop
+
+Switch on **Animation** and every blob drifts, turns and breathes on a slow loop that ends exactly where it started, so it repeats with no visible jump. **Loop length** (4–40 s) sets the speed, **Motion** sets how far blobs travel, and the **Seed** number fixes the pattern: the same seed always gives the same motion, so a teammate opening your share link sees the identical animation. Press 🎲 for a new pattern, or pause the preview to pick the frame your PNG download will use. Every code export then includes the animation, and you can download the loop as an **MP4** (WebM in browsers that cannot record MP4) or a looping **GIF**. Visitors who prefer reduced motion get the still version automatically.
 
 ## Export to any stack, and share instantly
 
-Export as **SVG** (infinitely scalable — embed in HTML or use as \`background-image: url()\`), as **PNG, JPG, or WebP** up to 3200×2000px for email, Figma, Canva, and social/Open Graph images, as pure **CSS** with stacked \`radial-gradient()\` calls, or as a ready-to-paste **React component** or **Tailwind** utility. Every format updates live with a one-click copy. Click **Copy shareable link** to encode your entire design into a URL so a teammate can open and edit your exact gradient. Everything is generated locally in your browser — your colors, positions, and downloads are never uploaded to a server, so your work stays completely private.
+Export as **SVG** (infinitely scalable — embed in HTML or use as \`background-image: url()\`), as **PNG, JPG, or WebP** up to 3200×2000px for email, Figma, Canva, and social/Open Graph images, as **HTML + CSS** (one \`<span>\` per blob, sized in percentages and blurred in container units so it scales with any box), or as a ready-to-paste **React component** or **Tailwind** markup. Every format updates live with a one-click copy. Click **Copy shareable link** to encode your entire design into a URL so a teammate can open and edit your exact gradient. Everything is generated locally in your browser — your colors, positions, and downloads are never uploaded to a server, so your work stays completely private.
 
 ## Why designers reach for mesh gradients
 
@@ -197,17 +201,20 @@ Flat color backgrounds can feel dated, and photographic backgrounds compete with
       heading: 'Features',
       items: [
         'Drag-and-drop blob positioning — move each blob anywhere on the canvas with live preview; works with mouse, touch, and pen',
-        'Per-blob color, size, and opacity — select any blob to fine-tune it individually; build the scheme first with our [Color Palette Generator](/color-palette-generator)',
+        'Per-blob color, size, blur and opacity — select any blob to fine-tune it individually; build the scheme first with our [Color Palette Generator](/color-palette-generator)',
+        'Blob shapes — stretch any blob into an ellipse, rotate it and pick one of 8 blend modes (screen, multiply, overlay and more)',
+        'Seamless loop animation — loop length, motion amount, a repeatable seed and play/pause; exports as animated SVG, CSS, React and Tailwind',
+        'MP4 / WebM and GIF download — record the loop as a video (960 to 1920px) or a 480px looping GIF',
         'Up to 8 blobs with add/remove controls — start with 4 and layer up to 8 for complex multi-color meshes',
         'Film grain / noise overlay (0–60%) — add the subtle textured finish used by premium Stripe- and Linear-style backgrounds',
         'Aspect-ratio presets — 16:10, 16:9, 1:1 (square), 4:3, and 9:16 (story) so the canvas matches your target',
         'Color-harmony randomize — shuffle in Analogous, Complementary, Triadic, or Monochrome modes so every result looks designed',
         'Undo / redo — full history with Ctrl+Z / Ctrl+Shift+Z, plus arrow-key nudging for precise blob placement',
-        '6 curated presets: Aurora, Sunset, Ocean, Neon, Pastel, Dusk — plus save your own custom presets to your browser',
+        '8 presets: Aurora, Sunset, Ocean, Neon, Pastel, Dusk, Silk and Prism — plus save your own custom presets to your browser',
         'Blur (10–150px), spread (20–90%), and opacity (30–100%) sliders for global control',
         'SVG export — a complete, embeddable vector with a real Gaussian blur filter (infinitely scalable)',
         'PNG, JPG, and WebP download up to 3200×2000px — retina-ready raster for email, social, and design tools; shrink it further with our [Image Compressor](/image-compressor/)',
-        'CSS, React component, and Tailwind export — copy ready-to-paste code for any stack; compare with our [Gradient Generator](/gradient-generator)',
+        'HTML + CSS, React component and Tailwind export — blob elements that rotate, blend and animate like the preview; compare with our [Gradient Generator](/gradient-generator)',
         'Shareable link — copy a URL that restores your exact gradient for teammates or clients',
         '100% client-side — nothing is uploaded; layer frosted cards on top with our [Glassmorphism Generator](/glassmorphism-generator)',
       ],
@@ -219,14 +226,15 @@ Flat color backgrounds can feel dated, and photographic backgrounds compete with
       label: 'Step by step',
       heading: 'How to Use the Mesh Gradient Generator',
       items: [
-        { title: 'Choose a starting preset', text: 'Click any of the six presets in the left panel — Aurora, Sunset, Ocean, Neon, Pastel, or Dusk. Each loads a palette of 4 blobs on a matched background color. Aurora is the default dark-theme mesh; Pastel suits light UI themes. The preview updates instantly.' },
+        { title: 'Choose a starting preset', text: 'Click any of the eight presets in the left panel. Each loads 4 blobs on a matched background color. Aurora is the default dark mesh, Pastel and Silk suit light themes, and Silk and Prism show off stretched, rotated, blended blobs. The preview updates instantly.' },
         { title: 'Pick a canvas aspect ratio', text: 'In the Canvas section choose 16:10, 16:9, 1:1 (square), 4:3, or 9:16 (story) to match where the gradient will live — a website hero, social post, or phone wallpaper. The blobs re-flow automatically and every export uses the ratio you pick.' },
         { title: 'Reposition blobs by dragging', text: 'Each blob appears as a handle on the canvas — drag it with your mouse or finger (touch is fully supported). Watch the mesh recompute in real time; small position changes can produce dramatically different color blends. Use arrow keys to nudge the selected blob for pixel-precise placement.' },
-        { title: 'Fine-tune any blob', text: 'Click a blob to open its editor and override its color, X/Y position, size, blur, and opacity independently of the global settings. This is how you build depth — one large dominant blob plus smaller, softer accents. Hit "Reset blob overrides" to return it to the globals.' },
+        { title: 'Fine-tune any blob', text: 'Click a blob to open its editor and override its color, X/Y position, size, blur and opacity, and set its stretch, rotation and blend mode. One large dominant blob plus smaller, softer accents builds depth. Hit "Reset blob overrides" to return it to the defaults.' },
         { title: 'Add or remove blobs', text: 'Click "+ Add blob" to add a new blob at a random position — up to a maximum of 8. Click the × next to any blob to remove it (minimum of 2). Most designs look best with 4–6 blobs; more than that tends to blend into a flat, uniform color.' },
         { title: 'Adjust global blur, spread, opacity & grain', text: 'In Settings: Blur controls edge softness (10–150px), Spread sets blob radius relative to the canvas (20–90%), Opacity sets translucency (30–100%), and Grain (0–60%) adds a film-noise texture for that premium finish. Set the background color in the Background section.' },
         { title: 'Randomize with color harmony', text: 'Pick a Randomize style (Analogous, Complementary, Triadic, or Monochrome) then hit ⟳ Randomize to reshuffle positions and colors — the harmony mode keeps every result looking intentional. Use undo/redo (Ctrl+Z / Ctrl+Shift+Z) to step through variations safely.' },
-        { title: 'Export, save, or share', text: 'Switch the export tab between SVG, CSS, React, and Tailwind and click Copy, or download SVG / PNG / JPG / WebP at up to 3200×2000px. Click "★ Save current" to keep the design as a custom preset, or "🔗 Copy shareable link" to send an editable URL to a teammate.' },
+        { title: 'Animate the mesh (optional)', text: 'Turn on the Animation switch. Set the loop length and motion, type a seed or press 🎲 for a new pattern, and pause the preview on the frame you want for still downloads. The loop is seamless, so it repeats without a jump.' },
+        { title: 'Export, save, or share', text: 'Switch the export tab between SVG, CSS, React, and Tailwind and click Copy, or download SVG / PNG / JPG / WebP at up to 3200×2000px. With animation on, the panel also offers MP4 (or WebM) and GIF downloads of the loop. Click "★ Save current" to keep the design as a custom preset, or "🔗 Copy shareable link" to send an editable URL to a teammate.' },
       ],
     },
 
@@ -241,9 +249,11 @@ Flat color backgrounds can feel dated, and photographic backgrounds compete with
         ['**SVG**', 'Yes — infinite', '`.svg` vector file', 'Websites and apps in any modern browser', 'Highest — true Gaussian blur & grain'],
         ['**PNG**', 'No — raster', '`.png` up to 3200×2000', 'Email, Figma, Canva, social & Open Graph images', 'High, with transparency'],
         ['**JPG / WebP**', 'No — raster', '`.jpg` / `.webp` up to 3200×2000', 'Smaller files for web & social; WebP for modern browsers', 'High; smaller than PNG'],
-        ['**CSS**', 'Yes — resolution independent', '`radial-gradient()` in your stylesheet', 'CSS-only projects, runtime theming, zero extra requests', 'Good — slightly sharper edges, global blur only'],
-        ['**React**', 'Yes', 'A `<div>` component with inline style', 'React & Next.js apps', 'Matches the CSS output'],
-        ['**Tailwind**', 'Yes', '`bg-[…]` arbitrary-value utility', 'Tailwind projects with no config changes', 'Matches the CSS output'],
+        ['**HTML + CSS**', 'Yes — scales with its box', 'A `.mesh-bg` div with one blurred `<span>` per blob', 'Any site; supports rotation, blend modes and animation', 'Very close to SVG — real blur per blob'],
+        ['**React**', 'Yes', 'A `MeshBackground` component with its CSS inline', 'React & Next.js apps', 'Matches the CSS output'],
+        ['**Tailwind**', 'Yes', 'Arbitrary-value utilities (+ keyframes when animated)', 'Tailwind projects with no config changes', 'Matches the CSS output'],
+        ['**MP4 / WebM**', 'No — video', 'The loop at 960–1920px, 30 fps', 'Hero videos, social posts, presentations', 'High; smooth gradients'],
+        ['**GIF**', 'No — 256 colors', 'A 480px looping GIF at 20 fps', 'Docs, emails and chats that cannot play video', 'Good; light dithering hides banding'],
       ],
     },
 
@@ -267,8 +277,8 @@ Flat color backgrounds can feel dated, and photographic backgrounds compete with
         { icon: 'IMAGE', title: 'Cards, modals & section surfaces', desc: 'The Pastel preset at 50–60% opacity makes a delicate card or modal background for light themes. Use the SVG as a CSS `background-image`, or the CSS export for components that need to be re-themed at runtime without an external file.' },
         { icon: 'MAIL', title: 'Email newsletter headers', desc: 'Email clients render SVG inconsistently, so use the PNG export for headers. A 1600×1000 PNG stays crisp on retina displays and drops straight into Mailchimp, Klaviyo, or HubSpot as a header background image.' },
         { icon: 'STAR', title: 'Open Graph & social share images', desc: 'A mesh gradient behind your title instantly looks more polished than flat color. Export PNG, open it in Figma or Canva, and overlay your branding — the resolution exceeds the minimum for every major platform’s OG and Twitter card specs.' },
-        { icon: 'CSS', title: 'Pure CSS backgrounds with no image file', desc: 'The CSS export produces stacked `radial-gradient()` calls — no SVG or PNG needed. Paste it into a Tailwind arbitrary value or a CSS-in-JS style object for dynamically themed components that swap the gradient at runtime.' },
-        { icon: 'ANIM', title: 'Animated, living backgrounds', desc: 'Export the SVG, then animate each circle’s `cx`/`cy` with CSS transitions or a small requestAnimationFrame loop to slowly drift the blobs — the Stripe-style effect. See the FAQ on animation for the exact approach.' },
+        { icon: 'CSS', title: 'CSS backgrounds with no image file', desc: 'The HTML + CSS export is a div with one blurred span per blob, sized in percentages, so the mesh scales with any section and needs no SVG or PNG. Swap the colors at runtime for themed components.' },
+        { icon: 'ANIM', title: 'Animated, living backgrounds', desc: 'Turn on Animation and copy the CSS or React export: the blobs drift on a seamless loop with pure CSS keyframes, and reduced-motion visitors get the still version. Need a file instead? Download the loop as MP4 or GIF.' },
         { icon: 'PPT', title: 'Slide decks & presentation backdrops', desc: 'Download a high-resolution PNG and drop it into Keynote, PowerPoint, or Google Slides as a title-slide background. A subtle mesh makes an investor or sales deck feel designed rather than templated.' },
         { icon: 'GAME', title: 'Profile banners, covers & thumbnails', desc: 'Use the Neon or Sunset preset for eye-catching YouTube thumbnails, Twitch panels, Discord banners, or social cover photos. Export PNG at the exact pixel size the platform requires.' },
       ],

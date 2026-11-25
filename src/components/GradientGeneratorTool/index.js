@@ -289,6 +289,32 @@ export default function GradientGeneratorTool() {
   const [selectedStopId, setSelectedStopId] = useState(null);
   const [exportMode, setExportMode] = useState('css');
   const [copied, setCopied] = useState(false);
+  // Export panel height, % of the right column; drag the bar on its top edge to resize
+  const [exportPct, setExportPct] = useState(20);
+  const mainRef = useRef(null);
+  const startExportDrag = (e) => {
+    e.preventDefault();
+    const main = mainRef.current;
+    if (!main) return;
+    const onMove = (ev) => {
+      const r = main.getBoundingClientRect();
+      setExportPct(Math.min(75, Math.max(10, ((r.bottom - ev.clientY) / r.height) * 100)));
+    };
+    const onUp = () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+    document.body.style.cursor = 'row-resize';
+    document.body.style.userSelect = 'none';
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+  };
+  const nudgeExport = (e) => {
+    if (e.key === 'ArrowUp')   { e.preventDefault(); setExportPct(p => Math.min(75, p + 2)); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); setExportPct(p => Math.max(10, p - 2)); }
+  };
   const [saveState, setSaveState] = useState('idle');
   const [toast, setToast] = useState('');
   const [size, setSize] = useState('1920x1080');
@@ -716,7 +742,7 @@ export default function GradientGeneratorTool() {
         </aside>
 
         {/* ── Right panel: ad, toolbar, stop bar, preview, export ── */}
-        <main className={styles.main}>
+        <main className={styles.main} ref={mainRef}>
           {animOn && <style>{activeAnim.keyframes}</style>}
           <PlaygroundTopAd />
 
@@ -807,7 +833,12 @@ export default function GradientGeneratorTool() {
           </div>
 
           {/* Export */}
-          <div className={styles.exportArea}>
+          <div className={styles.exportArea} style={{ height: `${exportPct}%` }}>
+            <div className={styles.exportResizer}
+              role="separator" aria-orientation="horizontal" tabIndex={0}
+              aria-label="Resize code panel" aria-valuenow={Math.round(exportPct)} aria-valuemin={10} aria-valuemax={75}
+              title="Drag to resize"
+              onPointerDown={startExportDrag} onKeyDown={nudgeExport} />
             <div className={styles.exportTabs}>
               {EXPORT_TABS.map(([id, label]) => (
                 <button key={id} className={`${styles.exportTab} ${exportMode === id ? styles.exportTabActive : ''}`} onClick={() => setExportMode(id)}>{label}</button>

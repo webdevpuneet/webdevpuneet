@@ -574,3 +574,20 @@
 .exportTabs { align-items: center; flex-wrap: wrap; }
 .downloadRow { display: flex; align-items: center; gap: 4px; margin: 4px 10px 4px auto; }
 .downloadRow .select { flex: none; width: auto; }
+
+/* Export panel: resizable from its top edge (height set inline, 20% by default) */
+.exportArea { position: relative; display: flex; flex-direction: column; min-height: 110px; }
+.exportTabs { flex-shrink: 0; }
+.exportArea .codeWrap { flex: 1; min-height: 0; display: flex; }
+.exportArea .codeBlock { flex: 1; min-height: 0; overflow: auto; }
+.exportResizer {
+  position: absolute; left: 0; right: 0; top: -4px; height: 8px;
+  cursor: row-resize; z-index: 5; touch-action: none;
+}
+.exportResizer::after {
+  content: ''; position: absolute; left: 50%; top: 2px;
+  width: 36px; height: 4px; margin-left: -18px; border-radius: 2px;
+  background: var(--border2); transition: background 0.13s;
+}
+.exportResizer:hover::after, .exportResizer:focus-visible::after { background: var(--clr-violet, #8b5cf6); }
+.exportResizer:hover, .exportResizer:focus-visible { background: color-mix(in srgb, var(--clr-violet, #8b5cf6) 25%, transparent); outline: none; }

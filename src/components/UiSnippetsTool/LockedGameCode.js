@@ -60,7 +60,7 @@ export default function LockedGameCode({ id }) {
       {unlocked ? (
         <>
           <h3 style={h}>Source code unlocked</h3>
-          <p style={{ ...p, margin: 0 }}>Thanks for supporting the site: the HTML, CSS and JS of this game are in the code panels of the editor at the top of the page, with Copy, Export and Fork.</p>
+          <p style={{ ...p, margin: 0 }}>Thanks for supporting the site: the HTML, CSS and JS of this game are in the code panels of the editor at the top of the page, with Copy, Download and Fork.</p>
         </>
       ) : (
         <>

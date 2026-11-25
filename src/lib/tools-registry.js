@@ -448,7 +448,7 @@ export const TOOLS = [
     category: 'css',
     extended: false,
     status:   'live',
-    lastmod:  '2026-05-17',
+    lastmod:  '2026-11-25',
     hasUpdates: false,
   },
   {
