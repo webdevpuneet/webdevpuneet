@@ -60,6 +60,16 @@ export default function NotFound() {
         {/* The home page's search: UI snippets, website, section, email and social templates, playgrounds and tools */}
         <div className={styles.omniSearch}><HomeOmniSearch /></div>
 
+        {/* Pocket Artillery, playable right on the 404 page (full game, no inner scrolling) */}
+        <div className={styles.gameEmbed}>
+          <iframe
+            src="/ui-snippets/pocket-artillery-game/embed/"
+            title="Pocket Artillery Tank Duel, free browser game"
+            loading="lazy"
+            scrolling="no"
+          />
+        </div>
+
           <>
             {/* Same panel as the home page: Random (2 games + 3 others) and Latest, with a divider between */}
             <div className={styles.snipPanel}>

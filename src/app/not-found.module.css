@@ -268,3 +268,21 @@
 .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px; border-radius: 99px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font: 600 12.5px/1.2 var(--font-ui, system-ui); text-decoration: none; }
 .chip:hover { border-color: #a5b4fc; }
 .chipMore { display: inline-flex; align-items: center; padding: 6px 11px; border-radius: 99px; border: 1px dashed var(--border); color: #6366f1; font: 700 12.5px/1.2 var(--font-ui, system-ui); text-decoration: none; }
+
+/* Pocket Artillery embed under the search: tall enough to show the whole game */
+.gameEmbed {
+  margin: 0 0 28px;
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.gameEmbed iframe {
+  display: block;
+  width: 100%;
+  height: 780px;
+  border: 0;
+}
+@media (max-width: 640px) {
+  .gameEmbed iframe { height: 720px; }
+}
