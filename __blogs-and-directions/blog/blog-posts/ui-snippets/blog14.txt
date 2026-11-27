@@ -8,6 +8,8 @@
 
   SEO DESCRIPTION (159 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
   10 free table snippets with sorting, filtering, pagination, selection and export. Skip the heavy data grid library. Preview live and copy the HTML, CSS and JS.
+
+  FEATURED IMAGE: blog14-tables-featured.jpg (same folder), 1200 x 630 px. Upload it in the post sidebar → Featured image.
 ================================================================
 -->
 
@@ -79,7 +81,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Click a header to sort ascending, click again for descending, with an arrow indicator on the active column — and correct numeric ordering on columns that display currency and units.</p>
+<p>Click a header to sort ascending, click again for descending, with an arrow indicator on the active column — and correct numeric ordering on columns that display currency symbols.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
@@ -87,11 +89,11 @@
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
-<p><strong>How it works:</strong> each sortable header carries <code>data-col</code> (which column index) and optionally <code>data-type="number"</code>, and the handler reads the header's current class to decide the next direction. Rows are spread into an array, sorted, and re-appended — the DOM order <em>is</em> the sort result, so nothing needs re-rendering. The important part is the <code>data-val</code> attribute on formatted cells: a cell reading "$89.99" also carries <code>data-val="89.99"</code>, because <code>parseFloat("$89.99")</code> returns <code>NaN</code> and a table sorted on <code>NaN</code> just shuffles. The direction arrow is a CSS <code>::after</code> driven by the header's class, so JavaScript never touches it.</p>
+<p><strong>How it works:</strong> each sortable header carries <code>data-col</code> (which column index) and optionally <code>data-type="number"</code>, and the handler reads the header's current class to decide the next direction. Rows are spread into an array, sorted, and re-appended — the DOM order <em>is</em> the sort result, so nothing needs re-rendering. The important part is the <code>data-val</code> attribute on formatted cells: a cell reading "$149" also carries <code>data-val="149"</code>, because <code>parseFloat("$149")</code> returns <code>NaN</code> and a table sorted on <code>NaN</code> just shuffles. The direction arrow is a CSS <code>::after</code> driven by the header's class, so JavaScript never touches it.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Best for:</strong> any table where "cheapest first" or "newest first" is a question users will ask — which is nearly all of them. <strong>Tip:</strong> the <code>data-val</code> pattern generalises further than prices. Put an ISO date in it for a column showing "14 Mar", or a rank number for a column showing badges, and the same comparison sorts them correctly.</p>
+<p><strong>Best for:</strong> any table where "cheapest first" or "newest first" is a question users will ask — which is nearly all of them. <strong>Tip:</strong> the <code>data-val</code> pattern generalises further than prices. Mark a date column <code>data-type="number"</code> and put a sortable number in each cell's <code>data-val</code> (<code>20260314</code> for a cell showing "14 Mar"), or a rank number for a column showing status badges, and the same comparison sorts them correctly. Only numeric columns read <code>data-val</code>; text columns sort on what's displayed.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -175,7 +177,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Row selection with the details that make it feel professional: a tri-state select-all header, shift-click to grab a range, whole-row click targets, a live count, and a bulk action bar that appears only when something is selected.</p>
+<p>Row selection with the details that make it feel professional: a tri-state select-all header, shift-click to grab a range, whole-row click targets, a live count, and a bulk Delete button that appears only when something is selected.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
@@ -207,7 +209,7 @@
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
-<p><strong>How it works:</strong> the trick is entirely in the CSS. Each cell holds a real <code>&lt;input&gt;</code> with a transparent border and background, so it reads as text; on hover a faint border appears, and on focus a full indigo border with a soft shadow ring. Nothing is swapped in or out of the DOM, which is why there's no flicker and no lost keystroke when you click straight from one cell into another. The data binding is deliberately plain: each input writes back to <code>rows[i][key]</code> on input, and the table re-renders from that array, so the array is always the truth and there's no two-way binding machinery to reason about. A new row slides in with an animation and auto-focuses its first cell.</p>
+<p><strong>How it works:</strong> the trick is entirely in the CSS. Each cell holds a real <code>&lt;input&gt;</code> with a transparent border and background, so it reads as text; on hover a faint border appears, and on focus a full indigo border with a soft shadow ring. Nothing is swapped in or out of the DOM, which is why there's no flicker and no lost keystroke when you click straight from one cell into another. The data binding is deliberately plain: each input writes back to <code>rows[i][key]</code> as you type, and adding or deleting a row re-renders the table from that array, so the array is always the truth and there's no two-way binding machinery to reason about. A new row slides in with an animation and auto-focuses its first cell.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -313,7 +315,7 @@
 <li>Replace the demo array (or the sample rows) with your API response. Most of these render from data, so that's the only change between mockup and working screen.</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>Combining two is usually trivial — they share the same <code>thead</code>/<code>tbody</code> structure, so sorting, searching and pagination can be layered onto the same table without conflicting.</li>
+<li>Combining two is straightforward because they all use the same <code>thead</code>/<code>tbody</code> structure. Just pick one owner for the rows: keep the data in an array, sort and filter the array, then slice it for the current page and render, rather than letting each feature rearrange the DOM on its own.</li>
 <!-- /wp:list-item -->
 </ol>
 <!-- /wp:list -->
